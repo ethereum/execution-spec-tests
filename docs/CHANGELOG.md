@@ -14,9 +14,10 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### `fill`
 
-- Move pytest marker registration for `fill` and `execute-*` from their respective ini files to the shared `pytest_plugins.shared.execute_fill` pytest plugin ([#2110](https://github.com/ethereum/execution-spec-tests/pull/2110)).
 - ✨ Added `--optimize-gas`, `--optimize-gas-output` and `--optimize-gas-post-processing` flags that allow to binary search the minimum gas limit value for a transaction in a test that still yields the same test result ([#1979](https://github.com/ethereum/execution-spec-tests/pull/1979)).
-- Upgraded ckzg version to 2.1.3 or newer for correct handling of points at infinity ([#2171](https://github.com/ethereum/execution-spec-tests/pull/2171)).
+- ✨ Added `--watch` flag that monitors test files for changes and automatically re-runs the fill command when developing tests ([#2173](https://github.com/ethereum/execution-spec-tests/pull/2173)).
+- 🔀 Upgraded ckzg version to 2.1.3 or newer for correct handling of points at infinity ([#2171](https://github.com/ethereum/execution-spec-tests/pull/2171)).
+- 🔀 Move pytest marker registration for `fill` and `execute-*` from their respective ini files to the shared `pytest_plugins.shared.execute_fill` pytest plugin ([#2110](https://github.com/ethereum/execution-spec-tests/pull/2110)).
 
 #### `consume`
 
