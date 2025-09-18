@@ -282,7 +282,6 @@ def test_invalid_beacon_root_calldata_value(
 def test_beacon_root_selfdestruct(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    post: Dict,
 ):
     """Tests that self destructing the beacon root address transfers actors balance correctly."""
     # self destruct actor
