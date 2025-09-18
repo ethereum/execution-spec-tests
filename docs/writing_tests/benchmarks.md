@@ -61,4 +61,4 @@ This is a safety check to make sure the benchmark works as expected. For example
 
 This check helps catch such issues. As a result, the post-storage comparison method via `SSTORE` is no longer needed, thereby reducing the additional storage cost.
 
-However, in cases where it is difficult to determine the total gas usage, or if an alternative verification method is used, developers may set `expected_benchmark_gas_used` to `None` to disable the gas usage check.
+However, in cases where it is difficult to determine the total gas usage, or if an alternative verification method is used, developers may set `skip_gas_used_validation` to `True` to disable the gas usage check.
