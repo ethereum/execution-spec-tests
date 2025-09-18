@@ -151,9 +151,11 @@ def test_bloatnet_balance_extcodecopy(
 
     This test forces actual bytecode reads from disk by:
     1. Using BALANCE (cold) to warm the account
-    2. Using EXTCODECOPY (warm) to read the full 24KB bytecode
+    2. Using EXTCODECOPY (warm) to read 1 byte from the END of the bytecode
 
-    This pattern reads ~123x more data per gas than EXTCODESIZE.
+    Reading just 1 byte (specifically the last byte) forces the client to load
+    the entire contract from disk while minimizing gas cost, allowing us to
+    target many more contracts than copying the full 24KB.
     """
     gas_costs = fork.gas_costs()
     max_contract_size = fork.max_code_size()
@@ -161,29 +163,20 @@ def test_bloatnet_balance_extcodecopy(
     # Calculate costs
     intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
 
-    # Memory expansion for EXTCODECOPY
-    max_memory_needed = max_contract_size * 10  # Limit to 10 contracts worth of memory
-    memory_cost = fork.memory_expansion_gas_calculator()(new_bytes=max_memory_needed)
-
-    # Cost per contract with EXTCODECOPY
-    words_to_copy = (max_contract_size + 31) // 32  # 768 words for 24KB
+    # Cost per contract with EXTCODECOPY (copying just 1 byte)
     cost_per_contract = (
         3  # PUSH20 for address
         + gas_costs.G_COLD_ACCOUNT_ACCESS  # Cold BALANCE (2600)
         + gas_costs.G_BASE  # POP balance
         + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm EXTCODECOPY base (100)
-        + gas_costs.G_COPY * words_to_copy  # Copy cost (3 * 768 = 2304)
+        + gas_costs.G_COPY * 1  # Copy cost for 1 byte (3 * 1 = 3)
         + gas_costs.G_BASE * 4  # PUSH operations and POP
     )
 
     # Calculate how many contracts to access
-    available_gas = gas_benchmark_value - intrinsic_gas - memory_cost - 1000
+    available_gas = gas_benchmark_value - intrinsic_gas - 1000
     contracts_needed = int(available_gas // cost_per_contract)
-    num_contracts = min(
-        contracts_needed,
-        NUM_DEPLOYED_CONTRACTS,
-        10,  # Limit to avoid excessive memory usage in test
-    )
+    num_contracts = min(contracts_needed, NUM_DEPLOYED_CONTRACTS)
 
     # Log the calculation for transparency
     if contracts_needed > NUM_DEPLOYED_CONTRACTS:
@@ -200,7 +193,6 @@ def test_bloatnet_balance_extcodecopy(
 
     # Generate attack contract
     attack_code = Bytecode()
-    mem_offset = 0
 
     # Access each contract using CREATE2 addresses
     for i in range(num_contracts):
@@ -210,15 +202,15 @@ def test_bloatnet_balance_extcodecopy(
             + Op.DUP1
             + Op.BALANCE
             + Op.POP
-            # EXTCODECOPY(addr, mem_offset, 0, 24KB)
-            + Op.PUSH2[max_contract_size]  # size
-            + Op.PUSH1[0]  # code offset
-            + Op.PUSH3[mem_offset]  # memory offset
+            # EXTCODECOPY(addr, mem_offset, last_byte_offset, 1)
+            # Read the LAST byte of the contract to force full load from disk
+            + Op.PUSH1[1]  # size (1 byte)
+            + Op.PUSH2[max_contract_size - 1]  # code offset (last byte)
+            + Op.PUSH2[i]  # memory offset (unique per contract to avoid overlap)
             + Op.DUP4  # address
             + Op.EXTCODECOPY
             + Op.POP  # clean up address
         )
-        mem_offset += max_contract_size
 
     # Deploy attack contract
     attack_address = pre.deploy_contract(code=attack_code)

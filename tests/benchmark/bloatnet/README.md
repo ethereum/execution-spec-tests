@@ -18,14 +18,17 @@ will interact with.
 - `EXTCODESIZE` (warm): 100 gas
 - `POP`: 2 gas
 
-### BALANCE + EXTCODECOPY Pattern
-**Gas per contract: ~5,007**
+### BALANCE + EXTCODECOPY(single-byte) Pattern 
+**Gas per contract: ~2,710**
 - `PUSH20` (address): 3 gas
 - `BALANCE` (cold access): 2,600 gas
 - `POP`: 2 gas
-- `EXTCODECOPY` setup: ~100 gas
-- `EXTCODECOPY` (24KB): ~2,300 gas
+- `EXTCODECOPY` (warm, 1 byte): 100 gas (base) + 3 gas (copy 1 byte)
 - `POP`: 2 gas
+
+Note: Reading just 1 byte (specifically the last byte at offset 24575) forces the client
+to load the entire 24KB contract from disk while minimizing gas cost. This allows
+targeting nearly as many contracts as the EXTCODESIZE pattern while forcing maximum I/O.
 
 ## Required Contracts Calculation Example:
 
@@ -36,12 +39,12 @@ will interact with.
 | 50M       | 18,380           | 50,000,000 ÷ 2,707  |
 | 150M      | 55,403           | 150,000,000 ÷ 2,707 |
 
-### For BALANCE + EXTCODECOPY:
+### For BALANCE + EXTCODECOPY (Optimized):
 | Gas Limit | Contracts Needed | Calculation         |
 | --------- | ---------------- | ------------------- |
-| 5M        | 998              | 5,000,000 ÷ 5,007   |
-| 50M       | 9,986            | 50,000,000 ÷ 5,007  |
-| 150M      | 29,958           | 150,000,000 ÷ 5,007 |
+| 5M        | 1,845            | 5,000,000 ÷ 2,710   |
+| 50M       | 18,450           | 50,000,000 ÷ 2,710  |
+| 150M      | 55,350           | 150,000,000 ÷ 2,710 |
 
 You can see the associated attack constants inside of the tests in `bloatnet/test_bloatnet.py`
 
