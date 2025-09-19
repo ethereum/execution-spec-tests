@@ -216,3 +216,20 @@ class BlockException(ExceptionBase):
     Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but the layout
     of the event does not match the required layout.
     """
+    # --- Block-Level Access Lists (EIP-7928) --- #
+    INVALID_BLOCK_ACCESS_LIST = auto()
+    """
+    Block's access list is invalid.
+    """
+    INVALID_BAL_HASH = auto()
+    """
+    Block header's BAL hash does not match the computed BAL hash.
+    """
+    INVALID_BAL_EXTRA_ACCOUNT = auto()
+    """
+    Block BAL contains an account change that is not present in the computed BAL.
+    """
+    INVALID_BAL_MISSING_ACCOUNT = auto()
+    """
+    Block BAL is missing an account change that is present in the computed BAL.
+    """

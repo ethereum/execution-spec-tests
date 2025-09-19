@@ -72,7 +72,7 @@ def test_bal_invalid_missing_nonce(
         blocks=[
             Block(
                 txs=[tx],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BLOCK_ACCESS_LIST,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         sender: BalAccountExpectation(
@@ -111,7 +111,7 @@ def test_bal_invalid_nonce_value(
         blocks=[
             Block(
                 txs=[tx],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BLOCK_ACCESS_LIST,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         sender: BalAccountExpectation(
@@ -155,7 +155,7 @@ def test_bal_invalid_storage_value(
         blocks=[
             Block(
                 txs=[tx],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BLOCK_ACCESS_LIST,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         contract: BalAccountExpectation(
@@ -219,7 +219,7 @@ def test_bal_invalid_tx_order(
         blocks=[
             Block(
                 txs=[tx1, tx2],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BLOCK_ACCESS_LIST,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         sender1: BalAccountExpectation(
@@ -269,7 +269,7 @@ def test_bal_invalid_account(
         blocks=[
             Block(
                 txs=[tx],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BAL_EXTRA_ACCOUNT,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         sender: BalAccountExpectation(
@@ -412,7 +412,7 @@ def test_bal_invalid_complex_corruption(
         blocks=[
             Block(
                 txs=[tx1, tx2],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BLOCK_ACCESS_LIST,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         sender: BalAccountExpectation(
@@ -474,7 +474,7 @@ def test_bal_invalid_missing_account(
         blocks=[
             Block(
                 txs=[tx],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BAL_MISSING_ACCOUNT,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         sender: BalAccountExpectation(
@@ -516,7 +516,7 @@ def test_bal_invalid_balance_value(
         blocks=[
             Block(
                 txs=[tx],
-                exception=BlockException.INCORRECT_BLOCK_FORMAT,
+                exception=BlockException.INVALID_BLOCK_ACCESS_LIST,
                 expected_block_access_list=BlockAccessListExpectation(
                     account_expectations={
                         receiver: BalAccountExpectation(

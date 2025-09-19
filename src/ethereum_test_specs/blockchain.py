@@ -629,12 +629,15 @@ class BlockchainTest(BaseTest):
             header.fork = fork  # Deleted during `apply` because `exclude=True`
 
         # Process block access list - apply transformer if present for invalid tests
-        bal = transition_tool_output.result.block_access_list
-        if block.expected_block_access_list is not None and bal is not None:
-            # Use to_fixture_bal to validate and potentially transform the BAL
-            bal = block.expected_block_access_list.to_fixture_bal(bal)
-            # Don't update the header hash - leave it as the hash of the correct BAL
-            # This creates a mismatch that should cause the block to be rejected
+        t8n_bal = transition_tool_output.result.block_access_list
+        bal = t8n_bal
+        if block.expected_block_access_list is not None and t8n_bal is not None:
+            block.expected_block_access_list.verify_against(t8n_bal)
+
+            bal = block.expected_block_access_list.modify_if_invalid_test(t8n_bal)
+            if bal != t8n_bal:
+                # If the BAL was modified, update the header hash
+                header.block_access_list_hash = Hash(bal.rlp.keccak256())
 
         built_block = BuiltBlock(
             header=header,

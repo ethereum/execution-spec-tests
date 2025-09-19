@@ -555,6 +555,17 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def engine_execution_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Return `True` if the engine api version requires execution payload to include a
+        `block_access_list`.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
     def engine_payload_attribute_target_blobs_per_block(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:

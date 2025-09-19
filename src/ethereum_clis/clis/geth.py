@@ -71,6 +71,7 @@ class GethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_PRE_FORK: ("transaction type not supported"),
         TransactionException.INITCODE_SIZE_EXCEEDED: "max initcode size exceeded",
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
+        TransactionException.NONCE_MISMATCH_TOO_HIGH: "nonce too high",
         BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "unable to parse deposit data",
         BlockException.INCORRECT_BLOB_GAS_USED: "blob gas used mismatch",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: "invalid excessBlobGas",
@@ -79,6 +80,9 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: "system call failed to execute:",
         BlockException.INVALID_BLOCK_HASH: "blockhash mismatch",
         BlockException.RLP_BLOCK_LIMIT_EXCEEDED: "block RLP-encoded size exceeds maximum",
+        BlockException.INVALID_BAL_EXTRA_ACCOUNT: "BAL change not reported in computed",
+        BlockException.INVALID_BAL_MISSING_ACCOUNT: "additional mutations compared to BAL",
+        BlockException.INVALID_BLOCK_ACCESS_LIST: "unequal",
     }
     mapping_regex: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
