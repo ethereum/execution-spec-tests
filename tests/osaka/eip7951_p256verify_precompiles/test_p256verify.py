@@ -188,6 +188,138 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             + Y(0x85EC5A4AF40176B63189069AEFFCB229C96D3E046E0283ED2F9DAC21B15AD3C),
             id="invalid_curve_attack_composite_order",
         ),
+        pytest.param(
+            # Invalid curve attack: Composite order curve with b = -Spec.B
+            # Random point which satisfies y² = x³ - 3x - Spec.B (mod p)
+            # Without the curve check in the implementation, the signature checks out.
+            H(0xC223E1538C4D7B5BBD3EF932736826FD64F4E8B5C80250D9E07A728689D13C38)
+            + R(0x0C7CB59EF6BE7539397CC979AD9A87A3B73A0DD268BBA4990A3378C6391512D5)
+            + S(0xF8C943685BCFE7864C0F8485CACD732D3A9F167531CAF26B67A3CB10B641F92C)
+            + X(0xF1F2ADE681DB5699741B1F9FF080E9A08DCFF48F48A5048C4D90EC89440C3EFB)
+            + Y(0xBFFE372E7BBDBD60E4DF885E17A37878461AE13B6491E7863020305962F2C6B6),
+            id="invalid_curve_attack_bneg_1",
+        ),
+        pytest.param(
+            # Invalid curve attack: Composite order curve with b = -Spec.B
+            # Random point which satisfies y² = x³ - 3x - Spec.B (mod p)
+            # Without the curve check in the implementation, the signature checks out.
+            H(0x982D25BF8E0E81FF41AC3C8033604C78ED5EF17C6EDDA977072EAB6821A7AD0A)
+            + R(0x7C1996FA0EC911E4739AE7340B5345823272F494DFA32034A4FE5642C3DB91F2)
+            + S(0x1E4D6CCF1AFB675D18BD27274770C8B84028D272D1D2641E70B30E1DF17AF3DC)
+            + X(0xC9124B6AB12F08790A2712AEC74A1B71FA997CA7DE1E9117BC18D07DCBFE7C91)
+            + Y(0xADD1E9DF40A47ADD6B2191C05D0C1B4AF1BAEEAA0C0A97E7B3D06FFAE543D096),
+            id="invalid_curve_attack_bneg_2",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0)
+            + R(0xD21697149F598FEAE9A750DCA86AE6D5EFA654680BA748D2DF7053115101C129)
+            + S(0xEF3FD943AD1F126B3EBA1A5900D79886755DB6DAFCB6B0117D86364340CE36CC)
+            + X(0x687216395BD2F58E5A6D91964AE67E766DF2A2FB8E623795A5852507927C70C2)
+            + Y(0xF40E19B93BEB5C0678EDE25AB3654E08C0C6EF6A143CEC9865F3A447C6EB84E3),
+            id="invalid_curve_attack_h0_random1",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0)
+            + R(0x52E47C5D6AAB66AB6A18A694359EB86FDD40F10E79EF5493C5469EC88BA03334)
+            + S(0x7584C5BF3CA2869C7E383B1603A935EEB79D990B7F7152E055EC562E87FD715E)
+            + X(0x0000000000000002000000000000000000000000000000000000000000000000)
+            + Y(0x000000000000000000000000000000000000000000000000FE00000000000000),
+            id="invalid_curve_attack_h0_random2",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0)
+            + R(0x81333B13B13F362253BD536D17563A72EB575F1993F55ED40E633E503F60B864)
+            + S(0xE2208C4045F5241ECCF08F825399224C4B78595A10433EC33799DCAD7B0E1F4A)
+            + X(0xCE9C1088B4BCC71223A187410BB05819A6D32D2F1A1024B83557E51833AB23DC)
+            + Y(0x00FB64209538D1143A88E8B91D2DA46095AF852D7DD494BE6AF26C29D545F856),
+            id="invalid_curve_attack_h0_random3",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0)
+            + R(0x3C593B5857D1D0EB83923D73E76A7A53EF191BB210267D8C0BE17A4E34AB2E73)
+            + S(0xD022359310067882F713AFBECECE71CB80E4857368F46AB0346362DB033ED298)
+            + X(0x358DF65C0D732CCAB431D4CAB7F98E9F9279BD71D64635FAB21EA87EF254C5D1)
+            + Y(0x82909FF2E230433D000000000000000000000000000000000000000000000000),
+            id="invalid_curve_attack_h0_random4",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0)
+            + R(0x425CFFCA652791CABFC81B1E4B7712DBA196599FABCE16978E06E6AF486B1FEC)
+            + S(0x58B864B5A41CD17524E4773EC353C9590D792F601DA075AD9B3F40E8E7070E8A)
+            + X(0x00000000000000000000000000000000000000000000000000007FFFFFFFFFFF)
+            + Y(0xFFFF000000000000000000000000000000000000000000000000000000000000),
+            id="invalid_curve_attack_h0_random5",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0x2DA0A74BE3122AEAEF5704D0EB27881FBFB918B4A5252B660935263D0569BA92)
+            + R(0x5543729CBCFD99EE6C3B422D7F245903E7177B3A6A4E3C20C0DC5F5E109795AE)
+            + S(0x96403D5BB253EBD7DEF44BCBC062FCD4EA5E358B19B67C13E625EFDF6B977597)
+            + X(0x996CADC001622FB5E363B421A08854096569397B3BDCB8C3DEC907392F7CC59B)
+            + Y(0xD34A4E0F08C6FC549F7FAFFBCAF610D7F6C467B7B27072720E81079FB6595B52),
+            id="invalid_curve_attack_random6",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0x1F9D9B26DB42380C85F075174DDAF158F9DE4CD10C3104190D7AF96938DD8ECD)
+            + R(0x159946DBC4F1DE68CD4096862A5B10E5986ACB32229D6E68884DC83DAB70A307)
+            + S(0x63D80724A4074421F7DD255630794E3AEBE635B756D72B24652AAC07D01B289C)
+            + X(0x9CA2F39CC3536861000000000000000000000000000000000000000000000000)
+            + Y(0x000000000000B100000000000000000000000000000000000000000000000000),
+            id="invalid_curve_attack_random7",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0xD380DA9251F1FB809ED48C70DC8F81E91C471F0E81BC95E7611C653278A5B6B4)
+            + R(0xFF197EB72A9E531B17B872525247E6564B786CC014ED28B6849CE7D8C976BDF2)
+            + S(0x7B0B2EFF9BB5409052B35FD3FF81DCE77D95A1F75C46989817045120DA5C3C9C)
+            + X(0xBA7695481956A6269DD646ADDD4AFE6D9763637D76AD780299E51201384A8403)
+            + Y(0xA62443DD4AFE6D9763637D76AD780299E51201384AE4FEDD3CDAC9F461600D53),
+            id="invalid_curve_attack_random8",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0x4B082B60497ED87FFE570612D521E73A2CD6C832744EF8E4E2E329E30D3D5879)
+            + R(0x6665A88CB3FF30D339A1975FD46CF5EF480A68A093AB778550073D3528C3B609)
+            + S(0xAEAADDB235E4AC6097356DB96161E27849EA8EDF1E971F74EB51E19A1CC950A1)
+            + X(0x0000000000000002000000000000000000000000000000000000000000000000)
+            + Y(0x000000000000000000000000000000000000000000000000FE00000000000000),
+            id="invalid_curve_attack_random9",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0x6CC2B605CFBDB22B9E7B55EFE8C1DA0F1C5A0EC1AA8D82EEDFB5EA70E9846E88)
+            + R(0x3C593B5857D1D0EB83923D73E76A7A53EF191BB210267D8C0BE17A4E34AB2E73)
+            + S(0xD022359310067882F713AFBECECE71CB80E4857368F46AB0346362DB033ED298)
+            + X(0x358DF65C0D732CCAB431D4CAB7F98E9F9279BD71D64635FAB21EA87EF254C5D1)
+            + Y(0x82909FF2E230433D000000000000000000000000000000000000000000000000),
+            id="invalid_curve_attack_random10",
+        ),
+        pytest.param(
+            # Invalid curve attack: random point bytes.
+            # Without the curve check in the implementation, the signature checks out.
+            H(0x810C1D53EA96A700C93F6AF1C183197B040EA6FEAE10564877A1C78EC6074FF1)
+            + R(0x34D0F0C8E14D39002B5DEA00808957963E849503DDFD626323433047D696C7C4)
+            + S(0x6A7FE39C046304317F799FB900877073F2AE3C798DD4414795551A833ABCBA85)
+            + X(0x0000000000F90000000067923073C067015B601D94F262F0E82B9DA2D33A6A32)
+            + Y(0xFC3D71CB490CF346ED31DC37405FB0069F4A7ED188381DC049ABAB66E9F80080),
+            id="invalid_curve_attack_random_11",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID_RETURN_VALUE], ids=[""])
