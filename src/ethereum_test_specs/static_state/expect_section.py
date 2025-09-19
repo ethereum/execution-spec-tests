@@ -106,7 +106,10 @@ class AccountInExpectSection(BaseModel, TagDependentData):
     @model_validator(mode="wrap")
     @classmethod
     def validate_should_not_exist(cls, v: Any, handler: ValidatorFunctionWrapHandler):
-        """Validate the "shouldnotexist" field, which makes this validator return `None`."""
+        """
+        Validate the "shouldnotexist" field, which makes this validator return
+        `None`.
+        """
         if isinstance(v, dict):
             if "shouldnotexist" in v:
                 return None
@@ -251,8 +254,8 @@ class ResultInFiller(EthereumTestRootModel, TagDependentData):
     """
     Post section in state test filler.
 
-    A value of `None` for an address means that the account should not be in the state trie
-    at the end of the test.
+    A value of `None` for an address means that the account should not be in
+    the state trie at the end of the test.
     """
 
     root: Dict[AddressOrCreateTagInFiller, AccountInExpectSection | None]

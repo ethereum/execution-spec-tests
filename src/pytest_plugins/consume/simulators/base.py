@@ -45,7 +45,9 @@ class FixturesDict(Dict[Path, Fixtures]):
         self._fixtures: Dict[Path, Fixtures] = {}
 
     def __getitem__(self, key: Path) -> Fixtures:
-        """Return the fixtures from the index file, if not found, load from disk."""
+        """
+        Return the fixtures from the index file, if not found, load from disk.
+        """
         assert key.is_file(), f"Expected a file path, got '{key}'"
         if key not in self._fixtures:
             self._fixtures[key] = Fixtures.model_validate_json(key.read_text())
@@ -54,7 +56,10 @@ class FixturesDict(Dict[Path, Fixtures]):
 
 @pytest.fixture(scope="session")
 def fixture_file_loader() -> Dict[Path, Fixtures]:
-    """Return a singleton dictionary that caches loaded fixture files used in all tests."""
+    """
+    Return a singleton dictionary that caches loaded fixture files used in all
+    tests.
+    """
     return FixturesDict()
 
 
@@ -65,12 +70,12 @@ def fixture(
     test_case: TestCaseIndexFile | TestCaseStream,
 ) -> BaseFixture:
     """
-    Load the fixture from a file or from stream in any of the supported
-    fixture formats.
+    Load the fixture from a file or from stream in any of the supported fixture
+    formats.
 
-    The fixture is either already available within the test case (if consume
-    is taking input on stdin) or loaded from the fixture json file if taking
-    input from disk (fixture directory with index file).
+    The fixture is either already available within the test case (if consume is
+    taking input on stdin) or loaded from the fixture json file if taking input
+    from disk (fixture directory with index file).
     """
     fixture: BaseFixture
     if fixtures_source.is_stdin:

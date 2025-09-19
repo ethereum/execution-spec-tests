@@ -99,7 +99,9 @@ eth_config_dict: Dict[str, Any] = {
 
 @pytest.fixture
 def eth_config_response() -> EthConfigResponse:
-    """Get the `eth_config` response from the client to be verified by all tests."""
+    """
+    Get the `eth_config` response from the client to be verified by all tests.
+    """
     return EthConfigResponse.model_validate(eth_config_dict)
 
 

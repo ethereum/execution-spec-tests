@@ -36,26 +36,29 @@ class RLPSerializable:
 
     def get_rlp_fields(self) -> List[str]:
         """
-        Return an ordered list of field names to be included in RLP serialization.
+        Return an ordered list of field names to be included in RLP
+        serialization.
 
         Function can be overridden to customize the logic to return the fields.
 
         By default, rlp_fields class variable is used.
 
-        The list can be nested list up to one extra level to represent nested fields.
+        The list can be nested list up to one extra level to represent nested
+        fields.
         """
         return self.rlp_fields
 
     def get_rlp_signing_fields(self) -> List[str]:
         """
-        Return an ordered list of field names to be included in the RLP serialization of the object
-        signature.
+        Return an ordered list of field names to be included in the RLP
+        serialization of the object signature.
 
         Function can be overridden to customize the logic to return the fields.
 
         By default, rlp_signing_fields class variable is used.
 
-        The list can be nested list up to one extra level to represent nested fields.
+        The list can be nested list up to one extra level to represent nested
+        fields.
         """
         return self.rlp_signing_fields
 
@@ -69,7 +72,8 @@ class RLPSerializable:
 
     def get_rlp_signing_prefix(self) -> bytes:
         """
-        Return a prefix that has to be appended to the serialized signing object.
+        Return a prefix that has to be appended to the serialized signing
+        object.
 
         By default, an empty string is returned.
         """
@@ -117,8 +121,9 @@ class RLPSerializable:
             field_list = self.get_rlp_signing_fields()
         else:
             if self.signable:
-                # Automatically sign signable objects during full serialization:
-                # Ensures nested objects have valid signatures in the final RLP.
+                # Automatically sign signable objects during full
+                # serialization: Ensures nested objects have valid signatures
+                # in the final RLP.
                 self.sign()
             field_list = self.get_rlp_fields()
 
@@ -136,7 +141,9 @@ class RLPSerializable:
 
 
 class SignableRLPSerializable(RLPSerializable):
-    """Class that adds RLP serialization to another class with signing support."""
+    """
+    Class that adds RLP serialization to another class with signing support.
+    """
 
     signable: ClassVar[bool] = True
 

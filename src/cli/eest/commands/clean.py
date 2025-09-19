@@ -18,34 +18,31 @@ import click
 @click.option("-v", "--verbose", is_flag=True, help="Show verbose output.")
 def clean(all_files: bool, dry_run: bool, verbose: bool):
     """
-    Remove all generated files and directories from the repository.
-    If `--all` is specified, the virtual environment and .tox directory will also be removed.
+    Remove all generated files and directories from the repository. If `--all`
+    is specified, the virtual environment and .tox directory will also be
+    removed.
 
-    Args:
-        all_files (bool): Remove the virtual environment and .tox directory as well.
+    Args: all_files (bool): Remove the virtual environment and .tox directory
+    as well.
 
-        dry_run (bool): Simulate the cleanup without removing files.
+    dry_run (bool): Simulate the cleanup without removing files.
 
-        verbose (bool): Show verbose output.
+    verbose (bool): Show verbose output.
 
-    Note: The virtual environment and .tox directory are not removed by default.
+    Note: The virtual environment and .tox directory are not removed by
+    default.
 
-    Example: Cleaning all generated files and directories and show the deleted items.
+    Example: Cleaning all generated files and directories and show the deleted
+    items.
 
-        uv run eest clean --all -v
+    uv run eest clean --all -v
 
     Output:
 
-        \b
-        🗑️  Deleted: .tox
-        🗑️  Deleted: .venv
-        🗑️  Deleted: src/cli/et/__pycache__
-        🗑️  Deleted: src/cli/et/commands/__pycache__
-        🗑️  Deleted: src/cli/et/make/__pycache__
-        🗑️  Deleted: src/cli/et/make/commands/__pycache__
-        ...
-        🧹 Cleanup complete!
-
+     🗑️  Deleted: .tox 🗑️  Deleted: .venv 🗑️  Deleted: src/cli/et/__pycache__
+    🗑️  Deleted: src/cli/et/commands/__pycache__ 🗑️  Deleted:
+    src/cli/et/make/__pycache__ 🗑️  Deleted:
+    src/cli/et/make/commands/__pycache__ ... 🧹 Cleanup complete!
     """  # noqa: D417, D301
     # List of items to remove can contain files and directories.
     items_to_remove = [

@@ -1,8 +1,9 @@
 """
 Block Access List (BAL) models for EIP-7928.
 
-Following the established pattern in the codebase (AccessList, AuthorizationTuple),
-these are simple data classes that can be composed together.
+Following the established pattern in the codebase (AccessList,
+AuthorizationTuple), these are simple data classes that can be composed
+together.
 """
 
 from functools import cached_property
@@ -143,18 +144,14 @@ class BlockAccessList(EthereumTestRootModel[List[BalAccountChange]]):
     """
     Block Access List for t8n tool communication and fixtures.
 
-    This model represents the BAL exactly as defined in EIP-7928 - it is itself a list
-    of account changes (root model), not a container. Used for:
-    - Communication with t8n tools
-    - Fixture generation
-    - RLP encoding for hash verification
+    This model represents the BAL exactly as defined in EIP-7928 - it is itself
+    a list of account changes (root model), not a container. Used for: -
+    Communication with t8n tools - Fixture generation - RLP encoding for hash
+    verification
 
-    Example:
-        bal = BlockAccessList([
-            BalAccountChange(address=alice, nonce_changes=[...]),
-            BalAccountChange(address=bob, balance_changes=[...])
-        ])
-
+    Example: bal = BlockAccessList([ BalAccountChange(address=alice,
+    nonce_changes=[...]), BalAccountChange(address=bob, balance_changes=[...])
+    ])
     """
 
     root: List[BalAccountChange] = Field(default_factory=list)
@@ -178,7 +175,8 @@ class BalAccountExpectation(CamelModel):
     """
     Represents expected changes to a specific account in a block.
 
-    Same as BalAccountChange but without the address field, used for expectations.
+    Same as BalAccountChange but without the address field, used for
+    expectations.
     """
 
     nonce_changes: List[BalNonceChange] = Field(
@@ -205,23 +203,15 @@ class BlockAccessListExpectation(CamelModel):
     """
     Block Access List expectation model for test writing.
 
-    This model is used to define expected BAL values in tests. It supports:
-    - Partial validation (only checks explicitly set fields)
-    - Convenient test syntax with named parameters
-    - Verification against actual BAL from t8n
-    - Explicit exclusion of addresses (using None values)
+    This model is used to define expected BAL values in tests. It supports: -
+    Partial validation (only checks explicitly set fields) - Convenient test
+    syntax with named parameters - Verification against actual BAL from t8n -
+    Explicit exclusion of addresses (using None values)
 
-    Example:
-        # In test definition
-        expected_block_access_list = BlockAccessListExpectation(
-            account_expectations={
-                alice: BalAccountExpectation(
-                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
-                ),
-                bob: None,  # Bob should NOT be in the BAL
-            }
-        )
-
+    Example: # In test definition expected_block_access_list =
+    BlockAccessListExpectation( account_expectations={ alice:
+    BalAccountExpectation( nonce_changes=[BalNonceChange(tx_index=1,
+    post_nonce=1)] ), bob: None,  # Bob should NOT be in the BAL } )
     """
 
     model_config = CamelModel.model_config | {"extra": "forbid"}
@@ -238,19 +228,17 @@ class BlockAccessListExpectation(CamelModel):
         """
         Create a new expectation with a modifier for invalid test cases.
 
-        Args:
-            modifiers: One or more functions that take and return a BlockAccessList
+        Args: modifiers: One or more functions that take and return a
+        BlockAccessList
 
-        Returns:
-            A new BlockAccessListExpectation instance with the modifiers applied
+        Returns: A new BlockAccessListExpectation instance with the modifiers
+        applied
 
-        Example:
-            from ethereum_test_types.block_access_list.modifiers import remove_nonces
+        Example: from ethereum_test_types.block_access_list.modifiers import
+        remove_nonces
 
-            expectation = BlockAccessListExpectation(
-                account_expectations={...}
-            ).modify(remove_nonces(alice))
-
+        expectation = BlockAccessListExpectation( account_expectations={...}
+        ).modify(remove_nonces(alice))
         """
         new_instance = self.model_copy(deep=True)
         new_instance._modifier = compose(*modifiers)
@@ -260,12 +248,9 @@ class BlockAccessListExpectation(CamelModel):
         """
         Apply the modifier to the given BAL if this is an invalid test case.
 
-        Args:
-            t8n_bal: The BlockAccessList from t8n tool
+        Args: t8n_bal: The BlockAccessList from t8n tool
 
-        Returns:
-            The potentially transformed BlockAccessList for the fixture
-
+        Returns: The potentially transformed BlockAccessList for the fixture
         """
         if self._modifier:
             return self._modifier(t8n_bal)
@@ -275,17 +260,13 @@ class BlockAccessListExpectation(CamelModel):
         """
         Verify that the actual BAL from the client matches this expected BAL.
 
-        Validation steps:
-        1. Validate actual BAL conforms to EIP-7928 ordering requirements
-        2. Verify address expectations - presence or explicit absence
-        3. Verify expected changes within accounts match actual changes
+        Validation steps: 1. Validate actual BAL conforms to EIP-7928 ordering
+        requirements 2. Verify address expectations - presence or explicit
+        absence 3. Verify expected changes within accounts match actual changes
 
-        Args:
-            actual_bal: The BlockAccessList model from the client
+        Args: actual_bal: The BlockAccessList model from the client
 
-        Raises:
-            Exception: If verification fails
-
+        Raises: Exception: If verification fails
         """
         # validate the actual BAL structure follows EIP-7928 ordering
         self._validate_bal_ordering(actual_bal)
@@ -316,17 +297,13 @@ class BlockAccessListExpectation(CamelModel):
         """
         Validate that the actual BAL follows EIP-7928 ordering requirements.
 
-        Per EIP-7928:
-        - Addresses must be in lexicographic (bytewise) order
-        - Storage keys must be in lexicographic order within each account
-        - Block access indices must be in ascending order within each change list
+        Per EIP-7928: - Addresses must be in lexicographic (bytewise) order -
+        Storage keys must be in lexicographic order within each account - Block
+        access indices must be in ascending order within each change list
 
-        Args:
-            bal: The BlockAccessList to validate
+        Args: bal: The BlockAccessList to validate
 
-        Raises:
-            Exception: If BAL doesn't follow EIP-7928 ordering
-
+        Raises: Exception: If BAL doesn't follow EIP-7928 ordering
         """
         addresses = [acc.address for acc in bal.root]
 
@@ -351,7 +328,8 @@ class BlockAccessListExpectation(CamelModel):
                         f"Got: {slots}, Expected: {sorted_slots}"
                     )
 
-                # Check tx indices within each storage slot are in ascending order
+                # Check tx indices within each storage slot are in ascending
+                # order
                 for slot_change in account.storage_changes:
                     if slot_change.slot_changes:
                         tx_indices = [c.tx_index for c in slot_change.slot_changes]
@@ -460,21 +438,23 @@ class BlockAccessListExpectation(CamelModel):
     @staticmethod
     def _validate_change_lists(field_name: str, expected: List, actual: List) -> None:
         """
-        Validate that expected change lists form a subsequence of actual changes.
+        Validate that expected change lists form a subsequence of actual
+        changes.
 
-        Note: Ordering validation per EIP-7928 is already done in _validate_bal_ordering.
-        This method only checks that expected items appear in the actual list as a subsequence.
+        Note: Ordering validation per EIP-7928 is already done in
+        _validate_bal_ordering. This method only checks that expected items
+        appear in the actual list as a subsequence.
 
-        Raises:
-            AssertionError: If expected changes are not found or not in correct order
-
+        Raises: AssertionError: If expected changes are not found or not in
+        correct order
         """
         if field_name == "storage_changes":
             # Storage changes are nested (slot -> changes)
             expected_slots = [slot["slot"] for slot in expected]
             actual_slots = [slot["slot"] for slot in actual]
 
-            # Check expected slots form a subsequence (ordering already validated)
+            # Check expected slots form a subsequence (ordering already
+            # validated)
             actual_idx = 0
             for exp_slot in expected_slots:
                 found = False

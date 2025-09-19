@@ -1,4 +1,7 @@
-"""Pytest fixtures that help create the test case "Description" displayed in the Hive UI."""
+"""
+Pytest fixtures that help create the test case "Description" displayed in the
+Hive UI.
+"""
 
 import logging
 import textwrap
@@ -30,7 +33,10 @@ def hive_clients_yaml_generator_command(
     hive_clients_yaml_target_filename: str,
     hive_info: HiveInfo,
 ) -> str:
-    """Generate a shell command that creates a clients YAML file for the current client."""
+    """
+    Generate a shell command that creates a clients YAML file for the current
+    client.
+    """
     try:
         if not client_file:
             raise ValueError("No client information available - try updating hive")
@@ -65,10 +71,13 @@ def filtered_hive_options(hive_info: HiveInfo) -> List[str]:
     logger.info("Hive info: %s", hive_info.command)
 
     unwanted_options = [
-        "--client",  # gets overwritten: we specify a single client; the one from the test case
+        "--client",  # gets overwritten: we specify a single client; the one
+                     # from the test case
         "--client-file",  # gets overwritten: we'll write our own client file
-        "--results-root",  # use default value instead (or you have to pass it to ./hiveview)
-        "--sim.limit",  # gets overwritten: we only run the current test case id
+        "--results-root",  # use default value instead (or you have to pass it
+                           # to ./hiveview)
+        "--sim.limit",  # gets overwritten: we only run the current test case
+                        # id
         "--sim.parallelism",  # skip; we'll only be running a single test
     ]
 
@@ -118,7 +127,10 @@ def hive_dev_command(
     client_type: ClientType,
     hive_client_config_file_parameter: str,
 ) -> str:
-    """Return the command used to instantiate hive alongside the `consume` command."""
+    """
+    Return the command used to instantiate hive alongside the `consume`
+    command.
+    """
     return f"./hive --dev {hive_client_config_file_parameter} --client {client_type.name}"
 
 
@@ -151,7 +163,8 @@ def test_case_description(
     if "description" not in fixture.info or fixture.info["description"] is None:
         test_docstring = "No documentation available."
     else:
-        # this prefix was included in the fixture description field for fixtures <= v4.3.0
+        # this prefix was included in the fixture description field for
+        # fixtures <= v4.3.0
         test_docstring = fixture.info["description"].replace("Test function documentation:\n", "")  # type: ignore
 
     description = textwrap.dedent(f"""

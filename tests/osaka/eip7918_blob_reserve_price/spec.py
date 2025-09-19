@@ -20,8 +20,8 @@ ref_spec_7918 = ReferenceSpec("EIPS/eip-7918.md", "be1dbefafcb40879e3f6d231fad20
 @dataclass(frozen=True)
 class Spec(EIP4844Spec):
     """
-    Parameters from the EIP-7918 specifications.
-    Extends EIP-4844 spec with the new reserve price constant and functionality.
+    Parameters from the EIP-7918 specifications. Extends EIP-4844 spec with the
+    new reserve price constant and functionality.
     """
 
     BLOB_BASE_COST = 2**13
@@ -50,6 +50,8 @@ class Spec(EIP4844Spec):
         base_fee_per_gas: int,
         blob_base_fee: int,
     ) -> int:
-        """Calculate the effective blob base fee considering the reserve price."""
+        """
+        Calculate the effective blob base fee considering the reserve price.
+        """
         reserve_price = cls.get_reserve_price(base_fee_per_gas)
         return max(reserve_price, blob_base_fee)

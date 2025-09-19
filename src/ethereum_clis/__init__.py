@@ -1,4 +1,7 @@
-"""Library of Python wrappers for the different implementations of transition tools."""
+"""
+Library of Python wrappers for the different implementations of transition
+tools.
+"""
 
 from .cli_types import (
     BlockExceptionWithMessage,

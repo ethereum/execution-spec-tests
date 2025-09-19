@@ -24,7 +24,10 @@ class PytestExecution:
     """Path to the pytest configuration file (e.g., 'pytest-fill.ini')."""
 
     command_logic_test_paths: List[str] = field(default_factory=list)
-    """List of tests that have to be appended to the start of pytest command arguments."""
+    """
+    List of tests that have to be appended to the start of pytest command
+    arguments.
+    """
 
     args: List[str] = field(default_factory=list)
     """Arguments to pass to pytest."""
@@ -80,7 +83,8 @@ class PytestRunner:
         """
         Run multiple pytest executions in sequence.
 
-        Returns the exit code of the final execution, or the first non-zero exit code.
+        Returns the exit code of the final execution, or the first non-zero
+        exit code.
         """
         for i, execution in enumerate(executions):
             if execution.description and len(executions) > 1:
@@ -102,8 +106,8 @@ class PytestCommand:
     """
     Base class for pytest-based CLI commands.
 
-    Provides a standard structure for commands that execute pytest
-    with specific configurations and argument processing.
+    Provides a standard structure for commands that execute pytest with
+    specific configurations and argument processing.
     """
 
     config_file: str
@@ -138,8 +142,8 @@ class PytestCommand:
     @property
     def test_args(self) -> List[str]:
         """
-        Return the test-path arguments that have to be appended to all PytestExecution
-        instances.
+        Return the test-path arguments that have to be appended to all
+        PytestExecution instances.
         """
         if self.command_logic_test_paths:
             return [str(path) for path in self.command_logic_test_paths]
@@ -149,8 +153,8 @@ class PytestCommand:
         """
         Create the list of pytest executions for this command.
 
-        This method can be overridden by subclasses to implement
-        multi-phase execution (e.g., for future fill command).
+        This method can be overridden by subclasses to implement multi-phase
+        execution (e.g., for future fill command).
         """
         processed_args = self.process_arguments(pytest_args)
         return [

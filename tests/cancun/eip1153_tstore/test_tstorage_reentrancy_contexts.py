@@ -1,6 +1,7 @@
 """
-abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-    Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy contexts.
+abstract: Tests for [EIP-1153: Transient
+Storage](https://eips.ethereum.org/EIPS/eip-1153) Test cases for `TSTORE` and
+`TLOAD` opcode calls in reentrancy contexts.
 """  # noqa: E501
 
 from enum import EnumMeta, unique
@@ -106,7 +107,8 @@ class DynamicReentrancyTestCases(EnumMeta):
                     ),
                     # reenter
                     if_false=(
-                        # store twice and revert/invalid; none of the stores should take effect
+                        # store twice and revert/invalid; none of the stores
+                        # should take effect
                         Op.TSTORE(0xFE, 0x201)
                         + Op.TSTORE(0xFE, 0x202)
                         + Op.TSTORE(0xFF, 0x201)
@@ -149,11 +151,13 @@ class DynamicReentrancyTestCases(EnumMeta):
                                 ret_size=32,
                             ),
                         )
-                        + Op.SSTORE(1, Op.MLOAD(32))  # should be 1 (successful call)
+                        + Op.SSTORE(1, Op.MLOAD(32))  # should be 1 (successful
+                                                      # call)
                         + Op.SSTORE(3, Op.TLOAD(0xFF))
                     ),
                     cases=[
-                        # the first, reentrant call, which reverts/receives invalid
+                        # the first, reentrant call, which reverts/receives
+                        # invalid
                         CalldataCase(
                             value=2,
                             action=(
@@ -162,7 +166,8 @@ class DynamicReentrancyTestCases(EnumMeta):
                                 + opcode_call
                             ),
                         ),
-                        # the second, reentrant call, which returns successfully
+                        # the second, reentrant call, which returns
+                        # successfully
                         CalldataCase(
                             value=3,
                             action=Op.TSTORE(0xFF, 0x101),
@@ -209,7 +214,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                 Op.TSTORE(0xFF, 0x100)
                 + Op.SSTORE(1, Op.TLOAD(0xFF))
                 + REENTRANT_CALL
-                + Op.SSTORE(2, Op.TLOAD(0xFF))  # test value updated during reentrant call
+                + Op.SSTORE(2, Op.TLOAD(0xFF))  # test value updated during
+                                                # reentrant call
             ),
             # reenter
             if_false=Op.TSTORE(0xFF, 0x101),
@@ -230,7 +236,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                 Op.TSTORE(0xFF, 0x100)
                 + Op.SSTORE(1, Op.TLOAD(0xFF))
                 + REENTRANT_CALL
-                + Op.SSTORE(3, Op.TLOAD(0xFF))  # test value updated during reentrant call
+                + Op.SSTORE(3, Op.TLOAD(0xFF))  # test value updated during
+                                                # reentrant call
             ),
             # reenter
             if_false=Op.TSTORE(0xFF, 0x101) + Op.SSTORE(2, Op.TLOAD(0xFF)),
@@ -252,7 +259,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                 + Op.SSTORE(4, Op.TLOAD(0xFE))
             ),
             cases=[
-                # the first, reentrant call which calls tstore and a further reentrant staticcall
+                # the first, reentrant call which calls tstore and a further
+                # reentrant staticcall
                 CalldataCase(
                     value=2,
                     action=(
@@ -264,7 +272,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                         + Op.SSTORE(3, Op.MLOAD(0))
                     ),
                 ),
-                # the second, reentrant call, which calls tload and return returns successfully
+                # the second, reentrant call, which calls tload and return
+                # returns successfully
                 CalldataCase(
                     value=3,
                     action=Op.MSTORE(0, Op.TLOAD(0xFE)) + Op.RETURN(0, 32),

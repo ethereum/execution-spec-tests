@@ -7,8 +7,8 @@ changes in Block Access Lists. These validators are used with the
 do *not* occur.
 
 All validator functions must be decorated with
-``@validate_call(validate_return=True)`` to ensure proper type validation.
-This is enforced via tests.
+``@validate_call(validate_return=True)`` to ensure proper type validation. This
+is enforced via tests.
 """
 
 from typing import Set
@@ -23,12 +23,11 @@ from . import AbsenceValidator, BalAccountChange
 @validate_call(validate_return=True)
 def no_nonce_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
     """
-    Forbid nonce changes at specified transaction indices or all indices if None.
+    Forbid nonce changes at specified transaction indices or all indices if
+    None.
 
-    Args:
-        tx_indices: Set of transaction indices to check. If None,
-        checks all transactions.
-
+    Args: tx_indices: Set of transaction indices to check. If None, checks all
+    transactions.
     """
 
     def check(account: BalAccountChange) -> None:
@@ -44,13 +43,11 @@ def no_nonce_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
 @validate_call(validate_return=True)
 def no_balance_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
     """
-    Forbid balance changes at specified transaction indices or all indices
-    if None.
+    Forbid balance changes at specified transaction indices or all indices if
+    None.
 
-    Args:
-        tx_indices: Set of transaction indices to check. If None,
-        checks all transactions.
-
+    Args: tx_indices: Set of transaction indices to check. If None, checks all
+    transactions.
     """
 
     def check(account: BalAccountChange) -> None:
@@ -71,11 +68,9 @@ def no_storage_changes(
     """
     Forbid storage changes at specified slots and/or transaction indices.
 
-    Args:
-        slots: Set of storage slots to check. If None, checks all slots.
-        tx_indices: Set of transaction indices to check. If None,
-        checks all transactions.
-
+    Args: slots: Set of storage slots to check. If None, checks all slots.
+    tx_indices: Set of transaction indices to check. If None, checks all
+    transactions.
     """
 
     def check(account: BalAccountChange) -> None:
@@ -97,9 +92,7 @@ def no_storage_reads(slots: Set[StorageKey] | None = None) -> AbsenceValidator:
     """
     Forbid storage reads at specified slots or all slots if None.
 
-    Args:
-        slots: Set of storage slots to check. If None, checks all slots.
-
+    Args: slots: Set of storage slots to check. If None, checks all slots.
     """
 
     def check(account: BalAccountChange) -> None:
@@ -113,13 +106,11 @@ def no_storage_reads(slots: Set[StorageKey] | None = None) -> AbsenceValidator:
 @validate_call(validate_return=True)
 def no_code_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
     """
-    Forbid code changes at specified transaction indices or all indices
-    if None.
+    Forbid code changes at specified transaction indices or all indices if
+    None.
 
-    Args:
-        tx_indices: Set of transaction indices to check. If None,
-        checks all transactions.
-
+    Args: tx_indices: Set of transaction indices to check. If None, checks all
+    transactions.
     """
 
     def check(account: BalAccountChange) -> None:

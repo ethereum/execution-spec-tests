@@ -56,7 +56,9 @@ def parent_excess_blob_gas(
     parent_excess_blobs: int | None,
     blob_gas_per_blob: int,
 ) -> int | None:
-    """Calculate the excess blob gas of the parent block from the excess blobs."""
+    """
+    Calculate the excess blob gas of the parent block from the excess blobs.
+    """
     if parent_excess_blobs is None:
         return None
     assert parent_excess_blobs >= 0
@@ -68,7 +70,8 @@ def blobs_per_tx() -> int:
     """
     Total number of blobs per transaction.
 
-    Can be overloaded by a test case to provide a custom blobs per transaction count.
+    Can be overloaded by a test case to provide a custom blobs per transaction
+    count.
     """
     return 1
 
@@ -85,7 +88,10 @@ def block_base_fee_per_gas(
     parent_excess_blobs: int | None,
     block_base_fee_per_gas_delta: int,
 ) -> int:
-    """Block base fee per gas. Default is 7 unless a delta is provided or overloaded."""
+    """
+    Block base fee per gas. Default is 7 unless a delta is provided or
+    overloaded.
+    """
     if block_base_fee_per_gas_delta != 0:
         if parent_excess_blobs is None:
             blob_base_fee = 1
@@ -106,7 +112,8 @@ def excess_blob_gas(
     block_base_fee_per_gas: int,
 ) -> int | None:
     """
-    Calculate the excess blob gas of the block under test from the parent block.
+    Calculate the excess blob gas of the block under test from the parent
+    block.
 
     Value can be overloaded by a test case to provide a custom excess blob gas.
     """
@@ -127,7 +134,8 @@ def correct_excess_blob_gas(
     block_base_fee_per_gas: int,
 ) -> int:
     """
-    Calculate the correct excess blob gas of the block under test from the parent block.
+    Calculate the correct excess blob gas of the block under test from the
+    parent block.
 
     Should not be overloaded by a test case.
     """
@@ -193,7 +201,9 @@ def env(
     block_base_fee_per_gas: int,
     genesis_excess_blob_gas: int,
 ) -> Environment:
-    """Prepare the environment of the genesis block for all blockchain tests."""
+    """
+    Prepare the environment of the genesis block for all blockchain tests.
+    """
     return Environment(
         excess_blob_gas=genesis_excess_blob_gas,
         blob_gas_used=0,

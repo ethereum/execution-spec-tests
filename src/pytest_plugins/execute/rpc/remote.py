@@ -87,7 +87,8 @@ def pytest_configure(config: pytest.Config):
     """Check if a chain ID configuration is provided."""
     if config.getoption("rpc_chain_id") is None and config.getoption("chain_id") is None:
         pytest.exit("No chain ID configuration found. Please use --chain-id.")
-    # Verify the chain ID configuration is consistent with the remote RPC endpoint
+    # Verify the chain ID configuration is consistent with the remote RPC
+    # endpoint
     rpc_endpoint = config.getoption("rpc_endpoint")
     eth_rpc = EthRPC(rpc_endpoint)
     remote_chain_id = eth_rpc.chain_id()
@@ -127,8 +128,9 @@ def pytest_configure(config: pytest.Config):
             f"JWT secret must be a bytes object, got {type(jwt_secret)}"
         )
         engine_rpc = EngineRPC(engine_endpoint, jwt_secret=jwt_secret)
-        # TODO: Perform a request to the engine endpoint to verify that the JWT secret is valid.
-        # Potentially could be `engine_getClientVersionV1` but need to implement this in rpc.py.
+        # TODO: Perform a request to the engine endpoint to verify that the JWT
+        # secret is valid. Potentially could be `engine_getClientVersionV1` but
+        # need to implement this in rpc.py.
     config.engine_rpc = engine_rpc  # type: ignore
 
 
@@ -140,7 +142,10 @@ def engine_rpc(request) -> EngineRPC | None:
 
 @pytest.fixture(autouse=True, scope="session")
 def rpc_endpoint(request) -> str:
-    """Return remote RPC endpoint to be used to make requests to the execution client."""
+    """
+    Return remote RPC endpoint to be used to make requests to the execution
+    client.
+    """
     return request.config.getoption("rpc_endpoint")
 
 

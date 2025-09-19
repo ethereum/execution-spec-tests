@@ -406,13 +406,15 @@ def test_valid_containers(
             validity_error=EOFException.MISSING_CODE_HEADER,
         ),
         Container(
-            # EOF code containing multiple type headers, second one matches code length
+            # EOF code containing multiple type headers, second one matches
+            # code length
             name="multiple_type_headers_2",
             raw_bytes="ef0001010004010001ff00000000800000fe",
             validity_error=EOFException.MISSING_CODE_HEADER,
         ),
         Container(
-            # EOF code containing multiple type headers followed by 2 code sections
+            # EOF code containing multiple type headers followed by 2 code
+            # sections
             name="multiple_type_headers_3",
             sections=[
                 Section(kind=SectionKind.TYPE, data="00800000"),
@@ -486,8 +488,8 @@ def test_valid_containers(
             ],
         ),
         # The basic `no_section_terminator` cases just remove the terminator
-        # and the `00` for zeroth section inputs looks like one. Error is because
-        # the sections are wrongly sized.
+        # and the `00` for zeroth section inputs looks like one. Error is
+        # because the sections are wrongly sized.
         Container(
             name="no_section_terminator",
             header_terminator=bytes(),
@@ -521,9 +523,9 @@ def test_valid_containers(
                 EOFException.INVALID_FIRST_SECTION_TYPE,
             ],
         ),
-        # The following cases just remove the terminator
-        # and the `00` for zeroth section inputs looks like one. Section bodies
-        # are as the size prescribes here, so the error is about the inputs of zeroth section.
+        # The following cases just remove the terminator and the `00` for
+        # zeroth section inputs looks like one. Section bodies are as the size
+        # prescribes here, so the error is about the inputs of zeroth section.
         Container(
             name="no_section_terminator_section_bodies_ok_1",
             header_terminator=bytes(),
@@ -536,8 +538,8 @@ def test_valid_containers(
             sections=[Section.Code(code=Op.JUMPDEST * 2 + Op.STOP, custom_size=2)],
             validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
         ),
-        # Here the terminator is missing but made to look like a different section
-        # or arbitrary byte
+        # Here the terminator is missing but made to look like a different
+        # section or arbitrary byte
         Container(
             name="no_section_terminator_nonzero",
             header_terminator=b"01",
@@ -625,7 +627,8 @@ def test_valid_containers(
         Container(
             name="empty_code_section",
             sections=[Section.Code(code="0x")],
-            # TODO the exception must be about code section EOFException.INVALID_CODE_SECTION,
+            # TODO the exception must be about code section
+            # EOFException.INVALID_CODE_SECTION,
             validity_error=EOFException.ZERO_SECTION_SIZE,
         ),
         Container(
@@ -634,7 +637,8 @@ def test_valid_containers(
                 Section.Code(code="0x"),
                 Section.Data(data="0xDEADBEEF"),
             ],
-            # TODO the exception must be about code section EOFException.INVALID_CODE_SECTION,
+            # TODO the exception must be about code section
+            # EOFException.INVALID_CODE_SECTION,
             validity_error=EOFException.ZERO_SECTION_SIZE,
         ),
         Container(
@@ -684,7 +688,8 @@ def test_valid_containers(
         Container(
             name="data_section_without_code_section",
             sections=[Section.Data(data="0xDEADBEEF")],
-            # TODO the actual exception should be EOFException.MISSING_CODE_HEADER
+            # TODO the actual exception should be
+            # EOFException.MISSING_CODE_HEADER
             validity_error=[EOFException.ZERO_SECTION_SIZE, EOFException.UNEXPECTED_HEADER_KIND],
         ),
         Container(
@@ -1059,7 +1064,8 @@ def test_valid_containers(
                 Section.Code(code=Op.POP + Op.RETF, code_inputs=1),
                 Section.Code(Op.STOP),
             ],
-            # TODO the actual exception should be EOFException.INVALID_TYPE_BODY,
+            # TODO the actual exception should be
+            # EOFException.INVALID_TYPE_BODY,
             validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
         ),
         Container(
@@ -1068,7 +1074,8 @@ def test_valid_containers(
                 Section.Code(code=Op.PUSH0, code_outputs=1),
                 Section.Code(Op.STOP),
             ],
-            # TODO the actual exception should be EOFException.INVALID_TYPE_BODY,
+            # TODO the actual exception should be
+            # EOFException.INVALID_TYPE_BODY,
             validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
         ),
         Container(
@@ -1158,7 +1165,8 @@ def test_valid_containers(
                     max_stack_height=1024,
                 ),
             ],
-            # TODO auto types section generation probably failed, the exception must be about code
+            # TODO auto types section generation probably failed, the exception
+            # must be about code
             validity_error=EOFException.MAX_STACK_INCREASE_ABOVE_LIMIT,
         ),
     ],

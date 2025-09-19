@@ -150,7 +150,8 @@ def test_partial_validation():
         account_expectations={
             alice: BalAccountExpectation(
                 nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
-                # balance_changes and storage_reads not set and won't be validated
+                # balance_changes and storage_reads not set and won't be
+                # validated
             ),
         }
     )
@@ -345,8 +346,8 @@ def test_expected_addresses_auto_sorted():
     """
     Test that expected addresses are automatically sorted before comparison.
 
-    The BAL *Expectation address order should not matter for the dict.
-    We DO, however, validate that the actual BAL (from t8n) is sorted correctly.
+    The BAL *Expectation address order should not matter for the dict. We DO,
+    however, validate that the actual BAL (from t8n) is sorted correctly.
     """
     alice = Address(0xA)
     bob = Address(0xB)
@@ -732,8 +733,10 @@ def test_multiple_absence_validators():
                 ],
                 should_not_exist=[
                     no_nonce_changes({1, 2}),  # No nonce changes at tx 1 or 2
-                    no_balance_changes({1, 2}),  # No balance changes at tx 1 or 2
-                    no_storage_changes(slots={0x42, 0x43}),  # These slots not changed
+                    no_balance_changes({1, 2}),  # No balance changes at tx 1
+                                                 # or 2
+                    no_storage_changes(slots={0x42, 0x43}),  # These slots not
+                                                             # changed
                     no_storage_reads({0x42, 0x43}),  # These slots not read
                     no_code_changes({1, 2}),  # No code changes at tx 1 or 2
                 ],
@@ -782,7 +785,8 @@ def test_absence_validator_with_multiple_tx_indices():
         account_expectations={
             alice: BalAccountExpectation(
                 should_not_exist=[
-                    # wrongly forbid change at txs 1 and 2 (1 exists, so should fail)
+                    # wrongly forbid change at txs 1 and 2 (1 exists, so should
+                    # fail)
                     no_nonce_changes({1, 2}),
                 ],
             ),
@@ -833,7 +837,9 @@ def test_absence_validator_with_multiple_tx_indices():
     ],
 )
 def test_absence_validator_forbids_all(validator_func, field_name, changes, error_pattern):
-    """Test that validators without specific indices/slots forbid ALL changes."""
+    """
+    Test that validators without specific indices/slots forbid ALL changes.
+    """
     addr = Address(0xA)
 
     actual_bal = BlockAccessList([BalAccountChange(address=addr, **{field_name: changes})])
@@ -849,7 +855,9 @@ def test_absence_validator_forbids_all(validator_func, field_name, changes, erro
 
 
 def test_all_absence_validators_use_validate_call():
-    """Test that all exported absence validators use @validate_call decorator."""
+    """
+    Test that all exported absence validators use @validate_call decorator.
+    """
     validator_names = [name for name in absence_validators.__all__ if name != "AbsenceValidator"]
 
     for name in validator_names:

@@ -64,7 +64,9 @@ class FixtureTransaction(TransactionFixtureConverter):
 
 
 class FixtureForkPostIndexes(BaseModel):
-    """Type used to describe the indexes of a single post state of a single Fork."""
+    """
+    Type used to describe the indexes of a single post state of a single Fork.
+    """
 
     data: int = 0
     gas: int = 0

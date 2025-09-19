@@ -5,7 +5,9 @@ from typing import List
 
 
 class TimingData:
-    """The times taken to perform the various steps of a test case (seconds)."""
+    """
+    The times taken to perform the various steps of a test case (seconds).
+    """
 
     name: str
     start_time: float | None

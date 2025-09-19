@@ -1,7 +1,8 @@
 """
-abstract: Tests gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
-
+abstract: Tests gas usage on point evaluation precompile for [EIP-4844: Shard
+Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844) Test gas usage on
+point evaluation precompile for [EIP-4844: Shard Blob
+Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 """  # noqa: E501
 
 from typing import Dict, Literal
@@ -163,8 +164,8 @@ def post(
     call_gas: int,
 ) -> Dict:
     """
-    Prepare expected post for each test, depending on the success or
-    failure of the precompile call and the gas usage.
+    Prepare expected post for each test, depending on the success or failure of
+    the precompile call and the gas usage.
     """
     if proof == "correct":
         expected_gas_usage = (
@@ -205,11 +206,12 @@ def test_point_evaluation_precompile_gas_usage(
     post: Dict,
 ):
     """
-    Test point evaluation precompile gas usage under different call contexts and gas limits.
+    Test point evaluation precompile gas usage under different call contexts
+    and gas limits.
 
-    - Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL)
-    - Test using different gas limits (exact gas, insufficient gas, extra gas)
-    - Test using correct and incorrect proofs
+    - Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL) -
+    Test using different gas limits (exact gas, insufficient gas, extra gas) -
+    Test using correct and incorrect proofs
     """
     state_test(
         env=Environment(),

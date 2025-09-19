@@ -65,7 +65,9 @@ def pytest_addoption(parser):
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
-    """Handle specific help flags by displaying the corresponding help message."""
+    """
+    Handle specific help flags by displaying the corresponding help message.
+    """
     if config.getoption("show_check_eip_versions_help"):
         show_specific_help(
             config,
@@ -143,7 +145,10 @@ def pytest_configure(config):
 
 
 def show_specific_help(config, expected_ini, substrings):
-    """Print help options filtered by specific substrings from the given configuration."""
+    """
+    Print help options filtered by specific substrings from the given
+    configuration.
+    """
     pytest_ini = Path(config.inifile)
     if pytest_ini.name != expected_ini:
         raise ValueError(

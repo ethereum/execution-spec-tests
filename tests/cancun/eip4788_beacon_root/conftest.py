@@ -34,7 +34,10 @@ def timestamp() -> int:  # noqa: D103
 
 @pytest.fixture
 def beacon_roots() -> Iterator[bytes]:
-    """By default, return an iterator that returns the keccak of an internal counter."""
+    """
+    By default, return an iterator that returns the keccak of an internal
+    counter.
+    """
 
     class BeaconRoots:
         def __init__(self) -> None:
@@ -181,7 +184,9 @@ def auto_access_list() -> bool:
 
 @pytest.fixture
 def access_list(auto_access_list: bool, timestamp: int) -> List[AccessList]:
-    """Access list included in the transaction to call the beacon root contract."""
+    """
+    Access list included in the transaction to call the beacon root contract.
+    """
     if auto_access_list:
         return [
             AccessList(
@@ -204,7 +209,8 @@ def tx_data(timestamp: int) -> bytes:
 @pytest.fixture
 def tx_type() -> int:
     """
-    Transaction type to call the caller contract or the beacon root contract directly.
+    Transaction type to call the caller contract or the beacon root contract
+    directly.
 
     By default use a type 2 transaction.
     """
@@ -263,8 +269,8 @@ def post(
     call_beacon_root_contract: bool,
 ) -> Dict:
     """
-    Prepare expected post state for a single contract call based upon the success or
-    failure of the call, and the validity of the timestamp input.
+    Prepare expected post state for a single contract call based upon the
+    success or failure of the call, and the validity of the timestamp input.
     """
     storage = Storage()
     if not call_beacon_root_contract:

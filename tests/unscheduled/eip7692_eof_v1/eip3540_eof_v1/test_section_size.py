@@ -120,7 +120,9 @@ def test_section_size(
     section_kind: SectionKind,
     exception: EOFExceptionInstanceOrList,
 ):
-    """Test custom_size is auto, more or less than the actual size of the section."""
+    """
+    Test custom_size is auto, more or less than the actual size of the section.
+    """
     eof_code = Container()
 
     if section_size != SectionSize.NORMAL and section_kind == SectionKind.TYPE:
@@ -183,8 +185,8 @@ def test_section_size(
 @pytest.mark.parametrize(
     "truncation_len, exception",
     [
-        # The original container is not valid by itself because its 2-byte code section
-        # starts with the terminating instruction: INVALID.
+        # The original container is not valid by itself because its 2-byte code
+        # section starts with the terminating instruction: INVALID.
         pytest.param(0, EOFException.UNREACHABLE_INSTRUCTIONS),
         pytest.param(1, EOFException.INVALID_SECTION_BODIES_SIZE, id="EOF1_truncated_section_2"),
         pytest.param(3, EOFException.INVALID_SECTION_BODIES_SIZE, id="EOF1_truncated_section_1"),
@@ -198,7 +200,8 @@ def test_truncated_container_without_data(
 ):
     """
     Test takes a semi-valid container and removes some bytes from its tail.
-    Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases without data section).
+    Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases
+    without data section).
     """
     container = Container(sections=[Section.Code(Op.INVALID + Op.INVALID)])
     bytecode = bytes(container)
@@ -222,8 +225,9 @@ def test_truncated_container_with_data(
     exception: EOFException,
 ):
     """
-    Test takes a valid container with data and removes some bytes from its tail.
-    Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases with data section).
+    Test takes a valid container with data and removes some bytes from its
+    tail. Migrated from EOFTests/efValidation/EOF1_truncated_section_.json
+    (cases with data section).
     """
     data = b"\xaa\xbb"
     container = Container(

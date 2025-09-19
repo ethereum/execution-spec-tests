@@ -9,7 +9,8 @@ class ChainConfigDefaults:
     """
     Default values for the chain configuration.
 
-    Can be modified by modules that import this module and want to override the default values.
+    Can be modified by modules that import this module and want to override the
+    default values.
     """
 
     chain_id: int = 1

@@ -1,6 +1,6 @@
 """
-A pytest plugin that configures the consume command to act as a test runner
-for "direct" client fixture consumer interfaces.
+A pytest plugin that configures the consume command to act as a test runner for
+"direct" client fixture consumer interfaces.
 
 For example, via go-ethereum's `evm blocktest` or `evm statetest` commands.
 """
@@ -120,7 +120,8 @@ def fixture_path(test_case: TestCaseIndexFile | TestCaseStream, fixtures_source:
     """
     Path to the current JSON fixture file.
 
-    If the fixture source is stdin, the fixture is written to a temporary json file.
+    If the fixture source is stdin, the fixture is written to a temporary json
+    file.
     """
     if fixtures_source.is_stdin:
         assert isinstance(test_case, TestCaseStream)

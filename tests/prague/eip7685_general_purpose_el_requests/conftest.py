@@ -29,7 +29,10 @@ from ..eip7251_consolidations.helpers import (
 def block_body_override_requests(
     request: pytest.FixtureRequest,
 ) -> List[DepositRequest | WithdrawalRequest | ConsolidationRequest] | None:
-    """List of requests that overwrite the requests in the header. None by default."""
+    """
+    List of requests that overwrite the requests in the header. None by
+    default.
+    """
     if hasattr(request, "param"):
         return request.param
     return None
@@ -38,9 +41,9 @@ def block_body_override_requests(
 @pytest.fixture
 def correct_requests_hash_in_header() -> bool:
     """
-    Whether to include the correct requests hash in the header so the calculated
-    block hash is correct, even though the requests in the new payload parameters might
-    be wrong.
+    Whether to include the correct requests hash in the header so the
+    calculated block hash is correct, even though the requests in the new
+    payload parameters might be wrong.
     """
     return False
 

@@ -86,18 +86,16 @@ def generate_checklist_stubs(output: str | None, dry_run: bool) -> None:
     Generate mypy stub files for EIPChecklist classes.
 
     This is a development tool that generates .pyi stub files to help mypy
-    understand that EIPChecklist classes are callable, fixing type checking issues.
+    understand that EIPChecklist classes are callable, fixing type checking
+    issues.
 
-    Examples:
-        # Generate stub files (auto-detect location)
-        uv run generate_checklist_stubs
+    Examples: # Generate stub files (auto-detect location) uv run
+    generate_checklist_stubs
 
-        # Generate to specific location
-        uv run generate_checklist_stubs --output /path/to/stubs.pyi
+    # Generate to specific location uv run generate_checklist_stubs --output
+    /path/to/stubs.pyi
 
-        # Preview content without writing
-        uv run generate_checklist_stubs --dry-run
-
+    # Preview content without writing uv run generate_checklist_stubs --dry-run
     """
     try:
         # Add src to path so we can import the module
