@@ -9,14 +9,15 @@ import random
 
 import pytest
 
+from ethereum_test_base_types import Account
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
-    Account,
     Address,
     Alloc,
     Block,
     BlockchainTestFiller,
+    Environment,
     Hash,
     StateTestFiller,
     Transaction,
@@ -112,11 +113,13 @@ def ether_transfer_case(
 def test_block_full_of_ether_transfers(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    env: Environment,
     case_id: str,
     ether_transfer_case,
     iteration_count: int,
     transfer_amount: int,
     intrinsic_cost: int,
+    gas_benchmark_value: int,
 ):
     """
     Single test for ether transfer scenarios.
@@ -153,10 +156,10 @@ def test_block_full_of_ether_transfers(
     )
 
     blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post=post_state,
         blocks=[Block(txs=txs)],
-        exclude_full_post_state_in_output=True,
         expected_benchmark_gas_used=iteration_count * intrinsic_cost,
     )
 
