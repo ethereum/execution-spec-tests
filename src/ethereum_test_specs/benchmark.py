@@ -9,7 +9,7 @@ import pytest
 from pydantic import ConfigDict, Field
 
 from ethereum_clis import TransitionTool
-from ethereum_test_base_types import HexNumber
+from ethereum_test_base_types import Address, HexNumber
 from ethereum_test_exceptions import BlockException, TransactionException
 from ethereum_test_execution import (
     BaseExecute,
@@ -40,9 +40,10 @@ class BenchmarkCodeGenerator(ABC):
 
     attack_block: Bytecode
     setup: Bytecode = field(default_factory=Bytecode)
+    cleanup: Bytecode = field(default_factory=Bytecode)
 
     @abstractmethod
-    def deploy_contracts(self, pre: Alloc, fork: Fork) -> None:
+    def deploy_contracts(self, pre: Alloc, fork: Fork) -> Address:
         """Deploy any contracts needed for the benchmark."""
         ...
 
@@ -52,17 +53,17 @@ class BenchmarkCodeGenerator(ABC):
         ...
 
     def generate_repeated_code(
-        self, repeated_code: Bytecode, setup: Bytecode, fork: Fork
+        self, repeated_code: Bytecode, setup: Bytecode, cleanup: Bytecode, fork: Fork
     ) -> Bytecode:
         """Calculate the maximum number of iterations that can fit in the code size limit."""
         assert len(repeated_code) > 0, "repeated_code cannot be empty"
         max_code_size = fork.max_code_size()
 
-        overhead = len(setup) + len(Op.JUMPDEST) + len(Op.JUMP(len(setup)))
+        overhead = len(setup) + len(Op.JUMPDEST) + len(cleanup) + len(Op.JUMP(len(setup)))
         available_space = max_code_size - overhead
         max_iterations = available_space // len(repeated_code)
 
-        code = setup + Op.JUMPDEST + repeated_code * max_iterations + Op.JUMP(len(setup))
+        code = setup + Op.JUMPDEST + repeated_code * max_iterations + cleanup + Op.JUMP(len(setup))
         self._validate_code_size(code, fork)
 
         return code
