@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-Deploy a simple CREATE2 factory for benchmark tests (REFACTORED with EEST Op codes).
-This factory can be reused across all tests and allows deterministic addresses.
+Deploy a CREATE2 factory for on-the-fly contract address generation in BloatNet tests.
 
-This version uses EEST Op code tooling for better readability.
+This factory uses a constant initcode that generates unique 24KB contracts by:
+1. Using ADDRESS opcode for pseudo-randomness (within the factory's context)
+2. Expanding randomness with SHA3 and XOR operations
+3. Creating max-size contracts with deterministic CREATE2 addresses
 """
 
 import argparse
@@ -24,123 +26,204 @@ except ImportError as e:
     print("Run: uv sync --all-extras")
     sys.exit(1)
 
+# XOR table for pseudo-random bytecode generation (reused from test_worst_bytecode.py)
+XOR_TABLE_SIZE = 256
+XOR_TABLE = [keccak(i.to_bytes(32, "big")) for i in range(XOR_TABLE_SIZE)]
+MAX_CONTRACT_SIZE = 24576  # 24KB
 
-def deploy_factory(rpc_url: str):
-    """Deploy a minimal CREATE2 factory using EEST Op codes."""
+
+def build_initcode() -> bytes:
+    """Build the initcode that generates unique 24KB contracts using ADDRESS for randomness."""
+    from ethereum_test_tools import While
+
+    # This initcode follows the pattern from test_worst_bytecode.py:
+    # 1. Uses ADDRESS as initial seed for pseudo-randomness (creates uniqueness per deployment)
+    # 2. Expands to 24KB using SHA3 and XOR operations
+    # 3. Sets first byte to STOP for quick CALL returns
+    initcode = (
+        # Store ADDRESS as initial seed - THIS IS CRITICAL FOR UNIQUENESS
+        Op.MSTORE(0, Op.ADDRESS)
+        # Loop to expand bytecode using SHA3 and XOR operations
+        + While(
+            body=(
+                Op.SHA3(Op.SUB(Op.MSIZE, 32), 32)
+                # Use XOR table to expand without excessive SHA3 calls
+                + sum(
+                    (Op.PUSH32[xor_value] + Op.XOR + Op.DUP1 + Op.MSIZE + Op.MSTORE)
+                    for xor_value in XOR_TABLE
+                )
+                + Op.POP
+            ),
+            condition=Op.LT(Op.MSIZE, MAX_CONTRACT_SIZE),
+        )
+        # Set first byte to STOP for efficient CALL handling
+        + Op.MSTORE8(0, 0x00)
+        # Return the full contract
+        + Op.RETURN(0, MAX_CONTRACT_SIZE)
+    )
+    return bytes(initcode)
+
+
+def deploy_factory_and_initcode(rpc_url: str):
+    """Deploy the initcode template and factory that uses it."""
     # Connect to Geth
     w3 = Web3(Web3.HTTPProvider(rpc_url))
     if not w3.is_connected():
         print(f"Failed to connect to {rpc_url}")
-        return None
+        return None, None
 
     test_account = w3.eth.accounts[0]
     print(f"Using test account: {test_account}")
 
-    # Build CREATE2 factory bytecode using EEST Op codes
-    # This factory:
-    # 1. Takes salt (first 32 bytes) from calldata
-    # 2. Takes bytecode (rest) from calldata
-    # 3. Deploys via CREATE2
-    # 4. Returns the deployed address
+    # Build the initcode
+    initcode = build_initcode()
+    print(f"\nInitcode size: {len(initcode)} bytes")
+    print(f"Initcode (first 100 bytes): 0x{initcode[:100].hex()}...")
 
+    # Deploy the initcode as a contract that the factory can copy from
+    print("\nDeploying initcode template contract...")
+    tx_hash = w3.eth.send_transaction({"from": test_account, "data": initcode, "gas": 10000000})
+    receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+    if receipt["status"] != 1:
+        print("Failed to deploy initcode template")
+        return None, None
+
+    initcode_address = receipt["contractAddress"]
+    print(f"✅ Initcode template deployed at: {initcode_address}")
+
+    # Build the factory contract following the pattern from test_worst_bytecode.py
+    # The factory:
+    # 1. Copies the initcode from the template contract
+    # 2. Uses incrementing salt from storage for CREATE2
+    # 3. Returns the created contract address
     factory_code = (
-        # Load salt from calldata[0:32]
-        Op.PUSH0  # offset 0
-        + Op.CALLDATALOAD  # load 32 bytes from calldata[0]
-        # Calculate bytecode length (calldatasize - 32)
-        + Op.PUSH1(32)  # salt size
-        + Op.CALLDATASIZE  # total calldata size
-        + Op.SUB  # bytecode_len = calldatasize - 32
-        # Copy bytecode from calldata[32:] to memory[0:]
-        + Op.DUP1  # duplicate bytecode_len for CREATE2
-        + Op.PUSH1(32)  # source offset in calldata
-        + Op.PUSH0  # dest offset in memory
-        + Op.CALLDATACOPY  # copy bytecode to memory
-        # CREATE2(value=0, mem_offset=0, mem_size=bytecode_len, salt)
-        # Stack: [salt, bytecode_len]
-        + Op.PUSH0  # value = 0
-        + Op.SWAP2  # Stack: [bytecode_len, 0, salt]
-        + Op.PUSH0  # mem_offset = 0
-        + Op.SWAP1  # Stack: [bytecode_len, 0, 0, salt]
-        + Op.SWAP3  # Stack: [salt, 0, 0, bytecode_len]
-        + Op.SWAP2  # Stack: [0, salt, 0, bytecode_len]
-        + Op.SWAP1  # Stack: [salt, 0, 0, bytecode_len]
-        + Op.CREATE2  # Deploy contract
-        # Store address in memory and return it
-        + Op.PUSH0  # memory offset 0
-        + Op.MSTORE  # store address at memory[0:32]
-        + Op.PUSH1(32)  # return 32 bytes
-        + Op.PUSH0  # from memory offset 0
-        + Op.RETURN  # return the address
+        # Copy initcode from template to memory
+        Op.EXTCODECOPY(
+            address=initcode_address,
+            dest_offset=0,
+            offset=0,
+            size=Op.EXTCODESIZE(initcode_address),
+        )
+        # Store the result of CREATE2
+        + Op.MSTORE(
+            0,
+            Op.CREATE2(
+                value=0,
+                offset=0,
+                size=Op.EXTCODESIZE(initcode_address),
+                salt=Op.SLOAD(0),
+            ),
+        )
+        # Increment salt for next call
+        + Op.SSTORE(0, Op.ADD(Op.SLOAD(0), 1))
+        # Return created address
+        + Op.RETURN(0, 32)
     )
 
-    # Convert Op code object to bytes
     factory_bytecode = bytes(factory_code)
-
-    print(f"\nFactory bytecode ({len(factory_bytecode)} bytes):")
-    print(f"0x{factory_bytecode.hex()}")
+    print(f"\nFactory bytecode size: {len(factory_bytecode)} bytes")
+    print(f"Factory bytecode: 0x{factory_bytecode.hex()}")
 
     # Deploy the factory
     print("\nDeploying CREATE2 factory...")
     tx_hash = w3.eth.send_transaction(
         {"from": test_account, "data": factory_bytecode, "gas": 3000000}
     )
-
     receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 
     if receipt["status"] != 1:
         print("Failed to deploy factory")
-        return None
+        return None, None
 
     factory_address = receipt["contractAddress"]
     print(f"✅ Factory deployed at: {factory_address}")
 
-    # Test the factory with a simple contract
-    print("\nTesting factory...")
-    test_bytecode = bytes([0x00])  # Simple STOP opcode
-    test_salt = 0
+    # Calculate init code hash for CREATE2 address calculation
+    init_code_hash = keccak(initcode)
+    print(f"\nInit code hash: 0x{init_code_hash.hex()}")
 
-    calldata = test_salt.to_bytes(32, "big") + test_bytecode
+    return factory_address, init_code_hash.hex()
 
-    # Use eth_call to get the address that would be created
-    result = w3.eth.call({"to": factory_address, "data": calldata})
 
-    if result:
-        test_addr = "0x" + result[-20:].hex()
-        print(f"Test deployment would create: {test_addr}")
+def deploy_contracts(rpc_url: str, factory_address: str, num_contracts: int):
+    """Deploy multiple contracts using the factory."""
+    w3 = Web3(Web3.HTTPProvider(rpc_url))
+    if not w3.is_connected():
+        print(f"Failed to connect to {rpc_url}")
+        return False
 
-        # Calculate expected CREATE2 address
-        expected = keccak(
-            b"\xff"
-            + bytes.fromhex(factory_address[2:])
-            + test_salt.to_bytes(32, "big")
-            + keccak(test_bytecode)
-        )[-20:]
-        expected_addr = "0x" + expected.hex()
-        print(f"Expected CREATE2 address: {expected_addr}")
+    test_account = w3.eth.accounts[0]
+    print(f"\nDeploying {num_contracts} contracts via factory...")
 
-    return factory_address
+    # Batch size for deployments
+    batch_size = 100
+    deployed_count = 0
+
+    for batch_start in range(0, num_contracts, batch_size):
+        batch_end = min(batch_start + batch_size, num_contracts)
+        current_batch = batch_end - batch_start
+
+        batch_num = batch_start // batch_size + 1
+        print(f"Deploying batch {batch_num}: contracts {batch_start}-{batch_end - 1}...")
+
+        for i in range(current_batch):
+            try:
+                tx_hash = w3.eth.send_transaction(
+                    {"from": test_account, "to": factory_address, "gas": 10000000}
+                )
+                receipt = w3.eth.wait_for_transaction_receipt(tx_hash, timeout=60)
+                if receipt["status"] == 1:
+                    deployed_count += 1
+                else:
+                    print(f"  ⚠️ Failed to deploy contract {batch_start + i}")
+            except Exception as e:
+                print(f"  ⚠️ Error deploying contract {batch_start + i}: {e}")
+
+        print(f"  ✅ Deployed {deployed_count}/{batch_end} contracts")
+
+    return deployed_count == num_contracts
 
 
 def main():
     """Execute the factory deployment script."""
-    parser = argparse.ArgumentParser(description="Deploy CREATE2 factory (EEST refactored)")
+    parser = argparse.ArgumentParser(description="Deploy CREATE2 factory for BloatNet tests")
     parser.add_argument(
         "--rpc-url",
         default="http://127.0.0.1:8545",
         help="RPC URL (default: http://127.0.0.1:8545)",
     )
+    parser.add_argument(
+        "--deploy-contracts", type=int, metavar="N", help="Deploy N contracts using the factory"
+    )
 
     args = parser.parse_args()
-    factory_address = deploy_factory(args.rpc_url)
 
-    if factory_address:
-        print("\n" + "=" * 60)
-        print("Factory deployed successfully!")
-        print(f"Factory address: {factory_address}")
-        print("\nAdd this to your test configuration:")
-        print(f'FACTORY_ADDRESS = Address("{factory_address}")')
-        print("=" * 60)
+    # Deploy factory and initcode template
+    factory_address, init_code_hash = deploy_factory_and_initcode(args.rpc_url)
+
+    if not factory_address:
+        print("\n❌ Failed to deploy factory")
+        sys.exit(1)
+
+    print("\n" + "=" * 60)
+    print("Factory deployed successfully!")
+    print(f"Factory address: {factory_address}")
+    print(f"Init code hash: 0x{init_code_hash}")
+    print("\nAdd this to your test configuration:")
+    print(f'FACTORY_ADDRESS = Address("{factory_address}")')
+    print(f'INIT_CODE_HASH = bytes.fromhex("{init_code_hash}")')
+
+    # Deploy contracts if requested
+    if args.deploy_contracts:
+        success = deploy_contracts(args.rpc_url, factory_address, args.deploy_contracts)
+        if success:
+            print(f"\n✅ Successfully deployed {args.deploy_contracts} contracts")
+            print(f"NUM_DEPLOYED_CONTRACTS = {args.deploy_contracts}")
+        else:
+            print("\n⚠️ Some contracts failed to deploy")
+
+    print("=" * 60)
 
 
 if __name__ == "__main__":
