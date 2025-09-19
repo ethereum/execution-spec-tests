@@ -2,7 +2,9 @@
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Transaction
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
     BalBalanceChange,
@@ -92,6 +94,46 @@ def test_bal_zero_value_transfer(
                 ),
                 # Include the address; omit from balance_changes.
                 bob: BalAccountExpectation(balance_changes=[]),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
+
+
+def test_bal_noop_storage_write(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    fork: Fork,
+):
+    """Test that BAL correctly handles no-op storage write."""
+    alice = pre.fund_eoa()
+    storage_contract = pre.deploy_contract(code=Op.SSTORE(0x01, 0x42), storage={0x01: 0x42})
+
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    gas_limit = (
+        intrinsic_gas_calculator(
+            calldata=b"",
+            contract_creation=False,
+            access_list=[],
+        )
+        # Sufficient gas for write
+        + fork.gas_costs().G_COLD_SLOAD
+        + fork.gas_costs().G_COLD_ACCOUNT_ACCESS
+        + fork.gas_costs().G_STORAGE_SET
+        + fork.gas_costs().G_BASE * 10  # Buffer for push
+    )
+
+    tx = Transaction(sender=alice, to=storage_contract, gas_limit=gas_limit, gas_price=0xA)
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                storage_contract: BalAccountExpectation(storage_changes=[]),
             }
         ),
     )
