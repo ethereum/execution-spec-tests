@@ -15,7 +15,9 @@ CreateTransactionHighNonce:
       network:
         - ">=Cancun"
       expectException:
-        ">=Cancun": "TransactionException.NONCE_IS_MAX"
+        # `BlockException.INVALID_GAS_USED` added for Reth as they do pre-validation on the block.
+        # Removing the pre-validation and they fail with `TransactionException.NONCE_IS_MAX`.
+        ">=Cancun": "TransactionException.NONCE_IS_MAX|BlockException.INVALID_GAS_USED"
       result: {}
   pre:
     a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
