@@ -13,6 +13,7 @@ from ethereum_test_types import EOA, Alloc, ChainConfig
 from ..spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 ALL_FIXTURE_PARAMETERS = {
+    "test_phase_manager",
     "genesis_environment",
     "env",
 }
