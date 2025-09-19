@@ -3483,6 +3483,42 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BLOCK_ACCESS_LIST" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BLOCK_ACCESS_LIST
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_HASH" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BAL_HASH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_EXTRA_ACCOUNT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BAL_EXTRA_ACCOUNT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_MISSING_ACCOUNT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BAL_MISSING_ACCOUNT
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -29569,6 +29605,42 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BLOCK_ACCESS_LIST" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BLOCK_ACCESS_LIST
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_HASH" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BAL_HASH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_EXTRA_ACCOUNT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BAL_EXTRA_ACCOUNT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_MISSING_ACCOUNT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BAL_MISSING_ACCOUNT
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -31662,7 +31734,24 @@ block header contains an invalid field.</p>
 <span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
-<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -31872,6 +31961,23 @@ block header contains an invalid field.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but the layout</span>
 <span class="sd">    of the event does not match the required layout.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># --- Block-Level Access Lists (EIP-7928) --- #</span>
+    <span class="n">INVALID_BLOCK_ACCESS_LIST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block&#39;s access list is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_BAL_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block header&#39;s BAL hash does not match the computed BAL hash.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_BAL_EXTRA_ACCOUNT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block BAL contains an account change that is not present in the computed BAL.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_BAL_MISSING_ACCOUNT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block BAL is missing an account change that is present in the computed BAL.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -33278,6 +33384,118 @@ a fork that is not active yet.</p>
 
         <p>Transaction emits a <code>DepositEvent</code> in the deposit contract (EIP-6110), but the layout
 of the event does not match the required layout.</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_BLOCK_ACCESS_LIST" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_BLOCK_ACCESS_LIST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_BLOCK_ACCESS_LIST" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Block's access list is invalid.</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_BAL_HASH" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_BAL_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_HASH" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Block header's BAL hash does not match the computed BAL hash.</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_BAL_EXTRA_ACCOUNT" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_BAL_EXTRA_ACCOUNT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_EXTRA_ACCOUNT" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Block BAL contains an account change that is not present in the computed BAL.</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_BAL_MISSING_ACCOUNT" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_BAL_MISSING_ACCOUNT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_BAL_MISSING_ACCOUNT" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Block BAL is missing an account change that is present in the computed BAL.</p>
 
     </div>
 
