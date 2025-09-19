@@ -19,8 +19,8 @@ from ethereum_test_exceptions import (
 )
 from ethereum_test_forks import Fork
 
+from ..cli_types import TransitionToolOutput
 from ..transition_tool import TransitionTool, dump_files_to_directory, model_dump_config
-from ..types import TransitionToolOutput
 
 
 class BesuTransitionTool(TransitionTool):

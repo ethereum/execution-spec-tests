@@ -19,7 +19,7 @@ from _pytest.python import Module
 from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
 from ethereum_test_forks import Fork, get_closest_fork
 from ethereum_test_specs import BaseStaticTest, BaseTest
-from ethereum_test_tools.code.yul import Yul
+from ethereum_test_tools.tools_code.yul import Yul
 
 from ..forks.forks import ValidityMarker
 from ..shared.helpers import labeled_format_parameter_set

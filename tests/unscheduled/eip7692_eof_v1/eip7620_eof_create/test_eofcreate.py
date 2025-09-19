@@ -14,9 +14,9 @@ from ethereum_test_tools import (
     Transaction,
     compute_eofcreate_address,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container, Section
-from ethereum_test_vm.bytecode import Bytecode
+from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from ..eip7069_extcall.spec import EXTCALL_SUCCESS

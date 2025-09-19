@@ -10,9 +10,9 @@ import pytest
 import requests
 
 from ethereum_test_rpc import EthRPC
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
-from .types import Genesis, NetworkConfigFile
+from .execute_types import Genesis, NetworkConfigFile
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent

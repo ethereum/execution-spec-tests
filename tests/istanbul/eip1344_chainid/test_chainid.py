@@ -6,7 +6,7 @@ abstract: Tests [EIP-1344: CHAINID opcode](https://eips.ethereum.org/EIPS/eip-13
 import pytest
 
 from ethereum_test_tools import Account, Alloc, ChainConfig, StateTestFiller, Transaction
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-1344.md"
 REFERENCE_SPEC_VERSION = "02e46aebc80e6e5006ab4d2daa41876139f9a9e2"

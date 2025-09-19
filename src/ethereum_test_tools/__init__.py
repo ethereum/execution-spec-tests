@@ -82,7 +82,7 @@ from ethereum_test_vm import (
     call_return_code,
 )
 
-from .code import (
+from .tools_code import (
     CalldataCase,
     Case,
     CodeGasMeasure,

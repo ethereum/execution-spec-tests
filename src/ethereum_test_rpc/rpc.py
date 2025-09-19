@@ -11,9 +11,9 @@ from pydantic import ValidationError
 
 from ethereum_test_base_types import Address, Bytes, Hash, to_json
 from ethereum_test_types import Transaction
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
-from .types import (
+from .rpc_types import (
     EthConfigResponse,
     ForkchoiceState,
     ForkchoiceUpdateResponse,

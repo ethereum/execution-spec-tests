@@ -10,7 +10,7 @@ import yaml
 from ethereum_test_base_types import ForkHash
 from ethereum_test_rpc import EthConfigResponse
 
-from ..types import NetworkConfig, NetworkConfigFile
+from ..execute_types import NetworkConfig, NetworkConfigFile
 
 EXPECTED_CANCUN = json.loads("""
 {
