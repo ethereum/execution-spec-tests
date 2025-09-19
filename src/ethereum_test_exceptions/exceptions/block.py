@@ -225,10 +225,6 @@ class BlockException(ExceptionBase):
     """
     Block header's BAL hash does not match the computed BAL hash.
     """
-    INVALID_BAL_ACCOUNT_ORDER = auto()
-    """
-    Block BAL addresses are not in lexicographical order.
-    """
     INVALID_BAL_EXTRA_ACCOUNT = auto()
     """
     Block BAL contains an account change that is not present in the computed BAL.
@@ -236,12 +232,4 @@ class BlockException(ExceptionBase):
     INVALID_BAL_MISSING_ACCOUNT = auto()
     """
     Block BAL is missing an account change that is present in the computed BAL.
-    """
-    INVALID_BAL_NONCE = auto()
-    """
-    Block BAL account's nonce does not match the computed BAL nonce for account.
-    """
-    INVALID_BAL_ACCOUNT_BALANCE = auto()
-    """
-    Block BAL account's balance does not match the computed balance for account.
     """
