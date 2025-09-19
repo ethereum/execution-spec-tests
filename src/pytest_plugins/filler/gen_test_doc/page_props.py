@@ -12,7 +12,7 @@ file paths for use in navigation menu.
 
 import re
 from abc import abstractmethod
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import IO, Any, ContextManager, Dict, List, Protocol
 
@@ -104,6 +104,7 @@ class PagePropsBase:
     path: Path
     pytest_node_id: str
     package_name: str
+    is_benchmark: bool = False
 
     @property
     @abstractmethod
@@ -137,8 +138,8 @@ class PagePropsBase:
 class EipChecklistPageProps(PagePropsBase):
     """Properties used to generate the EIP checklist page."""
 
-    eip: int
-    lines: List[str]
+    eip: int = 0
+    lines: List[str] = field(default_factory=list)
 
     @property
     def template(self) -> str:
@@ -174,13 +175,13 @@ class FunctionPageProps(PagePropsBase):
     corresponding static HTML pages.
     """
 
-    test_case_count: int
-    fixture_formats: List[str]
-    test_type: str
-    docstring_one_liner: str
-    html_static_page_target: str
-    mkdocs_function_page_target: str
-    cases: List[TestCase]
+    test_case_count: int = 0
+    fixture_formats: List[str] = field(default_factory=list)
+    test_type: str = ""
+    docstring_one_liner: str = ""
+    html_static_page_target: str = ""
+    mkdocs_function_page_target: str = ""
+    cases: List[TestCase] = field(default_factory=list)
 
     @property
     def template(self) -> str:
@@ -229,7 +230,7 @@ class TestFunction:
 class ModulePageProps(PagePropsBase):
     """Definitions used for test modules, e.g., `tests/berlin/eip2930_access_list/test_acl.py`."""
 
-    test_functions: List[TestFunction]
+    test_functions: List[TestFunction] = field(default_factory=list)
 
     @property
     def template(self) -> str:

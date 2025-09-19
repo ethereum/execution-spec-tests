@@ -381,11 +381,12 @@ def _exact_size_transactions_impl(
     return transactions, final_gas
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "delta",
     [
-        pytest.param(-1, id="max_rlp_size_minus_1_byte"),
-        pytest.param(0, id="max_rlp_size"),
+        pytest.param(-1, id="max_rlp_size_minus_1_byte", marks=pytest.mark.verify_sync),
+        pytest.param(0, id="max_rlp_size", marks=pytest.mark.verify_sync),
         pytest.param(1, id="max_rlp_size_plus_1_byte", marks=pytest.mark.exception_test),
     ],
 )
@@ -437,11 +438,12 @@ def test_block_at_rlp_size_limit_boundary(
         pre=pre,
         post=post,
         blocks=[block],
-        verify_sync=False if delta > 0 else True,
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.with_all_typed_transactions
+@pytest.mark.verify_sync
 def test_block_rlp_size_at_limit_with_all_typed_transactions(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -451,7 +453,6 @@ def test_block_rlp_size_at_limit_with_all_typed_transactions(
     block_size_limit: int,
     env: Environment,
     typed_transaction: Transaction,
-    request: pytest.FixtureRequest,
 ) -> None:
     """Test the block RLP size limit with all transaction types."""
     transactions, gas_used = exact_size_transactions(
@@ -477,10 +478,11 @@ def test_block_rlp_size_at_limit_with_all_typed_transactions(
         pre=pre,
         post=post,
         blocks=[block],
-        verify_sync=True,
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
+@pytest.mark.verify_sync
 def test_block_at_rlp_limit_with_logs(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -515,5 +517,4 @@ def test_block_at_rlp_limit_with_logs(
         pre=pre,
         post=post,
         blocks=[block],
-        verify_sync=True,
     )

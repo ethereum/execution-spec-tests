@@ -100,12 +100,8 @@ def test_warm_coinbase_call_out_of_gas(
     caller_address = pre.deploy_contract(caller_code)
 
     tx = Transaction(
-        ty=0x0,
-        chain_id=0x01,
-        nonce=0,
         to=caller_address,
         gas_limit=100_000,
-        gas_price=10,
         sender=sender,
     )
 
@@ -240,12 +236,8 @@ def test_warm_coinbase_gas_usage(
         expected_gas = 2600  # Cold account access cost before EIP-3651
 
     tx = Transaction(
-        ty=0x0,
-        chain_id=0x01,
-        nonce=0,
         to=measure_address,
         gas_limit=100_000,
-        gas_price=10,
         sender=sender,
     )
 

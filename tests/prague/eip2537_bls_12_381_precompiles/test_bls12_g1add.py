@@ -341,6 +341,14 @@ def test_valid(
             b"\xc0" + b"\x00" * 47 + b"\xc0" + b"\x00" * 47,
             id="comp_instead_of_uncomp",
         ),
+        pytest.param(
+            PointG1(Spec.P1.x | Spec.MAX_FP_BIT_SET, Spec.P1.y) + Spec.P1,
+            id="non_zero_byte_16_boundary_violation_x",
+        ),
+        pytest.param(
+            PointG1(Spec.P1.x, Spec.P1.y | Spec.MAX_FP_BIT_SET) + Spec.P1,
+            id="non_zero_byte_16_boundary_violation_y",
+        ),
         # Not on the curve cases using random generated points.
         pytest.param(
             G1_POINTS_NOT_ON_CURVE[0] + Spec.INF_G1,

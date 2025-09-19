@@ -85,11 +85,7 @@ For development or when exception mappings are incomplete:
 
 ```bash
 # Disable for specific clients
-uv run consume engine --disable-strict-exception-matching=nimbus,besu
-
-# Via Hive
-./hive --sim ethereum/eest/consume-engine \
-  --sim.disable-strict-exception-matching=nimbus
+uv run consume engine --disable-strict-exception-matching=nimbus-el
 ```
 
 !!! warning "Production Testing"

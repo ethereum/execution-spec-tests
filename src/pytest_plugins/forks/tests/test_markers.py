@@ -122,6 +122,76 @@ def test_case(state_test):
             {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
             id="valid_at_transition_to,--fork=transition_fork_only",
         ),
+        pytest.param(
+            generate_test(
+                valid_from='"Osaka"',
+                valid_until='"BPO1"',
+            ),
+            ["--until=BPO1"],
+            {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_until_bpo_fork_without_bpo_test_marker",
+        ),
+        pytest.param(
+            generate_test(
+                valid_from='"Osaka"',
+                valid_until='"BPO1"',
+                valid_for_bpo_forks="",
+            ),
+            ["--until=BPO1"],
+            {"passed": 2, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_until_bpo_fork_with_bpo_test_marker",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"Osaka", subsequent_forks=True, until="BPO1"',
+            ),
+            ["--until=BPO1"],
+            {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_without_bpo_test_marker",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"Osaka", subsequent_forks=True, until="BPO1"',
+                valid_for_bpo_forks="",
+            ),
+            ["--until=BPO1"],
+            {"passed": 2, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_with_bpo_test_marker",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"Cancun"',
+            ),
+            ["--fork=Cancun"],
+            {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_to_with_exact_fork",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"Cancun"',
+            ),
+            ["--from=Cancun", "--until=Prague"],
+            {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_to_from_fork_until_later_fork",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"BPO1"',
+                valid_for_bpo_forks="",
+            ),
+            ["--fork=Osaka"],
+            {"passed": 0, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_with_bpo_test_marker_fork_parent",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"BPO1"',
+                valid_for_bpo_forks="",
+            ),
+            ["--from=Osaka", "--until=Osaka"],
+            {"passed": 0, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_with_bpo_test_marker_from_parent",
+        ),
     ],
 )
 def test_fork_markers(

@@ -365,6 +365,22 @@ def test_valid(
             bytes(Spec.G2) + bytes(Spec.G2)[128:],
             id="mixed_g1_g2_points",
         ),
+        pytest.param(
+            PointG2((Spec.P2.x[0] | Spec.MAX_FP_BIT_SET, Spec.P2.x[1]), Spec.P2.y) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_x1",
+        ),
+        pytest.param(
+            PointG2((Spec.P2.x[0], Spec.P2.x[1] | Spec.MAX_FP_BIT_SET), Spec.P2.y) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_x2",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0] | Spec.MAX_FP_BIT_SET, Spec.P2.y[1])) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_y1",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] | Spec.MAX_FP_BIT_SET)) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_y2",
+        ),
         # Not on the curve cases using random generated points.
         pytest.param(
             G2_POINTS_NOT_ON_CURVE[0] + Spec.INF_G2,

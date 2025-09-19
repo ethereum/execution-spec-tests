@@ -3,6 +3,7 @@ abstract: Tests use of set-code transactions from [EIP-7702: Set EOA account cod
     Tests use of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
 """  # noqa: E501
 
+from enum import StrEnum
 from hashlib import sha256
 from itertools import count
 from typing import List
@@ -10,6 +11,7 @@ from typing import List
 import pytest
 
 from ethereum_test_base_types import HexNumber
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
@@ -21,6 +23,7 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     Bytecode,
     Bytes,
+    ChainConfig,
     CodeGasMeasure,
     Conditional,
     Environment,
@@ -125,7 +128,7 @@ def test_self_sponsored_set_code(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address: Account(storage={k: 0 for k in storage}),
+            set_code_to_address: Account(storage=dict.fromkeys(storage, 0)),
             sender: Account(
                 nonce=2,
                 code=Spec.delegation_designation(set_code_to_address),
@@ -205,7 +208,7 @@ def test_set_code_to_sstore(
         tx=tx,
         post={
             set_code_to_address: Account(
-                storage={k: 0 for k in storage},
+                storage=dict.fromkeys(storage, 0),
             ),
             auth_signer: Account(
                 nonce=2 if self_sponsored else 1,
@@ -796,8 +799,8 @@ def test_set_code_call_set_code(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address_1: Account(storage={k: 0 for k in storage_1}),
-            set_code_to_address_2: Account(storage={k: 0 for k in storage_2}),
+            set_code_to_address_1: Account(storage=dict.fromkeys(storage_1, 0)),
+            set_code_to_address_2: Account(storage=dict.fromkeys(storage_2, 0)),
             auth_signer_1: Account(
                 nonce=1,
                 code=Spec.delegation_designation(set_code_to_address_1),
@@ -1809,6 +1812,7 @@ def test_set_code_to_self_destructing_account_deployed_in_same_tx(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 def test_set_code_multiple_first_valid_authorization_tuples_same_signer(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -1856,6 +1860,7 @@ def test_set_code_multiple_first_valid_authorization_tuples_same_signer(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -1903,6 +1908,7 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_non
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -1998,6 +2004,7 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 def test_set_code_all_invalid_authorization_tuples(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -2037,9 +2044,11 @@ def test_set_code_all_invalid_authorization_tuples(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 def test_set_code_using_chain_specific_id(
     state_test: StateTestFiller,
     pre: Alloc,
+    chain_config: ChainConfig,
 ):
     """Test sending a transaction to set the code of an account using a chain-specific ID."""
     auth_signer = pre.fund_eoa(auth_account_start_balance)
@@ -2057,7 +2066,7 @@ def test_set_code_using_chain_specific_id(
             AuthorizationTuple(
                 address=set_code_to_address,
                 nonce=0,
-                chain_id=1,
+                chain_id=chain_config.chain_id,
                 signer=auth_signer,
             )
         ],
@@ -2084,6 +2093,7 @@ SECP256K1N = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 SECP256K1N_OVER_2 = SECP256K1N // 2
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "v,r,s",
     [
@@ -2098,6 +2108,7 @@ SECP256K1N_OVER_2 = SECP256K1N // 2
 def test_set_code_using_valid_synthetic_signatures(
     state_test: StateTestFiller,
     pre: Alloc,
+    chain_config: ChainConfig,
     v: int,
     r: int,
     s: int,
@@ -2111,7 +2122,7 @@ def test_set_code_using_valid_synthetic_signatures(
     authorization_tuple = AuthorizationTuple(
         address=set_code_to_address,
         nonce=0,
-        chain_id=1,
+        chain_id=chain_config.chain_id,
         v=v,
         r=r,
         s=s,
@@ -2143,6 +2154,7 @@ def test_set_code_using_valid_synthetic_signatures(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "v,r,s",
     [
@@ -2176,6 +2188,7 @@ def test_set_code_using_valid_synthetic_signatures(
 def test_valid_tx_invalid_auth_signature(
     state_test: StateTestFiller,
     pre: Alloc,
+    chain_config: ChainConfig,
     v: int,
     r: int,
     s: int,
@@ -2192,7 +2205,7 @@ def test_valid_tx_invalid_auth_signature(
     authorization_tuple = AuthorizationTuple(
         address=0,
         nonce=0,
-        chain_id=1,
+        chain_id=chain_config.chain_id,
         v=v,
         r=r,
         s=s,
@@ -2221,6 +2234,7 @@ def test_valid_tx_invalid_auth_signature(
 def test_signature_s_out_of_range(
     state_test: StateTestFiller,
     pre: Alloc,
+    chain_config: ChainConfig,
 ):
     """
     Test sending a transaction with an authorization tuple where the signature s value is out of
@@ -2234,7 +2248,7 @@ def test_signature_s_out_of_range(
     authorization_tuple = AuthorizationTuple(
         address=set_code_to_address,
         nonce=0,
-        chain_id=1,
+        chain_id=chain_config.chain_id,
         signer=auth_signer,
     )
 
@@ -2268,17 +2282,31 @@ def test_signature_s_out_of_range(
     )
 
 
+class InvalidChainID(StrEnum):
+    """Invalid chain IDs for the authorization tuple."""
+
+    MAX_AUTH_CHAIN_ID = "2**256-1"
+    CORRECT_CHAIN_ID_PLUS_ONE = "correct_chain_id+1"
+    CORRECT_CHAIN_ID_MINUS_ONE = "correct_chain_id-1"
+
+
 @pytest.mark.parametrize(
-    "auth_chain_id",
+    "invalid_chain_id_case",
     [
-        pytest.param(Spec.MAX_AUTH_CHAIN_ID, id="auth_chain_id=2**256-1"),
-        pytest.param(2, id="chain_id=2"),
+        pytest.param(InvalidChainID.MAX_AUTH_CHAIN_ID, id="auth_chain_id=2**256-1"),
+        pytest.param(
+            InvalidChainID.CORRECT_CHAIN_ID_PLUS_ONE, id="auth_chain_id=correct_chain_id+1"
+        ),
+        pytest.param(
+            InvalidChainID.CORRECT_CHAIN_ID_MINUS_ONE, id="auth_chain_id=correct_chain_id-1"
+        ),
     ],
 )
 def test_valid_tx_invalid_chain_id(
     state_test: StateTestFiller,
     pre: Alloc,
-    auth_chain_id: int,
+    chain_config: ChainConfig,
+    invalid_chain_id_case: InvalidChainID,
 ):
     """
     Test sending a transaction where the chain id field does not match
@@ -2291,6 +2319,17 @@ def test_valid_tx_invalid_chain_id(
 
     set_code = Op.RETURN(0, 1)
     set_code_to_address = pre.deploy_contract(set_code)
+
+    if invalid_chain_id_case == InvalidChainID.MAX_AUTH_CHAIN_ID:
+        auth_chain_id = Spec.MAX_AUTH_CHAIN_ID
+    elif invalid_chain_id_case == InvalidChainID.CORRECT_CHAIN_ID_PLUS_ONE:
+        auth_chain_id = chain_config.chain_id + 1
+    elif invalid_chain_id_case == InvalidChainID.CORRECT_CHAIN_ID_MINUS_ONE:
+        auth_chain_id = chain_config.chain_id - 1
+        if auth_chain_id == 0:
+            pytest.skip("Cannot use correct_chain_id-1 as invalid chain ID")
+    else:
+        raise ValueError(f"Invalid chain ID case: {invalid_chain_id_case}")
 
     authorization = AuthorizationTuple(
         address=set_code_to_address,
@@ -2358,6 +2397,7 @@ def test_valid_tx_invalid_chain_id(
         ),
     ],
 )
+@pytest.mark.execute(pytest.mark.skip(reason="Non-zero nonce not supported"))
 def test_nonce_validity(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -2556,7 +2596,7 @@ def test_set_code_to_log(
 
 @pytest.mark.with_all_call_opcodes
 @pytest.mark.with_all_precompiles
-@pytest.mark.eip_checklist("precompile/test/call_contexts/set_code", eips=[7951])
+@EIPChecklist.Precompile.Test.CallContexts.SetCode(eip=[7951, 7883, 7823])
 def test_set_code_to_precompile(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -3551,12 +3591,13 @@ def test_invalid_transaction_after_authorization(
     included in a prior transaction.
     """
     auth_signer = pre.fund_eoa()
+    recipient = pre.fund_eoa(amount=0)
 
     txs = [
         Transaction(
             sender=pre.fund_eoa(),
             gas_limit=500_000,
-            to=Address(0),
+            to=recipient,
             value=0,
             authorization_list=[
                 AuthorizationTuple(
@@ -3570,7 +3611,7 @@ def test_invalid_transaction_after_authorization(
             sender=auth_signer,
             nonce=0,
             gas_limit=21_000,
-            to=Address(0),
+            to=recipient,
             value=1,
             error=TransactionException.NONCE_MISMATCH_TOO_LOW,
         ),
@@ -3585,7 +3626,7 @@ def test_invalid_transaction_after_authorization(
             )
         ],
         post={
-            Address(0): None,
+            recipient: None,
         },
     )
 
@@ -3600,18 +3641,19 @@ def test_authorization_reusing_nonce(
     """
     auth_signer = pre.fund_eoa()
     sender = pre.fund_eoa()
+    recipient = pre.fund_eoa(amount=0)
     txs = [
         Transaction(
             sender=auth_signer,
             nonce=0,
             gas_limit=21_000,
-            to=Address(0),
+            to=recipient,
             value=1,
         ),
         Transaction(
             sender=sender,
             gas_limit=500_000,
-            to=Address(0),
+            to=recipient,
             value=0,
             authorization_list=[
                 AuthorizationTuple(
@@ -3627,7 +3669,7 @@ def test_authorization_reusing_nonce(
         pre=pre,
         blocks=[Block(txs=txs)],
         post={
-            Address(0): Account(balance=1),
+            recipient: Account(balance=1),
             auth_signer: Account(nonce=1, code=b""),
             sender: Account(nonce=1),
         },
@@ -3716,12 +3758,19 @@ def test_set_code_from_account_with_non_delegating_code(
 @pytest.mark.parametrize(
     "max_fee_per_gas, max_priority_fee_per_gas, expected_error",
     [
-        (6, 0, TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS),
-        (7, 8, TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS),
-    ],
-    ids=[
-        "insufficient_max_fee_per_gas",
-        "priority_greater_than_max_fee_per_gas",
+        pytest.param(
+            6,
+            0,
+            TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS,
+            marks=pytest.mark.execute(pytest.mark.skip(reason="requires specific base fee")),
+            id="insufficient_max_fee_per_gas",
+        ),
+        pytest.param(
+            7,
+            8,
+            TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS,
+            id="priority_greater_than_max_fee_per_gas",
+        ),
     ],
 )
 @pytest.mark.exception_test

@@ -1,5 +1,6 @@
 """Test execution plugin for pytest, to run Ethereum tests using in live networks."""
 
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
@@ -11,7 +12,7 @@ from ethereum_test_execution import BaseExecute
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_tools import BaseTest
-from ethereum_test_types import EnvironmentDefaults, TransactionDefaults
+from ethereum_test_types import ChainConfigDefaults, EnvironmentDefaults, TransactionDefaults
 
 from ..shared.execute_fill import ALL_FIXTURE_PARAMETERS
 from ..shared.helpers import (
@@ -73,6 +74,31 @@ def pytest_addoption(parser):
             f"(Default: {EnvironmentDefaults.gas_limit // 4})"
         ),
     )
+    execute_group.addoption(
+        "--transactions-per-block",
+        action="store",
+        dest="transactions_per_block",
+        type=int,
+        default=None,
+        help=("Number of transactions to send before producing the next block."),
+    )
+    execute_group.addoption(
+        "--get-payload-wait-time",
+        action="store",
+        dest="get_payload_wait_time",
+        type=float,
+        default=0.3,
+        help=("Time to wait after sending a forkchoice_updated before getting the payload."),
+    )
+    execute_group.addoption(
+        "--chain-id",
+        action="store",
+        dest="chain_id",
+        required=False,
+        type=int,
+        default=None,
+        help="ID of the chain where the tests will be executed.",
+    )
 
     report_group = parser.getgroup("tests", "Arguments defining html report behavior")
     report_group.addoption(
@@ -114,25 +140,28 @@ def pytest_configure(config):
         # generate an html report by default, unless explicitly disabled
         config.option.htmlpath = Path(default_html_report_file_path())
 
-    command_line_args = "fill " + " ".join(config.invocation_params.args)
+    command_line_args = "execute " + " ".join(config.invocation_params.args)
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
-    selected_fork_set = config.selected_fork_set
+    # Configuration for the forks pytest plugin
+    config.skip_transition_forks = True
+    config.single_fork_mode = True
 
-    # remove the transition forks from the selected forks
-    for fork in set(selected_fork_set):
-        if hasattr(fork, "transitions_to"):
-            selected_fork_set.remove(fork)
-
-    if len(selected_fork_set) != 1:
-        pytest.exit(
-            f"""
-            Expected exactly one fork to be specified, got {len(selected_fork_set)}
-            ({selected_fork_set}).
-            Make sure to specify exactly one fork using the --fork command line argument.
-            """,
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
+    # Configure the chain ID for the tests.
+    rpc_chain_id = config.getoption("rpc_chain_id", None)
+    chain_id = config.getoption("chain_id")
+    if rpc_chain_id is not None or chain_id is not None:
+        if rpc_chain_id is not None and chain_id is not None:
+            if chain_id != rpc_chain_id:
+                pytest.exit(
+                    "Conflicting chain ID configuration. "
+                    "The --rpc-chain-id flag is deprecated and will be removed in a future "
+                    "release. Use --chain-id instead."
+                )
+        if rpc_chain_id is not None:
+            ChainConfigDefaults.chain_id = rpc_chain_id
+        if chain_id is not None:
+            ChainConfigDefaults.chain_id = chain_id
 
 
 def pytest_metadata(metadata):
@@ -189,6 +218,18 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Execute Test Report"
+
+
+@pytest.fixture(scope="session")
+def transactions_per_block(request) -> int:  # noqa: D103
+    if transactions_per_block := request.config.getoption("transactions_per_block"):
+        return transactions_per_block
+
+    # Get the number of workers for the test
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
+    if not worker_count_env:
+        return 1
+    return max(int(worker_count_env), 1)
 
 
 @pytest.fixture(scope="session")
@@ -318,7 +359,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 )
 
                 execute = self.execute(fork=fork, execute_format=execute_format)
-                execute.execute(fork=fork, eth_rpc=eth_rpc, engine_rpc=engine_rpc)
+                execute.execute(fork=fork, eth_rpc=eth_rpc, engine_rpc=engine_rpc, request=request)
                 collector.collect(request.node.nodeid, execute)
 
         return BaseTestWrapper
@@ -378,6 +419,9 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
             elif marker.name == "valid_at_transition_to":
                 items_for_removal.append(i)
                 continue
+            elif marker.name == "pre_alloc_modify":
+                item.add_marker(pytest.mark.skip(reason="Pre-alloc modification not supported"))
+
         if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
 

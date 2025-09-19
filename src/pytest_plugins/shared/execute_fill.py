@@ -1,6 +1,5 @@
 """Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
 
-from enum import StrEnum, unique
 from typing import List
 
 import pytest
@@ -8,18 +7,10 @@ import pytest
 from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
 from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
 from ethereum_test_specs import BaseTest
-from ethereum_test_types import EOA, Alloc
+from ethereum_test_specs.base import OpMode
+from ethereum_test_types import EOA, Alloc, ChainConfig
 
 from ..spec_version_checker.spec_version_checker import EIPSpecTestItem
-
-
-@unique
-class OpMode(StrEnum):
-    """Operation mode for the fill and execute."""
-
-    CONSENSUS = "consensus"
-    BENCHMARKING = "benchmarking"
-
 
 ALL_FIXTURE_PARAMETERS = {
     "genesis_environment",
@@ -132,6 +123,32 @@ def pytest_configure(config: pytest.Config):
         "addresses for static tests at fill time. Untagged tests are incompatible with "
         "dynamic address generation.",
     )
+    config.addinivalue_line(
+        "markers",
+        "verify_sync: Marks a test to be run with `consume sync`, verifying blockchain "
+        "engine tests and having hive clients sync after payload execution.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "pre_alloc_group: Control shared pre-allocation grouping (use "
+        '"separate" for isolated group or custom string for named groups)',
+    )
+    config.addinivalue_line(
+        "markers",
+        "pre_alloc_modify: Marks a test to apply plugin-specific pre_alloc_group modifiers",
+    )
+    config.addinivalue_line(
+        "markers",
+        "slow: Marks a test as slow (deselect with '-m \"not slow\"')",
+    )
+    config.addinivalue_line(
+        "markers",
+        "ported_from: Marks a test as ported from ethereum/tests",
+    )
+    config.addinivalue_line(
+        "markers",
+        "valid_for_bpo_forks: Marks a test as valid for BPO forks",
+    )
 
 
 @pytest.fixture(scope="function")
@@ -194,6 +211,12 @@ def pytest_runtest_call(item: pytest.Item):
 def sender(pre: Alloc) -> EOA:
     """Fund an EOA from pre-alloc."""
     return pre.fund_eoa()
+
+
+@pytest.fixture(scope="session")
+def chain_config() -> ChainConfig:
+    """Return chain configuration."""
+    return ChainConfig()
 
 
 def pytest_addoption(parser: pytest.Parser):

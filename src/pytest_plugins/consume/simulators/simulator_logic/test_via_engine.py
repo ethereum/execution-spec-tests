@@ -18,6 +18,9 @@ from ..helpers.timing import TimingData
 
 logger = get_logger(__name__)
 
+MAX_RETRIES = 30
+DELAY_BETWEEN_RETRIES_IN_SEC = 1
+
 
 class LoggedError(Exception):
     """Exception that uses the logger to log the failure."""
@@ -44,8 +47,7 @@ def test_blockchain_via_engine(
     # Send a initial forkchoice update
     with timing_data.time("Initial forkchoice update"):
         logger.info("Sending initial forkchoice update to genesis block...")
-        delay = 0.5
-        for attempt in range(3):
+        for attempt in range(1, MAX_RETRIES + 1):
             forkchoice_response = engine_rpc.forkchoice_updated(
                 forkchoice_state=ForkchoiceState(
                     head_block_hash=fixture.genesis.block_hash,
@@ -54,16 +56,16 @@ def test_blockchain_via_engine(
                 version=fixture.payloads[0].forkchoice_updated_version,
             )
             status = forkchoice_response.payload_status.status
-            logger.info(f"Initial forkchoice update response attempt {attempt + 1}: {status}")
+            logger.info(f"Initial forkchoice update response attempt {attempt}: {status}")
             if status != PayloadStatusEnum.SYNCING:
                 break
-            if attempt < 2:
-                time.sleep(delay)
-                delay *= 2
+
+            if attempt < MAX_RETRIES:
+                time.sleep(DELAY_BETWEEN_RETRIES_IN_SEC)
 
         if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
             logger.error(
-                f"Client failed to initialize properly after 3 attempts, "
+                f"Client failed to initialize properly after {MAX_RETRIES} attempts, "
                 f"final status: {forkchoice_response.payload_status.status}"
             )
             raise LoggedError(

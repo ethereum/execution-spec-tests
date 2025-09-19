@@ -168,7 +168,7 @@ class TestFormatSelector:
     def test_comprehensive_scenarios(self):
         """Test comprehensive scenarios covering all phase and format combinations."""
         # Test matrix: (current_phase, previous_phases, format_phases, generate_all) -> expected
-        test_cases: List[
+        test_cases: List[  # type: ignore[annotation-unchecked]
             Tuple[
                 FixtureFillingPhase, Set[FixtureFillingPhase], Set[FixtureFillingPhase], bool, bool
             ]

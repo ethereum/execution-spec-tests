@@ -20,6 +20,7 @@ def type_0_default_transaction(sender):
         gas_price=10**9,
         gas_limit=100_000,
         data=b"\x00" * 100,
+        protected=True,
     )
 
 

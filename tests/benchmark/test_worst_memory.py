@@ -30,7 +30,6 @@ class CallDataOrigin:
     CALL = 2
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "origin",
     [
@@ -127,7 +126,6 @@ def test_worst_calldatacopy(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "max_code_size_ratio",
     [
@@ -184,7 +182,6 @@ def test_worst_codecopy(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "size",
     [
@@ -268,7 +265,6 @@ def test_worst_returndatacopy(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "size",
     [

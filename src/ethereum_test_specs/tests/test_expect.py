@@ -418,8 +418,6 @@ def test_block_intermediate_state(
         with pytest.raises(expected_exception) as _:
             BlockchainTest(
                 genesis_environment=env,
-                fork=fork,
-                t8n=default_t8n,
                 pre=pre,
                 post=block_3.expected_post_state,
                 blocks=[block_1, block_2, block_3],
@@ -428,8 +426,6 @@ def test_block_intermediate_state(
     else:
         BlockchainTest(
             genesis_environment=env,
-            fork=fork,
-            t8n=default_t8n,
             pre=pre,
             post=block_3.expected_post_state,
             blocks=[block_1, block_2, block_3],
