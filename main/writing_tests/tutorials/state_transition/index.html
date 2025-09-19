@@ -27427,7 +27427,7 @@
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">ethereum_test_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">Transaction</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ethereum_test_tools.vm.opcode</span><span class="w"> </span><span class="kn">import</span> <span class="n">Opcodes</span> <span class="k">as</span> <span class="n">Op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ethereum_test_vm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Opcodes</span> <span class="k">as</span> <span class="n">Op</span>
 </code></pre></div>
 <p>In this snippet the required constants, types and helper functions are imported from <code>ethereum_test_tools</code>. The <code>Opcodes</code> class (aliased as <code>Op</code>) provides the Python minilang for writing EVM bytecode. We will go over these as we come across them.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>

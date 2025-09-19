@@ -3307,6 +3307,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.to_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_json
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_base_types.AccessList" class="md-nav__link">
     <span class="md-ellipsis">
       AccessList
@@ -3910,15 +3919,6 @@
   <a href="#ethereum_test_base_types.to_hex" class="md-nav__link">
     <span class="md-ellipsis">
       to_hex
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_base_types.to_json" class="md-nav__link">
-    <span class="md-ellipsis">
-      to_json
     </span>
   </a>
   
@@ -28915,6 +28915,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.to_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_json
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_base_types.AccessList" class="md-nav__link">
     <span class="md-ellipsis">
       AccessList
@@ -29518,15 +29527,6 @@
   <a href="#ethereum_test_base_types.to_hex" class="md-nav__link">
     <span class="md-ellipsis">
       to_hex
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_base_types.to_json" class="md-nav__link">
-    <span class="md-ellipsis">
-      to_json
     </span>
   </a>
   
@@ -32189,6 +32189,62 @@ than 32 bytes.</p>
 
   </div>
 
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="ethereum_test_base_types.to_json" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_json</span><span class="p">(</span><span class="n">input_model</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_base_types.to_json" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a model to its json data representation.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_base_types/base_types_json.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span>
+    <span class="n">input_model</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">EthereumTestBaseModel</span>
+        <span class="o">|</span> <span class="n">EthereumTestRootModel</span>
+        <span class="o">|</span> <span class="n">AnyStr</span>
+        <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">EthereumTestBaseModel</span> <span class="o">|</span> <span class="n">EthereumTestRootModel</span> <span class="o">|</span> <span class="n">AnyStr</span><span class="p">]</span>
+    <span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a model to its json data representation.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_model</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">to_json</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_model</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_model</span><span class="p">,</span> <span class="p">(</span><span class="n">EthereumTestBaseModel</span><span class="p">,</span> <span class="n">EthereumTestRootModel</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">input_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_model</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
     </div>
 
 </div>
@@ -36048,62 +36104,6 @@ zero values, to guarantee that the test overwrites the storage.</p>
 <span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_hex</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert multiple types into a bytes hex string.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;0x&quot;</span> <span class="o">+</span> <span class="n">to_bytes</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="ethereum_test_base_types.to_json" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">to_json</span><span class="p">(</span><span class="n">input_model</span><span class="p">)</span></code>
-
-<a href="#ethereum_test_base_types.to_json" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Convert a model to its json data representation.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_base_types/json.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span>
-    <span class="n">input_model</span><span class="p">:</span> <span class="p">(</span>
-        <span class="n">EthereumTestBaseModel</span>
-        <span class="o">|</span> <span class="n">EthereumTestRootModel</span>
-        <span class="o">|</span> <span class="n">AnyStr</span>
-        <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">EthereumTestBaseModel</span> <span class="o">|</span> <span class="n">EthereumTestRootModel</span> <span class="o">|</span> <span class="n">AnyStr</span><span class="p">]</span>
-    <span class="p">),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a model to its json data representation.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_model</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">to_json</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_model</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_model</span><span class="p">,</span> <span class="p">(</span><span class="n">EthereumTestBaseModel</span><span class="p">,</span> <span class="n">EthereumTestRootModel</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="n">input_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_model</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

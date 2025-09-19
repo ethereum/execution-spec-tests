@@ -27804,8 +27804,8 @@ which allows checking for an exact <code>gas_used</code> value.</p>
 
   
       dataclass
-  " href="../../library/ethereum_test_tools/#ethereum_test_tools.Case"><code>Case</code></a> from the <code>ethereum_test_tools.code.generators</code> module:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">ethereum_test_tools.code.generators</span><span class="w"> </span><span class="kn">import</span> <span class="n">Switch</span><span class="p">,</span> <span class="n">Case</span>
+  " href="../../library/ethereum_test_tools/#ethereum_test_tools.Case"><code>Case</code></a> from the <code>ethereum_test_tools.tools_code.generators</code> module:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">ethereum_test_tools.tools_code.generators</span><span class="w"> </span><span class="kn">import</span> <span class="n">Switch</span><span class="p">,</span> <span class="n">Case</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ethereum_test_vm.opcode</span><span class="w"> </span><span class="kn">import</span> <span class="n">Opcodes</span> <span class="k">as</span> <span class="n">Op</span>
 
 <span class="n">code</span> <span class="o">=</span> <span class="n">Switch</span><span class="p">(</span>
@@ -27816,7 +27816,7 @@ which allows checking for an exact <code>gas_used</code> value.</p>
     <span class="n">default_action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mh">0x00</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">(),</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>The <code>ethereum_test_tools.code.generators</code> module also defines other high-level constructs like <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.While"><code>While</code></a> and <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.Conditional"><code>Conditional</code></a>.</p>
+<p>The <code>ethereum_test_tools.tools_code.generators</code> module also defines other high-level constructs like <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.While"><code>While</code></a> and <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.Conditional"><code>Conditional</code></a>.</p>
 <h4 id="converting-bytecode-to-minilang">Converting Bytecode to Minilang<a class="headerlink" href="#converting-bytecode-to-minilang" title="Permanent link">&para;</a></h4>
 <p>If you have EVM bytecode (as hex or binary), you can use the <a href="../../library/cli/evm_bytes/"><code>evm_bytes</code> CLI tool</a> to convert it to the EEST Python opcode minilang automatically, for example:</p>
 <div class="highlight"><pre><span></span><code><span class="go">uv run evm_bytes hex-string 0x604260005260206000F3</span>
@@ -28349,6 +28349,7 @@ function and are passed through unchanged.</p>
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:dmitriymozir@gmail.com">MozirDmitriy</a>, 
         <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:felix314159@users.noreply.github.com">felix</a>, 
         <a href="mailto:10168946+raxhvl@users.noreply.github.com">raxhvl</a>, 
         <a href="mailto:spencer@spencertaylorbrown.uk">spencer-tb</a>
     </nav>

@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_coverage"><code>test_coverage()</code><a class="headerlink" href="#test_coverage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ef683b24b1fa603f6102cf94a05c930b0392249a/tests/homestead/coverage/test_coverage.py#L13"><code>tests/homestead/coverage/test_coverage.py::test_coverage@ef683b24</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9f96fadb3836d20e7afbdc58a8678f9c2df02e30/tests/homestead/coverage/test_coverage.py#L13"><code>tests/homestead/coverage/test_coverage.py::test_coverage@9f96fadb</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/homestead/coverage/test_coverage.py::test_coverage --fork Osaka</span>
@@ -27276,7 +27276,7 @@
     <div class="doc doc-contents first">
 
         <p>Cover gaps that result from transforming Yul code into
-<code>ethereum_test_tools.vm.opcode.Opcodes</code> bytecode.</p>
+our Python opcode wrapper bytecode.</p>
 <p>E.g. Yul tends to optimize stack items by using <code>SWAP1</code> and <code>DUP1</code> opcodes, which are not
 regularly used in python code.</p>
 <p>Modify this test to cover more Yul code if required in the future.</p>
@@ -27358,7 +27358,7 @@ regularly used in python code.</p>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cover gaps that result from transforming Yul code into</span>
-<span class="sd">    `ethereum_test_tools.vm.opcode.Opcodes` bytecode.</span>
+<span class="sd">    our Python opcode wrapper bytecode.</span>
 
 <span class="sd">    E.g. Yul tends to optimize stack items by using `SWAP1` and `DUP1` opcodes, which are not</span>
 <span class="sd">    regularly used in python code.</span>
