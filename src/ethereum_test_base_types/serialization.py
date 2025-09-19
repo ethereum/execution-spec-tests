@@ -28,8 +28,6 @@ def to_serializable_element(v: Any) -> Any:
 class RLPSerializable:
     """Class that adds RLP serialization to another class."""
 
-    rlp_override: Bytes | None = None
-
     signable: ClassVar[bool] = False
     rlp_fields: ClassVar[List[str]]
     rlp_signing_fields: ClassVar[List[str]]
@@ -130,8 +128,6 @@ class RLPSerializable:
 
     def rlp(self) -> Bytes:
         """Return the serialized object."""
-        if self.rlp_override is not None:
-            return self.rlp_override
         return Bytes(self.get_rlp_prefix() + eth_rlp.encode(self.to_list(signing=False)))
 
 
