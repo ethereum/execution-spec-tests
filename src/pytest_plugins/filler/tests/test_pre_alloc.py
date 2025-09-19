@@ -5,6 +5,7 @@ from itertools import count
 import pytest
 
 from ethereum_test_base_types import Address, TestPrivateKey, TestPrivateKey2
+from ethereum_test_forks import Prague
 from ethereum_test_types import EOA
 from ethereum_test_vm import EVMCodeType
 from ethereum_test_vm import Opcodes as Op
@@ -33,6 +34,7 @@ def create_test_alloc(
         alloc_mode=alloc_mode,
         contract_address_iterator=contract_iter,
         eoa_iterator=eoa_iter,
+        fork=Prague,
         evm_code_type=evm_code_type,
     )
 
