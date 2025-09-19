@@ -34,7 +34,10 @@ def timestamp() -> int:  # noqa: D103
 
 @pytest.fixture
 def beacon_roots() -> Iterator[bytes]:
-    """By default, return an iterator that returns the keccak of an internal counter."""
+    """
+    By default, return an iterator that returns the keccak of an internal
+    counter.
+    """
 
     class BeaconRoots:
         def __init__(self) -> None:
@@ -97,7 +100,8 @@ def contract_call_code(call_type: Op, call_value: int, call_gas: int) -> Bytecod
     if call_type == Op.CALL or call_type == Op.CALLCODE:
         contract_call_code += Op.SSTORE(
             0x00,  # store the result of the contract call in storage[0]
-            call_type(  # type: ignore # https://github.com/ethereum/execution-spec-tests/issues/348 # noqa: E501
+            # https://github.com/ethereum/execution-spec-tests/issues/348
+            call_type(  # type: ignore
                 call_gas,
                 Spec.BEACON_ROOTS_ADDRESS,
                 call_value,
@@ -111,7 +115,8 @@ def contract_call_code(call_type: Op, call_value: int, call_gas: int) -> Bytecod
         # delegatecall and staticcall use one less argument
         contract_call_code += Op.SSTORE(
             0x00,
-            call_type(  # type: ignore # https://github.com/ethereum/execution-spec-tests/issues/348 # noqa: E501
+            # https://github.com/ethereum/execution-spec-tests/issues/348
+            call_type(  # type: ignore
                 call_gas,
                 Spec.BEACON_ROOTS_ADDRESS,
                 args_start,
@@ -181,7 +186,9 @@ def auto_access_list() -> bool:
 
 @pytest.fixture
 def access_list(auto_access_list: bool, timestamp: int) -> List[AccessList]:
-    """Access list included in the transaction to call the beacon root contract."""
+    """
+    Access list included in the transaction to call the beacon root contract.
+    """
     if auto_access_list:
         return [
             AccessList(
@@ -204,7 +211,8 @@ def tx_data(timestamp: int) -> bytes:
 @pytest.fixture
 def tx_type() -> int:
     """
-    Transaction type to call the caller contract or the beacon root contract directly.
+    Transaction type to call the caller contract or the beacon root contract
+    directly.
 
     By default use a type 2 transaction.
     """
@@ -263,8 +271,8 @@ def post(
     call_beacon_root_contract: bool,
 ) -> Dict:
     """
-    Prepare expected post state for a single contract call based upon the success or
-    failure of the call, and the validity of the timestamp input.
+    Prepare expected post state for a single contract call based upon the
+    success or failure of the call, and the validity of the timestamp input.
     """
     storage = Storage()
     if not call_beacon_root_contract:

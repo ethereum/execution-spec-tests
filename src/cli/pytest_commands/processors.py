@@ -18,8 +18,9 @@ class HelpFlagsProcessor(ArgumentProcessor):
         Initialize the help processor.
 
         Args:
-            command_type: The type of command (e.g., "fill", "consume", "execute")
-            required_args: The arguments that are required for the command to run
+          command_type: The type of command (e.g., "fill", "consume",
+                        "execute")
+          required_args: The arguments that are required for the command to run
 
         """
         self.command_type = command_type
@@ -48,8 +49,8 @@ class StdoutFlagsProcessor(ArgumentProcessor):
 
     def process_args(self, args: List[str]) -> List[str]:
         """
-        If the user has requested to write to stdout, add pytest arguments
-        to suppress pytest's test session header and summary output.
+        If the user has requested to write to stdout, add pytest arguments to
+        suppress pytest's test session header and summary output.
         """
         if not self._is_writing_to_stdout(args):
             return args
@@ -134,7 +135,7 @@ class ConsumeCommandProcessor(ArgumentProcessor):
         Initialize the consume processor.
 
         Args:
-            is_hive: Whether this is a hive-based consume command
+          is_hive: Whether this is a hive-based consume command
 
         """
         self.is_hive = is_hive

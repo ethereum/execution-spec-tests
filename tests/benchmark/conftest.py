@@ -10,7 +10,10 @@ DEFAULT_BENCHMARK_FORK = "Prague"
 
 
 def pytest_generate_tests(metafunc):
-    """Modify test generation to enforce default benchmark fork for benchmark tests."""
+    """
+    Modify test generation to enforce default benchmark fork for benchmark
+    tests.
+    """
     benchmark_dir = Path(__file__).parent
     test_file_path = Path(metafunc.definition.fspath)
 

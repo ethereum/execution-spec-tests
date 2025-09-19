@@ -147,7 +147,10 @@ def base_pre_genesis(
 
 @pytest.fixture(scope="session")
 def client_genesis(base_pre_genesis: Tuple[Alloc, FixtureHeader]) -> dict:
-    """Convert the fixture's genesis block header and pre-state to a client genesis state."""
+    """
+    Convert the fixture's genesis block header and pre-state to a client
+    genesis state.
+    """
     genesis = to_json(base_pre_genesis[1])  # NOTE: to_json() excludes None values
     alloc = to_json(base_pre_genesis[0])
     # NOTE: nethermind requires account keys without '0x' prefix
@@ -211,7 +214,9 @@ def test_suite_description() -> str:
 def base_hive_test(
     request: pytest.FixtureRequest, test_suite: HiveTestSuite, session_temp_folder: Path
 ) -> Generator[HiveTest, None, None]:
-    """Test (base) used to deploy the main client to be used throughout all tests."""
+    """
+    Test (base) used to deploy the main client to be used throughout all tests.
+    """
     base_name = "base_hive_test"
     base_file = session_temp_folder / base_name
     base_lock_file = session_temp_folder / f"{base_name}.lock"
@@ -276,7 +281,9 @@ def client(
     client_type: ClientType,
     session_temp_folder: Path,
 ) -> Generator[Client, None, None]:
-    """Initialize the client with the appropriate files and environment variables."""
+    """
+    Initialize the client with the appropriate files and environment variables.
+    """
     base_name = "hive_client"
     base_file = session_temp_folder / base_name
     base_error_file = session_temp_folder / f"{base_name}.err"

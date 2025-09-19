@@ -21,27 +21,19 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-145.
     """
 
-    # Below are GPT o4-mini-high implementation of shift functions
-    # It can contain bugs, treat it with caution and refer to EVM implementations
+    # Below are GPT o4-mini-high implementation of shift functions It can
+    # contain bugs, treat it with caution and refer to EVM implementations
     @staticmethod
     def sar(shift: int, value: int) -> int:
         """
         Simulate the EVM SAR (Signed Arithmetic Right shift) operation.
 
-        Parameters
-        ----------
-        shift : int
-            Number of bits to shift to the right (interpreted as full unsigned;
-            no low-8-bit truncation here).
-        value : int
-            The 256-bit value to shift, interpreted as a signed integer.
+        Parameters ---------- shift : int Number of bits to shift to the right
+        (interpreted as full unsigned; no low-8-bit truncation here). value :
+        int The 256-bit value to shift, interpreted as a signed integer.
 
-        Returns
-        -------
-        int
-            The result of the arithmetic right shift, pushed as an unsigned
-            256-bit integer on the EVM stack.
-
+        Returns ------- int The result of the arithmetic right shift, pushed as
+        an unsigned 256-bit integer on the EVM stack.
         """
         mask256 = (1 << 256) - 1  # Clamp value to 256 bits
 
@@ -69,19 +61,12 @@ class Spec:
         """
         Simulate the EVM SHL (Logical Left shift) operation.
 
-        Parameters
-        ----------
-        shift : int
-            Number of bits to shift to the left.
-        value : int
-            The 256-bit value to shift, interpreted as an unsigned integer.
+        Parameters ---------- shift : int Number of bits to shift to the left.
+        value : int The 256-bit value to shift, interpreted as an unsigned
+        integer.
 
-        Returns
-        -------
-        int
-            The result of the logical left shift, pushed as an unsigned
-            256-bit integer on the EVM stack.
-
+        Returns ------- int The result of the logical left shift, pushed as an
+        unsigned 256-bit integer on the EVM stack.
         """
         mask256 = (1 << 256) - 1
         # Clamp input to 256 bits
@@ -99,19 +84,12 @@ class Spec:
         """
         Simulate the EVM SHR (Logical Right shift) operation.
 
-        Parameters
-        ----------
-        shift : int
-            Number of bits to shift to the right.
-        value : int
-            The 256-bit value to shift, interpreted as an unsigned integer.
+        Parameters ---------- shift : int Number of bits to shift to the right.
+        value : int The 256-bit value to shift, interpreted as an unsigned
+        integer.
 
-        Returns
-        -------
-        int
-            The result of the logical right shift, pushed as an unsigned
-            256-bit integer on the EVM stack.
-
+        Returns ------- int The result of the logical right shift, pushed as an
+        unsigned 256-bit integer on the EVM stack.
         """
         mask256 = (1 << 256) - 1
         # Clamp input to 256 bits

@@ -1,10 +1,11 @@
 """
-abstract: Test [EIP-3860: Limit and meter initcode](https://eips.ethereum.org/EIPS/eip-3860)
-    Tests for  [EIP-3860: Limit and meter initcode](https://eips.ethereum.org/EIPS/eip-3860).
+abstract: Test [EIP-3860: Limit and meter
+initcode](https://eips.ethereum.org/EIPS/eip-3860) Tests for  [EIP-3860: Limit
+and meter initcode](https://eips.ethereum.org/EIPS/eip-3860).
 
-note: Tests ported from:
-    - [ethereum/tests/pull/990](https://github.com/ethereum/tests/pull/990)
-    - [ethereum/tests/pull/1012](https://github.com/ethereum/tests/pull/990)
+note: Tests ported from: -
+[ethereum/tests/pull/990](https://github.com/ethereum/tests/pull/990) -
+[ethereum/tests/pull/1012](https://github.com/ethereum/tests/pull/990)
 """
 
 from typing import List
@@ -39,9 +40,7 @@ REFERENCE_SPEC_VERSION = ref_spec_3860.version
 pytestmark = pytest.mark.valid_from("Shanghai")
 
 
-"""
-Initcode templates used throughout the tests
-"""
+"""Initcode templates used throughout the tests"""
 INITCODE_ONES_MAX_LIMIT = Initcode(
     deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
     initcode_length=Spec.MAX_INITCODE_SIZE,
@@ -112,9 +111,7 @@ SINGLE_BYTE_INITCODE._bytes_ = bytes(Op.STOP)
 SINGLE_BYTE_INITCODE.deployment_gas = 0
 SINGLE_BYTE_INITCODE.execution_gas = 0
 
-"""
-Test cases using a contract creating transaction
-"""
+"""Test cases using a contract creating transaction"""
 
 
 @pytest.mark.xdist_group(name="bigmem")
@@ -209,16 +206,14 @@ def valid_gas_test_case(initcode: Initcode, gas_test_case: str) -> bool:
 )
 class TestContractCreationGasUsage:
     """
-    Tests the following cases that verify the gas cost behavior of a
-    contract creating transaction.
+    Tests the following cases that verify the gas cost behavior of a contract
+    creating transaction.
 
-    1. Test with exact intrinsic gas minus one, contract create fails
-        and tx is invalid.
-    2. Test with exact intrinsic gas, contract create fails,
-        but tx is valid.
-    3. Test with exact execution gas minus one, contract create fails,
-        but tx is valid.
-    4. Test with exact execution gas, contract create succeeds.
+    1. Test with exact intrinsic gas minus one, contract create fails and tx is
+    invalid. 2. Test with exact intrinsic gas, contract create fails, but tx is
+    valid. 3. Test with exact execution gas minus one, contract create fails,
+    but tx is valid. 4. Test with exact execution gas, contract create
+    succeeds.
 
     Initcode must be within a valid EIP-3860 length.
     """
@@ -226,8 +221,8 @@ class TestContractCreationGasUsage:
     @pytest.fixture
     def tx_access_list(self) -> List[AccessList]:
         """
-        On EIP-7623, we need to use an access list to raise the intrinsic gas cost to
-        be above the floor data cost.
+        On EIP-7623, we need to use an access list to raise the intrinsic gas
+        cost to be above the floor data cost.
         """
         return [AccessList(address=Address(i), storage_keys=[]) for i in range(1, 478)]
 
@@ -341,7 +336,10 @@ class TestContractCreationGasUsage:
         post: Alloc,
         tx: Transaction,
     ):
-        """Test transaction and contract creation behavior for different gas limits."""
+        """
+        Test transaction and contract creation behavior for different gas
+        limits.
+        """
         state_test(
             env=env,
             pre=pre,
@@ -380,7 +378,10 @@ class TestCreateInitcode:
 
     @pytest.fixture
     def creator_code(self, opcode: Op, create2_salt: int) -> Bytecode:
-        """Generate code for the creator contract which performs the CREATE/CREATE2 operation."""
+        """
+        Generate code for the creator contract which performs the
+        CREATE/CREATE2 operation.
+        """
         return (
             Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
             + Op.GAS
@@ -415,7 +416,9 @@ class TestCreateInitcode:
         initcode: Initcode,
         creator_contract_address: Address,
     ) -> Address:
-        """Calculate address of the contract created by the creator contract."""
+        """
+        Calculate address of the contract created by the creator contract.
+        """
         return compute_create_address(
             address=creator_contract_address,
             nonce=1,
@@ -426,7 +429,9 @@ class TestCreateInitcode:
 
     @pytest.fixture
     def caller_code(self, creator_contract_address: Address) -> Bytecode:
-        """Generate code for the caller contract that calls the creator contract."""
+        """
+        Generate code for the caller contract that calls the creator contract.
+        """
         return Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.SSTORE(
             Op.CALL(5000000, creator_contract_address, 0, 0, Op.CALLDATASIZE, 0, 0), 1
         )

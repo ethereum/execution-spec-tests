@@ -412,7 +412,10 @@ def test_pre_alloc_grouping_by_test_type(
     test_definitions: List[FormattedTest],
     expected_different_pre_alloc_groups: int,
 ):
-    """Test pre-alloc grouping when filling state tests, and the effect of the `state_test.env`."""
+    """
+    Test pre-alloc grouping when filling state tests, and the effect of the
+    `state_test.env`.
+    """
     tests_dir = Path(pytester.mkdir("tests"))
     for i, test in enumerate(test_definitions):
         test_module = tests_dir / f"test_{i}.py"

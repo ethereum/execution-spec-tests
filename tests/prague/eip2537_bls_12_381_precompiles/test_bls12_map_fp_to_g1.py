@@ -1,7 +1,7 @@
 """
-abstract: Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+abstract: Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for
+BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -88,12 +88,12 @@ def test_isogeny_kernel_values(
     """
     Test the BLS12_MAP_FP_TO_G1 precompile with isogeny kernel inputs.
 
-    The isogeny kernel is simply the set of special field values, that after the two step mapping
-    (first SWU onto an auxiliary curve, then an 11-degree isogeny back to G1), collapse exactly
-    to the identity point.
+    The isogeny kernel is simply the set of special field values, that after
+    the two step mapping (first SWU onto an auxiliary curve, then an 11-degree
+    isogeny back to G1), collapse exactly to the identity point.
 
-    Please proceed to the generator in `helpers.py` to see how the isogeny kernel values are
-    generated.
+    Please proceed to the generator in `helpers.py` to see how the isogeny
+    kernel values are generated.
     """
     state_test(
         env=Environment(),

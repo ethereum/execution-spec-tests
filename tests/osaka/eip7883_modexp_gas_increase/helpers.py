@@ -31,7 +31,10 @@ class Vector(BaseModel):
     model_config = ConfigDict(alias_generator=to_pascal)
 
     def to_pytest_param(self):
-        """Convert the test vector to a tuple that can be used as a parameter in a pytest test."""
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a
+        pytest test.
+        """
         return pytest.param(
             self.modexp_input, self.modexp_expected, self.gas_old, self.gas_new, id=self.name
         )

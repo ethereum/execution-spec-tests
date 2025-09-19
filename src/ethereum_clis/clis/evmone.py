@@ -37,14 +37,16 @@ class EvmOneTransitionTool(TransitionTool):
 
     def is_fork_supported(self, fork: Fork) -> bool:
         """
-        Return True if the fork is supported by the tool.
-        Currently, evmone-t8n provides no way to determine supported forks.
+        Return True if the fork is supported by the tool. Currently, evmone-t8n
+        provides no way to determine supported forks.
         """
         return True
 
 
 class EvmoneExceptionMapper(ExceptionMapper):
-    """Translate between EEST exceptions and error strings returned by Evmone."""
+    """
+    Translate between EEST exceptions and error strings returned by Evmone.
+    """
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.SENDER_NOT_EOA: "sender not an eoa:",
@@ -82,7 +84,8 @@ class EvmoneExceptionMapper(ExceptionMapper):
         ),
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
         TransactionException.NONCE_MISMATCH_TOO_HIGH: "nonce too high",
-        # TODO EVMONE needs to differentiate when the section is missing in the header or body
+        # TODO EVMONE needs to differentiate when the section is missing in the
+        # header or body
         EOFException.MISSING_STOP_OPCODE: "err: no_terminating_instruction",
         EOFException.MISSING_CODE_HEADER: "err: code_section_missing",
         EOFException.MISSING_TYPE_HEADER: "err: type_section_missing",

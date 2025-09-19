@@ -96,7 +96,8 @@ def test_forks_from():  # noqa: D103
     assert forks_from(Paris, deployed_only=True)[0] == Paris
     assert forks_from(Paris, deployed_only=True)[-1] == LAST_DEPLOYED
     assert forks_from(Paris, deployed_only=False)[0] == Paris
-    # assert forks_from(Paris, deployed_only=False)[-1] == LAST_DEVELOPMENT  # Too flaky
+    # assert forks_from(Paris, deployed_only=False)[-1] == LAST_DEVELOPMENT  #
+    # Too flaky
 
 
 def test_forks():
@@ -115,8 +116,8 @@ def test_forks():
     assert f"{London}" == "London"
     assert f"{ParisToShanghaiAtTime15k}" == "ParisToShanghaiAtTime15k"
 
-    # Merge name will be changed to paris, but we need to check the inheriting fork name is still
-    # the default
+    # Merge name will be changed to paris, but we need to check the inheriting
+    # fork name is still the default
     assert Paris.transition_tool_name() == "Merge"
     assert Shanghai.transition_tool_name() == "Shanghai"
     assert f"{Paris}" == "Paris"
@@ -208,22 +209,20 @@ def test_transition_fork_comparison():
 
     The comparison logic is based on the logic we use to generate the tests.
 
-    E.g. given transition fork A->B, when filling, and given the from/until markers,
-    we expect the following logic:
+    E.g. given transition fork A->B, when filling, and given the from/until
+    markers, we expect the following logic:
 
-    Marker    Comparison   A->B Included
-    --------- ------------ ---------------
-    From A    fork >= A    True
-    Until A   fork <= A    False
-    From B    fork >= B    True
-    Until B   fork <= B    True
+    Marker    Comparison   A->B Included --------- ------------ ---------------
+    From A    fork >= A    True Until A   fork <= A    False From B    fork >=
+    B    True Until B   fork <= B    True
     """
     assert BerlinToLondonAt5 >= Berlin
     assert not BerlinToLondonAt5 <= Berlin
     assert BerlinToLondonAt5 >= London
     assert BerlinToLondonAt5 <= London
 
-    # Comparisons between transition forks is done against the `transitions_to` fork
+    # Comparisons between transition forks is done against the `transitions_to`
+    # fork
     assert BerlinToLondonAt5 < ParisToShanghaiAtTime15k
     assert ParisToShanghaiAtTime15k > BerlinToLondonAt5
     assert BerlinToLondonAt5 == BerlinToLondonAt5
@@ -353,8 +352,9 @@ class FutureFork(Osaka):
     """
     Dummy fork used for testing.
 
-    Contains no changes to the blob parameters from the parent fork in order to confirm that
-    it's added to the blob schedule even if it doesn't have any changes.
+    Contains no changes to the blob parameters from the parent fork in order to
+    confirm that it's added to the blob schedule even if it doesn't have any
+    changes.
     """
 
     pass

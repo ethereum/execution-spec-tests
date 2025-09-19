@@ -1,6 +1,7 @@
 """
-abstract: Tests [EIP-7939: Count leading zeros (CLZ) opcode](https://eips.ethereum.org/EIPS/eip-7939)
-    Test cases for [EIP-7939: Count leading zeros (CLZ) opcode](https://eips.ethereum.org/EIPS/eip-7939).
+abstract: Tests [EIP-7939: Count leading zeros (CLZ)
+opcode](https://eips.ethereum.org/EIPS/eip-7939) Test cases for [EIP-7939:
+Count leading zeros (CLZ) opcode](https://eips.ethereum.org/EIPS/eip-7939).
 """
 
 import pytest
@@ -96,14 +97,12 @@ def test_clz_opcode_scenarios(
     """
     Test CLZ opcode functionality.
 
-    Cases:
-    - Format 0xb000...111: leading zeros followed by ones (2**256 - 1 >> bits)
-    - Format 0xb010...000: single bit set at position (1 << bits)
+    Cases: - Format 0xb000...111: leading zeros followed by ones (2**256 - 1 >>
+    bits) - Format 0xb010...000: single bit set at position (1 << bits)
 
-    Test coverage:
-    - Leading zeros pattern: 0b000...111 (0 to 256 leading zeros)
-    - Single bit pattern: 0b010...000 (bit at each possible position)
-    - Edge cases: CLZ(0) = 256, CLZ(2^256-1) = 0
+    Test coverage: - Leading zeros pattern: 0b000...111 (0 to 256 leading
+    zeros) - Single bit pattern: 0b010...000 (bit at each possible position) -
+    Edge cases: CLZ(0) = 256, CLZ(2^256-1) = 0
     """
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -186,7 +185,9 @@ def test_clz_gas_cost_boundary(
 @EIPChecklist.Opcode.Test.StackComplexOperations.StackHeights.Zero()
 @pytest.mark.valid_from("Osaka")
 def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
-    """Test CLZ opcode with empty stack (should revert due to stack underflow)."""
+    """
+    Test CLZ opcode with empty stack (should revert due to stack underflow).
+    """
     sender = pre.fund_eoa()
     callee_address = pre.deploy_contract(
         code=Op.CLZ + Op.STOP,  # No stack items, should underflow
@@ -330,8 +331,10 @@ def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
             ),
             callee_address: Account(
                 storage={
-                    14_999: "0xdeadbeef",  # CLZ not valid before fork, storage unchanged
-                    15_000: 155,  # CLZ valid on transition block, CLZ(1 << 100) = 155
+                    14_999: "0xdeadbeef",  # CLZ not valid before fork, storage
+                    # unchanged
+                    15_000: 155,  # CLZ valid on transition block, CLZ(1 <<
+                    # 100) = 155
                     15_001: 155,  # CLZ continues to be valid after transition
                 }
             ),
@@ -468,7 +471,10 @@ def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: 
                     address=target_address, dest_offset=0, offset=clz_code_offset, size=1
                 )
             )
-            + Op.SSTORE(storage.store_next(mload_value), Op.MLOAD(0))  # Store loaded CLZ byte
+            + Op.SSTORE(storage.store_next(mload_value), Op.MLOAD(0))  # Store
+            # loaded
+            # CLZ
+            # byte
         ),
         storage={"0x00": "0xdeadbeef"},
     )
@@ -499,14 +505,10 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
 
     expected_value = 255 - bits
 
-    # Target code pattern:
-    #   PUSH32 (1 << bits)
-    #   PUSH0
-    #   MSTORE
-    #
-    # This sequence stores a 32-byte value in memory.
-    # Later, we copy the immediate value from the PUSH32 instruction into memory
-    # using CODECOPY or EXTCODECOPY, and then load it with MLOAD for the CLZ test.
+    # Target code pattern: PUSH32 (1 << bits) PUSH0 MSTORE
+    # This sequence stores a 32-byte value in memory. Later, we copy the
+    # immediate value from the PUSH32 instruction into memory using CODECOPY or
+    # EXTCODECOPY, and then load it with MLOAD for the CLZ test.
     target_code = Op.PUSH32(1 << bits)
     offset = 1
 

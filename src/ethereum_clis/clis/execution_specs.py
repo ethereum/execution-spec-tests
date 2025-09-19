@@ -29,19 +29,22 @@ logger = get_logger(__name__)
 
 class ExecutionSpecsTransitionTool(TransitionTool):
     """
-    Ethereum Specs EVM Resolver `ethereum-spec-evm-resolver` Transition Tool wrapper class.
+    Ethereum Specs EVM Resolver `ethereum-spec-evm-resolver` Transition Tool
+    wrapper class.
 
-    `ethereum-spec-evm-resolver` is installed by default for `execution-spec-tests`:
+    `ethereum-spec-evm-resolver` is installed by default for
+    `execution-spec-tests`:
     ```console
-    uv run fill --evm-bin=ethereum-spec-evm-resolver
+        uv run fill --evm-bin=ethereum-spec-evm-resolver
     ```
 
-    To use a specific version of the `ethereum-spec-evm-resolver` tool, update it to the
-    desired version in `pyproject.toml`.
+    To use a specific version of the `ethereum-spec-evm-resolver` tool, update
+    it to the desired version in `pyproject.toml`.
 
-    The `ethereum-spec-evm-resolver` tool essentially wraps around the EELS evm daemon. It can
-    handle requests for different EVM forks, even when those forks are implemented by different
-    versions of EELS hosted in different places.
+    The `ethereum-spec-evm-resolver` tool essentially wraps around the EELS evm
+    daemon. It can handle requests for different EVM forks, even when those
+    forks are implemented by different versions of EELS hosted in different
+    places.
     """
 
     default_binary = Path("ethereum-spec-evm-resolver")
@@ -57,7 +60,9 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         trace: bool = False,
         server_url: str | None = None,
     ):
-        """Initialize the Ethereum Specs EVM Resolver Transition Tool interface."""
+        """
+        Initialize the Ethereum Specs EVM Resolver Transition Tool interface.
+        """
         os.environ.setdefault("NO_PROXY", "*")  # Disable proxy for local connections
         super().__init__(
             exception_mapper=ExecutionSpecsExceptionMapper(), binary=binary, trace=trace
@@ -114,7 +119,8 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         """
         Return True if the fork is supported by the tool.
 
-        If the fork is a transition fork, we want to check the fork it transitions to.
+        If the fork is a transition fork, we want to check the fork it
+        transitions to.
 
         `ethereum-spec-evm` appends newlines to forks in the help string.
         """
@@ -135,7 +141,10 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 
 
 class ExecutionSpecsExceptionMapper(ExceptionMapper):
-    """Translate between EEST exceptions and error strings returned by ExecutionSpecs."""
+    """
+    Translate between EEST exceptions and error strings returned by
+    ExecutionSpecs.
+    """
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "EmptyAuthorizationListError",

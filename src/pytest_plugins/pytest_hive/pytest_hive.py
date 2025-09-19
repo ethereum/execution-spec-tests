@@ -3,30 +3,30 @@ A pytest plugin providing common functionality for Hive simulators.
 
 Simulators using this plugin must define two pytest fixtures:
 
-1. `test_suite_name`: The name of the test suite.
-2. `test_suite_description`: The description of the test suite.
+1. `test_suite_name`: The name of the test suite. 2. `test_suite_description`:
+The description of the test suite.
 
 These fixtures are used when creating the hive test suite.
 
-Log Capture Architecture:
--------------------------
-This module implements a log capture approach that ensures all logs, including those
-generated during fixture teardown, are properly captured and included in the test results.
+Log Capture Architecture: ------------------------- This module implements a
+log capture approach that ensures all logs, including those generated during
+fixture teardown, are properly captured and included in the test results.
 
-The key insight is that we need to ensure that test finalization happens *before* the
-test suite is finalized, but *after* all fixtures have been torn down so we can capture
-their logs. This is accomplished through the fixture teardown mechanism in pytest:
+The key insight is that we need to ensure that test finalization happens
+*before* the test suite is finalized, but *after* all fixtures have been torn
+down so we can capture their logs. This is accomplished through the fixture
+teardown mechanism in pytest:
 
-1. Since the `hive_test` fixture depends on the `test_suite` fixture, pytest guarantees
-   that the teardown of `hive_test` runs before the teardown of `test_suite`
-2. All logs are processed and the test is finalized in the teardown phase of the
-   `hive_test` fixture using the pytest test report data
-3. This sequencing ensures that all logs are captured and the test is properly finalized
-   before its parent test suite is finalized
+1. Since the `hive_test` fixture depends on the `test_suite` fixture, pytest
+guarantees that the teardown of `hive_test` runs before the teardown of
+`test_suite` 2. All logs are processed and the test is finalized in the
+teardown phase of the `hive_test` fixture using the pytest test report data 3.
+This sequencing ensures that all logs are captured and the test is properly
+finalized before its parent test suite is finalized
 
-This approach relies on the pytest fixture dependency graph and teardown ordering to
-ensure proper sequencing, which is more reliable than using hooks which might run in
-an unpredictable order relative to fixture teardown.
+This approach relies on the pytest fixture dependency graph and teardown
+ordering to ensure proper sequencing, which is more reliable than using hooks
+which might run in an unpredictable order relative to fixture teardown.
 """
 
 import json
@@ -59,8 +59,8 @@ def pytest_configure(config):  # noqa: D103
             "or in fish:\n"
             "set -x HIVE_SIMULATOR http://127.0.0.1:3000"
         )
-    # TODO: Try and get these into fixtures; this is only here due to the "dynamic" parametrization
-    # of client_type with hive_execution_clients.
+    # TODO: Try and get these into fixtures; this is only here due to the
+    # "dynamic" parametrization of client_type with hive_execution_clients.
     config.hive_simulator_url = hive_simulator_url
     config.hive_simulator = Simulation(url=hive_simulator_url)
     try:
@@ -133,15 +133,13 @@ def pytest_report_header(config, start_path):
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     """
-    Make the setup, call, and teardown results available in the teardown phase of
-    a test fixture (i.e., after yield has been called).
+    Make the setup, call, and teardown results available in the teardown phase
+    of a test fixture (i.e., after yield has been called).
 
     This is used to get the test result and pass it to the hive test suite.
 
-    Available as:
-    - result_setup - setup result
-    - result_call - test result
-    - result_teardown - teardown result
+    Available as: - result_setup - setup result - result_call - test result -
+    result_teardown - teardown result
     """
     del call
 
@@ -238,10 +236,11 @@ def hive_test(request, test_suite: HiveTestSuite):
     """
     Propagate the pytest test case and its result to the hive server.
 
-    This fixture handles both starting the test and ending it with all logs, including
-    those generated during teardown of other fixtures. The approach of processing teardown
-    logs directly in the teardown phase of this fixture ensures that the test gets properly
-    finalized before the test suite is torn down.
+    This fixture handles both starting the test and ending it with all logs,
+    including those generated during teardown of other fixtures. The approach
+    of processing teardown logs directly in the teardown phase of this fixture
+    ensures that the test gets properly finalized before the test suite is torn
+    down.
     """
     try:
         test_case_description = request.getfixturevalue("test_case_description")

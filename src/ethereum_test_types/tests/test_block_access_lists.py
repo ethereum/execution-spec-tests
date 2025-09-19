@@ -143,7 +143,8 @@ def test_partial_validation():
         account_expectations={
             alice: BalAccountExpectation(
                 nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
-                # balance_changes and storage_reads not set and won't be validated
+                # balance_changes and storage_reads not set and won't be
+                # validated
             ),
         }
     )
@@ -338,8 +339,8 @@ def test_expected_addresses_auto_sorted():
     """
     Test that expected addresses are automatically sorted before comparison.
 
-    The BAL *Expectation address order should not matter for the dict.
-    We DO, however, validate that the actual BAL (from t8n) is sorted correctly.
+    The BAL *Expectation address order should not matter for the dict. We DO,
+    however, validate that the actual BAL (from t8n) is sorted correctly.
     """
     alice = Address(0xA)
     bob = Address(0xB)

@@ -1,7 +1,7 @@
 """
-abstract: Tests BLS12_G1MUL precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_G1MUL precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+abstract: Tests BLS12_G1MUL precompile of [EIP-2537: Precompile for BLS12-381
+curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -182,7 +182,8 @@ def test_valid(
             id="swapped_coordinates_times_0",
         ),
         pytest.param(
-            PointG1(0x01, 0x07) + Scalar(0),  # Point on wrong curve y^2 = x^3 + 5
+            PointG1(0x01, 0x07) + Scalar(0),  # Point on wrong curve y^2 = x^3
+            # + 5
             id="point_on_wrong_curve_times_0",
         ),
         pytest.param(
@@ -294,7 +295,8 @@ def test_valid(
             Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q + 1),
             id="not_in_subgroup_times_q_plus_1",
         ),
-        # More not in the r-order subgroup test cases, but using random generated points.
+        # More not in the r-order subgroup test cases, but using random
+        # generated points.
         pytest.param(
             G1_POINTS_NOT_IN_SUBGROUP[0] + Scalar(1),
             id="rand_not_in_subgroup_0_times_1",

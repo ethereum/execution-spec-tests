@@ -1,6 +1,8 @@
 """
-abstract: Tests [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7951)
-    Test cases for [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7951)].
+abstract: Tests [EIP-7951: Precompile for secp256r1 Curve
+Support](https://eips.ethereum.org/EIPS/eip-7951) Test cases for [EIP-7951:
+Precompile for secp256r1 Curve
+Support](https://eips.ethereum.org/EIPS/eip-7951)].
 """
 
 import pytest
@@ -36,8 +38,9 @@ pytestmark = [
     + vectors_from_file("secp256r1_u1_u2.json")
     + vectors_from_file("secp256r1_k_and_s.json")
     + vectors_from_file("secp256r1_public_key.json"),
-    # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite, valid cases
-    # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
+    # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test
+    # suite, valid cases are from this source:
+    # https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @EIPChecklist.Precompile.Test.CallContexts.Normal()
@@ -169,11 +172,13 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
             id="near_field_boundary_p_minus_3",
         ),
         pytest.param(
-            # Invalid curve attack: This point satisfies y² = x³ - 3x + 1 (mod p)
-            # instead of the correct P-256 equation y² = x³ - 3x + b where
-            # b = 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B
-            # This tests that the implementation properly validates the curve equation
-            # and rejects points on different curves (CVE-2020-0601 class vulnerability)
+            # Invalid curve attack: This point satisfies y² = x³ - 3x + 1 (mod
+            # p) instead of the correct P-256 equation y² = x³ - 3x + b where b
+            # = 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53...
+            # ...B0F63BCE3C3E27D2604B
+            # This tests that the implementation properly validates the curve
+            # equation and rejects points on different curves (CVE-2020-0601
+            # class vulnerability)
             Spec.H0
             + Spec.R0
             + Spec.S0
@@ -182,10 +187,11 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
             id="invalid_curve_attack_b_equals_one",
         ),
         pytest.param(
-            # Invalid curve attack: Singular curve with b = 0
-            # Point satisfies y² = x³ - 3x (mod p) - a singular/degenerate curve
-            # Singular curves have discriminant = 0 and provide no security guarantees
-            # This tests rejection of points on curves with catastrophic security failures
+            # Invalid curve attack: Singular curve with b = 0 Point satisfies
+            # y² = x³ - 3x (mod p) - a singular/degenerate curve Singular
+            # curves have discriminant = 0 and provide no security guarantees
+            # This tests rejection of points on curves with catastrophic
+            # security failures
             Spec.H0
             + Spec.R0
             + Spec.S0
@@ -194,10 +200,10 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
             id="invalid_curve_attack_singular_b_zero",
         ),
         pytest.param(
-            # Invalid curve attack: Boundary value b = p-1
-            # Point satisfies y² = x³ - 3x + (p-1) (mod p)
-            # Tests proper parameter validation at modular arithmetic boundaries
-            # Ensures implementations handle field arithmetic edge cases correctly
+            # Invalid curve attack: Boundary value b = p-1 Point satisfies y² =
+            # x³ - 3x + (p-1) (mod p) Tests proper parameter validation at
+            # modular arithmetic boundaries Ensures implementations handle
+            # field arithmetic edge cases correctly
             Spec.H0
             + Spec.R0
             + Spec.S0
@@ -206,10 +212,10 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
             id="invalid_curve_attack_b_equals_p_minus_1",
         ),
         pytest.param(
-            # Invalid curve attack: Small discriminant curve with b = 2
-            # Point satisfies y² = x³ - 3x + 2 (mod p)
-            # Curves with small discriminants are vulnerable to specialized attacks
-            # Tests rejection of cryptographically weak curve parameters
+            # Invalid curve attack: Small discriminant curve with b = 2 Point
+            # satisfies y² = x³ - 3x + 2 (mod p) Curves with small
+            # discriminants are vulnerable to specialized attacks Tests
+            # rejection of cryptographically weak curve parameters
             Spec.H0 + Spec.R0 + Spec.S0 + X(0x1) + Y(0x0),
             id="invalid_curve_attack_small_discriminant",
         ),
@@ -530,10 +536,12 @@ def test_precompile_will_return_success_with_tx_value(
         # This tests the modular comparison: r' ≡ r (mod N)
         pytest.param(
             Spec.H0
-            # R: A value that when used in ECDSA verification produces an x-coordinate > N
+            # R: A value that when used in ECDSA verification produces an
+            # x-coordinate > N
             + R(0x000000000000000000000000000000004319055358E8617B0C46353D039CDAAB)
             + S(0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC63254E)
-            # X, Y: Public key coordinates that will produce x-coordinate > N during verification
+            # X, Y: Public key coordinates that will produce x-coordinate > N
+            # during verification
             + X(0x0AD99500288D466940031D72A9F5445A4D43784640855BF0A69874D2DE5FE103)
             + Y(0xC5011E6EF2C42DCD50D5D3D29F99AE6EBA2C80C9244F4C5422F0979FF0C3BA5E),
             Spec.SUCCESS_RETURN_VALUE,
@@ -545,7 +553,8 @@ def test_precompile_will_return_success_with_tx_value(
             + Spec.S0
             + Spec.X0
             + Spec.Y0,
-            Spec.INVALID_RETURN_VALUE,  # Should fail because R = 1 is not a valid signature
+            Spec.INVALID_RETURN_VALUE,  # Should fail because R = 1 is not a
+            # valid signature
             id="r_equals_n_plus_one",
         ),
         pytest.param(
@@ -554,7 +563,8 @@ def test_precompile_will_return_success_with_tx_value(
             + Spec.S0
             + Spec.X0
             + Spec.Y0,
-            Spec.INVALID_RETURN_VALUE,  # Should fail because R = 2 is not a valid signature
+            Spec.INVALID_RETURN_VALUE,  # Should fail because R = 2 is not a
+            # valid signature
             id="r_equals_n_plus_two",
         ),
     ],
@@ -566,9 +576,9 @@ def test_modular_comparison(state_test: StateTestFiller, pre: Alloc, post: dict,
     """
     Test the modular comparison condition for secp256r1 precompile.
 
-    This tests that when the x-coordinate of R' exceeds the curve order N,
-    the verification should use modular arithmetic:
-    r' ≡ r (mod N) instead of direct equality r' == r.
+    This tests that when the x-coordinate of R' exceeds the curve order N, the
+    verification should use modular arithmetic: r' ≡ r (mod N) instead of
+    direct equality r' == r.
     """
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 

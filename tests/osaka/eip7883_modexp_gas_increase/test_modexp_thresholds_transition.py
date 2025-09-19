@@ -1,4 +1,7 @@
-"""Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard fork."""
+"""
+Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard
+fork.
+"""
 
 import pytest
 
@@ -38,7 +41,10 @@ def test_modexp_fork_transition(
     modexp_input: ModExpInput,
     modexp_expected: bytes,
 ):
-    """Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard fork."""
+    """
+    Test ModExp gas cost transition from EIP-7883 before and after the Osaka
+    hard fork.
+    """
     call_code = Op.CALL(
         address=Spec.MODEXP_ADDRESS,
         args_size=Op.CALLDATASIZE,

@@ -57,13 +57,16 @@ class NimbusTransitionTool(TransitionTool):
         """
         Return True if the fork is supported by the tool.
 
-        If the fork is a transition fork, we want to check the fork it transitions to.
+        If the fork is a transition fork, we want to check the fork it
+        transitions to.
         """
         return fork.transition_tool_name() in self.help_string
 
 
 class NimbusExceptionMapper(ExceptionMapper):
-    """Translate between EEST exceptions and error strings returned by Nimbus."""
+    """
+    Translate between EEST exceptions and error strings returned by Nimbus.
+    """
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: (

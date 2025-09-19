@@ -1,7 +1,7 @@
 """
-abstract: Tests BLS12_G2MUL precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_G2MUL precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+abstract: Tests BLS12_G2MUL precompile of [EIP-2537: Precompile for BLS12-381
+curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -312,7 +312,8 @@ def test_valid(
             Spec.P2_NOT_IN_SUBGROUP + Scalar(Spec.Q + 1),
             id="not_in_subgroup_times_q_plus_1",
         ),
-        # More not in the r-order subgroup test cases, but using random generated points.
+        # More not in the r-order subgroup test cases, but using random
+        # generated points.
         pytest.param(
             G2_POINTS_NOT_IN_SUBGROUP[0] + Scalar(1),
             id="rand_not_in_subgroup_0_times_1",

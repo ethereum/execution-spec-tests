@@ -33,8 +33,8 @@ def test_jumpf_stack_non_returning_rules(
     stack_height: int,
 ):
     """
-    Tests for JUMPF validation stack rules.  Non-returning section cases.
-    Valid cases are executed.
+    Tests for JUMPF validation stack rules.  Non-returning section cases. Valid
+    cases are executed.
     """
     container = Container(
         name="stack-non-retuning_h-%d_ti-%d" % (stack_height, target_inputs),
@@ -90,8 +90,8 @@ def test_jumpf_stack_returning_rules(
     stack_diff: int,
 ):
     """
-    Tests for JUMPF validation stack rules.  Returning section cases.
-    Valid cases are executed.
+    Tests for JUMPF validation stack rules.  Returning section cases. Valid
+    cases are executed.
     """
     if target_outputs > source_outputs:
         # These create invalid containers without JUMPF validation, Don't test.
@@ -297,7 +297,10 @@ def test_jumpf_self_variadic_stack_overflow(eof_test: EOFTestFiller):
 def test_jumpf_variadic_stack_overflow(
     eof_test: EOFTestFiller, stack_height: int, callee_stack_height: int
 ):
-    """Test JUMPF stack validation causing stack overflow with variable stack height."""
+    """
+    Test JUMPF stack validation causing stack overflow with variable stack
+    height.
+    """
     container = Container(
         sections=[
             Section.Code(
@@ -346,7 +349,10 @@ def test_jumpf_with_inputs_stack_overflow(
 def test_jumpf_with_inputs_stack_overflow_variable_stack(
     eof_test: EOFTestFiller, stack_height: int, callee_stack_increase: int
 ):
-    """Test JUMPF with variable stack depending on RJUMPI calling function with inputs."""
+    """
+    Test JUMPF with variable stack depending on RJUMPI calling function with
+    inputs.
+    """
     container = Container(
         sections=[
             Section.Code(

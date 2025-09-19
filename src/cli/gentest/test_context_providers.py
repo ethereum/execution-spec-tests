@@ -2,13 +2,14 @@
 Various providers which generate contexts required to create test scripts.
 
 Classes:
-- Provider: An provider generates required context for creating a test.
-- BlockchainTestProvider: The BlockchainTestProvider takes a transaction hash and creates
-  required context to create a test.
+  Provider: An provider generates required context for creating a
+            test.
+  BlockchainTestProvider: The BlockchainTestProvider takes a transaction
+                          hash and creates required context to create a test.
 
 Example:
-    provider = BlockchainTestContextProvider(transaction=transaction)
-    context = provider.get_context()
+  provider = BlockchainTestContextProvider(transaction=transaction)
+  context = provider.get_context()
 
 """
 
@@ -80,17 +81,16 @@ class StateTestProvider(Provider):
 
     def _get_transaction(self) -> Transaction:
         assert self.transaction_response is not None
-        # Validate the RPC TransactionHashResponse and convert it to a Transaction instance.
+        # Validate the RPC TransactionHashResponse and convert it to a
+        # Transaction instance.
         return Transaction.model_validate(self.transaction_response.model_dump())
 
     def get_context(self) -> Dict[str, Any]:
         """
         Get the context for generating a blockchain test.
 
-        Returns:
-            Dict[str, Any]: A dictionary containing environment,
-            pre-state, a transaction and its hash.
-
+        Returns: Dict[str, Any]: A dictionary containing environment,
+        pre-state, a transaction and its hash.
         """
         self._make_rpc_calls()
         return {

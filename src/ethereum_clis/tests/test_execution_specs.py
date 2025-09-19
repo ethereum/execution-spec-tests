@@ -22,10 +22,11 @@ DEFAULT_EVM_T8N_BINARY_NAME = "ethereum-spec-evm-resolver"
 @pytest.fixture(autouse=True)
 def monkeypatch_path_for_entry_points(monkeypatch):
     """
-    Monkeypatch the PATH to add the "bin" directory where entrypoints are installed.
+    Monkeypatch the PATH to add the "bin" directory where entrypoints are
+    installed.
 
-    This would typically be in the venv in which pytest is running these tests and fill,
-    which, with uv, is `./.venv/bin`.
+    This would typically be in the venv in which pytest is running these tests
+    and fill, which, with uv, is `./.venv/bin`.
 
     This is required in order for fill to locate the ethereum-spec-evm-resolver
     "binary" (entrypoint) when being executed using pytester.
@@ -98,7 +99,8 @@ def test_evm_tool_binary_arg(evm_tool, binary_arg):
     elif binary_arg == "path_type":
         evm_bin = which(DEFAULT_EVM_T8N_BINARY_NAME)
         if not evm_bin:
-            # typing: Path can not take None; but if it is None, we may as well fail explicitly.
+            # typing: Path can not take None; but if it is None, we may as well
+            # fail explicitly.
             raise Exception("Failed to find `{DEFAULT_EVM_T8N_BINARY_NAME}` in the PATH via which")
         evm_tool(binary=Path(evm_bin)).version()
         return
@@ -143,7 +145,9 @@ def test_evm_t8n(
     env: Environment,
     test_dir: str,
 ) -> None:
-    """Test the `evaluate` method of the `ExecutionSpecsTransitionTool` class."""
+    """
+    Test the `evaluate` method of the `ExecutionSpecsTransitionTool` class.
+    """
     expected_path = Path(FIXTURES_ROOT, test_dir, "exp.json")
 
     with open(expected_path, "r") as exp:
@@ -162,8 +166,9 @@ def test_evm_t8n(
         )
         assert to_json(t8n_output.alloc) == expected.get("alloc")
         if isinstance(default_t8n, ExecutionSpecsTransitionTool):
-            # The expected output was generated with geth, instead of deleting any info from
-            # this expected output, the fields not returned by eels are handled here.
+            # The expected output was generated with geth, instead of deleting
+            # any info from this expected output, the fields not returned by
+            # eels are handled here.
             missing_receipt_fields = [
                 "root",
                 "status",

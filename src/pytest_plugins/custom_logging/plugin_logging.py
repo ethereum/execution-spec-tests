@@ -1,16 +1,17 @@
 """
 A Pytest plugin to configure logging for pytest sessions.
 
-Note: While pytest's builtin logging is generally amazing, it does not write timestamps
-when log output is written to pytest's caplog (the captured output for a test). And having
-timestamps in this output is the main use case for adding logging to our plugins.
-This output gets shown in the `FAILURES` summary section, which is shown as the
-"simulator log" in hive simulations. For this use case, timestamps are essential to verify
-timing issues against the clients log.
+Note: While pytest's builtin logging is generally amazing, it does not write
+timestamps when log output is written to pytest's caplog (the captured output
+for a test). And having timestamps in this output is the main use case for
+adding logging to our plugins. This output gets shown in the `FAILURES` summary
+section, which is shown as the "simulator log" in hive simulations. For this
+use case, timestamps are essential to verify timing issues against the clients
+log.
 
-This module provides both:
-1. A standalone logging configuration system that can be used in any Python project
-2. A pytest plugin that automatically configures logging for pytest sessions
+This module provides both: 1. A standalone logging configuration system that
+can be used in any Python project 2. A pytest plugin that automatically
+configures logging for pytest sessions
 """
 
 import functools
@@ -71,8 +72,8 @@ class EESTLogger(logging.Logger):
         """
         Log a message with FAIL level severity (35).
 
-        This level is between WARNING (30) and ERROR (40), intended for test failures
-        and similar issues.
+        This level is between WARNING (30) and ERROR (40), intended for test
+        failures and similar issues.
         """
         if stacklevel is None:
             stacklevel = 1
@@ -94,15 +95,22 @@ logger = get_logger(__name__)
 
 
 class UTCFormatter(logging.Formatter):
-    """Log formatter that formats UTC timestamps with milliseconds and +00:00 suffix."""
+    """
+    Log formatter that formats UTC timestamps with milliseconds and +00:00
+    suffix.
+    """
 
-    def formatTime(self, record, datefmt=None):  # noqa: D102,N802  # camelcase required
+    def formatTime(self, record, datefmt=None):  # noqa: D102,N802  # camelcase
+        # required
         dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
         return dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] + "+00:00"
 
 
 class ColorFormatter(UTCFormatter):
-    """Formatter that adds ANSI color codes to log level names for terminal output."""
+    """
+    Formatter that adds ANSI color codes to log level names for terminal
+    output.
+    """
 
     running_in_docker: ClassVar[bool] = Path("/.dockerenv").exists()
 
@@ -150,9 +158,9 @@ class LogLevel:
         raise ValueError(f"Invalid log level '{value}'. Expected one of: {valid} or a number.")
 
 
-# ==============================================================================
+# =========================================================================
 # Standalone logging configuration (usable without pytest)
-# ==============================================================================
+# =========================================================================
 
 
 def configure_logging(
@@ -168,16 +176,12 @@ def configure_logging(
     This function can be used in any Python project to set up logging with the
     same settings as the pytest plugin.
 
-    Args:
-        log_level: The logging level to use (name or numeric value)
-        log_file: Path to the log file (if None, no file logging is set up)
-        log_to_stdout: Whether to log to stdout
-        log_format: The log format string
-        use_color: Whether to use colors in stdout output (auto-detected if None)
+    Args: log_level: The logging level to use (name or numeric value) log_file:
+    Path to the log file (if None, no file logging is set up) log_to_stdout:
+    Whether to log to stdout log_format: The log format string use_color:
+    Whether to use colors in stdout output (auto-detected if None)
 
-    Returns:
-        The file handler if log_file is provided, otherwise None
-
+    Returns: The file handler if log_file is provided, otherwise None
     """
     # Initialize root logger
     root_logger = logging.getLogger()
@@ -222,9 +226,9 @@ def configure_logging(
     return file_handler_instance
 
 
-# ==============================================================================
+# ==========================================================================
 # Pytest plugin integration
-# ==============================================================================
+# ==========================================================================
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -232,7 +236,8 @@ def pytest_addoption(parser):  # noqa: D103
         "logging", "Arguments related to logging from test fixtures and tests."
     )
     logging_group.addoption(
-        "--eest-log-level",  # --log-level is defined by pytest's built-in logging
+        "--eest-log-level",  # --log-level is defined by pytest's built-in
+        # logging
         "--eestloglevel",
         action="store",
         default="INFO",
@@ -274,9 +279,9 @@ def pytest_configure(config: pytest.Config) -> None:
     """
     Initialize logging for pytest sessions.
 
-    This goes to a lot of effort to ensure that a log file is created per worker
-    if xdist is used and that the timestamp used in the filename is the same across
-    main and all workers.
+    This goes to a lot of effort to ensure that a log file is created per
+    worker if xdist is used and that the timestamp used in the filename is the
+    same across main and all workers.
     """
     global file_handler
 
@@ -313,9 +318,10 @@ def pytest_report_header(config: pytest.Config) -> list[str]:
 
 
 def pytest_terminal_summary(terminalreporter: TerminalReporter, exitstatus: int) -> None:
-    """Display the log file path in the terminal summary like the HTML report does."""
-    del exitstatus
-
+    """
+    Display the log file path in the terminal summary like the HTML report
+    does.
+    """
     if terminalreporter.config.option.collectonly:
         return
     if eest_log_file_path := terminalreporter.config.option.eest_log_file_path:

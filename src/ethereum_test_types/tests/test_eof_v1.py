@@ -867,7 +867,8 @@ def remove_comments_from_string(input_string):
         # Find the index of the first '#' character
         comment_start = line.find("#")
 
-        # If a '#' is found, slice up to that point; otherwise, take the whole line
+        # If a '#' is found, slice up to that point; otherwise, take the whole
+        # line
         if comment_start != -1:
             cleaned_line = line[:comment_start].rstrip()
         else:

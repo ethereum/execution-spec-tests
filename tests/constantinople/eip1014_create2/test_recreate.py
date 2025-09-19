@@ -30,8 +30,8 @@ def test_recreate(
     recreate_on_separate_block: bool,
 ):
     """
-    Test that the storage is cleared when a contract is first destructed then re-created using
-    CREATE2.
+    Test that the storage is cleared when a contract is first destructed then
+    re-created using CREATE2.
     """
     creator_contract_code = Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.CREATE2(
         0, 0, Op.CALLDATASIZE, 0

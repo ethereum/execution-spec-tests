@@ -1,7 +1,7 @@
 """
-abstract: Tests BLS12_G2MSM precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_G2MSM precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+abstract: Tests BLS12_G2MSM precompile of [EIP-2537: Precompile for BLS12-381
+curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -69,7 +69,8 @@ pytestmark = [
             None,
             id="multiple_points_zero_scalar",
         ),
-        # Cases with maximum discount table (test vector for gas cost calculation)
+        # Cases with maximum discount table (test vector for gas cost
+        # calculation)
         pytest.param(
             (Spec.P2 + Scalar(Spec.Q)) * (len(Spec.G2MSM_DISCOUNT_TABLE) - 1),
             Spec.INF_G2,
@@ -171,7 +172,9 @@ def test_valid(
             id="scalar_too_large",
         ),
         pytest.param(
-            Spec.G2 + Scalar(1).x.to_bytes(16, byteorder="big"),  # Invalid scalar length
+            Spec.G2 + Scalar(1).x.to_bytes(16, byteorder="big"),  # Invalid
+            # scalar
+            # length
             id="scalar_too_short",
         ),
         pytest.param(
@@ -224,7 +227,8 @@ def test_valid(
             id="y_c1_above_p_pos_1",
         ),
     ],
-    # Input length tests can be found in ./test_bls12_variable_length_input_contracts.py
+    # Input length tests can be found in
+    # ./test_bls12_variable_length_input_contracts.py
 )
 @pytest.mark.parametrize(
     "precompile_gas_modifier", [100_000], ids=[""]

@@ -1,14 +1,21 @@
 """
-Contains various providers which generates context required to create test scripts.
+Contains various providers which generates context required to create test
+scripts.
 
 Classes:
-- BlockchainTestProvider: The BlockchainTestProvider class takes information about a block,
-a transaction, and the associated state, and provides methods to generate various elements
-needed for testing, such as module docstrings, test names, and pre-state items.
+  BlockchainTestProvider: The BlockchainTestProvider class takes
+                          information about a block, a transaction, and the
+                          associated state, and provides methods to generate
+                          various elements needed for testing, such as module
+                          docstrings, test names, and pre-state items.
 
 Example:
-    provider = BlockchainTestProvider(block=block, transaction=transaction, state=state)
-    context = provider.get_context()
+  provider = BlockchainTestProvider(
+    block=block,
+    transaction=transaction,
+    state=state
+  )
+  context = provider.get_context()
 
 """
 
@@ -22,7 +29,9 @@ from ethereum_test_types import Environment
 
 
 class BlockchainTestProvider(BaseModel):
-    """Provides context required to generate a `blockchain_test` using pytest."""
+    """
+    Provides context required to generate a `blockchain_test` using pytest.
+    """
 
     block: Environment
     transaction: TransactionByHashResponse
@@ -103,8 +112,9 @@ class BlockchainTestProvider(BaseModel):
         Get the context for generating a blockchain test.
 
         Returns:
-            Dict[str, Any]: A dictionary containing module docstring, test name,
-            test docstring, environment kwargs, pre-state items, and transaction items.
+          Dict[str, Any]: A dictionary containing module docstring, test
+                          name, test docstring, environment kwargs,
+                          pre-state items, and transaction items.
 
         """
         return {

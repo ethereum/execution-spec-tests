@@ -45,7 +45,8 @@ def pytest_configure(config):
     Register the plugin's custom markers and process command-line options.
 
     Custom marker registration:
-    https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
+    https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom
+    -markers
     """
     config.addinivalue_line(
         "markers",
@@ -69,20 +70,15 @@ def get_ref_spec_from_module(
     """
     Return the reference spec object defined in a module.
 
-    Args:
-        module: The module to extract reference spec from
-        github_token: Optional GitHub token for API authentication
+    Args: module: The module to extract reference spec from github_token:
+    Optional GitHub token for API authentication
 
-    Raises:
-        Exception: If the module path contains "eip" and the module
-            does not define a reference spec.
+    Raises: Exception: If the module path contains "eip" and the module does
+    not define a reference spec.
 
-    Returns:
-        spec_obj: Return None if the module path does not contain "eip",
-            i.e., the module is not required to define a reference spec,
-            otherwise, return the ReferenceSpec object as defined by the
-            module.
-
+    Returns: spec_obj: Return None if the module path does not contain "eip",
+    i.e., the module is not required to define a reference spec, otherwise,
+    return the ReferenceSpec object as defined by the module.
     """
     if not is_test_for_an_eip(str(module.__file__)):
         return None
@@ -115,14 +111,11 @@ def is_test_for_an_eip(input_string: str) -> bool:
 
 def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None):
     """
-    Test that the ReferenceSpec object as defined in the test module
-    is not outdated when compared to the remote hash from
-    ethereum/EIPs.
+    Test that the ReferenceSpec object as defined in the test module is not
+    outdated when compared to the remote hash from ethereum/EIPs.
 
-    Args:
-        module: Module to test
-        github_token: Optional GitHub token for API authentication
-
+    Args: module: Module to test github_token: Optional GitHub token for API
+    authentication
     """
     ref_spec = get_ref_spec_from_module(module, github_token=github_token)
     assert ref_spec, "No reference spec object defined"
@@ -156,11 +149,8 @@ class EIPSpecTestItem(Item):
         """
         Initialize the test item.
 
-        Args:
-            name: Name of the test
-            parent: Parent node
-            **kwargs: Additional keyword arguments
-
+        Args: name: Name of the test parent: Parent node **kwargs: Additional
+        keyword arguments
         """
         super().__init__(name, parent)
         self.module = None  # type: ignore
@@ -170,12 +160,11 @@ class EIPSpecTestItem(Item):
     def from_parent(cls, parent: Node, **kw: Any) -> "EIPSpecTestItem":
         """
         Public constructor to define new tests.
-        https://docs.pytest.org/en/latest/reference/reference.html#pytest.nodes.Node.from_parent.
+        https://docs.pytest.org/en/latest/reference/reference.html#pytest.nodes.Node.fr
+        om_parent.
 
-        Args:
-            parent: The parent Node
-            kw: Additional keyword arguments (module, github_token)
-
+        Args: parent: The parent Node kw: Additional keyword arguments (module,
+        github_token)
         """
         module = kw.pop("module", None)
         github_token = kw.pop("github_token", None)
@@ -195,9 +184,7 @@ class EIPSpecTestItem(Item):
         """
         Get location information for this test item to use test reports.
 
-        Returns:
-            A tuple of (path, line_number, description)
-
+        Returns: A tuple of (path, line_number, description)
         """
         return "spec_version_checker", 0, f"{self.name}"
 
@@ -205,9 +192,10 @@ class EIPSpecTestItem(Item):
 def pytest_collection_modifyitems(
     session: pytest.Session, config: pytest.Config, items: List[Item]
 ):
-    """Insert a new test EIPSpecTestItem for every test module with 'eip' in its path."""
-    del session
-
+    """
+    Insert a new test EIPSpecTestItem for every test module with 'eip' in its
+    path.
+    """
     github_token = config.github_token if hasattr(config, "github_token") else None
 
     modules: Set[Module] = {item.parent for item in items if isinstance(item.parent, Module)}

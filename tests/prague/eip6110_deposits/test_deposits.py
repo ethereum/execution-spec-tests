@@ -1,7 +1,7 @@
 """
-abstract: Tests [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110)
-    Test [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110).
-"""  # noqa: E501
+abstract: Tests [EIP-6110: Supply validator deposits on
+chain](https://eips.ethereum.org/EIPS/eip-6110).
+"""
 
 from typing import List
 
@@ -185,7 +185,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             amount=32_000_000_000,
                             signature=0x03,
                             index=0x0,
-                            # From traces, gas used by the first tx is 82,718 so reduce by one here
+                            # From traces, gas used by the first tx is 82,718
+                            # so reduce by one here
                             gas_limit=0x1431D,
                             valid=False,
                         ),
@@ -218,7 +219,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             amount=32_000_000_000,
                             signature=0x03,
                             index=0x0,
-                            # From traces, gas used by the second tx is 68,594, reduce by one here
+                            # From traces, gas used by the second tx is 68,594,
+                            # reduce by one here
                             gas_limit=0x10BF1,
                             valid=False,
                         ),
@@ -838,8 +840,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             valid=False,
                         )
                     ],
-                    # Send 32 ETH minus 1 wei to the contract, note `DepositRequest.amount` is in
-                    # gwei
+                    # Send 32 ETH minus 1 wei to the contract, note
+                    # `DepositRequest.amount` is in gwei
                     tx_value=32_000_000_000 * 10**9 - 1,
                     contract_balance=0,
                 ),
@@ -1182,8 +1184,8 @@ def test_deposit_negative(
     blocks: List[Block],
 ):
     """
-    Test producing a block with the incorrect deposits in the body of the block,
-    and/or Engine API payload.
+    Test producing a block with the incorrect deposits in the body of the
+    block, and/or Engine API payload.
     """
     blockchain_test(
         pre=pre,

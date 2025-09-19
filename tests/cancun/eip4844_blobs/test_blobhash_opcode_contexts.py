@@ -1,9 +1,7 @@
 """
-abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test case for `BLOBHASH` opcode calls across different contexts
-    in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
-
-"""  # noqa: E501
+abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob
+Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+"""
 
 from enum import Enum
 from typing import Iterable, List
@@ -34,8 +32,8 @@ pytestmark = pytest.mark.valid_from("Cancun")
 
 class BlobhashContext(Enum):
     """
-    A utility class for mapping common EVM opcodes in different contexts
-    to specific bytecode (with BLOBHASH), addresses and contracts.
+    A utility class for mapping common EVM opcodes in different contexts to
+    specific bytecode (with BLOBHASH), addresses and contracts.
     """
 
     BLOBHASH_SSTORE = "blobhash_sstore"
@@ -52,9 +50,7 @@ class BlobhashContext(Enum):
         """
         Map opcode context to bytecode that utilizes the BLOBHASH opcode.
 
-        Args:
-            indexes: The indexes to request using the BLOBHASH opcode
-
+        Args: indexes: The indexes to request using the BLOBHASH opcode
         """
         match self:
             case BlobhashContext.BLOBHASH_SSTORE:
@@ -81,10 +77,8 @@ class BlobhashContext(Enum):
         """
         Deploy a contract with the given context and indexes.
 
-        Args:
-            pre: The pre state to deploy the contract on
-            indexes: The indexes to request using the BLOBHASH opcode
-
+        Args: pre: The pre state to deploy the contract on indexes: The indexes
+        to request using the BLOBHASH opcode
         """
         match self:
             case BlobhashContext.BLOBHASH_SSTORE | BlobhashContext.BLOBHASH_RETURN:
@@ -147,7 +141,9 @@ class BlobhashContext(Enum):
 def simple_blob_hashes(
     max_blobs_per_tx: int,
 ) -> List[Hash]:
-    """Return a simple list of blob versioned hashes ranging from bytes32(1 to 4)."""
+    """
+    Return a simple list of blob versioned hashes ranging from bytes32(1 to 4).
+    """
     return add_kzg_version(
         [(1 << x) for x in range(max_blobs_per_tx)],
         Spec.BLOB_COMMITMENT_VERSION_KZG,
@@ -177,14 +173,14 @@ def test_blobhash_opcode_contexts(
     state_test: StateTestFiller,
 ):
     """
-    Tests that the `BLOBHASH` opcode functions correctly when called in different contexts.
+    Tests that the `BLOBHASH` opcode functions correctly when called in
+    different contexts.
 
-    - `BLOBHASH` opcode on the top level of the call stack.
-    - `BLOBHASH` opcode on the max value.
-    - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`, `STATICCALL`, and `CALLCODE`.
-    - `BLOBHASH` opcode on Initcode.
-    - `BLOBHASH` opcode on `CREATE` and `CREATE2`.
-    - `BLOBHASH` opcode on transaction types 0, 1 and 2.
+    - `BLOBHASH` opcode on the top level of the call stack. - `BLOBHASH` opcode
+    on the max value. - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`,
+    `STATICCALL`, and `CALLCODE`. - `BLOBHASH` opcode on Initcode. - `BLOBHASH`
+    opcode on `CREATE` and `CREATE2`. - `BLOBHASH` opcode on transaction types
+    0, 1 and 2.
     """
     tx_to: Address
     post: dict[Address, Account]
@@ -292,14 +288,14 @@ def test_blobhash_opcode_contexts_tx_types(
     state_test: StateTestFiller,
 ):
     """
-    Tests that the `BLOBHASH` opcode functions correctly when called in different contexts.
+    Tests that the `BLOBHASH` opcode functions correctly when called in
+    different contexts.
 
-    - `BLOBHASH` opcode on the top level of the call stack.
-    - `BLOBHASH` opcode on the max value.
-    - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`, `STATICCALL`, and `CALLCODE`.
-    - `BLOBHASH` opcode on Initcode.
-    - `BLOBHASH` opcode on `CREATE` and `CREATE2`.
-    - `BLOBHASH` opcode on transaction types 0, 1 and 2.
+    - `BLOBHASH` opcode on the top level of the call stack. - `BLOBHASH` opcode
+    on the max value. - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`,
+    `STATICCALL`, and `CALLCODE`. - `BLOBHASH` opcode on Initcode. - `BLOBHASH`
+    opcode on `CREATE` and `CREATE2`. - `BLOBHASH` opcode on transaction types
+    0, 1 and 2.
     """
     blobhash_sstore_address = BlobhashContext.BLOBHASH_SSTORE.deploy_contract(pre=pre, indexes=[0])
     tx_kwargs = {

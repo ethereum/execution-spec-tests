@@ -1,8 +1,7 @@
 """
 A module for managing documentation-related configurations.
 
-Classes:
-- DocsConfig: Holds configurations for documentation generation.
+Classes: - DocsConfig: Holds configurations for documentation generation.
 """
 
 from pydantic import BaseModel
@@ -19,5 +18,6 @@ class DocsConfig(BaseModel):
 
     DOCS_BASE_URL: str = "https://eest.ethereum.org"
 
-    # Documentation URLs prefixed with `DOCS_URL__` to avoid conflicts with other URLs
+    # Documentation URLs prefixed with `DOCS_URL__` to avoid conflicts with
+    # other URLs
     DOCS_URL__WRITING_TESTS: str = f"{DOCS_BASE_URL}/main/writing_tests/"

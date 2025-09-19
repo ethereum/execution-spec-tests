@@ -30,7 +30,9 @@ def test_generate_all_formats_creates_two_phase_execution():
 
 
 def test_generate_all_formats_preserves_other_args():
-    """Test that --generate-all-formats preserves other command line arguments."""
+    """
+    Test that --generate-all-formats preserves other command line arguments.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):
@@ -86,7 +88,8 @@ def test_legacy_generate_pre_alloc_groups_still_works():
     phase1_args = executions[0].args
     assert "--generate-pre-alloc-groups" in phase1_args
 
-    # Phase 2: Should have --use-pre-alloc-groups but NOT --generate-all-formats
+    # Phase 2: Should have --use-pre-alloc-groups but NOT --generate-all-
+    # formats
     phase2_args = executions[1].args
     assert "--use-pre-alloc-groups" in phase2_args
     assert "--generate-all-formats" not in phase2_args
@@ -110,7 +113,9 @@ def test_single_phase_without_flags():
 
 
 def test_tarball_output_auto_enables_generate_all_formats():
-    """Test that tarball output automatically enables --generate-all-formats."""
+    """
+    Test that tarball output automatically enables --generate-all-formats.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):
@@ -124,7 +129,8 @@ def test_tarball_output_auto_enables_generate_all_formats():
     phase1_args = executions[0].args
     assert "--generate-pre-alloc-groups" in phase1_args
 
-    # Phase 2: Should have --generate-all-formats (auto-added) and --use-pre-alloc-groups
+    # Phase 2: Should have --generate-all-formats (auto-added) and --use-pre-
+    # alloc-groups
     phase2_args = executions[1].args
     assert "--generate-all-formats" in phase2_args
     assert "--use-pre-alloc-groups" in phase2_args
@@ -132,7 +138,10 @@ def test_tarball_output_auto_enables_generate_all_formats():
 
 
 def test_tarball_output_with_explicit_generate_all_formats():
-    """Test that explicit --generate-all-formats with tarball output works correctly."""
+    """
+    Test that explicit --generate-all-formats with tarball output works
+    correctly.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):
@@ -150,7 +159,10 @@ def test_tarball_output_with_explicit_generate_all_formats():
 
 
 def test_regular_output_does_not_auto_trigger_two_phase():
-    """Test that regular directory output doesn't auto-trigger two-phase execution."""
+    """
+    Test that regular directory output doesn't auto-trigger two-phase
+    execution.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):

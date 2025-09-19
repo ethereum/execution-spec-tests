@@ -249,7 +249,10 @@ def msm_discount(group: BLS12Group, k: int) -> int:
 def msm_gas_func_gen(
     group: BLS12Group, len_per_pair: int, multiplication_cost: int
 ) -> Callable[[int], int]:
-    """Generate a function that calculates the gas cost for the G1MSM and G2MSM precompiles."""
+    """
+    Generate a function that calculates the gas cost for the G1MSM and G2MSM
+    precompiles.
+    """
 
     def msm_gas(input_length: int) -> int:
         """Calculate gas cost for the G1MSM and G2MSM precompiles."""

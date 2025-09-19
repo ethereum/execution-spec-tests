@@ -39,10 +39,10 @@ def main() -> None:
             verified_vectors += verify_refilled(Path(refilled_file), original_file)
         print(f"Total vectors verified: {verified_vectors}")
 
-        # Solidity skipped tests
-        # or file.endswith("stExample/solidityExampleFiller.yml")
-        # or file.endswith("vmPerformance/performanceTesterFiller.yml")
-        # or file.endswith("vmPerformance/loopExpFiller.yml")
-        # or file.endswith("vmPerformance/loopMulFiller.yml")
-        # or file.endswith("stRevertTest/RevertRemoteSubCallStorageOOGFiller.yml")
+        # Solidity skipped tests or
+        # file.endswith("stExample/solidityExampleFiller.yml") or
+        # file.endswith("vmPerformance/performanceTesterFiller.yml") or
+        # file.endswith("vmPerformance/loopExpFiller.yml") or
+        # file.endswith("vmPerformance/loopMulFiller.yml") or
+        # file.endswith("stRevertTest/RevertRemoteSubCallStorageOOGFiller.yml")
         # or file.endswith("stSolidityTest/SelfDestructFiller.yml")

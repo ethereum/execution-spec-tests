@@ -1,4 +1,7 @@
-"""Chain builder Ethereum RPC that can drive the chain when new transactions are submitted."""
+"""
+Chain builder Ethereum RPC that can drive the chain when new transactions are
+submitted.
+"""
 
 import time
 from pathlib import Path
@@ -87,10 +90,11 @@ class AddressList(RootModel[List[Address]]):
 
 class PendingTxHashes:
     """
-    A class to manage the pending transaction hashes in a multi-process environment.
+    A class to manage the pending transaction hashes in a multi-process
+    environment.
 
-    It uses a lock file to ensure that only one process can access the pending hashes file at a
-    time.
+    It uses a lock file to ensure that only one process can access the pending
+    hashes file at a time.
     """
 
     pending_hashes_file: Path
@@ -166,9 +170,9 @@ class PendingTxHashes:
 
 class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
     """
-    Special type of Ethereum RPC client that also has access to the Engine API and automatically
-    coordinates block generation based on the number of pending transactions or a block generation
-    interval.
+    Special type of Ethereum RPC client that also has access to the Engine API
+    and automatically coordinates block generation based on the number of
+    pending transactions or a block generation interval.
     """
 
     fork: Fork
@@ -323,12 +327,9 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
         Waits for a specific transaction to be included in a block by polling
         `eth_getTransactionByHash` until it is confirmed or a timeout occurs.
 
-        Args:
-            transaction: The transaction to track.
+        Args: transaction: The transaction to track.
 
-        Returns:
-            The transaction details after it is included in a block.
-
+        Returns: The transaction details after it is included in a block.
         """
         return self.wait_for_transactions([transaction])[0]
 
@@ -336,22 +337,20 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
         self, transactions: List[Transaction]
     ) -> List[TransactionByHashResponse]:
         """
-        Wait for all transactions in the provided list to be included in a block.
+        Wait for all transactions in the provided list to be included in a
+        block.
 
-        Waits for all transactions in the provided list to be included in a block
-        by polling `eth_getTransactionByHash` until they are confirmed or a
-        timeout occurs.
+        Waits for all transactions in the provided list to be included in a
+        block by polling `eth_getTransactionByHash` until they are confirmed or
+        a timeout occurs.
 
-        Args:
-            transactions: A list of transactions to track.
+        Args: transactions: A list of transactions to track.
 
-        Returns:
-            A list of transaction details after they are included in a block.
+        Returns: A list of transaction details after they are included in a
+        block.
 
-        Raises:
-            Exception: If one or more transactions are not included in a block
-                within the timeout period.
-
+        Raises: Exception: If one or more transactions are not included in a
+        block within the timeout period.
         """
         tx_hashes = [tx.hash for tx in transactions]
         responses: List[TransactionByHashResponse] = []
@@ -398,13 +397,11 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
 
 class PendingTransactionHandler:
     """
-    Manages block generation based on the number of pending transactions or a block generation
-    interval.
+    Manages block generation based on the number of pending transactions or a
+    block generation interval.
 
-    Attributes:
-        block_generation_interval: The number of iterations after which a block
-            is generated if no new transactions are added (default: 10).
-
+    Attributes: block_generation_interval: The number of iterations after which
+    a block is generated if no new transactions are added (default: 10).
     """
 
     chain_builder_eth_rpc: ChainBuilderEthRPC
@@ -423,11 +420,12 @@ class PendingTransactionHandler:
         """
         Handle pending transactions and generate blocks if necessary.
 
-        If the number of pending transactions reaches the limit, a block is generated.
+        If the number of pending transactions reaches the limit, a block is
+        generated.
 
-        If no new transactions have been added to the pending list and the block
-        generation interval has been reached, a block is generated to avoid potential
-        deadlock.
+        If no new transactions have been added to the pending list and the
+        block generation interval has been reached, a block is generated to
+        avoid potential deadlock.
         """
         with self.chain_builder_eth_rpc.pending_tx_hashes:
             if (
@@ -442,8 +440,8 @@ class PendingTransactionHandler:
                     == self.last_pending_tx_hashes_count
                     and self.i % self.block_generation_interval == 0
                 ):
-                    # If no new transactions have been added to the pending list,
-                    # generate a block to avoid potential deadlock.
+                    # If no new transactions have been added to the pending
+                    # list, generate a block to avoid potential deadlock.
                     self.chain_builder_eth_rpc.generate_block()
             self.last_pending_tx_hashes_count = len(self.chain_builder_eth_rpc.pending_tx_hashes)
             self.i += 1

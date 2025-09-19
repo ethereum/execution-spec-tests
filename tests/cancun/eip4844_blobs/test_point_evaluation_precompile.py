@@ -1,31 +1,31 @@
 """
-abstract: Tests point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+abstract: Tests point evaluation precompile for [EIP-4844: Shard Blob
+Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
-note: Adding a new test
-    Add a function that is named `test_<test_name>` and takes at least the following arguments:
+Note: Adding a new test Add a function that is named `test_<test_name>` and
+takes at least the following arguments:
 
-    - blockchain_test | state_test
-    - pre
-    - tx
-    - post
+- blockchain_test | state_test
+- pre
+- tx
+- post
 
-    The following arguments *need* to be parametrized or the test will not be generated:
+The following arguments *need* to be parametrized or the test will not be
+generated:
 
-    - versioned_hash
-    - kzg_commitment
-    - z
-    - y
-    - kzg_proof
-    - result
+- versioned_hash
+- kzg_commitment
+- z
+- y
+- kzg_proof
+- result
 
-    These values correspond to a single call of the precompile, and `result` refers to
-    whether the call should succeed or fail.
+These values correspond to a single call of the precompile, and `result` refers
+to whether the call should succeed or fail.
 
-    All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
-    cases.
-
-"""  # noqa: E501
+All other `pytest.fixture` fixtures can be parametrized to generate new
+combinations and test cases.
+"""
 
 import glob
 import json
@@ -110,8 +110,8 @@ def call_gas() -> int:
     """
     Amount of gas to pass to the precompile.
 
-    Defaults to Spec.POINT_EVALUATION_PRECOMPILE_GAS, but can be parametrized to
-    test different amounts.
+    Defaults to Spec.POINT_EVALUATION_PRECOMPILE_GAS, but can be parametrized
+    to test different amounts.
     """
     return Spec.POINT_EVALUATION_PRECOMPILE_GAS
 
@@ -144,7 +144,8 @@ def precompile_caller_code(call_opcode: Op, call_gas: int) -> Bytecode:
     precompile_caller_code = Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
     precompile_caller_code += Op.SSTORE(
         key_call_return_code,
-        call_opcode(  # type: ignore # https://github.com/ethereum/execution-spec-tests/issues/348 # noqa: E501
+        # https://github.com/ethereum/execution-spec-tests/issues/348
+        call_opcode(  # type: ignore
             gas=call_gas,
             address=Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS,
             args_offset=0x00,
@@ -226,8 +227,8 @@ def post(
     precompile_input: bytes,
 ) -> Dict:
     """
-    Prepare expected post for each test, depending on the success or
-    failure of the precompile call.
+    Prepare expected post for each test, depending on the success or failure of
+    the precompile call.
     """
     expected_storage: Storage.StorageDictType = {}
     # CALL operation return code
@@ -291,8 +292,9 @@ def test_valid_inputs(
     """
     Test valid sanity precompile calls that are expected to succeed.
 
-    - `kzg_commitment` and `kzg_proof` are set to values such that `p(z)==0` for all values of `z`,
-    hence `y` is tested to be zero, and call to be successful.
+    - `kzg_commitment` and `kzg_proof` are set to values such that `p(z)==0`
+    for all values of `z`, hence `y` is tested to be zero, and call to be
+    successful.
     """
     state_test(
         env=Environment(),
@@ -344,11 +346,9 @@ def test_invalid_inputs(
     """
     Test invalid precompile calls.
 
-    - Out of bounds inputs `z` and `y`
-    - Correct proof, commitment, z and y, but incorrect lengths
-    - Null inputs
-    - Zero inputs
-    - Correct proof, commitment, z and y, but incorrect version versioned hash
+    - Out of bounds inputs `z` and `y` - Correct proof, commitment, z and y,
+    but incorrect lengths - Null inputs - Zero inputs - Correct proof,
+    commitment, z and y, but incorrect version versioned hash
     """
     state_test(
         env=Environment(),
@@ -425,8 +425,8 @@ def get_point_evaluation_test_files_in_directory(path: str) -> list[str]:
 
 def all_external_vectors() -> List:
     """
-    Test for the Point Evaluation Precompile from external sources,
-    contained in ./point_evaluation_vectors/.
+    Test for the Point Evaluation Precompile from external sources, contained
+    in ./point_evaluation_vectors/.
     """
     test_cases = []
 
@@ -453,7 +453,8 @@ def test_external_vectors(
     post: Dict,
 ):
     """
-    Test precompile calls using external test vectors compiled from different sources.
+    Test precompile calls using external test vectors compiled from different
+    sources.
 
     - `go_kzg_4844_verify_kzg_proof.json`: test vectors from the
     [go-kzg-4844](https://github.com/crate-crypto/go-kzg-4844) repository.
@@ -492,9 +493,8 @@ def test_call_opcode_types(
     Test calling the Point Evaluation Precompile with different call types, gas
     and parameter configuration.
 
-    - Using CALL, DELEGATECALL, CALLCODE and STATICCALL.
-    - Using correct and incorrect proofs
-    - Using barely insufficient gas
+    - Using CALL, DELEGATECALL, CALLCODE and STATICCALL. - Using correct and
+    incorrect proofs - Using barely insufficient gas
     """
     state_test(
         env=Environment(),
@@ -531,16 +531,16 @@ def test_tx_entry_point(
     proof_correct: bool,
 ):
     """
-    Test calling the Point Evaluation Precompile directly as
-    transaction entry point, and measure the gas consumption.
+    Test calling the Point Evaluation Precompile directly as transaction entry
+    point, and measure the gas consumption.
 
-    - Using `gas_limit` with exact necessary gas, insufficient gas and extra gas.
-    - Using correct and incorrect proofs
+    - Using `gas_limit` with exact necessary gas, insufficient gas and extra
+    gas. - Using correct and incorrect proofs
     """
     sender = pre.fund_eoa()
 
-    # Starting from EIP-7623, we need to use an access list to raise the intrinsic gas cost to be
-    # above the floor data cost.
+    # Starting from EIP-7623, we need to use an access list to raise the
+    # intrinsic gas cost to be above the floor data cost.
     access_list = [AccessList(address=Address(i), storage_keys=[]) for i in range(1, 10)]
 
     # Gas is appended the intrinsic gas cost of the transaction
@@ -614,7 +614,9 @@ def test_precompile_before_fork(
     tx: Transaction,
     precompile_caller_address: Address,
 ):
-    """Test calling the Point Evaluation Precompile before the appropriate fork."""
+    """
+    Test calling the Point Evaluation Precompile before the appropriate fork.
+    """
     post = {
         precompile_caller_address: Account(
             storage={1: 1},
@@ -667,7 +669,9 @@ def test_precompile_during_fork(
     precompile_input: bytes,
     sender: EOA,
 ):
-    """Test calling the Point Evaluation Precompile during the appropriate fork."""
+    """
+    Test calling the Point Evaluation Precompile during the appropriate fork.
+    """
     # Blocks before fork
     blocks = [
         Block(

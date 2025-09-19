@@ -32,8 +32,8 @@ def test_jumpf_target_rules(
     target_outputs: int,
 ):
     """
-    Validate the target section rules of JUMPF, and execute valid cases.
-    We are not testing stack so a lot of the logic is to get correct stack values.
+    Validate the target section rules of JUMPF, and execute valid cases. We are
+    not testing stack so a lot of the logic is to get correct stack values.
     """
     source_non_returning = source_outputs == NON_RETURNING_SECTION
     source_height = 0 if source_non_returning else source_outputs
@@ -43,10 +43,11 @@ def test_jumpf_target_rules(
     target_height = 0 if target_non_returning else target_outputs
     target_section_index = 2
 
-    # Because we are testing the target and not the stack height validation we need to do some work
-    # to make sure the stack passes validation.
+    # Because we are testing the target and not the stack height validation we
+    # need to do some work to make sure the stack passes validation.
 
-    # `source_extra_push` is how many more pushes we need to match our stack commitments
+    # `source_extra_push` is how many more pushes we need to match our stack
+    # commitments
     source_extra_push = max(0, source_height - target_height)
     source_section = Section.Code(
         code=Op.PUSH0 * (source_height)
@@ -60,8 +61,9 @@ def test_jumpf_target_rules(
         max_stack_height=source_height + max(1, source_extra_push),
     )
 
-    # `delta` is how many stack items the target output is from the input height, and tracks the
-    # number of pushes or (if negative) pops the target needs to do to match output commitments
+    # `delta` is how many stack items the target output is from the input
+    # height, and tracks the number of pushes or (if negative) pops the target
+    # needs to do to match output commitments
     delta = 0 if target_non_returning or source_non_returning else target_outputs - source_height
     target_section = Section.Code(
         code=((Op.PUSH0 * delta) if delta >= 0 else (Op.POP * -delta))
@@ -116,7 +118,7 @@ def test_jumpf_multi_target_rules(
     eof_state_test: EOFStateTestFiller,
 ):
     """
-    NOT IMPLEMENTED:
-    Test a section that contains multiple JUMPF to different targets with different outputs.
+    NOT IMPLEMENTED: Test a section that contains multiple JUMPF to different
+    targets with different outputs.
     """
     pass

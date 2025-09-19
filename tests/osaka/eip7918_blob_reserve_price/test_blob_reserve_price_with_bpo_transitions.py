@@ -99,8 +99,8 @@ def genesis_base_fee_per_gas(
     parent_base_fee_per_gas: int,
 ) -> int:
     """Genesis base fee per gas."""
-    # Base fee always drops from genesis to block 1 because the genesis block never uses
-    # any tx gas.
+    # Base fee always drops from genesis to block 1 because the genesis block
+    # never uses any tx gas.
     return (parent_base_fee_per_gas * fork.base_fee_max_change_denominator()) // 7
 
 
@@ -151,10 +151,12 @@ def env(
 ) -> Environment:
     """Environment for the test."""
     return Environment(
-        # Excess blob gas always drops from genesis to block 1 because genesis uses no blob gas.
+        # Excess blob gas always drops from genesis to block 1 because genesis
+        # uses no blob gas.
         excess_blob_gas=genesis_excess_blob_gas,
         base_fee_per_gas=genesis_base_fee_per_gas,
-        gas_limit=16_000_000,  # To make it easier to reach the requirement with a single tx
+        gas_limit=16_000_000,  # To make it easier to reach the requirement
+        # with a single tx
     )
 
 
@@ -234,8 +236,8 @@ def parent_block_txs(
     """
     Transactions included in the block prior to the fork transition fork.
 
-    Includes blob transactions to raise the `parent_blob_gas_used` and normal transactions
-    to raise/lower the base fee per gas.
+    Includes blob transactions to raise the `parent_blob_gas_used` and normal
+    transactions to raise/lower the base fee per gas.
     """
     parent_block_blob_txs = get_blob_transactions(
         blob_count=parent_blob_count,
@@ -386,8 +388,8 @@ class BlobSchedule:
 
     def calculate_excess_blob_gas(self, parent_header: ParentHeader) -> int:
         """
-        Calculate the excess blob gas for the current block based
-        on the gas used in the parent block.
+        Calculate the excess blob gas for the current block based on the gas
+        used in the parent block.
         """
         excess_blob_gas_calculator = self.fork.excess_blob_gas_calculator(timestamp=self.timestamp)
         return excess_blob_gas_calculator(
@@ -400,8 +402,8 @@ class BlobSchedule:
         self, excess_blob_gas: int
     ) -> int | None:
         """
-        Return the minimum base fee required to trigger the reserve mechanism, or None
-        for blob schedules that don't have a reserve price mechanism.
+        Return the minimum base fee required to trigger the reserve mechanism,
+        or None for blob schedules that don't have a reserve price mechanism.
         """
         if self.blob_base_cost is None:
             return None
@@ -414,8 +416,8 @@ class BlobSchedule:
 
 def get_fork_scenarios(fork: Fork) -> Iterator[ParameterSet]:
     """
-    Return the list of scenarios at the fork boundary depending on the source fork and
-    transition fork properties.
+    Return the list of scenarios at the fork boundary depending on the source
+    fork and transition fork properties.
     """
     source_blob_schedule = BlobSchedule(fork=fork, timestamp=0)
     transition_blob_schedule = BlobSchedule(fork=fork, timestamp=15_000)
@@ -439,16 +441,16 @@ def get_fork_scenarios(fork: Fork) -> Iterator[ParameterSet]:
             source_execution_threshold != transition_execution_threshold
             and transition_execution_threshold is not None
         ):
-            # The source base fee reserve threshold is different from the transition one
-            # given the excess blob gas.
-            # We can verify that the BPO is activated correctly by using the a setup block
-            # with transition_execution_threshold to trigger the reserve.
+            # The source base fee reserve threshold is different from the
+            # transition one given the excess blob gas. We can verify that the
+            # BPO is activated correctly by using the a setup block with
+            # transition_execution_threshold to trigger the reserve.
             for source_blob_count in [0, source_blob_schedule.target, source_blob_schedule.max]:
-                # Scenario 1: Parent base fee per gas is below the threshold at the
-                # parent of the transition block, so even though the base fee increases on
-                # the transition block to reach the value required to activate the reserve,
-                # since the base fee per gas of the parent is used, the reserve must not be
-                # activated.
+                # Scenario 1: Parent base fee per gas is below the threshold at
+                # the parent of the transition block, so even though the base
+                # fee increases on the transition block to reach the value
+                # required to activate the reserve, since the base fee per gas
+                # of the parent is used, the reserve must not be activated.
                 parent_base_fee = transition_execution_threshold - 1
                 transition_base_fee = transition_execution_threshold
                 parent_header = ParentHeader(
@@ -477,9 +479,9 @@ def get_fork_scenarios(fork: Fork) -> Iterator[ParameterSet]:
                         ),
                     )
 
-                # Scenario 2: Parent base fee per gas is at the threshold, so the reserve
-                # is activated even though the base fee per gas decreases below the
-                # threshold on the transition block.
+                # Scenario 2: Parent base fee per gas is at the threshold, so
+                # the reserve is activated even though the base fee per gas
+                # decreases below the threshold on the transition block.
                 parent_base_fee = transition_execution_threshold
                 transition_base_fee = transition_execution_threshold - 1
                 parent_header = ParentHeader(
@@ -509,7 +511,8 @@ def get_fork_scenarios(fork: Fork) -> Iterator[ParameterSet]:
                     )
 
     if fork == BPO2ToBPO3AtTime15k:
-        # Explicitly add the exact scenario that triggered the Fusaka Devnet-4 fork.
+        # Explicitly add the exact scenario that triggered the Fusaka Devnet-4
+        # fork.
         yield pytest.param(
             0x32,
             0x125BF5F,
@@ -541,7 +544,10 @@ def test_reserve_price_at_transition(
     transition_block: Block,
     env: Environment,
 ):
-    """Test reserve price mechanism across various block base fee and excess blob gas scenarios."""
+    """
+    Test reserve price mechanism across various block base fee and excess blob
+    gas scenarios.
+    """
     blockchain_test(
         pre=pre,
         post={},
