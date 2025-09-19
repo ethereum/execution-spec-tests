@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     Bytes,
     Case,
+    CodeGasMeasure,
     Conditional,
     Environment,
     Hash,
@@ -24,7 +25,6 @@ from ethereum_test_tools import (
     TransactionException,
     compute_create_address,
 )
-from ethereum_test_tools.tools_code.generators import CodeGasMeasure
 from ethereum_test_types.eof.v1 import Container, Section
 from ethereum_test_vm import Macros
 from ethereum_test_vm import Opcodes as Op
