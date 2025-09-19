@@ -25,7 +25,10 @@ class ExceptionBase(Enum):
     def __get_pydantic_core_schema__(
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call class constructor without info and appends the serialization schema."""
+        """
+        Call class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             cls.from_str,
             serialization=to_string_ser_schema(),
@@ -104,7 +107,10 @@ class UndefinedException(str):
     def __get_pydantic_core_schema__(
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call class constructor without info and appends the serialization schema."""
+        """
+        Call class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             cls,
             serialization=to_string_ser_schema(),
@@ -114,9 +120,11 @@ class UndefinedException(str):
 @unique
 class TransactionException(ExceptionBase):
     """
-    Exception raised when a transaction is invalid, and thus cannot be executed.
+    Exception raised when a transaction is invalid, and thus cannot be
+    executed.
 
-    If a transaction with any of these exceptions is included in a block, the block is invalid.
+    If a transaction with any of these exceptions is included in a block, the
+    block is invalid.
     """
 
     TYPE_NOT_SUPPORTED = auto()
@@ -402,8 +410,8 @@ class BlockException(ExceptionBase):
     """
     Exception raised when a block is invalid, but not due to a transaction.
 
-    E.g. all transactions in the block are valid, and can be applied to the state, but the
-    block header contains an invalid field.
+    E.g. all transactions in the block are valid, and can be applied to the
+    state, but the block header contains an invalid field.
     """
 
     TOO_MANY_UNCLES = auto()

@@ -40,7 +40,8 @@ class ExceptionMapper(ABC):
 
     def __init__(self) -> None:
         """Initialize the exception mapper."""
-        # Ensure that the subclass has properly defined mapping_substring before accessing it
+        # Ensure that the subclass has properly defined mapping_substring
+        # before accessing it
         assert self.mapping_substring is not None, "mapping_substring must be defined in subclass"
         assert self.mapping_regex is not None, "mapping_regex must be defined in subclass"
         self.mapper_name = self.__class__.__name__
@@ -66,8 +67,8 @@ class ExceptionMapper(ABC):
 
 class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
     """
-    Class that contains the exception along with the verbatim message from the external
-    tool/client.
+    Class that contains the exception along with the verbatim message from the
+    external tool/client.
     """
 
     exceptions: List[ExceptionBoundTypeVar]
@@ -86,8 +87,8 @@ class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
 
 def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | UndefinedException | None:
     """
-    Use the exception mapper that must be included in the context to map the exception
-    from the external tool.
+    Use the exception mapper that must be included in the context to map the
+    exception from the external tool.
     """
     if v is None:
         return v

@@ -190,12 +190,15 @@ def test_eth_config_last_fork_id(
 def test_eth_config_majority(
     all_rpc_endpoints: Dict[str, List[EthRPC]],
 ) -> None:
-    """Queries devnet exec clients for their eth_config and fails if not all have the same response."""  # noqa: E501
+    """
+    Queries devnet exec clients for their eth_config and fails if not all have
+    the same response.
+    """  # noqa: E501
     responses = dict()  # Dict[exec_client_name : response] # noqa: C408
     client_to_url_used_dict = dict()  # noqa: C408
     for exec_client in all_rpc_endpoints.keys():
-        # try only as many consensus+exec client combinations until you receive a response
-        # if all combinations for a given exec client fail we panic
+        # try only as many consensus+exec client combinations until you receive
+        # a response if all combinations for a given exec client fail we panic
         for eth_rpc_target in all_rpc_endpoints[exec_client]:
             try:
                 response = eth_rpc_target.config(timeout=5)
@@ -226,14 +229,15 @@ def test_eth_config_majority(
         "this execution client"
     )
     # determine hashes of client responses
-    client_to_hash_dict = dict()  # Dict[exec_client : response hash] # noqa: C408
+    client_to_hash_dict = {}  # Dict[exec_client : response hash] # noqa: C408
     for client in responses.keys():
         response_bytes = responses[client].encode("utf-8")
         response_hash = sha256(response_bytes).digest().hex()
         logger.info(f"Response hash of client {client}: {response_hash}")
         client_to_hash_dict[client] = response_hash
 
-    # if not all responses have the same hash there is a critical consensus issue
+    # if not all responses have the same hash there is a critical consensus
+    # issue
     expected_hash = ""
     for h in client_to_hash_dict.keys():
         if expected_hash == "":
@@ -247,7 +251,8 @@ def test_eth_config_majority(
             + "\n\n"  # noqa: E501
             "Here is an overview of which URLs were contacted:\n\t"
             + "\n\t".join(f"{k}: @{v.split('@')[1]}" for k, v in client_to_url_used_dict.items())
-            + "\n\n"  # log which cl+el combinations were used without leaking full url # noqa: E501
+            + "\n\n"  # log which cl+el combinations were used without leaking
+            # full url # noqa: E501
             "Here is a dump of all client responses:\n"
             + "\n\n".join(f"{k}: {v}" for k, v in responses.items())  # noqa: E501
         )

@@ -84,7 +84,10 @@ class ExpectedEOFExceptionError(EOFBaseExceptionError):
     """
 
     def __init__(self, *, code: Bytes, expected: str):
-        """Initialize the exception with the code and the expected exception message."""
+        """
+        Initialize the exception with the code and the expected exception
+        message.
+        """
         message = (
             "Expected EOF code to be invalid, but no exception was raised:\n"
             f"    Code: {self.format_code(code)}\n"
@@ -98,7 +101,10 @@ class EOFExceptionMismatchError(EOFBaseExceptionError):
     """Exception used when the actual EOF exception differs from the expected one."""
 
     def __init__(self, code: Bytes, expected: str, got: str):
-        """Initialize the exception with the code, the expected/actual exception message."""
+        """
+        Initialize the exception with the code, the expected/actual exception
+        message.
+        """
         message = (
             "EOF code raised a different exception than expected:\n"
             f"    Code: {self.format_code(code)}\n"
@@ -166,8 +172,9 @@ class EOFTest(BaseTest):
     """
     Filler type that generates a test for EOF container validation.
 
-    A state test is also automatically generated where the container is wrapped in a
-    contract-creating transaction to test deployment/validation on the instantiated blockchain.
+    A state test is also automatically generated where the container is wrapped
+    in a contract-creating transaction to test deployment/validation on the
+    instantiated blockchain.
     """
 
     container: Container
@@ -281,7 +288,10 @@ class EOFTest(BaseTest):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard a fixture format from filling if the appropriate marker is used."""
+        """
+        Discard a fixture format from filling if the appropriate marker is
+        used.
+        """
         if "eof_test_only" in [m.name for m in markers]:
             return fixture_format != EOFFixture
         return False
@@ -409,12 +419,13 @@ class EOFTest(BaseTest):
         if self.container_kind == ContainerKind.INITCODE:
             initcode = self.container
             if "deployed_container" in self.model_fields_set:
-                # In the case of an initcontainer where we know the deployed container,
-                # we can use the initcontainer as-is.
+                # In the case of an initcontainer where we know the deployed
+                # container, we can use the initcontainer as-is.
                 deployed_container = self.deployed_container
             elif self.expect_exception is None:
-                # We have a valid init-container, but we don't know the deployed container.
-                # Try to infer the deployed container from the sections of the init-container.
+                # We have a valid init-container, but we don't know the
+                # deployed container. Try to infer the deployed container from
+                # the sections of the init-container.
                 assert self.container.raw_bytes is None, (
                     "deployed_container must be set for initcode containers with raw_bytes."
                 )
@@ -505,16 +516,18 @@ EOFTestFiller = Type[EOFTest]
 
 class EOFStateTest(EOFTest, Transaction):
     """
-    Filler type that generates an EOF test for container validation, and also tests the container
-    during runtime using a state test (and blockchain test).
+    Filler type that generates an EOF test for container validation, and also
+    tests the container during runtime using a state test (and blockchain
+    test).
 
-    In the state or blockchain test, the container is first deployed to the pre-allocation and
-    then a transaction is sent to the deployed container.
+    In the state or blockchain test, the container is first deployed to the
+    pre-allocation and then a transaction is sent to the deployed container.
 
-    Container deployment/validation is **not** tested like in the `EOFTest` unless the container
-    under test is an initcode container.
+    Container deployment/validation is **not** tested like in the `EOFTest`
+    unless the container under test is an initcode container.
 
-    All fields from `ethereum_test_types.Transaction` are available for use in the test.
+    All fields from `ethereum_test_types.Transaction` are available for use in
+    the test.
     """
 
     gas_limit: HexNumber = Field(HexNumber(10_000_000), serialization_alias="gas")
@@ -580,7 +593,8 @@ class EOFStateTest(EOFTest, Transaction):
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
 
-            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect failure.
+            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect
+                                                                     # failure.
         elif self.expect_exception is not None and self.container_kind == ContainerKind.INITCODE:
             # Invalid EOF initcode
             self.to = self.pre.deploy_contract(
@@ -591,7 +605,8 @@ class EOFStateTest(EOFTest, Transaction):
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
 
-            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect failure.
+            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect
+                                                                     # failure.
         elif self.container_kind == ContainerKind.INITCODE:
             self.to = self.pre.deploy_contract(
                 Op.TXCREATE(tx_initcode_hash=self.container.hash) + Op.STOP
@@ -634,8 +649,8 @@ class EOFStateTest(EOFTest, Transaction):
         """Generate the BlockchainTest fixture."""
         if fixture_format == EOFFixture:
             if Bytes(self.container) in existing_tests:
-                # Gracefully skip duplicate tests because one EOFStateTest can generate multiple
-                # state fixtures with the same data.
+                # Gracefully skip duplicate tests because one EOFStateTest can
+                # generate multiple state fixtures with the same data.
                 pytest.skip(f"Duplicate EOF container on EOFStateTest: {self.node_id()}")
             return self.make_eof_test_fixture(fork=fork)
         elif fixture_format in StateTest.supported_fixture_formats:

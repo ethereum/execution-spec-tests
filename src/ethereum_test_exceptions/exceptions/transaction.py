@@ -8,9 +8,11 @@ from .base import ExceptionBase
 @unique
 class TransactionException(ExceptionBase):
     """
-    Exception raised when a transaction is invalid, and thus cannot be executed.
+    Exception raised when a transaction is invalid, and thus cannot be
+    executed.
 
-    If a transaction with any of these exceptions is included in a block, the block is invalid.
+    If a transaction with any of these exceptions is included in a block, the
+    block is invalid.
     """
 
     TYPE_NOT_SUPPORTED = auto()

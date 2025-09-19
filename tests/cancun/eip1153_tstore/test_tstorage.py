@@ -1,8 +1,11 @@
 """
-abstract: Tests [EIP-1153: Transient Storage Opcodes](https://eips.ethereum.org/EIPS/eip-1153)
-    Test [EIP-1153: Transient Storage Opcodes](https://eips.ethereum.org/EIPS/eip-1153). Ports
-    and extends some tests from
-    [ethereum/tests/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage).
+abstract: Tests [EIP-1153: Transient Storage
+Opcodes](https://eips.ethereum.org/EIPS/eip-1153) Test [EIP-1153: Transient
+Storage Opcodes](https://eips.ethereum.org/EIPS/eip-1153). Ports and extends
+some tests from
+[ethereum/tests/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/](http
+s://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src
+/EIPTestsFiller/StateTests/stEIP1153-transientStorage).
 """  # noqa: E501
 
 from enum import unique
@@ -33,10 +36,13 @@ code_address = 0x100
 
 def test_transient_storage_unset_values(state_test: StateTestFiller, pre: Alloc):
     """
-    Test that tload returns zero for unset values. Loading an arbitrary value is
-    0 at beginning of transaction: TLOAD(x) is 0.
+    Test that tload returns zero for unset values. Loading an arbitrary value
+    is 0 at beginning of transaction: TLOAD(x) is 0.
 
-    Based on [ethereum/tests/.../01_tloadBeginningTxnFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml)",
+    Based on
+    [ethereum/tests/.../01_tloadBeginningTxnFiller.yml](https://github.com/ethereum
+    /tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTe
+    sts/stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml)",
     """  # noqa: E501
     env = Environment()
 
@@ -69,7 +75,10 @@ def test_tload_after_tstore(state_test: StateTestFiller, pre: Alloc):
     Loading after storing returns the stored value: TSTORE(x, y), TLOAD(x)
     returns y.
 
-    Based on [ethereum/tests/.../02_tloadAfterTstoreFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/02_tloadAfterTstoreFiller.yml)",
+    Based on
+    [ethereum/tests/.../02_tloadAfterTstoreFiller.yml](https://github.com/ethereum/
+    tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTes
+    ts/stEIP1153-transientStorage/02_tloadAfterTstoreFiller.yml)",
     """  # noqa: E501
     env = Environment()
 
@@ -103,7 +112,10 @@ def test_tload_after_sstore(state_test: StateTestFiller, pre: Alloc):
     Loading after storing returns the stored value: TSTORE(x, y), TLOAD(x)
     returns y.
 
-    Based on [ethereum/tests/.../18_tloadAfterStoreFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/18_tloadAfterStoreFiller.yml)",
+    Based on
+    [ethereum/tests/.../18_tloadAfterStoreFiller.yml](https://github.com/ethereum/t
+    ests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTest
+    s/stEIP1153-transientStorage/18_tloadAfterStoreFiller.yml)",
     """  # noqa: E501
     env = Environment()
 
@@ -143,7 +155,10 @@ def test_tload_after_tstore_is_zero(state_test: StateTestFiller, pre: Alloc):
     """
     Test that tload returns zero after tstore is called with zero.
 
-    Based on [ethereum/tests/.../03_tloadAfterStoreIs0Filler.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/03_tloadAfterStoreIs0Filler.yml)",
+    Based on
+    [ethereum/tests/.../03_tloadAfterStoreIs0Filler.yml](https://github.com/ethereu
+    m/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateT
+    ests/stEIP1153-transientStorage/03_tloadAfterStoreIs0Filler.yml)",
     """  # noqa: E501
     env = Environment()
 

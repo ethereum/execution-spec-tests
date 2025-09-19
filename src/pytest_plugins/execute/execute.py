@@ -119,15 +119,16 @@ def pytest_configure(config):
     Pytest hook called after command line options have been parsed and before
     test collection begins.
 
-    Couple of notes:
-    1. Register the plugin's custom markers and process command-line options.
+    Couple of notes: 1. Register the plugin's custom markers and process
+    command-line options.
 
-        Custom marker registration:
-        https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
+    Custom marker registration:
+    https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom
+    -markers
 
     2. `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
-        called before the pytest-html plugin's pytest_configure to ensure that
-        it uses the modified `htmlpath` option.
+    called before the pytest-html plugin's pytest_configure to ensure that it
+    uses the modified `htmlpath` option.
     """
     # Modify the block gas limit if specified.
     if config.getoption("transaction_gas_limit"):
@@ -264,7 +265,10 @@ def modify_transaction_defaults(
 
 @dataclass(kw_only=True)
 class Collector:
-    """A class that collects transactions and post-allocations for every test case."""
+    """
+    A class that collects transactions and post-allocations for every test
+    case.
+    """
 
     eth_rpc: EthRPC
     collected_tests: Dict[str, BaseExecute] = field(default_factory=dict)
@@ -280,8 +284,8 @@ def collector(
     eth_rpc: EthRPC,
 ) -> Generator[Collector, None, None]:
     """
-    Return configured fixture collector instance used for all tests
-    in one test module.
+    Return configured fixture collector instance used for all tests in one test
+    module.
     """
     collector = Collector(eth_rpc=eth_rpc)
     yield collector
@@ -291,8 +295,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     """
     Generate pytest.fixture for a given BaseTest subclass.
 
-    Implementation detail: All spec fixtures must be scoped on test function level to avoid
-    leakage between tests.
+    Implementation detail: All spec fixtures must be scoped on test function
+    level to avoid leakage between tests.
     """
     cls_fixture_parameters = [p for p in ALL_FIXTURE_PARAMETERS if p in cls.model_fields]
 
@@ -309,14 +313,15 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         collector: Collector,
     ):
         """
-        Fixture used to instantiate an auto-fillable BaseTest object from within
-        a test function.
+        Fixture used to instantiate an auto-fillable BaseTest object from
+        within a test function.
 
-        Every test that defines a test filler must explicitly specify its parameter name
-        (see `pytest_parameter_name` in each implementation of BaseTest) in its function
-        arguments.
+        Every test that defines a test filler must explicitly specify its
+        parameter name (see `pytest_parameter_name` in each implementation of
+        BaseTest) in its function arguments.
 
-        When parametrize, indirect must be used along with the fixture format as value.
+        When parametrize, indirect must be used along with the fixture format
+        as value.
         """
         execute_format = request.param
         assert execute_format in BaseExecute.formats.values()
@@ -375,8 +380,8 @@ for cls in BaseTest.spec_types.values():
 
 def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
-    Pytest hook used to dynamically generate test cases for each fixture format a given
-    test spec supports.
+    Pytest hook used to dynamically generate test cases for each fixture format
+    a given test spec supports.
     """
     engine_rpc_supported = metafunc.config.engine_rpc_supported  # type: ignore
     for test_type in BaseTest.spec_types.values():
@@ -396,7 +401,10 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
 
 
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
-    """Remove transition tests and add the appropriate execute markers to the test."""
+    """
+    Remove transition tests and add the appropriate execute markers to the
+    test.
+    """
     items_for_removal = []
     for i, item in enumerate(items):
         if isinstance(item, EIPSpecTestItem):

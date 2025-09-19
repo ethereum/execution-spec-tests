@@ -1,6 +1,8 @@
 """
-abstract: Tests BLS12_MAP_FP2_TO_G2 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_MAP_FP2_TO_G2 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+abstract: Tests BLS12_MAP_FP2_TO_G2 precompile of [EIP-2537: Precompile for
+BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537) Tests
+BLS12_MAP_FP2_TO_G2 precompile of [EIP-2537: Precompile for BLS12-381 curve
+operations](https://eips.ethereum.org/EIPS/eip-2537).
 """  # noqa: E501
 
 import pytest
@@ -101,16 +103,18 @@ def test_isogeny_kernel_values(
     tx: Transaction,
 ):
     """
-    Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note this test only exists
-    to align with the G1 test. `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty so there are no cases.
+    Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note
+    this test only exists to align with the G1 test.
+    `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty so there are no cases.
 
-    The isogeny kernel is simply the set of special field values, that after the two step mapping
-    (first SWU onto an auxiliary curve, then a 3-degree isogeny back to G2), collapse exactly
-    to the identity point.
+    The isogeny kernel is simply the set of special field values, that after
+    the two step mapping (first SWU onto an auxiliary curve, then a 3-degree
+    isogeny back to G2), collapse exactly to the identity point.
 
-    For the G2 case the only kernel element is the point at infinity, and SWU never produces the
-    identity point from a finite input t. Hence `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty. Please
-    proceed to the generator in `helpers.py` for more details.
+    For the G2 case the only kernel element is the point at infinity, and SWU
+    never produces the identity point from a finite input t. Hence
+    `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty. Please proceed to the generator
+    in `helpers.py` for more details.
     """
     state_test(
         env=Environment(),

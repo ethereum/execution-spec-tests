@@ -118,7 +118,10 @@ def test_call_identity_precompile(
     tx_gas_limit: int,
     contract_balance: int,
 ):
-    """Test identity precompile RETURNDATA is sized correctly based on the input size."""
+    """
+    Test identity precompile RETURNDATA is sized correctly based on the input
+    size.
+    """
     env = Environment()
     storage = Storage()
 

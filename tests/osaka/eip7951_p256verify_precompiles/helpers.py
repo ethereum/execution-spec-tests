@@ -9,7 +9,10 @@ from pydantic.alias_generators import to_pascal
 
 
 def current_python_script_directory(*args: str) -> str:
-    """Get the current Python script directory, optionally appending additional path components."""
+    """
+    Get the current Python script directory, optionally appending additional
+    path components.
+    """
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), *args)
 
 
@@ -24,7 +27,10 @@ class Vector(BaseModel):
     model_config = ConfigDict(alias_generator=to_pascal)
 
     def to_pytest_param(self):
-        """Convert the test vector to a tuple that can be used as a parameter in a pytest test."""
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a
+        pytest test.
+        """
         return pytest.param(self.input, self.expected, self.gas, id=self.name)
 
 
@@ -38,7 +44,10 @@ class FailVector(BaseModel):
     model_config = ConfigDict(alias_generator=to_pascal)
 
     def to_pytest_param(self):
-        """Convert the test vector to a tuple that can be used as a parameter in a pytest test."""
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a
+        pytest test.
+        """
         return pytest.param(self.input, id=self.name)
 
 

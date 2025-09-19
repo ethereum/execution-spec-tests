@@ -100,8 +100,8 @@ class DepositRequest(DepositRequestBase):
     @cached_property
     def value(self) -> int:
         """
-        Return the value of the deposit transaction, equal to the amount in gwei plus the
-        extra amount in wei.
+        Return the value of the deposit transaction, equal to the amount in
+        gwei plus the extra amount in wei.
         """
         value = (self.amount * 10**9) + self.extra_wei
         if value < 0:
@@ -123,14 +123,11 @@ class DepositRequest(DepositRequestBase):
     @cached_property
     def calldata(self) -> bytes:
         """
-        Return the calldata needed to call the beacon chain deposit contract and make the deposit.
+        Return the calldata needed to call the beacon chain deposit contract
+        and make the deposit.
 
-        deposit(
-            bytes calldata pubkey,
-            bytes calldata withdrawal_credentials,
-            bytes calldata signature,
-            bytes32 deposit_data_root
-        )
+        deposit( bytes calldata pubkey, bytes calldata withdrawal_credentials,
+        bytes calldata signature, bytes32 deposit_data_root )
         """
         offset_length = 32
         pubkey_offset = offset_length * 3 + len(self.deposit_data_root)
@@ -154,13 +151,8 @@ class DepositRequest(DepositRequestBase):
         """
         Return the log data for the deposit event.
 
-        event DepositEvent(
-            bytes pubkey,
-            bytes withdrawal_credentials,
-            bytes amount,
-            bytes signature,
-            bytes index
-        );
+        event DepositEvent( bytes pubkey, bytes withdrawal_credentials, bytes
+        amount, bytes signature, bytes index );
         """
         data = bytearray(576)
         if include_abi_encoding:
@@ -220,13 +212,19 @@ class DepositInteractionBase:
         raise NotImplementedError
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
-        """Return the list of deposit requests that should be included in the block."""
+        """
+        Return the list of deposit requests that should be included in the
+        block.
+        """
         raise NotImplementedError
 
 
 @dataclass(kw_only=True)
 class DepositTransaction(DepositInteractionBase):
-    """Class used to describe a deposit originated from an externally owned account."""
+    """
+    Class used to describe a deposit originated from an externally owned
+    account.
+    """
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the deposit request."""
@@ -248,7 +246,10 @@ class DepositTransaction(DepositInteractionBase):
         self.sender_account = pre.fund_eoa(self.sender_balance)
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
-        """Return the list of deposit requests that should be included in the block."""
+        """
+        Return the list of deposit requests that should be included in the
+        block.
+        """
         return [
             request
             for request in self.requests
@@ -357,5 +358,8 @@ class DepositContract(DepositInteractionBase):
                 )
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
-        """Return the list of deposit requests that should be included in the block."""
+        """
+        Return the list of deposit requests that should be included in the
+        block.
+        """
         return [d for d in self.requests if d.valid and d.value >= current_minimum_fee]

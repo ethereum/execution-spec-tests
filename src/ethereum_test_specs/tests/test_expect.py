@@ -118,7 +118,10 @@ def state_test(  # noqa: D103
     indirect=["pre", "post"],
 )
 def test_post_storage_value_mismatch(expected_exception, state_test, default_t8n, fork):
-    """Test post state `Account.storage` exceptions during state test fixture generation."""
+    """
+    Test post state `Account.storage` exceptions during state test fixture
+    generation.
+    """
     with pytest.raises(Storage.KeyValueMismatchError) as e_info:
         state_test.generate(t8n=default_t8n, fork=fork, fixture_format=StateFixture)
     assert e_info.value == expected_exception
@@ -136,8 +139,8 @@ def test_post_storage_value_mismatch(expected_exception, state_test, default_t8n
 )
 def test_post_nonce_value_mismatch(pre: Alloc, post: Alloc, state_test, default_t8n, fork):
     """
-    Test post state `Account.nonce` verification and exceptions during state test
-    fixture generation.
+    Test post state `Account.nonce` verification and exceptions during state
+    test fixture generation.
     """
     pre_account = pre[ADDRESS_UNDER_TEST]
     post_account = post[ADDRESS_UNDER_TEST]
@@ -167,8 +170,8 @@ def test_post_nonce_value_mismatch(pre: Alloc, post: Alloc, state_test, default_
 )
 def test_post_code_value_mismatch(pre: Alloc, post: Alloc, state_test, default_t8n, fork):
     """
-    Test post state `Account.code` verification and exceptions during state test
-    fixture generation.
+    Test post state `Account.code` verification and exceptions during state
+    test fixture generation.
     """
     pre_account = pre[ADDRESS_UNDER_TEST]
     post_account = post[ADDRESS_UNDER_TEST]
@@ -198,8 +201,8 @@ def test_post_code_value_mismatch(pre: Alloc, post: Alloc, state_test, default_t
 )
 def test_post_balance_value_mismatch(pre: Alloc, post: Alloc, state_test, default_t8n, fork):
     """
-    Test post state `Account.balance` verification and exceptions during state test
-    fixture generation.
+    Test post state `Account.balance` verification and exceptions during state
+    test fixture generation.
     """
     pre_account = pre[ADDRESS_UNDER_TEST]
     post_account = post[ADDRESS_UNDER_TEST]
@@ -332,8 +335,8 @@ def test_transaction_expectation(
     fixture_format: FixtureFormat,
 ):
     """
-    Test a transaction that has an unexpected error, expected error, or expected a specific
-    value in its receipt.
+    Test a transaction that has an unexpected error, expected error, or
+    expected a specific value in its receipt.
     """
     if (
         exception_type == ExecutionExceptionMismatchError

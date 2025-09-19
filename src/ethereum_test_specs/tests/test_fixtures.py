@@ -42,8 +42,8 @@ def fixture_hash(fork: Fork) -> bytes:
 def test_check_helper_fixtures():
     """
     Test that the framework's pydantic models serialization and deserialization
-    work correctly and that they are compatible with the helper fixtures defined
-    in ./fixtures/ by using the check_fixtures.py script.
+    work correctly and that they are compatible with the helper fixtures
+    defined in ./fixtures/ by using the check_fixtures.py script.
     """
     runner = CliRunner()
     args = [

@@ -130,8 +130,9 @@ def test_eofcreate_gas(
         for a in salt_addresses:
             pre.fund_address(a, 1)
 
-    # Using `TLOAD` / `TSTORE` to work around warm/cold gas differences. We need a counter to pick
-    # a distinct salt on each `EOFCREATE` and avoid running into address conflicts.
+    # Using `TLOAD` / `TSTORE` to work around warm/cold gas differences. We
+    # need a counter to pick a distinct salt on each `EOFCREATE` and avoid
+    # running into address conflicts.
     code_increment_counter = (
         Op.TLOAD(slot_counter) + Op.DUP1 + Op.TSTORE(slot_counter, Op.PUSH1(1) + Op.ADD)
     )

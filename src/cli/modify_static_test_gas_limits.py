@@ -1,6 +1,6 @@
 """
-Command to scan and overwrite the static tests' gas limits to new optimized value given in the
-input file.
+Command to scan and overwrite the static tests' gas limits to new optimized
+value given in the input file.
 """
 
 import json

@@ -5,8 +5,9 @@ from enum import Enum, auto
 
 class AddressType(Enum):
     """
-    Different types of addresses used to specify the type of authority that signs an authorization,
-    and the type of address to which the authority authorizes to set the code to.
+    Different types of addresses used to specify the type of authority that
+    signs an authorization, and the type of address to which the authority
+    authorizes to set the code to.
     """
 
     EMPTY_ACCOUNT = auto()

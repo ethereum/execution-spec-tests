@@ -46,7 +46,10 @@ def blocks_rlp(fixture: BlockchainFixture) -> List[Bytes]:
 
 @pytest.fixture(scope="function")
 def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> List[io.BufferedReader]:
-    """Convert the RLP-encoded blocks of the current test fixture to buffered readers."""
+    """
+    Convert the RLP-encoded blocks of the current test fixture to buffered
+    readers.
+    """
     block_rlp_files = []
     for _, block_rlp in enumerate(blocks_rlp):
         block_rlp_stream = io.BytesIO(block_rlp)
@@ -62,9 +65,9 @@ def client_files(
     """
     Define the files that hive will start the client with.
 
-    The files are specified as a dictionary whose:
-    - Keys are the target file paths in the client's docker container, and,
-    - Values are in-memory buffered file objects.
+    The files are specified as a dictionary whose: - Keys are the target file
+    paths in the client's docker container, and, - Values are in-memory
+    buffered file objects.
     """
     files = {f"/blocks/{i + 1:04d}.rlp": rlp for i, rlp in enumerate(buffered_blocks_rlp)}
     files["/genesis.json"] = buffered_genesis

@@ -65,7 +65,10 @@ def test_address_space_extension(
     target_opcode: Op,
     target_account_type: str,
 ):
-    """Test contacts with possibly extended address and fail if address is too large."""
+    """
+    Test contacts with possibly extended address and fail if address is too
+    large.
+    """
     env = Environment()
 
     ase_address = len(target_address) > 20
@@ -167,11 +170,12 @@ def test_address_space_extension(
                     caller_storage[slot_target_returndata] = stripped_address
                 case Op.CALLCODE | Op.DELEGATECALL:
                     caller_storage[slot_target_call_status] = LEGACY_CALL_SUCCESS
-                    # CALLCODE and DELEGATECALL call will call the stripped address
-                    # but will change the sender to self
+                    # CALLCODE and DELEGATECALL call will call the stripped
+                    # address but will change the sender to self
                     caller_storage[slot_target_returndata] = address_caller
                 case Op.EXTCALL | Op.EXTSTATICCALL:
-                    # EXTCALL and EXTSTATICCALL will fault if calling an ASE address
+                    # EXTCALL and EXTSTATICCALL will fault if calling an ASE
+                    # address
                     if ase_address:
                         caller_storage[slot_target_call_status] = value_exceptional_abort_canary
                         caller_storage[slot_target_returndata] = value_exceptional_abort_canary

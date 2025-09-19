@@ -34,7 +34,10 @@ BlockExceptionListAdapter: TypeAdapter = TypeAdapter(BlockExceptionInstanceOrLis
 def test_exceptions_string_conversion(
     exception: BlockException | TransactionException, expected: str
 ):
-    """Test that the exceptions are unique and have the correct string representation."""
+    """
+    Test that the exceptions are unique and have the correct string
+    representation.
+    """
     assert str(exception) == expected
 
 

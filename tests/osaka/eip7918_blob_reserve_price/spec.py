@@ -20,8 +20,8 @@ ref_spec_7918 = ReferenceSpec("EIPS/eip-7918.md", "be1dbefafcb40879e3f6d231fad20
 @dataclass(frozen=True)
 class Spec(EIP4844Spec):
     """
-    Parameters from the EIP-7918 specifications.
-    Extends EIP-4844 spec with the new reserve price constant and functionality.
+    Parameters from the EIP-7918 specifications. Extends EIP-4844 spec with the
+    new reserve price constant and functionality.
     """
 
     BLOB_BASE_COST = 2**13

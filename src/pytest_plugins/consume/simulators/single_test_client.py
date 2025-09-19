@@ -23,7 +23,10 @@ logger = logging.getLogger(__name__)
 
 @pytest.fixture(scope="function")
 def client_genesis(fixture: BlockchainFixtureCommon) -> dict:
-    """Convert the fixture genesis block header and pre-state to a client genesis state."""
+    """
+    Convert the fixture genesis block header and pre-state to a client genesis
+    state.
+    """
     genesis = to_json(fixture.genesis)
     alloc = to_json(fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix
@@ -51,7 +54,10 @@ def environment(
 
 @pytest.fixture(scope="function")
 def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
-    """Create a buffered reader for the genesis block header of the current test fixture."""
+    """
+    Create a buffered reader for the genesis block header of the current test
+    fixture.
+    """
     genesis_json = json.dumps(client_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))

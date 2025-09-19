@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 """
-CLI tool to extract client configuration files (chainspec/genesis.json) from Ethereum clients.
+CLI tool to extract client configuration files (chainspec/genesis.json) from
+Ethereum clients.
 
-This tool spawns an Ethereum client using Hive and extracts the generated configuration
-files such as /chainspec/test.json, /configs/test.cfg, or /genesis.json from the Docker container.
+This tool spawns an Ethereum client using Hive and extracts the generated
+configuration files such as /chainspec/test.json, /configs/test.cfg, or
+/genesis.json from the Docker container.
 """
 
 import io
@@ -176,8 +178,8 @@ def extract_config(
     Extract client configuration files from Ethereum clients.
 
     This tool spawns an Ethereum client using Hive and extracts the generated
-    configuration files such as /chainspec/test.json, /configs/test.cfg, or /genesis.json
-    from the Docker container.
+    configuration files such as /chainspec/test.json, /configs/test.cfg, or
+    /genesis.json from the Docker container.
     """
     if not fixture:
         raise click.UsageError("No fixture provided, use --fixture to specify a fixture")

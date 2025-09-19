@@ -1,21 +1,20 @@
 """
 A module for exposing application-wide environment variables.
 
-This module is responsible for loading, parsing, and validating the application's
-environment configuration from the `env.yaml` file. It uses Pydantic to ensure that
-the configuration adheres to expected formats and types.
+This module is responsible for loading, parsing, and validating the
+application's environment configuration from the `env.yaml` file. It uses
+Pydantic to ensure that the configuration adheres to expected formats and
+types.
 
-Functions:
-- create_default_config: Creates a default configuration file if it doesn't exist.
+Functions: - create_default_config: Creates a default configuration file if it
+doesn't exist.
 
-Classes:
-- EnvConfig: Loads the configuration and exposes it as Python objects.
-- RemoteNode: Represents a remote node configuration with validation.
-- Config: Represents the overall configuration structure with validation.
+Classes: - EnvConfig: Loads the configuration and exposes it as Python objects.
+- RemoteNode: Represents a remote node configuration with validation. - Config:
+Represents the overall configuration structure with validation.
 
-Usage:
-- Initialize an instance of EnvConfig to load the configuration.
-- Access configuration values via properties (e.g., EnvConfig().remote_nodes).
+Usage: - Initialize an instance of EnvConfig to load the configuration. -
+Access configuration values via properties (e.g., EnvConfig().remote_nodes).
 """
 
 from pathlib import Path
@@ -31,11 +30,10 @@ class RemoteNode(BaseModel):
     """
     Represents a configuration for a remote node.
 
-    Attributes:
-    - name (str): The name of the remote node.
-    - node_url (HttpUrl): The URL for the remote node, validated as a proper URL.
-    - rpc_headers (Dict[str, str]): A dictionary of optional RPC headers, defaults to empty dict.
-
+    Attributes: - name (str): The name of the remote node. - node_url
+    (HttpUrl): The URL for the remote node, validated as a proper URL. -
+    rpc_headers (Dict[str, str]): A dictionary of optional RPC headers,
+    defaults to empty dict.
     """
 
     name: str = "mainnet_archive"
@@ -47,9 +45,8 @@ class Config(BaseModel):
     """
     Represents the overall environment configuration.
 
-    Attributes:
-    - remote_nodes (List[RemoteNode]): A list of remote node configurations.
-
+    Attributes: - remote_nodes (List[RemoteNode]): A list of remote node
+    configurations.
     """
 
     remote_nodes: List[RemoteNode] = [RemoteNode()]
@@ -59,8 +56,8 @@ class EnvConfig(Config):
     """
     Loads and validates environment configuration from `env.yaml`.
 
-    This is a wrapper class for the Config model. It reads a config file
-    from disk into a Config model and then exposes it.
+    This is a wrapper class for the Config model. It reads a config file from
+    disk into a Config model and then exposes it.
     """
 
     def __init__(self):

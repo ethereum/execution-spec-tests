@@ -1,9 +1,10 @@
 """
-abstract: Tests [EIP-3855: PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855)
-    Tests for [EIP-3855: PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855).
+abstract: Tests [EIP-3855: PUSH0
+Instruction](https://eips.ethereum.org/EIPS/eip-3855) Tests for [EIP-3855:
+PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855).
 
-note: Tests ported from:
-    - [ethereum/tests/pull/1033](https://github.com/ethereum/tests/pull/1033).
+note: Tests ported from: -
+[ethereum/tests/pull/1033](https://github.com/ethereum/tests/pull/1033).
 """
 
 import pytest
@@ -92,11 +93,8 @@ def test_push0_contracts(
 
 class TestPush0CallContext:
     """
-    Tests the PUSH0 operation during various call contexts including:
-    - CALL
-    - CALLCODE
-    - DELEGATECALL
-    - STATICCALL.
+    Tests the PUSH0 operation during various call contexts including: - CALL -
+    CALLCODE - DELEGATECALL - STATICCALL.
     """
 
     @pytest.fixture

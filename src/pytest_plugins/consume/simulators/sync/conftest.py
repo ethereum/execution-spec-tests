@@ -58,9 +58,10 @@ def pytest_collection_modifyitems(session, config, items):
             # Format: ``-{client}_sync_{sync_client}``
             new_suffix = f"-{client_name}::sync_{sync_client_name}"
 
-            # client_param-tests/path/to/test.py::test_name[test_params]-sync_client_param
-            # 1. Remove the client prefix from the beginning
-            # 2. Replace the -client_param part at the end with our new format
+            # client_param-
+            # tests/path/to/test.py::test_name[test_params]-sync_client_param
+            # 1. Remove the client prefix from the beginning 2. Replace the
+            # -client_param part at the end with our new format
             nodeid = item.nodeid
             prefix_index = item.nodeid.find("-tests/")
             if prefix_index != -1:
@@ -117,7 +118,10 @@ def admin_rpc(client: Client) -> AdminRPC:
 
 @pytest.fixture(scope="function")
 def sync_genesis(fixture: BlockchainEngineSyncFixture) -> dict:
-    """Convert the fixture genesis block header and pre-state to a sync client genesis state."""
+    """
+    Convert the fixture genesis block header and pre-state to a sync client
+    genesis state.
+    """
     genesis = to_json(fixture.genesis)
     alloc = to_json(fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix

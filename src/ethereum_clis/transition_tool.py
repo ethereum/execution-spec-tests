@@ -38,8 +38,8 @@ from .file_utils import dump_files_to_directory, write_json_file
 
 model_dump_config: Mapping = {"by_alias": True, "exclude_none": True}
 
-# TODO: reduce NORMAL_SERVER_TIMEOUT back down to 20 once BLS timeout issue is resolved:
-# https://github.com/ethereum/execution-spec-tests/issues/1894
+# TODO: reduce NORMAL_SERVER_TIMEOUT back down to 20 once BLS timeout issue is
+# resolved: https://github.com/ethereum/execution-spec-tests/issues/1894
 NORMAL_SERVER_TIMEOUT = 600
 SLOW_REQUEST_TIMEOUT = 600
 
@@ -52,8 +52,8 @@ def get_valid_transition_tool_names() -> set[str]:
 
 class TransitionTool(EthereumCLI):
     """
-    Transition tool abstract base class which should be inherited by all transition tool
-    implementations.
+    Transition tool abstract base class which should be inherited by all
+    transition tool implementations.
     """
 
     traces: List[Traces] | None = None
@@ -127,7 +127,10 @@ class TransitionTool(EthereumCLI):
         temp_dir: tempfile.TemporaryDirectory,
         debug_output_path: str = "",
     ) -> Traces:
-        """Collect the traces from the t8n tool output and store them in the traces list."""
+        """
+        Collect the traces from the t8n tool output and store them in the
+        traces list.
+        """
         traces: Traces = Traces(root=[])
         temp_dir_path = Path(temp_dir.name)
         for i, r in enumerate(receipts):
@@ -194,7 +197,10 @@ class TransitionTool(EthereumCLI):
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:
-        """Execute a transition tool using the filesystem for its inputs and outputs."""
+        """
+        Execute a transition tool using the filesystem for its inputs and
+        outputs.
+        """
         temp_dir = tempfile.TemporaryDirectory()
         os.mkdir(os.path.join(temp_dir.name, "input"))
         os.mkdir(os.path.join(temp_dir.name, "output"))
@@ -256,14 +262,16 @@ class TransitionTool(EthereumCLI):
                 t8n_call = t8n_call.replace(
                     os.path.dirname(file_path), os.path.join(debug_output_path, "input")
                 )
-            t8n_call = t8n_call.replace(  # use a new output path for basedir and outputs
+            t8n_call = t8n_call.replace(  # use a new output path for basedir
+                                          # and outputs
                 temp_dir.name,
                 t8n_output_base_dir,
             )
             t8n_script = textwrap.dedent(
                 f"""\
                 #!/bin/bash
-                rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
+                rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid
+                                                       # surprises
                 mkdir -p {debug_output_path}/t8n.sh.out/output
                 {t8n_call}
                 """
@@ -424,7 +432,10 @@ class TransitionTool(EthereumCLI):
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:
-        """Execute a transition tool using stdin and stdout for its inputs and outputs."""
+        """
+        Execute a transition tool using stdin and stdout for its inputs and
+        outputs.
+        """
         temp_dir = tempfile.TemporaryDirectory()
         args = self.construct_args_stream(t8n_data, temp_dir)
 
@@ -468,7 +479,8 @@ class TransitionTool(EthereumCLI):
         self, fork_name: str, chain_id: int, reward: int, temp_dir=None
     ) -> List[str]:
         """Safely construct t8n arguments with validated inputs."""
-        # Validate fork name against actual transition tool names from all available forks
+        # Validate fork name against actual transition tool names from all
+        # available forks
         valid_forks = get_valid_transition_tool_names()
         if fork_name not in valid_forks:
             raise ValueError(f"Invalid fork name: {fork_name}")
@@ -539,8 +551,10 @@ class TransitionTool(EthereumCLI):
         t8n_script = textwrap.dedent(
             f"""\
             #!/bin/bash
-            rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
-            mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not enabled
+            rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid
+                                                   # surprises
+            mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not
+                                                  # enabled
             {t8n_call} < {debug_output_path}/stdin.txt
             """
         )

@@ -188,7 +188,10 @@ def test_fork_parametrizer(
     expected_names: List[str],
     expected_parameter_sets: List[ParameterSet],
 ):
-    """Test that the fork parametrizer correctly parametrizes tests based on the fork name."""
+    """
+    Test that the fork parametrizer correctly parametrizes tests based on the
+    fork name.
+    """
     argnames, values = parameters_from_fork_parametrizer_list(fork_parametrizers)
     assert argnames == expected_names
     assert len(values) == len(expected_parameter_sets)

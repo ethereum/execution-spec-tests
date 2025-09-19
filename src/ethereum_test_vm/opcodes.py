@@ -1,10 +1,11 @@
 """
 Ethereum Virtual Machine opcode definitions.
 
-Acknowledgments: The individual opcode documentation below is due to the work by
-[smlXL](https://github.com/smlxl) on [evm.codes](https://www.evm.codes/), available as open
-source [github.com/smlxl/evm.codes](https://github.com/smlxl/evm.codes) - thank you! And thanks
-to @ThreeHrSleep for integrating it in the docstrings.
+Acknowledgments: The individual opcode documentation below is due to the work
+by [smlXL](https://github.com/smlxl) on [evm.codes](https://www.evm.codes/),
+available as open source
+[github.com/smlxl/evm.codes](https://github.com/smlxl/evm.codes) - thank you!
+And thanks to @ThreeHrSleep for integrating it in the docstrings.
 """
 
 from enum import Enum
@@ -18,7 +19,8 @@ from .bytecode import Bytecode
 def _get_int_size(n: int) -> int:
     """Return size of an integer in bytes."""
     if n < 0:
-        # Negative numbers in the EVM are represented as two's complement of 32 bytes
+        # Negative numbers in the EVM are represented as two's complement of 32
+        # bytes
         return 32
     byte_count = 0
     while n:
@@ -45,7 +47,8 @@ def _stack_argument_to_bytecode(
         if data_size > 32:
             raise ValueError("Opcode stack data must be less than 32 bytes")
         elif data_size == 0:
-            # Pushing 0 is done with the PUSH1 opcode for compatibility reasons.
+            # Pushing 0 is done with the PUSH1 opcode for compatibility
+            # reasons.
             data_size = 1
         arg = arg.to_bytes(
             length=data_size,
@@ -55,7 +58,8 @@ def _stack_argument_to_bytecode(
     else:
         arg = to_bytes(arg).lstrip(b"\0")  # type: ignore
         if arg == b"":
-            # Pushing 0 is done with the PUSH1 opcode for compatibility reasons.
+            # Pushing 0 is done with the PUSH1 opcode for compatibility
+            # reasons.
             arg = b"\x00"
         data_size = len(arg)
 
@@ -67,21 +71,18 @@ def _stack_argument_to_bytecode(
 
 class Opcode(Bytecode):
     """
-    Represents a single Opcode instruction in the EVM, with extra metadata useful to parametrize
-    tests.
+    Represents a single Opcode instruction in the EVM, with extra metadata
+    useful to parametrize tests.
 
-    Parameters
-    ----------
-    - data_portion_length: number of bytes after the opcode in the bytecode
-        that represent data
-    - data_portion_formatter: function to format the data portion of the opcode, if any
-    - stack_properties_modifier: function to modify the stack properties of the opcode after the
-        data portion has been processed
-    - kwargs: list of keyword arguments that can be passed to the opcode, in the order they are
-        meant to be placed in the stack
-    - kwargs_defaults: default values for the keyword arguments if any, otherwise 0
-    - unchecked_stack: whether the bytecode should ignore stack checks when being called
-
+    Parameters ---------- - data_portion_length: number of bytes after the
+    opcode in the bytecode that represent data - data_portion_formatter:
+    function to format the data portion of the opcode, if any -
+    stack_properties_modifier: function to modify the stack properties of the
+    opcode after the data portion has been processed - kwargs: list of keyword
+    arguments that can be passed to the opcode, in the order they are meant to
+    be placed in the stack - kwargs_defaults: default values for the keyword
+    arguments if any, otherwise 0 - unchecked_stack: whether the bytecode
+    should ignore stack checks when being called
     """
 
     data_portion_length: int
@@ -111,8 +112,8 @@ class Opcode(Bytecode):
         if kwargs_defaults is None:
             kwargs_defaults = {}
         if type(opcode_or_byte) is Opcode:
-            # Required because Enum class calls the base class with the instantiated object as
-            # parameter.
+            # Required because Enum class calls the base class with the
+            # instantiated object as parameter.
             return opcode_or_byte
         elif isinstance(opcode_or_byte, int) or isinstance(opcode_or_byte, bytes):
             obj_bytes = (
@@ -147,8 +148,8 @@ class Opcode(Bytecode):
 
     def __getitem__(self, *args: "int | bytes | str | Iterable[int]") -> "Opcode":
         """
-        Initialize a new instance of the opcode with the data portion set, and also clear
-        the data portion variables to avoid reusing them.
+        Initialize a new instance of the opcode with the data portion set, and
+        also clear the data portion variables to avoid reusing them.
         """
         if self.data_portion_formatter is None and self.data_portion_length == 0:
             raise ValueError("Opcode does not have a data portion or has already been set")
@@ -160,8 +161,8 @@ class Opcode(Bytecode):
             else:
                 data_portion = self.data_portion_formatter(*args)
         elif self.data_portion_length > 0:
-            # For opcodes with a data portion, the first argument is the data and the rest of the
-            # arguments form the stack.
+            # For opcodes with a data portion, the first argument is the data
+            # and the rest of the arguments form the stack.
             assert len(args) == 1, "Opcode with data portion requires exactly one argument"
             data = args[0]
             if isinstance(data, bytes) or isinstance(data, SupportsBytes) or isinstance(data, str):
@@ -222,26 +223,28 @@ class Opcode(Bytecode):
         **kwargs: "int | bytes | str | Opcode | Bytecode",
     ) -> Bytecode:
         """
-        Make all opcode instances callable to return formatted bytecode, which constitutes a data
-        portion, that is located after the opcode byte, and pre-opcode bytecode, which is normally
-        used to set up the stack.
+        Make all opcode instances callable to return formatted bytecode, which
+        constitutes a data portion, that is located after the opcode byte, and
+        pre-opcode bytecode, which is normally used to set up the stack.
 
-        This useful to automatically format, e.g., call opcodes and their stack arguments as
-        `Opcodes.CALL(Opcodes.GAS, 0x1234, 0x0, 0x0, 0x0, 0x0, 0x0)`.
+        This useful to automatically format, e.g., call opcodes and their stack
+        arguments as `Opcodes.CALL(Opcodes.GAS, 0x1234, 0x0, 0x0, 0x0, 0x0,
+        0x0)`.
 
-        Data sign is automatically detected but for this reason the range of the input must be:
-        `[-2^(data_portion_bits-1), 2^(data_portion_bits)]` where: `data_portion_bits ==
-        data_portion_length * 8`
+        Data sign is automatically detected but for this reason the range of
+        the input must be: `[-2^(data_portion_bits-1), 2^(data_portion_bits)]`
+        where: `data_portion_bits == data_portion_length * 8`
 
-        For the stack, the arguments are set up in the opposite order they are given, so the first
-        argument is the last item pushed to the stack.
+        For the stack, the arguments are set up in the opposite order they are
+        given, so the first argument is the last item pushed to the stack.
 
-        The resulting stack arrangement does not take into account opcode stack element
-        consumption, so the stack height is not guaranteed to be correct and the user must take
-        this into consideration.
+        The resulting stack arrangement does not take into account opcode stack
+        element consumption, so the stack height is not guaranteed to be
+        correct and the user must take this into consideration.
 
-        Integers can also be used as stack elements, in which case they are automatically converted
-        to PUSH operations, and negative numbers always use a PUSH32 operation.
+        Integers can also be used as stack elements, in which case they are
+        automatically converted to PUSH operations, and negative numbers always
+        use a PUSH32 operation.
 
         Hex-strings will be automatically converted to bytes.
         """
@@ -317,8 +320,8 @@ class Macro(Bytecode):
         if macro_or_bytes is None:
             macro_or_bytes = Bytecode()
         if isinstance(macro_or_bytes, Macro):
-            # Required because Enum class calls the base class with the instantiated object as
-            # parameter.
+            # Required because Enum class calls the base class with the
+            # instantiated object as parameter.
             return macro_or_bytes
         else:
             instance = super().__new__(cls, macro_or_bytes)
@@ -342,9 +345,9 @@ RJUMPV_MAX_INDEX_BYTE_LENGTH = 1
 RJUMPV_BRANCH_OFFSET_BYTE_LENGTH = 2
 
 
-# TODO: Allowing Iterable here is a hacky way to support `range`, because Python 3.11+ will allow
-# `Op.RJUMPV[*range(5)]`. This is a temporary solution until Python 3.11+ is the minimum required
-# version.
+# TODO: Allowing Iterable here is a hacky way to support `range`, because
+# Python 3.11+ will allow `Op.RJUMPV[*range(5)]`. This is a temporary solution
+# until Python 3.11+ is the minimum required version.
 
 
 def _rjumpv_encoder(*args: int | bytes | Iterable[int]) -> bytes:
@@ -419,8 +422,9 @@ class Opcodes(Opcode, Enum):
 
     Contains deprecated and not yet implemented opcodes.
 
-    This enum is !! NOT !! meant to be iterated over by the tests. Instead, create a list with
-    cherry-picked opcodes from this Enum within the test if iteration is needed.
+    This enum is !! NOT !! meant to be iterated over by the tests. Instead,
+    create a list with cherry-picked opcodes from this Enum within the test if
+    iteration is needed.
 
     Do !! NOT !! remove or modify existing opcodes from this list.
     """
@@ -5782,10 +5786,11 @@ def _mstore_operation(data: OpcodeCallArg = b"", offset: OpcodeCallArg = 0) -> B
         if len(chunk) == 32:
             bytecode += Opcodes.MSTORE(offset, chunk)
         else:
-            # We need to MLOAD the existing data at the offset and then do a bitwise OR with the
-            # new data to store it in memory.
+            # We need to MLOAD the existing data at the offset and then do a
+            # bitwise OR with the new data to store it in memory.
             bytecode += Opcodes.MLOAD(offset)
-            # Create a mask to zero out the leftmost bytes of the existing data.
+            # Create a mask to zero out the leftmost bytes of the existing
+            # data.
             mask_size = 32 - len(chunk)
             bytecode += _push_opcodes_byte_list[mask_size - 1][-1]
             bytecode += Opcodes.AND

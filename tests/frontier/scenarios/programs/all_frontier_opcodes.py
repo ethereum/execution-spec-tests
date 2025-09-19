@@ -1,4 +1,7 @@
-"""Define a program for scenario test that executes all frontier opcodes and entangles it's result."""  # noqa: E501
+"""
+Define a program for scenario test that executes all frontier opcodes and
+entangles it's result.
+"""  # noqa: E501
 
 from functools import cached_property
 

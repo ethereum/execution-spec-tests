@@ -1,6 +1,6 @@
 """
-Call every possible opcode and test that the subcall is successful
-if the opcode is supported by the fork supports and fails otherwise.
+Call every possible opcode and test that the subcall is successful if the
+opcode is supported by the fork supports and fails otherwise.
 """
 
 from typing import Dict
@@ -56,9 +56,9 @@ def prepare_suffix(opcode: Opcode) -> Bytecode:
 @pytest.mark.valid_from("Frontier")
 def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """
-    Test each possible opcode on the fork with a single contract that
-    calls each opcode in succession. Check that each subcall passes
-    if the opcode is supported and fails otherwise.
+    Test each possible opcode on the fork with a single contract that calls
+    each opcode in succession. Check that each subcall passes if the opcode is
+    supported and fails otherwise.
     """
     code_worked = 1000
 
@@ -75,8 +75,8 @@ def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
         code=sum(
             Op.SSTORE(
                 Op.PUSH1(opcode.int()),
-                # Limit gas to limit the gas consumed by the exceptional aborts in each
-                # subcall that uses an undefined opcode.
+                # Limit gas to limit the gas consumed by the exceptional aborts
+                # in each subcall that uses an undefined opcode.
                 Op.CALL(35_000, opcode_address, 0, 0, 0, 0, 0),
             )
             for opcode, opcode_address in code_contract.items()

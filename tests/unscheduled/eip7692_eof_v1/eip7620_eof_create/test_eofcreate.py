@@ -76,7 +76,10 @@ def test_eofcreate_then_dataload(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies that a contract returned with auxdata does not overwrite the parent data."""
+    """
+    Verifies that a contract returned with auxdata does not overwrite the
+    parent data.
+    """
     env = Environment()
     sender = pre.fund_eoa()
     small_auxdata_container = Container(
@@ -368,7 +371,10 @@ def test_eofcreate_in_initcode_reverts(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies an EOFCREATE occurring in an initcode is rolled back when the initcode reverts."""
+    """
+    Verifies an EOFCREATE occurring in an initcode is rolled back when the
+    initcode reverts.
+    """
     nested_initcode_subcontainer = Container(
         sections=[
             Section.Code(
@@ -422,7 +428,10 @@ def test_return_data_cleared(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies the return data is not reused from a extcall but is cleared upon eofcreate."""
+    """
+    Verifies the return data is not reused from a extcall but is cleared upon
+    eofcreate.
+    """
     env = Environment()
     value_return_canary = 0x4158675309
     value_return_canary_size = 5
@@ -518,8 +527,11 @@ def test_address_collision(
         contract_address: Account(
             storage={
                 slot_create_address: salt_zero_address,
-                slot_create_address_2: EOFCREATE_FAILURE,  # had an in-transaction collision
-                slot_create_address_3: EOFCREATE_FAILURE,  # had a pre-existing collision
+                slot_create_address_2: EOFCREATE_FAILURE,  # had an in-
+                                                           # transaction
+                                                           # collision
+                slot_create_address_3: EOFCREATE_FAILURE,  # had a pre-existing
+                                                           # collision
                 slot_code_worked: value_code_worked,
             }
         )
@@ -540,7 +552,10 @@ def test_eofcreate_revert_eof_returndata(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies the return data is not being deployed, even if happens to be valid EOF."""
+    """
+    Verifies the return data is not being deployed, even if happens to be valid
+    EOF.
+    """
     env = Environment()
     code_reverts_with_calldata = Container(
         name="Initcode Subcontainer reverting with its calldata",
@@ -716,7 +731,8 @@ def test_eofcreate_context(
     elif expected_result == "selfbalance":
         expected_bytes = eofcreate_value
     elif expected_result == "factorybalance":
-        # Factory receives value from sender and passes on eofcreate_value as endowment.
+        # Factory receives value from sender and passes on eofcreate_value as
+        # endowment.
         expected_bytes = value - eofcreate_value
     else:
         raise TypeError("Unexpected expected_result", expected_result)
@@ -747,7 +763,10 @@ def test_eofcreate_memory_context(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies an EOFCREATE frame enjoys a separate EVM memory from its caller frame."""
+    """
+    Verifies an EOFCREATE frame enjoys a separate EVM memory from its caller
+    frame.
+    """
     env = Environment()
     destination_storage = Storage()
     contract_storage = Storage()

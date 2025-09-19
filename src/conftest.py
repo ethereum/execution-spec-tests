@@ -14,7 +14,8 @@ INSTALLED_TRANSITION_TOOLS = [
     for transition_tool in TransitionTool.registered_tools
     if (
         transition_tool.is_installed()
-        # Currently, Besu has the same `default_binary` as Geth, so we can't use `is_installed`.
+        # Currently, Besu has the same `default_binary` as Geth, so we can't
+        # use `is_installed`.
         and transition_tool != BesuTransitionTool
     )
 ]
@@ -32,7 +33,8 @@ def installed_transition_tool_instances() -> Generator[
             transition_tool_instance.start_server()
             instances[transition_tool_class.__name__] = transition_tool_instance
         except Exception as e:
-            # Record the exception in order to provide context when failing the appropriate test
+            # Record the exception in order to provide context when failing the
+            # appropriate test
             instances[transition_tool_class.__name__] = e
     yield instances
     for instance in instances.values():

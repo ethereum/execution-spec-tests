@@ -13,8 +13,8 @@ from .helpers import DepositInteractionBase, DepositRequest
 @pytest.fixture
 def update_pre(pre: Alloc, requests: List[DepositInteractionBase]):
     """
-    Init state of the accounts. Every deposit transaction defines their own pre-state
-    requirements, and this fixture aggregates them all.
+    Init state of the accounts. Every deposit transaction defines their own
+    pre-state requirements, and this fixture aggregates them all.
     """
     for d in requests:
         d.update_pre(pre)
@@ -34,7 +34,10 @@ def txs(
 
 @pytest.fixture
 def block_body_override_requests() -> List[DepositRequest] | None:
-    """List of requests that overwrite the requests in the header. None by default."""
+    """
+    List of requests that overwrite the requests in the header. None by
+    default.
+    """
     return None
 
 

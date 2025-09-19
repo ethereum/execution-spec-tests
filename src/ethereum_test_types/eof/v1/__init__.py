@@ -56,7 +56,10 @@ class ContainerKind(Enum):
     def __get_pydantic_core_schema__(
         source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call class constructor without info and appends the serialization schema."""
+        """
+        Call class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             source_type.from_str,
             serialization=to_string_ser_schema(),
@@ -219,8 +222,8 @@ class Section(CopyValidateModel):
 
     def with_max_stack_height(self, max_stack_height) -> "Section":
         """
-        Create copy of the section with `max_stack_height` set to the
-        specified value.
+        Create copy of the section with `max_stack_height` set to the specified
+        value.
         """
         return self.copy(max_stack_height=max_stack_height)
 
@@ -229,18 +232,12 @@ class Section(CopyValidateModel):
         return self.copy(auto_max_stack_height=True)
 
     def with_auto_code_inputs_outputs(self) -> "Section":
-        """
-        Create copy of the section with `auto_code_inputs_outputs` set to
-        True.
-        """
+        """Create copy of the section with `auto_code_inputs_outputs` set to True."""
         return self.copy(auto_code_inputs_outputs=True)
 
     @staticmethod
     def list_header(sections: List["Section"]) -> bytes:
-        """
-        Create single code header for all code sections contained in
-        the list.
-        """
+        """Create single code header for all code sections contained in the list."""
         # Allow 'types section' to use skip_header_listing flag
         if sections[0].skip_header_listing:
             return b""
@@ -250,7 +247,8 @@ class Section(CopyValidateModel):
 
         h = sections[0].kind.to_bytes(HEADER_SECTION_KIND_BYTE_LENGTH, "big")
 
-        # Count only those sections that are not marked to be skipped for header calculation
+        # Count only those sections that are not marked to be skipped for
+        # header calculation
         header_registered_sections = 0
         for cs in sections:
             if not cs.skip_header_listing:
@@ -258,7 +256,8 @@ class Section(CopyValidateModel):
 
         h += header_registered_sections.to_bytes(HEADER_SECTION_COUNT_BYTE_LENGTH, "big")
         for cs in sections:
-            # If section is marked to skip the header calculation, don't make header for it
+            # If section is marked to skip the header calculation, don't make
+            # header for it
             if cs.skip_header_listing:
                 continue
             size = cs.custom_size if "custom_size" in cs.model_fields_set else len(cs.data)
@@ -297,7 +296,7 @@ class Section(CopyValidateModel):
         return cls(kind=SectionKind.CONTAINER, data=container, **kwargs)
 
     @classmethod
-    def Data(cls, data: BytesConvertible = b"", **kwargs) -> "Section":  # noqa: N802
+    def Data(cls, data: BytesConvertible = b"", **kwargs) -> "Section":  # noqa: N802, E501
         """Create new data section with the specified data."""
         kwargs.pop("kind", None)
         return cls(kind=SectionKind.DATA, data=data, **kwargs)
@@ -419,7 +418,8 @@ class Container(CopyValidateModel):
 
         # Add headers
         if header_sections:
-            # Join headers of the same kind in a list of lists, only if they are next to each other
+            # Join headers of the same kind in a list of lists, only if they
+            # are next to each other
             concurrent_sections: List[List[Section]] = [[header_sections[0]]]
             for s in header_sections[1:]:
                 if (
@@ -498,8 +498,8 @@ class Container(CopyValidateModel):
 
     def __str__(self) -> str:
         """
-        Return name of the container if available, otherwise the bytecode of the container
-        as a string.
+        Return name of the container if available, otherwise the bytecode of
+        the container as a string.
         """
         if self.name:
             return self.name

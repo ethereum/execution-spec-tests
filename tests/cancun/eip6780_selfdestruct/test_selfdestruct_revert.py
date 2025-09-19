@@ -63,10 +63,9 @@ def recursive_revert_contract_code(
     selfdestruct_with_transfer_contract_address: Address,
 ) -> Bytecode:
     """
-    Contract code that:
-        Given selfdestructable contract A, transfer value to A and call A.selfdestruct.
-        Then, recurse into a new call which transfers value to A,
-        call A.selfdestruct, and reverts.
+    Contract code that: Given selfdestructable contract A, transfer value to A
+    and call A.selfdestruct. Then, recurse into a new call which transfers
+    value to A, call A.selfdestruct, and reverts.
     """
     # Common prefix for all three cases:
     #   case 1: selfdestruct_on_outer_call=1
@@ -339,11 +338,10 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
     recursive_revert_contract_code: Bytecode,
 ):
     """
-    Given:
-        Contract A which has methods to receive balance and selfdestruct, and was created in current tx
-    Test the following call sequence:
-         Transfer value to A and call A.selfdestruct.
-         Recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.
+    Given: Contract A which has methods to receive balance and selfdestruct,
+    and was created in current tx Test the following call sequence: Transfer
+    value to A and call A.selfdestruct. Recurse into a new call from transfers
+    value to A, calls A.selfdestruct, and reverts.
     """  # noqa: E501
     entry_code = Op.EXTCODECOPY(
         selfdestruct_with_transfer_initcode_copy_from_address,
@@ -357,7 +355,9 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         Op.CREATE(
             0,
             0,
-            len(bytes(selfdestruct_with_transfer_contract_initcode)),  # Value  # Offset
+            len(bytes(selfdestruct_with_transfer_contract_initcode)),  # Value
+                                                                       # #
+                                                                       # Offset
         ),
     )
 
@@ -400,7 +400,8 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
             code=selfdestruct_with_transfer_contract_code,
             storage=Storage(
                 {
-                    # 2 value transfers (1 in outer call, 1 in reverted inner call)
+                    # 2 value transfers (1 in outer call, 1 in reverted inner
+                    # call)
                     0: 1,  # type: ignore
                     # 1 selfdestruct in reverted inner call
                     1: 0,  # type: ignore
@@ -454,8 +455,8 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
     recursive_revert_contract_code: Bytecode,
 ):
     """
-    Same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract
-    is pre-existing.
+    Same test as selfdestruct_created_in_same_tx_with_revert except
+    selfdestructable contract is pre-existing.
     """
     entry_code = Op.CALL(
         Op.GASLIMIT(),
@@ -477,7 +478,8 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
             code=selfdestruct_with_transfer_contract_code,
             storage=Storage(
                 {
-                    # 2 value transfers: 1 in outer call, 1 in reverted inner call
+                    # 2 value transfers: 1 in outer call, 1 in reverted inner
+                    # call
                     0: 1,  # type: ignore
                     # 1 selfdestruct in reverted inner call
                     1: 1,  # type: ignore
@@ -493,9 +495,11 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
             code=selfdestruct_with_transfer_contract_code,
             storage=Storage(
                 {
-                    # 2 value transfers: 1 in outer call, 1 in reverted inner call
+                    # 2 value transfers: 1 in outer call, 1 in reverted inner
+                    # call
                     0: 1,  # type: ignore
-                    # 2 selfdestructs: 1 in outer call, 1 in reverted inner call # noqa SC100
+                    # 2 selfdestructs: 1 in outer call, 1 in reverted inner
+                    # call # noqa SC100
                     1: 0,  # type: ignore
                 }
             ),

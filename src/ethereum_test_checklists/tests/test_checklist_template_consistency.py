@@ -135,7 +135,10 @@ def test_id_extraction_functions():
 
 
 def test_eip_checklist_decorator_usage():
-    """Test EIPChecklist items work correctly as decorators both with and without parentheses."""
+    """
+    Test EIPChecklist items work correctly as decorators both with and without
+    parentheses.
+    """
 
     # Test decorator with parentheses
     @EIPChecklist.Opcode.Test.StackComplexOperations()
@@ -149,7 +152,8 @@ def test_eip_checklist_decorator_usage():
     assert len(eip_markers) == 1
     assert eip_markers[0].args == ("opcode/test/stack_complex_operations",)
 
-    # Test decorator without parentheses (direct usage - this is the key fix for issue #1)
+    # Test decorator without parentheses (direct usage - this is the key fix
+    # for issue #1)
     @EIPChecklist.Opcode.Test.StackOverflow
     def test_function_no_parens():
         pass
@@ -192,6 +196,7 @@ def test_eip_checklist_pytest_param_usage():
     with pytest.raises((TypeError, AssertionError)):
         pytest.param(
             "test_value",
-            marks=EIPChecklist.Opcode.Test.StackOverflow,  # Without () should fail
+            marks=EIPChecklist.Opcode.Test.StackOverflow,  # Without () should
+                                                           # fail
             id="should_fail",
         )

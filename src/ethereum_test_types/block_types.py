@@ -38,7 +38,10 @@ class EnvironmentDefaults:
 
 
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
-    """Withdrawal generic type, used as a parent class for `Withdrawal` and `FixtureWithdrawal`."""
+    """
+    Withdrawal generic type, used as a parent class for `Withdrawal` and
+    `FixtureWithdrawal`.
+    """
 
     index: NumberBoundTypeVar
     validator_index: NumberBoundTypeVar
@@ -47,8 +50,8 @@ class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
     def to_serializable_list(self) -> List[Any]:
         """
-        Return list of the withdrawal's attributes in the order they should
-        be serialized.
+        Return list of the withdrawal's attributes in the order they should be
+        serialized.
         """
         return [
             Uint(self.index),
@@ -98,8 +101,8 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
 class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     """
-    Structure used to keep track of the context in which a block
-    must be executed.
+    Structure used to keep track of the context in which a block must be
+    executed.
     """
 
     blob_gas_used: ZeroPaddedHexNumber | None = Field(None, alias="currentBlobGasUsed")

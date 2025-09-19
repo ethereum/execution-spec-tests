@@ -64,7 +64,8 @@ def get_expected_code_exception(
         case (SectionKind.TYPE, SectionTest.WRONG_ORDER, CasePosition.BODY):
             return (
                 "ef00010100040200010003ff00010030500000800001ef",
-                # TODO why invalid first section type? it should say that the body incorrect
+                # TODO why invalid first section type? it should say that the
+                # body incorrect
                 EOFException.INVALID_FIRST_SECTION_TYPE,
             )
         case (SectionKind.TYPE, SectionTest.WRONG_ORDER, CasePosition.BODY_AND_HEADER):
@@ -80,8 +81,8 @@ def get_expected_code_exception(
         case (SectionKind.CODE, SectionTest.MISSING, CasePosition.BODY):
             return (
                 "ef00010100040200010003ff00010000800001ef",
-                # TODO should be an exception of empty code bytes, because it can understand that
-                # last byte is data section byte
+                # TODO should be an exception of empty code bytes, because it
+                # can understand that last byte is data section byte
                 [EOFException.INVALID_SECTION_BODIES_SIZE, EOFException.UNEXPECTED_HEADER_KIND],
             )
         case (SectionKind.CODE, SectionTest.MISSING, CasePosition.BODY_AND_HEADER):
@@ -230,17 +231,17 @@ def test_container_section_order(
     test_position: CasePosition,
 ):
     """
-    Test containers section being out of order in the header and/or body.
-    This extends and follows the convention of the test_section_order()
-    for the optional container section.
+    Test containers section being out of order in the header and/or body. This
+    extends and follows the convention of the test_section_order() for the
+    optional container section.
     """
     if container_position == 2:
         pytest.skip("Skip valid container section position")
 
     section_code = Section.Code(
         code=Op.EOFCREATE[0](0, 0, 0, 0)
-        # TODO: Migrated tests had the following infinite loop, so it is kept here
-        #       to equalize code coverage.
+        # TODO: Migrated tests had the following infinite loop, so it is kept
+        # here to equalize code coverage.
         + Op.RJUMP[0]
         + Op.STOP()
     )
@@ -270,7 +271,8 @@ def test_container_section_order(
                 return EOFException.INVALID_FIRST_SECTION_TYPE
             case 1, CasePosition.BODY:  # Messes up with the code section
                 return EOFException.UNDEFINED_INSTRUCTION
-            case 3, CasePosition.BODY:  # Data section messes up with the container section
+            case 3, CasePosition.BODY:  # Data section messes up with the
+                                        # container section
                 return EOFException.INVALID_MAGIC
             case 0, CasePosition.HEADER | CasePosition.BODY_AND_HEADER:
                 return EOFException.MISSING_TYPE_HEADER

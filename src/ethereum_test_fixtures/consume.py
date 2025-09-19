@@ -34,7 +34,10 @@ class FixtureConsumer(ABC):
         fixture_name: str | None = None,
         debug_output_path: Path | None = None,
     ):
-        """Test the client with the specified fixture using its direct consumer interface."""
+        """
+        Test the client with the specified fixture using its direct consumer
+        interface.
+        """
         raise NotImplementedError(
             "The `consume_fixture()` function is not supported by this tool."
         )

@@ -129,8 +129,9 @@ class StateStaticTest(BaseStaticTest):
                     for expect in self.expect:
                         if expect.has_index(d.index, g, v) and expect.expect_exception is not None:
                             exception_test = True
-                    # TODO: This does not take into account exceptions that only happen on
-                    #       specific forks, but this requires a covariant parametrize
+                    # TODO: This does not take into account exceptions that
+                    # only happen on specific forks, but this requires a
+                    # covariant parametrize
                     marks = [pytest.mark.exception_test] if exception_test else []
                     id_label = ""
                     if len(self.transaction.data) > 1 or d.label is not None:

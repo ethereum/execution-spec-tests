@@ -41,23 +41,26 @@ class WithdrawalRequest(WithdrawalRequestBase):
     @property
     def value(self) -> int:
         """
-        Return the value of the call to the withdrawal request contract, equal to the fee
-        to be paid.
+        Return the value of the call to the withdrawal request contract, equal
+        to the fee to be paid.
         """
         return self.fee
 
     @cached_property
     def calldata(self) -> bytes:
         """
-        Return the calldata needed to call the withdrawal request contract and make the
-        withdrawal.
+        Return the calldata needed to call the withdrawal request contract and
+        make the withdrawal.
         """
         return self.calldata_modifier(
             self.validator_pubkey + self.amount.to_bytes(8, byteorder="big")
         )
 
     def with_source_address(self, source_address: Address) -> "WithdrawalRequest":
-        """Return a new instance of the withdrawal request with the source address set."""
+        """
+        Return a new instance of the withdrawal request with the source address
+        set.
+        """
         return self.copy(source_address=source_address)
 
 
@@ -87,13 +90,19 @@ class WithdrawalRequestInteractionBase:
         raise NotImplementedError
 
     def valid_requests(self, current_minimum_fee: int) -> List[WithdrawalRequest]:
-        """Return the list of withdrawal requests that should be valid in the block."""
+        """
+        Return the list of withdrawal requests that should be valid in the
+        block.
+        """
         raise NotImplementedError
 
 
 @dataclass(kw_only=True)
 class WithdrawalRequestTransaction(WithdrawalRequestInteractionBase):
-    """Class used to describe a withdrawal request originated from an externally owned account."""
+    """
+    Class used to describe a withdrawal request originated from an externally
+    owned account.
+    """
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the withdrawal request."""
@@ -243,12 +252,12 @@ def get_n_fee_increments(n: int) -> List[int]:
 
 def get_n_fee_increment_blocks(n: int) -> List[List[WithdrawalRequestContract]]:
     """
-    Return N blocks that should be included in the test such that each subsequent block has an
-    increasing fee for the withdrawal requests.
+    Return N blocks that should be included in the test such that each
+    subsequent block has an increasing fee for the withdrawal requests.
 
-    This is done by calculating the number of withdrawals required to reach the next fee increment
-    and creating a block with that number of withdrawal requests plus the number of withdrawals
-    required to reach the target.
+    This is done by calculating the number of withdrawals required to reach the
+    next fee increment and creating a block with that number of withdrawal
+    requests plus the number of withdrawals required to reach the target.
     """
     blocks = []
     previous_excess = 0

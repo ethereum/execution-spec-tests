@@ -1,7 +1,8 @@
 """
-abstract: Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002)
-    Test execution layer triggered exits [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
-
+abstract: Tests [EIP-7002: Execution layer triggerable
+withdrawals](https://eips.ethereum.org/EIPS/eip-7002) Test execution layer
+triggered exits [EIP-7002: Execution layer triggerable
+withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
 """  # noqa: E501
 
 from typing import List
@@ -816,8 +817,8 @@ def test_withdrawal_requests_negative(
     exception: BlockException,
 ):
     """
-    Test blocks where the requests list and the actual withdrawal requests that happened in the
-    block's transactions do not match.
+    Test blocks where the requests list and the actual withdrawal requests that
+    happened in the block's transactions do not match.
     """
     for d in requests:
         d.update_pre(pre)

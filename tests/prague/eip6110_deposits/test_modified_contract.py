@@ -1,4 +1,7 @@
-"""Test variants of the deposit contract which adheres the log-style as described in EIP-6110."""
+"""
+Test variants of the deposit contract which adheres the log-style as described
+in EIP-6110.
+"""
 
 import pytest
 
@@ -44,8 +47,9 @@ DEFAULT_DEPOSIT_REQUEST = DepositRequest(
 DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT = {
     "pubkey_data": bytes(DEFAULT_DEPOSIT_REQUEST.pubkey),
     "withdrawal_credentials_data": bytes(DEFAULT_DEPOSIT_REQUEST.withdrawal_credentials),
-    # Note: after converting to bytes, it is converted to little-endian by `[::-1]`
-    # (This happens on-chain also, but this is done by the solidity contract)
+    # Note: after converting to bytes, it is converted to little-endian by
+    # `[::-1]` (This happens on-chain also, but this is done by the solidity
+    # contract)
     "amount_data": bytes.fromhex("0" + DEFAULT_DEPOSIT_REQUEST.amount.hex()[2:])[::-1],
     "signature_data": bytes(DEFAULT_DEPOSIT_REQUEST.signature),
     "index_data": bytes(DEFAULT_DEPOSIT_REQUEST.index),
@@ -77,19 +81,21 @@ def test_extra_logs(
     pre: Alloc,
     include_deposit_event: bool,
 ):
-    """Test deposit contract emitting more log event types than the ones in mainnet."""
-    # Supplant mainnet contract with a variant that emits a `Transfer`` log
-    # If `include_deposit_event` is `True``, it will also emit a `DepositEvent` log`
+    """
+    Test deposit contract emitting more log event types than the ones in
+    mainnet.
+    """
+    # Supplant mainnet contract with a variant that emits a `Transfer`` log If
+    # `include_deposit_event` is `True``, it will also emit a `DepositEvent`
+    # log`
 
     # ERC20 token transfer log (Sepolia)
     # https://sepolia.etherscan.io/tx/0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f
-    # JSON RPC:
-    # curl https://sepolia.infura.io/v3/APIKEY \
-    # -X POST \
-    # -H "Content-Type: application/json" \
-    # -d '{"jsonrpc": "2.0", "method": "eth_getLogs",
-    # "params": [{"address": "0x7f02C3E3c98b133055B8B348B2Ac625669Ed295D",
-    # "blockHash": "0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53"}],
+    # JSON RPC: curl https://sepolia.infura.io/v3/APIKEY \ -X POST \ -H
+    # "Content-Type: application/json" \ -d '{"jsonrpc": "2.0", "method":
+    # "eth_getLogs", "params": [{"address":
+    # "0x7f02C3E3c98b133055B8B348B2Ac625669Ed295D", "blockHash":
+    # "0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53"}],
     # "id": 1}'
 
     # {"jsonrpc":"2.0","id":1,"result":
@@ -104,9 +110,9 @@ def test_extra_logs(
     # "0x00000000000000000000000080b5dc88c98e528bf9cb4b7f0f076ac41da24651"]
 
     bytecode = Op.LOG3(
-        # ERC-20 token transfer log
-        # ERC-20 token transfers are LOG3, since the topic, the sender, and receiver
-        # are all topics (the sender and receiver are `indexed` in the solidity event)
+        # ERC-20 token transfer log ERC-20 token transfers are LOG3, since the
+        # topic, the sender, and receiver are all topics (the sender and
+        # receiver are `indexed` in the solidity event)
         0,
         32,
         0xDDF252AD1BE2C89B69C2B068FC378DAA952BA7F163C4A11628F55A4DF523B3EF,
@@ -225,7 +231,10 @@ def test_invalid_layout(
 )
 @pytest.mark.exception_test
 def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, slice_bytes: bool):
-    """Test deposit contract emitting logs with invalid log length (one byte more or less)."""
+    """
+    Test deposit contract emitting logs with invalid log length (one byte more
+    or less).
+    """
     changed_log = DEFAULT_REQUEST_LOG[:-1] if slice_bytes else DEFAULT_REQUEST_LOG + b"\x00"
 
     bytecode = Om.MSTORE(changed_log) + Op.LOG1(

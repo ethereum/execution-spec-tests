@@ -39,21 +39,24 @@ class ConsolidationRequest(ConsolidationRequestBase):
     @property
     def value(self) -> int:
         """
-        Return the value of the call to the consolidation request contract, equal to the fee
-        to be paid.
+        Return the value of the call to the consolidation request contract,
+        equal to the fee to be paid.
         """
         return self.fee
 
     @cached_property
     def calldata(self) -> bytes:
         """
-        Return the calldata needed to call the consolidation request contract and make the
-        consolidation.
+        Return the calldata needed to call the consolidation request contract
+        and make the consolidation.
         """
         return self.calldata_modifier(self.source_pubkey + self.target_pubkey)
 
     def with_source_address(self, source_address: Address) -> "ConsolidationRequest":
-        """Return a new instance of the consolidation request with the source address set."""
+        """
+        Return a new instance of the consolidation request with the source
+        address set.
+        """
         return self.copy(source_address=source_address)
 
 
@@ -83,13 +86,19 @@ class ConsolidationRequestInteractionBase:
         raise NotImplementedError
 
     def valid_requests(self, current_minimum_fee: int) -> List[ConsolidationRequest]:
-        """Return the list of consolidation requests that should be valid in the block."""
+        """
+        Return the list of consolidation requests that should be valid in the
+        block.
+        """
         raise NotImplementedError
 
 
 @dataclass(kw_only=True)
 class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
-    """Class to describe a consolidation request originated from an externally owned account."""
+    """
+    Class to describe a consolidation request originated from an externally
+    owned account.
+    """
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the consolidation request."""
@@ -239,12 +248,13 @@ def get_n_fee_increments(n: int) -> List[int]:
 
 def get_n_fee_increment_blocks(n: int) -> List[List[ConsolidationRequestContract]]:
     """
-    Return N blocks that should be included in the test such that each subsequent block has an
-    increasing fee for the consolidation requests.
+    Return N blocks that should be included in the test such that each
+    subsequent block has an increasing fee for the consolidation requests.
 
-    This is done by calculating the number of consolidations required to reach the next fee
-    increment and creating a block with that number of consolidation requests plus the number of
-    consolidations required to reach the target.
+    This is done by calculating the number of consolidations required to reach
+    the next fee increment and creating a block with that number of
+    consolidation requests plus the number of consolidations required to reach
+    the target.
     """
     blocks = []
     previous_excess = 0

@@ -10,8 +10,8 @@ class BlockException(ExceptionBase):
     """
     Exception raised when a block is invalid, but not due to a transaction.
 
-    E.g. all transactions in the block are valid, and can be applied to the state, but the
-    block header contains an invalid field.
+    E.g. all transactions in the block are valid, and can be applied to the
+    state, but the block header contains an invalid field.
     """
 
     TOO_MANY_UNCLES = auto()

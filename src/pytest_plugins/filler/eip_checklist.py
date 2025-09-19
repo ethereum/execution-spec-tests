@@ -1,8 +1,8 @@
 """
 Pytest plugin for generating EIP test completion checklists.
 
-This plugin collects checklist markers from tests and generates a filled checklist
-for each EIP based on the template at
+This plugin collects checklist markers from tests and generates a filled
+checklist for each EIP based on the template at
 docs/writing_tests/checklist_templates/eip_testing_checklist_template.md
 """
 
@@ -335,8 +335,8 @@ class EIP:
         # Replace the title line with the EIP number
         lines[lines.index(TITLE_LINE)] = f"# EIP-{self.number} Test Checklist"
 
-        # Last, add the warnings if there are any, this must be the last thing we do
-        # to avoid shifting the lines below the percentage line
+        # Last, add the warnings if there are any, this must be the last thing
+        # we do to avoid shifting the lines below the percentage line
         if self.warnings:
             warnings_line_idx = lines.index(WARNINGS_LINE)
             warnings_lines = ["", "## ⚠️ Checklist Warnings ⚠️", ""]

@@ -1,7 +1,4 @@
-"""
-EVM Object Format generic constants.
-Applicable to all EOF versions.
-"""
+"""EVM Object Format generic constants. Applicable to all EOF versions."""
 
 EOF_MAGIC = b"\xef\x00"
 """

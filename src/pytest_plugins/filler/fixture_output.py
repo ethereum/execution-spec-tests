@@ -95,7 +95,8 @@ class FixtureOutput(BaseModel):
             # Phase 1: Directory must be completely empty
             return self.is_directory_empty()
         elif self.use_pre_alloc_groups:
-            # Phase 2: Only pre-allocation groups must exist, no other files allowed
+            # Phase 2: Only pre-allocation groups must exist, no other files
+            # allowed
             if not self.pre_alloc_groups_folder_path.exists():
                 return False
             # Check that only the pre-allocation group files exist
@@ -149,13 +150,14 @@ class FixtureOutput(BaseModel):
         """
         Create output and metadata directories if needed.
 
-        If clean flag is set, remove and recreate the directory.
-        Otherwise, verify the directory is empty before proceeding.
+        If clean flag is set, remove and recreate the directory. Otherwise,
+        verify the directory is empty before proceeding.
         """
         if self.is_stdout:
             return
 
-        # Only the master process should delete/create directories if using pytest-xdist
+        # Only the master process should delete/create directories if using
+        # pytest-xdist
         if not is_master:
             return
 

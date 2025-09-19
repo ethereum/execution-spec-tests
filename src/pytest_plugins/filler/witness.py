@@ -1,8 +1,9 @@
 """
 Pytest plugin for witness functionality.
 
-Provides --witness command-line option that checks for the witness-filler tool in PATH
-and generates execution witness data for blockchain test fixtures when enabled.
+Provides --witness command-line option that checks for the witness-filler tool
+in PATH and generates execution witness data for blockchain test fixtures when
+enabled.
 """
 
 import shutil
@@ -26,9 +27,9 @@ class Merge(Paris):
     """
     Paris fork that serializes as 'Merge' for witness-filler compatibility.
 
-    IMPORTANT: This class MUST be named 'Merge' (not 'MergeForWitness' or similar)
-    because the class name is used directly in Pydantic serialization, and
-    witness-filler expects exactly 'Merge' for this fork.
+    IMPORTANT: This class MUST be named 'Merge' (not 'MergeForWitness' or
+    similar) because the class name is used directly in Pydantic serialization,
+    and witness-filler expects exactly 'Merge' for this fork.
     """
 
     pass
@@ -54,7 +55,8 @@ def pytest_configure(config):
     """
     Pytest hook called after command line options have been parsed.
 
-    If --witness is enabled, checks that the witness-filler tool is available in PATH.
+    If --witness is enabled, checks that the witness-filler tool is available
+    in PATH.
     """
     if config.getoption("witness"):
         # Check if witness-filler binary is available in PATH
@@ -75,20 +77,22 @@ def witness_generator(
     """
     Provide a witness generator function if --witness is enabled.
 
-    Returns:
-        None if witness functionality is disabled.
-        Callable that generates witness data for a BlockchainFixture if enabled.
-
+    Returns: None if witness functionality is disabled. Callable that generates
+    witness data for a BlockchainFixture if enabled.
     """
     if not request.config.getoption("witness"):
         return None
 
     def generate_witness(fixture: BlockchainFixture) -> None:
-        """Generate witness data for a blockchain fixture using the witness-filler tool."""
+        """
+        Generate witness data for a blockchain fixture using the witness-filler
+        tool.
+        """
         if not isinstance(fixture, BlockchainFixture):
             return None
 
-        # Hotfix: witness-filler expects "Merge" but execution-spec-tests uses "Paris"
+        # Hotfix: witness-filler expects "Merge" but execution-spec-tests uses
+        # "Paris"
         original_fork = None
         if fixture.fork is Paris:
             original_fork = fixture.fork

@@ -1,9 +1,9 @@
 """
 Compare two fixture folders and remove duplicates based on fixture hashes.
 
-This tool reads the .meta/index.json files from two fixture directories and identifies
-fixtures with identical hashes on a test case basis, then removes the duplicates from
-both of the folders. Used within the coverage workflow.
+This tool reads the .meta/index.json files from two fixture directories and
+identifies fixtures with identical hashes on a test case basis, then removes
+the duplicates from both of the folders. Used within the coverage workflow.
 """
 
 import json
@@ -95,8 +95,8 @@ def batch_remove_fixtures_from_files(removals_by_file):
 
 def rewrite_index(folder: Path, index: IndexFile, dry_run: bool):
     """
-    Rewrite the index to the correct index file, or if the test count was reduced to zero,
-    the entire directory is deleted.
+    Rewrite the index to the correct index file, or if the test count was
+    reduced to zero, the entire directory is deleted.
     """
     if len(index.test_cases) > 0:
         # Just rewrite the index
