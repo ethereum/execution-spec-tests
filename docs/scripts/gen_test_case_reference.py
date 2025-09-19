@@ -15,8 +15,8 @@ import pytest
 from click.testing import CliRunner
 
 import pytest_plugins.filler.gen_test_doc.gen_test_doc as gen_test_doc
-from cli.pytest_commands.fill import fill
 from config import DocsConfig
+from ethereum_test_cli.pytest_commands.fill import fill
 
 importlib.reload(gen_test_doc)  # get changes in plugin to trigger an update for `mkdocs serve`
 

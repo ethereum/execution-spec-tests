@@ -1,7 +1,7 @@
 # The `eest` CLI
 
 ::: mkdocs-click
-    :module: cli.eest.cli
+    :module: ethereum_test_cli.eest.cli
     :command: eest
     :depth: 1
     :list_subcommands: true

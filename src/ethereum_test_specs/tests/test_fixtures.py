@@ -7,7 +7,7 @@ from typing import Any, List, Mapping
 import pytest
 from click.testing import CliRunner
 
-import cli.check_fixtures
+import ethereum_test_cli.check_fixtures
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import AccessList, Account, Address, Hash
 from ethereum_test_exceptions import TransactionException
@@ -52,7 +52,7 @@ def test_check_helper_fixtures():
         "--quiet",
         "--stop-on-error",
     ]
-    result = runner.invoke(cli.check_fixtures.check_fixtures, args)
+    result = runner.invoke(ethereum_test_cli.check_fixtures.check_fixtures, args)
     assert result.exit_code == 0, (
         "check_fixtures detected errors in the json fixtures:" + f"\n{result}"
     )
