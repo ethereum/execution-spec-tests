@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 from itertools import groupby
+from operator import attrgetter
 from pathlib import Path
 from re import Pattern
 from typing import Any, List, Optional, Type
@@ -114,15 +115,14 @@ class EthereumCLI:
             logger.debug(f"Successfully located the path of the t8n binary: {binary}")
             binary = Path(binary)
 
-        # Group the tools by version flag, so we only have to call the tool once for all the
-        # classes that share the same version flag
+        list_of_t8ns = cls.registered_tools
         for version_flag, subclasses in groupby(
-            cls.registered_tools, key=lambda x: x.version_flag
+            sorted(list_of_t8ns, key=attrgetter("version_flag")),
+            key=attrgetter("version_flag"),
         ):
             logger.debug(
-                f"Trying this `version` flag to determine if t8n supported: {version_flag}"
+                f"\n{'-' * 120}\nTrying this `version` flag to determine if t8n supported: {version_flag}"  # noqa: E501
             )
-            # adding more logging reveals we check for `-v` twice..
 
             try:
                 result = subprocess.run(
@@ -136,24 +136,27 @@ class EthereumCLI:
                     logger.debug(f"Subprocess returncode is not 0! It is: {result.returncode}")
                     continue  # don't raise exception, you are supposed to keep trying different version flags  # noqa: E501
 
-                if result.stderr:
+                # if there is an error try sth else, but don't treat besu's vector warning as error
+                if result.stderr and "SVE vector length" not in str(result.stderr):
                     logger.debug(f"Stderr detected: {result.stderr}")  # type: ignore
                     continue
 
                 binary_output = ""
-                if result.stdout:
-                    binary_output = result.stdout.decode().strip()
-                    # e.g. 1.31.10+f62cfede9b4abfb5cd62d6f138240668620a2b0d should be treated as 1.31.10  # noqa: E501
-                    # if "+" in binary_output:
-                    #     binary_output = binary_output.split("+")[0]
+                if not result.stdout:
+                    continue
 
-                    logger.debug(f"Stripped subprocess stdout: {binary_output}")
+                binary_output = result.stdout.decode().strip()
+                logger.debug(f"Stripped subprocess stdout: {binary_output}")
 
                 for subclass in subclasses:
                     logger.debug(f"Trying subclass {subclass}")
-
-                    if subclass.detect_binary(binary_output):
-                        return subclass(binary=binary, **kwargs)
+                    try:
+                        if subclass.detect_binary(binary_output):
+                            subclass_check_result = subclass(binary=binary, **kwargs)
+                            return subclass_check_result
+                    except Exception as e:
+                        print(e)
+                        continue
 
                     logger.debug(
                         f"T8n with version {binary_output} does not belong to subclass {subclass}"
@@ -170,9 +173,16 @@ class EthereumCLI:
     @classmethod
     def detect_binary(cls, binary_output: str) -> bool:
         """Return True if a CLI's `binary_output` matches the class's expected output."""
+        logger.debug(f"Trying to detect binary for {binary_output}..")
         assert cls.detect_binary_pattern is not None
 
-        return cls.detect_binary_pattern.match(binary_output) is not None
+        logger.debug(
+            f"Trying to match {binary_output} against this pattern: {cls.detect_binary_pattern}"
+        )
+        match_result = cls.detect_binary_pattern.match(binary_output)
+        match_successful: bool = match_result is not None
+
+        return match_successful
 
     @classmethod
     def is_installed(cls, binary_path: Optional[Path] = None) -> bool:
