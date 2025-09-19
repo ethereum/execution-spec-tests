@@ -348,6 +348,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return False
 
     @classmethod
+    def engine_execution_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """At genesis, payloads do not have block access list."""
+        return False
+
+    @classmethod
     def engine_new_payload_target_blobs_per_block(
         cls,
         block_number: int = 0,
@@ -1842,6 +1849,16 @@ class Amsterdam(Osaka):
     ) -> Optional[int]:
         """From Amsterdam, new payload calls must use version 5."""
         return 5
+
+    @classmethod
+    def engine_execution_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        From Amsterdam, engine execution payload includes `block_access_list` as
+        a parameter.
+        """
+        return True
 
 
 class EOFv1(Prague, solc_name="cancun"):
