@@ -131,7 +131,9 @@ class Bytecode:
         )
 
     def __add__(self, other: "Bytecode | bytes | int | None") -> "Bytecode":
-        """Concatenate the bytecode representation with another bytecode object."""
+        """
+        Concatenate the bytecode representation with another bytecode object.
+        """
         if other is None or (isinstance(other, int) and other == 0):
             # Edge case for sum() function
             return self
@@ -195,7 +197,9 @@ class Bytecode:
         )
 
     def __radd__(self, other: "Bytecode | int | None") -> "Bytecode":
-        """Concatenate the opcode byte representation with another bytes object."""
+        """
+        Concatenate the opcode byte representation with another bytes object.
+        """
         if other is None or (isinstance(other, int) and other == 0):
             # Edge case for sum() function
             return self
@@ -203,7 +207,9 @@ class Bytecode:
         return other.__add__(self)
 
     def __mul__(self, other: int) -> "Bytecode":
-        """Concatenate another bytes object with the opcode byte representation."""
+        """
+        Concatenate another bytes object with the opcode byte representation.
+        """
         if other < 0:
             raise ValueError("Cannot multiply by a negative number")
         if other == 0:

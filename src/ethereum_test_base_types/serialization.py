@@ -141,7 +141,9 @@ class RLPSerializable:
 
 
 class SignableRLPSerializable(RLPSerializable):
-    """Class that adds RLP serialization to another class with signing support."""
+    """
+    Class that adds RLP serialization to another class with signing support.
+    """
 
     signable: ClassVar[bool] = True
 

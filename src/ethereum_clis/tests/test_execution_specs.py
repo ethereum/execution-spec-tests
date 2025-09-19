@@ -159,7 +159,9 @@ def test_evm_t8n(
     env: Environment,
     test_dir: str,
 ) -> None:
-    """Test the `evaluate` method of the `ExecutionSpecsTransitionTool` class."""
+    """
+    Test the `evaluate` method of the `ExecutionSpecsTransitionTool` class.
+    """
     expected_path = Path(FIXTURES_ROOT, test_dir, "exp.json")
 
     with open(expected_path, "r") as exp:

@@ -1,4 +1,6 @@
-"""Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
+"""
+Shared pytest fixtures and hooks for EEST generation modes (fill and execute).
+"""
 
 from typing import List
 
@@ -17,11 +19,18 @@ ALL_FIXTURE_PARAMETERS = {
     "env",
 }
 """
-List of test parameters that have a default fixture value which can be retrieved and used
-for the test instance if it was not explicitly specified when calling from the test
-function.
 
-All parameter names included in this list must define a fixture in one of the plugins.
+
+
+
+
+
+List of test parameters that have a default fixture value which can be
+retrieved and used for the test instance if it was not explicitly specified
+when calling from the test function.
+
+All parameter names included in this list must define a fixture in one of the
+plugins.
 """
 
 
@@ -36,8 +45,7 @@ def pytest_configure(config: pytest.Config):
 
     Custom marker registration:
     https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html# registering-
-                                                                # custom
-    -markers
+    # custom -markers
 
     2. `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
     called before the pytest-html plugin's pytest_configure to ensure that it

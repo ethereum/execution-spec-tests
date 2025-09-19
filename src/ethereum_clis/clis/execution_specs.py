@@ -58,7 +58,9 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         trace: bool = False,
         server_url: str | None = None,
     ):
-        """Initialize the Ethereum Specs EVM Resolver Transition Tool interface."""
+        """
+        Initialize the Ethereum Specs EVM Resolver Transition Tool interface.
+        """
         os.environ.setdefault("NO_PROXY", "*")  # Disable proxy for local connections
         super().__init__(
             exception_mapper=ExecutionSpecsExceptionMapper(), binary=binary, trace=trace

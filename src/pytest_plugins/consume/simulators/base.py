@@ -45,7 +45,9 @@ class FixturesDict(Dict[Path, Fixtures]):
         self._fixtures: Dict[Path, Fixtures] = {}
 
     def __getitem__(self, key: Path) -> Fixtures:
-        """Return the fixtures from the index file, if not found, load from disk."""
+        """
+        Return the fixtures from the index file, if not found, load from disk.
+        """
         assert key.is_file(), f"Expected a file path, got '{key}'"
         if key not in self._fixtures:
             self._fixtures[key] = Fixtures.model_validate_json(key.read_text())

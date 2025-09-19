@@ -142,8 +142,14 @@ def test_initcode_aborts(
 
 
 """
-Size of the factory portion of test_eofcreate_deploy_sizes, but as the runtime code is dynamic, we
-have to use a pre-calculated size
+
+
+
+
+
+
+Size of the factory portion of test_eofcreate_deploy_sizes, but as the runtime
+code is dynamic, we have to use a pre-calculated size
 """
 factory_size = 78
 
@@ -281,7 +287,9 @@ def test_eofcreate_deploy_sizes_tx(
     ],
 )
 def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_size: int):
-    """Exercises a number of auxdata size violations, and one maxcode success."""
+    """
+    Exercises a number of auxdata size violations, and one maxcode success.
+    """
     env = Environment()
     auxdata_bytes = b"a" * auxdata_size
 

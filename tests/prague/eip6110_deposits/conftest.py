@@ -51,7 +51,9 @@ def exception() -> BlockException | None:
 def included_requests(
     requests: List[DepositInteractionBase],
 ) -> List[DepositRequest]:
-    """Return the list of deposit requests that should be included in each block."""
+    """
+    Return the list of deposit requests that should be included in each block.
+    """
     valid_requests: List[DepositRequest] = []
 
     for d in requests:

@@ -138,7 +138,7 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             # Invalid curve attack: This point satisfies y² = x³ - 3x + 1 (mod
             # p) instead of the correct P-256 equation y² = x³ - 3x + b where b
             # =
-            # 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B
+            # 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B # noqa: W505
             # This tests that the implementation properly validates the curve
             # equation and rejects points on different curves (CVE-2020-0601
             # class vulnerability)
@@ -385,7 +385,7 @@ def test_precompile_will_return_success_with_tx_value(
             + Spec.X0
             + Spec.Y0,
             Spec.INVALID_RETURN_VALUE,  # Should fail because R = 1 is not a
-                                        # valid signature
+            # valid signature
             id="r_equals_n_plus_one",
         ),
         pytest.param(
@@ -395,7 +395,7 @@ def test_precompile_will_return_success_with_tx_value(
             + Spec.X0
             + Spec.Y0,
             Spec.INVALID_RETURN_VALUE,  # Should fail because R = 2 is not a
-                                        # valid signature
+            # valid signature
             id="r_equals_n_plus_two",
         ),
     ],

@@ -40,9 +40,7 @@ REFERENCE_SPEC_VERSION = ref_spec_3860.version
 pytestmark = pytest.mark.valid_from("Shanghai")
 
 
-"""
-Initcode templates used throughout the tests
-"""
+"""Initcode templates used throughout the tests"""
 INITCODE_ONES_MAX_LIMIT = Initcode(
     deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
     initcode_length=Spec.MAX_INITCODE_SIZE,
@@ -113,9 +111,7 @@ SINGLE_BYTE_INITCODE._bytes_ = bytes(Op.STOP)
 SINGLE_BYTE_INITCODE.deployment_gas = 0
 SINGLE_BYTE_INITCODE.execution_gas = 0
 
-"""
-Test cases using a contract creating transaction
-"""
+"""Test cases using a contract creating transaction"""
 
 
 @pytest.mark.xdist_group(name="bigmem")
@@ -420,7 +416,9 @@ class TestCreateInitcode:
         initcode: Initcode,
         creator_contract_address: Address,
     ) -> Address:
-        """Calculate address of the contract created by the creator contract."""
+        """
+        Calculate address of the contract created by the creator contract.
+        """
         return compute_create_address(
             address=creator_contract_address,
             nonce=1,
@@ -431,7 +429,9 @@ class TestCreateInitcode:
 
     @pytest.fixture
     def caller_code(self, creator_contract_address: Address) -> Bytecode:
-        """Generate code for the caller contract that calls the creator contract."""
+        """
+        Generate code for the caller contract that calls the creator contract.
+        """
         return Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.SSTORE(
             Op.CALL(5000000, creator_contract_address, 0, 0, Op.CALLDATASIZE, 0, 0), 1
         )

@@ -42,23 +42,29 @@ from ethereum_test_tools import (
 from ethereum_test_vm import Opcodes as Op
 
 """
-PUSH opcode cost is 3, GAS opcode cost is 2.
-We need 6 PUSH's and one GAS to fill the stack for both CALL & CALLCODE, in the callee contract.
+
+
+PUSH opcode cost is 3, GAS opcode cost is 2. We need 6 PUSH's and one GAS to
+fill the stack for both CALL & CALLCODE, in the callee contract.
 """
 CALLEE_INIT_STACK_GAS = 6 * 3 + 2
 
 """
-CALL gas breakdowns: (https://www.evm.codes/#f1)
-memory_exp_cost + code_exec_cost + address_access_cost + positive_value_cost + empty_account_cost
+
+
+CALL gas breakdowns: (https://www.evm.codes/#f1) memory_exp_cost +
+code_exec_cost + address_access_cost + positive_value_cost + empty_account_cost
 = 0 + 0 + 2600 + 9000 + 25000 = 36600
 """
 CALL_GAS = 36600
 CALL_SUFFICIENT_GAS = CALL_GAS + CALLEE_INIT_STACK_GAS
 
 """
-CALLCODE gas breakdowns: (https://www.evm.codes/#f2)
-memory_exp_cost + code_exec_cost + address_access_cost + positive_value_cost
-= 0 + 0 + 2600 + 9000 = 11600
+
+
+CALLCODE gas breakdowns: (https://www.evm.codes/#f2) memory_exp_cost +
+code_exec_cost + address_access_cost + positive_value_cost = 0 + 0 + 2600 +
+9000 = 11600
 """
 CALLCODE_GAS = 11600
 CALLCODE_SUFFICIENT_GAS = CALLCODE_GAS + CALLEE_INIT_STACK_GAS

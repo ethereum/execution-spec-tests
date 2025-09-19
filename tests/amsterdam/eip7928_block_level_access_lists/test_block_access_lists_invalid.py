@@ -94,7 +94,9 @@ def test_bal_invalid_nonce_value(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
 ):
-    """Test that clients reject blocks where BAL contains incorrect nonce value."""
+    """
+    Test that clients reject blocks where BAL contains incorrect nonce value.
+    """
     sender = pre.fund_eoa(amount=10**18)
     receiver = pre.fund_eoa(amount=0)
 
@@ -352,7 +354,9 @@ def test_bal_invalid_account_order(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
 ):
-    """Test that clients reject blocks where BAL has incorrect account ordering."""
+    """
+    Test that clients reject blocks where BAL has incorrect account ordering.
+    """
     sender = pre.fund_eoa(amount=10**18)
     receiver = pre.fund_eoa(amount=0)
 
@@ -469,7 +473,9 @@ def test_bal_invalid_missing_account(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
 ):
-    """Test that clients reject blocks where BAL is missing an entire account."""
+    """
+    Test that clients reject blocks where BAL is missing an entire account.
+    """
     sender = pre.fund_eoa(amount=10**18)
     receiver = pre.fund_eoa(amount=0)
 
@@ -511,7 +517,9 @@ def test_bal_invalid_balance_value(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
 ):
-    """Test that clients reject blocks where BAL contains incorrect balance value."""
+    """
+    Test that clients reject blocks where BAL contains incorrect balance value.
+    """
     sender = pre.fund_eoa(amount=10**18)
     receiver = pre.fund_eoa(amount=0)
 

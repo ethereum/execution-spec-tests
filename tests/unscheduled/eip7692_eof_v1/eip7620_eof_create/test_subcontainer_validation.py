@@ -443,7 +443,9 @@ def test_container_combos_non_first_code_sections_invalid(
 
 
 def test_container_both_kinds_same_sub(eof_test: EOFTestFiller):
-    """Test subcontainer conflicts (both EOFCREATE and RETURNCODE Reference)."""
+    """
+    Test subcontainer conflicts (both EOFCREATE and RETURNCODE Reference).
+    """
     eof_test(
         container=Container(
             sections=[

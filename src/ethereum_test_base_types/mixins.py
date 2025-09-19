@@ -51,8 +51,8 @@ class ModelCustomizationsMixin:
         cases.
 
         See: - https://pydantic-docs.helpmanual.io/usage/models/#custom-repr -
-        https://github.com/ethereum/execution-spec-tests/pull/901# issuecomment-24432968
-        35
+        https://github.com/ethereum/execution-spec-tests/pull/901#
+        issuecomment-24432968 35
 
         Returns: List[Tuple[str, Any]]: A list of tuples where each tuple
         contains an attribute name and its corresponding non-None value.

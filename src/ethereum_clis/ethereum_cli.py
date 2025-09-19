@@ -20,7 +20,9 @@ class UnknownCLIError(Exception):
 
 
 class CLINotFoundInPathError(Exception):
-    """Exception raised if the specified CLI binary is not found in the path."""
+    """
+    Exception raised if the specified CLI binary is not found in the path.
+    """
 
     def __init__(self, message="The CLI binary was not found in the path", binary=None):
         """Initialize the exception."""
@@ -49,7 +51,9 @@ class EthereumCLI:
     cached_version: Optional[str] = None
 
     def __init__(self, *, binary: Optional[Path] = None):
-        """Abstract initialization method that all subclasses must implement."""
+        """
+        Abstract initialization method that all subclasses must implement.
+        """
         if binary is None:
             binary = self.default_binary
         else:

@@ -89,7 +89,9 @@ class Wei(Number):
 
     @staticmethod
     def _get_multiplier(unit: str) -> int:
-        """Return the multiplier for the given unit of wei, handling synonyms."""
+        """
+        Return the multiplier for the given unit of wei, handling synonyms.
+        """
         match unit:
             case "wei":
                 return 1
@@ -369,7 +371,9 @@ class FixedSizeBytes(Bytes):
 
 
 class ForkHash(FixedSizeBytes[4]):  # type: ignore
-    """Class that helps represent the CRC config hashes and identifiers of a fork."""
+    """
+    Class that helps represent the CRC config hashes and identifiers of a fork.
+    """
 
     pass
 

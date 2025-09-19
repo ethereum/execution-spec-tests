@@ -63,7 +63,9 @@ def apply_name_filters(input_string: str):
 
 
 def snake_to_capitalize(string: str) -> str:  # noqa: D103
-    """Convert valid identifiers to a capitalized string, otherwise leave as-is."""
+    """
+    Convert valid identifiers to a capitalized string, otherwise leave as-is.
+    """
     if string.isidentifier():
         return " ".join(word.capitalize() for word in string.split("_"))
     return string
@@ -279,7 +281,9 @@ class DirectoryPageProps(PagePropsBase):
 
 @dataclass
 class MarkdownPageProps(PagePropsBase):
-    """Definitions used to verbatim include markdown files included in test paths."""
+    """
+    Definitions used to verbatim include markdown files included in test paths.
+    """
 
     @property
     def template(self) -> str:

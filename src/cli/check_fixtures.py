@@ -84,7 +84,9 @@ def check_json(json_file_path: Path):
     help="Stop and raise any exceptions encountered while checking fixtures.",
 )
 def check_fixtures(input_str: str, quiet_mode: bool, stop_on_error: bool):
-    """Perform some checks on the fixtures contained in the specified directory."""
+    """
+    Perform some checks on the fixtures contained in the specified directory.
+    """
     input_path = Path(input_str)
     success = True
     file_count = 0

@@ -184,7 +184,9 @@ def auto_access_list() -> bool:
 
 @pytest.fixture
 def access_list(auto_access_list: bool, timestamp: int) -> List[AccessList]:
-    """Access list included in the transaction to call the beacon root contract."""
+    """
+    Access list included in the transaction to call the beacon root contract.
+    """
     if auto_access_list:
         return [
             AccessList(

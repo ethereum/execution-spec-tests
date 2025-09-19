@@ -449,7 +449,9 @@ def test_invalid_tx_invalid_authorization_tuple_extra_element(
         extra_element: HexNumber  # type: ignore
 
         def get_rlp_fields(self) -> List[str]:
-            """Append the extra field to the list of fields to be encoded in RLP."""
+            """
+            Append the extra field to the list of fields to be encoded in RLP.
+            """
             rlp_fields = super().get_rlp_fields()[:]
             rlp_fields.append("extra_element")
             return rlp_fields
@@ -510,7 +512,9 @@ def test_invalid_tx_invalid_authorization_tuple_missing_element(
         missing_element_index: int
 
         def get_rlp_fields(self) -> List[str]:
-            """Remove the field that is specified by the missing element index."""
+            """
+            Remove the field that is specified by the missing element index.
+            """
             rlp_fields = super().get_rlp_fields()[:]
             rlp_fields.pop(self.missing_element_index)
             return rlp_fields

@@ -129,7 +129,9 @@ def test_rjumpi_condition_zero(
     pre: Alloc,
     calldata: bytes,
 ):
-    """Test RJUMPI contract switching based on external input (condition zero)."""
+    """
+    Test RJUMPI contract switching based on external input (condition zero).
+    """
     env = Environment()
     sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(

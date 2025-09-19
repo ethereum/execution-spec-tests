@@ -69,7 +69,9 @@ class StateStaticTest(BaseStaticTest):
             indexes: Union[int, str, list[Union[int, str]], list[str], list[int]],
             do_hint: bool = False,
         ) -> List[int] | int:
-            """Parse indexes and replace all ranges and labels into tx indexes."""
+            """
+            Parse indexes and replace all ranges and labels into tx indexes.
+            """
             result: List[int] | int = []
 
             if do_hint:

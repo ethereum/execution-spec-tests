@@ -36,12 +36,23 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
         str | int | bytes | SupportsBytes, str | int | bytes | SupportsBytes
     ]
     """
+
+
+
+
+
+
     Dictionary type to be used when defining an input to initialize a storage.
+
+
+
     """
 
     @dataclass(kw_only=True)
     class InvalidTypeError(Exception):
-        """Invalid type used when describing test's expected storage key or value."""
+        """
+        Invalid type used when describing test's expected storage key or value.
+        """
 
         key_or_value: Any
 
@@ -186,7 +197,9 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
         return self.root.items()
 
     def set_expect_any(self, key: StorageKeyValueTypeConvertible | StorageKeyValueType):
-        """Mark key to be able to have any expected value when comparing storages."""
+        """
+        Mark key to be able to have any expected value when comparing storages.
+        """
         self._any_map[StorageKeyValueTypeAdapter.validate_python(key)] = True
 
     def store_next(
@@ -297,27 +310,38 @@ class Account(CamelModel):
 
     nonce: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     """
-    The scalar value equal to a) the number of transactions sent by
-    an Externally Owned Account, b) the amount of contracts created by a
-    contract.
+
+
+
+
+
+
+    The scalar value equal to a) the number of transactions sent by an
+    Externally Owned Account, b) the amount of contracts created by a contract.
+
+
+
     """
     balance: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
-    """
-    The amount of Wei (10<sup>-18</sup> Eth) the account has.
-    """
+    """The amount of Wei (10<sup>-18</sup> Eth) the account has."""
     code: Bytes = Bytes(b"")
-    """
-    Bytecode contained by the account.
-    """
+    """Bytecode contained by the account."""
     storage: Storage = Field(default_factory=Storage)
-    """
-    Storage within a contract.
-    """
+    """Storage within a contract."""
 
     NONEXISTENT: ClassVar[None] = None
     """
+
+
+
+
+
+
     Sentinel object used to specify when an account should not exist in the
     state.
+
+
+
     """
 
     @dataclass(kw_only=True)
@@ -332,7 +356,9 @@ class Account(CamelModel):
         got: int | None
 
         def __init__(self, address: Address, want: int | None, got: int | None, *args):
-            """Initialize the exception with the address, wanted and got values."""
+            """
+            Initialize the exception with the address, wanted and got values.
+            """
             super().__init__(args)
             self.address = address
             self.want = want
@@ -360,7 +386,9 @@ class Account(CamelModel):
         got: int | None
 
         def __init__(self, address: Address, want: int | None, got: int | None, *args):
-            """Initialize the exception with the address, wanted and got values."""
+            """
+            Initialize the exception with the address, wanted and got values.
+            """
             super().__init__(args)
             self.address = address
             self.want = want
@@ -388,7 +416,9 @@ class Account(CamelModel):
         got: bytes | None
 
         def __init__(self, address: Address, want: bytes | None, got: bytes | None, *args):
-            """Initialize the exception with the address, wanted and got values."""
+            """
+            Initialize the exception with the address, wanted and got values.
+            """
             super().__init__(args)
             self.address = address
             self.want = want

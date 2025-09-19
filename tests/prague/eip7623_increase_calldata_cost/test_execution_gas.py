@@ -159,7 +159,9 @@ class TestGasConsumptionBelowDataFloor:
         tx: Transaction,
         tx_floor_data_cost: int,
     ) -> None:
-        """Test executing a transaction that almost consumes the floor data cost."""
+        """
+        Test executing a transaction that almost consumes the floor data cost.
+        """
         tx.expected_receipt = TransactionReceipt(gas_used=tx_floor_data_cost)
         state_test(
             pre=pre,

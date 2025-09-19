@@ -33,7 +33,9 @@ def extract_markdown_ids(markdown_content: str) -> Set[str]:
 
 
 def get_all_checklist_ids(obj, current_path="") -> Set[str]:
-    """Recursively extract all checklist IDs from EIPChecklist and its children."""
+    """
+    Recursively extract all checklist IDs from EIPChecklist and its children.
+    """
     ids = set()
 
     # Iterate through all attributes of the object
@@ -59,7 +61,9 @@ def get_all_checklist_ids(obj, current_path="") -> Set[str]:
 
 
 def test_checklist_template_consistency():
-    """Test that all IDs in markdown template match EIPChecklist class exactly."""
+    """
+    Test that all IDs in markdown template match EIPChecklist class exactly.
+    """
     # Read the markdown template
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         markdown_content = f.read()

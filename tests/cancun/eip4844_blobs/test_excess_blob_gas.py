@@ -53,7 +53,9 @@ pytestmark = pytest.mark.valid_from("Cancun")
 
 @pytest.fixture
 def parent_excess_blobs(fork: Fork) -> int:  # noqa: D103
-    """By default we start with an intermediate value between the target and max."""
+    """
+    By default we start with an intermediate value between the target and max.
+    """
     return (fork.max_blobs_per_block() + fork.target_blobs_per_block()) // 2 + 1
 
 

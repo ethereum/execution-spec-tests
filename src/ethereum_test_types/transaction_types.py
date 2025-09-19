@@ -202,7 +202,9 @@ class TransactionValidateToAsEmptyString(CamelModel):
     @model_validator(mode="before")
     @classmethod
     def validate_to_as_empty_string(cls, data: Any) -> Any:
-        """If the `to` field is an empty string, set the model value to None."""
+        """
+        If the `to` field is an empty string, set the model value to None.
+        """
         if (
             isinstance(data, dict)
             and "to" in data
@@ -214,7 +216,9 @@ class TransactionValidateToAsEmptyString(CamelModel):
 
 
 class TransactionFixtureConverter(TransactionValidateToAsEmptyString):
-    """Handler for serializing and validating the `to` field as an empty string."""
+    """
+    Handler for serializing and validating the `to` field as an empty string.
+    """
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_empty_string(self, serializer):
@@ -229,7 +233,9 @@ class TransactionFixtureConverter(TransactionValidateToAsEmptyString):
 
 
 class TransactionTransitionToolConverter(TransactionValidateToAsEmptyString):
-    """Handler for serializing and validating the `to` field as an empty string."""
+    """
+    Handler for serializing and validating the `to` field as an empty string.
+    """
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_none(self, serializer):
@@ -673,7 +679,9 @@ class Transaction(
 
     @staticmethod
     def list_blob_versioned_hashes(input_txs: List["Transaction"]) -> List[Hash]:
-        """Get list of ordered blob versioned hashes from a list of transactions."""
+        """
+        Get list of ordered blob versioned hashes from a list of transactions.
+        """
         return [
             blob_versioned_hash
             for tx in input_txs

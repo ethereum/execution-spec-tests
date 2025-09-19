@@ -39,7 +39,9 @@ def test_rjump_negative(
 def test_rjump_positive_negative(
     eof_state_test: EOFStateTestFiller,
 ):
-    """EOF1V4200_0001 (Valid) EOF code containing RJUMP (Positive, Negative)."""
+    """
+    EOF1V4200_0001 (Valid) EOF code containing RJUMP (Positive, Negative).
+    """
     eof_state_test(
         container=Container.Code(
             Op.PUSH0

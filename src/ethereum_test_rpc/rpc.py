@@ -1,4 +1,6 @@
-"""JSON-RPC methods and helper functions for EEST consume based hive simulators."""
+"""
+JSON-RPC methods and helper functions for EEST consume based hive simulators.
+"""
 
 import time
 from itertools import count
@@ -30,7 +32,9 @@ BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
 
 class SendTransactionExceptionError(Exception):
-    """Represent an exception that is raised when a transaction fails to be sent."""
+    """
+    Represent an exception that is raised when a transaction fails to be sent.
+    """
 
     tx: Transaction | None = None
     tx_rlp: Bytes | None = None
@@ -74,7 +78,9 @@ class BaseRPC:
         self.response_validation_context = response_validation_context
 
     def __init_subclass__(cls, namespace: str | None = None) -> None:
-        """Set namespace of the RPC class to the lowercase of the class name."""
+        """
+        Set namespace of the RPC class to the lowercase of the class name.
+        """
         if namespace is None:
             namespace = cls.__name__
             if namespace.endswith("RPC"):
@@ -198,7 +204,9 @@ class EthRPC(BaseRPC):
         return response
 
     def get_balance(self, address: Address, block_number: BlockNumberType = "latest") -> int:
-        """`eth_getBalance`: Returns the balance of the account of given address."""
+        """
+        `eth_getBalance`: Returns the balance of the account of given address.
+        """
         block = hex(block_number) if isinstance(block_number, int) else block_number
         params = [f"{address}", block]
 
@@ -513,7 +521,9 @@ class EngineRPC(BaseRPC):
         *,
         version: int,
     ) -> GetBlobsResponse | None:
-        """`engine_getBlobsVX`: Retrieves blobs from an execution layers tx pool."""
+        """
+        `engine_getBlobsVX`: Retrieves blobs from an execution layers tx pool.
+        """
         method = f"getBlobsV{version}"
         params = [f"{h}" for h in versioned_hashes]
 

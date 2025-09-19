@@ -557,10 +557,10 @@ def create_modexp_variable_gas_test_cases():
     # False if raw gas ≥ 500 (no clamping)
 
     # Test case coverage table:
-    # ┌─────┬──────┬─────┬──────┬───────┬─────────┬───────────────────────────────────────────────┐
+    # ┌─────┬──────┬─────┬──────┬───────┬─────────┬─────────────────────────
     # │ ID  │ Comp │ Rel │ Iter │ Clamp │   Gas   │ Description
     # │
-    # ├─────┼──────┼─────┼──────┼───────┼─────────┼───────────────────────────────────────────────┤
+    # ├─────┼──────┼─────┼──────┼───────┼─────────┼─────────────────────────
     # │ Z0  │  -   │  -  │  -   │  -    │   500   │ Zero case – empty inputs
     # │ │ Z1  │  S   │  -  │  A   │ True  │   500   │ Non-zero base, zero exp,
     # empty modulus        │ │ Z2  │  L   │  -  │  A   │ False │ 32768   │
@@ -631,7 +631,7 @@ def create_modexp_variable_gas_test_cases():
     # boundary          │ │ IC9 │  S   │  =  │  B   │  N/A  │   N/A   │ Zero
     # modulus handling                         │ │ IC10│  S   │  =  │  B   │
     # False │  4080   │ Power-of-2 boundary with high bit             │
-    # └─────┴──────┴─────┴──────┴───────┴─────────┴───────────────────────────────────────────────┘
+    # └─────┴──────┴─────┴──────┴───────┴─────────┴──────────────────────────
     for base, exponent, modulus, expected_result, gas_usage, test_id in test_cases:
         yield pytest.param(
             ModExpInput(base=base, exponent=exponent, modulus=modulus),
@@ -681,11 +681,11 @@ def test_modexp_variable_gas_cost_exceed_tx_gas_cap(state_test, pre, tx, post):
     EIP-7825 tx gas cap.
     """
     # Test case coverage table (gas cap):
-    # ┌─────┬──────┬─────┬──────┬───────┬─────────┬───────────────────────────────────────────────┐
+    # ┌─────┬──────┬─────┬──────┬───────┬─────────┬─────────────────────────
     # │ ID  │ Comp │ Rel │ Iter │ Clamp │   Gas   │ Description
     # │
-    # ├─────┼──────┼─────┼──────┼───────┼─────────┼───────────────────────────────────────────────┤
+    # ├─────┼──────┼─────┼──────┼───────┼─────────┼─────────────────────────
     # │ Z16 │  L   │  <  │  C   │ False │520060928│ Zero base, zero exp, large
     # modulus (gas cap)  |
-    # └─────┴──────┴─────┴──────┴───────┴─────────┴───────────────────────────────────────────────┘
+    # └─────┴──────┴─────┴──────┴───────┴─────────┴─────────────────────────
     state_test(pre=pre, tx=tx, post=post)

@@ -73,7 +73,9 @@ class Blob(CamelModel):
 
     @staticmethod
     def get_filename(fork: Fork, seed: int) -> str:
-        """Return filename this blob would have as string (with .json extension)."""
+        """
+        Return filename this blob would have as string (with .json extension).
+        """
         amount_cell_proofs: int = cast(int, fork.get_blob_constant("AMOUNT_CELL_PROOFS"))
         return "blob_" + str(seed) + "_cell_proofs_" + str(amount_cell_proofs) + ".json"
 
@@ -153,8 +155,7 @@ class Blob(CamelModel):
             # cancun, prague
             if amount_cell_proofs == 0:
                 z = 2  # 2 is one of many possible valid field elements z
-                # (https://github.com/ethereum/consensus-
-                # specs/blob/ad884507f7a1d5962cd3dfb5f7b3e41aab728c55/tests/core/pyspec/eth2spec/test/utils/kzg_tests.py#L58-L66)  # noqa: E501
+                # https://github.com/ethereum/consensus-specs/blob/ad884507f7a1d5962cd3dfb5f7b3e41aab728c55/tests/core/pyspec/eth2spec/test/utils/kzg_tests.py#L58-L66)  # noqa: E501,W505
                 z_valid_size: bytes = z.to_bytes(
                     cast(int, fork.get_blob_constant("BYTES_PER_FIELD_ELEMENT")), byteorder="big"
                 )
@@ -402,7 +403,9 @@ class Blob(CamelModel):
         """Corrupt the proof field, supports different corruption modes."""
 
         def corrupt_byte(b: bytes) -> Bytes:
-            """Bit-flip all bits of provided byte using XOR to guarantee change."""
+            """
+            Bit-flip all bits of provided byte using XOR to guarantee change.
+            """
             if len(b) != 1:
                 raise ValueError("Input must be a single byte")
             return Bytes(bytes([b[0] ^ 0xFF]))

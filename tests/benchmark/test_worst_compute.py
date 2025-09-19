@@ -2560,7 +2560,9 @@ def test_worst_memory_access(
     big_memory_expansion: bool,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many memory access instructions as possible."""
+    """
+    Test running a block with as many memory access instructions as possible.
+    """
     max_code_size = fork.max_code_size()
 
     mem_exp_code = Op.MSTORE8(10 * 1024, 1) if big_memory_expansion else Bytecode()
@@ -3129,7 +3131,9 @@ def test_worst_clz_diff_input(
     gas_benchmark_value: int,
     env: Environment,
 ):
-    """Test running a block with as many CLZ with different input as possible."""
+    """
+    Test running a block with as many CLZ with different input as possible.
+    """
     tx_gas_limit = fork.transaction_gas_limit_cap() or env.gas_limit
     max_code_size = fork.max_code_size()
 

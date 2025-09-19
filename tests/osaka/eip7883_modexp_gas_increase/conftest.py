@@ -230,7 +230,9 @@ def tx(
 
 @pytest.fixture
 def tx_gas_limit(total_tx_gas_needed: int, fork: Fork, env: Environment) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     tx_gas_limit_cap = fork.transaction_gas_limit_cap() or env.gas_limit
     return min(tx_gas_limit_cap, total_tx_gas_needed)
 

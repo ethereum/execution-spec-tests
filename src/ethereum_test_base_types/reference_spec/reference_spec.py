@@ -49,7 +49,9 @@ class ReferenceSpec:
 
     @abstractmethod
     def api_url(self) -> str:
-        """Return the URL required to poll the version from an API, if needed."""
+        """
+        Return the URL required to poll the version from an API, if needed.
+        """
         pass
 
     @abstractmethod

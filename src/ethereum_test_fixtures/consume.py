@@ -62,20 +62,29 @@ class TestCaseStream(TestCaseBase):
 
 
 class TestCaseIndexFile(TestCaseBase):
-    """The test case model used to save/load test cases to/from an index file."""
+    """
+    The test case model used to save/load test cases to/from an index file.
+    """
 
     json_path: Path
     __test__ = False  # stop pytest from collecting this class as a test
 
     # TODO: add pytest marks
     """
-    ConsumerTypes = Literal["all", "direct", "rlp", "engine"]
-    @classmethod
-    def _marks_default(cls):
-        return {consumer_type: [] for consumer_type in get_args(ConsumerTypes)}
-    marks: Mapping[ConsumerTypes, List[pytest.MarkDecorator]] = field(
-        default_factory=lambda: TestCase._marks_default()
-    )
+
+
+
+
+
+
+    ConsumerTypes = Literal["all", "direct", "rlp", "engine"] @classmethod def
+    _marks_default(cls): return {consumer_type: [] for consumer_type in
+    get_args(ConsumerTypes)} marks: Mapping[ConsumerTypes,
+    List[pytest.MarkDecorator]] = field( default_factory=lambda:
+    TestCase._marks_default() )
+
+
+
     """
 
 

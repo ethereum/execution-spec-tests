@@ -615,8 +615,7 @@ def pytest_configure(config):
 
     Custom marker registration:
     https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html# registering-
-                                                                # custom
-    -markers
+    # custom -markers
 
     2. `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
     called before the pytest-html plugin's pytest_configure to ensure that it
@@ -879,7 +878,9 @@ def evm_bin(request: pytest.FixtureRequest) -> Path | None:
 
 @pytest.fixture(autouse=True, scope="session")
 def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
-    """Return configured evm tool binary path used to run statetest or blocktest."""
+    """
+    Return configured evm tool binary path used to run statetest or blocktest.
+    """
     return request.config.getoption("verify_fixtures_bin")
 
 

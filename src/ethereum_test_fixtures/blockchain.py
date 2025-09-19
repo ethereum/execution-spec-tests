@@ -248,7 +248,9 @@ class FixtureHeader(CamelModel):
 
 
 class FixtureExecutionPayload(CamelModel):
-    """Representation of an Ethereum execution payload within a test Fixture."""
+    """
+    Representation of an Ethereum execution payload within a test Fixture.
+    """
 
     parent_hash: Hash
     fee_recipient: Address
@@ -626,7 +628,13 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
     """Hash of the pre-allocation group this test belongs to."""
 
     post_state_diff: Alloc | None = None
-    """State difference from genesis after test execution (efficiency optimization)."""
+    """
+
+
+    State difference from genesis after test execution (efficiency
+    optimization).
+
+    """
 
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     """Engine API payloads for blockchain execution."""

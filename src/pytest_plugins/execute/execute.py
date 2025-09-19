@@ -1,4 +1,6 @@
-"""Test execution plugin for pytest, to run Ethereum tests using in live networks."""
+"""
+Test execution plugin for pytest, to run Ethereum tests using in live networks.
+"""
 
 import os
 from dataclasses import dataclass, field
@@ -257,7 +259,9 @@ def default_max_priority_fee_per_gas(request) -> int:
 def modify_transaction_defaults(
     default_gas_price: int, default_max_fee_per_gas: int, default_max_priority_fee_per_gas: int
 ):
-    """Modify transaction defaults to values better suited for live networks."""
+    """
+    Modify transaction defaults to values better suited for live networks.
+    """
     TransactionDefaults.gas_price = default_gas_price
     TransactionDefaults.max_fee_per_gas = default_max_fee_per_gas
     TransactionDefaults.max_priority_fee_per_gas = default_max_priority_fee_per_gas

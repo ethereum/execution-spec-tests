@@ -24,7 +24,9 @@ class TransitionBaseClass:
 
 
 def base_fork_abstract_methods() -> List[str]:
-    """Return list of all abstract methods that must be implemented by a fork."""
+    """
+    Return list of all abstract methods that must be implemented by a fork.
+    """
     return list(BaseFork.__abstractmethods__)
 
 

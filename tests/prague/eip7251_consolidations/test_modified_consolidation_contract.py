@@ -92,7 +92,9 @@ def test_extra_consolidations(
     pre: Alloc,
     requests_list: List[ConsolidationRequest],
 ):
-    """Test how clients were to behave with more than 2 consolidations per block."""
+    """
+    Test how clients were to behave with more than 2 consolidations per block.
+    """
     modified_code: Bytecode = Bytecode()
     memory_offset: int = 0
     amount_of_requests: int = 0

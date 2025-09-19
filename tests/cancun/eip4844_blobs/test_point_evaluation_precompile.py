@@ -607,7 +607,9 @@ def test_precompile_before_fork(
     tx: Transaction,
     precompile_caller_address: Address,
 ):
-    """Test calling the Point Evaluation Precompile before the appropriate fork."""
+    """
+    Test calling the Point Evaluation Precompile before the appropriate fork.
+    """
     post = {
         precompile_caller_address: Account(
             storage={1: 1},
@@ -660,7 +662,9 @@ def test_precompile_during_fork(
     precompile_input: bytes,
     sender: EOA,
 ):
-    """Test calling the Point Evaluation Precompile during the appropriate fork."""
+    """
+    Test calling the Point Evaluation Precompile during the appropriate fork.
+    """
     # Blocks before fork
     blocks = [
         Block(

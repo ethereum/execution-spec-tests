@@ -60,7 +60,9 @@ def block_size_limit(fork: Fork) -> int:
 
 @pytest.fixture
 def block_errors() -> List[BlockException]:
-    """Block exceptions expected for blocks that exceed the `MAX_RLP_BLOCK_SIZE`."""
+    """
+    Block exceptions expected for blocks that exceed the `MAX_RLP_BLOCK_SIZE`.
+    """
     return [BlockException.RLP_BLOCK_LIMIT_EXCEEDED]
 
 

@@ -99,7 +99,9 @@ class TestPush0CallContext:
 
     @pytest.fixture
     def push0_contract_callee(self, pre: Alloc) -> Address:
-        """Deploys a PUSH0 contract callee to the pre alloc returning its address."""
+        """
+        Deploys a PUSH0 contract callee to the pre alloc returning its address.
+        """
         push0_contract = pre.deploy_contract(Op.MSTORE8(Op.PUSH0, 0xFF) + Op.RETURN(Op.PUSH0, 1))
         return push0_contract
 

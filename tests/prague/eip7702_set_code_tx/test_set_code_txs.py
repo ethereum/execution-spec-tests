@@ -528,7 +528,9 @@ def test_set_code_to_contract_creator(
     create_opcode: Op,
     evm_code_type: EVMCodeType,
 ):
-    """Test the executing a contract-creating opcode in a set-code transaction."""
+    """
+    Test the executing a contract-creating opcode in a set-code transaction.
+    """
     storage = Storage()
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -3825,7 +3827,9 @@ def test_set_code_transaction_fee_validations(
     max_priority_fee_per_gas: int,
     expected_error: TransactionException,
 ):
-    """Test that a transaction with an insufficient max fee per gas is rejected."""
+    """
+    Test that a transaction with an insufficient max fee per gas is rejected.
+    """
     set_to_code = pre.deploy_contract(Op.STOP)
     auth_signer = pre.fund_eoa(amount=0)
     tx = Transaction(

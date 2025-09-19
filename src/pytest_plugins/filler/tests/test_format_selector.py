@@ -82,7 +82,9 @@ class TestFormatSelector:
         assert not format_selector.should_generate(format_with_pre_alloc)
 
     def test_should_generate_phase2_with_pre_alloc_format(self):
-        """Test phase 2 (after pre-alloc) with format that supports pre-alloc."""
+        """
+        Test phase 2 (after pre-alloc) with format that supports pre-alloc.
+        """
         phase_manager = PhaseManager(
             current_phase=FixtureFillingPhase.FILL,
             previous_phases={FixtureFillingPhase.PRE_ALLOC_GENERATION},

@@ -1,4 +1,6 @@
-"""Helper types, functions and classes for testing EIP-7702 Set Code Transaction."""
+"""
+Helper types, functions and classes for testing EIP-7702 Set Code Transaction.
+"""
 
 from enum import Enum, auto
 

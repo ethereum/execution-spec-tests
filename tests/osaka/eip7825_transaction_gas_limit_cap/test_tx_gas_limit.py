@@ -71,7 +71,9 @@ def test_transaction_gas_limit_cap(
     error: TransactionException | None,
     tx_type: int,
 ):
-    """Test the transaction gas limit cap behavior for all transaction types."""
+    """
+    Test the transaction gas limit cap behavior for all transaction types.
+    """
     env = Environment()
 
     sender = pre.fund_eoa()
@@ -181,7 +183,9 @@ def test_tx_gas_larger_than_block_gas_limit(
     fork: Fork,
     exceed_block_gas_limit: bool,
 ):
-    """Test multiple transactions with total gas larger than the block gas limit."""
+    """
+    Test multiple transactions with total gas larger than the block gas limit.
+    """
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
 

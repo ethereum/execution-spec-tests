@@ -1,4 +1,6 @@
-"""A pytest plugin providing common functionality for consuming test fixtures."""
+"""
+A pytest plugin providing common functionality for consuming test fixtures.
+"""
 
 import re
 import sys
@@ -199,7 +201,9 @@ class FixturesSource:
     def from_release_spec(
         cls, spec: str, cache_folder: Optional[Path] = None, extract_to: Optional[Path] = None
     ) -> "FixturesSource":
-        """Create a fixture source from a release spec (e.g., develop@latest)."""
+        """
+        Create a fixture source from a release spec (e.g., develop@latest).
+        """
         if cache_folder is None:
             cache_folder = CACHED_DOWNLOADS_DIRECTORY
         url = get_release_url(spec)
@@ -227,7 +231,9 @@ class FixturesSource:
 
     @staticmethod
     def validate_local_path(path: Path) -> "FixturesSource":
-        """Validate that a local fixture path exists and contains JSON files."""
+        """
+        Validate that a local fixture path exists and contains JSON files.
+        """
         if not path.exists():
             pytest.exit(f"Specified fixture directory '{path}' does not exist.")
         if not any(path.glob("**/*.json")):

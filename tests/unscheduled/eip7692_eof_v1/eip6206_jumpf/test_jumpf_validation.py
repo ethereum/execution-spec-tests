@@ -111,7 +111,9 @@ def test_invalid_code_section_index(
     eof_test: EOFTestFiller,
     container: Container,
 ):
-    """Test cases for JUMPF instructions with invalid target code section index."""
+    """
+    Test cases for JUMPF instructions with invalid target code section index.
+    """
     eof_test(container=container, expect_exception=EOFException.INVALID_CODE_SECTION_INDEX)
 
 

@@ -81,7 +81,9 @@ class Frontier(BaseFork, solc_name="homestead"):
 
     @classmethod
     def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
-        """Return dataclass with the defined gas costs constants for genesis."""
+        """
+        Return dataclass with the defined gas costs constants for genesis.
+        """
         return GasCosts(
             G_JUMPDEST=1,
             G_BASE=2,
@@ -173,7 +175,9 @@ class Frontier(BaseFork, solc_name="homestead"):
     def base_fee_per_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BaseFeePerGasCalculator:
-        """Return a callable that calculates the base fee per gas at a given fork."""
+        """
+        Return a callable that calculates the base fee per gas at a given fork.
+        """
         raise NotImplementedError(f"Base fee per gas calculator is not supported in {cls.name()}")
 
     @classmethod
@@ -250,7 +254,9 @@ class Frontier(BaseFork, solc_name="homestead"):
     def blob_gas_price_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BlobGasPriceCalculator:
-        """Return a callable that calculates the blob gas price at a given fork."""
+        """
+        Return a callable that calculates the blob gas price at a given fork.
+        """
         raise NotImplementedError(f"Blob gas price calculator is not supported in {cls.name()}")
 
     @classmethod
@@ -392,14 +398,18 @@ class Frontier(BaseFork, solc_name="homestead"):
     def engine_payload_attribute_max_blobs_per_block(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:
-        """At genesis, payload attributes do not include the max blobs per block."""
+        """
+        At genesis, payload attributes do not include the max blobs per block.
+        """
         return False
 
     @classmethod
     def engine_forkchoice_updated_version(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> Optional[int]:
-        """At genesis, forkchoice updates cannot be sent through the engine API."""
+        """
+        At genesis, forkchoice updates cannot be sent through the engine API.
+        """
         return cls.engine_new_payload_version(block_number, timestamp)
 
     @classmethod
@@ -463,7 +473,12 @@ class Frontier(BaseFork, solc_name="homestead"):
         At genesis, there is no upper bound for code size (bounded by block gas
         limit).
         """
-        """However, the default is set to the limit of EIP-170 (Spurious Dragon)"""
+        """
+
+
+        However, the default is set to the limit of EIP-170 (Spurious Dragon)
+
+        """
         return 0x6000
 
     @classmethod
@@ -1163,9 +1178,7 @@ class Cancun(Shanghai):
         "BYTES_PER_FIELD_ELEMENT": 32,
         "CELL_LENGTH": 2048,
         "BLS_MODULUS": 0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001,  # EIP-2537: Main subgroup order = q, due to this BLS_MODULUS every blob byte (uint256) must be smaller than 116  # noqa: E501
-        # https://github.com/ethereum/consensus-
-        # specs/blob/cc6996c22692d70e41b7a453d925172ee4b719ad/specs/deneb/polynomial-
-        # commitments.md?plain=1#L78
+        # https://github.com/ethereum/consensus-specs/blob/cc6996c22692d70e41b7a453d925172ee4b719ad/specs/deneb/polynomial-commitments.md?plain=1#L78  # noqa: E501, W505
         "BYTES_PER_PROOF": 48,
         "BYTES_PER_COMMITMENT": 48,
         "KZG_ENDIANNESS": "big",
@@ -1232,7 +1245,7 @@ class Cancun(Shanghai):
             parent_blob_gas_used: int | None = None,
             parent_blob_count: int | None = None,
             parent_base_fee_per_gas: int,  # Required for Osaka as using this
-                                           # as base
+            # as base
         ) -> int:
             if parent_excess_blob_gas is None:
                 assert parent_excess_blobs is not None, "Parent excess blobs are required"
@@ -1644,7 +1657,9 @@ class Prague(Cancun):
 
     @classmethod
     def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """From Prague, new payloads include the requests hash as a parameter."""
+        """
+        From Prague, new payloads include the requests hash as a parameter.
+        """
         return True
 
     @classmethod
@@ -1658,7 +1673,9 @@ class Prague(Cancun):
     def engine_forkchoice_updated_version(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> Optional[int]:
-        """At Prague, version number of NewPayload and ForkchoiceUpdated diverge."""
+        """
+        At Prague, version number of NewPayload and ForkchoiceUpdated diverge.
+        """
         return 3
 
 
@@ -1732,7 +1749,9 @@ class Osaka(Prague, solc_name="cancun"):
     def excess_blob_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> ExcessBlobGasCalculator:
-        """Return a callable that calculates the excess blob gas for a block."""
+        """
+        Return a callable that calculates the excess blob gas for a block.
+        """
         target_blobs_per_block = cls.target_blobs_per_block(block_number, timestamp)
         blob_gas_per_blob = cls.blob_gas_per_blob(block_number, timestamp)
         target_blob_gas_per_block = target_blobs_per_block * blob_gas_per_blob
@@ -1887,7 +1906,9 @@ class Amsterdam(Osaka):
 
     @classmethod
     def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """From Amsterdam, header must contain block access list hash (EIP-7928)."""
+        """
+        From Amsterdam, header must contain block access list hash (EIP-7928).
+        """
         return True
 
     @classmethod

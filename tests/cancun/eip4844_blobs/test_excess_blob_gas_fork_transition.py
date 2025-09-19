@@ -503,7 +503,9 @@ def test_fork_transition_excess_blob_gas_post_blob_genesis(
     post_fork_blocks: List[Block],
     post: Mapping[Address, Account],
 ):
-    """Test `excessBlobGas` calculation in the header when the fork is activated."""
+    """
+    Test `excessBlobGas` calculation in the header when the fork is activated.
+    """
     blockchain_test(
         pre=pre,
         post=post,

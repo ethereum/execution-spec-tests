@@ -90,7 +90,7 @@ def test_extra_logs(
     # log`
 
     # ERC20 token transfer log (Sepolia)
-    # https://sepolia.etherscan.io/tx/0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f
+    # https://sepolia.etherscan.io/tx/0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f # noqa: E501, W505
     # JSON RPC: curl https://sepolia.infura.io/v3/APIKEY \ -X POST \ -H
     # "Content-Type: application/json" \ -d '{"jsonrpc": "2.0", "method":
     # "eth_getLogs", "params": [{"address":
@@ -100,12 +100,12 @@ def test_extra_logs(
 
     # {"jsonrpc":"2.0","id":1,"result":
     # [{"removed":false,"logIndex":"0x80","transactionIndex":"0x56",
-    # "transactionHash":"0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f",
-    # "blockHash":"0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53",
+    # "transactionHash":"0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f",  # noqa: E501, W505
+    # "blockHash":"0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53", # noqa: E501, W505
     # "blockNumber":"0x794fb5",
     # "address":"0x7f02c3e3c98b133055b8b348b2ac625669ed295d",
-    # "data":"0x0000000000000000000000000000000000000000000000000000000000000001",
-    # "topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+    # "data":"0x0000000000000000000000000000000000000000000000000000000000000001", # noqa: E501, W505
+    # "topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", # noqa: E501, W505
     # "0x0000000000000000000000006885e36bfcb68cb383dfe90023a462c03bcb2ae5",
     # "0x00000000000000000000000080b5dc88c98e528bf9cb4b7f0f076ac41da24651"]
 
@@ -177,7 +177,9 @@ def test_extra_logs(
 def test_invalid_layout(
     blockchain_test: BlockchainTestFiller, pre: Alloc, log_argument: str, value: str
 ):
-    """Test deposit contract emitting logs with invalid layouts (sizes/offsets)."""
+    """
+    Test deposit contract emitting logs with invalid layouts (sizes/offsets).
+    """
     log_params = {**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT}
     log_params[log_argument] = 0 if value == "zero" else 2**256 - 1  # type: ignore
 

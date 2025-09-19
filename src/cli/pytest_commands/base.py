@@ -24,7 +24,10 @@ class PytestExecution:
     """Path to the pytest configuration file (e.g., 'pytest-fill.ini')."""
 
     command_logic_test_paths: List[str] = field(default_factory=list)
-    """List of tests that have to be appended to the start of pytest command arguments."""
+    """
+    List of tests that have to be appended to the start of pytest command
+    arguments.
+    """
 
     args: List[str] = field(default_factory=list)
     """Arguments to pass to pytest."""

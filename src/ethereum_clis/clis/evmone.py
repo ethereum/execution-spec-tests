@@ -44,7 +44,9 @@ class EvmOneTransitionTool(TransitionTool):
 
 
 class EvmoneExceptionMapper(ExceptionMapper):
-    """Translate between EEST exceptions and error strings returned by Evmone."""
+    """
+    Translate between EEST exceptions and error strings returned by Evmone.
+    """
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.SENDER_NOT_EOA: "sender not an eoa:",

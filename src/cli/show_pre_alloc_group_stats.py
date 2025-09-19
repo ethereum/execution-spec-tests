@@ -16,7 +16,7 @@ from ethereum_test_fixtures import PreAllocGroups
 def extract_test_module(test_id: str) -> str:
     """Extract test module path from test ID."""
     # Example:
-    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls[fork_Cancun] # noqa: E501
+    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls[fork_Cancun] # noqa: E501,W505
     if "::" in test_id:
         return test_id.split("::")[0]
     return "unknown"
@@ -25,9 +25,9 @@ def extract_test_module(test_id: str) -> str:
 def extract_test_function(test_id: str) -> str:
     """Extract test function name from test ID (without parameters)."""
     # Example:
-    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls[fork_Cancun] # noqa: E501
+    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls[fork_Cancun] # noqa: E501,W505
     #  Returns:
-    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls # noqa: E501
+    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls # noqa: E501,W505
     if "::" in test_id:
         parts = test_id.split("::")
         if len(parts) >= 2:

@@ -361,7 +361,9 @@ def test_worst_create(
     value: int,
     gas_benchmark_value: int,
 ):
-    """Test the CREATE and CREATE2 performance with different configurations."""
+    """
+    Test the CREATE and CREATE2 performance with different configurations.
+    """
     max_code_size = fork.max_code_size()
 
     code_size = int(max_code_size * max_code_size_ratio)

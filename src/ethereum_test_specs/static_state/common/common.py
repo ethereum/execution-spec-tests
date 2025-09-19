@@ -345,7 +345,9 @@ HashOrTagInFiller = SenderKeyTag | Hash
 
 
 class AccessListInFiller(CamelModel, TagDependentData):
-    """Access List for transactions in fillers that can contain address tags."""
+    """
+    Access List for transactions in fillers that can contain address tags.
+    """
 
     address: AddressOrTagInFiller
     storage_keys: List[Hash] = Field(default_factory=list)

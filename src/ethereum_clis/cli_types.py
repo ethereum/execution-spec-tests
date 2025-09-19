@@ -143,7 +143,9 @@ class TransactionTraces(CamelModel):
 
 
 class Traces(EthereumTestRootModel):
-    """Traces returned from the transition tool for all transactions executed."""
+    """
+    Traces returned from the transition tool for all transactions executed.
+    """
 
     root: List[TransactionTraces]
 

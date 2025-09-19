@@ -121,7 +121,9 @@ def create_genesis_from_fixture(fixture_path: Path) -> Tuple[FixtureHeader, Allo
 
 
 def get_client_environment_for_fixture(fork: Fork, chain_id: int) -> dict:
-    """Get the environment variables for starting a client with the given fixture."""
+    """
+    Get the environment variables for starting a client with the given fixture.
+    """
     if fork not in ruleset:
         raise ValueError(f"Fork '{fork}' not found in hive ruleset")
 

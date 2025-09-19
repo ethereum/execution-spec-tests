@@ -52,7 +52,9 @@ def test_slow_marker_gets_pre_alloc_group(pytester, default_t8n: TransitionTool)
 
 
 def test_slow_with_benchmark_no_pre_alloc(pytester, default_t8n: TransitionTool):
-    """Test that slow tests WITH benchmark marker do NOT get pre_alloc_group."""
+    """
+    Test that slow tests WITH benchmark marker do NOT get pre_alloc_group.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest
@@ -95,7 +97,9 @@ def test_slow_with_benchmark_no_pre_alloc(pytester, default_t8n: TransitionTool)
 
 
 def test_slow_with_existing_pre_alloc_unchanged(pytester, default_t8n: TransitionTool):
-    """Test that slow tests with existing pre_alloc_group marker are unchanged."""
+    """
+    Test that slow tests with existing pre_alloc_group marker are unchanged.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest
@@ -179,7 +183,9 @@ def test_non_slow_no_pre_alloc(pytester, default_t8n: TransitionTool):
 
 
 def test_integration_with_fill(pytester, default_t8n: TransitionTool):
-    """Integration test using actual fill command to verify marker application."""
+    """
+    Integration test using actual fill command to verify marker application.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest

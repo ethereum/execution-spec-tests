@@ -185,7 +185,9 @@ def test_initcode(initcode: Initcode, bytecode: bytes):  # noqa: D103
     ],
 )
 def test_opcodes_if(conditional_bytecode: bytes, expected: bytes):
-    """Test that the if opcode macro is transformed into bytecode as expected."""
+    """
+    Test that the if opcode macro is transformed into bytecode as expected.
+    """
     assert bytes(conditional_bytecode) == expected
 
 
@@ -514,7 +516,9 @@ def test_opcodes_if(conditional_bytecode: bytes, expected: bytes):
 def test_switch(
     tx_data: bytes, switch_bytecode: bytes, expected_storage: Mapping, default_t8n: TransitionTool
 ):
-    """Test that the switch opcode macro gets executed as using the t8n tool."""
+    """
+    Test that the switch opcode macro gets executed as using the t8n tool.
+    """
     code_address = Address(0x1000)
     pre = Alloc(
         {

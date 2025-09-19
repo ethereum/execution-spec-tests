@@ -50,6 +50,8 @@ class Spec(EIP4844Spec):
         base_fee_per_gas: int,
         blob_base_fee: int,
     ) -> int:
-        """Calculate the effective blob base fee considering the reserve price."""
+        """
+        Calculate the effective blob base fee considering the reserve price.
+        """
         reserve_price = cls.get_reserve_price(base_fee_per_gas)
         return max(reserve_price, blob_base_fee)

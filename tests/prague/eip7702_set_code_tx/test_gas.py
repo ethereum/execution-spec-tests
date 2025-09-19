@@ -100,16 +100,22 @@ class AuthorityWithProperties:
     """Dataclass to hold the properties of the authority address."""
 
     authority: EOA
-    """
-    The address of the authority to be used in the transaction.
-    """
+    """The address of the authority to be used in the transaction."""
     address_type: AddressType
-    """
-    The type of the address the authority was before the authorization.
-    """
+    """The type of the address the authority was before the authorization."""
     invalidity_type: AuthorizationInvalidityType | None
     """
-    Whether the authorization will be invalid and if so, which type of invalidity it is.
+
+
+
+
+
+
+    Whether the authorization will be invalid and if so, which type of
+    invalidity it is.
+
+
+
     """
 
     @property
@@ -200,23 +206,39 @@ class AuthorizationWithProperties:
     """Dataclass to hold the properties of the authorization list."""
 
     tuple: AuthorizationTuple
-    """
-    The authorization tuple to be used in the transaction.
-    """
+    """The authorization tuple to be used in the transaction."""
     invalidity_type: AuthorizationInvalidityType | None
     """
-    Whether the authorization is invalid and if so, which type of invalidity it is.
+
+
+
+
+
+
+    Whether the authorization is invalid and if so, which type of invalidity it
+    is.
+
+
+
     """
     authority_type: AddressType
-    """
-    The type of the address the authority was before the authorization.
-    """
+    """The type of the address the authority was before the authorization."""
     skip: bool
     """
-    Whether the authorization should be skipped and therefore not included in the transaction.
 
-    Used for tests where the authorization was already in the state before the transaction was
-    created.
+
+
+
+
+
+    Whether the authorization should be skipped and therefore not included in
+    the transaction.
+
+    Used for tests where the authorization was already in the state before the
+    transaction was created.
+
+
+
     """
 
     @property
@@ -1132,7 +1154,9 @@ def test_call_to_pre_authorized_oog(
     fork: Fork,
     call_opcode: Op,
 ):
-    """Test additional cost of delegation contract access in call instructions."""
+    """
+    Test additional cost of delegation contract access in call instructions.
+    """
     # Delegation contract. It should never be reached by a call.
     delegation_code = Op.SSTORE(0, 1)
     delegation = pre.deploy_contract(delegation_code)

@@ -80,7 +80,9 @@ def test_all_opcodes_in_container(
     eof_test: EOFTestFiller,
     opcode: Opcode,
 ):
-    """Test all opcodes inside valid container 257 because 0x5B is duplicated."""
+    """
+    Test all opcodes inside valid container 257 because 0x5B is duplicated.
+    """
     data_portion = 1 if opcode == Op.CALLF else 0
     opcode_with_data_portion = opcode[data_portion] if opcode.has_data_portion() else opcode
 
@@ -342,7 +344,9 @@ def test_all_opcodes_stack_overflow(
     opcode: Opcode,
     exception: EOFException,
 ):
-    """Test stack overflow on all opcodes that push more items than they pop."""
+    """
+    Test stack overflow on all opcodes that push more items than they pop.
+    """
     opcode = opcode[0] if opcode.has_data_portion() else opcode
 
     assert opcode.pushed_stack_items - opcode.popped_stack_items == 1

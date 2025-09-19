@@ -48,7 +48,9 @@ def gas_modifier() -> int:
 
 @pytest.fixture
 def input_length_modifier() -> int:
-    """Input length modifier to apply to each element of the precompile_gas_list."""
+    """
+    Input length modifier to apply to each element of the precompile_gas_list.
+    """
     return 0
 
 
@@ -158,7 +160,9 @@ def tx_gas_limit(
     precompile_gas_list: List[int],
     precompile_data_length_list: List[int],
 ) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     assert len(input_data) == 0, "Expected empty data in the transaction."
     return tx_gas_limit_calculator(fork, precompile_gas_list, max(precompile_data_length_list))
 
@@ -652,7 +656,9 @@ def test_invalid_zero_length_pairing(
     post: dict,
     tx: Transaction,
 ):
-    """Test the BLS12_PAIRING precompile by passing an input with zero length."""
+    """
+    Test the BLS12_PAIRING precompile by passing an input with zero length.
+    """
     state_test(
         env=env,
         pre=pre,

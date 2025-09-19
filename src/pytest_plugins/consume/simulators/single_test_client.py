@@ -1,4 +1,6 @@
-"""Common pytest fixtures for simulators with single-test client architecture."""
+"""
+Common pytest fixtures for simulators with single-test client architecture.
+"""
 
 import io
 import json
@@ -77,7 +79,9 @@ def client(
     client_type: ClientType,
     total_timing_data: TimingData,
 ) -> Generator[Client, None, None]:
-    """Initialize the client with the appropriate files and environment variables."""
+    """
+    Initialize the client with the appropriate files and environment variables.
+    """
     logger.info(f"Starting client ({client_type.name})...")
     logger.debug(f"Main client Network ID: {environment.get('HIVE_NETWORK_ID', 'NOT SET!')}")
     logger.debug(f"Main client Chain ID: {environment.get('HIVE_CHAIN_ID', 'NOT SET!')}")

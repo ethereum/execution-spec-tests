@@ -30,7 +30,9 @@ def test_generate_all_formats_creates_two_phase_execution():
 
 
 def test_generate_all_formats_preserves_other_args():
-    """Test that --generate-all-formats preserves other command line arguments."""
+    """
+    Test that --generate-all-formats preserves other command line arguments.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):
@@ -111,7 +113,9 @@ def test_single_phase_without_flags():
 
 
 def test_tarball_output_auto_enables_generate_all_formats():
-    """Test that tarball output automatically enables --generate-all-formats."""
+    """
+    Test that tarball output automatically enables --generate-all-formats.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):

@@ -1,4 +1,6 @@
-"""Pytest test to verify a client's configuration using `eth_config` RPC endpoint."""
+"""
+Pytest test to verify a client's configuration using `eth_config` RPC endpoint.
+"""
 
 import json
 import time
@@ -17,7 +19,9 @@ logger = get_logger(__name__)
 
 @pytest.fixture(scope="function")
 def eth_config_response(eth_rpc: List[EthRPC]) -> EthConfigResponse | None:
-    """Get the `eth_config` response from the client to be verified by all tests."""
+    """
+    Get the `eth_config` response from the client to be verified by all tests.
+    """
     for rpc in eth_rpc:
         try:
             response = rpc.config()
@@ -37,13 +41,17 @@ def network(request) -> NetworkConfig:
 
 @pytest.fixture(scope="function")
 def current_time() -> int:
-    """Get the `eth_config` response from the client to be verified by all tests."""
+    """
+    Get the `eth_config` response from the client to be verified by all tests.
+    """
     return int(time.time())
 
 
 @pytest.fixture(scope="function")
 def expected_eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
-    """Calculate the current fork value to verify against the client's response."""
+    """
+    Calculate the current fork value to verify against the client's response.
+    """
     return network.get_eth_config(current_time)
 
 

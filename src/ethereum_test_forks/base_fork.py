@@ -32,12 +32,16 @@ class ForkAttribute(Protocol):
     """
 
     def __call__(self, block_number: int = 0, timestamp: int = 0) -> Any:
-        """Return value of the attribute at the given block number and timestamp."""
+        """
+        Return value of the attribute at the given block number and timestamp.
+        """
         pass
 
 
 class MemoryExpansionGasCalculator(Protocol):
-    """A protocol to calculate the gas cost of memory expansion at a given fork."""
+    """
+    A protocol to calculate the gas cost of memory expansion at a given fork.
+    """
 
     def __call__(self, *, new_bytes: int, previous_bytes: int = 0) -> int:
         """Return gas cost of expanding the memory by the given length."""
@@ -56,7 +60,9 @@ class CalldataGasCalculator(Protocol):
 
 
 class TransactionDataFloorCostCalculator(Protocol):
-    """Calculate the transaction floor cost due to its calldata for a given fork."""
+    """
+    Calculate the transaction floor cost due to its calldata for a given fork.
+    """
 
     def __call__(self, *, data: BytesConvertible) -> int:
         """Return transaction gas cost of calldata given its contents."""
@@ -134,7 +140,9 @@ class BlobGasPriceCalculator(Protocol):
 
 
 class ExcessBlobGasCalculator(Protocol):
-    """A protocol to calculate the excess blob gas for a block at a given fork."""
+    """
+    A protocol to calculate the excess blob gas for a block at a given fork.
+    """
 
     def __call__(
         self,
@@ -342,7 +350,9 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     def base_fee_per_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BaseFeePerGasCalculator:
-        """Return a callable that calculates the base fee per gas at a given fork."""
+        """
+        Return a callable that calculates the base fee per gas at a given fork.
+        """
         pass
 
     @classmethod
@@ -401,7 +411,9 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     def blob_gas_price_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BlobGasPriceCalculator:
-        """Return a callable that calculates the blob gas price at a given fork."""
+        """
+        Return a callable that calculates the blob gas price at a given fork.
+        """
         pass
 
     @classmethod
@@ -514,7 +526,9 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @classmethod
     @abstractmethod
     def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
-        """Return the transaction gas limit cap, or None if no limit is imposed."""
+        """
+        Return the transaction gas limit cap, or None if no limit is imposed.
+        """
         pass
 
     @classmethod
@@ -641,7 +655,9 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     def engine_payload_attribute_max_blobs_per_block(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:
-        """Return true if the payload attributes include the max blobs per block."""
+        """
+        Return true if the payload attributes include the max blobs per block.
+        """
         pass
 
     @classmethod

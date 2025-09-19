@@ -837,7 +837,9 @@ def test_absence_validator_with_multiple_tx_indices():
     ],
 )
 def test_absence_validator_forbids_all(validator_func, field_name, changes, error_pattern):
-    """Test that validators without specific indices/slots forbid ALL changes."""
+    """
+    Test that validators without specific indices/slots forbid ALL changes.
+    """
     addr = Address(0xA)
 
     actual_bal = BlockAccessList([BalAccountChange(address=addr, **{field_name: changes})])
@@ -853,7 +855,9 @@ def test_absence_validator_forbids_all(validator_func, field_name, changes, erro
 
 
 def test_all_absence_validators_use_validate_call():
-    """Test that all exported absence validators use @validate_call decorator."""
+    """
+    Test that all exported absence validators use @validate_call decorator.
+    """
     validator_names = [name for name in absence_validators.__all__ if name != "AbsenceValidator"]
 
     for name in validator_names:

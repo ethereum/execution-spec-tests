@@ -127,7 +127,9 @@ def test_eofcreate_then_call(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies a simple EOFCREATE case, and then calls the deployed contract."""
+    """
+    Verifies a simple EOFCREATE case, and then calls the deployed contract.
+    """
     env = Environment()
     callable_contract = Container(
         sections=[
@@ -317,7 +319,9 @@ def test_eofcreate_in_initcode(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies an EOFCREATE occurring within initcode creates that contract."""
+    """
+    Verifies an EOFCREATE occurring within initcode creates that contract.
+    """
     nested_initcode_subcontainer = Container(
         sections=[
             Section.Code(
@@ -653,7 +657,9 @@ def test_eofcreate_truncated_container(
     data_len: int,
     data_section_size: int,
 ):
-    """EOFCREATE instruction targeting a container with truncated data section."""
+    """
+    EOFCREATE instruction targeting a container with truncated data section.
+    """
     assert data_len < data_section_size
     eof_test(
         container=Container(

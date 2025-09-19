@@ -21,7 +21,9 @@ from ethereum_test_types import Environment
 
 
 class BlockchainTestProvider(BaseModel):
-    """Provides context required to generate a `blockchain_test` using pytest."""
+    """
+    Provides context required to generate a `blockchain_test` using pytest.
+    """
 
     block: Environment
     transaction: TransactionByHashResponse

@@ -54,7 +54,9 @@ class RjumpKind(Enum):
 
 @unique
 class RjumpSpot(Enum):
-    """Possible spots in the code section layout where the RJUMP* is injected."""
+    """
+    Possible spots in the code section layout where the RJUMP* is injected.
+    """
 
     BEGINNING = auto()
     BEFORE_TERMINATION = auto()
@@ -592,7 +594,9 @@ def test_all_opcodes_stack_underflow(
     ids=lambda x: x.name,
 )
 def test_stack_underflow_examples(eof_test, container):
-    """Test EOF validation failing due to stack underflow at basic instructions."""
+    """
+    Test EOF validation failing due to stack underflow at basic instructions.
+    """
     eof_test(container=container, expect_exception=EOFException.STACK_UNDERFLOW)
 
 

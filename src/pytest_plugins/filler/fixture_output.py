@@ -69,7 +69,9 @@ class FixtureOutput(BaseModel):
 
     @property
     def should_auto_enable_all_formats(self) -> bool:
-        """Check if all formats should be auto-enabled due to tarball output."""
+        """
+        Check if all formats should be auto-enabled due to tarball output.
+        """
         return self.is_tarball
 
     @staticmethod

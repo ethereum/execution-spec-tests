@@ -53,7 +53,9 @@ class GenesisBlockMismatchExceptionError(Exception):
 
     @staticmethod
     def compare_models(expected: FixtureHeader, got: FixtureHeader) -> Tuple[Dict, List]:
-        """Compare two FixtureHeader model instances and return their differences."""
+        """
+        Compare two FixtureHeader model instances and return their differences.
+        """
         differences = {}
         unexpected_fields = []
         for (exp_name, exp_value), (got_name, got_value) in zip(expected, got, strict=False):

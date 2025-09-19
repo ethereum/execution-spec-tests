@@ -150,7 +150,9 @@ def test_fill_to_nonempty_directory_with_clean(tmp_path_factory: TempPathFactory
 
 
 def test_fill_to_directory_with_meta_fails(tmp_path_factory: TempPathFactory, run_fill):
-    """Test filling to a directory with .meta subdirectory fails without --clean."""
+    """
+    Test filling to a directory with .meta subdirectory fails without --clean.
+    """
     # Create a directory with .meta
     output_dir = tmp_path_factory.mktemp("directory_with_meta")
     meta_dir = output_dir / ".meta"
@@ -213,7 +215,9 @@ def test_fill_to_tarball_directory(tmp_path_factory: TempPathFactory, run_fill):
 
 # New tests for the is_master functionality
 def test_create_directories_skips_when_not_master():
-    """Test that create_directories skips operations when not the master process."""
+    """
+    Test that create_directories skips operations when not the master process.
+    """
     fixture_output = FixtureOutput(
         output_path=Path("/fake/path"),
         clean=True,

@@ -353,7 +353,7 @@ class TestDocsGenerator:
         for function_id, function_items in test_functions.items():
             assert all(isinstance(item, pytest.Function) for item in function_items)
             items = cast(List[pytest.Function], function_items)  # help mypy
-                                                                 # infer type
+            # infer type
 
             # extract parametrized test cases for each test function
             test_cases = []
@@ -508,10 +508,10 @@ class TestDocsGenerator:
                 source_code_url=generate_github_url(directory, branch_or_commit_or_tag=self.ref),
                 # TODO: This won't work in all cases; should be from the
                 # development fork Currently breaks for
-                # `tests/unscheduled/eip7692_eof_v1/index.md`  # noqa: SC100
+                # `tests/unscheduled/eip7692_eof_v1/index.md`
                 target_or_valid_fork=fork.capitalize() if fork else "Unknown",
                 package_name=get_import_path(directory),  # init.py will be
-                                                          # used for docstrings
+                # used for docstrings
                 is_benchmark=is_benchmark,
             )
 
@@ -561,7 +561,7 @@ class TestDocsGenerator:
                 path=md_path,
                 source_code_url=generate_github_url(md_path, branch_or_commit_or_tag=self.ref),
                 pytest_node_id=str(md_path),  # abuse: not a test, but used in
-                                              # source code link
+                # source code link
                 target_or_valid_fork="",
                 package_name="",
             )
@@ -598,9 +598,9 @@ class TestDocsGenerator:
             length = len(x.path.parts)
             if length > 1:
                 fork = str(x.path.parts[1]).lower()  # the fork folder from the
-                                                     # relative path
+                # relative path
                 if fork not in fork_order:  # unscheduled features added to the
-                                            # end
+                    # end
                     return (999, str(x.path))
             if length == 1:
                 return (0,)

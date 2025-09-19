@@ -185,7 +185,9 @@ def test_clz_gas_cost_boundary(
 @EIPChecklist.Opcode.Test.StackComplexOperations.StackHeights.Zero()
 @pytest.mark.valid_from("Osaka")
 def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
-    """Test CLZ opcode with empty stack (should revert due to stack underflow)."""
+    """
+    Test CLZ opcode with empty stack (should revert due to stack underflow).
+    """
     sender = pre.fund_eoa()
     callee_address = pre.deploy_contract(
         code=Op.CLZ + Op.STOP,  # No stack items, should underflow

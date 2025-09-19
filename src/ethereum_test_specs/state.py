@@ -46,7 +46,9 @@ logger = get_logger(__name__)
 
 
 class StateTest(BaseTest):
-    """Filler type that tests transactions over the period of a single block."""
+    """
+    Filler type that tests transactions over the period of a single block.
+    """
 
     env: Environment = Field(default_factory=Environment)
     pre: Alloc
@@ -183,7 +185,9 @@ class StateTest(BaseTest):
         return False
 
     def _generate_blockchain_genesis_environment(self, *, fork: Fork) -> Environment:
-        """Generate the genesis environment for the BlockchainTest formatted test."""
+        """
+        Generate the genesis environment for the BlockchainTest formatted test.
+        """
         assert self.env.number >= 1, (
             "genesis block number cannot be negative, set state test env.number to at least 1"
         )

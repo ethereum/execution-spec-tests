@@ -843,7 +843,9 @@ def test_eof_calls_static_flag_with_value(
     sender: EOA,
     opcode: Op,
 ):
-    """Test EOF contracts calls handle static flag and sending value correctly."""
+    """
+    Test EOF contracts calls handle static flag and sending value correctly.
+    """
     env = Environment()
 
     noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))

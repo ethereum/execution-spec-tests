@@ -154,7 +154,9 @@ def tx(
 def total_gas_used(
     fork: Fork, modexp_expected: bytes, modexp_input: ModExpInput, precompile_gas: int
 ) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 500_000
@@ -171,7 +173,9 @@ def total_gas_used(
 
 @pytest.fixture
 def tx_gas_limit(total_gas_used: int, fork: Fork, env: Environment) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     tx_gas_limit_cap = fork.transaction_gas_limit_cap() or env.gas_limit
     return min(tx_gas_limit_cap, total_gas_used)
 

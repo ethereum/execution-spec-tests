@@ -58,11 +58,15 @@ class PytestParameterEnum(Enum):
 
     @classmethod
     def special_keywords(cls) -> List[str]:
-        """Return the special dictionary keywords that are not test parameters."""
+        """
+        Return the special dictionary keywords that are not test parameters.
+        """
         return ["description", "pytest_marks", "pytest_id"]
 
     def names(self) -> List[str]:
-        """Return the names of all the parameters included in the enum value dict."""
+        """
+        Return the names of all the parameters included in the enum value dict.
+        """
         return sorted([k for k in self._value_.keys() if k not in self.special_keywords()])
 
     @property

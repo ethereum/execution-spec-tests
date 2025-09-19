@@ -45,7 +45,9 @@ SLOW_REQUEST_TIMEOUT = 600
 
 
 def get_valid_transition_tool_names() -> set[str]:
-    """Get all valid transition tool names from deployed and development forks."""
+    """
+    Get all valid transition tool names from deployed and development forks.
+    """
     all_available_forks = get_forks() + get_development_forks()
     return {fork.transition_tool_name() for fork in all_available_forks}
 
@@ -80,7 +82,9 @@ class TransitionTool(EthereumCLI):
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        """Abstract initialization method that all subclasses must implement."""
+        """
+        Abstract initialization method that all subclasses must implement.
+        """
         assert exception_mapper is not None
         self.exception_mapper = exception_mapper
         super().__init__(binary=binary)
@@ -112,7 +116,9 @@ class TransitionTool(EthereumCLI):
         self.traces = None
 
     def append_traces(self, new_traces: Traces):
-        """Append a list of traces of a state transition to the current list."""
+        """
+        Append a list of traces of a state transition to the current list.
+        """
         if self.traces is None:
             self.traces = []
         self.traces.append(new_traces)
@@ -363,7 +369,9 @@ class TransitionTool(EthereumCLI):
         debug_output_path: str = "",
         timeout: int,
     ) -> TransitionToolOutput:
-        """Execute the transition tool sending inputs and outputs via a server."""
+        """
+        Execute the transition tool sending inputs and outputs via a server.
+        """
         request_data = t8n_data.get_request_data()
         request_data_json = request_data.model_dump(mode="json", **model_dump_config)
 
@@ -540,7 +548,9 @@ class TransitionTool(EthereumCLI):
         args: List[str],
         result: subprocess.CompletedProcess,
     ):
-        """Export debug files if requested when interacting with t8n via streams."""
+        """
+        Export debug files if requested when interacting with t8n via streams.
+        """
         if not debug_output_path:
             return
 

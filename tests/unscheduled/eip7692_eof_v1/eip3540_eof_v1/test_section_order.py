@@ -36,7 +36,9 @@ class CasePosition(Enum):
 def get_expected_code_exception(
     section_kind, section_test, test_position
 ) -> tuple[str, EOFExceptionInstanceOrList | None]:
-    """Verification vectors with code and exception based on test combinations."""
+    """
+    Verification vectors with code and exception based on test combinations.
+    """
     match (section_kind, section_test, test_position):
         case (SectionKind.TYPE, SectionTest.MISSING, CasePosition.HEADER):
             return (

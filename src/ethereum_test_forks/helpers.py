@@ -203,7 +203,9 @@ def get_selected_fork_set(
 def transition_fork_from_to(
     fork_from: Type[BaseFork], fork_to: Type[BaseFork]
 ) -> Type[BaseFork] | None:
-    """Return transition fork that transitions to and from the specified forks."""
+    """
+    Return transition fork that transitions to and from the specified forks.
+    """
     for transition_fork in get_transition_forks():
         if not issubclass(transition_fork, TransitionBaseClass):
             continue

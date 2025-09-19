@@ -14,7 +14,9 @@ from .base import BaseExecute
 
 
 class TransactionPost(BaseExecute):
-    """Represents a simple transaction-send then post-check execution format."""
+    """
+    Represents a simple transaction-send then post-check execution format.
+    """
 
     blocks: List[List[Transaction]]
     post: Alloc

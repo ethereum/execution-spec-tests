@@ -86,7 +86,9 @@ class LabeledDataList(EthereumTestRootModel):
         raise KeyError(f"Label/index {label_or_index} not found in data indexes")
 
     def __contains__(self, label_or_index: int | str):
-        """Return True if the LabeledDataList contains the given label/index."""
+        """
+        Return True if the LabeledDataList contains the given label/index.
+        """
         if isinstance(label_or_index, int):
             return label_or_index < len(self.root)
         if isinstance(label_or_index, str):

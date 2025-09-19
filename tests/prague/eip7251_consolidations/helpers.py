@@ -16,21 +16,13 @@ class ConsolidationRequest(ConsolidationRequestBase):
     """Class used to describe a consolidation request in a test."""
 
     fee: int = 0
-    """
-    Fee to be paid to the system contract for the consolidation request.
-    """
+    """Fee to be paid to the system contract for the consolidation request."""
     valid: bool = True
-    """
-    Whether the consolidation request is valid or not.
-    """
+    """Whether the consolidation request is valid or not."""
     gas_limit: int = 1_000_000
-    """
-    Gas limit for the call.
-    """
+    """Gas limit for the call."""
     calldata_modifier: Callable[[bytes], bytes] = lambda x: x
-    """
-    Calldata modifier function.
-    """
+    """Calldata modifier function."""
 
     interaction_contract_address: ClassVar[Address] = Address(
         Spec.CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS
@@ -62,20 +54,16 @@ class ConsolidationRequest(ConsolidationRequestBase):
 
 @dataclass(kw_only=True)
 class ConsolidationRequestInteractionBase:
-    """Base class for all types of consolidation transactions we want to test."""
+    """
+    Base class for all types of consolidation transactions we want to test.
+    """
 
     sender_balance: int = 1_000_000_000_000_000_000
-    """
-    Balance of the account that sends the transaction.
-    """
+    """Balance of the account that sends the transaction."""
     sender_account: EOA | None = None
-    """
-    Account that will send the transaction.
-    """
+    """Account that will send the transaction."""
     requests: List[ConsolidationRequest]
-    """
-    Consolidation requests to be included in the block.
-    """
+    """Consolidation requests to be included in the block."""
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the consolidation request."""
@@ -134,35 +122,43 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     """Class used to describe a consolidation originated from a contract."""
 
     tx_gas_limit: int = 10_000_000
-    """
-    Gas limit for the transaction.
-    """
+    """Gas limit for the transaction."""
 
     contract_balance: int = 1_000_000_000_000_000_000
     """
+
+
+
+
+
+
     Balance of the contract that will make the call to the pre-deploy contract.
+
+
+
     """
     contract_address: Address | None = None
     """
+
+
+
+
+
+
     Address of the contract that will make the call to the pre-deploy contract.
+
+
+
     """
     entry_address: Address | None = None
-    """
-    Address to send the transaction to.
-    """
+    """Address to send the transaction to."""
 
     call_type: Op = field(default_factory=lambda: Op.CALL)
-    """
-    Type of call to be used to make the consolidation request.
-    """
+    """Type of call to be used to make the consolidation request."""
     call_depth: int = 2
-    """
-    Frame depth of the pre-deploy contract when it executes the call.
-    """
+    """Frame depth of the pre-deploy contract when it executes the call."""
     extra_code: Bytecode = field(default_factory=Bytecode)
-    """
-    Extra code to be added to the contract code.
-    """
+    """Extra code to be added to the contract code."""
 
     @property
     def contract_code(self) -> Bytecode:

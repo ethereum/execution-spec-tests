@@ -6,6 +6,12 @@ Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
 
 
+
+
+
+
+
+
 note: Adding a new test Add a function that is named `test_<test_name>` and
 takes at least the following arguments:
 
@@ -147,7 +153,9 @@ def total_account_transactions_fee(  # noqa: D103
     tx_max_priority_fee_per_gas: int,
     blob_hashes_per_tx: List[List[bytes]],
 ) -> int:
-    """Calculate actual fee for the blob transactions in the block of the test."""
+    """
+    Calculate actual fee for the blob transactions in the block of the test.
+    """
     total_cost = 0
     for tx_blob_count in [len(x) for x in blob_hashes_per_tx]:
         blob_cost = blob_gas_price * blob_gas_per_blob * tx_blob_count
@@ -1203,7 +1211,9 @@ def test_blob_tx_attribute_value_opcode(
     opcode: Tuple[Bytecode, Storage.StorageDictType],
     state_env: Environment,
 ):
-    """Test the VALUE opcode with different blob type transaction value amounts."""
+    """
+    Test the VALUE opcode with different blob type transaction value amounts.
+    """
     code, storage = opcode
     destination_account = pre.deploy_contract(code=code)
     tx = Transaction(

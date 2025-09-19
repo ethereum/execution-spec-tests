@@ -114,7 +114,9 @@ class EofWrapper:
     GENERATION_ERRORS = "generation_errors"
 
     def __init__(self):
-        """Initialize the EofWrapper with metrics tracking and a unique EOF set."""
+        """
+        Initialize the EofWrapper with metrics tracking and a unique EOF set.
+        """
         self.metrics = {
             self.FILES_GENERATED: 0,
             self.FILES_SKIPPED: 0,

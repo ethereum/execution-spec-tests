@@ -243,7 +243,9 @@ def selfdestruct_with_transfer_contract_address(
     selfdestruct_with_transfer_contract_code: Bytecode,
     same_tx: bool,
 ) -> Address:
-    """Contract address for contract that can selfdestruct and receive value."""
+    """
+    Contract address for contract that can selfdestruct and receive value.
+    """
     if same_tx:
         return compute_create_address(address=entry_code_address, nonce=1)
     # We need to deploy the contract before.
@@ -302,7 +304,9 @@ def selfdestruct_with_transfer_initcode_copy_from_address(
     pre: Alloc,
     selfdestruct_with_transfer_contract_initcode: Bytecode,
 ) -> Address:
-    """Address of a pre-existing contract we use to simply copy initcode from."""
+    """
+    Address of a pre-existing contract we use to simply copy initcode from.
+    """
     addr = pre.deploy_contract(selfdestruct_with_transfer_contract_initcode)
     return addr
 

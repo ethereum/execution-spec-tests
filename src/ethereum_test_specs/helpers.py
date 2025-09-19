@@ -23,7 +23,9 @@ class ExecutionContext(StrEnum):
 
 
 class UnexpectedExecutionSuccessError(Exception):
-    """Exception used when the transaction expected to fail succeeded instead."""
+    """
+    Exception used when the transaction expected to fail succeeded instead.
+    """
 
     def __init__(self, execution_context: ExecutionContext, **kwargs):
         """Initialize the unexpected success exception."""
@@ -35,7 +37,9 @@ class UnexpectedExecutionSuccessError(Exception):
 
 
 class UnexpectedExecutionFailError(Exception):
-    """Exception used when a transaction/block expected to succeed failed instead."""
+    """
+    Exception used when a transaction/block expected to succeed failed instead.
+    """
 
     def __init__(
         self,

@@ -195,7 +195,9 @@ class ConflictingChecklistItemsWarning(ChecklistWarning):
 
     @classmethod
     def from_items(cls, all_items: Dict[str, EIPItem]) -> ChecklistWarning | None:
-        """Generate a conflicting checklist items warning from a list of items."""
+        """
+        Generate a conflicting checklist items warning from a list of items.
+        """
         conflicting_items = [
             item for item in all_items.values() if item.not_applicable and item.covered
         ]

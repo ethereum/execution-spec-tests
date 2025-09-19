@@ -31,7 +31,9 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
     [0, 1, 0x7F, 0x81, 0xFF],
 )
 def test_first_section_returning(eof_test: EOFTestFiller, code: Bytecode, outputs: int):
-    """Test EOF validation failing because the first section is not non-returning."""
+    """
+    Test EOF validation failing because the first section is not non-returning.
+    """
     eof_test(
         container=Container(
             sections=[Section.Code(code, code_outputs=outputs)],

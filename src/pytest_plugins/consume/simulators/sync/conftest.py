@@ -131,7 +131,9 @@ def sync_genesis(fixture: BlockchainEngineSyncFixture) -> dict:
 
 @pytest.fixture(scope="function")
 def sync_buffered_genesis(sync_genesis: dict) -> io.BufferedReader:
-    """Create a buffered reader for the genesis block header of the sync client."""
+    """
+    Create a buffered reader for the genesis block header of the sync client.
+    """
     genesis_json = json.dumps(sync_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))

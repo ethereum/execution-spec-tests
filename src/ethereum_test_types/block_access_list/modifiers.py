@@ -157,7 +157,9 @@ def modify_nonce(
 def modify_balance(
     address: Address, tx_index: int, balance: int
 ) -> Callable[[BlockAccessList], BlockAccessList]:
-    """Set an incorrect balance value for a specific account and transaction."""
+    """
+    Set an incorrect balance value for a specific account and transaction.
+    """
     return _modify_field_value(
         address, tx_index, "balance_changes", BalBalanceChange, balance, "post_balance"
     )

@@ -177,8 +177,14 @@ def test_initcode_aborts(
 
 
 """
-Size of the initcode portion of test_txcreate_deploy_sizes, but as the runtime code is dynamic, we
-have to use a pre-calculated size
+
+
+
+
+
+
+Size of the initcode portion of test_txcreate_deploy_sizes, but as the runtime
+code is dynamic, we have to use a pre-calculated size
 """
 initcode_size = 32
 
@@ -280,7 +286,9 @@ def test_txcreate_deploy_sizes(
     ],
 )
 def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_size: int):
-    """Exercises a number of auxdata size violations, and one maxcode success."""
+    """
+    Exercises a number of auxdata size violations, and one maxcode success.
+    """
     env = Environment()
     auxdata_bytes = b"a" * auxdata_size
 
@@ -388,7 +396,9 @@ def test_txcreate_insufficient_stipend(
 
 @pytest.mark.with_all_evm_code_types
 def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
-    """Exercises an TXCREATE when there is not enough gas for the constant charge."""
+    """
+    Exercises an TXCREATE when there is not enough gas for the constant charge.
+    """
     env = Environment()
 
     initcode_container = Container(

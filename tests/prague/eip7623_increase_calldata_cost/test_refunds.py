@@ -36,18 +36,22 @@ class RefundTestType(Enum):
 
     EXECUTION_GAS_MINUS_REFUND_GREATER_THAN_DATA_FLOOR = 0
     """
-    The execution gas minus the refund is greater than the data floor, hence the execution gas cost
-    is charged.
+
+
+    The execution gas minus the refund is greater than the data floor, hence
+    the execution gas cost is charged.
+
     """
     EXECUTION_GAS_MINUS_REFUND_LESS_THAN_DATA_FLOOR = 1
     """
-    The execution gas minus the refund is less than the data floor, hence the data floor cost is
-    charged.
+
+
+    The execution gas minus the refund is less than the data floor, hence the
+    data floor cost is charged.
+
     """
     EXECUTION_GAS_MINUS_REFUND_EQUAL_TO_DATA_FLOOR = 2
-    """
-    The execution gas minus the refund is equal to the data floor.
-    """
+    """The execution gas minus the refund is equal to the data floor."""
 
 
 class RefundType(Flag):
@@ -57,7 +61,10 @@ class RefundType(Flag):
     """The storage is cleared from a non-zero value."""
 
     AUTHORIZATION_EXISTING_AUTHORITY = auto()
-    """The authorization list contains an authorization where the authority exists in the state."""
+    """
+    The authorization list contains an authorization where the authority exists
+    in the state.
+    """
 
 
 @pytest.fixture

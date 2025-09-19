@@ -245,6 +245,12 @@ def nibble_list_to_compact(x: Bytes, is_leaf: bool) -> Bytes:
 
 
 
+
+
+
+
+
+
     The lowest bit of the nibble encodes the parity of the length of the
     remaining nibbles -- `0` when even and `1` when odd. The second lowest bit
     is used to distinguish leaf and extension nodes. The other two bits are not
@@ -265,7 +271,9 @@ def nibble_list_to_compact(x: Bytes, is_leaf: bool) -> Bytes:
 
 
 def bytes_to_nibble_list(bytes_: Bytes) -> Bytes:
-    """Convert a `Bytes` into to a sequence of nibbles (bytes with value < 16)."""
+    """
+    Convert a `Bytes` into to a sequence of nibbles (bytes with value < 16).
+    """
     nibble_list = bytearray(2 * len(bytes_))
     for byte_index, byte in enumerate(bytes_):
         nibble_list[byte_index * 2] = (byte & 0xF0) >> 4

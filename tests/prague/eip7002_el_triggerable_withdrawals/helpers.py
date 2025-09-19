@@ -17,22 +17,19 @@ class WithdrawalRequest(WithdrawalRequestBase):
 
     fee: int = 0
     """
-    Fee to be paid to the system contract for the withdrawal request.
-    This is different from `amount` which is the amount of gwei to be withdrawn on the beacon
-    chain.
+
+
+    Fee to be paid to the system contract for the withdrawal request. This is
+    different from `amount` which is the amount of gwei to be withdrawn on the
+    beacon chain.
+
     """
     valid: bool = True
-    """
-    Whether the withdrawal request is valid or not.
-    """
+    """Whether the withdrawal request is valid or not."""
     gas_limit: int = 1_000_000
-    """
-    Gas limit for the call.
-    """
+    """Gas limit for the call."""
     calldata_modifier: Callable[[bytes], bytes] = lambda x: x
-    """
-    Calldata modifier function.
-    """
+    """Calldata modifier function."""
 
     interaction_contract_address: ClassVar[Address] = Address(
         Spec.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS
@@ -69,17 +66,11 @@ class WithdrawalRequestInteractionBase:
     """Base class for all types of withdrawal transactions we want to test."""
 
     sender_balance: int = 1_000_000_000_000_000_000
-    """
-    Balance of the account that sends the transaction.
-    """
+    """Balance of the account that sends the transaction."""
     sender_account: EOA | None = None
-    """
-    Account that will send the transaction.
-    """
+    """Account that will send the transaction."""
     requests: List[WithdrawalRequest]
-    """
-    Withdrawal request to be included in the block.
-    """
+    """Withdrawal request to be included in the block."""
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the withdrawal request."""
@@ -138,35 +129,31 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
     """Class used to describe a withdrawal originated from a contract."""
 
     tx_gas_limit: int = 1_000_000
-    """
-    Gas limit for the transaction.
-    """
+    """Gas limit for the transaction."""
 
     contract_balance: int = 1_000_000_000_000_000_000
     """
+
+
     Balance of the contract that will make the call to the pre-deploy contract.
+
     """
     contract_address: Address | None = None
     """
+
+
     Address of the contract that will make the call to the pre-deploy contract.
+
     """
     entry_address: Address | None = None
-    """
-    Address to send the transaction to.
-    """
+    """Address to send the transaction to."""
 
     call_type: Op = field(default_factory=lambda: Op.CALL)
-    """
-    Type of call to be used to make the withdrawal request.
-    """
+    """Type of call to be used to make the withdrawal request."""
     call_depth: int = 2
-    """
-    Frame depth of the pre-deploy contract when it executes the call.
-    """
+    """Frame depth of the pre-deploy contract when it executes the call."""
     extra_code: Bytecode = field(default_factory=Bytecode)
-    """
-    Extra code to be added to the contract code.
-    """
+    """Extra code to be added to the contract code."""
 
     @property
     def contract_code(self) -> Bytecode:

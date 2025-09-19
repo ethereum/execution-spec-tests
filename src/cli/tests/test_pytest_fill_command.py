@@ -145,7 +145,9 @@ class TestHtmlReportFlags:
         fill_args,
         default_html_report_file_path,
     ):
-        """Tests pytest html report generation with only the `--output` flag."""
+        """
+        Tests pytest html report generation with only the `--output` flag.
+        """
         output_dir = temp_dir / "non_default_output_dir"
         non_default_html_path = output_dir / default_html_report_file_path
         fill_args += ["--output", str(output_dir)]

@@ -53,7 +53,9 @@ class EOFBaseExceptionError(Exception):
 
     @staticmethod
     def format_code(code: Bytes, max_length=60) -> str:
-        """Avoid printing long bytecode strings in the terminal upon test failure."""
+        """
+        Avoid printing long bytecode strings in the terminal upon test failure.
+        """
         if len(code) > max_length:
             half_length = max_length // 2 - 5  # Floor; adjust for ellipsis
             return f"{code[:half_length].hex()}...{code[-half_length:].hex()}"
@@ -98,7 +100,9 @@ class ExpectedEOFExceptionError(EOFBaseExceptionError):
 
 
 class EOFExceptionMismatchError(EOFBaseExceptionError):
-    """Exception used when the actual EOF exception differs from the expected one."""
+    """
+    Exception used when the actual EOF exception differs from the expected one.
+    """
 
     def __init__(self, code: Bytes, expected: str, got: str):
         """
@@ -179,82 +183,148 @@ class EOFTest(BaseTest):
 
     container: Container
     """
+
+
+
+
+
+
     EOF container that will be tested for validity.
 
-    The only supported type at the moment is `ethereum_test_types.eof.v1.Container`.
+    The only supported type at the moment is
+    `ethereum_test_types.eof.v1.Container`.
 
-    If an invalid container needs to be tested, and it cannot be generated using the
-    Container class features, the `raw_bytes` field can be used to provide the raw
-    container bytes.
+    If an invalid container needs to be tested, and it cannot be generated
+    using the Container class features, the `raw_bytes` field can be used to
+    provide the raw container bytes.
+
+
+
     """
     expect_exception: EOFExceptionInstanceOrList | None = None
     """
-    Expected exception that the container should raise when parsed by an EOF parser.
 
-    Can be a single exception or a list of exceptions that the container is expected to raise,
-    in which case the test will pass if any of the exceptions are raised.
 
-    The list of supported exceptions can be found in the `ethereum_test_exceptions.EOFException`
-    class.
+
+
+
+
+    Expected exception that the container should raise when parsed by an EOF
+    parser.
+
+    Can be a single exception or a list of exceptions that the container is
+    expected to raise, in which case the test will pass if any of the
+    exceptions are raised.
+
+    The list of supported exceptions can be found in the
+    `ethereum_test_exceptions.EOFException` class.
+
+
+
     """
     container_kind: ContainerKind = ContainerKind.RUNTIME
     """
+
+
+
+
+
+
     Container kind type that the container should be treated as.
 
-    The container kind can be one of the following:
-    - `ContainerKind.INITCODE`: The container is an initcode container.
-    - `ContainerKind.RUNTIME`: The container is a runtime container.
+    The container kind can be one of the following: - `ContainerKind.INITCODE`:
+    The container is an initcode container. - `ContainerKind.RUNTIME`: The
+    container is a runtime container.
 
     The default value is `ContainerKind.RUNTIME`.
+
+
+
     """
     deployed_container: Container | None = None
     """
-    To be used when the container is an initcode container and the expected deployed container is
-    known.
 
-    The value is only used when a State Test is generated from this EOF test to set the expected
-    deployed container that should be found in the post state.
 
-    If this field is not set, and the container is valid:
-      - If the container kind is `ContainerKind.RUNTIME`, the deployed container is assumed to be
-        the container itself, and an initcode container that wraps the container is generated
-        automatically.
-      - If the container kind is `ContainerKind.INITCODE`, `model_post_init` will attempt to infer
-        the deployed container from the sections of the init-container, and the first
-        container-type section will be used. An error will be raised if the deployed container
-        cannot be inferred.
 
-    If the value is set to `None`, it is assumed that the container is invalid and the test will
-    expect that no contract is created.
 
-    It is considered an error if:
-      - The `deployed_container` field is set and the `container_kind` field is not set to
-        `ContainerKind.INITCODE`.
-      - The `deployed_container` field is set and the `expect_exception` is not `None`.
 
-    The deployed container is **not** executed at any point during the EOF validation test nor
-    the generated State Test. For container runtime testing use the `EOFStateTest` class.
+
+    To be used when the container is an initcode container and the expected
+    deployed container is known.
+
+    The value is only used when a State Test is generated from this EOF test to
+    set the expected deployed container that should be found in the post state.
+
+    If this field is not set, and the container is valid: - If the container
+    kind is `ContainerKind.RUNTIME`, the deployed container is assumed to be
+    the container itself, and an initcode container that wraps the container is
+    generated automatically. - If the container kind is
+    `ContainerKind.INITCODE`, `model_post_init` will attempt to infer the
+    deployed container from the sections of the init-container, and the first
+    container-type section will be used. An error will be raised if the
+    deployed container cannot be inferred.
+
+    If the value is set to `None`, it is assumed that the container is invalid
+    and the test will expect that no contract is created.
+
+    It is considered an error if: - The `deployed_container` field is set and
+    the `container_kind` field is not set to `ContainerKind.INITCODE`. - The
+    `deployed_container` field is set and the `expect_exception` is not `None`.
+
+    The deployed container is **not** executed at any point during the EOF
+    validation test nor the generated State Test. For container runtime testing
+    use the `EOFStateTest` class.
+
+
+
     """
     pre: Alloc | None = None
     """
+
+
+
+
+
+
     Pre alloc object that is used during State Test generation.
 
-    This field is automatically set by the test filler when generating a State Test from this EOF
-    test and should otherwise be left unset.
+    This field is automatically set by the test filler when generating a State
+    Test from this EOF test and should otherwise be left unset.
+
+
+
     """
     post: Alloc | None = None
     """
+
+
+
+
+
+
     Post alloc object that is used during State Test generation.
 
-    This field is automatically set by the test filler when generating a State Test from this EOF
-    test and is normally not set by the user.
+    This field is automatically set by the test filler when generating a State
+    Test from this EOF test and is normally not set by the user.
+
+
+
     """
     sender: EOA | None = None
     """
+
+
+
+
+
+
     Sender EOA object that is used during State Test generation.
 
-    This field is automatically set by the `model_post_init` method and should otherwise be left
-    unset.
+    This field is automatically set by the `model_post_init` method and should
+    otherwise be left unset.
+
+
+
     """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -379,7 +449,9 @@ class EOFTest(BaseTest):
         return fixture
 
     def verify_result(self, result: CompletedProcess, expected_result: Result, code: Bytes):
-        """Check that the reported exception string matches the expected error."""
+        """
+        Check that the reported exception string matches the expected error.
+        """
         evmone_exception_mapper = EvmoneExceptionMapper()
         actual_exception_str = result.stdout.strip()
         actual_exception: EOFExceptionWithMessage | UndefinedException | None = None
@@ -531,21 +603,13 @@ class EOFStateTest(EOFTest, Transaction):
     """
 
     gas_limit: HexNumber = Field(HexNumber(10_000_000), serialization_alias="gas")
-    """
-    Gas limit for the transaction that deploys the container.
-    """
+    """Gas limit for the transaction that deploys the container."""
     tx_sender_funding_amount: int = 1_000_000_000_000_000_000_000
-    """
-    Amount of funds to send to the sender EOA before the transaction.
-    """
+    """Amount of funds to send to the sender EOA before the transaction."""
     env: Environment = Field(default_factory=Environment)
-    """
-    Environment object that is used during State Test generation.
-    """
+    """Environment object that is used during State Test generation."""
     container_post: Account = Field(default_factory=Account)
-    """
-    Account object used to verify the container post state.
-    """
+    """Account object used to verify the container post state."""
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         EOFFixture

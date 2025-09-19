@@ -113,7 +113,9 @@ def test_txcreate_then_dataload(
 
 @pytest.mark.with_all_evm_code_types
 def test_txcreate_then_call(state_test: StateTestFiller, pre: Alloc, evm_code_type: EVMCodeType):
-    """Verifies a simple TXCREATE case, and then calls the deployed contract."""
+    """
+    Verifies a simple TXCREATE case, and then calls the deployed contract.
+    """
     env = Environment()
     callable_contract = Container(
         sections=[

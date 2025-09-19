@@ -77,22 +77,19 @@ class DepositRequest(DepositRequestBase):
     """Deposit request descriptor."""
 
     valid: bool = True
-    """
-    Whether the deposit request is valid or not.
-    """
+    """Whether the deposit request is valid or not."""
     gas_limit: int = 1_000_000
-    """
-    Gas limit for the call.
-    """
+    """Gas limit for the call."""
     calldata_modifier: Callable[[bytes], bytes] = lambda x: x
-    """
-    Calldata modifier function.
-    """
+    """Calldata modifier function."""
     extra_wei: int = 0
     """
-    Extra amount in wei to be sent with the deposit.
-    If this value modulo 10**9 is not zero, the deposit will be invalid.
-    The value can be negative but if the total value is negative, an exception will be raised.
+
+
+    Extra amount in wei to be sent with the deposit. If this value modulo 10**9
+    is not zero, the deposit will be invalid. The value can be negative but if
+    the total value is negative, an exception will be raised.
+
     """
 
     interaction_contract_address: ClassVar[Address] = Address(Spec.DEPOSIT_CONTRACT_ADDRESS)
@@ -191,17 +188,11 @@ class DepositInteractionBase:
     """Base class for all types of deposit transactions we want to test."""
 
     sender_balance: int = 32_000_000_000_000_000_000 * 100
-    """
-    Balance of the account that sends the transaction.
-    """
+    """Balance of the account that sends the transaction."""
     sender_account: EOA | None = None
-    """
-    Account that sends the transaction.
-    """
+    """Account that sends the transaction."""
     requests: List[DepositRequest]
-    """
-    Deposit request to be included in the block.
-    """
+    """Deposit request to be included in the block."""
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the deposit request."""
@@ -262,38 +253,33 @@ class DepositContract(DepositInteractionBase):
     """Class used to describe a deposit originated from a contract."""
 
     tx_gas_limit: int = 1_000_000
-    """
-    Gas limit for the transaction.
-    """
+    """Gas limit for the transaction."""
     tx_value: int = 0
-    """
-    Value to send with the transaction.
-    """
+    """Value to send with the transaction."""
 
     contract_balance: int = 32_000_000_000_000_000_000 * 100
-    """
-    Balance of the contract that sends the deposit requests.
-    """
+    """Balance of the contract that sends the deposit requests."""
     contract_address: Address | None = None
-    """
-    Address of the contract that sends the deposit requests.
-    """
+    """Address of the contract that sends the deposit requests."""
     entry_address: Address | None = None
-    """
-    Address to send the transaction to.
-    """
+    """Address to send the transaction to."""
 
     call_type: Op = field(default_factory=lambda: Op.CALL)
-    """
-    Type of call to be made to the deposit contract.
-    """
+    """Type of call to be made to the deposit contract."""
     call_depth: int = 2
     """
-    Frame depth of the beacon chain deposit contract when it executes the deposit requests.
+
+
+    Frame depth of the beacon chain deposit contract when it executes the
+    deposit requests.
+
     """
     extra_code: Bytecode = field(default_factory=Bytecode)
     """
+
+
     Extra code to be included in the contract that sends the deposit requests.
+
     """
 
     @property

@@ -478,7 +478,9 @@ def test_invalid_code_section_index(
     eof_test: EOFTestFiller,
     container: Container,
 ):
-    """Test cases for CALLF instructions with invalid target code section index."""
+    """
+    Test cases for CALLF instructions with invalid target code section index.
+    """
     eof_test(container=container, expect_exception=EOFException.INVALID_CODE_SECTION_INDEX)
 
 
@@ -673,7 +675,9 @@ def test_callf_stack_height_limit_exceeded(eof_test, callee_outputs):
 
 @pytest.mark.parametrize("stack_height", [512, 513, 1023])
 def test_callf_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
-    """Test CALLF instruction recursively calling itself causing stack overflow."""
+    """
+    Test CALLF instruction recursively calling itself causing stack overflow.
+    """
     container = Container(
         sections=[
             Section.Code(code=Op.CALLF[1] + Op.STOP),

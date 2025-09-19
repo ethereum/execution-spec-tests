@@ -65,7 +65,9 @@ def pytest_addoption(parser):
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
-    """Handle specific help flags by displaying the corresponding help message."""
+    """
+    Handle specific help flags by displaying the corresponding help message.
+    """
     if config.getoption("show_check_eip_versions_help"):
         show_specific_help(
             config,

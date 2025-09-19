@@ -143,7 +143,9 @@ class BlobhashContext(Enum):
 def simple_blob_hashes(
     max_blobs_per_tx: int,
 ) -> List[Hash]:
-    """Return a simple list of blob versioned hashes ranging from bytes32(1 to 4)."""
+    """
+    Return a simple list of blob versioned hashes ranging from bytes32(1 to 4).
+    """
     return add_kzg_version(
         [(1 << x) for x in range(max_blobs_per_tx)],
         Spec.BLOB_COMMITMENT_VERSION_KZG,

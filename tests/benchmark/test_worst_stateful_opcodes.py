@@ -55,7 +55,9 @@ def test_worst_address_state_cold(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many stateful opcodes accessing cold accounts."""
+    """
+    Test running a block with as many stateful opcodes accessing cold accounts.
+    """
     attack_gas_limit = gas_benchmark_value
 
     gas_costs = fork.gas_costs()
@@ -257,7 +259,9 @@ def test_worst_storage_access_cold(
     gas_benchmark_value: int,
     tx_result: TransactionResult,
 ):
-    """Test running a block with as many cold storage slot accesses as possible."""
+    """
+    Test running a block with as many cold storage slot accesses as possible.
+    """
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
     attack_gas_limit = gas_benchmark_value
@@ -399,7 +403,9 @@ def test_worst_storage_access_warm(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many warm storage slot accesses as possible."""
+    """
+    Test running a block with as many warm storage slot accesses as possible.
+    """
     attack_gas_limit = gas_benchmark_value
 
     blocks = []

@@ -73,7 +73,9 @@ def test_callf_factorial(eof_state_test: EOFStateTestFiller, n, result):
     ((0, 1), (1, 1), (13, 233), (27, 196418)),
 )
 def test_callf_fibonacci(eof_state_test: EOFStateTestFiller, n, result):
-    """Test fibonacci sequence implementation with recursive CALLF instructions."""
+    """
+    Test fibonacci sequence implementation with recursive CALLF instructions.
+    """
     eof_state_test(
         container=Container(
             sections=[

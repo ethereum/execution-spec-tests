@@ -361,7 +361,9 @@ def test_jumpf_stack_size_1024(
 def test_jumpf_with_inputs_stack_size_1024(
     eof_state_test: EOFStateTestFiller,
 ):
-    """Test stack reaching 1024 items in target function of JUMPF with inputs."""
+    """
+    Test stack reaching 1024 items in target function of JUMPF with inputs.
+    """
     eof_state_test(
         container=Container(
             sections=[
@@ -531,7 +533,9 @@ def test_jumpf_with_inputs_stack_size_1024_at_push(
 def test_jumpf_with_inputs_stack_overflow(
     eof_state_test: EOFStateTestFiller,
 ):
-    """Test stack overflowing 1024 items in JUMPF target function with inputs."""
+    """
+    Test stack overflowing 1024 items in JUMPF target function with inputs.
+    """
     eof_state_test(
         container=Container(
             sections=[

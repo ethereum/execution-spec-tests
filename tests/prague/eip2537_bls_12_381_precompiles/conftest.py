@@ -172,7 +172,9 @@ def post(call_contract_address: Address, call_contract_post_storage: Storage):
 
 @pytest.fixture
 def tx_gas_limit(fork: Fork, input_data: bytes, precompile_gas: int) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 100_000

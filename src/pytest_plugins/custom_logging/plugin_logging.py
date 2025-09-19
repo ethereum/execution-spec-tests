@@ -101,7 +101,7 @@ class UTCFormatter(logging.Formatter):
     """
 
     def formatTime(self, record, datefmt=None):  # noqa: D102,N802  # camelcase
-                                                 # required
+        # required
         dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
         return dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] + "+00:00"
 
@@ -158,9 +158,9 @@ class LogLevel:
         raise ValueError(f"Invalid log level '{value}'. Expected one of: {valid} or a number.")
 
 
-# ==============================================================================
+# =========================================================================
 # Standalone logging configuration (usable without pytest)
-# ==============================================================================
+# =========================================================================
 
 
 def configure_logging(
@@ -226,9 +226,9 @@ def configure_logging(
     return file_handler_instance
 
 
-# ==============================================================================
+# ==========================================================================
 # Pytest plugin integration
-# ==============================================================================
+# ==========================================================================
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -237,7 +237,7 @@ def pytest_addoption(parser):  # noqa: D103
     )
     logging_group.addoption(
         "--eest-log-level",  # --log-level is defined by pytest's built-in
-                             # logging
+        # logging
         "--eestloglevel",
         action="store",
         default="INFO",

@@ -18,7 +18,9 @@ from ..common import ProgramResult, ScenarioTestProgram
 
 
 def make_all_opcode_program() -> Bytecode:
-    """Make a program that call each Frontier opcode and verifies it's result."""
+    """
+    Make a program that call each Frontier opcode and verifies it's result.
+    """
     code: Bytecode = (
         # Test opcode 01 - ADD
         Conditional(

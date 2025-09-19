@@ -143,7 +143,9 @@ class Releases(RootModel[List[ReleaseInformation]]):
 
 
 def is_docker_or_ci() -> bool:
-    """Check if the code is running inside a Docker container or a CI environment."""
+    """
+    Check if the code is running inside a Docker container or a CI environment.
+    """
     return "GITHUB_ACTIONS" in os.environ or Path("/.dockerenv").exists()
 
 

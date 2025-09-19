@@ -130,7 +130,9 @@ def main(
     dry_run: bool,
     abort_on_empty_patch: bool,
 ):
-    """Compare two fixture folders and remove duplicates based on fixture hashes."""
+    """
+    Compare two fixture folders and remove duplicates based on fixture hashes.
+    """
     try:
         # Load indices
         base_index = load_index(base)

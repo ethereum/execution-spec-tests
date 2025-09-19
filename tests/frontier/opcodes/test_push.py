@@ -49,14 +49,16 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
     env = Environment()
 
     """
-     **               Bytecode explanation              **
-     +---------------------------------------------------+
-     | Bytecode      | Stack        | Storage            |
-     |---------------------------------------------------|
-     | PUSH* excerpt | excerpt      |                    |
-     | PUSH1 0       | 0 excerpt    |                    |
-     | SSTORE        |              | [0]: excerpt       |
-     +---------------------------------------------------+
+
+
+    **               Bytecode explanation              **
+    +---------------------------------------------------+ | Bytecode      |
+    Stack        | Storage            |
+    |---------------------------------------------------| | PUSH* excerpt |
+    excerpt      |                    | | PUSH1 0       | 0 excerpt    |
+    | | SSTORE        |              | [0]: excerpt       |
+    +---------------------------------------------------+
+
     """
 
     contract_code = push_opcode(excerpt) + Op.PUSH1(0) + Op.SSTORE
@@ -101,21 +103,24 @@ def test_stack_overflow(
     excerpt = get_input_for_push_opcode(push_opcode)
 
     """
-    Essentially write a n-byte message to storage by pushing [1024,1025] times to stack. This
-    simulates a "jump" over the stack limit of 1024.
 
-    The message is UTF-8 encoding of excerpt (say 0x45 for PUSH1). Within the stack limit,
-    the message is written to the to the storage at the same offset (0x45 for PUSH1).
-    The last iteration will overflow the stack and the storage slot will be empty.
 
-     **               Bytecode explanation              **
-     +---------------------------------------------------+
-     | Bytecode      | Stack        | Storage            |
-     |---------------------------------------------------|
-     | PUSH* excerpt | excerpt      |                    |
-     | PUSH1 0       | 0 excerpt    |                    |
-     | SSTORE        |              | [0]: excerpt       |
-     +---------------------------------------------------+
+    Essentially write a n-byte message to storage by pushing [1024,1025] times
+    to stack. This simulates a "jump" over the stack limit of 1024.
+
+    The message is UTF-8 encoding of excerpt (say 0x45 for PUSH1). Within the
+    stack limit, the message is written to the to the storage at the same
+    offset (0x45 for PUSH1). The last iteration will overflow the stack and the
+    storage slot will be empty.
+
+    **               Bytecode explanation              **
+    +---------------------------------------------------+ | Bytecode      |
+    Stack        | Storage            |
+    |---------------------------------------------------| | PUSH* excerpt |
+    excerpt      |                    | | PUSH1 0       | 0 excerpt    |
+    | | SSTORE        |              | [0]: excerpt       |
+    +---------------------------------------------------+
+
     """
     contract_code: Bytecode = Bytecode()
     for _ in range(stack_height - 2):

@@ -182,7 +182,9 @@ def test_calldata_lengths(
     tx: Transaction,
     post: Dict,
 ):
-    """Tests the beacon root contract call using multiple invalid input lengths."""
+    """
+    Tests the beacon root contract call using multiple invalid input lengths.
+    """
     blockchain_test(
         pre=pre,
         blocks=[Block(txs=[tx], parent_beacon_block_root=beacon_root, timestamp=timestamp)],

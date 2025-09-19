@@ -18,7 +18,9 @@ from ethereum_test_forks import Paris
 
 
 class WitnessFillerResult(EthereumTestRootModel[List[WitnessChunk]]):
-    """Model that defines the expected result from the `witness-filler` command."""
+    """
+    Model that defines the expected result from the `witness-filler` command.
+    """
 
     root: List[WitnessChunk]
 

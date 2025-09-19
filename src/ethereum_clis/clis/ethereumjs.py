@@ -45,7 +45,9 @@ class EthereumJSTransitionTool(TransitionTool):
 
 
 class EthereumJSExceptionMapper(ExceptionMapper):
-    """Translate between EEST exceptions and error strings returned by EthereumJS."""
+    """
+    Translate between EEST exceptions and error strings returned by EthereumJS.
+    """
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
