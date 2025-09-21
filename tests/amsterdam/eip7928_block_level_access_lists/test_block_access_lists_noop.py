@@ -9,8 +9,6 @@ from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
     BalBalanceChange,
     BalNonceChange,
-    BalStorageChange,
-    BalStorageSlot,
     BlockAccessListExpectation,
 )
 
@@ -103,6 +101,43 @@ def test_bal_zero_value_transfer(
     blockchain_test(pre=pre, blocks=[block], post={})
 
 
+def test_bal_pure_contract_call(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    fork: Fork,
+):
+    """Test that BAL captures contract access for pure computation calls."""
+    alice = pre.fund_eoa()
+    pure_contract = pre.deploy_contract(code=Op.ADD(0x3, 0x2))
+
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    gas_limit = (
+        intrinsic_gas_calculator(
+            calldata=b"",
+            contract_creation=False,
+            access_list=[],
+        )
+        + 5_000
+    )  # Buffer
+
+    tx = Transaction(sender=alice, to=pure_contract, gas_limit=gas_limit, gas_price=0xA)
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                # Ensure called contract is tracked
+                pure_contract: BalAccountExpectation(),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
+
+
 def test_bal_noop_storage_write(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -150,12 +185,11 @@ def test_bal_noop_storage_write(
         pytest.param(Op.INVALID, id="invalid"),
     ],
 )
-def test_bal_aborted_transaction_storage_access(
+def test_bal_aborted_storage_access(
     pre: Alloc, blockchain_test: BlockchainTestFiller, abort_opcode: Op
 ):
-  """Ensure BAL captures storage access in aborted transactions correctly"""
+    """Ensure BAL captures storage access in aborted transactions correctly."""
     alice = pre.fund_eoa()
-
     storage_contract = pre.deploy_contract(
         code=Op.SLOAD(0x01) + Op.SSTORE(0x02, 0x42) + abort_opcode,
         storage={0x01: 0x10},  # Pre-existing value in slot 0x01
@@ -185,39 +219,31 @@ def test_bal_aborted_transaction_storage_access(
     )
 
 
-def test_bal_aborted_transaction(
+@pytest.mark.parametrize(
+    "account_access_opcode",
+    [
+        pytest.param(lambda target_addr: Op.BALANCE(target_addr), id="balance"),
+        pytest.param(lambda target_addr: Op.CALL(0, target_addr, 50, 0, 0, 0, 0), id="call"),
+        pytest.param(
+            lambda target_addr: Op.STATICCALL(0, target_addr, 0, 0, 0, 0), id="staticcall"
+        ),
+        pytest.param(
+            lambda target_addr: Op.DELEGATECALL(0, target_addr, 0, 0, 0, 0), id="delegatecall"
+        ),
+    ],
+)
+def test_bal_aborted_account_access(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
+    account_access_opcode,
 ):
-    """Ensure BAL captures aborted transactions correctly."""
+    """Ensure BAL captures account access in aborted transactions for individual opcodes."""
     alice = pre.fund_eoa()
-    bob = pre.fund_eoa(amount=0)
+    bob = pre.fund_eoa(amount=100)
 
-    # TargetContract: simple contract
-    call_target = pre.deploy_contract(code=Op.STOP)
-    staticcall_target = pre.deploy_contract(code=Op.STOP)
-    delegatecall_target = pre.deploy_contract(code=Op.STOP)
-
-    # AbortContract: reads storage, writes storage, then reverts
     abort_contract = pre.deploy_contract(
         balance=100,
-        code=(
-            # Act 1: Read storage
-            Op.SLOAD(0x01)
-            # Act 2: Write to storage
-            + Op.SSTORE(0x02, 0x42)
-            # Act 3: Send 100 wei to bob
-            + Op.CALL(0, bob, 100, 0, 0, 0, 0)
-            # Act 4: Call
-            + Op.CALL(0, call_target, 0, 0, 0, 0, 0)
-            # Act 5: create contract
-            + Op.STATICCALL(0, staticcall_target, 0, 0, 0, 0)
-            # + Op.created_contract()
-            + Op.DELEGATECALL(0, delegatecall_target, 0, 0, 0, 0)
-            # Final act: Abort!
-            + Op.REVERT(0, 0)  # Abort the transaction
-        ),
-        storage={0x01: 0x10},  # Pre-existing value in slot 0x01
+        code=account_access_opcode(bob),
     )
 
     tx = Transaction(sender=alice, to=abort_contract, gas_limit=5_000_000, gas_price=0xA)
@@ -226,20 +252,11 @@ def test_bal_aborted_transaction(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
-                bob: BalAccountExpectation(
-                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)]
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
                 ),
-                abort_contract: BalAccountExpectation(
-                    storage_reads=[0x01],
-                    storage_changes=[
-                        BalStorageSlot(
-                            slot=0x02, slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)]
-                        )
-                    ],
-                ),
-                call_target: BalAccountExpectation(),
-                staticcall_target: BalAccountExpectation(),
-                # delegatecall_target: BalAccountExpectation(),
+                bob: BalAccountExpectation(),
+                abort_contract: BalAccountExpectation(),
             }
         ),
     )
