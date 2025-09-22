@@ -142,6 +142,18 @@ class BalAccountAbsentValues(CamelModel):
 
         return self
 
+    @staticmethod
+    def _validate_forbidden_changes(
+        actual_changes: List,
+        forbidden_changes: List,
+        match_fn,
+        error_msg_fn,
+    ) -> None:
+        for actual in actual_changes:
+            for forbidden in forbidden_changes:
+                if match_fn(actual, forbidden):
+                    raise BlockAccessListValidationError(error_msg_fn(actual))
+
     def validate_against(self, account: BalAccountChange) -> None:
         """
         Validate that the account does not contain the forbidden changes specified in
@@ -154,52 +166,37 @@ class BalAccountAbsentValues(CamelModel):
             BlockAccessListValidationError: If any forbidden changes are found
 
         """
-        for forbidden_nonce in self.nonce_changes:
-            for actual_nonce in account.nonce_changes:
-                if (
-                    actual_nonce.tx_index == forbidden_nonce.tx_index
-                    and actual_nonce.post_nonce == forbidden_nonce.post_nonce
-                ):
-                    raise BlockAccessListValidationError(
-                        f"Unexpected nonce change found at tx {actual_nonce.tx_index}"
-                    )
-
-        for forbidden_balance in self.balance_changes:
-            for actual_balance in account.balance_changes:
-                if (
-                    actual_balance.tx_index == forbidden_balance.tx_index
-                    and actual_balance.post_balance == forbidden_balance.post_balance
-                ):
-                    raise BlockAccessListValidationError(
-                        f"Unexpected balance change found at tx {actual_balance.tx_index}"
-                    )
-
-        for forbidden_code in self.code_changes:
-            for actual_code in account.code_changes:
-                if (
-                    actual_code.tx_index == forbidden_code.tx_index
-                    and actual_code.new_code == forbidden_code.new_code
-                ):
-                    raise BlockAccessListValidationError(
-                        f"Unexpected code change found at tx {actual_code.tx_index}"
-                    )
+        self._validate_forbidden_changes(
+            account.nonce_changes,
+            self.nonce_changes,
+            lambda a, f: a.tx_index == f.tx_index and a.post_nonce == f.post_nonce,
+            lambda a: f"Unexpected nonce change found at tx {a.tx_index}",
+        )
+        self._validate_forbidden_changes(
+            account.balance_changes,
+            self.balance_changes,
+            lambda a, f: a.tx_index == f.tx_index and a.post_balance == f.post_balance,
+            lambda a: f"Unexpected balance change found at tx {a.tx_index}",
+        )
+        self._validate_forbidden_changes(
+            account.code_changes,
+            self.code_changes,
+            lambda a, f: a.tx_index == f.tx_index and a.new_code == f.new_code,
+            lambda a: f"Unexpected code change found at tx {a.tx_index}",
+        )
 
         for forbidden_storage_slot in self.storage_changes:
             for actual_storage_slot in account.storage_changes:
                 if actual_storage_slot.slot == forbidden_storage_slot.slot:
-                    # Check specific slot changes only (empty slot_changes not allowed)
-                    for forbidden_slot_change in forbidden_storage_slot.slot_changes:
-                        for actual_slot_change in actual_storage_slot.slot_changes:
-                            if (
-                                actual_slot_change.tx_index == forbidden_slot_change.tx_index
-                                and actual_slot_change.post_value
-                                == forbidden_slot_change.post_value
-                            ):
-                                raise BlockAccessListValidationError(
-                                    f"Unexpected storage change found at slot "
-                                    f"{actual_storage_slot.slot} in tx "
-                                    f"{actual_slot_change.tx_index}"
-                                )
+                    slot_id = actual_storage_slot.slot
+                    self._validate_forbidden_changes(
+                        actual_storage_slot.slot_changes,
+                        forbidden_storage_slot.slot_changes,
+                        lambda a, f: (a.tx_index == f.tx_index and a.post_value == f.post_value),
+                        lambda a, slot=slot_id: (
+                            f"Unexpected storage change found at slot {slot} in tx {a.tx_index}"
+                        ),
+                    )
 
         for forbidden_read in self.storage_reads:
             for actual_read in account.storage_reads:
