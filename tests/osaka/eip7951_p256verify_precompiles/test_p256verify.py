@@ -50,8 +50,7 @@ def test_wycheproof_valid(state_test: StateTestFiller, pre: Alloc, post: dict, t
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
       vectors_from_file("secp256r1_special_case_r_s.json") +
-      vectors_from_file("secp256r1_modified_r_s.json") +
-      vectors_from_file("secp256r1_infinity_point.json"),
+      vectors_from_file("secp256r1_modified_r_s.json"),
     # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite, invalid cases
     # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
 )
@@ -66,7 +65,8 @@ def test_wycheproof_invalid(state_test: StateTestFiller, pre: Alloc, post: dict,
 
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
-      vectors_from_file("secp256r1_small_large_r_s.json"),
+      vectors_from_file("secp256r1_small_large_r_s.json") +
+      vectors_from_file("secp256r1_special_points.json"),
     # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite, invalid cases
     # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
 )
