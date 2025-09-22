@@ -31,6 +31,70 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+
+def test_xen_approve(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+):
+    """
+    Uses the `approve(address,uint256)` method of XEN (ERC20) close to the maximum amount
+    of new slots which could be created within a single block/transaction.
+    """
+    attack_gas_limit = (
+        60_000_000  # TODO: currently hardcoded, should be read from `gas_benchmark_value`
+    )
+
+    xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
+    gas_threshold = 40_000
+
+    fn_signature_approve = 0x095EA7B3  # Function selector of `approve(address,uint256)`
+    # This code loops until there is less than threshold_gas left and reads two items from calldata:
+    # The first 32 bytes are interpreted as the start address to start approving for
+    # The second 32 bytes is the approval amount
+    # This can thus be used to initialize the approvals (in multiple txs) to write to the storage
+    # Since initializing storage (from zero to nonzero) is more expensive, this thus has
+    # to be done over multiple blocks/txs
+    # The attack block can then target all of the just initialized storage slots to edit
+    # (This should thus yield more dirty trie nodes than the )
+    approval_loop_code = (
+        Op.MSTORE(0, Hash(fn_signature_approve, left_padding=True))
+        + Op.MSTORE(4 + 32, Op.CALLDATALOAD(32))
+        + Op.CALLDATALOAD(0)
+        + While(
+            body=Op.MSTORE(
+                4, Op.DUP1
+            )  # Put a copy of the topmost stack item in memory (this is the target address)
+            + Op.CALL(address=xen_contract, args_offset=0, args_size=4 + 32 + 32)
+            + Op.ADD,  # Add the status of the CALL
+            # (this should always be 1 unless the `gas_threshold` is too low) to the stack item
+            # The address and thus target storage slot changes!
+            condition=Op.GT(Op.GAS, gas_threshold),
+        )
+    )
+
+    approval_spammer_contract = pre.deploy_contract(code=approval_loop_code)
+
+    start_address = Hash(0)
+    approval_value = Hash(1)
+
+    calldata = start_address + approval_value
+
+    attack_tx = Transaction(
+        to=approval_spammer_contract,
+        gas_limit=attack_gas_limit,
+        data=calldata,
+        sender=pre.fund_eoa(),
+    )
+
+    blocks = [Block(txs=[attack_tx])]
+
+    blockchain_test(
+        pre=pre,
+        post={},  # TODO: add sanity checks (succesful tx execution and no out-of-gas)
+        blocks=blocks,
+    )
+
+
 # TODO
 # The current test does only claimRank(1) and then waits `SECONDS_IN_DAY = 3_600 * 24;` plus 1
 # (see https://etherscan.io/token/0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8#code) and then
@@ -60,7 +124,8 @@ def test_xen_claimrank_and_mint(
     # fee_recipient = pre.fund_eoa(amount=1)
 
     # timestamp to use for the initial block. Timestamp of later blocks are manually added/changed.
-    timestamp = 12
+    # timestamp = 12 TODO: disabled, this is likely not part of EEST to support
+    # A special CL has to perform edited newPayloads such that we can edit the timestamp
 
     # TODO: adjust this to the right amount of the actual performance test block
     num_xen = 1
@@ -76,7 +141,7 @@ def test_xen_claimrank_and_mint(
     # This is after (!!) deployment (so step 2, not 1): claimMintReward()
     calldata_claim_mint_reward = bytes.fromhex("52c7f8dc")
     after_initcode_callata = Om.MSTORE(bytes.fromhex("52c7f8dc")) + Op.CALL(
-        address=(0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8),
+        address=(xen_contract),
         args_size=len(calldata_claim_mint_reward),
     )
 
@@ -89,7 +154,7 @@ def test_xen_claimrank_and_mint(
     initcode = (
         Om.MSTORE(calldata_claim_rank)
         + Op.CALL(
-            address=(0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8),
+            address=(xen_contract),
             args_size=len(calldata_claim_rank),
         )
         + Om.MSTORE(after_initcode_callata)
