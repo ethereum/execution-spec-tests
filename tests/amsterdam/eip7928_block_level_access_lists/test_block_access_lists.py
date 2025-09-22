@@ -31,8 +31,9 @@ from .spec import ref_spec_7928
 REFERENCE_SPEC_GIT_PATH = ref_spec_7928.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7928.version
 
+pytestmark = pytest.mark.valid_from("Amsterdam")
 
-@pytest.mark.valid_from("Amsterdam")
+
 def test_bal_nonce_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -68,7 +69,6 @@ def test_bal_nonce_changes(
     )
 
 
-@pytest.mark.valid_from("Amsterdam")
 def test_bal_balance_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -128,7 +128,6 @@ def test_bal_balance_changes(
     )
 
 
-@pytest.mark.valid_from("Amsterdam")
 def test_bal_storage_writes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -174,7 +173,6 @@ def test_bal_storage_writes(
     )
 
 
-@pytest.mark.valid_from("Amsterdam")
 def test_bal_storage_reads(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -213,7 +211,6 @@ def test_bal_storage_reads(
     )
 
 
-@pytest.mark.valid_from("Amsterdam")
 def test_bal_code_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -445,7 +442,6 @@ def test_bal_self_destruct(
         ),
     ],
 )
-@pytest.mark.valid_from("Amsterdam")
 def test_bal_account_access_target(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -478,7 +474,6 @@ def test_bal_account_access_target(
     blockchain_test(pre=pre, blocks=[block], post={})
 
 
-@pytest.mark.valid_from("Amsterdam")
 def test_bal_call_with_value_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -513,7 +508,6 @@ def test_bal_call_with_value_transfer(
     blockchain_test(pre=pre, blocks=[block], post={})
 
 
-@pytest.mark.valid_from("Amsterdam")
 def test_bal_callcode_with_value_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
