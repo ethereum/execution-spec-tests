@@ -32,6 +32,7 @@ from ethereum_test_tools import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
+@pytest.mark.valid_from("Frontier")
 def test_xen_approve(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -47,7 +48,9 @@ def test_xen_approve(
     xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
     gas_threshold = 40_000
 
-    fn_signature_approve = 0x095EA7B3  # Function selector of `approve(address,uint256)`
+    fn_signature_approve = bytes.fromhex(
+        "095EA7B3"
+    )  # Function selector of `approve(address,uint256)`
     # This code loops until there is less than threshold_gas left and reads two items from calldata:
     # The first 32 bytes are interpreted as the start address to start approving for
     # The second 32 bytes is the approval amount
@@ -57,7 +60,7 @@ def test_xen_approve(
     # The attack block can then target all of the just initialized storage slots to edit
     # (This should thus yield more dirty trie nodes than the )
     approval_loop_code = (
-        Op.MSTORE(0, Hash(fn_signature_approve, left_padding=True))
+        Om.MSTORE(fn_signature_approve)
         + Op.MSTORE(4 + 32, Op.CALLDATALOAD(32))
         + Op.CALLDATALOAD(0)
         + While(
