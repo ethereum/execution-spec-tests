@@ -1,6 +1,8 @@
 """
-abstract: Tests BLS12 precompiles of [EIP-2537: Precompile for BLS12-381
-curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+abstract: Tests BLS12 precompiles before fork activation
+    Tests the BLS12 precompiles behavior before fork activation from
+    [EIP-2537: Precompile for BLS12-381 curve operations]
+    (https://eips.ethereum.org/EIPS/eip-2537).
 """
 
 import pytest

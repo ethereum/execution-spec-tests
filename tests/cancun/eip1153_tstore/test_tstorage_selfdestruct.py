@@ -1,10 +1,10 @@
 """
-abstract: Tests for [EIP-1153: Transient
-Storage](https://eips.ethereum.org/EIPS/eip-1153).
+abstract: EIP-1153 Transient Storage with selfdestruct tests.
+    Tests for transient storage behavior with selfdestruct from [EIP-1153:
+    Storage](https://eips.ethereum.org/EIPS/eip-1153).
 
-Test cases for `TSTORE` and
-`TLOAD` opcode calls in reentrancy after self-destruct, taking into account
-the changes in EIP-6780.
+    Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy after
+    self-destruct, taking into account the changes in EIP-6780.
 """
 
 from enum import unique

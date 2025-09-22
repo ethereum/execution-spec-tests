@@ -1,6 +1,8 @@
 """
-abstract: Tests BLS12_G1MUL precompile of [EIP-2537: Precompile for BLS12-381
-curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+abstract: Tests BLS12_G1MUL precompile
+    Tests the BLS12_G1MUL precompile implementation from [EIP-2537:
+    Precompile for BLS12-381 curve operations]
+    (https://eips.ethereum.org/EIPS/eip-2537).
 """
 
 import pytest
@@ -84,8 +86,8 @@ pytestmark = [
         pytest.param(
             Spec.P1 + Scalar(2**256 - 1),
             PointG1(
-                0x3DA1F13DDEF2B8B5A46CD543CE56C0A90B8B3B0D6D43DEC95836A5FD2BACD6AA8F692601F870CF22E05DDA5E83F460B,  # noqa: E501
-                0x18D64F3C0E9785365CBDB375795454A8A4FA26F30B9C4F6E33CA078EB5C29B7AEA478B076C619BC1ED22B14C95569B2D,  # noqa: E501
+                0x3DA1F13DDEF2B8B5A46CD543CE56C0A90B8B3B0D6D43DEC95836A5FD2BACD6AA8F692601F870CF22E05DDA5E83F460B,
+                0x18D64F3C0E9785365CBDB375795454A8A4FA26F30B9C4F6E33CA078EB5C29B7AEA478B076C619BC1ED22B14C95569B2D,
             ),
             None,
             id="max_scalar_times_point",

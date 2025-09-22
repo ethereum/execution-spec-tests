@@ -253,10 +253,11 @@ def test_eth_config_majority(
             continue
 
         assert client_to_hash_dict[h] == expected_hash, (
-            "Critical consensus issue: Not all eth_config responses are the same!\n"
+            "Critical consensus issue: Not all eth_config responses are the "
+            " same!\n"
             "Here is an overview of client response hashes:\n"
             + "\n\t".join(f"{k}: {v}" for k, v in client_to_hash_dict.items())
-            + "\n\n"  # noqa: E501
+            + "\n\n"
             "Here is an overview of which URLs were contacted:\n\t"
             + "\n\t".join(f"{k}: @{v.split('@')[1]}" for k, v in client_to_url_used_dict.items())
             + "\n\n"

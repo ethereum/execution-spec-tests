@@ -793,5 +793,5 @@ class BLSPointGenerator:
         G2 that map to the point at infinity on the BLS curve. This is why we
         return an empty list here. It is kept for consistency with the G1 case,
         and documentation purposes.
-        """  # noqa: E501
+        """
         return []

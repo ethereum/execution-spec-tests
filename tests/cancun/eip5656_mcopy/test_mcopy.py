@@ -1,6 +1,5 @@
 """
-abstract: Tests [EIP-5656: MCOPY - Memory copying
-instruction](https://eips.ethereum.org/EIPS/eip-5656).
+abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656).
 """
 
 from typing import Mapping

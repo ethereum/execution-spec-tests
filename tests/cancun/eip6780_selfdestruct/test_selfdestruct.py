@@ -1,6 +1,6 @@
 """
-abstract: Tests [EIP-6780: SELFDESTRUCT only in same
-transaction](https://eips.ethereum.org/EIPS/eip-6780).
+abstract: SELFDESTRUCT only in same transaction tests
+    Tests for [EIP-6780: SELFDESTRUCT only in same transaction](https://eips.ethereum.org/EIPS/eip-6780).
 """
 
 from itertools import cycle

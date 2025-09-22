@@ -1,6 +1,7 @@
 """
-abstract: Tests `MAX_BLOBS_PER_TX` limit for [EIP-7594: PeerDAS - Peer Data
-Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
+abstract: MAX_BLOBS_PER_TX limit tests
+    Tests for `MAX_BLOBS_PER_TX` limit in [EIP-7594: PeerDAS - Peer Data
+    Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
 """
 
 import pytest

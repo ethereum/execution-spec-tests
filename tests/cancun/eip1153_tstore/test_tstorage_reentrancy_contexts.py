@@ -1,6 +1,9 @@
 """
-abstract: Tests for [EIP-1153: Transient
-Storage](https://eips.ethereum.org/EIPS/eip-1153).
+abstract: Tests transient storage in reentrancy contexts.
+
+    Tests transient storage behavior in various reentrancy contexts from
+    [EIP-1153: Transient Storage]
+    (https://eips.ethereum.org/EIPS/eip-1153).
 """
 
 from enum import EnumMeta, unique
@@ -89,11 +92,12 @@ class DynamicReentrancyTestCases(EnumMeta):
             classdict[f"{opcode._name_}_UNDOES_ALL"] = {
                 "description": (
                     f"{opcode._name_} undoes all the transient storage writes "
-                    "to the same key from a failed call. ",
-                    "TSTORE(x, y), CALL(self, ...), TSTORE(x, z), ",
-                    f"TSTORE(x, z + 1) {opcode._name_}, TLOAD(x) returns y.",
+                    "to the same key from a failed call. "
+                    "TSTORE(x, y), CALL(self, ...), TSTORE(x, z), "
+                    f"TSTORE(x, z + 1) {opcode._name_}, TLOAD(x) returns y."
                     "",
-                    "Based on [ethereum/tests/.../09_revertUndoesAllFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/09_revertUndoesAllFiller.yml).",  # noqa: E501
+                    "Based on "
+                    "[ethereum/tests/.../09_revertUndoesAllFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/09_revertUndoesAllFiller.yml).",
                 ),
                 "bytecode": Conditional(
                     condition=SETUP_CONDITION,

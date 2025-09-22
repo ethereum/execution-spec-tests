@@ -62,8 +62,8 @@ def pytest_collection_modifyitems(session, config, items):
 
             # client_param-
             # tests/path/to/test.py::test_name[test_params]-sync_client_param
-            # 1. Remove the client prefix from the beginning 2. Replace the
-            # -client_param part at the end with our new format
+            # 1. Remove the client prefix from the beginning
+            # 2. Replace the -client_param part at the end with our new format
             nodeid = item.nodeid
             prefix_index = item.nodeid.find("-tests/")
             if prefix_index != -1:

@@ -1,6 +1,6 @@
 """
-abstract: Tests [EIP-7516: BLOBBASEFEE
-opcode](https://eips.ethereum.org/EIPS/eip-7516).
+abstract: BLOBBASEFEE opcode tests
+    Tests for [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/eip-7516).
 """
 
 from itertools import count

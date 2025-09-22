@@ -9,11 +9,13 @@ tests/
 
 # Show PR URLs instead uv run fill --show-ported-from=prs tests/
 
-The plugin will: 1. Collect all test items with @pytest.mark.ported_from
-markers 2. Extract either the file paths (first positional argument) or PR URLs
-(pr keyword argument) 3. Output a deduplicated, sorted list, one per line 4.
-Skip test execution (collection only) 5. Exclude tests with
-coverage_missed_reason from output
+The plugin will:
+1. Collect all test items with @pytest.mark.ported_from markers
+2. Extract either the file paths (first positional argument) or PR URLs (pr
+   keyword argument)
+3. Output a deduplicated, sorted list, one per line
+4. Skip test execution (collection only)
+5. Exclude tests with coverage_missed_reason from output
 
 Marker Format: -------------- @pytest.mark.ported_from(
 ["path/to/static_filler1.json", "path/to/static_filler2.json"], pr=[

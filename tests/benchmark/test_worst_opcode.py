@@ -1,8 +1,6 @@
 """
 abstract: Tests benchmark worst-case opcode scenarios.
-    Tests benchmark worst-case opcode scenarios.
-
-Tests running worst-case opcodes scenarios for benchmarking purposes.
+    Tests running worst-case opcodes scenarios for benchmarking purposes.
 """
 
 import pytest

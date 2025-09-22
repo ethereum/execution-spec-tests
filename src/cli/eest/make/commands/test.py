@@ -45,16 +45,19 @@ def test():
     name. Based on the inputs, a test file is created in the appropriate
     directory with a rendered template.
 
-    Example: uv run eest make test
+    Example:
+        uv run eest make test
 
+    \f
+    <figure class="video_container">
+        <video controls="true" allowfullscreen="true">
+            <source
+                src="/execution-spec-tests/writing_tests/img/eest_make_test.mp4"
+                type="video/mp4"
+            />
+        </video>
+    </figure>
 
-
-
-
-    <figure class="video_container"> <video controls="true"
-    allowfullscreen="true"> <source
-    src="/execution-spec-tests/writing_tests/img/eest_make_test.mp4"
-    type="video/mp4" /> </video> </figure>
     """  # noqa: D301
     test_type = input_select(
         "Choose the type of test to generate", choices=["State", "Blockchain"]

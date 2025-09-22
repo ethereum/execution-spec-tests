@@ -1,8 +1,5 @@
 """
-abstract: Tests that benchmark EVMs in worst-case opcode scenarios. Tests that
-benchmark EVMs in worst-case opcode scenarios.
-
-Tests that benchmark EVMs in worst-case opcode scenarios.
+abstract: Tests that benchmark EVMs in worst-case opcode scenarios.
 """
 
 import math

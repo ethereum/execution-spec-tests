@@ -1,6 +1,7 @@
 """
-abstract: Tests BLS12_G2MSM precompile of [EIP-2537: Precompile for BLS12-381
-curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+abstract: Test the BLS12_G2MSM precompile
+    Test the BLS12_G2MSM precompile introduced in
+    [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
 """
 
 import pytest

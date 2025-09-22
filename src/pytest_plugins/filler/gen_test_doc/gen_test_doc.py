@@ -16,17 +16,23 @@ Usage: ------
 
 In case mkdocs has polluted the `docs/` directory with intermediate files, run:
 
-```console git restore docs/navigation.md  # Careful if you have local
-modifications! rm -rf docs/tests docs/docs site ```
+```console
+git restore docs/navigation.md  # Careful if you have local modifications!
+rm -rf docs/tests docs/docs site
+```
 
 To test doc generation, run the plugin without mkdocs:
 
-```console uv run fill -p pytest_plugins.filler.gen_test_doc.gen_test_doc
---gen-docs --fork=<fork> tests ```
+```console
+uv run fill -p pytest_plugins.filler.gen_test_doc.gen_test_doc --gen-docs \
+    --fork=<fork> tests
+```
 
 Or to build and view the site:
 
-```console uv run mkdocs serve ```
+```console
+uv run mkdocs serve
+```
 """
 
 import glob

@@ -1,7 +1,6 @@
 """
-Test cases for invalid Block Access Lists.
-
-These tests verify that clients properly reject blocks with corrupted BALs
+abstract: Test cases for invalid Block Access Lists.
+    These tests verify that clients properly reject blocks with corrupted BALs.
 """
 
 import pytest

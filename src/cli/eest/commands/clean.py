@@ -38,6 +38,18 @@ def clean(all_files: bool, dry_run: bool, verbose: bool):
 
         uv run eest clean --all -v
 
+    Output:
+
+        \b
+        🗑️  Deleted: .tox
+        🗑️  Deleted: .venv
+        🗑️  Deleted: src/cli/et/__pycache__
+        🗑️  Deleted: src/cli/et/commands/__pycache__
+        🗑️  Deleted: src/cli/et/make/__pycache__
+        🗑️  Deleted: src/cli/et/make/commands/__pycache__
+        ...
+        🧹 Cleanup complete!
+
     """  # noqa: D417, D301
     # List of items to remove can contain files and directories.
     items_to_remove = [

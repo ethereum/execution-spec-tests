@@ -1,30 +1,29 @@
 """
-abstract: Tests point evaluation precompile for [EIP-4844: Shard Blob
-Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+abstract: Tests point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+    Note: Adding a new test Add a function that is named `test_<test_name>` and
+    takes at least the following arguments.
 
-Note: Adding a new test Add a function that is named `test_<test_name>` and
-takes at least the following arguments:
+    Required arguments:
+    - `blockchain_test` or `state_test`
+    - `pre`
+    - `tx`
+    - `post`
 
-- blockchain_test | state_test
-- pre
-- tx
-- post
+    The following arguments *need* to be parametrized or the test will not be
+    generated:
 
-The following arguments *need* to be parametrized or the test will not be
-generated:
+    - `versioned_hash`
+    - `kzg_commitment`
+    - `z`
+    - `y`
+    - `kzg_proof`
+    - `result`
 
-- versioned_hash
-- kzg_commitment
-- z
-- y
-- kzg_proof
-- result
+    These values correspond to a single call of the precompile, and `result`
+    refers to whether the call should succeed or fail.
 
-These values correspond to a single call of the precompile, and `result` refers
-to whether the call should succeed or fail.
-
-All other `pytest.fixture` fixtures can be parametrized to generate new
-combinations and test cases.
+    All other `pytest.fixture` fixtures can be parametrized to generate new
+    combinations and test cases.
 """
 
 import glob

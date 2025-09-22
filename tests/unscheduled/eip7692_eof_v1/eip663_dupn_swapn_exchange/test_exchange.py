@@ -1,6 +1,5 @@
 """
-abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE
-instructions](https://eips.ethereum.org/EIPS/eip-663).
+abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663).
 """
 
 import pytest

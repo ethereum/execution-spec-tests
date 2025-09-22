@@ -4,10 +4,12 @@ A hive based simulator that executes blocks against clients using the
 simulator uses the `BlockchainEngineSyncFixtures` to test against clients with
 client synchronization.
 
-This simulator: 1. Spins up two clients: one as the client under test and
-another as the sync client 2. Executes payloads on the client under test 3. Has
-the sync client synchronize from the client under test 4. Verifies that the
-sync was successful
+This simulator:
+1. Spins up two clients: one as the client under test and another as the sync
+   client
+2. Executes payloads on the client under test
+3. Has the sync client synchronize from the client under test
+4. Verifies that the sync was successful
 """
 
 import time
@@ -115,11 +117,12 @@ def test_blockchain_via_sync(
     """
     Test blockchain synchronization between two clients.
 
-    1. Initialize the client under test with the genesis block 2. Execute all
-    payloads on the client under test 3. Initialize the sync client with the
-    genesis block 4. Send sync payload and forkchoice_updated to the sync
-    client to trigger synchronization 5. Verify that the sync client
-    successfully syncs to the same state
+    1. Initialize the client under test with the genesis block
+    2. Execute all payloads on the client under test
+    3. Initialize the sync client with the genesis block
+    4. Send sync payload and forkchoice_updated to the sync client to trigger
+       synchronization
+    5. Verify that the sync client successfully syncs to the same state
     """
     # Initialize client under test
     with timing_data.time("Initialize client under test"):

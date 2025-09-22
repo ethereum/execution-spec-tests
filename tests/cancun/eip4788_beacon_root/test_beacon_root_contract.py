@@ -1,19 +1,18 @@
 """
-abstract: Tests beacon block root for [EIP-4788: Beacon block root in the
-EVM](https://eips.ethereum.org/EIPS/eip-4788).
+abstract: Tests beacon block root for [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788)
+    Note: To add a new test, add a function that is named `test_<test_name>`.
 
-Note: Adding a new test Add a function that is named `test_<test_name>` and
-takes at least the following arguments:
+    It must take at least the following arguments:
 
-- state_test
-- env
-- pre
-- tx
-- post
-- valid_call
+    - `state_test`
+    - `env`
+    - `pre`
+    - `tx`
+    - `post`
+    - `valid_call`
 
-All other `pytest.fixtures` can be parametrized to generate new combinations
-and test cases.
+    All other `pytest.fixtures` can be parametrized to generate new
+    combinations and test cases.
 """
 
 from itertools import count

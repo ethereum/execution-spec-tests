@@ -3,8 +3,8 @@ A pytest plugin providing common functionality for Hive simulators.
 
 Simulators using this plugin must define two pytest fixtures:
 
-1. `test_suite_name`: The name of the test suite. 2. `test_suite_description`:
-The description of the test suite.
+1. `test_suite_name`: The name of the test suite.
+2. `test_suite_description`: The description of the test suite.
 
 These fixtures are used when creating the hive test suite.
 

@@ -1,6 +1,7 @@
 """
-abstract: Tests gas usage on point evaluation precompile for [EIP-4844: Shard
-Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+abstract: Tests gas usage on point evaluation precompile for EIP-4844.
+    Tests gas usage on point evaluation precompile for
+    [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 """
 
 from typing import Dict, Literal

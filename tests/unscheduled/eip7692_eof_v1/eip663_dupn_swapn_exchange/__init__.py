@@ -1,8 +1,9 @@
 """
-abstract: Test cases for [EIP-663: SWAPN, DUPN and EXCHANGE
-instructions](https://eips.ethereum.org/EIPS/eip-663) EIP-663 defines new stack
-manipulation instructions that allow accessing the stack at higher depths.
-Opcodes introduced: `DUPN` (`0xE6`), `SWAPN` (`0xE7`), `EXCHANGEN` (`0xE8`).
+abstract: Test cases for EIP-663 SWAPN, DUPN and EXCHANGE instructions
+    [EIP-663](https://eips.ethereum.org/EIPS/eip-663) defines new stack
+    manipulation instructions that allow accessing the stack at higher depths.
+    Opcodes introduced: `DUPN` (`0xE6`), `SWAPN` (`0xE7`), `EXCHANGEN`
+    (`0xE8`).
 """
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-663.md"

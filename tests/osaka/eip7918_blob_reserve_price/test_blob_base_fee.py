@@ -194,7 +194,7 @@ def test_reserve_price_boundary(
     All values give a blob base_ fee of 1 because we need a much higher excess
     blob gas to increase the blob fee. This only increases to 2 at 20 excess
     blobs.
-    """  # noqa: E501
+    """
     blockchain_test(
         genesis_environment=env,
         pre=pre,

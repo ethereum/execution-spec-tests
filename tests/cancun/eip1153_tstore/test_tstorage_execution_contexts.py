@@ -1,6 +1,7 @@
 """
-abstract: Tests for [EIP-1153: Transient
-Storage](https://eips.ethereum.org/EIPS/eip-1153).
+abstract: EIP-1153 Transient Storage execution contexts tests
+    Tests for transient storage behavior in execution contexts from
+    [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153).
 """
 
 from enum import EnumMeta, unique

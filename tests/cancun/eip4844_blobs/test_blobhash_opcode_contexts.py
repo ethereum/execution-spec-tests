@@ -1,6 +1,5 @@
 """
-abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob
-Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 """
 
 from enum import Enum

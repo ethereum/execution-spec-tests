@@ -1,6 +1,8 @@
 """
-abstract: Tests BLS12_G1ADD precompile of [EIP-2537: Precompile for BLS12-381
-curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+abstract: Tests BLS12_G1ADD precompile
+    Tests the BLS12_G1ADD precompile implementation from [EIP-2537:
+    Precompile for BLS12-381 curve operations]
+    (https://eips.ethereum.org/EIPS/eip-2537).
 """
 
 import pytest

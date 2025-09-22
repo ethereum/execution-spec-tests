@@ -25,8 +25,8 @@ def test_via_rlp(
 ):
     """
     1. Check the client genesis block hash matches
-    `fixture.genesis.block_hash`. 2. Check the client last block hash matches
-    `fixture.last_block_hash`.
+       `fixture.genesis.block_hash`.
+    2. Check the client last block hash matches `fixture.last_block_hash`.
     """
     with timing_data.time("Get genesis block"):
         logger.info("Calling getBlockByNumber to get genesis block...")

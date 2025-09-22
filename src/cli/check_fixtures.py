@@ -26,17 +26,16 @@ def count_json_files_exclude_index(start_path: Path) -> int:
 def check_json(json_file_path: Path):
     """
     Check all fixtures in the specified json file:
-    1. Load the json file into a
-    pydantic model. This checks there are no Validation errors when loading
-    fixtures into EEST models.
-    2. Serialize the loaded pydantic model to "json"
-    (actually python data structures, ready to written as json).
-    3. Load the serialized data back into a pydantic model
-    (to get an updated hash) from step 2.
+    1. Load the json file into a pydantic model. This checks there are no
+       Validation errors when loading fixtures into EEST models.
+    2. Serialize the loaded pydantic model to "json" (actually python data
+       structures, ready to written as json).
+    3. Load the serialized data back into a pydantic model (to get an updated
+       hash) from step 2.
     4. Compare hashes:
         a. Compare the newly calculated hashes from step 2. and 3. and
-        b. If present, compare info["hash"] with the calculated
-           hash from step 2.
+        b. If present, compare info["hash"] with the calculated hash from
+           step 2.
     """
     fixtures: Fixtures = Fixtures.model_validate_json(json_file_path.read_text())
     fixtures_json = to_json(fixtures)

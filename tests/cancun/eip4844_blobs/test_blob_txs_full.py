@@ -1,7 +1,4 @@
-"""
-abstract: Tests full blob type transactions for [EIP-4844: Shard Blob
-Transactions](https://eips.ethereum.org/EIPS/eip-4844).
-"""
+"""Tests full blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)."""
 
 from typing import List, Optional
 

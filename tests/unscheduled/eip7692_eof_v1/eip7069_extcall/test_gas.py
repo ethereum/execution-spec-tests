@@ -1,6 +1,7 @@
 """
-abstract: Tests [EIP-7069: Revamped CALL
-instructions](https://eips.ethereum.org/EIPS/eip-7069) Tests gas consumption.
+abstract: Gas consumption tests for EXT*CALL instructions
+    Tests for gas consumption in
+    [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069).
 """
 
 import pytest

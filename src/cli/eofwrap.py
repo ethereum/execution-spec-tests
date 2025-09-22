@@ -6,9 +6,9 @@ Example Usage:
 
 1. Wrap tests
 
-```console
+    ```console
     eofwrap <input_dir/file_path> <output_dir_path>
-```
+    ```
 """
 
 import json

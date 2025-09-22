@@ -1,7 +1,7 @@
 """
-abstract: Tests [EIP-7069: Revamped CALL
-instructions](https://eips.ethereum.org/EIPS/eip-7069) Tests for the
-RETURNDATALOAD instruction.
+abstract: RETURNDATALOAD instruction tests
+    Tests for RETURNDATALOAD instruction in
+    [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069).
 """
 
 from typing import cast

@@ -1,19 +1,19 @@
 """
-abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob
-Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
+    Note: Adding a new test Add a function that is named `test_<test_name>` and
+    takes at least the following arguments.
 
-Note: Adding a new test Add a function that is named `test_<test_name>` and
-takes at least the following arguments:
+    Required arguments:
+    - `blockchain_test`
+    - `pre`
+    - `tx`
+    - `post`
 
-- blockchain_test
-- pre
-- tx
-- post
+    Additional custom `pytest.fixture` fixtures can be added and parametrized
+    for
+    new test cases.
 
-Additional custom `pytest.fixture` fixtures can be added and parametrized for
-new test cases.
-
-There is no specific structure to follow within this test module.
+    There is no specific structure to follow within this test module.
 """
 
 from typing import List
