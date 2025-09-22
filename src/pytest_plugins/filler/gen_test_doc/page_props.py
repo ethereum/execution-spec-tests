@@ -111,6 +111,7 @@ class PagePropsBase:
     pytest_node_id: str
     package_name: str
     is_benchmark: bool = False
+    is_state: bool = False
 
     @property
     @abstractmethod
