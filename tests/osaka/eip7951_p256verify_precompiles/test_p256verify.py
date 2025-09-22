@@ -30,12 +30,12 @@ pytestmark = [
 
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
-      vectors_from_file("secp256r1_signature_specific.json") +
-      vectors_from_file("secp256r1_shamir_multiplication.json") +
-      vectors_from_file("secp256r1_special_case_hash.json") +
-      vectors_from_file("secp256r1_u1_u2.json") +
-      vectors_from_file("secp256r1_k_and_s.json") +
-      vectors_from_file("secp256r1_public_key.json"),
+    vectors_from_file("secp256r1_signature_specific.json")
+    + vectors_from_file("secp256r1_shamir_multiplication.json")
+    + vectors_from_file("secp256r1_special_case_hash.json")
+    + vectors_from_file("secp256r1_u1_u2.json")
+    + vectors_from_file("secp256r1_k_and_s.json")
+    + vectors_from_file("secp256r1_public_key.json"),
     # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite, valid cases
     # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
 )
@@ -50,8 +50,8 @@ def test_wycheproof_valid(state_test: StateTestFiller, pre: Alloc, post: dict, t
 
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
-      vectors_from_file("secp256r1_special_case_r_s.json") +
-      vectors_from_file("secp256r1_modified_r_s.json"),
+    vectors_from_file("secp256r1_special_case_r_s.json")
+    + vectors_from_file("secp256r1_modified_r_s.json"),
     # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite, invalid cases
     # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
 )
@@ -66,8 +66,8 @@ def test_wycheproof_invalid(state_test: StateTestFiller, pre: Alloc, post: dict,
 
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
-      vectors_from_file("secp256r1_small_large_r_s.json") +
-      vectors_from_file("secp256r1_special_points.json"),
+    vectors_from_file("secp256r1_small_large_r_s.json")
+    + vectors_from_file("secp256r1_special_points.json"),
     # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite,
     # valid/invalid cases
     # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
