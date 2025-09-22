@@ -52,27 +52,32 @@ def test_xen_claimrank_and_mint(
     gas_benchmark_value: int,
 ):
     """Simple XEN scenario to claimRank(1) and claimMintReward()."""
-    attack_gas_limit = gas_benchmark_value
-    fee_recipient = pre.fund_eoa(amount=1)
+    # NOTE: the XEN tests are currently hardcoded against a gas limit.
+    # To expand this to read from `gas_benchmark_value`, we need to calculate the necessary
+    # amount of `num_xen` based on that gas limit (which is a complex formula as this is based
+    # on the gas used by the XEN contract)
+    attack_gas_limit = 60_000_000  # TODO: also run me for 100M.
+    # fee_recipient = pre.fund_eoa(amount=1)
 
     # timestamp to use for the initial block. Timestamp of later blocks are manually added/changed.
     timestamp = 12
 
     # TODO: adjust this to the right amount of the actual performance test block
-    num_xen = 10
+    num_xen = 1
 
     # NOTE: these contracts MUST be specified for this test to work
     # TODO: check how/if EEST enforces this
-    xen_contract = pre.deploy_contract("", label="XEN_CONTRACT")
+    xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
     # NOTE: from the test perspective this contract should not be specified
     # However, the XEN contract needs the Math contract. If this is not provided, the transaction
     # will likely revert ("fail"). This is not what we want. We want state bloat!
-    pre.deploy_contract("", label="MATH_CONTRACT")
+    #    pre.deploy_contract("", label="MATH_CONTRACT")
 
     # This is after (!!) deployment (so step 2, not 1): claimMintReward()
     calldata_claim_mint_reward = bytes.fromhex("52c7f8dc")
     after_initcode_callata = Om.MSTORE(bytes.fromhex("52c7f8dc")) + Op.CALL(
-        address=xen_contract, args_size=len(calldata_claim_mint_reward)
+        address=(0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8),
+        args_size=len(calldata_claim_mint_reward),
     )
 
     # Calldata for claimRank(1)
@@ -83,7 +88,10 @@ def test_xen_claimrank_and_mint(
     # claimRank(1) and deposits the code to claimMintReward() if this contract is called
     initcode = (
         Om.MSTORE(calldata_claim_rank)
-        + Op.CALL(address=xen_contract, args_size=len(calldata_claim_rank))
+        + Op.CALL(
+            address=(0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8),
+            args_size=len(calldata_claim_rank),
+        )
         + Om.MSTORE(after_initcode_callata)
         + Op.RETURN(0, len(after_initcode_callata))
     )
@@ -148,7 +156,7 @@ def test_xen_claimrank_and_mint(
 
     contracts_deployment_tx = Transaction(
         to=factory_caller_address,
-        gas_limit=env.gas_limit,
+        gas_limit=attack_gas_limit,
         data=Hash(num_contracts),
         sender=pre.fund_eoa(),
     )
@@ -174,12 +182,8 @@ def test_xen_claimrank_and_mint(
 
     # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
     code_addr = pre.deploy_contract(code=code, storage={0: 1})
-    opcode_tx = Transaction(
-        to=code_addr,
-        data=Hash(num_contracts),
-        gas_limit=attack_gas_limit,
-        sender=pre.fund_eoa(),
-    )
+    sender = pre.fund_eoa()
+    sender_nonce = 0
 
     post = {
         factory_address: Account(storage={0: num_contracts}),
@@ -195,20 +199,39 @@ def test_xen_claimrank_and_mint(
         post[deployed_contract_address] = Account(nonce=1)
         deployed_contract_addresses.append(deployed_contract_address)
 
-    setup_block = Block(txs=[contracts_deployment_tx], timestamp=timestamp)
+    setup_block = Block(txs=[contracts_deployment_tx])
+
+    blocks = [setup_block]
+
+    # for _ in range(24*60*60):
+    #    blocks.append(Block(txs=[Transaction(sender=sender,to=sender, nonce=sender_nonce)]))
+    #    sender_nonce = sender_nonce + 1
+
+    opcode_tx = Transaction(
+        to=code_addr,
+        data=Hash(num_contracts),
+        gas_limit=attack_gas_limit,
+        sender=sender,
+        nonce=sender_nonce,
+    )
+
+    sender_nonce = sender_nonce + 1
+
+    attack_block = Block(
+        txs=[opcode_tx],
+        # NOTE: timestamp has no effect in `uv execute remote`. Forcing test to produce 24*60*60 blocks.
+        # It is guaranteed that the timestamp increases each block, so each block will at least move time
+        # by a second.
+        # Set timestamp such that XEN bond matures
+        # See `MIN_TERM` constant in XEN source
+        # timestamp=timestamp + 3_600 * 24,
+    )
+    blocks.append(attack_block)
+
     blockchain_test(
         pre=pre,
         post=post,
-        blocks=[
-            setup_block,
-            Block(
-                txs=[opcode_tx],
-                fee_recipient=fee_recipient,
-                # Set timestamp such that XEN bond matures
-                # See `MIN_TERM` constant in XEN source
-                timestamp=timestamp + 3_600 * 24,
-            ),
-        ],
+        blocks=blocks,
         exclude_full_post_state_in_output=True,
         expected_benchmark_gas_used=expected_benchmark_gas_used,
     )
