@@ -476,3 +476,43 @@ def test_bal_account_access_target(
     )
 
     blockchain_test(pre=pre, blocks=[block], post={})
+
+
+@pytest.mark.valid_from("Amsterdam")
+def test_bal_call_with_value_transfer(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+):
+    """Ensure BAL captures balance changes from CALL opcode with value transfer."""
+    alice = pre.fund_eoa()
+    bob = pre.fund_eoa(amount=0)
+
+    # Oracle contract that uses CALL to transfer 100 wei to Bob
+    oracle_code = Op.CALL(0, bob, 100, 0, 0, 0, 0)
+    oracle_contract = pre.deploy_contract(code=oracle_code, balance=200)
+
+    tx = Transaction(
+        sender=alice,
+        to=oracle_contract,
+        gas_limit=1_000_000,
+        gas_price=0xA
+    )
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                oracle_contract: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
+                ),
+                bob: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
+                ),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
