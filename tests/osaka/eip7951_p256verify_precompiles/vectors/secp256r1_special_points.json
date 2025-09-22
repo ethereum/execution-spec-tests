@@ -33,5 +33,33 @@
     "Gas": 6900,
     "Name": "wycheproof/ecdsa_secp256r1_sha256_p1363_test.json EcdsaP1363Verify SHA-256 #175: comparison with point at infinity ",
     "NoBenchmark": false
+  },
+  {
+    "Input": "bb5a52f42f9c9261ed4361f59422a1e30036e7c32b270c8807a419feca605023bb5a52f42f9c9261ed4361f59422a1e30036e7c32b270c8807a419feca605023249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_secp256r1_sha256_p1363_test.json EcdsaP1363Verify SHA-256 #188: testing point duplication",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "bb5a52f42f9c9261ed4361f59422a1e30036e7c32b270c8807a419feca60502344a5ad0ad0636d9f12bc9e0a6bdd5e1cbcb012ea7bf091fcec15b0c43202d52e249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_secp256r1_sha256_p1363_test.json EcdsaP1363Verify SHA-256 #189: testing point duplication",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "bb5a52f42f9c9261ed4361f59422a1e30036e7c32b270c8807a419feca605023bb5a52f42f9c9261ed4361f59422a1e30036e7c32b270c8807a419feca605023249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296b01cbd1c01e58065711814b583f061e9d431cca994cea1313449bf97c840ae0a",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_secp256r1_sha256_p1363_test.json EcdsaP1363Verify SHA-256 #190: testing point duplication",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "bb5a52f42f9c9261ed4361f59422a1e30036e7c32b270c8807a419feca60502344a5ad0ad0636d9f12bc9e0a6bdd5e1cbcb012ea7bf091fcec15b0c43202d52e249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296b01cbd1c01e58065711814b583f061e9d431cca994cea1313449bf97c840ae0a",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_secp256r1_sha256_p1363_test.json EcdsaP1363Verify SHA-256 #191: testing point duplication",
+    "NoBenchmark": false
   }
 ]
