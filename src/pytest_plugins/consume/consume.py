@@ -413,7 +413,6 @@ def pytest_configure(config):  # noqa: D103
             config.fixtures_source.path,
             quiet_mode=False,
             force_flag=False,
-            disable_infer_format=False,
         )
 
     index = IndexFile.model_validate_json(index_file.read_text())

@@ -28,7 +28,7 @@ def test_execute_help_shows_subcommand_docstrings(runner):
     assert "Recover funds from test executions" in result.output
 
 
-def test_execute_subcommands_have_help_text(runner):
+def test_execute_subcommands_have_help_text():
     """Test that execute sub-commands have proper help text defined."""
     from ..pytest_commands.execute import hive, recover, remote
 

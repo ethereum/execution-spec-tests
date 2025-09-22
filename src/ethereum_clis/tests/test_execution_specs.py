@@ -12,7 +12,7 @@ from pydantic import TypeAdapter
 
 from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
 from ethereum_test_base_types import to_json
-from ethereum_test_forks import Berlin, Fork, Istanbul, London
+from ethereum_test_forks import Berlin
 from ethereum_test_types import Alloc, Environment, Transaction
 
 FIXTURES_ROOT = Path(os.path.join("src", "ethereum_clis", "tests", "fixtures"))
@@ -34,9 +34,8 @@ def monkeypatch_path_for_entry_points(monkeypatch):
     monkeypatch.setenv("PATH", f"{bin_dir}:{os.environ['PATH']}")
 
 
-@pytest.mark.parametrize("fork", [London, Istanbul])
 @pytest.mark.parametrize(
-    "alloc,base_fee,expected_hash",
+    "alloc,expected_hash",
     [
         (
             {
@@ -47,7 +46,6 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     "storage": {},
                 },
             },
-            7,
             bytes.fromhex("51e7c7508e76dca0"),
         ),
         (
@@ -56,7 +54,6 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     "balance": "0x0BA1A9CE0BA1A9CE",
                 },
             },
-            None,
             bytes.fromhex("51e7c7508e76dca0"),
         ),
         (
@@ -68,7 +65,6 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     "storage": {},
                 },
             },
-            None,
             bytes.fromhex("37c2dedbdea6b3af"),
         ),
         (
@@ -80,25 +76,15 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     },
                 },
             },
-            None,
             bytes.fromhex("096122e88929baec"),
         ),
     ],
 )
 def test_calc_state_root(
-    default_t8n: TransitionTool,
-    fork: Fork,
     alloc: Dict,
-    base_fee: int | None,
     expected_hash: bytes,
 ) -> None:
     """Test calculation of the state root against expected hash."""
-
-    class TestEnv:
-        base_fee: int | None
-
-    env = TestEnv()
-    env.base_fee = base_fee
     assert Alloc(alloc).state_root().startswith(expected_hash)
 
 

@@ -128,6 +128,8 @@ def solc_bin(request: pytest.FixtureRequest):
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header."""
+    del start_path
+
     if config.option.collectonly:
         return
     solc_version = config.stash[metadata_key]["Tools"]["solc"]

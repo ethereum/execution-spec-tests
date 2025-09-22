@@ -127,9 +127,12 @@ ethereum_test_forks = ["forks/contracts/*.bin"]
 line-length = 99
 
 [tool.ruff.lint]
-select = ["E", "F", "B", "W", "I", "A", "N", "D", "C"]
+select = ["E", "F", "B", "W", "I", "A", "N", "D", "C", "ARG001"]
 fixable = ["I", "B", "E", "F", "W", "D", "C"]
 ignore = ["D205", "D203", "D212", "D415", "C420", "C901"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG001"] # TODO: ethereum/execution-spec-tests#2188
 
 [tool.mypy]
 disable_error_code = ["import-untyped"]
