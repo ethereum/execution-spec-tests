@@ -1,0 +1,9 @@
+[
+  {
+    "Input": "bb5a52f42f9c9261ed4361f59422a1e30036e7c32b270c8807a419feca6050237fffffff800000007fffffffffffffffde737d56d38bcf4279dce5617e3192a8555555550000000055555555555555553ef7a8e48d07df81a693439654210c70b533d4695dd5b8c5e07757e55e6e516f7e2c88fa0239e23f60e8ec07dd70f2871b134ee58cc583278456863f33c3a85d881f7d4a39850143e29d4eaf009afe47",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_secp256r1_sha256_p1363_test.json EcdsaP1363Verify SHA-256 #136: point at infinity during verify",
+    "NoBenchmark": false
+  }
+]
