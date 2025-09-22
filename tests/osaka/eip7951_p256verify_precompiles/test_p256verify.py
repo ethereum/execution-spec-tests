@@ -30,7 +30,6 @@ pytestmark = [
 
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
-      vectors_from_file("secp256r1_test.json") +
       vectors_from_file("secp256r1_signature_specific.json") +
       vectors_from_file("secp256r1_shamir_multiplication.json") +
       vectors_from_file("secp256r1_special_case_hash.json") +

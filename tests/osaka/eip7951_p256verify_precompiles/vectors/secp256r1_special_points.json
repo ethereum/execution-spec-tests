@@ -75,5 +75,61 @@
     "Gas": 6900,
     "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #654: point at infinity during verify",
     "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e256f2347cab7dd76858fe0555ac3bc99048c4aacafdfb6bcbe05ea6c42c4934569f21d907e3890916dc4fa1f4703c1e50d3f54ddf7383e44023a41de562aa18ed80158137755b901f797a90d4ca8887e023cb2ef63b2ba2c0d455edaef42cf237e2a964fc00d377a8592b8b61aafa7a4aaa7c7b9fd2b41d6e0e17bd1ba5677edcd",
+    "Expected": "0000000000000000000000000000000000000000000000000000000000000001",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #689: point duplication during verification",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e256f2347cab7dd76858fe0555ac3bc99048c4aacafdfb6bcbe05ea6c42c4934569f21d907e3890916dc4fa1f4703c1e50d3f54ddf7383e44023a41de562aa18ed80158137755b901f797a90d4ca8887e023cb2ef63b2ba2c0d455edaef42cf237ed569b03ef2c8857b6d4749e550585b5558384603d4be291f1e842e45a9881232",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #690: duplication bug",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25555555550000000055555555555555553ef7a8e48d07df81a693439654210c703333333300000000333333333333333325c7cbbc549e52e763f1f55a327a3aa9664ce273320d918d8bdb2e61201b4549b36b7cdc54e33b84adb6f2c10aac831e49e68831f18bda2973ac3d76bfbc8c5ee1cceed2dd862e2dc7c915c736cef1f4",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #693: comparison with point at infinity ",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #706: testing point duplication",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25acd155416a8b77f34089464733ff7cd39c400e9c69af7beb9eac5054ed2ec72c249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #707: testing point duplication",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296b01cbd1c01e58065711814b583f061e9d431cca994cea1313449bf97c840ae0a",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #708: testing point duplication",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25acd155416a8b77f34089464733ff7cd39c400e9c69af7beb9eac5054ed2ec72c249249246db6db6ddb6db6db6db6db6dad4591868595a8ee6bf5f864ff7be0c26b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296b01cbd1c01e58065711814b583f061e9d431cca994cea1313449bf97c840ae0a",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #709: testing point duplication",
+    "NoBenchmark": false
+  },
+  {
+    "Input": "2f77668a9dfbf8d5848b9eeb4a7145ca94c6ed9236e4a773f6dcafa5132b2f9170bebe684cdcb5ca72a42f0d873879359bd1781a591809947628d313a3814f67aec03aca8f5587a4d535fa31027bbe9cc0e464b1c3577f4c2dcde6b2094798a900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "Expected": "",
+    "Gas": 6900,
+    "Name": "reference point errors",
+    "NoBenchmark": false
   }
 ]

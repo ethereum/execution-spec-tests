@@ -61,5 +61,12 @@
     "Gas": 6900,
     "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #656: edge case for signature malleability",
     "NoBenchmark": false
+  },
+  {
+    "Input": "532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e2530e782f964b2e2ff065a051bc7adc20615d8c43a1365713c88268822c253bcce5b16df652aa1ecb2dc8b46c515f9604e2e84cacfa7c6eec30428d2d3f4e08ed504aaec73635726f213fb8a9e64da3b8632e41495a944d0045b522eba7240fad587d9315798aaa3a5ba01775787ced05eaaf7b4e09fc81d6d1aa546e8365d525d",
+    "Expected": "0000000000000000000000000000000000000000000000000000000000000001",
+    "Gas": 6900,
+    "Name": "wycheproof/ecdsa_test.json EcdsaVerify SHA-256 #1211: pseudorandom signature",
+    "NoBenchmark": false
   }
 ]
