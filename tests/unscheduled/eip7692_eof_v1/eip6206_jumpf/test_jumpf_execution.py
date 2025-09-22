@@ -5,10 +5,10 @@ import pytest
 from ethereum_test_base_types import Storage
 from ethereum_test_specs import StateTestFiller
 from ethereum_test_tools import Account, Environment, EOFException, EOFStateTestFiller, Transaction
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import Alloc
 from ethereum_test_types.eof.v1 import Container, Section
 from ethereum_test_types.eof.v1.constants import NON_RETURNING_SECTION
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from .helpers import (
@@ -628,7 +628,6 @@ def test_jumpf_with_inputs_stack_overflow(
 def test_jumpf_infinite_loop(eof_state_test: EOFStateTestFiller, container: Container):
     """Tests JUMPF causing an infinite loop."""
     eof_state_test(
-        tx_gas=100_000,
         container=container,
         container_post=Account(storage={slot_code_worked: 0}),
     )

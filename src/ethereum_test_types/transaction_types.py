@@ -33,10 +33,11 @@ from ethereum_test_base_types import (
     TestPrivateKey,
 )
 from ethereum_test_exceptions import TransactionException
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
 from .account_types import EOA
 from .blob_types import Blob
+from .chain_config_types import ChainConfigDefaults
 from .receipt_types import TransactionReceipt
 from .utils import int_to_bytes, keccak256
 
@@ -57,7 +58,6 @@ class TransactionType(IntEnum):
 class TransactionDefaults:
     """Default values for transactions."""
 
-    chain_id: int = 1
     gas_price = 10
     max_fee_per_gas = 7
     max_priority_fee_per_gas: int = 0
@@ -167,7 +167,9 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     """
 
     ty: NumberBoundTypeVar = Field(0, alias="type")  # type: ignore
-    chain_id: NumberBoundTypeVar = Field(default_factory=lambda: TransactionDefaults.chain_id)  # type: ignore
+    chain_id: NumberBoundTypeVar = Field(
+        default_factory=lambda: ChainConfigDefaults.chain_id, validate_default=True
+    )  # type: ignore
     nonce: NumberBoundTypeVar = Field(0)  # type: ignore
     gas_price: NumberBoundTypeVar | None = None
     max_priority_fee_per_gas: NumberBoundTypeVar | None = None
@@ -184,6 +186,10 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     r: NumberBoundTypeVar = Field(0)  # type: ignore
     s: NumberBoundTypeVar = Field(0)  # type: ignore
     sender: EOA | None = None
+
+    def metadata_string(self) -> str | None:
+        """Return the metadata field as a formatted json string or None."""
+        return None
 
 
 class TransactionValidateToAsEmptyString(CamelModel):
@@ -233,6 +239,23 @@ class TransactionTransitionToolConverter(TransactionValidateToAsEmptyString):
         return default
 
 
+class TransactionTestMetadata(CamelModel):
+    """Represents the metadata for a transaction."""
+
+    test_id: str | None = None
+    phase: str | None = None
+    action: str | None = None  # e.g. deploy / fund / execute
+    target: str | None = None  # account/contract label
+    tx_index: int | None = None  # index within this phase
+
+    def to_json(self) -> str:
+        """
+        Convert the transaction metadata into json string for it to be embedded in the
+        request id.
+        """
+        return self.model_dump_json(exclude_none=True, by_alias=True)
+
+
 class Transaction(
     TransactionGeneric[HexNumber], TransactionTransitionToolConverter, SignableRLPSerializable
 ):
@@ -254,6 +277,8 @@ class Transaction(
     expected_receipt: TransactionReceipt | None = Field(None, exclude=True)
 
     zero: ClassVar[Literal[0]] = 0
+
+    metadata: TransactionTestMetadata | None = Field(None, exclude=True)
 
     model_config = ConfigDict(validate_assignment=True)
 
@@ -611,6 +636,12 @@ class Transaction(
         if self.ty > 0:
             return bytes([self.ty])
         return b""
+
+    def metadata_string(self) -> str | None:
+        """Return the metadata field as a formatted json string or None."""
+        if self.metadata is None:
+            return None
+        return self.metadata.to_json()
 
     @cached_property
     def hash(self) -> Hash:

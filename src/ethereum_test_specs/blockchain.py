@@ -1,7 +1,7 @@
 """Ethereum blockchain test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Tuple, Type
 
 import pytest
 from pydantic import ConfigDict, Field, field_validator
@@ -33,6 +33,7 @@ from ethereum_test_execution import (
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
+    BlockchainEngineSyncFixture,
     BlockchainEngineXFixture,
     BlockchainFixture,
     FixtureFormat,
@@ -51,6 +52,7 @@ from ethereum_test_fixtures.blockchain import (
 from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
+from ethereum_test_types.block_access_list import BlockAccessList, BlockAccessListExpectation
 
 from .base import BaseTest, OpMode, verify_result
 from .debugging import print_traces
@@ -120,6 +122,7 @@ class Header(CamelModel):
     excess_blob_gas: Removable | HexNumber | None = None
     parent_beacon_block_root: Removable | Hash | None = None
     requests_hash: Removable | Hash | None = None
+    bal_hash: Removable | Hash | None = None
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
@@ -205,6 +208,10 @@ class Block(Header):
     An RLP modifying header which values would be used to override the ones
     returned by the `ethereum_clis.TransitionTool`.
     """
+    expected_block_access_list: BlockAccessListExpectation | None = None
+    """
+    If set, the block access list will be verified and potentially corrupted for invalid tests.
+    """
     exception: BLOCK_EXCEPTION_TYPE = None
     """
     If set, the block is expected to be rejected by the client.
@@ -239,6 +246,10 @@ class Block(Header):
     """
     Post state for verification after block execution in BlockchainTest
     """
+    block_access_list: Bytes | None = Field(None)
+    """
+        EIP-7928: Block-level access lists (serialized).
+    """
 
     def set_environment(self, env: Environment) -> Environment:
         """
@@ -268,6 +279,14 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
+        if not isinstance(self.requests_hash, Removable) and self.block_access_list is not None:
+            new_env_values["bal_hash"] = self.block_access_list.keccak256()
+            new_env_values["block_access_list"] = self.block_access_list
+        if (
+            not isinstance(self.block_access_list, Removable)
+            and self.block_access_list is not None
+        ):
+            new_env_values["block_access_list"] = self.block_access_list
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
@@ -307,6 +326,7 @@ class BuiltBlock(CamelModel):
     expected_exception: BLOCK_EXCEPTION_TYPE = None
     engine_api_error_code: EngineAPIError | None = None
     fork: Fork
+    block_access_list: BlockAccessList | None
 
     def get_fixture_block(self) -> FixtureBlock | InvalidFixtureBlock:
         """Get a FixtureBlockBase from the built block."""
@@ -318,6 +338,7 @@ class BuiltBlock(CamelModel):
                 if self.withdrawals is not None
                 else None
             ),
+            block_access_list=self.block_access_list if self.block_access_list else None,
             fork=self.fork,
         ).with_rlp(txs=self.txs)
 
@@ -346,6 +367,7 @@ class BuiltBlock(CamelModel):
             transactions=self.txs,
             withdrawals=self.withdrawals,
             requests=self.requests,
+            block_access_list=self.block_access_list.rlp if self.block_access_list else None,
             validation_error=self.expected_exception,
             error_code=self.engine_api_error_code,
         )
@@ -403,7 +425,6 @@ class BlockchainTest(BaseTest):
     post: Alloc
     blocks: List[Block]
     genesis_environment: Environment = Field(default_factory=Environment)
-    verify_sync: bool = False
     chain_id: int = 1
     exclude_full_post_state_in_output: bool = False
     """
@@ -415,6 +436,7 @@ class BlockchainTest(BaseTest):
         BlockchainFixture,
         BlockchainEngineFixture,
         BlockchainEngineXFixture,
+        BlockchainEngineSyncFixture,
     ]
     supported_execute_formats: ClassVar[Sequence[LabeledExecuteFormat]] = [
         LabeledExecuteFormat(
@@ -547,7 +569,10 @@ class BlockchainTest(BaseTest):
 
         if block.header_verify is not None:
             # Verify the header after transition tool processing.
-            block.header_verify.verify(header)
+            try:
+                block.header_verify.verify(header)
+            except Exception as e:
+                raise Exception(f"Verification of block {int(env.number)} failed") from e
 
         if last_block and self._operation_mode == OpMode.BENCHMARKING:
             expected_benchmark_gas_used = self.expected_benchmark_gas_used
@@ -555,11 +580,13 @@ class BlockchainTest(BaseTest):
                 "expected_benchmark_gas_used is not set"
             )
             gas_used = int(transition_tool_output.result.gas_used)
-            assert gas_used == expected_benchmark_gas_used, (
-                f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
-                f"({expected_benchmark_gas_used})"
-                f", difference: {gas_used - expected_benchmark_gas_used}"
-            )
+
+            if not self.skip_gas_used_validation:
+                assert gas_used == expected_benchmark_gas_used, (
+                    f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
+                    f"({expected_benchmark_gas_used})"
+                    f", difference: {gas_used - expected_benchmark_gas_used}"
+                )
 
         requests_list: List[Bytes] | None = None
         if fork.header_requests_required(header.number, header.timestamp):
@@ -581,11 +608,36 @@ class BlockchainTest(BaseTest):
             header.requests_hash = Hash(Requests(requests_lists=list(block.requests)))
             requests_list = block.requests
 
+        if fork.header_bal_hash_required(header.number, header.timestamp):
+            assert transition_tool_output.result.block_access_list is not None, (
+                "Block access list is required for this block but was not provided "
+                "by the transition tool"
+            )
+
+            rlp = transition_tool_output.result.block_access_list.rlp
+            computed_bal_hash = Hash(rlp.keccak256())
+            assert computed_bal_hash == header.block_access_list_hash, (
+                "Block access list hash in header does not match the "
+                f"computed hash from BAL: {header.block_access_list_hash} "
+                f"!= {computed_bal_hash}"
+            )
+
         if block.rlp_modifier is not None:
             # Modify any parameter specified in the `rlp_modifier` after
             # transition tool processing.
             header = block.rlp_modifier.apply(header)
             header.fork = fork  # Deleted during `apply` because `exclude=True`
+
+        # Process block access list - apply transformer if present for invalid tests
+        t8n_bal = transition_tool_output.result.block_access_list
+        bal = t8n_bal
+        if block.expected_block_access_list is not None and t8n_bal is not None:
+            block.expected_block_access_list.verify_against(t8n_bal)
+
+            bal = block.expected_block_access_list.modify_if_invalid_test(t8n_bal)
+            if bal != t8n_bal:
+                # If the BAL was modified, update the header hash
+                header.block_access_list_hash = Hash(bal.rlp.keccak256())
 
         built_block = BuiltBlock(
             header=header,
@@ -599,6 +651,7 @@ class BlockchainTest(BaseTest):
             expected_exception=block.exception,
             engine_api_error_code=block.engine_api_error_code,
             fork=fork,
+            block_access_list=bal,
         )
 
         try:
@@ -610,14 +663,20 @@ class BlockchainTest(BaseTest):
                 and block.rlp_modifier is None
                 and block.requests is None
                 and not block.skip_exception_verification
+                and not (
+                    block.expected_block_access_list is not None
+                    and block.expected_block_access_list._modifier is not None
+                )
             ):
                 # Only verify block level exception if:
-                # - No transaction exception was raised, because these are not reported as block
-                #   exceptions.
-                # - No RLP modifier was specified, because the modifier is what normally
-                #   produces the block exception.
-                # - No requests were specified, because modified requests are also what normally
-                #   produces the block exception.
+                # - No transaction exception was raised, because these are not
+                #   reported as block exceptions.
+                # - No RLP modifier was specified, because the modifier is what
+                #   normally produces the block exception.
+                # - No requests were specified, because modified requests are also
+                #   what normally produces the block exception.
+                # - No BAL modifier was specified, because modified BAL also
+                #   produces block exceptions.
                 built_block.verify_block_exception(
                     transition_tool_exceptions_reliable=t8n.exception_mapper.reliable,
                 )
@@ -679,6 +738,9 @@ class BlockchainTest(BaseTest):
                 last_block=i == len(self.blocks) - 1,
             )
             fixture_blocks.append(built_block.get_fixture_block())
+
+            # BAL verification already done in to_fixture_bal() if expected_block_access_list set
+
             if block.exception is None:
                 # Update env, alloc and last block hash for the next block.
                 alloc = built_block.alloc
@@ -714,7 +776,7 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         fixture_format: FixtureFormat = BlockchainEngineFixture,
-    ) -> BlockchainEngineFixture | BlockchainEngineXFixture:
+    ) -> BlockchainEngineFixture | BlockchainEngineXFixture | BlockchainEngineSyncFixture:
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
@@ -758,30 +820,11 @@ class BlockchainTest(BaseTest):
 
         self.verify_post_state(t8n, t8n_state=alloc)
 
-        sync_payload: Optional[FixtureEngineNewPayload] = None
-        if self.verify_sync:
-            # Test is marked for syncing verification.
-            assert genesis.header.block_hash != head_hash, (
-                "Invalid payload tests negative test via sync is not supported yet."
-            )
-
-            # Most clients require the header to start the sync process, so we create an empty
-            # block on top of the last block of the test to send it as new payload and trigger the
-            # sync process.
-            sync_built_block = self.generate_block_data(
-                t8n=t8n,
-                fork=fork,
-                block=Block(),
-                previous_env=env,
-                previous_alloc=alloc,
-                last_block=False,
-            )
-            sync_payload = sync_built_block.get_fixture_engine_new_payload()
-
-        # Create base fixture data
+        # Create base fixture data, common to all fixture formats
         fixture_data = {
             "fork": fork,
             "genesis": genesis.header,
+            "payloads": fixture_payloads,
             "last_block_hash": head_hash,
             "post_state_hash": alloc.state_root()
             if self.exclude_full_post_state_in_output
@@ -799,19 +842,39 @@ class BlockchainTest(BaseTest):
             # and prepare for state diff optimization
             fixture_data.update(
                 {
-                    "payloads": fixture_payloads,
-                    "sync_payload": sync_payload,
                     "post_state": alloc if not self.exclude_full_post_state_in_output else None,
                     "pre_hash": "",  # Will be set by BaseTestWrapper
                 }
             )
             return BlockchainEngineXFixture(**fixture_data)
+        elif fixture_format == BlockchainEngineSyncFixture:
+            # Sync fixture format
+            assert genesis.header.block_hash != head_hash, (
+                "Invalid payload tests negative test via sync is not supported yet."
+            )
+            # Most clients require the header to start the sync process, so we create an empty
+            # block on top of the last block of the test to send it as new payload and trigger the
+            # sync process.
+            sync_built_block = self.generate_block_data(
+                t8n=t8n,
+                fork=fork,
+                block=Block(),
+                previous_env=env,
+                previous_alloc=alloc,
+                last_block=False,
+            )
+            fixture_data.update(
+                {
+                    "sync_payload": sync_built_block.get_fixture_engine_new_payload(),
+                    "pre": pre,
+                    "post_state": alloc if not self.exclude_full_post_state_in_output else None,
+                }
+            )
+            return BlockchainEngineSyncFixture(**fixture_data)
         else:
             # Standard engine fixture
             fixture_data.update(
                 {
-                    "payloads": fixture_payloads,
-                    "sync_payload": sync_payload,
                     "pre": pre,
                     "post_state": alloc if not self.exclude_full_post_state_in_output else None,
                 }
@@ -826,7 +889,11 @@ class BlockchainTest(BaseTest):
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         t8n.reset_traces()
-        if fixture_format in [BlockchainEngineFixture, BlockchainEngineXFixture]:
+        if fixture_format in [
+            BlockchainEngineFixture,
+            BlockchainEngineXFixture,
+            BlockchainEngineSyncFixture,
+        ]:
             return self.make_hive_fixture(t8n, fork, fixture_format)
         elif fixture_format == BlockchainFixture:
             return self.make_fixture(t8n, fork)

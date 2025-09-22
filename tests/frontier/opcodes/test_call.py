@@ -6,12 +6,12 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
+    CodeGasMeasure,
     Environment,
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.code.generators import CodeGasMeasure
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 
 # TODO: There's an issue with gas definitions on forks previous to Berlin, remove this when fixed.
@@ -143,6 +143,58 @@ def test_call_memory_expands_on_early_revert(
                 storage={
                     0: call_cost,
                     1: mstore_cost,
+                },
+            )
+        },
+    )
+
+
+# TODO: There's an issue with gas definitions on forks previous to Berlin, remove this when fixed.
+# https://github.com/ethereum/execution-spec-tests/pull/1952#discussion_r2237634275
+@pytest.mark.with_all_call_opcodes
+@pytest.mark.valid_from("Berlin")
+def test_call_large_args_offset_size_zero(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    call_opcode: Op,
+):
+    """
+    Test xCALL with an extremely large args_offset and args_size set to zero.
+    Since the size is zero, the large offset should not cause a revert.
+    """
+    sender = pre.fund_eoa()
+
+    gsc = fork.gas_costs()
+    very_large_offset = 2**100
+
+    call_measure = CodeGasMeasure(
+        code=call_opcode(gas=0, args_offset=very_large_offset, args_size=0),
+        overhead_cost=gsc.G_VERY_LOW * len(call_opcode.kwargs),  # Cost of pushing xCALL args
+        extra_stack_items=1,  # Because xCALL pushes 1 item to the stack
+        sstore_key=0,
+    )
+
+    contract = pre.deploy_contract(call_measure)
+
+    tx = Transaction(
+        gas_limit=500_000,
+        to=contract,
+        value=0,
+        sender=sender,
+    )
+
+    # this call cost is just the address_access_cost
+    call_cost = gsc.G_COLD_ACCOUNT_ACCESS
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            contract: Account(
+                storage={
+                    0: call_cost,
                 },
             )
         },

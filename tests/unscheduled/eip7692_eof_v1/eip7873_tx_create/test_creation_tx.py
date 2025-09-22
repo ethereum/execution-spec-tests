@@ -10,7 +10,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.code.generators import Initcode as LegacyInitcode
+from ethereum_test_tools import Initcode as LegacyInitcode
 from ethereum_test_types import TransactionReceipt
 from ethereum_test_types.eof.v1 import Container
 

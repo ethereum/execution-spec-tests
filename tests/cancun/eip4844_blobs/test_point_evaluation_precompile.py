@@ -53,7 +53,7 @@ from ethereum_test_tools import (
     TransactionReceipt,
     call_return_code,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .common import INF_POINT, Z_Y_VALID_ENDIANNESS, Z
 from .spec import Spec, ref_spec_4844
@@ -700,7 +700,7 @@ def test_precompile_during_fork(
 
     post = {
         precompile_caller_address: Account(
-            storage={b: 1 for b in range(1, len(PRE_FORK_BLOCK_RANGE) + 1)},
+            storage=dict.fromkeys(range(1, len(PRE_FORK_BLOCK_RANGE) + 1), 1),
             # Only the call in the last block's tx fails; storage 0 by default.
         ),
         Address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS): Account(

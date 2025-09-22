@@ -19,10 +19,12 @@ from ethereum_test_exceptions import (
     TransactionException,
 )
 from ethereum_test_forks import Fork
+from pytest_plugins.custom_logging import get_logger
 
 from ..transition_tool import TransitionTool
 
 DAEMON_STARTUP_TIMEOUT_SECONDS = 5
+logger = get_logger(__name__)
 
 
 class ExecutionSpecsTransitionTool(TransitionTool):
@@ -116,7 +118,10 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 
         `ethereum-spec-evm` appends newlines to forks in the help string.
         """
-        return (fork.transition_tool_name() + "\n") in self.help_string
+        fork_is_supported = (fork.transition_tool_name() + "\n") in self.help_string
+        logger.debug(f"EELS supports fork {fork}: {fork_is_supported}")
+
+        return fork_is_supported
 
     def _generate_post_args(
         self, t8n_data: TransitionTool.TransitionToolData
@@ -146,12 +151,6 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
             "InsufficientMaxFeePerBlobGasError"
         ),
-        TransactionException.TYPE_3_TX_PRE_FORK: (
-            "module 'ethereum.shanghai.transactions' has no attribute 'BlobTransaction'"
-        ),
-        TransactionException.TYPE_4_TX_PRE_FORK: (
-            "'ethereum.cancun.transactions' has no attribute 'SetCodeTransaction'"
-        ),
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: (
             "InvalidBlobVersionedHashError"
         ),
@@ -180,5 +179,11 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
     mapping_regex: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: (
             r"InsufficientMaxFeePerGasError|InvalidBlock"  # Temporary solution for issue #1981.
+        ),
+        TransactionException.TYPE_3_TX_PRE_FORK: (
+            r"module '.*transactions' has no attribute 'BlobTransaction'"
+        ),
+        TransactionException.TYPE_4_TX_PRE_FORK: (
+            r"'.*transactions' has no attribute 'SetCodeTransaction'"
         ),
     }

@@ -6,8 +6,8 @@ https://eips.ethereum.org/EIPS/eip-1153.
 import pytest
 
 from ethereum_test_tools import Account, Address, Alloc, Environment, StateTestFiller, Transaction
-from ethereum_test_tools.vm.opcode import Bytecode
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-1153.md"
 REFERENCE_SPEC_VERSION = "1eb863b534a5a3e19e9c196ab2a7f3db4bb9da17"

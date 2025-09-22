@@ -142,6 +142,14 @@ def test_isogeny_kernel_values(
         pytest.param(bytes(FP2((0, 0)))[:95], id="fp2_one_byte_short"),
         pytest.param(bytes([0xFF]) + bytes(FP2((0, 0)))[1:], id="fp2_invalid_first_byte"),
         pytest.param(Spec.INF_G2, id="g2_inf_input"),
+        pytest.param(
+            FP2(((Spec.P - 1) | Spec.MAX_FP_BIT_SET, Spec.P - 1)),
+            id="non_zero_byte_16_boundary_violation_c0",
+        ),
+        pytest.param(
+            FP2((Spec.P - 1, (Spec.P - 1) | Spec.MAX_FP_BIT_SET)),
+            id="non_zero_byte_16_boundary_violation_c1",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])

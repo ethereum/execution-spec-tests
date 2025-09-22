@@ -33,7 +33,7 @@ from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types import Transaction
 from ethereum_test_types.block_types import Environment
 from ethereum_test_types.eof.v1 import Container
-from ethereum_test_vm.bytecode import Bytecode
+from ethereum_test_vm import Bytecode
 
 from .evm_bytes import OpcodeWithOperands, process_evm_bytes
 

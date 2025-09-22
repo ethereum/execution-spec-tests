@@ -50,6 +50,7 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: r"too many blobs, have \d+, max \d+",
         TransactionException.TYPE_3_TX_PRE_FORK: (
             r"blob transactions present in pre-cancun payload|empty blobs"
         ),
@@ -57,7 +58,7 @@ class RethExceptionMapper(ExceptionMapper):
             r"transaction gas limit \w+ is more than blocks available gas \w+"
         ),
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
-            r"transaction gas limit \(\d+\) is greater than the cap \(\d+\)"
+            r"transaction 0x[a-fA-F0-9]+ gas limit \d+ exceeds maximum \d+"
         ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: r"failed to apply .* requests contract call",
         BlockException.INCORRECT_BLOB_GAS_USED: (

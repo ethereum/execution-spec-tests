@@ -6,45 +6,126 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ## 🔜 [Unreleased]
 
-### 💥 Breaking Changes
+### 💥 Breaking Change
 
+### 🛠️ Framework
+
+#### `fill`
+
+- Move pytest marker registration for `fill` and `execute-*` from their respective ini files to the shared `pytest_plugins.shared.execute_fill` pytest plugin ([#2110](https://github.com/ethereum/execution-spec-tests/pull/2110)).
+- ✨ Added `--optimize-gas`, `--optimize-gas-output` and `--optimize-gas-post-processing` flags that allow to binary search the minimum gas limit value for a transaction in a test that still yields the same test result ([#1979](https://github.com/ethereum/execution-spec-tests/pull/1979)).
+
+#### `consume`
+
+### 📋 Misc
+
+- ✨ Add tighter validation for EIP-7928 model coming from t8n when filling ([#2138](https://github.com/ethereum/execution-spec-tests/pull/2138)).
+- ✨ Add flexible API for absence checks for EIP-7928 (BAL) tests ([#2124](https://github.com/ethereum/execution-spec-tests/pull/2124)).
+- 🐞 Use ``engine_newPayloadV5`` for `>=Amsterdam` forks in `consume engine` ([#2170](https://github.com/ethereum/execution-spec-tests/pull/2170)).
+
+### 🧪 Test Cases
+
+## [v5.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v5.0.0) - 2025-09-05
+
+## 🇯🇵 Summary
+
+EEST Fujisan is our first full release for Osaka, the first full release since Pectra!
+
+In addition to the latest Osaka specific test cases, it includes re-filled `GeneralStateTests` from `ethereum/tests` (now fully maintained within EEST under `tests/static`) for Osaka adhering to the transaction gas limit cap from [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825). Further framework changes include new simulators, test formats and test types.
+
+## ⚔️ Future Weld with EELS
+
+EEST will merge with [EELS](https://github.com/ethereum/execution-specs) during **Q4 2025**, after which EEST becomes read-only for external contributors.
+
+**What this means?**
+
+- All EEST code moves to the EELS repository.
+- New EEST framework location: `execution-specs/src/ethereum_spec_tests/`.
+- New EEST tests location: `execution-specs/tests/eest/`.
+- Future PRs go to EELS instead of EEST.
+
+**Important Notes:**
+
+- All PRs for tests and framework changes should still be directed at EEST until further notice.
+- There will be a brief freeze on EEST contributions during Q4 "The Switch", after which contributors can continue as before, but in EELS.
+- Test releases will continue from EEST as normal before, during, and after this transition.
+
+More information will be communicated accordingly through the normal communication channels.
+
+## ❗Current Status Quo
+
+### Test Fixtures Overview
+
+- `fixtures_static.tar.gz` has been deprecated.
+- `fixtures_stable.tar.gz` & `fixtures_develop.tar.gz` now both contain re-filled static tests, `GeneralStateTests` from `ethereum/tests`, filled **from Cancun**.
+- `fixtures_stable.tar.gz` contains tests filled for forks until Prague.
+- `fixtures_develop.tar.gz` contains tests filled for forks until Osaka.
+- `fixtures_benchmark.tar.gz` contains benchmark tests filled for only Prague.
+
+### EL Client Test Requirements
+
+**Prague Coverage (Mainnet):**
+
+- Run all `state_test`'s & `blockchain_test`'s from `fixtures_stable.tar.gz`.
+- Run only `BlockchainTests` from the latest `ethereum/tests` [release](https://github.com/ethereum/tests/releases/tag/v17.2), filled **until Prague**.
+
+**Fusaka Coverage (Including Mainnet):**
+
+- Run all  `state_test`'s & `blockchain_test`'s from `fixtures_develop.tar.gz`.
+- Run only `BlockchainTests` from the latest `ethereum/tests` [release](https://github.com/ethereum/tests/releases/tag/v17.2), filled **until Prague**.
+
+**Note**: If you require `GeneralStateTests` from `ethereum/tests` **filled for forks before Cancun** then you must get these from the latest `ethereum/tests` [release](https://github.com/ethereum/tests/releases/tag/v17.2).
+
+### Benchmark Tests
+
+For the most up-to-date benchmark tests, use `fixtures_benchmark.tar.gz`.
+
+> **Note**: Benchmark tests for Osaka (compliant with EIP-7825 transaction gas limit cap) will be added in a future feature release.
+
+### Test Fixture Formats
+
+This release includes 2 new test formats designed primarily for [Hive](https://github.com/ethereum/hive) simulators:
+
+- [**`blockchain_tests_engine_x`**](https://eest.ethereum.org/v5.0.0/running_tests/test_formats/blockchain_test_engine_x/?h=#blockchain-engine-x-tests): An optimized version of `blockchain_tests_engine` where multiple tests share the same genesis state, allowing multiple tests to run on a single client instantiation within Hive's `consume-engine`. The standard format requires a fresh client startup for each test. Due its combined genesis state, this is additionally the primary format used by the Nethermind team for benchmarking.
+
+- [**`blockchain_tests_sync`**](https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_sync/?h=sync#blockchain-engine-sync-tests): A new format adjacent to the existing `blockchain_tests_engine` format. Used specifically for the upcoming `consume-sync` simulator, which delivers engine payloads from test fixtures to the client under test, then sync's a separate client to it. This test fixture is only marked to be filled for the [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934) block RLP limit tests in Osaka.
+
+### Tooling & Simulators
+
+Improved tooling and new Hive simulators are additionally included in this release:
+
+- [**`execute remote`**](https://eest.ethereum.org/main/running_tests/execute/remote/#running-test-on-a-live-remote-network): this command now supports optional [Engine RPC endpoints](https://eest.ethereum.org/main/running_tests/execute/remote/#engine-rpc-endpoint-optional) (`--engine-endpoint`) with JWT authentication #2070.
+    - This allows manual control over block creation and transaction inclusion for more deterministic test execution on live networks. Previously, `execute remote` could only submit transactions and rely on the network's automatic block production, but now it can actively drive chain progression by creating blocks on-demand via the Engine API.
+- [**`consume sync`**](https://eest.ethereum.org/main/running_tests/running/#sync): Adjacent to `consume-engine`, designed to work with the `blockchain_tests_sync` format for testing client sync scenarios.
+- [**`execute blobs`**](https://eest.ethereum.org/main/running_tests/execute/hive/#the-eestexecute-blobs-simulator):  A new Hive specific simulator that uses the EEST execute pytest plugin. Sends blob transactions to the client under test and verifies its `engine_getBlobsVX` endpoint. Requires tests to be written with a new python test format `blob_transaction_test`. Primarily used to test PeerDAS from the EL perspective.
+- [**`execute eth config`**](https://eest.ethereum.org/main/running_tests/execute/eth_config/): A command used to test the `eth_config` endpoint from [EIP-7910](https://eips.ethereum.org/EIPS/eip-7910). Can be ran [remotely](https://github.com/ethereum/execution-spec-tests/issues/2049) or within Hive.
+
+### Filling For Stateless Clients
+
+A `witness-filler` extension is included in this release, allowing for tests to be filled that include an `executionWitness` for each fixture #2066. This essentially calls an external executable written in rust, and hence must be installed for usage within `fill` using the `--witness` flag. The current approach is below:
+
+```sh
+cargo install --git https://github.com/kevaundray/reth.git --branch jsign-witness-filler witness-filler
+uv run fill ... --output=fixtures-witness --witness --clean
+```
+
+> **Note**: The `witness-filler` executable is not maintained by EEST so we cannot help with any issues.
+
+## 💥 Breaking Changes
+
+### Important changes for EEST superusers
+
+- EEST now requires `uv>=0.7.0` ([#1904](https://github.com/ethereum/execution-spec-tests/pull/1904)). If your version of `uv` is too old.
+- When filling fixtures transition forks are included within there respective "to" fork, where `--fork Osaka` will now include `PragueToOsakaAtTime15k`. Previously transitions fork would only be included when filling with `--from Prague --until Osaka` flags.
 - Python 3.10 support was removed in this release ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
-- Tests for the Prague fork are now marked as stable will be included in the `fixtures_stable.tar.gz` tarball from now on.
-- Tests for the Osaka fork are now included in the `fixtures_develop.tar.gz` tarball.
-- `fixtures_static.tar.gz` has been deprecated and filled static tests are now included in `fixtures_stable.tar.gz` and `fixtures_develop.tar.gz`.
-
-#### 💥 Important Change for EEST developers
-
-- @ethereum/execution-spec-tests now requires `uv>=0.7.0` ([#1904](https://github.com/ethereum/execution-spec-tests/pull/1904)). If your version of `uv` is too old, please proceed as following.
-
-   If `uv` was curl-installed (recommended), please run:
-
-   ```bash
-   uv self update
-   ```
-
-   If `uv` was pip-installed, then:
-
-   ```bash
-   pip uninstall uv
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
-
-#### 💥 Important Change for test contributors
-
 - EEST no longer allows usage of Yul code in Python tests. From now on, please make use of our opcode wrapper. Yul code is now only allowed in the "static tests" located in `./tests/static/` (these are test cases defined by JSON and YAML files instead of Python test functions that were originally maintained in [ethereum/tests](https://github.com/ethereum/tests)).
 - In order to fill the static tests (which is not the case by default), please ensure that `solc` is located in your `PATH`.
+- The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)):
+    - Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
+    - Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
+- Writing debugging information to the EVM "dump directory" by default has been disabled. To obtain debug output, the `--evm-dump-dir` flag must now be explicitly set. As a consequence, the now redundant `--skip-evm-dump` option was removed ([#1874](https://github.com/ethereum/execution-spec-tests/pull/1874)). This undoes functionality originally introduced in [#999](https://github.com/ethereum/execution-spec-tests/pull/999) and [#1150](https://github.com/ethereum/execution-spec-tests/pull/1150).
 
-#### 💥 Important Change for `fill` Users
-
-The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)):
-
-- Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
-- Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
-
-Additionally, writing debugging information to the EVM "dump directory" by default has been disabled. To obtain debug output, the `--evm-dump-dir` flag must now be explicitly set. As a consequence, the now redundant `--skip-evm-dump` option was removed ([#1874](https://github.com/ethereum/execution-spec-tests/pull/1874)). This undoes functionality originally introduced in [#999](https://github.com/ethereum/execution-spec-tests/pull/999) and [#1150](https://github.com/ethereum/execution-spec-tests/pull/1150).
-
-#### Feature `zkevm` updated to `benchmark`
+### Feature `zkevm` updated to `benchmark`
 
 Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
 
@@ -54,7 +135,9 @@ To select a test for a given gas limit, the IDs of the tests have been expanded 
 
 The benchmark release also now includes BlockchainEngineX format that combines most of the tests into a minimal amount of genesis files. For more info see [Blockchain Engine X Tests](https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_engine_x/) in the EEST documentation.
 
-Users can select any of the artifacts depending on their testing needs for their provers.
+Users can select any of the artifacts depending on their benchmarking or testing needs for their provers.
+
+## 🔑  Other Key Changes
 
 ### 🛠️ Framework
 
@@ -64,6 +147,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages.
 - 🔀 This PR removes the `solc` requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with `solc` and, as such, the `solc-select` dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the "static" JSON and YAML tests (`./tests/static/`) locally, `solc` (ideally v0.8.24) must be available in your PATH.
 - 🔀 Updated default block gas limit from 36M to 45M to match mainnet environment.
+- 🔀 Refactor fork logic to include transition forks within there "to" fork ([#2051](https://github.com/ethereum/execution-spec-tests/pull/2051)).
 
 #### `fill`
 
@@ -82,20 +166,30 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added support for the `--benchmark-gas-values` flag in the `fill` command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. ([#1895](https://github.com/ethereum/execution-spec-tests/pull/1895)).
 - ✨ Static tests can now specify a maximum fork where they should be filled for ([#1977](https://github.com/ethereum/execution-spec-tests/pull/1977)).
 - ✨ Static tests can now be filled in every format using `--generate-all-formats` ([#2006](https://github.com/ethereum/execution-spec-tests/pull/2006)).
+- 💥 Flag `--flat-output` has been removed due to having been unneeded for an extended period of time ([#2018](https://github.com/ethereum/execution-spec-tests/pull/2018)).
+- ✨ Add support for `BlockchainEngineSyncFixture` format for tests marked with `pytest.mark.verify_sync` to enable client synchronization testing via `consume sync` command ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
+- ✨ Framework is updated to include BPO ([EIP-7892](https://eips.ethereum.org/EIPS/eip-7892)) fork markers to enable the filling of BPO tests ([#2050](https://github.com/ethereum/execution-spec-tests/pull/2050)).
+- ✨ Generate and include execution witness data in blockchain fixtures if `--witness` is specified ([#2066](https://github.com/ethereum/execution-spec-tests/pull/2066)).
 
 #### `consume`
 
 - ✨ Add `--extract-to` parameter to `consume cache` command for direct fixture extraction to specified directory, replacing the need for separate download scripts. ([#1861](https://github.com/ethereum/execution-spec-tests/pull/1861)).
 - 🐞 Fix `consume cache --cache-folder` parameter being ignored, now properly caches fixtures in the specified directory instead of always using the default system cache location.
+- 🐞 Fix the `consume_direct.sh` script generated by `consume` in the `--evm-dump` dir by quoting test IDs [#1987](https://github.com/ethereum/execution-spec-tests/pull/1987).
 - 🔀 `consume` now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like `stable@latest` continue to use the API for version resolution ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
 - 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
 - 🔀 Add exponential retry logic to initial fcu within consume engine ([#1815](https://github.com/ethereum/execution-spec-tests/pull/1815)).
+- ✨ Add `consume sync` command to test client synchronization capabilities by having one client sync from another via Engine API and P2P networking ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
+- 💥 Removed the `consume hive` command, this was a convenience command that ran `consume rlp` and `consume engine` in one pytest session; the individual commands should now be used instead ([#2008](https://github.com/ethereum/execution-spec-tests/pull/2008)).
+- ✨ Update the hive ruleset to include BPO ([EIP-7892](https://eips.ethereum.org/EIPS/eip-7892)) forks ([#2050](https://github.com/ethereum/execution-spec-tests/pull/2050)).
 
 #### `execute`
 
 - ✨ Added new `Blob` class which can use the ckzg library to generate valid blobs at runtime ([#1614](https://github.com/ethereum/execution-spec-tests/pull/1614)).
 - ✨ Added `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
 - ✨ Added `execute eth-config` command to test the `eth_config` RPC endpoint of a client, and includes configurations by default for Mainnet, Sepolia, Holesky, and Hoodi ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
+- ✨ Command `execute remote` now allows specification of an Engine API endpoint to drive the chain via `--engine-endpoint` and either `--engine-jwt-secret` or `--engine-jwt-secret-file`. This mode is useful when there's no consensus client connected to the execution client so `execute` will automatically request blocks via the Engine API when it sends transactions ([#2070](https://github.com/ethereum/execution-spec-tests/pull/2070)).
+- ✨ Added `--address-stubs` flag to the `execute` command which allows to specify a JSON-formatted string, JSON file or YAML file which contains label-to-address of specific pre-deployed contracts already existing in the network where the tests are executed ([#2073](https://github.com/ethereum/execution-spec-tests/pull/2073)).
 
 ### 📋 Misc
 
@@ -128,6 +222,8 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ All commands (`fill`, `consume`, `execute`) now work without having to clone the repository, e.g. `uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume` now works from any folder ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
 - 🔀 Move Prague to stable and Osaka to develop ([#1573](https://github.com/ethereum/execution-spec-tests/pull/1573)).
 - ✨ Add a `pytest.mark.with_all_typed_transactions` marker that creates default typed transactions for each `tx_type` supported by the current `fork` ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
+- ✨ Add basic support for ``Amsterdam`` fork in order to begin testing Glamsterdam ([#2069](https://github.com/ethereum/execution-spec-tests/pull/2069)).
+- ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add initial framework support for `Block Level Access Lists (BAL)` testing for Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
 
 ### 🧪 Test Cases
 
@@ -142,12 +238,14 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7951](https://eips.ethereum.org/EIPS/eip-7951): add test cases for `P256VERIFY` precompile to support secp256r1 curve [#1670](https://github.com/ethereum/execution-spec-tests/pull/1670).
 - ✨ Introduce blockchain tests for benchmark to cover the scenario of pure ether transfers [#1742](https://github.com/ethereum/execution-spec-tests/pull/1742).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add test cases for the block RLP max limit of 10MiB ([#1730](https://github.com/ethereum/execution-spec-tests/pull/1730)).
-- ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
+- ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939): Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add additional test cases for block RLP max limit with all typed transactions and for a log-creating transactions ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 - ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Pre-Osaka tests have been updated to either (1) dynamically adapt to the transaction gas limit cap, or (2) reduce overall gas consumption to fit the new limit ([#1924](https://github.com/ethereum/EIPs/pull/1924), [#1928](https://github.com/ethereum/EIPs/pull/1928), [#1980](https://github.com/ethereum/EIPs/pull/1980)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
 - 🔀 Adds the max blob transaction limit to the tests including updates to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) for Osaka ([#1884](https://github.com/ethereum/execution-spec-tests/pull/1884)).
 - 🐞 Fix issues when filling block rlp size limit tests with ``--generate-pre-alloc-groups`` ([#1989](https://github.com/ethereum/execution-spec-tests/pull/1989)).
+- ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add test cases for `Block Level Access Lists (BAL)` to Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
+- 🐞 Fix issues with `Block Level Access Lists (BAL)` tests for Amsterdam ([#2121](https://github.com/ethereum/execution-spec-tests/pull/2121)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

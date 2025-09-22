@@ -10,11 +10,22 @@ from ethereum_clis import TransitionTool
 
 from ..fixture_output import FixtureOutput
 
+MINIMAL_TEST_FILE_NAME = "test_example.py"
+MINIMAL_TEST_CONTENTS = """
+from ethereum_test_tools import Transaction
+def test_function(state_test, pre):
+    tx = Transaction(to=0, gas_limit=21_000, sender=pre.fund_eoa())
+    state_test(pre=pre, post={}, tx=tx)
+"""
 
-@pytest.fixture(scope="module")
-def test_path() -> Path:
-    """Specify the test path to be filled."""
-    return Path("tests/istanbul/eip1344_chainid/test_chainid.py")
+
+@pytest.fixture
+def minimal_test_path(pytester: pytest.Pytester) -> Path:
+    """Minimal test file that's written to a file using pytester and ready to fill."""
+    tests_dir = pytester.mkdir("tests")
+    test_file = tests_dir / MINIMAL_TEST_FILE_NAME
+    test_file.write_text(MINIMAL_TEST_CONTENTS)
+    return test_file
 
 
 @pytest.fixture(scope="module")
@@ -32,7 +43,7 @@ def fill_fork_until() -> str:
 @pytest.fixture
 def run_fill(
     pytester: pytest.Pytester,
-    test_path: Path,
+    minimal_test_path: Path,
     fill_fork_from: str,
     fill_fork_until: str,
     default_t8n: TransitionTool,
@@ -46,7 +57,6 @@ def run_fill(
         disable_capture_output: bool = False,
     ) -> pytest.RunResult:
         """Run the fill command with the specified output directory and clean flag."""
-        pytester.copy_example(name=str(test_path))
         pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
         args = [
             "-c",
@@ -57,7 +67,7 @@ def run_fill(
             f"--until={fill_fork_until}",
             f"--output={str(output_dir)}",
             f"--t8n-server-url={default_t8n.server_url}",
-            str(test_path.name),
+            str(minimal_test_path),
         ]
         if clean:
             args.append("--clean")
@@ -172,7 +182,8 @@ def test_fill_stdout_always_works(tmp_path_factory: TempPathFactory, run_fill):
     result: pytest.RunResult = run_fill(stdout_path, disable_capture_output=True)
 
     assert any(
-        "test_chainid.py::test_chainid[fork_Cancun-state_test]" in line for line in result.outlines
+        "test_example.py::test_function[fork_Cancun-state_test]" in line
+        for line in result.outlines
     ), f"Expected JSON output for state test: {result.outlines}"
     assert not any(stdout_path.glob("*.json")), "Fixture files were created when stdout is used"
 

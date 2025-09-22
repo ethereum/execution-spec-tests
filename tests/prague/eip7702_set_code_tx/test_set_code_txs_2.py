@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     Bytes,
     Case,
+    CodeGasMeasure,
     Conditional,
     Environment,
     Hash,
@@ -24,10 +25,9 @@ from ethereum_test_tools import (
     TransactionException,
     compute_create_address,
 )
-from ethereum_test_tools.code.generators import CodeGasMeasure
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container, Section
 from ethereum_test_vm import Macros
+from ethereum_test_vm import Opcodes as Op
 
 from .spec import Spec, ref_spec_7702
 
@@ -1441,6 +1441,7 @@ class DelegationTo(Enum):
     RESET = 3
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize(
     "first_delegation", [DelegationTo.CONTRACT_A, DelegationTo.CONTRACT_B, DelegationTo.RESET]
@@ -1536,6 +1537,7 @@ def test_double_auth(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.valid_from("Prague")
 def test_pointer_resets_an_empty_code_account_with_storage(
     blockchain_test: BlockchainTestFiller,
@@ -1743,7 +1745,7 @@ def test_set_code_type_tx_pre_fork(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address: Account(storage={k: 0 for k in storage}),
+            set_code_to_address: Account(storage=dict.fromkeys(storage, 0)),
             sender: Account(
                 nonce=0,
                 code="",
@@ -1754,6 +1756,7 @@ def test_set_code_type_tx_pre_fork(
 
 
 @pytest.mark.valid_from("Prague")
+@pytest.mark.xdist_group(name="bigmem")
 def test_delegation_replacement_call_previous_contract(
     state_test: StateTestFiller,
     pre: Alloc,

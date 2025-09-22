@@ -1,5 +1,6 @@
 """BlockchainTest types."""
 
+import json
 from functools import cached_property
 from typing import (
     Annotated,
@@ -16,6 +17,7 @@ from typing import (
 )
 
 import ethereum_rlp as eth_rlp
+import pytest
 from ethereum_types.numeric import Uint
 from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
 
@@ -36,6 +38,7 @@ from ethereum_test_base_types import (
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
 from ethereum_test_types import (
+    BlockAccessList,
     Environment,
     Requests,
     Transaction,
@@ -163,6 +166,9 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
+    block_access_list_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(
+        None, alias="blockAccessListHash"
+    )
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -229,6 +235,9 @@ class FixtureHeader(CamelModel):
         extras = {
             "state_root": state_root,
             "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
+            "block_access_list_hash": (
+                BlockAccessList().rlp_hash if fork.header_bal_hash_required(0, 0) else None
+            ),
             "fork": fork,
         }
         return FixtureHeader(**environment_values, **extras)
@@ -260,21 +269,27 @@ class FixtureExecutionPayload(CamelModel):
     transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
 
+    block_access_list: Bytes | None = Field(
+        None, description="RLP-serialized EIP-7928 Block Access List"
+    )
+
     @classmethod
     def from_fixture_header(
         cls,
         header: FixtureHeader,
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
+        block_access_list: Bytes | None = None,
     ) -> "FixtureExecutionPayload":
         """
         Return FixtureExecutionPayload from a FixtureHeader, a list
-        of transactions and a list of withdrawals.
+        of transactions, a list of withdrawals, and an optional block access list.
         """
         return cls(
             **header.model_dump(exclude={"rlp"}, exclude_none=True),
             transactions=[tx.rlp() for tx in transactions],
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
 
@@ -286,10 +301,12 @@ EngineNewPayloadV4Parameters = Tuple[
     Hash,
     List[Bytes],
 ]
+EngineNewPayloadV5Parameters = EngineNewPayloadV4Parameters
 
 # Important: We check EngineNewPayloadV3Parameters first as it has more fields, and pydantic
 # has a weird behavior when the smaller tuple is checked first.
 EngineNewPayloadParameters = Union[
+    EngineNewPayloadV5Parameters,
     EngineNewPayloadV4Parameters,
     EngineNewPayloadV3Parameters,
     EngineNewPayloadV1Parameters,
@@ -329,6 +346,7 @@ class FixtureEngineNewPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
+        block_access_list: Bytes | None = None,
         **kwargs,
     ) -> "FixtureEngineNewPayload":
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
@@ -338,10 +356,18 @@ class FixtureEngineNewPayload(CamelModel):
         )
 
         assert new_payload_version is not None, "Invalid header for engine_newPayload"
+
+        if fork.engine_execution_payload_block_access_list(header.number, header.timestamp):
+            if block_access_list is None:
+                raise ValueError(
+                    f"`block_access_list` is required in engine `ExecutionPayload` for >={fork}."
+                )
+
         execution_payload = FixtureExecutionPayload.from_fixture_header(
             header=header,
             transactions=transactions,
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
         params: List[Any] = [execution_payload]
@@ -400,6 +426,24 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
         return cls(**w.model_dump())
 
 
+class WitnessChunk(CamelModel):
+    """Represents execution witness data for a block."""
+
+    state: List[str]
+    codes: List[str]
+    keys: List[str]
+    headers: List[str]
+
+    @classmethod
+    def parse_witness_chunks(cls, s: str) -> List["WitnessChunk"]:
+        """
+        Parse multiple witness chunks from JSON string.
+
+        Returns a list of WitnessChunk instances parsed from the JSON array.
+        """
+        return [cls(**obj) for obj in json.loads(s)]
+
+
 class FixtureBlockBase(CamelModel):
     """Representation of an Ethereum block within a test Fixture without RLP bytes."""
 
@@ -407,6 +451,10 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
+    execution_witness: WitnessChunk | None = None
+    block_access_list: BlockAccessList | None = Field(
+        None, description="EIP-7928 Block Access List"
+    )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
@@ -424,6 +472,9 @@ class FixtureBlockBase(CamelModel):
 
         if self.withdrawals is not None:
             block.append([w.to_serializable_list() for w in self.withdrawals])
+
+        if self.block_access_list is not None:
+            block.append(self.block_access_list.to_list())
 
         return FixtureBlock(
             **self.model_dump(),
@@ -543,7 +594,6 @@ class BlockchainEngineFixture(BlockchainEngineFixtureCommon):
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     post_state: Alloc | None = Field(None)
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
-    sync_payload: FixtureEngineNewPayload | None = None
 
 
 @post_state_validator(alternate_field="post_state_diff")
@@ -571,5 +621,29 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     """Engine API payloads for blockchain execution."""
 
+
+class BlockchainEngineSyncFixture(BlockchainEngineFixture):
+    """
+    Engine Sync specific test fixture information.
+
+    This fixture format is specifically designed for sync testing where:
+    - The client under test receives all payloads
+    - A sync client attempts to sync from the client under test
+    - Both client types are parametrized from hive client config
+    """
+
+    format_name: ClassVar[str] = "blockchain_test_sync"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture for Engine API testing with client sync."
+    )
     sync_payload: FixtureEngineNewPayload | None = None
-    """Optional sync payload for blockchain synchronization."""
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard the fixture format based on the provided markers."""
+        marker_names = [m.name for m in markers]
+        return "verify_sync" not in marker_names

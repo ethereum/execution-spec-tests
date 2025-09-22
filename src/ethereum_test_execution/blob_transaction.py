@@ -3,13 +3,20 @@
 from hashlib import sha256
 from typing import ClassVar, Dict, List
 
-from ethereum_test_base_types import Hash
+from pytest import FixtureRequest
+
+from ethereum_test_base_types import Address, Hash
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import BlobAndProofV1, BlobAndProofV2, EngineRPC, EthRPC
+from ethereum_test_rpc.rpc_types import GetBlobsResponse
 from ethereum_test_types import NetworkWrappedTransaction, Transaction
+from ethereum_test_types.transaction_types import TransactionTestMetadata
+from pytest_plugins.custom_logging import get_logger
 
 from .base import BaseExecute
+
+logger = get_logger(__name__)
 
 
 def versioned_hashes_with_blobs_and_proofs(
@@ -52,37 +59,73 @@ class BlobTransaction(BaseExecute):
     requires_engine_rpc: ClassVar[bool] = True
 
     txs: List[NetworkWrappedTransaction | Transaction]
+    nonexisting_blob_hashes: List[Hash] | None = None
 
-    def execute(self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None):
+    def execute(
+        self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None, request: FixtureRequest
+    ):
         """Execute the format."""
         assert engine_rpc is not None, "Engine RPC is required for this format."
         versioned_hashes: Dict[Hash, BlobAndProofV1 | BlobAndProofV2] = {}
         sent_txs: List[Transaction] = []
-        for tx in self.txs:
+        for tx_index, tx in enumerate(self.txs):
             if isinstance(tx, NetworkWrappedTransaction):
                 tx.tx = tx.tx.with_signature_and_sender()
                 sent_txs.append(tx.tx)
                 expected_hash = tx.tx.hash
                 versioned_hashes.update(versioned_hashes_with_blobs_and_proofs(tx))
+                to_address = tx.tx.to
             else:
                 tx = tx.with_signature_and_sender()
                 sent_txs.append(tx)
                 expected_hash = tx.hash
-            received_hash = eth_rpc.send_raw_transaction(tx.rlp())
+                to_address = tx.to
+            label = to_address.label if isinstance(to_address, Address) else None
+            metadata = TransactionTestMetadata(
+                test_id=request.node.nodeid,
+                phase="testing",
+                target=label,
+                tx_index=tx_index,
+            )
+            received_hash = eth_rpc.send_raw_transaction(tx.rlp(), request_id=metadata.to_json())
             assert expected_hash == received_hash, (
                 f"Expected hash {expected_hash} does not match received hash {received_hash}."
             )
         version = fork.engine_get_blobs_version()
         assert version is not None, "Engine get blobs version is not supported by the fork."
-        blob_response = engine_rpc.get_blobs(list(versioned_hashes.keys()), version=version)
+
+        # ensure that clients respond 'null' when they have no access to at least one blob
+        list_versioned_hashes = list(versioned_hashes.keys())
+        if self.nonexisting_blob_hashes is not None:
+            list_versioned_hashes.extend(self.nonexisting_blob_hashes)
+
+        blob_response: GetBlobsResponse | None = engine_rpc.get_blobs(
+            list_versioned_hashes, version=version
+        )  # noqa: E501
+
+        # if non-existing blob hashes were request then the response must be 'null'
+        if self.nonexisting_blob_hashes is not None:
+            if blob_response is not None:
+                raise ValueError(
+                    f"Non-existing blob hashes were requested and "
+                    "the client was expected to respond with 'null', but instead it replied: "
+                    f"{blob_response.root}"
+                )
+            else:
+                logger.info(
+                    "Test was passed (partial responses are not allowed and the client "
+                    "correctly returned 'null')"
+                )
+                eth_rpc.wait_for_transactions(sent_txs)
+                return
+
+        assert blob_response is not None
         local_blobs_and_proofs = list(versioned_hashes.values())
-        if len(blob_response) != len(local_blobs_and_proofs):
-            raise ValueError(
-                f"Expected {len(local_blobs_and_proofs)} blobs and proofs, "
-                f"got {len(blob_response)}."
-            )
+        assert len(blob_response) == len(local_blobs_and_proofs), "Expected "
+        f"{len(local_blobs_and_proofs)} blobs and proofs, got {len(blob_response)}."
+
         for expected_blob, received_blob in zip(
-            local_blobs_and_proofs, blob_response.root, strict=False
+            local_blobs_and_proofs, blob_response.root, strict=True
         ):
             if received_blob is None:
                 raise ValueError("Received blob is empty.")

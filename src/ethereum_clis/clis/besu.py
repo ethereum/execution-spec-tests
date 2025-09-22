@@ -19,8 +19,8 @@ from ethereum_test_exceptions import (
 )
 from ethereum_test_forks import Fork
 
+from ..cli_types import TransitionToolOutput
 from ..transition_tool import TransitionTool, dump_files_to_directory, model_dump_config
-from ..types import TransitionToolOutput
 
 
 class BesuTransitionTool(TransitionTool):
@@ -34,6 +34,8 @@ class BesuTransitionTool(TransitionTool):
     process: Optional[subprocess.Popen] = None
     server_url: str
     besu_trace_dir: Optional[tempfile.TemporaryDirectory]
+
+    supports_xdist: ClassVar[bool] = False
 
     def __init__(
         self,
@@ -215,8 +217,6 @@ class BesuExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_ZERO_BLOBS: (
             "Failed to decode transactions from block parameter"
         ),
-        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "Invalid Blob Count",
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "Invalid Blob Count",
         TransactionException.TYPE_3_TX_PRE_FORK: (
             "Transaction type BLOB is invalid, accepted transaction types are"
         ),
@@ -289,7 +289,10 @@ class BesuExceptionMapper(ExceptionMapper):
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
             r"transaction invalid Transaction gas limit must be at most \d+"
         ),
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
+            r"Blob transaction 0x[0-9a-f]+ exceeds block blob gas limit: \d+ > \d+"
+        ),
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
-            r"Blob transaction has too many blobs: \d+"
+            r"Blob transaction has too many blobs: \d+|Invalid Blob Count: \d+"
         ),
     }

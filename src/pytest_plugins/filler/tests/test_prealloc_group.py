@@ -24,7 +24,10 @@ class MockTest(BaseTest):
 
     def __init__(self, pre: Alloc, genesis_environment: Environment, request=None):
         """Initialize mock test."""
-        super().__init__(pre=pre, genesis_environment=genesis_environment)
+        super().__init__(  # type: ignore
+            pre=pre,
+            genesis_environment=genesis_environment,
+        )
         self._request = request
 
     def generate(self, *args, **kwargs):
@@ -229,7 +232,7 @@ class StateTest(FormattedTest):  # noqa: D101
             StateTestFiller,
             Transaction
         )
-        from ethereum_test_tools.vm.opcode import Opcodes as Op
+        from ethereum_test_vm import Opcodes as Op
 
         @pytest.mark.valid_from("Istanbul")
         def test_chainid(state_test: StateTestFiller, pre: Alloc):
@@ -266,7 +269,7 @@ class BlockchainTest(FormattedTest):  # noqa: D101
             Environment,
             Transaction
         )
-        from ethereum_test_tools.vm.opcode import Opcodes as Op
+        from ethereum_test_vm import Opcodes as Op
 
         @pytest.mark.valid_from("Istanbul")
         def test_chainid_blockchain(blockchain_test: BlockchainTestFiller, pre: Alloc):
@@ -436,7 +439,7 @@ def test_pre_alloc_grouping_by_test_type(
         Path(default_output_directory()).absolute() / "blockchain_tests_engine_x" / "pre_alloc"
     )
     assert output_dir.exists()
-    groups = PreAllocGroups.from_folder(output_dir)
+    groups = PreAllocGroups.from_folder(output_dir, lazy_load=False)
     if (
         len([f for f in output_dir.iterdir() if f.name.endswith(".json")])
         != expected_different_pre_alloc_groups

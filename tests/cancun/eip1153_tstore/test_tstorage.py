@@ -45,7 +45,7 @@ def test_transient_storage_unset_values(state_test: StateTestFiller, pre: Alloc)
 
     code_address = pre.deploy_contract(
         code=code,  # type: ignore
-        storage={slot: 1 for slot in slots_under_test},
+        storage=dict.fromkeys(slots_under_test, 1),
     )
 
     tx = Transaction(
@@ -54,7 +54,7 @@ def test_transient_storage_unset_values(state_test: StateTestFiller, pre: Alloc)
         gas_limit=1_000_000,
     )
 
-    post = {code_address: Account(storage={slot: 0 for slot in slots_under_test})}
+    post = {code_address: Account(storage=dict.fromkeys(slots_under_test, 0))}
 
     state_test(
         env=env,
@@ -79,7 +79,7 @@ def test_tload_after_tstore(state_test: StateTestFiller, pre: Alloc):
     )
     code_address = pre.deploy_contract(
         code=code,  # type: ignore
-        storage={slot: 0xFF for slot in slots_under_test},
+        storage=dict.fromkeys(slots_under_test, 0xFF),
     )
 
     tx = Transaction(
@@ -114,7 +114,7 @@ def test_tload_after_sstore(state_test: StateTestFiller, pre: Alloc):
     )
     code_address = pre.deploy_contract(
         code=code,  # type: ignore
-        storage={slot: 1 for slot in slots_under_test},
+        storage=dict.fromkeys(slots_under_test, 1),
     )
 
     tx = Transaction(
@@ -127,7 +127,7 @@ def test_tload_after_sstore(state_test: StateTestFiller, pre: Alloc):
         code_address: Account(
             code=code,
             storage={slot - 1: 0xFF for slot in slots_under_test}
-            | {slot: 0 for slot in slots_under_test},
+            | dict.fromkeys(slots_under_test, 0),
         )
     }
 
@@ -157,7 +157,7 @@ def test_tload_after_tstore_is_zero(state_test: StateTestFiller, pre: Alloc):
 
     code_address = pre.deploy_contract(
         code=code,  # type: ignore
-        storage={slot: 0xFFFF for slot in slots_to_write + slots_to_read},
+        storage=dict.fromkeys(slots_to_write + slots_to_read, 0xFFFF),
     )
 
     tx = Transaction(
@@ -168,7 +168,7 @@ def test_tload_after_tstore_is_zero(state_test: StateTestFiller, pre: Alloc):
 
     post = {
         code_address: Account(
-            storage={slot: 0 for slot in slots_to_read} | {slot: 0xFFFF for slot in slots_to_write}
+            storage=dict.fromkeys(slots_to_read, 0) | dict.fromkeys(slots_to_write, 0xFFFF)
         )
     }
 

@@ -10,6 +10,7 @@ from typing import (
     Mapping,
     Optional,
     Protocol,
+    Set,
     Sized,
     Tuple,
     Type,
@@ -53,6 +54,30 @@ class TransactionDataFloorCostCalculator(Protocol):
 
     def __call__(self, *, data: BytesConvertible) -> int:
         """Return transaction gas cost of calldata given its contents."""
+        pass
+
+
+class BaseFeePerGasCalculator(Protocol):
+    """A protocol to calculate the base fee per gas at a given fork."""
+
+    def __call__(
+        self, *, parent_base_fee_per_gas: int, parent_gas_used: int, parent_gas_limit: int
+    ) -> int:
+        """Return the base fee per gas at a given fork."""
+        pass
+
+
+class BaseFeeChangeCalculator(Protocol):
+    """A protocol to calculate the gas that needs to be used to change the base fee."""
+
+    def __call__(
+        self,
+        *,
+        parent_base_fee_per_gas: int,
+        parent_gas_limit: int,
+        required_base_fee_per_gas: int,
+    ) -> int:
+        """Return the gas that needs to be used to change the base fee."""
         pass
 
 
@@ -165,6 +190,8 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     _transition_tool_name: ClassVar[Optional[str]] = None
     _solc_name: ClassVar[Optional[str]] = None
     _ignore: ClassVar[bool] = False
+    _bpo_fork: ClassVar[bool] = False
+    _children: ClassVar[Set[Type["BaseFork"]]] = set()
 
     # make mypy happy
     BLOB_CONSTANTS: ClassVar[Dict[str, Union[int, Literal["big"]]]] = {}
@@ -180,11 +207,18 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         transition_tool_name: Optional[str] = None,
         solc_name: Optional[str] = None,
         ignore: bool = False,
+        bpo_fork: bool = False,
     ) -> None:
         """Initialize new fork with values that don't carry over to subclass forks."""
         cls._transition_tool_name = transition_tool_name
         cls._solc_name = solc_name
         cls._ignore = ignore
+        cls._bpo_fork = bpo_fork
+        cls._children = set()
+        base_class = cls.__bases__[0]
+        assert issubclass(base_class, BaseFork)
+        if base_class != BaseFork:
+            base_class._children.add(cls)
 
     # Header information abstract methods
     @classmethod
@@ -235,6 +269,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """Return true if the header must contain beacon chain requests."""
         pass
 
+    @classmethod
+    @abstractmethod
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain block access list hash."""
+        pass
+
     # Gas related abstract methods
 
     @classmethod
@@ -260,6 +300,43 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         Return callable that calculates the transaction gas cost for its calldata
         depending on its contents.
         """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_per_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeePerGasCalculator:
+        """Return a callable that calculates the base fee per gas at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_change_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeeChangeCalculator:
+        """
+        Return a callable that calculates the gas that needs to be used to change the
+        base fee.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_max_change_denominator(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee max change denominator at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_elasticity_multiplier(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee elasticity multiplier at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_refund_quotient(cls) -> int:
+        """Return the max refund quotient at a given fork."""
         pass
 
     @classmethod
@@ -334,6 +411,18 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @abstractmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the max blobs per block at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_reserve_price_active(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return whether the fork uses a reserve price mechanism for blobs or not."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_base_cost(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base cost of a blob at a given fork."""
         pass
 
     @classmethod
@@ -461,6 +550,17 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """
         Return true if the engine api version requires new payload calls to include
         target blobs per block.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_execution_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Return `True` if the engine api version requires execution payload to include a
+        `block_access_list`.
         """
         pass
 
@@ -602,6 +702,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         return cls._ignore
 
     @classmethod
+    @prefer_transition_to_method
+    def bpo_fork(cls) -> bool:
+        """Return whether the fork is a BPO fork."""
+        return cls._bpo_fork
+
+    @classmethod
     def parent(cls) -> Type["BaseFork"] | None:
         """Return the parent fork."""
         base_class = cls.__bases__[0]
@@ -609,3 +715,8 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         if base_class == BaseFork:
             return None
         return base_class
+
+    @classmethod
+    def children(cls) -> Set[Type["BaseFork"]]:
+        """Return the children forks."""
+        return set(cls._children)

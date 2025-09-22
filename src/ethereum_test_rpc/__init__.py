@@ -1,7 +1,15 @@
 """JSON-RPC methods and helper functions for EEST consume based hive simulators."""
 
-from .rpc import BlockNumberType, DebugRPC, EngineRPC, EthRPC, SendTransactionExceptionError
-from .types import (
+from .rpc import (
+    AdminRPC,
+    BlockNumberType,
+    DebugRPC,
+    EngineRPC,
+    EthRPC,
+    NetRPC,
+    SendTransactionExceptionError,
+)
+from .rpc_types import (
     BlobAndProofV1,
     BlobAndProofV2,
     EthConfigResponse,
@@ -10,6 +18,7 @@ from .types import (
 )
 
 __all__ = [
+    "AdminRPC",
     "BlobAndProofV1",
     "BlobAndProofV2",
     "BlockNumberType",
@@ -19,5 +28,6 @@ __all__ = [
     "EthRPC",
     "ForkConfig",
     "ForkConfigBlobSchedule",
+    "NetRPC",
     "SendTransactionExceptionError",
 ]

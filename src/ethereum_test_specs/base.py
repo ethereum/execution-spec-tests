@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
-from pydantic import BaseModel, Field, PrivateAttr
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
@@ -56,17 +56,24 @@ class OpMode(StrEnum):
 
     CONSENSUS = "consensus"
     BENCHMARKING = "benchmarking"
+    OPTIMIZE_GAS = "optimize-gas"
+    OPTIMIZE_GAS_POST_PROCESSING = "optimize-gas-post-processing"
 
 
 class BaseTest(BaseModel):
     """Represents a base Ethereum test which must return a single test fixture."""
 
+    model_config = ConfigDict(extra="forbid")
+
     tag: str = ""
 
     _request: pytest.FixtureRequest | None = PrivateAttr(None)
     _operation_mode: OpMode | None = PrivateAttr(None)
+    _gas_optimization: int | None = PrivateAttr(None)
+    _gas_optimization_max_gas_limit: int | None = PrivateAttr(None)
 
     expected_benchmark_gas_used: int | None = None
+    skip_gas_used_validation: bool = False
 
     spec_types: ClassVar[Dict[str, Type["BaseTest"]]] = {}
 
@@ -111,6 +118,7 @@ class BaseTest(BaseModel):
             tag=base_test.tag,
             t8n_dump_dir=base_test.t8n_dump_dir,
             expected_benchmark_gas_used=base_test.expected_benchmark_gas_used,
+            skip_gas_used_validation=base_test.skip_gas_used_validation,
             **kwargs,
         )
         new_instance._request = base_test._request

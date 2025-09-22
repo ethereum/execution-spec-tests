@@ -336,7 +336,7 @@ class ExpectSectionInStateTestFiller(CamelModel):
         """Validate that the expectation is coherent."""
         if self.expect_exception is None:
             return
-        all_forks: Set[Fork] = set()
+        all_forks: Set[Fork] = set()  # type: ignore[annotation-unchecked]
         for current_fork_set in self.expect_exception:
             for fork in current_fork_set:
                 assert fork not in all_forks

@@ -23,7 +23,7 @@ from ethereum_test_tools import (
     TransactionException,
     Withdrawal,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .spec import ref_spec_4895
 
@@ -651,6 +651,7 @@ def test_zero_amount(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 def test_large_amount(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -690,6 +691,7 @@ def test_large_amount(
     blockchain_test(pre=pre, post=post, blocks=blocks)
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize("amount", [0, 1])
 @pytest.mark.with_all_precompiles
 def test_withdrawing_to_precompiles(

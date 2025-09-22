@@ -19,7 +19,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .spec import ref_spec_3855
 
@@ -29,6 +29,7 @@ REFERENCE_SPEC_VERSION = ref_spec_3855.version
 pytestmark = pytest.mark.valid_from("Shanghai")
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "contract_code,expected_storage",
     [
@@ -120,6 +121,7 @@ class TestPush0CallContext:
         )
         return pre.deploy_contract(call_code)
 
+    @pytest.mark.xdist_group(name="bigmem")
     @pytest.mark.parametrize(
         "call_opcode",
         [

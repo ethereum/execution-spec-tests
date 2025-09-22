@@ -2,6 +2,7 @@
 
 import json
 import re
+import shlex
 import shutil
 import subprocess
 import textwrap
@@ -70,6 +71,7 @@ class GethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_PRE_FORK: ("transaction type not supported"),
         TransactionException.INITCODE_SIZE_EXCEEDED: "max initcode size exceeded",
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
+        TransactionException.NONCE_MISMATCH_TOO_HIGH: "nonce too high",
         BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "unable to parse deposit data",
         BlockException.INCORRECT_BLOB_GAS_USED: "blob gas used mismatch",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: "invalid excessBlobGas",
@@ -78,6 +80,9 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: "system call failed to execute:",
         BlockException.INVALID_BLOCK_HASH: "blockhash mismatch",
         BlockException.RLP_BLOCK_LIMIT_EXCEEDED: "block RLP-encoded size exceeds maximum",
+        BlockException.INVALID_BAL_EXTRA_ACCOUNT: "BAL change not reported in computed",
+        BlockException.INVALID_BAL_MISSING_ACCOUNT: "additional mutations compared to BAL",
+        BlockException.INVALID_BLOCK_ACCESS_LIST: "unequal",
     }
     mapping_regex: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
@@ -125,8 +130,19 @@ class GethEvm(EthereumCLI):
         fixture_path: Path,
         debug_output_path: Path,
     ):
-        debug_fixture_path = debug_output_path / "fixtures.json"
-        consume_direct_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
+        # our assumption is that each command element is a string
+        assert all(isinstance(x, str) for x in command), (
+            f"Not all elements of 'command' list are strings: {command}"
+        )
+        assert len(command) > 0
+
+        # replace last value with debug fixture path
+        debug_fixture_path = str(debug_output_path / "fixtures.json")
+        command[-1] = debug_fixture_path
+
+        # ensure that flags with spaces are wrapped in double-quotes
+        consume_direct_call = " ".join(shlex.quote(arg) for arg in command)
+
         consume_direct_script = textwrap.dedent(
             f"""\
             #!/bin/bash

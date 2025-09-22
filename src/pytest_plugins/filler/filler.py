@@ -8,6 +8,7 @@ writes the generated fixtures to file.
 
 import configparser
 import datetime
+import json
 import os
 import warnings
 from dataclasses import dataclass, field
@@ -18,6 +19,7 @@ import pytest
 import xdist
 from _pytest.compat import NotSetType
 from _pytest.terminal import TerminalReporter
+from filelock import FileLock
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
@@ -36,6 +38,7 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import BaseTest
+from ethereum_test_specs.base import OpMode
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -226,7 +229,7 @@ class FillingSession:
         """Load pre-allocation groups from the output folder."""
         pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
         if pre_alloc_folder.exists():
-            self.pre_alloc_groups = PreAllocGroups.from_folder(pre_alloc_folder)
+            self.pre_alloc_groups = PreAllocGroups.from_folder(pre_alloc_folder, lazy_load=True)
         else:
             raise FileNotFoundError(
                 f"Pre-allocation groups folder not found: {pre_alloc_folder}. "
@@ -315,7 +318,7 @@ class FillingSession:
         if self.pre_alloc_groups is None:
             self.pre_alloc_groups = PreAllocGroups(root={})
 
-        for hash_key, group in worker_groups.root.items():
+        for hash_key, group in worker_groups.items():
             if hash_key in self.pre_alloc_groups:
                 # Merge if exists (should not happen in practice)
                 existing = self.pre_alloc_groups[hash_key]
@@ -478,13 +481,6 @@ def pytest_addoption(parser: pytest.Parser):
         help="Clean (remove) the output directory before filling fixtures.",
     )
     test_group.addoption(
-        "--flat-output",
-        action="store_true",
-        dest="flat_output",
-        default=False,
-        help="Output each test case in the directory without the folder structure.",
-    )
-    test_group.addoption(
         "--single-fixture-per-file",
         action="store_true",
         dest="single_fixture_per_file",
@@ -556,6 +552,55 @@ def pytest_addoption(parser: pytest.Parser):
         ),
     )
 
+    optimize_gas_group = parser.getgroup(
+        "optimize gas",
+        "Arguments defining test gas optimization behavior.",
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas",
+        action="store_true",
+        dest="optimize_gas",
+        default=False,
+        help=(
+            "Attempt to optimize the gas used in every transaction for the filled tests, "
+            "then print the minimum amount of gas at which the test still produces a correct "
+            "post state and the exact same trace."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-output",
+        action="store",
+        dest="optimize_gas_output",
+        default=Path("optimize-gas-output.json"),
+        type=Path,
+        help=(
+            "Path to the JSON file that is output to the gas optimization. "
+            "Requires `--optimize-gas`."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-max-gas-limit",
+        action="store",
+        dest="optimize_gas_max_gas_limit",
+        default=None,
+        type=int,
+        help=(
+            "Maximum gas limit for gas optimization, if reached the search will stop and "
+            "fail for that given test. Requires `--optimize-gas`."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-post-processing",
+        action="store_true",
+        dest="optimize_gas_post_processing",
+        default=False,
+        help=(
+            "Post process the traces during gas optimization in order to Account for "
+            "opcodes that put the current gas in the stack, in order to remove "
+            "remaining-gas from the comparison."
+        ),
+    )
+
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
         "--evm-dump-dir",
@@ -586,6 +631,7 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
+    # Register custom markers
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
@@ -613,25 +659,44 @@ def pytest_configure(config):
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
+    config.gas_optimized_tests = {}
+    if config.getoption("optimize_gas", False):
+        if config.getoption("optimize_gas_post_processing"):
+            config.op_mode = OpMode.OPTIMIZE_GAS_POST_PROCESSING
+        else:
+            config.op_mode = OpMode.OPTIMIZE_GAS
+
+    config.collect_traces = config.getoption("evm_collect_traces") or config.getoption(
+        "optimize_gas", False
+    )
+
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
     evm_bin = config.getoption("evm_bin")
+    trace = config.getoption("evm_collect_traces")
+    t8n_server_url = config.getoption("t8n_server_url")
+    kwargs = {
+        "trace": trace,
+    }
+    if t8n_server_url is not None:
+        kwargs["server_url"] = t8n_server_url
     if evm_bin is None:
         assert TransitionTool.default_tool is not None, "No default transition tool found"
-        t8n = TransitionTool.default_tool(trace=config.getoption("evm_collect_traces"))
+        t8n = TransitionTool.default_tool(**kwargs)
     else:
-        t8n = TransitionTool.from_binary_path(
-            binary_path=evm_bin, trace=config.getoption("evm_collect_traces")
+        t8n = TransitionTool.from_binary_path(binary_path=evm_bin, **kwargs)
+
+    if (
+        isinstance(config.getoption("numprocesses"), int)
+        and config.getoption("numprocesses") > 0
+        and not t8n.supports_xdist
+    ):
+        pytest.exit(
+            f"The {t8n.__class__.__name__} t8n tool does not work well with the xdist plugin;"
+            "use -n=0.",
+            returncode=pytest.ExitCode.USAGE_ERROR,
         )
-        if (
-            isinstance(config.getoption("numprocesses"), int)
-            and config.getoption("numprocesses") > 0
-            and "Besu" in str(t8n.detect_binary_pattern)
-        ):
-            pytest.exit(
-                "The Besu t8n tool does not work well with the xdist plugin; use -n=0.",
-                returncode=pytest.ExitCode.USAGE_ERROR,
-            )
+    config.t8n = t8n
 
     if "Tools" not in config.stash[metadata_key]:
         config.stash[metadata_key]["Tools"] = {
@@ -698,16 +763,15 @@ def pytest_terminal_summary(
             if config.pluginmanager.hasplugin("xdist"):
                 # Load pre-allocation groups from disk
                 pre_alloc_groups = PreAllocGroups.from_folder(
-                    config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
+                    config.fixture_output.pre_alloc_groups_folder_path,  # type: ignore[attr-defined]
+                    lazy_load=False,
                 )
             else:
                 assert session_instance.pre_alloc_groups is not None
                 pre_alloc_groups = session_instance.pre_alloc_groups
 
             total_groups = len(pre_alloc_groups.root)
-            total_accounts = sum(
-                group.pre_account_count for group in pre_alloc_groups.root.values()
-            )
+            total_accounts = sum(group.pre_account_count for group in pre_alloc_groups.values())
 
             terminalreporter.write_sep(
                 "=",
@@ -802,6 +866,7 @@ def pytest_runtest_makereport(item, call):
                 "state_test",
                 "blockchain_test",
                 "blockchain_test_engine",
+                "blockchain_test_sync",
             ]:
                 report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
             else:
@@ -829,26 +894,9 @@ def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def t8n_server_url(request: pytest.FixtureRequest) -> str | None:
-    """Return configured t8n server url."""
-    return request.config.getoption("t8n_server_url")
-
-
-@pytest.fixture(autouse=True, scope="session")
-def t8n(
-    request: pytest.FixtureRequest, evm_bin: Path | None, t8n_server_url: str | None
-) -> Generator[TransitionTool, None, None]:
+def t8n(request: pytest.FixtureRequest) -> Generator[TransitionTool, None, None]:
     """Return configured transition tool."""
-    kwargs = {
-        "trace": request.config.getoption("evm_collect_traces"),
-    }
-    if t8n_server_url is not None:
-        kwargs["server_url"] = t8n_server_url
-    if evm_bin is None:
-        assert TransitionTool.default_tool is not None, "No default transition tool found"
-        t8n = TransitionTool.default_tool(**kwargs)
-    else:
-        t8n = TransitionTool.from_binary_path(binary_path=evm_bin, **kwargs)
+    t8n: TransitionTool = request.config.t8n  # type: ignore
     if not t8n.exception_mapper.reliable:
         warnings.warn(
             f"The t8n tool that is currently being used to fill tests ({t8n.__class__.__name__}) "
@@ -900,7 +948,7 @@ def evm_fixture_verification(
     try:
         evm_fixture_verification = FixtureConsumerTool.from_binary_path(
             binary_path=Path(verify_fixtures_bin),
-            trace=request.config.getoption("evm_collect_traces"),
+            trace=request.config.collect_traces,  # type: ignore[attr-defined]
         )
     except Exception:
         if reused_evm_bin:
@@ -1060,7 +1108,6 @@ def fixture_collector(
 
     fixture_collector = FixtureCollector(
         output_dir=fixture_output.directory,
-        flat_output=fixture_output.flat_output,
         fill_static_tests=request.config.getoption("fill_static_tests_enabled"),
         single_fixture_per_file=fixture_output.single_fixture_per_file,
         filler_path=filler_path,
@@ -1147,6 +1194,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         test_case_description: str,
         fixture_source_url: str,
         gas_benchmark_value: int,
+        witness_generator,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -1183,9 +1231,16 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
                 self._operation_mode = request.config.op_mode
+                if (
+                    self._operation_mode == OpMode.OPTIMIZE_GAS
+                    or self._operation_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                ):
+                    self._gas_optimization_max_gas_limit = request.config.getoption(
+                        "optimize_gas_max_gas_limit", None
+                    )
 
                 # Get the filling session from config
-                session: FillingSession = request.config.filling_session  # type: ignore[attr-defined]
+                session: FillingSession = request.config.filling_session  # type: ignore
 
                 # Phase 1: Generate pre-allocation groups
                 if session.phase_manager.is_pre_alloc_generation:
@@ -1201,12 +1256,22 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     pre_alloc_hash = self.compute_pre_alloc_group_hash(fork=fork)
                     group = session.get_pre_alloc_group(pre_alloc_hash)
                     self.pre = group.pre
-
-                fixture = self.generate(
-                    t8n=t8n,
-                    fork=fork,
-                    fixture_format=fixture_format,
-                )
+                try:
+                    fixture = self.generate(
+                        t8n=t8n,
+                        fork=fork,
+                        fixture_format=fixture_format,
+                    )
+                finally:
+                    if (
+                        request.config.op_mode == OpMode.OPTIMIZE_GAS
+                        or request.config.op_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                    ):
+                        gas_optimized_tests = request.config.gas_optimized_tests
+                        assert gas_optimized_tests is not None
+                        # Force adding something to the list, even if it's None,
+                        # to keep track of failed tests in the output file.
+                        gas_optimized_tests[request.node.nodeid] = self._gas_optimization
 
                 # Post-process for Engine X format (add pre_hash and state diff)
                 if (
@@ -1229,6 +1294,10 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     ref_spec=reference_spec,
                     _info_metadata=t8n._info_metadata,
                 )
+
+                # Generate witness data if witness functionality is enabled via the witness plugin
+                if witness_generator is not None:
+                    witness_generator(fixture)
 
                 fixture_path = fixture_collector.add_fixture(
                     node_to_test_info(request.node),
@@ -1312,7 +1381,27 @@ def pytest_collection_modifyitems(
         if not fixture_format.supports_fork(fork):
             items_for_removal.append(i)
             continue
+
         markers = list(item.iter_markers())
+
+        # Automatically apply pre_alloc_group marker to slow tests that are not benchmark tests
+        has_slow_marker = any(marker.name == "slow" for marker in markers)
+        has_benchmark_marker = any(marker.name == "benchmark" for marker in markers)
+        has_pre_alloc_group_marker = any(marker.name == "pre_alloc_group" for marker in markers)
+
+        if has_slow_marker and not has_benchmark_marker and not has_pre_alloc_group_marker:
+            # Add pre_alloc_group marker to isolate slow non-benchmark tests
+            pre_alloc_marker = pytest.mark.pre_alloc_group(
+                "separate",
+                reason=(
+                    "Non-benchmark tests marked as slow should be generated "
+                    "with their own pre-alloc-group"
+                ),
+            )
+            item.add_marker(pre_alloc_marker)
+            # Re-collect markers after adding the new one
+            markers = list(item.iter_markers())
+
         # Both the fixture format itself and the spec filling it have a chance to veto the
         # filling of a specific format.
         if fixture_format.discard_fixture_format_by_marks(fork, markers):
@@ -1360,6 +1449,16 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     if session_instance.phase_manager.is_pre_alloc_generation:
         session_instance.save_pre_alloc_groups()
         return
+
+    if session.config.getoption("optimize_gas", False):  # type: ignore[attr-defined]
+        output_file = Path(session.config.getoption("optimize_gas_output"))
+        lock_file_path = output_file.with_suffix(".lock")
+        assert hasattr(session.config, "gas_optimized_tests")
+        gas_optimized_tests: Dict[str, int] = session.config.gas_optimized_tests
+        with FileLock(lock_file_path):
+            if output_file.exists():
+                gas_optimized_tests = json.loads(output_file.read_text()) | gas_optimized_tests
+            output_file.write_text(json.dumps(gas_optimized_tests, indent=2, sort_keys=True))
 
     if xdist.is_xdist_worker(session):
         return

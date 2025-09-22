@@ -8,10 +8,10 @@ import pytest
 
 from ethereum_test_exceptions.exceptions import EOFException
 from ethereum_test_tools import Account, EOFStateTestFiller, EOFTestFiller
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container, Section
 from ethereum_test_types.eof.v1.constants import MAX_STACK_INCREASE_LIMIT, NON_RETURNING_SECTION
-from ethereum_test_vm.bytecode import Bytecode
+from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from ..eip3540_eof_v1.test_all_opcodes_in_container import valid_eof_opcodes

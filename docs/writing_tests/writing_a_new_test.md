@@ -176,10 +176,10 @@ For a full list of available opcodes and their usage, see [`Opcodes`][ethereum_t
 
 #### Higher-Level Constructs
 
-For more complex control flow, you can use constructs like [`Switch`][ethereum_test_tools.code.generators.Switch] and [`Case`][ethereum_test_tools.code.generators.Case] from the `ethereum_test_tools.code.generators` module:
+For more complex control flow, you can use constructs like [`Switch`][ethereum_test_tools.tools_code.generators.Switch] and [`Case`][ethereum_test_tools.tools_code.generators.Case] from the `ethereum_test_tools.tools_code.generators` module:
 
 ```python
-from ethereum_test_tools.code.generators import Switch, Case
+from ethereum_test_tools.tools_code.generators import Switch, Case
 from ethereum_test_vm.opcode import Opcodes as Op
 
 code = Switch(
@@ -191,7 +191,7 @@ code = Switch(
 )
 ```
 
-The `ethereum_test_tools.code.generators` module also defines other high-level constructs like [`While`][ethereum_test_tools.code.generators.While] and [`Conditional`][ethereum_test_tools.code.generators.Conditional].
+The `ethereum_test_tools.tools_code.generators` module also defines other high-level constructs like [`While`][ethereum_test_tools.tools_code.generators.While] and [`Conditional`][ethereum_test_tools.tools_code.generators.Conditional].
 
 #### Converting Bytecode to Minilang
 

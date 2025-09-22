@@ -5,7 +5,6 @@ import itertools
 import pytest
 
 from ethereum_test_tools import EOFException, EOFTestFiller
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import (
     AutoSection,
     Container,
@@ -19,6 +18,7 @@ from ethereum_test_types.eof.v1.constants import (
     MAX_CODE_SECTIONS,
     MAX_STACK_INCREASE_LIMIT,
 )
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 

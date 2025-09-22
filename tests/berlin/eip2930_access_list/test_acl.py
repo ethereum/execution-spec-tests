@@ -98,12 +98,10 @@ def test_account_storage_warm_cold_state(
 
     tx = Transaction(
         ty=1,
-        chain_id=0x01,
         data=tx_data,
         to=contract_address,
         gas_limit=tx_gas_limit,
         access_list=access_lists,
-        protected=True,
         sender=sender,
     )
 
@@ -236,13 +234,11 @@ def test_transaction_intrinsic_gas_cost(
 
     tx = Transaction(
         ty=1,
-        chain_id=0x01,
         data=tx_data,
         to=contract_address,
         value=tx_value,
         gas_limit=tx_gas_limit,
         access_list=access_lists,
-        protected=True,
         sender=sender,
         error=tx_exception,
     )

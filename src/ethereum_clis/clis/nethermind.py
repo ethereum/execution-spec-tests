@@ -2,6 +2,7 @@
 
 import json
 import re
+import shlex
 import subprocess
 import textwrap
 from functools import cache
@@ -55,13 +56,21 @@ class Nethtest(EthereumCLI):
         result: subprocess.CompletedProcess,
         debug_output_path: Path,
     ):
-        consume_direct_call = " ".join(command)
+        # our assumption is that each command element is a string
+        assert all(isinstance(x, str) for x in command), (
+            f"Not all elements of 'command' list are strings: {command}"
+        )
+
+        # ensure that flags with spaces are wrapped in double-quotes
+        consume_direct_call = " ".join(shlex.quote(arg) for arg in command)
+
         consume_direct_script = textwrap.dedent(
             f"""\
             #!/bin/bash
             {consume_direct_call}
             """
         )
+
         dump_files_to_directory(
             str(debug_output_path),
             {
@@ -374,12 +383,12 @@ class NethermindExceptionMapper(ExceptionMapper):
         ),
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: r"Transaction \d+ is not valid",
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
-            r"BlobTxGasLimitExceeded: Transaction's totalDataGas=\d+ "
-            r"exceeded MaxBlobGas per transaction=\d+"
-        ),
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
             r"BlockBlobGasExceeded: A block cannot have more than \d+ blob gas, blobs count \d+, "
             r"blobs gas used: \d+"
+        ),
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
+            r"BlobTxGasLimitExceeded: Transaction's totalDataGas=\d+ "
+            r"exceeded MaxBlobGas per transaction=\d+"
         ),
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
             r"TxGasLimitCapExceeded: Gas limit \d+ \w+ cap of \d+\.?"

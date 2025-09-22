@@ -5,7 +5,7 @@ stable:
 
 develop:
   evm-type: develop 
-  fill-params: --until=Osaka --fill-static-tests --ignore=tests/static/state_tests/stQuadraticComplexityTest
+  fill-params: --until=BPO4 --fill-static-tests --ignore=tests/static/state_tests/stQuadraticComplexityTest
 
 benchmark:
   evm-type: benchmark # Evmone only fully supports up to Prague
@@ -14,4 +14,9 @@ benchmark:
 benchmark_develop:
   evm-type: develop
   fill-params: --fork=Osaka --gas-benchmark-values 1,10,30,45,60,100,150 -m "benchmark and not state_test" ./tests/benchmark
+  feature_only: true
+
+bal:
+  evm-type: develop
+  fill-params: --fork=Amsterdam ./tests/amsterdam/eip7928_block_level_access_lists
   feature_only: true

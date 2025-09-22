@@ -29,7 +29,8 @@ jobs:
           echo "features=$(cat features.json)" >> "$GITHUB_OUTPUT"
   build:
     needs: features
-    runs-on: [self-hosted-ghr, size-chungus-x64]
+    runs-on: [self-hosted-ghr, size-gigachungus-x64]
+    timeout-minutes: 1440
     strategy:
       matrix:
         name: ${{ fromJson(needs.features.outputs.features) }}
@@ -60,7 +61,6 @@ jobs:
           release_name: ${{ matrix.name }}
           uv_version: ${{ vars.UV_VERSION }}
           python_version: ${{ vars.DEFAULT_PYTHON_VERSION }}
-        timeout-minutes: 720
   release:
     runs-on: ubuntu-latest
     needs: build
