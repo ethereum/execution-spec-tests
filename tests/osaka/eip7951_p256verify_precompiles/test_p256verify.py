@@ -31,7 +31,9 @@ pytestmark = [
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
       vectors_from_file("secp256r1_test.json") +
-      vectors_from_file("secp256r1_signature_malleability.json"),
+      vectors_from_file("secp256r1_signature_malleability.json") +
+      vectors_from_file("secp256r1_shamir_multiplication.json") +
+      vectors_from_file("secp256r1_special_case_hash.json"),
     # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite,
     # (mostly) valid cases
     # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
