@@ -32,6 +32,7 @@ from ethereum_test_tools import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
+# TODO: add test which writes to already existing storage
 @pytest.mark.valid_from("Frontier")
 def test_xen_approve(
     blockchain_test: BlockchainTestFiller,
@@ -44,6 +45,8 @@ def test_xen_approve(
     attack_gas_limit = (
         60_000_000  # TODO: currently hardcoded, should be read from `gas_benchmark_value`
     )
+
+    # Gas limit: 60M, 2424 SSTOREs, 300 MGas/s
 
     xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
     gas_threshold = 40_000
@@ -77,8 +80,8 @@ def test_xen_approve(
 
     approval_spammer_contract = pre.deploy_contract(code=approval_loop_code)
 
-    start_address = Hash(0)
-    approval_value = Hash(1)
+    start_address = Hash(0x01)  # Approvals to the zero address are rejected, so start at 1
+    approval_value = Hash(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE)
 
     calldata = start_address + approval_value
 
