@@ -491,12 +491,7 @@ def test_bal_call_with_value_transfer(
     oracle_code = Op.CALL(0, bob, 100, 0, 0, 0, 0)
     oracle_contract = pre.deploy_contract(code=oracle_code, balance=200)
 
-    tx = Transaction(
-        sender=alice,
-        to=oracle_contract,
-        gas_limit=1_000_000,
-        gas_price=0xA
-    )
+    tx = Transaction(sender=alice, to=oracle_contract, gas_limit=1_000_000, gas_price=0xA)
 
     block = Block(
         txs=[tx],
@@ -511,6 +506,46 @@ def test_bal_call_with_value_transfer(
                 bob: BalAccountExpectation(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
                 ),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
+
+
+@pytest.mark.valid_from("Amsterdam")
+def test_bal_callcode_with_value_transfer(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+):
+    """Ensure BAL captures balance changes from CALLCODE opcode with value transfer."""
+    alice = pre.fund_eoa()
+    bob = pre.fund_eoa(amount=0)
+
+    # TargetContract sends 100 wei to bob
+    target_code = Op.CALL(0, bob, 100, 0, 0, 0, 0)
+    target_contract = pre.deploy_contract(code=target_code)
+
+    # Oracle contract that uses CALLCODE to execute TargetContract's code
+    oracle_code = Op.CALLCODE(50_000, target_contract, 100, 0, 0, 0, 0)
+    oracle_contract = pre.deploy_contract(code=oracle_code, balance=200)
+
+    tx = Transaction(sender=alice, to=oracle_contract, gas_limit=1_000_000, gas_price=0xA)
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                oracle_contract: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
+                ),
+                bob: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
+                ),
+                target_contract: BalAccountExpectation(),
             }
         ),
     )
