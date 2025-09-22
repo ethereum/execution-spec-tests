@@ -424,3 +424,55 @@ def test_bal_self_destruct(
         blocks=[block],
         post=post,
     )
+
+
+@pytest.mark.parametrize(
+    "account_access_opcode",
+    [
+        pytest.param(lambda target_addr: Op.BALANCE(target_addr), id="balance"),
+        pytest.param(lambda target_addr: Op.EXTCODESIZE(target_addr), id="extcodesize"),
+        pytest.param(lambda target_addr: Op.EXTCODECOPY(target_addr, 0, 0, 32), id="extcodecopy"),
+        pytest.param(lambda target_addr: Op.EXTCODEHASH(target_addr), id="extcodehash"),
+        pytest.param(lambda target_addr: Op.CALL(0, target_addr, 50, 0, 0, 0, 0), id="call"),
+        pytest.param(
+            lambda target_addr: Op.CALLCODE(0, target_addr, 0, 0, 0, 0, 0), id="callcode"
+        ),
+        pytest.param(
+            lambda target_addr: Op.DELEGATECALL(0, target_addr, 0, 0, 0, 0), id="delegatecall"
+        ),
+        pytest.param(
+            lambda target_addr: Op.STATICCALL(0, target_addr, 0, 0, 0, 0), id="staticcall"
+        ),
+    ],
+)
+@pytest.mark.valid_from("Amsterdam")
+def test_bal_account_access_target(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    account_access_opcode,
+):
+    """Ensure BAL captures target address of account access opcodes."""
+    alice = pre.fund_eoa()
+    target_contract = pre.deploy_contract(code=Op.STOP)
+
+    oracle_contract = pre.deploy_contract(
+        balance=100,
+        code=account_access_opcode(target_contract),
+    )
+
+    tx = Transaction(sender=alice, to=oracle_contract, gas_limit=5_000_000, gas_price=0xA)
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
+                ),
+                target_contract: BalAccountExpectation(),
+                oracle_contract: BalAccountExpectation(),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
