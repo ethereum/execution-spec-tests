@@ -28381,10 +28381,14 @@ ethereum/EIPs.</p>
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
     <span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Insert a new test EIPSpecTestItem for every test module with &#39;eip&#39; in its path.&quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">session</span>
+
     <span class="n">github_token</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">github_token</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;github_token&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="n">modules</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">item</span><span class="o">.</span><span class="n">parent</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">Module</span><span class="p">)}</span>
