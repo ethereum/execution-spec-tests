@@ -30,7 +30,7 @@ pytestmark = [
 
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
-      vectors_from_file("secp256r1_signature_specific.json") +
+      + vectors_from_file("secp256r1_signature_specific.json")
       vectors_from_file("secp256r1_shamir_multiplication.json") +
       vectors_from_file("secp256r1_special_case_hash.json") +
       vectors_from_file("secp256r1_u1_u2.json") +
@@ -68,13 +68,13 @@ def test_wycheproof_invalid(state_test: StateTestFiller, pre: Alloc, post: dict,
     "input_data,expected_output,vector_gas_value",
       vectors_from_file("secp256r1_small_large_r_s.json") +
       vectors_from_file("secp256r1_special_points.json"),
-    # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite, invalid cases
+    # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite, valid/invalid cases
     # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @EIPChecklist.Precompile.Test.CallContexts.Normal()
 @EIPChecklist.Precompile.Test.Inputs.MaxValues()
-def test_wycheproof(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Test P256Verify precompile with Wycheproof test suite (mixed valid/invalid cases)."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
