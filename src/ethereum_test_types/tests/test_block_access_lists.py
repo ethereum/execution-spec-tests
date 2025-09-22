@@ -948,3 +948,32 @@ def test_bal_account_absent_values_comprehensive():
         BlockAccessListValidationError, match="Unexpected storage change found at slot"
     ):
         expectation.verify_against(actual_bal)
+
+
+@pytest.mark.parametrize(
+    "field_name,field_value",
+    [
+        ("nonce_changes", []),
+        ("balance_changes", []),
+        ("code_changes", []),
+        ("storage_changes", []),
+        ("storage_reads", []),
+    ],
+)
+def test_bal_account_absent_values_empty_list_validation_raises(field_name, field_value):
+    """Test that empty lists in BalAccountAbsentValues fields raise appropriate errors."""
+    with pytest.raises(ValueError, match="Empty lists are not allowed"):
+        BalAccountAbsentValues(**{field_name: field_value})
+
+
+def test_bal_account_absent_values_empty_slot_changes_raises():
+    """Test that empty slot_changes in storage_changes raises appropriate error."""
+    with pytest.raises(ValueError, match="Empty lists are not allowed"):
+        BalAccountAbsentValues(
+            storage_changes=[
+                BalStorageSlot(
+                    slot=0x42,
+                    slot_changes=[],  # Empty list should raise error
+                )
+            ]
+        )

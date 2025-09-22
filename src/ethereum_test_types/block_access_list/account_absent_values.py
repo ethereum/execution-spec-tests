@@ -3,7 +3,7 @@ BalAccountAbsentValues class for BAL testing.
 
 This module provides a unified class for specifying explicit absent values in Block Access Lists.
 This class uses the same change classes as BalAccountChanges to specify specific values that
-should NOT exist in the BAL. For checking complete absence (empty lists), use BalAccountExpectation
+should NOT exist in the BAL. For checking complete absence, use BalAccountExpectation
 with empty lists instead.
 """
 
@@ -22,8 +22,10 @@ from .account_changes import (
 )
 from .exceptions import BlockAccessListValidationError
 
-CLARIFYING_ABSENCE_MSG = (
-    "For complete absence checks, use empty lists in `BalAccountExpectation` instead."
+EMPTY_LIST_ERROR_MSG = (
+    "Empty lists are not allowed. This would mean 'check for any change' and "
+    "is bad practice. Instead, use the `BalAccountExpectation` to define "
+    "explicit, expected changes."
 )
 
 
@@ -39,8 +41,8 @@ class BalAccountAbsentValues(CamelModel):
     (e.g., "no nonce changes at all"), use BalAccountExpectation with empty lists
     instead.
 
-    The validation works by checking that none of the specified exact changes exist in
-    the actual BAL.
+    The validation works by checking that none of the specified explicit changes
+    exist in the actual BAL.
 
     Example:
         # Forbid specific nonce change at tx 1 with post_nonce=5, and specific
@@ -98,6 +100,7 @@ class BalAccountAbsentValues(CamelModel):
     @model_validator(mode="after")
     def validate_specific_absences_only(self) -> "BalAccountAbsentValues":
         """Ensure absence fields contain specific values, not empty checks."""
+        # at least one field must have content
         if not any(
             [
                 self.nonce_changes,
@@ -110,16 +113,31 @@ class BalAccountAbsentValues(CamelModel):
             raise ValueError(
                 "At least one absence field must be specified. "
                 "`BalAccountAbsentValues` is for checking specific forbidden values. "
-                f"{CLARIFYING_ABSENCE_MSG}"
+                f"{EMPTY_LIST_ERROR_MSG}"
             )
 
-        # Validate that storage_changes don't have empty slot_changes
-        # (which would indicate "forbid all changes to this slot")
+        # check that no fields are explicitly set to empty lists
+        field_checks = [
+            ("nonce_changes", self.nonce_changes),
+            ("balance_changes", self.balance_changes),
+            ("code_changes", self.code_changes),
+            ("storage_changes", self.storage_changes),
+            ("storage_reads", self.storage_reads),
+        ]
+
+        for field_name, field_value in field_checks:
+            if field_name in self.model_fields_set and field_value == []:
+                raise ValueError(
+                    f"`BalAccountAbsentValues.{field_name}` cannot be an empty list. "
+                    f"{EMPTY_LIST_ERROR_MSG}"
+                )
+
+        # validate that storage_changes don't have empty slot_changes
         for storage_slot in self.storage_changes:
             if not storage_slot.slot_changes:
                 raise ValueError(
-                    f"BalAccountAbsentValues.storage_changes[{storage_slot.slot}] has "
-                    f"empty slot_changes. {CLARIFYING_ABSENCE_MSG}"
+                    f"`BalAccountAbsentValues.storage_changes[{storage_slot.slot}].slot_changes` "
+                    f"cannot be an empty list. {EMPTY_LIST_ERROR_MSG}"
                 )
 
         return self
