@@ -1846,12 +1846,9 @@ def test_worst_jumpis(
 def test_worst_jumpdests(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    env: Environment,
-    fork: Fork,
 ):
     """Test running a JUMPDEST-intensive contract."""
     benchmark_test(
-        env=env,
         pre=pre,
         post={},
         code_generator=JumpLoopGenerator(attack_block=Op.JUMPDEST),
@@ -2755,8 +2752,6 @@ def test_worst_calldataload(
 def test_worst_swap(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    env: Environment,
-    fork: Fork,
     opcode: Opcode,
 ):
     """Test running a block with as many SWAP as possible."""
