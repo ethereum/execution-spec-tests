@@ -653,3 +653,69 @@ def test_bal_delegated_storage_reads(
     )
 
     blockchain_test(pre=pre, blocks=[block], post={})
+
+
+def test_bal_block_rewards(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    fork,
+):
+    """Ensure BAL captures fee recipient balance changes from block rewards."""
+    alice_initial_balance = 1_000_000
+    alice = pre.fund_eoa(amount=alice_initial_balance)
+    bob = pre.fund_eoa(amount=0)
+    charlie = pre.fund_eoa(amount=0)  # fee recipient
+
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    intrinsic_gas_cost = intrinsic_gas_calculator(
+        calldata=b"",
+        contract_creation=False,
+        access_list=[],
+    )
+    tx_gas_limit = intrinsic_gas_cost + 1000  # add a small buffer
+    gas_price = 0xA
+    base_fee_per_gas = 0x2  # Set base fee for EIP-1559
+
+    tx = Transaction(
+        sender=alice,
+        to=bob,
+        value=100,
+        gas_limit=tx_gas_limit,
+        gas_price=gas_price,
+    )
+
+    # EIP-1559 fee calculation:
+    # - Total gas cost
+    total_gas_cost = intrinsic_gas_cost * gas_price
+    # - Tip portion
+    tip_to_charlie = intrinsic_gas_cost * (gas_price - base_fee_per_gas)
+
+    alice_final_balance = alice_initial_balance - 100 - total_gas_cost
+
+    block = Block(
+        txs=[tx],
+        fee_recipient=charlie,  # Set Charlie as the fee recipient
+        base_fee_per_gas=base_fee_per_gas,  # Set base fee for EIP-1559
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                    balance_changes=[
+                        BalBalanceChange(tx_index=1, post_balance=alice_final_balance)
+                    ],
+                ),
+                bob: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
+                ),
+                charlie: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=tip_to_charlie)],
+                ),
+            }
+        ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={},
+    )
