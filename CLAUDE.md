@@ -28,6 +28,11 @@ Execute: Python Tests → execute → Live JSON-RPC Testing
 
 All commands use `uv run` prefix.
 
+**IMPORTANT**: Always activate the virtual environment first before running any commands:
+```bash
+source .venv/bin/activate
+```
+
 ### Setup
 
 ```bash
