@@ -218,32 +218,45 @@ def test_bal_aborted_storage_access(
         post={},
     )
 
-
 @pytest.mark.parametrize(
     "account_access_opcode",
     [
         pytest.param(lambda target_addr: Op.BALANCE(target_addr), id="balance"),
+        pytest.param(lambda target_addr: Op.EXTCODESIZE(target_addr), id="extcodesize"),
+        pytest.param(lambda target_addr: Op.EXTCODECOPY(target_addr, 0, 0, 32), id="extcodecopy"),
+        pytest.param(lambda target_addr: Op.EXTCODEHASH(target_addr), id="extcodehash"),
         pytest.param(lambda target_addr: Op.CALL(0, target_addr, 50, 0, 0, 0, 0), id="call"),
         pytest.param(
-            lambda target_addr: Op.STATICCALL(0, target_addr, 0, 0, 0, 0), id="staticcall"
+            lambda target_addr: Op.CALLCODE(0, target_addr, 0, 0, 0, 0, 0), id="callcode"
         ),
         pytest.param(
             lambda target_addr: Op.DELEGATECALL(0, target_addr, 0, 0, 0, 0), id="delegatecall"
         ),
+        pytest.param(
+            lambda target_addr: Op.STATICCALL(0, target_addr, 0, 0, 0, 0), id="staticcall"
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    "abort_opcode",
+    [
+        pytest.param(Op.REVERT(0, 0), id="revert"),
+        pytest.param(Op.INVALID, id="invalid"),
     ],
 )
 def test_bal_aborted_account_access(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     account_access_opcode,
+    abort_opcode: Op,
 ):
-    """Ensure BAL captures account access in aborted transactions for individual opcodes."""
+    """Ensure BAL captures account access in aborted transactions."""
     alice = pre.fund_eoa()
-    bob = pre.fund_eoa(amount=100)
+    target_contract = pre.deploy_contract(code=Op.STOP)
 
     abort_contract = pre.deploy_contract(
         balance=100,
-        code=account_access_opcode(bob),
+        code=account_access_opcode(target_contract) + abort_opcode,
     )
 
     tx = Transaction(sender=alice, to=abort_contract, gas_limit=5_000_000, gas_price=0xA)
@@ -255,7 +268,7 @@ def test_bal_aborted_account_access(
                 alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
                 ),
-                bob: BalAccountExpectation(),
+                target_contract: BalAccountExpectation(),
                 abort_contract: BalAccountExpectation(),
             }
         ),
