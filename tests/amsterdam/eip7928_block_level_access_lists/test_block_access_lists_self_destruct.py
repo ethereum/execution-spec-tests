@@ -10,7 +10,6 @@ from ethereum_test_tools import (
     Transaction,
     compute_create_address,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
     BalBalanceChange,
@@ -18,6 +17,7 @@ from ethereum_test_types.block_access_list import (
     BalNonceChange,
     BlockAccessListExpectation,
 )
+from ethereum_test_vm import Opcodes as Op
 
 from .spec import ref_spec_7928
 
