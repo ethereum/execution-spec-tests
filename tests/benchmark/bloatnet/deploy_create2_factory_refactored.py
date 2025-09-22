@@ -19,7 +19,7 @@ try:
     from eth_utils import keccak
     from web3 import Web3
 
-    from ethereum_test_vm.opcode import Opcodes as Op
+    from ethereum_test_vm import Opcodes as Op
 except ImportError as e:
     print(f"Error: Missing dependencies - {e}")
     print("This refactored version requires the EEST framework.")
