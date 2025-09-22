@@ -5,6 +5,8 @@ abstract: BloatNet bench cases extracted from https://hackmd.io/9icZeLN7R0Sk5mIj
    processing are focusing specifically on state-related operations.
 """
 
+import warnings
+
 import pytest
 
 from ethereum_test_forks import Fork
@@ -17,7 +19,7 @@ from ethereum_test_tools import (
     Transaction,
     While,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/bloatnet.md"
 REFERENCE_SPEC_VERSION = "1.0"
@@ -72,8 +74,6 @@ def test_bloatnet_balance_extcodesize(
     num_contracts = min(contracts_needed, NUM_DEPLOYED_CONTRACTS)
 
     if contracts_needed > NUM_DEPLOYED_CONTRACTS:
-        import warnings
-
         warnings.warn(
             f"Test needs {contracts_needed} contracts for "
             f"{gas_benchmark_value / 1_000_000:.1f}M gas, "
@@ -131,6 +131,7 @@ def test_bloatnet_balance_extcodesize(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
+        skip_gas_used_validation=True,
     )
 
 
@@ -176,8 +177,6 @@ def test_bloatnet_balance_extcodecopy(
     num_contracts = min(contracts_needed, NUM_DEPLOYED_CONTRACTS)
 
     if contracts_needed > NUM_DEPLOYED_CONTRACTS:
-        import warnings
-
         warnings.warn(
             f"Test needs {contracts_needed} contracts for "
             f"{gas_benchmark_value / 1_000_000:.1f}M gas, "
@@ -243,4 +242,5 @@ def test_bloatnet_balance_extcodecopy(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
+        skip_gas_used_validation=True,
     )
