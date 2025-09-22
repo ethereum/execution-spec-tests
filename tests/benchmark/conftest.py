@@ -38,8 +38,10 @@ def pytest_collection_modifyitems(config, items):
 
     if gen_docs:
         for item in items:
-            if benchmark_dir in Path(item.fspath).parents and not item.get_closest_marker(
-                "benchmark"
+            if (
+                benchmark_dir in Path(item.fspath).parents
+                and not item.get_closest_marker("benchmark")
+                and not item.get_closest_marker("state")
             ):
                 item.add_marker(benchmark_marker)
         return
@@ -47,12 +49,16 @@ def pytest_collection_modifyitems(config, items):
     marker_expr = config.getoption("-m", default="")
     run_benchmarks = (
         marker_expr and "benchmark" in marker_expr and "not benchmark" not in marker_expr
-    ) or config.getoption("--gas-benchmark-values", default=None)
+    )
+    run_state_tests = marker_expr and "state" in marker_expr and "not state" not in marker_expr
 
     items_for_removal = []
     for i, item in enumerate(items):
         is_in_benchmark_dir = benchmark_dir in Path(item.fspath).parents
-        is_benchmark_test = is_in_benchmark_dir or item.get_closest_marker("benchmark")
+        has_state_marker = item.get_closest_marker("state")
+        is_benchmark_test = (
+            is_in_benchmark_dir and not has_state_marker
+        ) or item.get_closest_marker("benchmark")
 
         if is_benchmark_test:
             if is_in_benchmark_dir and not item.get_closest_marker("benchmark"):
@@ -60,6 +66,8 @@ def pytest_collection_modifyitems(config, items):
             if not run_benchmarks:
                 items_for_removal.append(i)
         elif run_benchmarks:
+            items_for_removal.append(i)
+        elif is_in_benchmark_dir and has_state_marker and not run_state_tests:
             items_for_removal.append(i)
 
     for i in reversed(items_for_removal):
