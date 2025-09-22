@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_invalid"><code>test_invalid()</code><a class="headerlink" href="#test_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9f96fadb3836d20e7afbdc58a8678f9c2df02e30/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L46"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@9f96fadb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/47ab040a19143fd7d78794f65066bb8b9e1e0255/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L46"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@47ab040a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid --fork Osaka</span>
@@ -27441,7 +27441,139 @@
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
-<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_length_input&quot;</span><span class="p">),</span>
@@ -27585,6 +27717,138 @@
             <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x1</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x85EC5A4AF40176B63189069AEFFCB229C96D3E046E0283ED2F9DAC21B15AD3C</span><span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_composite_order&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: Composite order curve with b = -Spec.B</span>
+            <span class="c1"># Random point which satisfies y² = x³ - 3x - Spec.B (mod p)</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0xC223E1538C4D7B5BBD3EF932736826FD64F4E8B5C80250D9E07A728689D13C38</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x0C7CB59EF6BE7539397CC979AD9A87A3B73A0DD268BBA4990A3378C6391512D5</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xF8C943685BCFE7864C0F8485CACD732D3A9F167531CAF26B67A3CB10B641F92C</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0xF1F2ADE681DB5699741B1F9FF080E9A08DCFF48F48A5048C4D90EC89440C3EFB</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xBFFE372E7BBDBD60E4DF885E17A37878461AE13B6491E7863020305962F2C6B6</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_bneg_1&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: Composite order curve with b = -Spec.B</span>
+            <span class="c1"># Random point which satisfies y² = x³ - 3x - Spec.B (mod p)</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0x982D25BF8E0E81FF41AC3C8033604C78ED5EF17C6EDDA977072EAB6821A7AD0A</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x7C1996FA0EC911E4739AE7340B5345823272F494DFA32034A4FE5642C3DB91F2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x1E4D6CCF1AFB675D18BD27274770C8B84028D272D1D2641E70B30E1DF17AF3DC</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0xC9124B6AB12F08790A2712AEC74A1B71FA997CA7DE1E9117BC18D07DCBFE7C91</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xADD1E9DF40A47ADD6B2191C05D0C1B4AF1BAEEAA0C0A97E7B3D06FFAE543D096</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_bneg_2&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0xD21697149F598FEAE9A750DCA86AE6D5EFA654680BA748D2DF7053115101C129</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xEF3FD943AD1F126B3EBA1A5900D79886755DB6DAFCB6B0117D86364340CE36CC</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x687216395BD2F58E5A6D91964AE67E766DF2A2FB8E623795A5852507927C70C2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xF40E19B93BEB5C0678EDE25AB3654E08C0C6EF6A143CEC9865F3A447C6EB84E3</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_h0_random1&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x52E47C5D6AAB66AB6A18A694359EB86FDD40F10E79EF5493C5469EC88BA03334</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x7584C5BF3CA2869C7E383B1603A935EEB79D990B7F7152E055EC562E87FD715E</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x0000000000000002000000000000000000000000000000000000000000000000</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x000000000000000000000000000000000000000000000000FE00000000000000</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_h0_random2&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x81333B13B13F362253BD536D17563A72EB575F1993F55ED40E633E503F60B864</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xE2208C4045F5241ECCF08F825399224C4B78595A10433EC33799DCAD7B0E1F4A</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0xCE9C1088B4BCC71223A187410BB05819A6D32D2F1A1024B83557E51833AB23DC</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x00FB64209538D1143A88E8B91D2DA46095AF852D7DD494BE6AF26C29D545F856</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_h0_random3&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x3C593B5857D1D0EB83923D73E76A7A53EF191BB210267D8C0BE17A4E34AB2E73</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xD022359310067882F713AFBECECE71CB80E4857368F46AB0346362DB033ED298</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x358DF65C0D732CCAB431D4CAB7F98E9F9279BD71D64635FAB21EA87EF254C5D1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x82909FF2E230433D000000000000000000000000000000000000000000000000</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_h0_random4&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x425CFFCA652791CABFC81B1E4B7712DBA196599FABCE16978E06E6AF486B1FEC</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x58B864B5A41CD17524E4773EC353C9590D792F601DA075AD9B3F40E8E7070E8A</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x00000000000000000000000000000000000000000000000000007FFFFFFFFFFF</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xFFFF000000000000000000000000000000000000000000000000000000000000</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_h0_random5&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0x2DA0A74BE3122AEAEF5704D0EB27881FBFB918B4A5252B660935263D0569BA92</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x5543729CBCFD99EE6C3B422D7F245903E7177B3A6A4E3C20C0DC5F5E109795AE</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x96403D5BB253EBD7DEF44BCBC062FCD4EA5E358B19B67C13E625EFDF6B977597</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x996CADC001622FB5E363B421A08854096569397B3BDCB8C3DEC907392F7CC59B</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xD34A4E0F08C6FC549F7FAFFBCAF610D7F6C467B7B27072720E81079FB6595B52</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_random6&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0x1F9D9B26DB42380C85F075174DDAF158F9DE4CD10C3104190D7AF96938DD8ECD</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x159946DBC4F1DE68CD4096862A5B10E5986ACB32229D6E68884DC83DAB70A307</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x63D80724A4074421F7DD255630794E3AEBE635B756D72B24652AAC07D01B289C</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x9CA2F39CC3536861000000000000000000000000000000000000000000000000</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x000000000000B100000000000000000000000000000000000000000000000000</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_random7&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0xD380DA9251F1FB809ED48C70DC8F81E91C471F0E81BC95E7611C653278A5B6B4</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0xFF197EB72A9E531B17B872525247E6564B786CC014ED28B6849CE7D8C976BDF2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x7B0B2EFF9BB5409052B35FD3FF81DCE77D95A1F75C46989817045120DA5C3C9C</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0xBA7695481956A6269DD646ADDD4AFE6D9763637D76AD780299E51201384A8403</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xA62443DD4AFE6D9763637D76AD780299E51201384AE4FEDD3CDAC9F461600D53</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_random8&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0x4B082B60497ED87FFE570612D521E73A2CD6C832744EF8E4E2E329E30D3D5879</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x6665A88CB3FF30D339A1975FD46CF5EF480A68A093AB778550073D3528C3B609</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xAEAADDB235E4AC6097356DB96161E27849EA8EDF1E971F74EB51E19A1CC950A1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x0000000000000002000000000000000000000000000000000000000000000000</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x000000000000000000000000000000000000000000000000FE00000000000000</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_random9&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0x6CC2B605CFBDB22B9E7B55EFE8C1DA0F1C5A0EC1AA8D82EEDFB5EA70E9846E88</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x3C593B5857D1D0EB83923D73E76A7A53EF191BB210267D8C0BE17A4E34AB2E73</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xD022359310067882F713AFBECECE71CB80E4857368F46AB0346362DB033ED298</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x358DF65C0D732CCAB431D4CAB7F98E9F9279BD71D64635FAB21EA87EF254C5D1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x82909FF2E230433D000000000000000000000000000000000000000000000000</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_random10&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Invalid curve attack: random point bytes.</span>
+            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="n">H</span><span class="p">(</span><span class="mh">0x810C1D53EA96A700C93F6AF1C183197B040EA6FEAE10564877A1C78EC6074FF1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x34D0F0C8E14D39002B5DEA00808957963E849503DDFD626323433047D696C7C4</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x6A7FE39C046304317F799FB900877073F2AE3C798DD4414795551A833ABCBA85</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x0000000000F90000000067923073C067015B601D94F262F0E82B9DA2D33A6A32</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xFC3D71CB490CF346ED31DC37405FB0069F4A7ED188381DC049ABAB66E9F80080</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_random_11&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -27921,6 +28185,149 @@
                         <td></td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>085ec5a4af40176b63189069aeffcb22</code> <code>9c96d3e046e0283ed2f9dac21b15ad3c</code></td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_1]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_bneg_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>c223e1538c4d7b5bbd3ef932736826fd</code> <code>64f4e8b5c80250d9e07a728689d13c38</code> <code>0c7cb59ef6be7539397cc979ad9a87a3</code> <code>b73a0dd268bba4990a3378c6391512d5</code> <code>f8c943685bcfe7864c0f8485cacd732d</code> <code>3a9f167531caf26b67a3cb10b641f92c</code> <code>f1f2ade681db5699741b1f9ff080e9a0</code> <code>8dcff48f48a5048c4d90ec89440c3efb</code> <code>bffe372e7bbdbd60e4df885e17a37878</code> <code>461ae13b6491e7863020305962f2c6b6</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_2]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_bneg_2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>982d25bf8e0e81ff41ac3c8033604c78</code> <code>ed5ef17c6edda977072eab6821a7ad0a</code> <code>7c1996fa0ec911e4739ae7340b534582</code> <code>3272f494dfa32034a4fe5642c3db91f2</code> <code>1e4d6ccf1afb675d18bd27274770c8b8</code> <code>4028d272d1d2641e70b30e1df17af3dc</code> <code>c9124b6ab12f08790a2712aec74a1b71</code> <code>fa997ca7de1e9117bc18d07dcbfe7c91</code> <code>add1e9df40a47add6b2191c05d0c1b4a</code> <code>f1baeeaa0c0a97e7b3d06ffae543d096</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random1]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>d21697149f598feae9a750dca86ae6d5</code> <code>efa654680ba748d2df7053115101c129</code> <code>ef3fd943ad1f126b3eba1a5900d79886</code> <code>755db6dafcb6b0117d86364340ce36cc</code> <code>687216395bd2f58e5a6d91964ae67e76</code> <code>6df2a2fb8e623795a5852507927c70c2</code> <code>f40e19b93beb5c0678ede25ab3654e08</code> <code>c0c6ef6a143cec9865f3a447c6eb84e3</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random2]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>52e47c5d6aab66ab6a18a694359eb86f</code> <code>dd40f10e79ef5493c5469ec88ba03334</code> <code>7584c5bf3ca2869c7e383b1603a935ee</code> <code>b79d990b7f7152e055ec562e87fd715e</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random3]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random3]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random3
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>81333b13b13f362253bd536d17563a72</code> <code>eb575f1993f55ed40e633e503f60b864</code> <code>e2208c4045f5241eccf08f825399224c</code> <code>4b78595a10433ec33799dcad7b0e1f4a</code> <code>ce9c1088b4bcc71223a187410bb05819</code> <code>a6d32d2f1a1024b83557e51833ab23dc</code> <code>00fb64209538d1143a88e8b91d2da460</code> <code>95af852d7dd494be6af26c29d545f856</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random4]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random4]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random4
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random5]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random5]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random5
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>425cffca652791cabfc81b1e4b7712db</code> <code>a196599fabce16978e06e6af486b1fec</code> <code>58b864b5a41cd17524e4773ec353c959</code> <code>0d792f601da075ad9b3f40e8e7070e8a</code> <code>00000000000000000000000000000000</code> <code>000000000000000000007fffffffffff</code> <code>ffff0000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random6]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random6]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random6
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>2da0a74be3122aeaef5704d0eb27881f</code> <code>bfb918b4a5252b660935263d0569ba92</code> <code>5543729cbcfd99ee6c3b422d7f245903</code> <code>e7177b3a6a4e3c20c0dc5f5e109795ae</code> <code>96403d5bb253ebd7def44bcbc062fcd4</code> <code>ea5e358b19b67c13e625efdf6b977597</code> <code>996cadc001622fb5e363b421a0885409</code> <code>6569397b3bdcb8c3dec907392f7cc59b</code> <code>d34a4e0f08c6fc549f7faffbcaf610d7</code> <code>f6c467b7b27072720e81079fb6595b52</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random7]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random7]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random7
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>1f9d9b26db42380c85f075174ddaf158</code> <code>f9de4cd10c3104190d7af96938dd8ecd</code> <code>159946dbc4f1de68cd4096862a5b10e5</code> <code>986acb32229d6e68884dc83dab70a307</code> <code>63d80724a4074421f7dd255630794e3a</code> <code>ebe635b756d72b24652aac07d01b289c</code> <code>9ca2f39cc35368610000000000000000</code> <code>00000000000000000000000000000000</code> <code>000000000000b1000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random8]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random8]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random8
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>d380da9251f1fb809ed48c70dc8f81e9</code> <code>1c471f0e81bc95e7611c653278a5b6b4</code> <code>ff197eb72a9e531b17b872525247e656</code> <code>4b786cc014ed28b6849ce7d8c976bdf2</code> <code>7b0b2eff9bb5409052b35fd3ff81dce7</code> <code>7d95a1f75c46989817045120da5c3c9c</code> <code>ba7695481956a6269dd646addd4afe6d</code> <code>9763637d76ad780299e51201384a8403</code> <code>a62443dd4afe6d9763637d76ad780299</code> <code>e51201384ae4fedd3cdac9f461600d53</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random9]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random9]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random9
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>4b082b60497ed87ffe570612d521e73a</code> <code>2cd6c832744ef8e4e2e329e30d3d5879</code> <code>6665a88cb3ff30d339a1975fd46cf5ef</code> <code>480a68a093ab778550073d3528c3b609</code> <code>aeaaddb235e4ac6097356db96161e278</code> <code>49ea8edf1e971f74eb51e19a1cc950a1</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random10]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random10]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random10
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>6cc2b605cfbdb22b9e7b55efe8c1da0f</code> <code>1c5a0ec1aa8d82eedfb5ea70e9846e88</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random_11]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random_11]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random_11
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>810c1d53ea96a700c93f6af1c183197b</code> <code>040ea6feae10564877a1c78ec6074ff1</code> <code>34d0f0c8e14d39002b5dea0080895796</code> <code>3e849503ddfd626323433047d696c7c4</code> <code>6a7fe39c046304317f799fb900877073</code> <code>f2ae3c798dd4414795551a833abcba85</code> <code>0000000000f90000000067923073c067</code> <code>015b601d94f262f0e82b9da2d33a6a32</code> <code>fc3d71cb490cf346ed31dc37405fb006</code> <code>9f4a7ed188381dc049abab66e9f80080</code></td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28184,6 +28591,149 @@
                         <td>256</td>
                         <td></td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>085ec5a4af40176b63189069aeffcb22</code> <code>9c96d3e046e0283ed2f9dac21b15ad3c</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>c223e1538c4d7b5bbd3ef932736826fd</code> <code>64f4e8b5c80250d9e07a728689d13c38</code> <code>0c7cb59ef6be7539397cc979ad9a87a3</code> <code>b73a0dd268bba4990a3378c6391512d5</code> <code>f8c943685bcfe7864c0f8485cacd732d</code> <code>3a9f167531caf26b67a3cb10b641f92c</code> <code>f1f2ade681db5699741b1f9ff080e9a0</code> <code>8dcff48f48a5048c4d90ec89440c3efb</code> <code>bffe372e7bbdbd60e4df885e17a37878</code> <code>461ae13b6491e7863020305962f2c6b6</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_2]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>982d25bf8e0e81ff41ac3c8033604c78</code> <code>ed5ef17c6edda977072eab6821a7ad0a</code> <code>7c1996fa0ec911e4739ae7340b534582</code> <code>3272f494dfa32034a4fe5642c3db91f2</code> <code>1e4d6ccf1afb675d18bd27274770c8b8</code> <code>4028d272d1d2641e70b30e1df17af3dc</code> <code>c9124b6ab12f08790a2712aec74a1b71</code> <code>fa997ca7de1e9117bc18d07dcbfe7c91</code> <code>add1e9df40a47add6b2191c05d0c1b4a</code> <code>f1baeeaa0c0a97e7b3d06ffae543d096</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random1]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>d21697149f598feae9a750dca86ae6d5</code> <code>efa654680ba748d2df7053115101c129</code> <code>ef3fd943ad1f126b3eba1a5900d79886</code> <code>755db6dafcb6b0117d86364340ce36cc</code> <code>687216395bd2f58e5a6d91964ae67e76</code> <code>6df2a2fb8e623795a5852507927c70c2</code> <code>f40e19b93beb5c0678ede25ab3654e08</code> <code>c0c6ef6a143cec9865f3a447c6eb84e3</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random2]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>52e47c5d6aab66ab6a18a694359eb86f</code> <code>dd40f10e79ef5493c5469ec88ba03334</code> <code>7584c5bf3ca2869c7e383b1603a935ee</code> <code>b79d990b7f7152e055ec562e87fd715e</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random3]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random3]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random3
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>81333b13b13f362253bd536d17563a72</code> <code>eb575f1993f55ed40e633e503f60b864</code> <code>e2208c4045f5241eccf08f825399224c</code> <code>4b78595a10433ec33799dcad7b0e1f4a</code> <code>ce9c1088b4bcc71223a187410bb05819</code> <code>a6d32d2f1a1024b83557e51833ab23dc</code> <code>00fb64209538d1143a88e8b91d2da460</code> <code>95af852d7dd494be6af26c29d545f856</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random4]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random4]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random4
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random5]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random5]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random5
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>425cffca652791cabfc81b1e4b7712db</code> <code>a196599fabce16978e06e6af486b1fec</code> <code>58b864b5a41cd17524e4773ec353c959</code> <code>0d792f601da075ad9b3f40e8e7070e8a</code> <code>00000000000000000000000000000000</code> <code>000000000000000000007fffffffffff</code> <code>ffff0000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random6]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random6]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random6
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>2da0a74be3122aeaef5704d0eb27881f</code> <code>bfb918b4a5252b660935263d0569ba92</code> <code>5543729cbcfd99ee6c3b422d7f245903</code> <code>e7177b3a6a4e3c20c0dc5f5e109795ae</code> <code>96403d5bb253ebd7def44bcbc062fcd4</code> <code>ea5e358b19b67c13e625efdf6b977597</code> <code>996cadc001622fb5e363b421a0885409</code> <code>6569397b3bdcb8c3dec907392f7cc59b</code> <code>d34a4e0f08c6fc549f7faffbcaf610d7</code> <code>f6c467b7b27072720e81079fb6595b52</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random7]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random7]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random7
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>1f9d9b26db42380c85f075174ddaf158</code> <code>f9de4cd10c3104190d7af96938dd8ecd</code> <code>159946dbc4f1de68cd4096862a5b10e5</code> <code>986acb32229d6e68884dc83dab70a307</code> <code>63d80724a4074421f7dd255630794e3a</code> <code>ebe635b756d72b24652aac07d01b289c</code> <code>9ca2f39cc35368610000000000000000</code> <code>00000000000000000000000000000000</code> <code>000000000000b1000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random8]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random8]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random8
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>d380da9251f1fb809ed48c70dc8f81e9</code> <code>1c471f0e81bc95e7611c653278a5b6b4</code> <code>ff197eb72a9e531b17b872525247e656</code> <code>4b786cc014ed28b6849ce7d8c976bdf2</code> <code>7b0b2eff9bb5409052b35fd3ff81dce7</code> <code>7d95a1f75c46989817045120da5c3c9c</code> <code>ba7695481956a6269dd646addd4afe6d</code> <code>9763637d76ad780299e51201384a8403</code> <code>a62443dd4afe6d9763637d76ad780299</code> <code>e51201384ae4fedd3cdac9f461600d53</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random9]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random9]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random9
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>4b082b60497ed87ffe570612d521e73a</code> <code>2cd6c832744ef8e4e2e329e30d3d5879</code> <code>6665a88cb3ff30d339a1975fd46cf5ef</code> <code>480a68a093ab778550073d3528c3b609</code> <code>aeaaddb235e4ac6097356db96161e278</code> <code>49ea8edf1e971f74eb51e19a1cc950a1</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random10]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random10]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random10
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>6cc2b605cfbdb22b9e7b55efe8c1da0f</code> <code>1c5a0ec1aa8d82eedfb5ea70e9846e88</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random_11]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random_11]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random_11
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>810c1d53ea96a700c93f6af1c183197b</code> <code>040ea6feae10564877a1c78ec6074ff1</code> <code>34d0f0c8e14d39002b5dea0080895796</code> <code>3e849503ddfd626323433047d696c7c4</code> <code>6a7fe39c046304317f799fb900877073</code> <code>f2ae3c798dd4414795551a833abcba85</code> <code>0000000000f90000000067923073c067</code> <code>015b601d94f262f0e82b9da2d33a6a32</code> <code>fc3d71cb490cf346ed31dc37405fb006</code> <code>9f4a7ed188381dc049abab66e9f80080</code></td>
                     </tr>
             </tbody>
 </table>
