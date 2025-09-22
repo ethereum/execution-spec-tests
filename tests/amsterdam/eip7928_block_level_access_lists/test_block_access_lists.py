@@ -567,11 +567,11 @@ def test_bal_delegated_storage_writes(
     alice = pre.fund_eoa()
 
     # TargetContract that writes 0x42 to slot 0x01
-    target_code = Op.SSTORE(0x01, 0x42) + Op.STOP
+    target_code = Op.SSTORE(0x01, 0x42)
     target_contract = pre.deploy_contract(code=target_code)
 
     # Oracle contract that uses delegated opcode to execute TargetContract's code
-    oracle_code = delegated_opcode(target_contract) + Op.STOP
+    oracle_code = delegated_opcode(target_contract)
     oracle_contract = pre.deploy_contract(code=oracle_code)
 
     tx = Transaction(
@@ -594,6 +594,58 @@ def test_bal_delegated_storage_writes(
                             slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)],
                         )
                     ],
+                ),
+                target_contract: BalAccountExpectation(),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
+
+
+@pytest.mark.parametrize(
+    "delegated_opcode",
+    [
+        pytest.param(
+            lambda target_addr: Op.DELEGATECALL(50000, target_addr, 0, 0, 0, 0), id="delegatecall"
+        ),
+        pytest.param(
+            lambda target_addr: Op.CALLCODE(50000, target_addr, 0, 0, 0, 0, 0), id="callcode"
+        ),
+    ],
+)
+def test_bal_delegated_storage_reads(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    delegated_opcode,
+):
+    """Ensure BAL captures delegated storage reads via DELEGATECALL and CALLCODE."""
+    alice = pre.fund_eoa()
+
+    # TargetContract that reads from slot 0x01
+    target_code = Op.SLOAD(0x01) + Op.STOP
+    target_contract = pre.deploy_contract(code=target_code)
+
+    # Oracle contract with storage slot 0x01 = 0x42,
+    # uses delegated opcode to execute TargetContract's code
+    oracle_code = delegated_opcode(target_contract)
+    oracle_contract = pre.deploy_contract(code=oracle_code, storage={0x01: 0x42})
+
+    tx = Transaction(
+        sender=alice,
+        to=oracle_contract,
+        gas_limit=1_000_000,
+    )
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                oracle_contract: BalAccountExpectation(
+                    storage_reads=[0x01],
                 ),
                 target_contract: BalAccountExpectation(),
             }
