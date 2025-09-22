@@ -28,7 +28,7 @@ from ethereum_test_fixtures import (
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
 from ethereum_test_vm import Bytecode
-from ethereum_test_vm.opcode import Opcodes as Op
+from ethereum_test_vm.opcodes import Opcodes as Op
 
 from .base import BaseTest
 from .blockchain import Block, BlockchainTest

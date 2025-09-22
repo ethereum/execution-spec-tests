@@ -15,7 +15,7 @@ import pytest
 from py_ecc.bn128 import G1, G2, multiply
 
 from ethereum_test_base_types.base_types import Bytes
-from ethereum_test_benchmark import JumpLoopGenerator
+from ethereum_test_benchmark.benchmark_code_generator import JumpLoopGenerator
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
@@ -29,7 +29,6 @@ from ethereum_test_tools import (
     Transaction,
     add_kzg_version,
 )
-from ethereum_test_tools.benchmark_code_generator import JumpLoopGenerator
 from ethereum_test_types import TransactionType
 from ethereum_test_vm import Opcode
 from ethereum_test_vm import Opcodes as Op

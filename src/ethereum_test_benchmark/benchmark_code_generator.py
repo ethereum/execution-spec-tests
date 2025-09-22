@@ -4,7 +4,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_specs.benchmark import BenchmarkCodeGenerator
 from ethereum_test_types import Alloc, Transaction
 from ethereum_test_vm import Bytecode
-from ethereum_test_vm.opcode import Opcodes as Op
+from ethereum_test_vm.opcodes import Opcodes as Op
 
 
 class JumpLoopGenerator(BenchmarkCodeGenerator):
