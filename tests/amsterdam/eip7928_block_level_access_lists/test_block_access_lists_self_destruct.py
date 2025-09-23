@@ -92,6 +92,11 @@ def test_bal_self_destruct(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)]
                 ),
                 self_destructed_account: BalAccountExpectation(
+                    # When an account is deleted its post nonce is set to 0
+                    # as per EIP-7928.
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=0)]
+                    if self_destruct_in_same_tx
+                    else [],
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)],
                     # Expect code to be cleared if self-destructed in same transaction.
                     code_changes=[BalCodeChange(tx_index=1, new_code="")]
