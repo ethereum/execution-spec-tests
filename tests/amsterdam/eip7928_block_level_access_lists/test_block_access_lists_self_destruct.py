@@ -5,15 +5,16 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Alloc,
+    BalCodeChange,
     Block,
     BlockchainTestFiller,
+    Initcode,
     Transaction,
     compute_create_address,
 )
 from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
     BalBalanceChange,
-    BalCodeChange,
     BalNonceChange,
     BlockAccessListExpectation,
 )
@@ -46,16 +47,20 @@ def test_bal_self_destruct(
     # A pre existing self-destruct contract
     kaboom = pre.deploy_contract(code=selfdestruct_code)
 
+    # A template for self-destruct contract
+    self_destruct_init_code = Initcode(deploy_code=selfdestruct_code)
+    template = pre.deploy_contract(code=self_destruct_init_code)
+
     if self_destruct_in_same_tx:
         # The goal is to create a self-destructing contract in the same
         # transaction to trigger deletion of code as per EIP-6780.
         # The factory contract below creates a new self-destructing
         # contract and calls it in this transaction.
 
-        bytecode_size = len(selfdestruct_code)
+        bytecode_size = len(self_destruct_init_code)
         factory_bytecode = (
             # Clone template memory
-            Op.EXTCODECOPY(kaboom, 0, 0, bytecode_size)
+            Op.EXTCODECOPY(template, 0, 0, bytecode_size)
             # Fund 100 wei and deploy the clone
             + Op.CREATE(100, 0, bytecode_size)
             # Call the clone, which self-destructs
