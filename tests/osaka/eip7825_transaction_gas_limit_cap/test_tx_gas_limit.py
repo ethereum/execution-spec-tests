@@ -1,7 +1,8 @@
 """
-abstract: Transaction gas limit cap tests
-    Tests for transaction gas limit cap in [EIP-7825: Transaction Gas Limit
-    Cap](https://eips.ethereum.org/EIPS/eip-7825).
+Transaction gas limit cap tests.
+
+Tests for transaction gas limit cap in [EIP-7825: Transaction Gas Limit
+Cap](https://eips.ethereum.org/EIPS/eip-7825).
 """
 
 from typing import List

@@ -1,6 +1,7 @@
 """
-abstract: Test `excessBlobGas` & `blobGasUsed` block fields at fork transition
-    Tests for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+Test `excessBlobGas` & `blobGasUsed` block fields at fork transition.
+
+Tests for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 """
 
 from typing import List, Mapping

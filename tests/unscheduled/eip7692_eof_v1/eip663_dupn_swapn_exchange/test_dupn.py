@@ -1,5 +1,5 @@
 """
-abstract: DUPN instruction tests
+DUPN instruction tests
     Tests for DUPN instruction in
     [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663).
 """

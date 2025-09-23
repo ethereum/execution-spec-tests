@@ -1,5 +1,5 @@
 """
-abstract: Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
+Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
 """
 
 from typing import Dict, List

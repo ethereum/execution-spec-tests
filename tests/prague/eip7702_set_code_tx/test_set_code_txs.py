@@ -1,7 +1,8 @@
 """
-abstract: Tests use of set-code transactions from EIP-7702.
-    Tests use of set-code transactions from
-    [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
+Tests use of set-code transactions from EIP-7702.
+
+Tests use of set-code transactions from
+[EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
 """
 
 from enum import StrEnum

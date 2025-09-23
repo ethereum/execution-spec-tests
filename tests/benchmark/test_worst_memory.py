@@ -1,5 +1,5 @@
 """
-abstract: Tests that benchmark EVMs in the worst-case memory opcodes.
+Tests that benchmark EVMs in the worst-case memory opcodes.
 """
 
 import pytest

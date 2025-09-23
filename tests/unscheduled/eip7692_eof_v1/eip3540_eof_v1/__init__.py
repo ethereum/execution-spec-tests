@@ -1,5 +1,5 @@
 """
-abstract: EOF - EVM Object Format v1 tests.
+EOF - EVM Object Format v1 tests.
     Test cases for
     [EIP-3540: EOF - EVM Object Format v1](https://eips.ethereum.org/EIPS/eip-3540).
 

@@ -1,4 +1,4 @@
-"""abstract: Test DUP Test the DUP opcodes."""
+"""Test DUP Test the DUP opcodes."""
 
 import pytest
 

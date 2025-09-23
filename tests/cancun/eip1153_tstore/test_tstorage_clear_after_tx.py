@@ -1,4 +1,4 @@
-"""Ethereum Transient Storage EIP Tests https://eips.ethereum.org/EIPS/eip-1153."""
+"""EIP-1153 Transient Storage tests."""
 
 from typing import Optional
 

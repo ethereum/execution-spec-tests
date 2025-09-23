@@ -1,4 +1,4 @@
-"""abstract: Test identity precompile output size."""
+"""Test identity precompile output size."""
 
 from typing import Tuple
 

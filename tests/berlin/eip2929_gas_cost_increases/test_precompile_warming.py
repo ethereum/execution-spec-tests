@@ -1,8 +1,8 @@
 """
-abstract: Tests precompile warming behavior.
+Tests EIP-2929 precompile warming behavior.
 
-    Tests precompile warming behavior across fork transitions from
-    [EIP-2929: Gas cost increases for state access opcodes]
+Tests precompile warming behavior across fork transitions from
+[EIP-2929: Gas cost increases for state access opcodes]
     (https://eips.ethereum.org/EIPS/eip-2929).
 """
 

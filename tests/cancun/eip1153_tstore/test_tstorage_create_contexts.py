@@ -1,7 +1,5 @@
 """
-abstract: Transient storage in contract creation contexts tests
-    Tests for transient storage behavior in contract creation contexts from
-    [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153).
+Test transient storage in contract creation contexts.
 """
 
 from enum import unique

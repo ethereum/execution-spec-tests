@@ -1,6 +1,5 @@
 """
-abstract: Test [EIP-7823: Set upper bounds for MODEXP](https://eips.ethereum.org/EIPS/eip-7823)
-    Tests upper bounds of the MODEXP precompile.
+Test [EIP-7823: Set upper bounds for MODEXP](https://eips.ethereum.org/EIPS/eip-7823).
 """
 
 from typing import Dict

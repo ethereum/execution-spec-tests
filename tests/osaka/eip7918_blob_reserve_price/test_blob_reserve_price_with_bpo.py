@@ -1,5 +1,5 @@
 """
-abstract:  [EIP-7918: Blob base fee bounded by execution
+ [EIP-7918: Blob base fee bounded by execution
 cost](https://eips.ethereum.org/EIPS/eip-7918).
 """
 

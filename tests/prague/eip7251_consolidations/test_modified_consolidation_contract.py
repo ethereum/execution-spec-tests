@@ -1,5 +1,5 @@
 """
-abstract: Tests [EIP-7251: Execution layer triggerable consolidation](https://eips.ethereum.org/EIPS/eip-7251).
+Tests [EIP-7251: Execution layer triggerable consolidation](https://eips.ethereum.org/EIPS/eip-7251).
 """
 
 from typing import List

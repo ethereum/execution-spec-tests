@@ -1,7 +1,8 @@
 """
-abstract: Tests EIP-7685 General purpose execution layer requests
-    Cross testing for withdrawal and deposit request for
-    [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685).
+Tests EIP-7685 General purpose execution layer requests.
+
+Cross testing for withdrawal and deposit request for
+[EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685).
 """
 
 from itertools import permutations

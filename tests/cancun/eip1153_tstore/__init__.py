@@ -1,4 +1,6 @@
-"""EIP-1153 Tests."""
+"""
+[EIP-1153](https://eips.ethereum.org/EIPS/eip-1153) Tests.
+"""
 
 from enum import Enum, unique
 from pprint import pprint

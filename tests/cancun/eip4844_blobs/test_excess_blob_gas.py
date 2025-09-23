@@ -1,27 +1,28 @@
 """
-abstract: Tests `excessBlobGas` and `blobGasUsed` block fields for EIP-4844.
-    Tests `excessBlobGas` and `blobGasUsed` block fields for
-    [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Note: Adding a new test Add a function that is named `test_<test_name>` and
-    takes at least the following arguments.
+Tests `excessBlobGas` and `blobGasUsed` block fields for EIP-4844.
 
-    Required arguments:
-    - `blockchain_test`
-    - `env`
-    - `pre`
-    - `blocks`
-    - `post`
-    - `correct_excess_blob_gas`
+Tests `excessBlobGas` and `blobGasUsed` block fields for
+[EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
+Note: Adding a new test Add a function that is named `test_<test_name>` and
+takes at least the following arguments.
 
-    The following arguments can be parametrized to generate new combinations
-    and
-    test cases:
+Required arguments:
+- `blockchain_test`
+- `env`
+- `pre`
+- `blocks`
+- `post`
+- `correct_excess_blob_gas`
 
-    - new_blobs: Number of blobs in the block (automatically split across
-    transactions as needed)
+The following arguments can be parametrized to generate new combinations
+and
+test cases:
 
-    All other `pytest.fixture` fixtures can be parametrized to generate new
-    combinations and test cases.
+- new_blobs: Number of blobs in the block (automatically split across
+transactions as needed)
+
+All other `pytest.fixture` fixtures can be parametrized to generate new
+combinations and test cases.
 """
 
 import itertools

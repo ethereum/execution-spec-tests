@@ -1,9 +1,5 @@
 """
-abstract: Tests transient storage in reentrancy contexts.
-
-    Tests transient storage behavior in various reentrancy contexts from
-    [EIP-1153: Transient Storage]
-    (https://eips.ethereum.org/EIPS/eip-1153).
+Tests transient storage in reentrancy contexts.
 """
 
 from enum import EnumMeta, unique

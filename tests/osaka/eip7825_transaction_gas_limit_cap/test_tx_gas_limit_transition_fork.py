@@ -1,7 +1,8 @@
 """
-abstract: Transaction gas limit cap fork transition tests
-    Tests for fork transition behavior in [EIP-7825: Transaction Gas Limit
-    Cap](https://eips.ethereum.org/EIPS/eip-7825).
+Transaction gas limit cap fork transition tests.
+
+Tests for fork transition behavior in [EIP-7825: Transaction Gas Limit
+Cap](https://eips.ethereum.org/EIPS/eip-7825).
 """
 
 import pytest

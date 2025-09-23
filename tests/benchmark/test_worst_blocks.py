@@ -1,5 +1,5 @@
 """
-abstract: Tests that benchmark EVMs in worst-case block scenarios.
+Tests that benchmark EVMs in worst-case block scenarios.
 """
 
 import random

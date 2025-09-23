@@ -1,5 +1,5 @@
 """
-abstract: Call data tests for EXT*CALL instructions
+Call data tests for EXT*CALL instructions
     Tests for call data handling in
     [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069).
 """

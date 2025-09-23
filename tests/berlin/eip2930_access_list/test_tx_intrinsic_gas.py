@@ -1,7 +1,8 @@
 """
-abstract: Tests [EIP-2930: Access list transaction](https://eips.ethereum.org/EIPS/eip-2930).
-    Original test by Ori:
-    https://github.com/ethereum/tests/blob/v15.0/src/GeneralStateTestsFiller/stEIP1559/intrinsicGen.js.
+Tests [EIP-2930: Access list transaction](https://eips.ethereum.org/EIPS/eip-2930).
+
+Original test by Ori:
+https://github.com/ethereum/tests/blob/v15.0/src/GeneralStateTestsFiller/stEIP1559/intrinsicGen.js.
 """
 
 from typing import List

@@ -1,5 +1,5 @@
 """
-abstract: Test cases for EOF Contract Creation for EIP-7620.
+Test cases for EOF Contract Creation for EIP-7620.
     EIP-7620 replaces `CREATE` and `CREATE2` with `EOFCREATE` for deploying
     contracts in the EOF format. Full specification:
     [EIP-7620: EOF Contract Creation](https://eips.ethereum.org/EIPS/eip-7620).

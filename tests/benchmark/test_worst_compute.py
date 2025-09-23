@@ -1,7 +1,5 @@
 """
-abstract: Tests that benchmark EVMs in worst-case compute scenarios.
-    Tests that benchmark EVMs when running worst-case compute opcodes and
-    precompile scenarios.
+Tests that benchmark EVMs in worst-case compute scenarios.
 """
 
 import math

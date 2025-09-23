@@ -1,5 +1,5 @@
 """
-abstract: Tests that benchmark EVMs for worst-case stateful opcodes.
+Tests that benchmark EVMs for worst-case stateful opcodes.
 """
 
 import math

@@ -1,7 +1,8 @@
 """
-abstract: Test the BLS12_MAP_FP2_TO_G2 precompile
-    Test the BLS12_MAP_FP2_TO_G2 precompile introduced in
-    [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+Test the BLS12_MAP_FP2_TO_G2 precompile.
+
+Test the BLS12_MAP_FP2_TO_G2 precompile introduced in
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
 """
 
 import pytest

@@ -1,5 +1,5 @@
 """
-abstract: Test cases for EOF Data section access instructions for EIP-7480.
+Test cases for EOF Data section access instructions for EIP-7480.
     EIP-7480 specifies instructions for accessing data stored in the dedicated
     data section of the EOF format. Full specification: [EIP-7480: EOF - Data
     section access instructions](https://eips.ethereum.org/EIPS/eip-7480).

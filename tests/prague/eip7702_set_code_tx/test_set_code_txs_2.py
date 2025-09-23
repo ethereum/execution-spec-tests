@@ -1,4 +1,6 @@
-"""A state test for [EIP-7702 SetCodeTX](https://eips.ethereum.org/EIPS/eip-7702)."""
+"""
+A state test for [EIP-7702 SetCodeTX](https://eips.ethereum.org/EIPS/eip-7702).
+"""
 
 from enum import Enum, IntEnum
 

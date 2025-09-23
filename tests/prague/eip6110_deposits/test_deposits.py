@@ -1,8 +1,8 @@
 """
-abstract: Tests validator deposit functionality.
-    Tests the validator deposit functionality implementation from [EIP-6110:
-    Supply validator deposits on chain]
-    (https://eips.ethereum.org/EIPS/eip-6110).
+Tests validator deposit functionality.
+
+Tests the validator deposit functionality implementation from
+[EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110).
 """
 
 from typing import List

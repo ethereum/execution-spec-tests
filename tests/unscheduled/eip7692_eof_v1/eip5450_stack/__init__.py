@@ -1,5 +1,5 @@
 """
-abstract: EOF Stack Validation tests
+EOF Stack Validation tests
     Tests for
     [EIP-5450: EOF - Stack Validation](https://eips.ethereum.org/EIPS/eip-5450).
 

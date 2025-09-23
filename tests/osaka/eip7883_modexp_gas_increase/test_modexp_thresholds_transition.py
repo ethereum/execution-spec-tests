@@ -1,6 +1,5 @@
 """
-Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard
-fork.
+Test ModExp gas cost transition from EIP-7883 before & after the Osaka fork.
 """
 
 import pytest

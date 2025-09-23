@@ -1,9 +1,10 @@
 """
-abstract: Tests minimum gas and input length for BLS12 precompiles
-    Tests minimum gas and input length requirements for BLS12_G1MSM,
-    BLS12_G2MSM, and BLS12_PAIRING precompiles from [EIP-2537: Precompile
-    for BLS12-381 curve operations]
-    (https://eips.ethereum.org/EIPS/eip-2537).
+Tests minimum gas and input length for BLS12 precompiles.
+
+Tests minimum gas and input length requirements for BLS12_G1MSM,
+BLS12_G2MSM, and BLS12_PAIRING precompiles from [EIP-2537: Precompile
+for BLS12-381 curve operations]
+(https://eips.ethereum.org/EIPS/eip-2537).
 """
 
 from typing import Callable, List, SupportsBytes

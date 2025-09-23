@@ -1,8 +1,8 @@
 """
-abstract: Tests BLS12_MAP_FP_TO_G1 precompile.
-    Tests the BLS12_MAP_FP_TO_G1 precompile implementation from [EIP-2537:
-    Precompile for BLS12-381 curve operations]
-    (https://eips.ethereum.org/EIPS/eip-2537).
+Tests BLS12_MAP_FP_TO_G1 precompile.
+
+Tests the BLS12_MAP_FP_TO_G1 precompile implementation from
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
 """
 
 import pytest

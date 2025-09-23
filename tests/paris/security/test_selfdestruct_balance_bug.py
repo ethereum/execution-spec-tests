@@ -1,13 +1,15 @@
 """
-bug: Tests the Consensus Flaw During Block Processing related to SELFDESTRUCT
+Tests the Consensus Flaw During Block Processing related to SELFDESTRUCT.
+
 Tests the consensus-vulnerability reported in
 [go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4](https://github.com/ethere
 um/go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4).
 
 To reproduce the issue with this test case:
 
-1. Fill the test with the most recent geth evm version. 2. Run the fixture
-output within a vulnerable geth version: v1.9.20 > geth >= v1.9.4.
+1. Fill the test with the most recent geth evm version.
+2. Run the fixture
+    output within a vulnerable geth version: v1.9.20 > geth >= v1.9.4.
 """
 
 import pytest

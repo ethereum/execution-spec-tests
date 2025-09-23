@@ -1,5 +1,5 @@
 """
-abstract: Test delegatecall to Blake2B Precompile before and after added.
+Test delegatecall to Blake2B Precompile before and after added.
 """
 
 import pytest

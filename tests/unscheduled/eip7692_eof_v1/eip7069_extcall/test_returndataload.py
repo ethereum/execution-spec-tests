@@ -1,5 +1,5 @@
 """
-abstract: RETURNDATALOAD instruction tests
+RETURNDATALOAD instruction tests
     Tests for RETURNDATALOAD instruction in
     [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069).
 """

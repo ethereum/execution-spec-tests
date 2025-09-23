@@ -1,5 +1,5 @@
 """
-abstract: Test cases for [EIP-7692: EVM Object Format (EOFv1) Meta](https://eips.ethereum.org/EIPS/eip-7692).
+Test cases for [EIP-7692: EVM Object Format (EOFv1) Meta](https://eips.ethereum.org/EIPS/eip-7692).
     Test cases for the EIPs included in EIP-7692 EOFv1 Meta.
 
     * [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663).

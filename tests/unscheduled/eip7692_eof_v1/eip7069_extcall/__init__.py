@@ -1,5 +1,5 @@
 """
-abstract: Test cases for EIP-7069 Revamped CALL instructions
+Test cases for EIP-7069 Revamped CALL instructions
     [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069)
     proposes modifications to `CALL` instructions to align with the
     structured EOF format. Opcodes introduced: `EXTCALL` (`0xF8`),

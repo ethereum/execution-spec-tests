@@ -1,7 +1,8 @@
 """
-abstract: Get blobs engine endpoint tests
-    Tests for get blobs engine endpoint in [EIP-7594: PeerDAS - Peer Data
-    Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
+Get blobs engine endpoint tests.
+
+Tests for get blobs engine endpoint in [EIP-7594: PeerDAS - Peer Data
+Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
 """
 
 from hashlib import sha256

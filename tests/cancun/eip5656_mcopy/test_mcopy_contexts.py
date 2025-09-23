@@ -1,6 +1,7 @@
 """
-abstract: Test memory copy under different call contexts.
-    Tests for [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656).
+Test memory copy under different call contexts.
+
+Tests for [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656).
 """
 
 from itertools import cycle, islice

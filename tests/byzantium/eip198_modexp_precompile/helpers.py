@@ -1,4 +1,6 @@
-"""Helper functions for the EIP-198 ModExp precompile tests."""
+"""
+Helper functions for the EIP-198 ModExp precompile tests.
+"""
 
 from typing import Tuple
 

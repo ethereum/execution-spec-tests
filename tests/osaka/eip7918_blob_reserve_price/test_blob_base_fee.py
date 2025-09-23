@@ -1,6 +1,8 @@
 """
-abstract:  [EIP-7918: Blob base fee bounded by execution
-cost](https://eips.ethereum.org/EIPS/eip-7918).
+ [EIP-7918: Blob base fee bounded by execution cost](https://eips.ethereum.org/EIPS/eip-7918).
+
+Test the blob base fee reserve price mechanism for
+[EIP-7918: Blob base fee bounded by execution cost](https://eips.ethereum.org/EIPS/eip-7918).
 """
 
 from typing import Dict, List
