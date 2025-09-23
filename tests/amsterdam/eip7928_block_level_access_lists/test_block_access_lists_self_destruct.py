@@ -103,10 +103,19 @@ def test_bal_self_destruct(
         kaboom: Account(balance=0, code=selfdestruct_code),
     }
 
-    # If the account was NOT self-destructed in the same contract,
-    # we expect the account code to be present and its balance to be 0.
-    if not self_destruct_in_same_tx:
-        post[kaboom] = Account(balance=0, code=pre[kaboom].code)  # type: ignore
+    # If the account was self-destructed in the same transaction,
+    # we expect the account to non-existent and its balance to be 0.
+    if self_destruct_in_same_tx:
+        post.update(
+            {
+                factory: Account(
+                    nonce=2,  # incremented after CREATE
+                    balance=0,  # spent on CREATE
+                    code=factory_bytecode,
+                ),
+                kaboom_same_tx: Account.NONEXISTENT,  # type: ignore
+            }
+        )
 
     blockchain_test(
         pre=pre,
