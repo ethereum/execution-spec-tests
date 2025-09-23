@@ -52,7 +52,7 @@ class BlocktestBuilder:
                     to=Address(tx_data["to"]) if tx_data.get("to") else None,
                     value=HexNumber(tx_data.get("value", "0x0")),
                     gas_limit=HexNumber(tx_data.get("gas", tx_data.get("gasLimit", "0x5208"))),
-                    gas_price=HexNumber(tx_data.get("gasPrice", "0x1")),
+                    gas_price=HexNumber(tx_data["gasPrice"]) if "gasPrice" in tx_data else None,
                     nonce=HexNumber(tx_data.get("nonce", "0x0")),
                     data=tx_data.get("data", tx_data.get("input", "")),
                     max_fee_per_gas=HexNumber(tx_data["maxFeePerGas"])
