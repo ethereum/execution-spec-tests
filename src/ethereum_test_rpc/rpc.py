@@ -108,17 +108,24 @@ class BaseRPC:
         }
         headers = base_header | extra_headers
 
-        logger.debug(f"Sending RPC request, timeout is set to {timeout}...")
-        response = requests.post(self.url, json=payload, headers=headers, timeout=timeout)
-        response.raise_for_status()
-        response_json = response.json()
+        for attempt in range(6):
+            try:
+                logger.debug(f"Sending RPC request, timeout is set to {timeout}...")
+                response = requests.post(self.url, json=payload, headers=headers, timeout=timeout)
+                response.raise_for_status()
+                response_json = response.json()
+                if "error" in response_json:
+                    raise JSONRPCError(**response_json["error"])
 
-        if "error" in response_json:
-            raise JSONRPCError(**response_json["error"])
-
-        assert "result" in response_json, "RPC response didn't contain a result field"
-        result = response_json["result"]
-        return result
+                assert "result" in response_json, "RPC response didn't contain a result field"
+                result = response_json["result"]
+                return result
+            except requests.ConnectionError as e:
+                if ("Connection refused" in str(e) or "Errno 111" in str(e)) and attempt < 4:
+                    if attempt > 0:
+                        time.sleep(1.0)
+                    continue
+                raise
 
 
 class EthRPC(BaseRPC):
