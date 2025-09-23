@@ -87,8 +87,11 @@ class BlocktestBuilder:
             base_fee_per_gas=HexNumber(env_data.get("currentBaseFee", "0x7"))
             if "currentBaseFee" in env_data
             else None,
-            excess_blob_gas=HexNumber(env_data.get("currentExcessBlobGas", "0x0"))
+            excess_blob_gas=HexNumber(env_data.get("currentExcessBlobGas"))
             if "currentExcessBlobGas" in env_data
+            else None,
+            blob_gas_used=HexNumber(env_data.get("currentBlobGasUsed"))
+            if "currentBlobGasUsed" in env_data
             else None,
             withdrawals=self._parse_withdrawals(env_data.get("withdrawals")),
         )

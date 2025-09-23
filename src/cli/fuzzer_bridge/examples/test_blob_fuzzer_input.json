@@ -1,0 +1,37 @@
+{
+  "version": "2.0",
+  "fork": "Cancun",
+  "chainId": "0x1",
+  "accounts": {
+    "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
+      "balance": "0x100000000",
+      "nonce": "0x0",
+      "privateKey": "0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    },
+    "0x000000000000000000000000000000000000c0de": {
+      "balance": "0x0",
+      "nonce": "0x0"
+    }
+  },
+  "env": {
+    "currentTimestamp": "0x64",
+    "currentGasLimit": "0x5f5e100",
+    "currentNumber": "0x1",
+    "currentDifficulty": "0x20000",
+    "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+    "currentBaseFee": "0x10",
+    "currentExcessBlobGas": "0x20000",
+    "currentBlobGasUsed": "0x40000"
+  },
+  "transactions": [
+    {
+      "from": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+      "to": "0x000000000000000000000000000000000000c0de",
+      "value": "0x1000",
+      "gasLimit": "0x5208",
+      "gasPrice": "0x20",
+      "data": "",
+      "nonce": "0x0"
+    }
+  ]
+}
