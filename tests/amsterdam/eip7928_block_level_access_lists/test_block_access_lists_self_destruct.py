@@ -42,19 +42,17 @@ def test_bal_self_destruct(
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
 
-    # A template, self-destructing contract
-    kaboom = pre.deploy_contract(code=Op.SELFDESTRUCT(bob))
+    selfdestruct_code = Op.SELFDESTRUCT(bob)
+    # A pre existing self-destruct contract
+    kaboom = pre.deploy_contract(code=selfdestruct_code)
 
     if self_destruct_in_same_tx:
         # The goal is to create a self-destructing contract in the same
         # transaction to trigger deletion of code as per EIP-6780.
-        # The factory contract below clones the template `kaboom`
+        # The factory contract below creates a new self-destructing
         # contract and calls it in this transaction.
 
-        template = pre[kaboom]
-        assert template is not None, "Template contract MUST be deployed for cloning"
-
-        bytecode_size = len(template.code)
+        bytecode_size = len(selfdestruct_code)
         factory_bytecode = (
             # Clone template memory
             Op.EXTCODECOPY(kaboom, 0, 0, bytecode_size)
