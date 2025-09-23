@@ -100,6 +100,7 @@ def test_bal_self_destruct(
     post = {
         alice: Account(nonce=1),
         bob: Account(balance=100),
+        kaboom: Account(balance=0, code=selfdestruct_code),
     }
 
     # If the account was NOT self-destructed in the same contract,
