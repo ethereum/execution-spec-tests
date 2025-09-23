@@ -816,7 +816,8 @@ def test_absent_values_with_multiple_tx_indices():
             alice: BalAccountExpectation(
                 absent_values=BalAccountAbsentValues(
                     nonce_changes=[
-                        # wrongly forbid change at txs 1 and 2 (1 exists, so should fail)
+                        # wrongly forbid change at txs 1 and 2
+                        # (1 exists, so should fail)
                         BalNonceChange(tx_index=1, post_nonce=1),
                         BalNonceChange(tx_index=2, post_nonce=0),
                     ]
@@ -962,13 +963,19 @@ def test_bal_account_absent_values_comprehensive():
     ],
 )
 def test_bal_account_absent_values_empty_list_validation_raises(field_name, field_value):
-    """Test that empty lists in BalAccountAbsentValues fields raise appropriate errors."""
+    """
+    Test that empty lists in BalAccountAbsentValues fields
+    raise appropriate errors.
+    """
     with pytest.raises(ValueError, match="Empty lists are not allowed"):
         BalAccountAbsentValues(**{field_name: field_value})
 
 
 def test_bal_account_absent_values_empty_slot_changes_raises():
-    """Test that empty slot_changes in storage_changes raises appropriate error."""
+    """
+    Test that empty slot_changes in storage_changes
+    raises appropriate error.
+    """
     with pytest.raises(ValueError, match="Empty lists are not allowed"):
         BalAccountAbsentValues(
             storage_changes=[

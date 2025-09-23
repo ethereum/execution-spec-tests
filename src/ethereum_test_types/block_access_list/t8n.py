@@ -16,8 +16,10 @@ class BlockAccessList(EthereumTestRootModel[List[BalAccountChange]]):
     """
     Block Access List for t8n tool communication and fixtures.
 
-    This model represents the BAL exactly as defined in EIP-7928 - it is itself a list
-    of account changes (root model), not a container. Used for:
+    This model represents the BAL exactly as defined in EIP-7928
+    - it is itself a list of account changes (root model), not a container.
+
+    Used for:
     - Communication with t8n tools
     - Fixture generation
     - RLP encoding for hash verification
