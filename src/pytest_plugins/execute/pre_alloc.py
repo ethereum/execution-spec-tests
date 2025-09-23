@@ -259,6 +259,7 @@ class Alloc(BaseAlloc):
                     storage={},
                 ),
             )
+            return contract_address
 
         initcode_prefix = Bytecode()
 
