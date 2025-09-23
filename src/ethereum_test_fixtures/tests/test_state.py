@@ -51,9 +51,8 @@ from ..state import FixtureForkPost
         ),
         pytest.param(
             False,  # Can not be deserialized: A single expect_exception str
-            # will not be
-            # deserialized as a list and therefore will not match the
-            # model_instance definition.
+            # will not be deserialized as a list and therefore will not
+            # match the model_instance definition.
             FixtureForkPost(
                 state_root=0,
                 logs_hash=1,

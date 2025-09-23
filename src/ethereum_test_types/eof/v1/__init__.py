@@ -110,75 +110,30 @@ class Section(CopyValidateModel):
 
     data: Bytes = Bytes(b"")
     """
-
-
-
-
-
-
     Data to be contained by this section. Can be SupportsBytes, another EOF
     container or any other abstract data.
-
-
-
     """
     custom_size: int = 0
     """
-
-
-
-
-
-
     Custom size value to be used in the header. If unset, the header is built
     with length of the data.
-
-
-
     """
     kind: SectionKind | int
     """
-
-
-
-
-
-
     Kind of section that is represented by this object. Can be any `int`
     outside of the values defined by `SectionKind` for testing purposes.
-
-
-
     """
     force_type_listing: bool = False
     """
-
-
-
-
-
-
     Forces this section to appear in the TYPE section at the beginning of the
     container.
-
-
-
     """
     code_inputs: int = 0
     """Data stack items consumed by this code section (function)"""
     code_outputs: int = NON_RETURNING_SECTION
     """
-
-
-
-
-
-
     Data stack items produced by or expected at the end of this code section
     (function)
-
-
-
     """
     max_stack_increase: int | None = None
     """Maximum operand stack height increase above the code section inputs."""
@@ -186,31 +141,13 @@ class Section(CopyValidateModel):
     """Maximum height data stack reaches during execution of code section."""
     auto_max_stack_height: bool = False
     """
-
-
-
-
-
-
     Whether to automatically compute the best suggestion for the
     max_stack_height value for this code section.
-
-
-
     """
     auto_code_inputs_outputs: bool = False
     """
-
-
-
-
-
-
     Whether to automatically compute the best suggestion for the code_inputs,
     code_outputs values for this code section.
-
-
-
     """
     skip_header_listing: bool = False
     """Skip section from listing in the header"""
@@ -218,30 +155,12 @@ class Section(CopyValidateModel):
     """Skip section from listing in the body"""
     skip_types_body_listing: bool = False
     """
-
-
-
-
-
-
     Skip section from listing in the types body (input, output, stack) bytes
-
-
-
     """
     skip_types_header_listing: bool = False
     """
-
-
-
-
-
-
     Skip section from listing in the types header (not calculating input,
     output, stack size)
-
-
-
     """
 
     @cached_property
@@ -390,79 +309,34 @@ class Container(CopyValidateModel):
     """List of sections in the container"""
     magic: Bytes = Bytes(EOF_MAGIC)
     """
-
-
-
-
-
-
     Custom magic value used to override the mandatory EOF value for testing
     purposes.
-
-
-
     """
     version: Bytes = Bytes(VERSION_NUMBER_BYTES)
     """
-
-
-
-
-
-
     Custom version value used to override the mandatory EOF V1 value for
     testing purposes.
-
-
-
     """
     header_terminator: Bytes = Bytes(EOF_HEADER_TERMINATOR)
     """Bytes used to terminate the header."""
     extra: Bytes = Bytes(b"")
     """
-
-
-
-
-
-
     Extra data to be appended at the end of the container, which will not be
     considered part of any of the sections, for testing purposes.
-
-
-
     """
     auto_type_section: AutoSection = AutoSection.AUTO
     """
-
-
-
-
-
-
     Automatically generate a `TYPE` section based on the included `CODE` kind
     sections.
-
-
-
     """
     auto_data_section: bool = True
     """Automatically generate a `DATA` section."""
     auto_sort_sections: AutoSection = AutoSection.AUTO
     """
-
-
-
-
-
-
     Automatically sort sections for the header and body: Headers: type section
     first, all code sections, container sections, last data section(s) Body:
     type section first, all code sections, data section(s), last container
     sections
-
-
-
     """
     skip_join_concurrent_sections_in_header: bool = False
     """Skip joining concurrent sections in the header (code and container)"""
@@ -472,32 +346,14 @@ class Container(CopyValidateModel):
     """Kind type of the container."""
     raw_bytes: Optional[Bytes] = None
     """
-
-
-
-
-
-
     Optional raw bytes that represent the container. Used to have a cohesive
     type among all test cases, even those that do not resemble a valid EOF V1
     container.
-
-
-
     """
     expected_bytecode: Optional[Bytes] = None
     """
-
-
-
-
-
-
     Optional raw bytes of the expected constructed bytecode. This allows
     confirming that raw EOF and Container() representations are identical.
-
-
-
     """
 
     @cached_property

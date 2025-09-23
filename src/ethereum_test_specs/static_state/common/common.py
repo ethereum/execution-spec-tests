@@ -194,13 +194,11 @@ class CodeInFiller(BaseModel, TagDependentData):
                         [parameter_str],
                         [
                             [
-                                int(t.lower(), 0) & ((1 << 256) - 1)  # treat
-                                # big
-                                # ints as
-                                # 256bits
+                                # treat big ints as 256bits
+                                int(t.lower(), 0) & ((1 << 256) - 1)
                                 if parameter_types[t_index] == "uint"
-                                else int(t.lower(), 0) > 0  # treat positive
-                                # values as True
+                                # treat positive values as True
+                                else int(t.lower(), 0) > 0
                                 if parameter_types[t_index] == "bool"
                                 else False and ValueError("unhandled parameter_types")
                                 for t_index, t in enumerate(tokens[1:])
@@ -226,9 +224,16 @@ class CodeInFiller(BaseModel, TagDependentData):
                 # - using docker: If the running machine does not have lllc
                 # installed, we can use docker to run lllc, but we need to
                 # start a container first, and the process is generally slower.
-                # from .docker import get_lllc_container_id result =
-                # subprocess.run( ["docker", "exec", get_lllc_container_id(),
-                # "lllc", tmp_path[5:]], capture_output=True, text=True, )
+                #
+                # from .docker import get_lllc_container_id
+                # result = subprocess.run( ["docker",
+                #     "exec",
+                #     get_lllc_container_id(),
+                #     "lllc",
+                #     tmp_path[5:]],
+                #     capture_output=True,
+                #     text=True
+                # )
                 compiled_code = "".join(result.stdout.splitlines())
 
             else:
@@ -246,15 +251,17 @@ class CodeInFiller(BaseModel, TagDependentData):
 
 class AddressTag:
     """
-    Represents an address tag like: - <eoa:sender:0x...>. -
-    <contract:target:0x...>. - <coinbase:0x...>.
+    Represents an address tag like:
+    - <eoa:sender:0x...>.
+    - <contract:target:0x...>.
+    - <coinbase:0x...>.
     """
 
     def __init__(self, tag_type: str, tag_name: str, original_string: str):
         """Initialize address tag."""
         self.tag_type = tag_type  # "eoa", "contract", or "coinbase"
-        self.tag_name = tag_name  # e.g., "sender", "target", or address for
-        # 2-part tags
+        # e.g., "sender", "target", or address for 2-part tags
+        self.tag_name = tag_name
         self.original_string = original_string
 
     def __str__(self) -> str:

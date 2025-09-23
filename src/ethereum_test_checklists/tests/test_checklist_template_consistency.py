@@ -32,7 +32,7 @@ def extract_markdown_ids(markdown_content: str) -> Set[str]:
     return ids
 
 
-def get_all_checklist_ids(obj, current_path="") -> Set[str]:
+def get_all_checklist_ids(obj) -> Set[str]:
     """
     Recursively extract all checklist IDs from EIPChecklist and its children.
     """
@@ -200,7 +200,7 @@ def test_eip_checklist_pytest_param_usage():
     with pytest.raises((TypeError, AssertionError)):
         pytest.param(
             "test_value",
-            marks=EIPChecklist.Opcode.Test.StackOverflow,  # Without () should
-            # fail
+            # Without () should fail
+            marks=EIPChecklist.Opcode.Test.StackOverflow,
             id="should_fail",
         )

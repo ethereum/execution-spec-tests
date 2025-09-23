@@ -1,8 +1,9 @@
 """
-Top-level pytest configuration file providing: - Command-line options, -
-Test-fixtures that can be used by all test cases, and that modifies pytest
-hooks in order to fill test specs for all tests and writes the generated
-fixtures to file.
+Top-level pytest configuration file providing:
+- Command-line options,
+- Test-fixtures that can be used by all test cases,
+and that modifies pytest hooks in order to fill test specs for all tests
+and writes the generated fixtures to file.
 """
 
 import configparser
@@ -60,8 +61,11 @@ class PhaseManager:
     Manages the execution phase for fixture generation.
 
     The filler plugin supports two-phase execution for pre-allocation group
-    generation: - Phase 1: Generate pre-allocation groups (pytest run with
-    --generate-pre-alloc-groups). - Phase 2: Fill fixtures using pre-allocation
+    generation:
+    - Phase 1: Generate pre-allocation groups (pytest run with
+    --generate-pre-alloc-groups).
+
+    - Phase 2: Fill fixtures using pre-allocation
     groups (pytest run with --use-pre-alloc-groups).
 
     Note: These are separate pytest runs orchestrated by the CLI wrapper. Each
@@ -76,9 +80,11 @@ class PhaseManager:
         """
         Create a PhaseManager from pytest configuration.
 
-        Flag logic: - use_pre_alloc_groups: We're in phase 2 (FILL) after phase
-        1 (PRE_ALLOC_GENERATION). - generate_pre_alloc_groups or
-        generate_all_formats: We're in phase 1 (PRE_ALLOC_GENERATION). -
+        Flag logic:
+        - use_pre_alloc_groups: We're in phase 2 (FILL) after phase
+                                1 (PRE_ALLOC_GENERATION).
+        - generate_pre_alloc_groups or generate_all_formats:
+                                We're in phase 1 (PRE_ALLOC_GENERATION). -
         Otherwise: Normal single-phase filling (FILL).
 
         Note: generate_all_formats triggers PRE_ALLOC_GENERATION because the
@@ -331,15 +337,17 @@ def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
     storing only the accounts that changed during test execution, rather than
     the full post-state which may contain thousands of unchanged accounts.
 
-    Returns an Alloc containing only the accounts that: - Changed between
-    genesis and post state (balance, nonce, storage, code) - Were created
-    during test execution (new accounts) - Were deleted during test execution
-    (represented as None)
+    Returns an Alloc containing only the accounts that:
+    - Changed between genesis and post state (balance, nonce, storage, code)
+    - Were created during test execution (new accounts)
+    - Were deleted during test execution (represented as None)
 
-    Args: post_state: Final state after test execution genesis_state: Genesis
-    pre-allocation state
+    Args:
+      post_state: Final state after test execution
+      genesis_state: Genesis pre-allocation state
 
     Returns: Alloc containing only the state differences for efficient storage
+
     """
     diff: Dict[Address, Account | None] = {}
 
@@ -722,7 +730,10 @@ def pytest_report_teststatus(report, config: pytest.Config):
 
     1. To disable test session progress report if we're writing the JSON
     fixtures to stdout to be read by a consume command on stdin. I.e., don't
-    write this type of output to the console: ```text ...x... ```
+    write this type of output to the console:
+    ```text
+    ...x...
+    ```
     """
     if config.fixture_output.is_stdout:  # type: ignore[attr-defined]
         return report.outcome, "", report.outcome.upper()
@@ -860,10 +871,8 @@ def pytest_runtest_makereport(item, call):
             ]:
                 report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
             else:
-                report.user_properties.append(("evm_dump_dir", "N/A"))  # not
-                # yet
-                # for
-                # EOF
+                # not yet for EOF
+                report.user_properties.append(("evm_dump_dir", "N/A"))
 
 
 def pytest_html_report_title(report):
@@ -1444,9 +1453,10 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     """
     Perform session finish tasks.
 
-    - Save pre-allocation groups (phase 1) - Remove any lock files that may
-    have been created. - Generate index file for all produced fixtures. -
-    Create tarball of the output directory if the output is a tarball.
+    - Save pre-allocation groups (phase 1)
+    - Remove any lock files that may have been created.
+    - Generate index file for all produced fixtures.
+    - Create tarball of the output directory if the output is a tarball.
     """
     del exitstatus
 

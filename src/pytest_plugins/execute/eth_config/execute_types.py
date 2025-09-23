@@ -284,8 +284,13 @@ class GenesisConfig(CamelModel):
         Fork times and block numbers have the following format in the root of
         the object:
 
-        ``` "berlinBlock": 0, "londonBlock": 0, ... "pragueTime": 0,
-        "osakaTime": 1753379304, ```
+        ```
+        "berlinBlock": 0,
+        "londonBlock": 0,
+        ...
+        "pragueTime": 0,
+        "osakaTime": 1753379304,
+        ```
 
         This function strips the "*Block" and "*Time" part and moves the
         values.

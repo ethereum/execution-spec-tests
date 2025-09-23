@@ -195,8 +195,8 @@ def all_rpc_endpoints(config) -> Dict[str, List[EthRPC]]:
     Derive a mapping of exec clients to the RPC URLs they are reachable at.
     """
     rpc_endpoint = config.getoption("rpc_endpoint")
-    el_clients: List[str] = config.getoption("majority_clients")  # besu,
-    # erigon, ..
+    # besu, erigon, ..
+    el_clients: List[str] = config.getoption("majority_clients")
     if len(el_clients) == 0:
         endpoint_name = rpc_endpoint
         try:

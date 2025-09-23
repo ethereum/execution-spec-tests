@@ -183,12 +183,6 @@ class EOFTest(BaseTest):
 
     container: Container
     """
-
-
-
-
-
-
     EOF container that will be tested for validity.
 
     The only supported type at the moment is
@@ -197,18 +191,9 @@ class EOFTest(BaseTest):
     If an invalid container needs to be tested, and it cannot be generated
     using the Container class features, the `raw_bytes` field can be used to
     provide the raw container bytes.
-
-
-
     """
     expect_exception: EOFExceptionInstanceOrList | None = None
     """
-
-
-
-
-
-
     Expected exception that the container should raise when parsed by an EOF
     parser.
 
@@ -218,18 +203,9 @@ class EOFTest(BaseTest):
 
     The list of supported exceptions can be found in the
     `ethereum_test_exceptions.EOFException` class.
-
-
-
     """
     container_kind: ContainerKind = ContainerKind.RUNTIME
     """
-
-
-
-
-
-
     Container kind type that the container should be treated as.
 
     The container kind can be one of the following: - `ContainerKind.INITCODE`:
@@ -237,18 +213,9 @@ class EOFTest(BaseTest):
     container is a runtime container.
 
     The default value is `ContainerKind.RUNTIME`.
-
-
-
     """
     deployed_container: Container | None = None
     """
-
-
-
-
-
-
     To be used when the container is an initcode container and the expected
     deployed container is known.
 
@@ -274,57 +241,27 @@ class EOFTest(BaseTest):
     The deployed container is **not** executed at any point during the EOF
     validation test nor the generated State Test. For container runtime testing
     use the `EOFStateTest` class.
-
-
-
     """
     pre: Alloc | None = None
     """
-
-
-
-
-
-
     Pre alloc object that is used during State Test generation.
 
     This field is automatically set by the test filler when generating a State
     Test from this EOF test and should otherwise be left unset.
-
-
-
     """
     post: Alloc | None = None
     """
-
-
-
-
-
-
     Post alloc object that is used during State Test generation.
 
     This field is automatically set by the test filler when generating a State
     Test from this EOF test and is normally not set by the user.
-
-
-
     """
     sender: EOA | None = None
     """
-
-
-
-
-
-
     Sender EOA object that is used during State Test generation.
 
     This field is automatically set by the `model_post_init` method and should
     otherwise be left unset.
-
-
-
     """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [

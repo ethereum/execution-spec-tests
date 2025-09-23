@@ -327,9 +327,12 @@ class ForkRangeDescriptor(BaseModel):
         """
         Validate the fork range descriptor from a string.
 
-        Examples: - ">=Osaka" validates to {greater_equal=Osaka,
-        less_than=None} - ">=Prague<Osaka" validates to {greater_equal=Prague,
-        less_than=Osaka}
+        Examples:
+          - ">=Osaka" validates to {greater_equal=Osaka, less_than=None}
+
+          - ">=Prague<Osaka" validates to {greater_equal=Prague,
+                                           less_than=Osaka}
+
         """
         if isinstance(v, str):
             # Decompose the string into its parts

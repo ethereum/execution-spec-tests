@@ -126,25 +126,10 @@ class Header(CamelModel):
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
-
-
-
-
-
-
     Sentinel object used to specify that a header field should be removed.
-
-
-
     """
     EMPTY_FIELD: ClassVar[Removable] = Removable()
     """
-
-
-
-
-
-
     Sentinel object used to specify that a header field must be empty during
     verification.
 
@@ -154,9 +139,6 @@ class Header(CamelModel):
     ) block = Block( timestamp=TIMESTAMP, rlp_modifier=header_modifier,
     exception=BlockException.INCORRECT_BLOCK_FORMAT,
     engine_api_error_code=EngineAPIError.InvalidParams, ) ```
-
-
-
     """
 
     model_config = ConfigDict(
@@ -215,76 +197,29 @@ class Block(Header):
     """Block type used to describe block properties in test specs."""
 
     header_verify: Header | None = None
-    """
-
-
-
-
-
-
-    If set, the block header will be verified against the specified values.
-
-
-
-    """
+    # If set, the block header will be verified against the specified values.
     rlp_modifier: Header | None = None
     """
-
-
-
-
-
-
     An RLP modifying header which values would be used to override the ones
     returned by the `ethereum_clis.TransitionTool`.
-
-
-
     """
     expected_block_access_list: BlockAccessListExpectation | None = None
     """
-
-
-
-
-
-
     If set, the block access list will be verified and potentially corrupted
     for invalid tests.
-
-
-
     """
     exception: BLOCK_EXCEPTION_TYPE = None
-    """If set, the block is expected to be rejected by the client."""
+    # If set, the block is expected to be rejected by the client.
     skip_exception_verification: bool = False
     """
-
-
-
-
-
-
     Skip verifying that the exception is returned by the transition tool. This
     could be because the exception is inserted in the block after the
     transition tool evaluates it.
-
-
-
     """
     engine_api_error_code: EngineAPIError | None = None
     """
-
-
-
-
-
-
     If set, the block is expected to produce an error response from the Engine
     API.
-
-
-
     """
     txs: List[Transaction] = Field(default_factory=list)
     """List of transactions included in the block."""
@@ -307,17 +242,8 @@ class Block(Header):
         new_env_values: Dict[str, Any] = {}
 
         """
-
-
-
-
-
-
         Values that need to be set in the environment and are `None` for this
         block need to be set to their defaults.
-
-
-
         """
         new_env_values["difficulty"] = self.difficulty
         new_env_values["prev_randao"] = self.prev_randao
@@ -345,17 +271,8 @@ class Block(Header):
         ):
             new_env_values["block_access_list"] = self.block_access_list
         """
-
-
-
-
-
-
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
-
-
-
         """
         if self.number is not None:
             new_env_values["number"] = self.number
@@ -477,12 +394,6 @@ GENESIS_ENVIRONMENT_DEFAULTS: Dict[str, Any] = {
     "prev_randao": 0,
 }
 """
-
-
-
-
-
-
 Default values for the genesis environment that are used to create all genesis
 headers.
 """
@@ -498,17 +409,8 @@ class BlockchainTest(BaseTest):
     chain_id: int = 1
     exclude_full_post_state_in_output: bool = False
     """
-
-
-
-
-
-
     Exclude the post state from the fixture output. In this case, the state
     verification is only performed based on the state root.
-
-
-
     """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [

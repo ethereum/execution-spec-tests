@@ -70,8 +70,9 @@ def get_ref_spec_from_module(
     """
     Return the reference spec object defined in a module.
 
-    Args: module: The module to extract reference spec from github_token:
-    Optional GitHub token for API authentication
+    Args:
+      module: The module to extract reference spec from
+      github_token: Optional GitHub token for API authentication
 
     Raises: Exception: If the module path contains "eip" and the module does
     not define a reference spec.
@@ -79,6 +80,7 @@ def get_ref_spec_from_module(
     Returns: spec_obj: Return None if the module path does not contain "eip",
     i.e., the module is not required to define a reference spec, otherwise,
     return the ReferenceSpec object as defined by the module.
+
     """
     if not is_test_for_an_eip(str(module.__file__)):
         return None
@@ -114,8 +116,10 @@ def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None
     Test that the ReferenceSpec object as defined in the test module is not
     outdated when compared to the remote hash from ethereum/EIPs.
 
-    Args: module: Module to test github_token: Optional GitHub token for API
-    authentication
+    Args:
+      module: Module to test
+      github_token: Optional GitHub token for API authentication
+
     """
     ref_spec = get_ref_spec_from_module(module, github_token=github_token)
     assert ref_spec, "No reference spec object defined"
@@ -149,8 +153,11 @@ class EIPSpecTestItem(Item):
         """
         Initialize the test item.
 
-        Args: name: Name of the test parent: Parent node **kwargs: Additional
-        keyword arguments
+        Args:
+          name: Name of the test
+          parent: Parent node
+          **kwargs: Additional keyword arguments
+
         """
         super().__init__(name, parent)
         self.module = None  # type: ignore
@@ -163,8 +170,10 @@ class EIPSpecTestItem(Item):
         https://docs.pytest.org/en/latest/reference/reference.html#pytest.nodes.Node.fr
         om_parent.
 
-        Args: parent: The parent Node kw: Additional keyword arguments (module,
-        github_token)
+        Args:
+          parent: The parent Node
+          kw: Additional keyword arguments (module, github_token)
+
         """
         module = kw.pop("module", None)
         github_token = kw.pop("github_token", None)
@@ -189,9 +198,7 @@ class EIPSpecTestItem(Item):
         return "spec_version_checker", 0, f"{self.name}"
 
 
-def pytest_collection_modifyitems(
-    session: pytest.Session, config: pytest.Config, items: List[Item]
-):
+def pytest_collection_modifyitems(config: pytest.Config, items: List[Item]):
     """
     Insert a new test EIPSpecTestItem for every test module with 'eip' in its
     path.

@@ -405,7 +405,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
-def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
+def pytest_collection_modifyitems(items: List[pytest.Item]):
     """
     Remove transition tests and add the appropriate execute markers to the
     test.

@@ -37,11 +37,8 @@ class DepositRequest(RequestBase, CamelModel):
     """The amount in gwei of the deposit."""
     signature: BLSSignature
     """
-
-
     The signature of the deposit using the validator's private key that matches
     the `pubkey`.
-
     """
     index: HexNumber
     """The index of the deposit."""
@@ -64,19 +61,13 @@ class WithdrawalRequest(RequestBase, CamelModel):
 
     source_address: Address = Address(0)
     """
-
-
     The address of the execution layer account that made the withdrawal
     request.
-
     """
     validator_pubkey: BLSPublicKey
     """
-
-
     The current public key of the validator as it currently is in the beacon
     state.
-
     """
     amount: HexNumber
     """The amount in gwei to be withdrawn on the beacon chain."""
@@ -97,27 +88,18 @@ class ConsolidationRequest(RequestBase, CamelModel):
 
     source_address: Address = Address(0)
     """
-
-
     The address of the execution layer account that made the consolidation
     request.
-
     """
     source_pubkey: BLSPublicKey
     """
-
-
     The public key of the source validator as it currently is in the beacon
     state.
-
     """
     target_pubkey: BLSPublicKey
     """
-
-
     The public key of the target validator as it currently is in the beacon
     state.
-
     """
 
     type: ClassVar[int] = 2

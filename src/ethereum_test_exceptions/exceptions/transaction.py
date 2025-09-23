@@ -29,19 +29,13 @@ class TransactionException(ExceptionBase):
     """Transaction nonce < sender.nonce."""
     NONCE_TOO_BIG = auto()
     """
-
-
     Transaction `nonce` is not allowed to be max_uint64 - 1 (this is probably
     TransactionTest).
-
     """
     NONCE_IS_MAX = auto()
     """
-
-
     Transaction `nonce` is not allowed to be max_uint64 - 1 (this is
     StateTests).
-
     """
     NONCE_OVERFLOW = auto()
     """Transaction `nonce` is not allowed to be more than uint64."""
@@ -79,35 +73,23 @@ class TransactionException(ExceptionBase):
     """Error reading transaction priority fee field RLP."""
     RLP_LEADING_ZEROS_DATA_SIZE = auto()
     """
-
-
     Error reading transaction data field RLP, (rlp field length has leading
     zeros).
-
     """
     RLP_LEADING_ZEROS_NONCE_SIZE = auto()
     """
-
-
     Error reading transaction nonce field RLP, (rlp field length has leading
     zeros).
-
     """
     RLP_TOO_FEW_ELEMENTS = auto()
     """
-
-
     Error reading transaction RLP, structure has too few elements than
     expected.
-
     """
     RLP_TOO_MANY_ELEMENTS = auto()
     """
-
-
     Error reading transaction RLP, structure has too many elements than
     expected.
-
     """
     RLP_ERROR_EOF = auto()
     """Error reading transaction RLP, rlp stream unexpectedly finished."""
@@ -141,42 +123,27 @@ class TransactionException(ExceptionBase):
     """Transaction has correct signature, but ec recovery failed."""
     INSUFFICIENT_ACCOUNT_FUNDS = auto()
     """
-
-
     Transaction's sender does not have enough funds to pay for the transaction.
-
     """
     INSUFFICIENT_MAX_FEE_PER_GAS = auto()
     """Transaction's max-fee-per-gas is lower than the block base-fee."""
     PRIORITY_OVERFLOW = auto()
     """
-
-
     Transaction's max-priority-fee-per-gas is exceeds 2^256-1 maximum value.
-
     """
     PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS = auto()
     """
-
-
     Transaction's max-priority-fee-per-gas is greater than the max-fee-per-gas.
-
     """
     PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS_2 = auto()
     """
-
-
     Transaction's max-priority-fee-per-gas is greater than the max-fee-per-gas
     (TransactionTests).
-
     """
     INSUFFICIENT_MAX_FEE_PER_BLOB_GAS = auto()
     """
-
-
     Transaction's max-fee-per-blob-gas is lower than the block's blob-gas
     price.
-
     """
     INTRINSIC_GAS_TOO_LOW = auto()
     """Transaction's gas limit is too low."""
@@ -184,10 +151,7 @@ class TransactionException(ExceptionBase):
     """Transaction's gas limit is below the floor gas cost."""
     INITCODE_SIZE_EXCEEDED = auto()
     """
-
-
     Transaction's initcode for a contract-creating transaction is too large.
-
     """
     TYPE_3_TX_PRE_FORK = auto()
     """Transaction type 3 included before activation fork."""
@@ -207,10 +171,7 @@ class TransactionException(ExceptionBase):
     """Transaction causes block to go over blob gas limit."""
     GAS_LIMIT_EXCEEDS_MAXIMUM = auto()
     """
-
-
     Transaction gas limit exceeds the maximum allowed limit of 30 million.
-
     """
     TYPE_3_TX_ZERO_BLOBS = auto()
     """Transaction is type 3, but has no blobs."""
@@ -224,11 +185,8 @@ class TransactionException(ExceptionBase):
     """Transaction is a type 4 transaction and has an empty `to`."""
     TYPE_4_INVALID_AUTHORIZATION_FORMAT = auto()
     """
-
-
     Transaction is type 4, but contains an authorization that has an invalid
     format.
-
     """
     TYPE_4_TX_PRE_FORK = auto()
     """Transaction type 4 included before activation fork."""

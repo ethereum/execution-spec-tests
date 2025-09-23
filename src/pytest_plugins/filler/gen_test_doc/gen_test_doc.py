@@ -3,14 +3,17 @@ A pytest plugin that generates test case documentation for use in mkdocs.
 
 It generates the top-level "Test Case Reference" section in EEST's mkdocs site.
 
-Note: ---- - No output directory is specified for the generated output; file IO
+Note:
+----
+- No output directory is specified for the generated output; file IO
 occurs via the `mkdocs-gen-files` plugin. `mkdocs serve` writes intermediate
 files to our local `docs/` directory and then copies it to the site directory.
 We modify `docs/navigation.md` and write all other output underneath
 `docs/tests`. If mkdocs is interrupted, these intermediate artifacts are left
 in `docs/`.
 
-Usage: ------
+Usage:
+------
 
 !!! note "Ensuring a clean build"
 
@@ -33,6 +36,7 @@ Or to build and view the site:
 ```console
 uv run mkdocs serve
 ```
+
 """
 
 import glob
@@ -145,10 +149,12 @@ def get_import_path(path: Path) -> str:
     """
     Get the import path for a given path.
 
-    - For modules, strip the file extension. - For directories (i.e., packages
-    such as `tests.berlin`), `with_suffix()` is ignored.
+    - For modules, strip the file extension.
+    - For directories (i.e., packages such as `tests.berlin`),
+      `with_suffix()` is ignored.
 
-    To do: ------
+    To do:
+    ------
 
     - This should be combined with `get_test_function_import_path`.
     """
@@ -313,7 +319,8 @@ class TestDocsGenerator:
         deploys a version of the site underneath a sub-directory named after
         the version, e.g.:
 
-        - https://eest.ethereum.org/main/ - https://eest.ethereum.org/v4.1.0/
+        - https://eest.ethereum.org/main/
+        - https://eest.ethereum.org/v4.1.0/
 
         We need to be able to include the javascript available at:
 
@@ -358,8 +365,8 @@ class TestDocsGenerator:
         ]
         for function_id, function_items in test_functions.items():
             assert all(isinstance(item, pytest.Function) for item in function_items)
-            items = cast(List[pytest.Function], function_items)  # help mypy
-            # infer type
+            # help mypy infer type
+            items = cast(List[pytest.Function], function_items)
 
             # extract parametrized test cases for each test function
             test_cases = []
@@ -516,8 +523,8 @@ class TestDocsGenerator:
                 # development fork Currently breaks for
                 # `tests/unscheduled/eip7692_eof_v1/index.md`
                 target_or_valid_fork=fork.capitalize() if fork else "Unknown",
-                package_name=get_import_path(directory),  # init.py will be
-                # used for docstrings
+                # init.py will be used for docstrings
+                package_name=get_import_path(directory),
                 is_benchmark=is_benchmark,
             )
 
@@ -566,8 +573,8 @@ class TestDocsGenerator:
                 title=md_path.stem,
                 path=md_path,
                 source_code_url=generate_github_url(md_path, branch_or_commit_or_tag=self.ref),
-                pytest_node_id=str(md_path),  # abuse: not a test, but used in
-                # source code link
+                # abuse: not a test, but used in source code link
+                pytest_node_id=str(md_path),
                 target_or_valid_fork="",
                 package_name="",
             )
@@ -586,27 +593,29 @@ class TestDocsGenerator:
 
             Nav entries / output files contain special cases such as:
 
-            - ("Test Case Reference",) -> tests/index.md - ("Test Case
-            Reference", "Berlin") -> tests/berlin/index.md - ("Test Case
-            Reference", "EIP-7692 EOF V1", tracker.md")
-            tests/unscheduled/eip7692_eof_v1/tracker.md - ("Test Case
-            Reference", "Shanghai", "EIP-3855 PUSH0", "Spec") ->
+            - ("Test Case Reference",) -> tests/index.md
+            - ("Test Case Reference", "Berlin") -> tests/berlin/index.md
+            - ("Test Case Reference", "EIP-7692 EOF V1", tracker.md")
+            tests/unscheduled/eip7692_eof_v1/tracker.md
+            - ("Test Case Reference", "Shanghai", "EIP-3855 PUSH0", "Spec") ->
             tests/shanghai/eip3855_push0/spec.py
 
             This function provides and ordering to sort nav men entries as
             follows:
 
             1. Forks are listed in the chronological order that they were
-            deployed. 2. Special files listed first (before test pages): "*.md"
-            and `Spec.py`, 3. The page's corresponding file path under
+            deployed.
+            2. Special files listed first (before test pages): "*.md"
+            and `Spec.py`,
+            3. The page's corresponding file path under
             `./tests/`.
             """
             length = len(x.path.parts)
             if length > 1:
-                fork = str(x.path.parts[1]).lower()  # the fork folder from the
-                # relative path
-                if fork not in fork_order:  # unscheduled features added to the
-                    # end
+                # the fork folder from the relative path
+                fork = str(x.path.parts[1]).lower()
+                # unscheduled features added to the end
+                if fork not in fork_order:
                     return (999, str(x.path))
             if length == 1:
                 return (0,)

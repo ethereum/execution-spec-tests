@@ -84,27 +84,18 @@ class EOFException(ExceptionBase):
     """EOF container's specified max stack increase is above the limit."""
     STACK_HIGHER_THAN_OUTPUTS = auto()
     """
-
-
     EOF container section stack height is higher than the outputs. when
     returning
-
     """
     JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS = auto()
     """
-
-
     EOF container section JUMPF's to a destination section with incompatible
     outputs.
-
     """
     INVALID_MAX_STACK_INCREASE = auto()
     """
-
-
     EOF container section's specified max stack increase does not match the
     actual stack height.
-
     """
     INVALID_DATALOADN_INDEX = auto()
     """A DATALOADN instruction has out-of-bounds index for the data section."""

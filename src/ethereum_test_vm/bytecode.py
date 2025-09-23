@@ -20,11 +20,13 @@ class Bytecode:
     between two bytecode objects. The stack height is not guaranteed to be
     correct, so the user must take this into consideration.
 
-    Parameters ---------- - popped_stack_items: number of items the bytecode
-    pops from the stack - pushed_stack_items: number of items the bytecode
-    pushes to the stack - min_stack_height: minimum stack height required by
-    the bytecode - max_stack_height: maximum stack height reached by the
-    bytecode
+    Parameters
+    ----------
+    - popped_stack_items: number of items the bytecode pops from the stack
+    - pushed_stack_items: number of items the bytecode pushes to the stack
+    - min_stack_height: minimum stack height required by the bytecode
+    - max_stack_height: maximum stack height reached by the bytecode
+
     """
 
     _name_: str = ""
@@ -110,8 +112,10 @@ class Bytecode:
         """
         Allow comparison between Bytecode instances and bytes objects.
 
-        Raises: - NotImplementedError: if the comparison is not between an
-        Bytecode or a bytes object.
+        Raises:
+          - NotImplementedError: if the comparison is not between an
+                                 Bytecode or a bytes object.
+
         """
         if isinstance(other, Bytecode):
             return (
@@ -162,8 +166,8 @@ class Bytecode:
         # instruction or bytecode to be popped off the stack before it starts
         # returning (pushing).
 
-        # Auxiliary variables representing "stages" of the execution of `c = a
-        # + b` bytecode: Assume starting point 0 as reference:
+        # Auxiliary variables representing "stages" of the execution of
+        # `c = a + b` bytecode: Assume starting point 0 as reference:
         a_start = 0
         # A (potentially) pops some elements and reaches its "bottom", might be
         # negative:

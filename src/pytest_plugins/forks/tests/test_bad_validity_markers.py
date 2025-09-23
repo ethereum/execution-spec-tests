@@ -216,9 +216,9 @@ invalid_validity_marker_test_cases = (
 )
 def test_invalid_validity_markers(pytester, error_string, test_function):
     """
-    Test that a test with an invalid marker cases: - Creates an outcome with
-    exactly one error. - Triggers the expected error string in pytest's console
-    output.
+    Test that a test with an invalid marker cases:
+    - Creates an outcome with exactly one error.
+    - Triggers the expected error string in pytest's console output.
 
     Each invalid marker/marker combination is tested with one test in its own
     test session.

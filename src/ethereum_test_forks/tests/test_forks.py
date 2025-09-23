@@ -96,8 +96,8 @@ def test_forks_from():  # noqa: D103
     assert forks_from(Paris, deployed_only=True)[0] == Paris
     assert forks_from(Paris, deployed_only=True)[-1] == LAST_DEPLOYED
     assert forks_from(Paris, deployed_only=False)[0] == Paris
-    # assert forks_from(Paris, deployed_only=False)[-1] == LAST_DEVELOPMENT  #
     # Too flaky
+    # assert forks_from(Paris, deployed_only=False)[-1] == LAST_DEVELOPMENT
 
 
 def test_forks():
@@ -212,9 +212,12 @@ def test_transition_fork_comparison():
     E.g. given transition fork A->B, when filling, and given the from/until
     markers, we expect the following logic:
 
-    Marker    Comparison   A->B Included --------- ------------ ---------------
-    From A    fork >= A    True Until A   fork <= A    False From B    fork >=
-    B    True Until B   fork <= B    True
+    Marker    Comparison   A->B Included
+    --------- ------------ ---------------
+    From A    fork >= A    True
+    Until A   fork <= A    False
+    From B    fork >= B    True
+    Until B   fork <= B    True
     """
     assert BerlinToLondonAt5 >= Berlin
     assert not BerlinToLondonAt5 <= Berlin

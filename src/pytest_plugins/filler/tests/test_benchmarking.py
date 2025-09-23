@@ -36,10 +36,13 @@ def setup_test_directory_structure(
     """
     Set up the common test directory structure used across multiple tests.
 
-    Args: pytester: The pytest Pytester fixture test_content: The content to
-    write to the test file test_filename: The name of the test file to create
+    Args:
+      pytester: The pytest Pytester fixture
+      test_content: The content to write to the test file
+      test_filename: The name of the test file to create
 
     Returns: The path to the created test module file
+
     """
     tests_dir = pytester.mkdir("tests")
     istanbul_tests_dir = tests_dir / "istanbul"

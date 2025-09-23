@@ -9,9 +9,10 @@ section, which is shown as the "simulator log" in hive simulations. For this
 use case, timestamps are essential to verify timing issues against the clients
 log.
 
-This module provides both: 1. A standalone logging configuration system that
-can be used in any Python project 2. A pytest plugin that automatically
-configures logging for pytest sessions
+This module provides both:
+1. A standalone logging configuration system that can be used in any
+   Python project
+2. A pytest plugin that automatically configures logging for pytest sessions
 """
 
 import functools
@@ -100,8 +101,8 @@ class UTCFormatter(logging.Formatter):
     suffix.
     """
 
-    def formatTime(self, record, datefmt=None):  # noqa: D102,N802  # camelcase
-        # required
+    def formatTime(self, record, datefmt=None):  # noqa: D102,N802
+        # camelcase required
         dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
         return dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] + "+00:00"
 
@@ -176,12 +177,15 @@ def configure_logging(
     This function can be used in any Python project to set up logging with the
     same settings as the pytest plugin.
 
-    Args: log_level: The logging level to use (name or numeric value) log_file:
-    Path to the log file (if None, no file logging is set up) log_to_stdout:
-    Whether to log to stdout log_format: The log format string use_color:
-    Whether to use colors in stdout output (auto-detected if None)
+    Args:
+      log_level: The logging level to use (name or numeric value)
+      log_file: Path to the log file (if None, no file logging is set up)
+      log_to_stdout: Whether to log to stdout
+      log_format: The log format string
+      use_color: Whether to use colors in stdout output (auto-detected if None)
 
     Returns: The file handler if log_file is provided, otherwise None
+
     """
     # Initialize root logger
     root_logger = logging.getLogger()
@@ -317,7 +321,7 @@ def pytest_report_header(config: pytest.Config) -> list[str]:
     return []
 
 
-def pytest_terminal_summary(terminalreporter: TerminalReporter, exitstatus: int) -> None:
+def pytest_terminal_summary(terminalreporter: TerminalReporter) -> None:
     """
     Display the log file path in the terminal summary like the HTML report
     does.

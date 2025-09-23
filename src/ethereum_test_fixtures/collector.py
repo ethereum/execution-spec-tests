@@ -142,9 +142,8 @@ class FixtureCollector:
             / fixture.output_base_dir_name()
             / fixture_basename.with_suffix(fixture.output_file_extension)
         )
-        if fixture_path not in self.all_fixtures.keys():  # relevant when we
-            # group by test
-            # function
+        # relevant when we group by test function
+        if fixture_path not in self.all_fixtures.keys():
             self.all_fixtures[fixture_path] = Fixtures(root={})
             self.json_path_to_test_item[fixture_path] = info
 

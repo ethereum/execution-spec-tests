@@ -50,7 +50,7 @@ class BaseStaticTest(BaseModel):
 
     @abstractmethod
     def fill_function(self) -> Callable:
-        '''
+        """
         Return the test function that can be used to fill the test.
 
         This method should be implemented by the subclasses.
@@ -59,36 +59,73 @@ class BaseStaticTest(BaseModel):
         `@pytest.mark.parametrize` decorator to parametrize the test with the
         number of sub test cases.
 
-        Example: ``` @pytest.mark.parametrize("n", [1])
+        Example:
+        ```
+        @pytest.mark.parametrize("n", [1])
         @pytest.mark.parametrize("m", [1, 2])
-        @pytest.mark.valid_from("Homestead") def test_state_filler( state_test:
-        StateTestFiller, fork: Fork, pre: Alloc, n: int, m: int, ): """Generate
-        a test from a static state filler.""" assert n == 1 assert m in [1, 2]
-        env = Environment(**self.env.model_dump()) sender = pre.fund_eoa() tx =
-        Transaction( ty=0x0, nonce=0, to=Address(0x1000), gas_limit=500000,
-        protected=False if fork in [Frontier, Homestead] else True, data="",
-        sender=sender, ) state_test(env=env, pre=pre, post={}, tx=tx)
-
-        return test_state_filler ```
+        @pytest.mark.valid_from("Homestead")
+        def test_state_filler(
+            state_test: StateTestFiller,
+            fork: Fork,
+            pre: Alloc,
+            n: int,
+            m: int
+        ):
+            assert n == 1 assert m in [1, 2]
+            env = Environment(**self.env.model_dump())
+            sender = pre.fund_eoa()
+            tx = Transaction(
+                ty=0x0,
+                nonce=0,
+                to=Address(0x1000),
+                gas_limit=500000,
+                protected=False if fork in [Frontier, Homestead] else True,
+                data="",
+                sender=sender,
+            )
+            state_test(env=env, pre=pre, post={}, tx=tx)
+        ```
 
         To aid the generation of the test, the function can be defined and then
         the decorator be applied after defining the function:
 
-        ``` def test_state_filler( state_test: StateTestFiller, fork: Fork,
-        pre: Alloc, n: int, m: int, ): ... test_state_filler =
-        pytest.mark.parametrize("n", [1])(test_state_filler) test_state_filler
-        = pytest.mark.parametrize("m", [1, 2])(test_state_filler) if
-        self.valid_from: test_state_filler =
-        pytest.mark.valid_from(self.valid_from)(test_state_filler) if
-        self.valid_until: test_state_filler =
-        pytest.mark.valid_until(self.valid_until)(test_state_filler) return
-        test_state_filler ```
+        ```
+        def test_state_filler(
+        state_test: StateTestFiller,
+            fork: Fork,
+            pre: Alloc,
+            n: int,
+            m: int,
+        ):
+
+        ...
+
+        test_state_filler = pytest.mark.parametrize("n",
+            [1])(test_state_filler
+        )
+        test_state_filler = pytest.mark.parametrize("m",
+            [1, 2])(test_state_filler
+        )
+
+        if self.valid_from:
+            test_state_filler = pytest.mark.valid_from(
+                self.valid_from
+            )(test_state_filler)
+
+        if self.valid_until:
+            test_state_filler = pytest.mark.valid_until(
+                self.valid_until
+            )(test_state_filler)
+
+        return test_state_filler
+        ```
 
         The function can contain the following parameters on top of the spec
         type parameter (`state_test` in the example above): - `fork`: The fork
         for which the test is currently being filled. - `pre`: The pre-state of
         the test.
-        '''
+
+        """
         raise NotImplementedError
 
     @staticmethod

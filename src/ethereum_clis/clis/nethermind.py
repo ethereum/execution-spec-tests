@@ -205,10 +205,6 @@ class NethtestFixtureConsumer(
                 for test_result in file_results
                 if test_result["name"].removesuffix(nethtest_suffix)
                 == f"{fixture_name.split('/')[-1]}"
-                # TODO: the following was required for nethermind's
-                # feature/evm/eof branch nethtest version:
-                # 1.32.0-unstable+025871675bd2e0839f93d2b70416ebae9dbae012 ==
-                # f"{fixture_name.split('.py::')[-1]}"
             ]
             assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
             assert len(test_result) == 1, f"Test result for {fixture_name} missing"

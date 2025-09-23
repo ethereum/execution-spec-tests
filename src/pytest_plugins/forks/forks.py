@@ -86,10 +86,14 @@ class ForkParametrizer:
         """
         Initialize a new fork parametrizer object for a given fork.
 
-        Args: fork: The fork for which the test cases will be parametrized.
-        marks: A list of pytest marks to apply to all the test cases
-        parametrized by the fork. fork_covariant_parameters: A list of fork
-        covariant parameters for the test case, for unit testing purposes only.
+        Args:
+          fork: The fork for which the test cases will be parametrized.
+          marks: A list of pytest marks to apply to all the test cases
+                 parametrized by the fork.
+          fork_covariant_parameters: A list of fork covariant parameters
+                                     for the test case, for unit testing
+                                     purposes only.
+
         """
         if marks is None:
             marks = []
@@ -173,11 +177,15 @@ class CovariantDescriptor:
         """
         Initialize a new covariant descriptor.
 
-        Args: argnames: The names of the parameters that are covariant with the
-        fork. fn: A function that takes the fork as the single parameter and
-        returns the values for the parameter for each fork. selector: A
-        function that filters the values for the parameter. marks: A list of
-        pytest marks to apply to the test cases parametrized by the parameter.
+        Args:
+          argnames: The names of the parameters that are covariant with the
+                    fork.
+          fn: A function that takes the fork as the single parameter and
+              returns the values for the parameter for each fork.
+          selector: A function that filters the values for the parameter.
+          marks: A list of pytest marks to apply to the test cases
+                 parametrized by the parameter.
+
         """
         self.argnames = (
             [argname.strip() for argname in argnames.split(",")]
@@ -254,11 +262,16 @@ class CovariantDecorator(CovariantDescriptor):
     The decorator must be subclassed with the appropriate class variables
     before initialization.
 
-    Attributes: marker_name: Name of the marker. description: Description of
-    the marker. fork_attribute_name: Name of the method to call on the fork to
-    get the values. marker_parameter_names: Names of the parameters to be
-    parametrized in the test function. indirect: Whether the parameters should
-    be passed through fixtures (indirect parametrization).
+    Attributes:
+      marker_name: Name of the marker.
+      description: Description of the marker.
+      fork_attribute_name: Name of the method to call on the fork to
+                           get the values.
+      marker_parameter_names: Names of the parameters to be parametrized
+                              in the test function.
+      indirect: Whether the parameters should be passed through fixtures
+                (indirect parametrization).
+
     """
 
     marker_name: ClassVar[str]
@@ -402,9 +415,8 @@ def pytest_configure(config: pytest.Config):
     Register the plugin's custom markers and process command-line options.
 
     Custom marker registration:
-    https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html# registering-
-                                                                # custom
-    -markers
+    https://docs.pytest.org/en/7.1.x/how-to/
+    writing_plugins.html# registering-custom-markers
     """
     config.addinivalue_line(
         "markers",
@@ -586,11 +598,12 @@ class ValidityMarker(ABC):
     Instantiation must be done per test function, and the `process` method must
     be called to process the fork arguments.
 
-    When subclassing, the following optional parameters can be set: -
-    marker_name: Name of the marker, if not set, the class name is converted to
-    underscore. - mutually_exclusive: List of other marker types incompatible
-    with this one. - flag: Whether the marker is a flag and should always be
-    included.
+    When subclassing, the following optional parameters can be set:
+    - marker_name: Name of the marker, if not set, the class name is
+                   converted to underscore.
+    - mutually_exclusive: List of other marker types incompatible
+                          with this one.
+    - flag: Whether the marker is a flag and should always be included.
     """
 
     marker_name: ClassVar[str]
@@ -734,13 +747,18 @@ class ValidFrom(ValidityMarker):
     Marker used to specify the fork from which the test is valid. The test will
     not be filled for forks before the specified fork.
 
-    ```python import pytest
+    ```python
+    import pytest
 
     from ethereum_test_tools import Alloc, StateTestFiller
 
-    @pytest.mark.valid_from("London") def
-    test_something_only_valid_after_london( state_test: StateTestFiller, pre:
-    Alloc ): pass ```
+    @pytest.mark.valid_from("London")
+    def test_something_only_valid_after_london(
+        state_test: StateTestFiller,
+        pre: Alloc
+    ):
+        pass
+    ```
 
     In this example, the test will only be filled for the London fork and
     after, e.g. London, Paris, Shanghai, Cancun, etc.
@@ -760,13 +778,18 @@ class ValidUntil(ValidityMarker):
     Marker to specify the fork until which the test is valid. The test will not
     be filled for forks after the specified fork.
 
-    ```python import pytest
+    ```python
+    import pytest
 
     from ethereum_test_tools import Alloc, StateTestFiller
 
-    @pytest.mark.valid_until("London") def
-    test_something_only_valid_until_london( state_test: StateTestFiller, pre:
-    Alloc ): pass ```
+    @pytest.mark.valid_until("London")
+    def test_something_only_valid_until_london(
+        state_test: StateTestFiller,
+        pre: Alloc
+    ):
+        pass
+    ```
 
     In this example, the test will only be filled for the London fork and
     before, e.g. London, Berlin, Istanbul, etc.
@@ -785,13 +808,18 @@ class ValidAt(ValidityMarker):
     """
     Marker to specify each fork individually for which the test is valid.
 
-    ```python import pytest
+    ```python
+    import pytest
 
     from ethereum_test_tools import Alloc, StateTestFiller
 
-    @pytest.mark.valid_at("London", "Cancun") def
-    test_something_only_valid_at_london_and_cancun( state_test:
-    StateTestFiller, pre: Alloc ): pass ```
+    @pytest.mark.valid_at("London", "Cancun")
+    def test_something_only_valid_at_london_and_cancun(
+        state_test: StateTestFiller,
+        pre: Alloc
+    ):
+        pass
+    ```
 
     In this example, the test will only be filled for the London and Cancun
     forks.
@@ -811,13 +839,18 @@ class ValidAtTransitionTo(ValidityMarker, mutually_exclusive=[ValidAt, ValidFrom
     and at block 5 (for pre-merge forks) or at timestamp 15,000 (for post-merge
     forks) the fork transition occurs.
 
-    ```python import pytest
+    ```python
+    import pytest
 
     from ethereum_test_tools import Alloc, BlockchainTestFiller
 
-    @pytest.mark.valid_at_transition_to("London") def
-    test_something_that_happens_during_the_fork_transition_to_london(
-    blockchain_test: BlockchainTestFiller, pre: Alloc ): pass ```
+    @pytest.mark.valid_at_transition_to("London")
+    def test_something_that_happens_during_the_fork_transition_to_london(
+        blockchain_test: BlockchainTestFiller,
+        pre: Alloc
+    ):
+        pass
+    ```
 
     In this example, the test will only be filled for the fork that transitions
     to London at block number 5, `BerlinToLondonAt5`, and no other forks.
@@ -833,17 +866,23 @@ class ValidAtTransitionTo(ValidityMarker, mutually_exclusive=[ValidAt, ValidFrom
     This marker also accepts the following keyword arguments:
 
     - `subsequent_transitions`: Force the test to also fill for subsequent fork
-    transitions. - `until`: Implies `subsequent_transitions` and puts a limit
+    transitions.
+    - `until`: Implies `subsequent_transitions` and puts a limit
     on which transition fork will the test filling will be limited to.
 
-    For example: ```python @pytest.mark.valid_at_transition_to("Cancun",
-    subsequent_transitions=True) ```
+    For example:
+    ```python
+    @pytest.mark.valid_at_transition_to("Cancun", subsequent_transitions=True)
+    ```
 
     produces tests on `ShanghaiToCancunAtTime15k` and
     `CancunToPragueAtTime15k`, and any transition fork after that.
 
-    And: ```python @pytest.mark.valid_at_transition_to("Cancun",
-    subsequent_transitions=True, until="Prague") ```
+    And:
+    ```python
+    @pytest.mark.valid_at_transition_to("Cancun",
+    subsequent_transitions=True, until="Prague")
+    ```
 
     produces tests on `ShanghaiToCancunAtTime15k` and
     `CancunToPragueAtTime15k`, but no forks after Prague.
@@ -881,12 +920,18 @@ class ValidForBPOForks(ValidityMarker, marker_name="valid_for_bpo_forks", flag=T
     """
     Marker to specify that a test is valid for BPO forks.
 
-    ```python import pytest
+    ```python
+    import pytest
 
     from ethereum_test_tools import Alloc, BlockchainTestFiller
 
-    @pytest.mark.valid_for_bpo_forks() def test_something_in_a_bpo_fork(
-    blockchain_test: BlockchainTestFiller, pre: Alloc ): pass ```
+    @pytest.mark.valid_for_bpo_forks()
+    def test_something_in_a_bpo_fork(
+        blockchain_test: BlockchainTestFiller,
+        pre: Alloc
+    ):
+        pass
+    ```
     """
 
     def _process_with_marker_args(self) -> Set[Fork]:

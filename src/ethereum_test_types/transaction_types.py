@@ -705,11 +705,10 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     Network wrapped transaction as defined in
     [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844#networking).
 
-    < Osaka: rlp([tx_payload_body,                   blobs, commitments,
-    proofs])
+    < Osaka: rlp([tx_payload_body, blobs, commitments, proofs])
 
     >= Osaka: rlp([tx_payload_body, wrapper_version,  blobs, commitments,
-    cell_proofs])
+                   cell_proofs])
     """
 
     tx: Transaction

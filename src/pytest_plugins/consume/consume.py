@@ -266,11 +266,14 @@ class SimLimitBehavior:
         Parse the `--sim.limit` argument and return a `SimLimitBehavior`
         instance.
 
-        If `pattern`: - Is "collectonly", enable collection mode without
-        filtering. - Starts with "collectonly:", enable collection mode and use
-        the rest as a regex pattern. - Starts with "id:", treat the rest as a
-        literal test ID and escape special regex chars. - Starts with
-        "collectonly:id:", enable collection mode with a literal test ID.
+        If `pattern`:
+          - Is "collectonly", enable collection mode without filtering.
+          - Starts with "collectonly:", enable collection mode and use the
+            rest as a regex pattern.
+          - Starts with "id:", treat the rest as a literal test ID and escape
+            special regex chars.
+          - Starts with "collectonly:id:", enable collection mode with a
+            literal test ID.
         """
         if pattern == "collectonly":
             return cls(pattern=".*", collectonly=True)

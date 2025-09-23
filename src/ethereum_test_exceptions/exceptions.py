@@ -141,19 +141,13 @@ class TransactionException(ExceptionBase):
     """Transaction nonce < sender.nonce."""
     NONCE_TOO_BIG = auto()
     """
-
-
     Transaction `nonce` is not allowed to be max_uint64 - 1 (this is probably
     TransactionTest).
-
     """
     NONCE_IS_MAX = auto()
     """
-
-
     Transaction `nonce` is not allowed to be max_uint64 - 1 (this is
     StateTests).
-
     """
     NONCE_OVERFLOW = auto()
     """Transaction `nonce` is not allowed to be more than uint64."""
@@ -191,35 +185,23 @@ class TransactionException(ExceptionBase):
     """Error reading transaction priority fee field RLP."""
     RLP_LEADING_ZEROS_DATA_SIZE = auto()
     """
-
-
     Error reading transaction data field RLP, (rlp field length has leading
     zeros).
-
     """
     RLP_LEADING_ZEROS_NONCE_SIZE = auto()
     """
-
-
     Error reading transaction nonce field RLP, (rlp field length has leading
     zeros).
-
     """
     RLP_TOO_FEW_ELEMENTS = auto()
     """
-
-
     Error reading transaction RLP, structure has too few elements than
     expected.
-
     """
     RLP_TOO_MANY_ELEMENTS = auto()
     """
-
-
     Error reading transaction RLP, structure has too many elements than
     expected.
-
     """
     RLP_ERROR_EOF = auto()
     """Error reading transaction RLP, rlp stream unexpectedly finished."""
@@ -253,42 +235,27 @@ class TransactionException(ExceptionBase):
     """Transaction has correct signature, but ec recovery failed."""
     INSUFFICIENT_ACCOUNT_FUNDS = auto()
     """
-
-
     Transaction's sender does not have enough funds to pay for the transaction.
-
     """
     INSUFFICIENT_MAX_FEE_PER_GAS = auto()
     """Transaction's max-fee-per-gas is lower than the block base-fee."""
     PRIORITY_OVERFLOW = auto()
     """
-
-
     Transaction's max-priority-fee-per-gas is exceeds 2^256-1 maximum value.
-
     """
     PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS = auto()
     """
-
-
     Transaction's max-priority-fee-per-gas is greater than the max-fee-per-gas.
-
     """
     PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS_2 = auto()
     """
-
-
     Transaction's max-priority-fee-per-gas is greater than the max-fee-per-gas
     (TransactionTests).
-
     """
     INSUFFICIENT_MAX_FEE_PER_BLOB_GAS = auto()
     """
-
-
     Transaction's max-fee-per-blob-gas is lower than the block's blob-gas
     price.
-
     """
     INTRINSIC_GAS_TOO_LOW = auto()
     """Transaction's gas limit is too low."""
@@ -296,10 +263,7 @@ class TransactionException(ExceptionBase):
     """Transaction's gas limit is below the floor gas cost."""
     INITCODE_SIZE_EXCEEDED = auto()
     """
-
-
     Transaction's initcode for a contract-creating transaction is too large.
-
     """
     TYPE_3_TX_PRE_FORK = auto()
     """Transaction type 3 included before activation fork."""
@@ -319,10 +283,7 @@ class TransactionException(ExceptionBase):
     """Transaction causes block to go over blob gas limit."""
     GAS_LIMIT_EXCEEDS_MAXIMUM = auto()
     """
-
-
     Transaction gas limit exceeds the maximum allowed limit of 30 million.
-
     """
     TYPE_3_TX_ZERO_BLOBS = auto()
     """Transaction is type 3, but has no blobs."""
@@ -336,11 +297,8 @@ class TransactionException(ExceptionBase):
     """Transaction is a type 4 transaction and has an empty `to`."""
     TYPE_4_INVALID_AUTHORIZATION_FORMAT = auto()
     """
-
-
     Transaction is type 4, but contains an authorization that has an invalid
     format.
-
     """
     TYPE_4_TX_PRE_FORK = auto()
     """Transaction type 4 included before activation fork."""
@@ -369,26 +327,17 @@ class BlockException(ExceptionBase):
     """Block header's extra data >32 bytes."""
     EXTRA_DATA_INVALID_DAO = auto()
     """
-
-
     Block header's extra data after dao fork must be a fixed pre defined hash.
-
     """
     UNKNOWN_PARENT = auto()
     """
-
-
     Block header's parent hash does not correspond to any of existing blocks on
     chain.
-
     """
     UNCLE_UNKNOWN_PARENT = auto()
     """
-
-
     Uncle header's parent hash does not correspond to any of existing blocks on
     chain.
-
     """
     UNKNOWN_PARENT_ZERO = auto()
     """Block header's parent hash is zero hash."""
@@ -400,87 +349,57 @@ class BlockException(ExceptionBase):
     """Block header's timestamp <= parent header's timestamp."""
     INVALID_DIFFICULTY = auto()
     """
-
-
     Block header's difficulty does not match the difficulty formula calculated
     from previous block.
-
     """
     INVALID_LOG_BLOOM = auto()
     """
-
-
     Block header's logs bloom hash does not match the actually computed log
     bloom.
-
     """
     INVALID_STATE_ROOT = auto()
     """
-
-
     Block header's state root hash does not match the actually computed hash of
     the state.
-
     """
     INVALID_RECEIPTS_ROOT = auto()
     """
-
-
     Block header's receipts root hash does not match the actually computed hash
     of receipts.
-
     """
     INVALID_TRANSACTIONS_ROOT = auto()
     """
-
-
     Block header's transactions root hash does not match the actually computed
     hash of tx tree.
-
     """
     INVALID_UNCLES_HASH = auto()
     """
-
-
     Block header's uncle hash does not match the actually computed hash of
     block's uncles.
-
     """
     GAS_USED_OVERFLOW = auto()
     """Block transactions consume more gas than block header allow."""
     INVALID_GASLIMIT = auto()
     """
-
-
     Block header's gas limit does not match the gas limit formula calculated
     from previous block.
-
     """
     INVALID_BASEFEE_PER_GAS = auto()
     """Block header's base_fee_per_gas field is calculated incorrect."""
     INVALID_GAS_USED = auto()
     """
-
-
     Block header's actual gas used does not match the provided header's value
-
     """
     INVALID_GAS_USED_ABOVE_LIMIT = auto()
     """Block header's gas used value is above the gas limit field's value."""
     INVALID_WITHDRAWALS_ROOT = auto()
     """
-
-
     Block header's withdrawals root does not match calculated withdrawals root.
-
     """
     INCORRECT_BLOCK_FORMAT = auto()
     """
-
-
     Block's format is incorrect, contains invalid fields, is missing fields, or
     contains fields of a fork that is not active yet.
-
     """
     BLOB_GAS_USED_ABOVE_LIMIT = auto()
     """Block's blob gas used in header is above the limit."""
@@ -492,10 +411,7 @@ class BlockException(ExceptionBase):
     """Incorrect number of versioned hashes in a payload."""
     RLP_STRUCTURES_ENCODING = auto()
     """
-
-
     Block's rlp encoding is valid but ethereum structures in it are invalid.
-
     """
     RLP_WITHDRAWALS_NOT_READ = auto()
     """Block's rlp encoding is missing withdrawals."""
@@ -511,27 +427,18 @@ class BlockException(ExceptionBase):
     """Legacy block import is impossible in this chain configuration."""
     IMPORT_IMPOSSIBLE_LEGACY_WRONG_PARENT = auto()
     """
-
-
     Legacy block import is impossible, trying to import on top of a block that
     is not legacy.
-
     """
     IMPORT_IMPOSSIBLE_LONDON_WRONG_PARENT = auto()
     """
-
-
     Trying to import london (basefee) block on top of block that is not 1559.
-
     """
     IMPORT_IMPOSSIBLE_PARIS_WRONG_POW = auto()
     """Trying to import paris(merge) block with PoW enabled."""
     IMPORT_IMPOSSIBLE_PARIS_WRONG_POS = auto()
     """
-
-
     Trying to import paris(merge) block with PoS enabled before TTD is reached.
-
     """
     IMPORT_IMPOSSIBLE_LONDON_OVER_PARIS = auto()
     """Trying to import london looking block over paris network (POS)."""
@@ -541,43 +448,28 @@ class BlockException(ExceptionBase):
     """Shanghai block import is impossible in this chain configuration."""
     IMPORT_IMPOSSIBLE_UNCLES_OVER_PARIS = auto()
     """
-
-
     Trying to import a block after paris fork that has not empty uncles hash.
-
     """
     IMPORT_IMPOSSIBLE_DIFFICULTY_OVER_PARIS = auto()
     """Trying to import a block after paris fork that has difficulty != 0."""
     SYSTEM_CONTRACT_EMPTY = auto()
     """
-
-
     A system contract address contains no code at the end of fork activation
     block.
-
     """
     SYSTEM_CONTRACT_CALL_FAILED = auto()
     """
-
-
     A system contract call at the end of block execution (from the system
     address) fails.
-
     """
     INVALID_BLOCK_HASH = auto()
     """
-
-
     Block header's hash does not match the actually computed hash of the block.
-
     """
     INVALID_DEPOSIT_EVENT_LAYOUT = auto()
     """
-
-
     Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but
     the layout of the event does not match the required layout.
-
     """
 
 
@@ -660,27 +552,18 @@ class EOFException(ExceptionBase):
     """EOF container's specified max stack increase is above the limit."""
     STACK_HIGHER_THAN_OUTPUTS = auto()
     """
-
-
     EOF container section stack height is higher than the outputs. when
     returning
-
     """
     JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS = auto()
     """
-
-
     EOF container section JUMPF's to a destination section with incompatible
     outputs.
-
     """
     INVALID_MAX_STACK_INCREASE = auto()
     """
-
-
     EOF container section's specified max stack increase does not match the
     actual stack height.
-
     """
     INVALID_DATALOADN_INDEX = auto()
     """A DATALOADN instruction has out-of-bounds index for the data section."""

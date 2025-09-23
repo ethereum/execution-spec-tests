@@ -268,16 +268,16 @@ class TransitionTool(EthereumCLI):
                 t8n_call = t8n_call.replace(
                     os.path.dirname(file_path), os.path.join(debug_output_path, "input")
                 )
-            t8n_call = t8n_call.replace(  # use a new output path for basedir
-                # and outputs
+            # use a new output path for basedir and outputs
+            t8n_call = t8n_call.replace(
                 temp_dir.name,
                 t8n_output_base_dir,
             )
             t8n_script = textwrap.dedent(
                 f"""\
                 #!/bin/bash
-                rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid
-                                                       # surprises
+                # hard-coded to avoid surprises
+                rm -rf {debug_output_path}/t8n.sh.out
                 mkdir -p {debug_output_path}/t8n.sh.out/output
                 {t8n_call}
                 """
@@ -561,10 +561,11 @@ class TransitionTool(EthereumCLI):
         t8n_script = textwrap.dedent(
             f"""\
             #!/bin/bash
-            rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid
-                                                   # surprises
-            mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not
-                                                  # enabled
+            # hard-coded to avoid surprises
+            rm -rf {debug_output_path}/t8n.sh.out
+
+            # unused if tracing is not enabled
+            mkdir {debug_output_path}/t8n.sh.out
             {t8n_call} < {debug_output_path}/stdin.txt
             """
         )

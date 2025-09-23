@@ -224,11 +224,12 @@ def get_release_page_url(release_string: str) -> str:
     """
     Return the GitHub Release page URL for a specific release descriptor.
 
-    This function can handle: - A standard release string (e.g.,
-    "eip7692@latest") - from execution-spec-tests only. - A direct asset
-    download link (e.g.,
-    "https://github.com/ethereum/execution-spec-tests/releases/download/v4.0.0/fixt
-    ures_eip7692.tar.gz").
+    This function can handle:
+    - A standard release string (e.g., "eip7692@latest") from
+      execution-spec-tests only.
+    - A direct asset download link (e.g.,
+      "https://github.com/ethereum/execution-spec-tests/releases/
+      download/v4.0.0/fixtures_eip7692.tar.gz").
     """
     release_information = get_release_information()
 

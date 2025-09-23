@@ -20,12 +20,6 @@ ALL_FIXTURE_PARAMETERS = {
     "env",
 }
 """
-
-
-
-
-
-
 List of test parameters that have a default fixture value which can be
 retrieved and used for the test instance if it was not explicitly specified
 when calling from the test function.

@@ -340,8 +340,8 @@ def test_blockchain_via_sync(
     except Exception as e:
         raise LoggedError(f"admin_addPeer failed: {e}") from e
 
-    time.sleep(1)  # quick sleep to allow for connection - TODO: is this
-    # necessary?
+    # quick sleep to allow for connection - TODO: is this necessary?
+    time.sleep(1)
 
     try:
         sync_peer_count = sync_net_rpc.peer_count()
@@ -378,9 +378,8 @@ def test_blockchain_via_sync(
         )
 
         try:
-            version = last_valid_payload.new_payload_version  # log version
-            # used for
-            # debugging
+            # log version used for debugging
+            version = last_valid_payload.new_payload_version
             logger.info(f"Sending target payload via engine_newPayloadV{version}")
 
             # send the payload to sync client

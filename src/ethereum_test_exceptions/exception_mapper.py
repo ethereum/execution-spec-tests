@@ -20,33 +20,24 @@ class ExceptionMapper(ABC):
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]]
     """
-
-
     Mapping of exception to substring that should be present in the error
     message.
 
     Items in this mapping are used for substring matching (`substring in
     message`).
-
     """
 
     mapping_regex: ClassVar[Dict[ExceptionBase, str]]
     """
-
-
     Mapping of exception to regex that should be present in the error message.
 
     Items in this mapping are compiled into regex patterns for faster matching,
     and then used for regex matching (`pattern.search(message)`).
-
     """
     reliable: ClassVar[bool] = True
     """
-
-
     Whether the exceptions returned by the tool are reliable and can be
     accurately mapped to the exceptions in this class.
-
     """
 
     def __init__(self) -> None:
@@ -122,15 +113,16 @@ def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | Undefined
 
 ExceptionMapperValidator = BeforeValidator(mapper_validator)
 """
-
-
 Validator that can be used to annotate a pydantic field in a model that is
 meant to be parsed from an external tool or client.
 
 The annotated type must be an union that can include `None`,
-`UndefinedException` and a custom model as: ``` class
-BlockExceptionWithMessage(ExceptionWithMessage[BlockException]): pass ``` where
-`BlockException` can be any derivation of `ExceptionBase`.
+`UndefinedException` and a custom model as:
+```
+class BlockExceptionWithMessage(ExceptionWithMessage[BlockException]):
+    pass
+```
+where `BlockException` can be any derivation of `ExceptionBase`.
 
 The `message` attribute is the verbatim message received from the external tool
 or client, and can be used to be printed for extra context information in case

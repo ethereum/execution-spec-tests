@@ -414,8 +414,8 @@ class Alloc(BaseAlloc):
                     authorization_list=[
                         AuthorizationTuple(
                             chain_id=self._chain_id,
-                            address=0,  # Reset delegation to an address
-                            # without code
+                            # Reset delegation to an address without code
+                            address=0,
                             nonce=eoa.nonce,
                             signer=eoa,
                         ),
@@ -487,8 +487,11 @@ class Alloc(BaseAlloc):
         Add a previously unused account guaranteed to be empty to the
         pre-alloc.
 
-        This ensures the account has: - Zero balance - Zero nonce - No code -
-        No storage
+        This ensures the account has:
+        - Zero balance
+        - Zero nonce
+        - No code
+        - No storage
 
         This is different from precompiles or system contracts. The function
         does not send any transactions, ensuring that the account remains

@@ -62,8 +62,6 @@ def wait_until_counter_reached(target: int, poll_interval: float = 0.1):
                 try:
                     current_value = int(file_path.read_text().strip())
                     if current_value == target:
-                        # file_path.unlink()  # get rid to effectively reset
-                        # counter to 0
                         return current_value
                     elif current_value > target:
                         pytest.fail(
@@ -158,8 +156,8 @@ def test_transition_fork_blobs(
 
     print(f"Original fork: {fork}, Timestamp: {timestamp}")
     pre_transition_fork = fork.transitions_from()
-    post_transition_fork_at_15k = fork.transitions_to()  # only reached if
-    # timestamp >= 15000
+    # only reached if timestamp >= 15000
+    post_transition_fork_at_15k = fork.transitions_to()
 
     if not pre_transition_fork.supports_blobs() and timestamp < 15000:
         print(

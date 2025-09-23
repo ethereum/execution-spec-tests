@@ -240,16 +240,10 @@ def nibble_list_to_compact(x: Bytes, is_leaf: bool) -> Bytes:
 
     Highest nibble::
 
-    +---+---+----------+--------+ | _ | _ | is_leaf | parity |
-    +---+---+----------+--------+ 3   2      1         0
-
-
-
-
-
-
-
-
+    +---+---+----------+--------+
+    | _ | _ | is_leaf  | parity |
+    +---+---+----------+--------+
+      3   2      1         0
 
     The lowest bit of the nibble encodes the parity of the length of the
     remaining nibbles -- `0` when even and `1` when odd. The second lowest bit

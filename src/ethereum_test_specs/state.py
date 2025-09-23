@@ -195,12 +195,14 @@ class StateTest(BaseTest):
             "genesis timestamp cannot be negative, set state test env.timestamp to at least 1"
         )
         # There's only a handful of values that we need to set in the genesis
-        # for the environment values at block 1 to make sense: - Number: Needs
-        # to be N minus 1 - Timestamp: Needs to be zero, because the subsequent
-        # block can come at any time. - Gas Limit: Changes from parent to
-        # child, needs to be set in genesis - Base Fee Per Gas: Block's base
-        # fee depends on the parent's value - Excess Blob Gas: Block's excess
-        # blob gas value depends on the parent's value
+        # for the environment values at block 1 to make sense:
+        # - Number: Needs to be N minus 1
+        # - Timestamp: Needs to be zero, because the subsequent
+        #              block can come at any time.
+        # - Gas Limit: Changes from parent to child, needs to be set in genesis
+        # - Base Fee Per Gas: Block's base fee depends on the parent's value
+        # - Excess Blob Gas: Block's excess blob gas value depends on
+        #                    the parent's value
         kwargs: Dict[str, Any] = {
             "number": self.env.number - 1,
             "timestamp": 0,

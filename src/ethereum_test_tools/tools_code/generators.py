@@ -304,11 +304,15 @@ class Switch(Bytecode):
     """
     Helper class used to generate switch-case expressions in EVM bytecode.
 
-    Switch-case behavior: - If no condition is met in the list of BytecodeCases
-    conditions, the `default_action` bytecode is executed. - If multiple
-    conditions are met, the action from the first valid condition is the only
-    one executed. - There is no fall through; it is not possible to execute
-    multiple actions.
+    Switch-case behavior:
+      - If no condition is met in the list of BytecodeCases
+        conditions, the `default_action` bytecode is executed.
+
+      - If multiple conditions are met, the action from the first valid
+        condition is the only one executed.
+
+      - There is no fall through; it is not possible to execute
+        multiple actions.
     """
 
     default_action: Bytecode | Op | None
@@ -341,10 +345,12 @@ class Switch(Bytecode):
         switch-case behavior.
         """
         # The length required to jump over subsequent actions to the final
-        # JUMPDEST at the end of the switch-case block: - add 6 per case for
-        # the length of the JUMPDEST and JUMP(ADD(PC, action_jump_length))
-        # bytecode - add 3 to the total to account for this action's JUMP; the
-        # PC within the call requires a "correction" of 3.
+        # JUMPDEST at the end of the switch-case block:
+        #   - add 6 per case for the length of the JUMPDEST and
+        #     JUMP(ADD(PC, action_jump_length)) bytecode
+        #
+        #   - add 3 to the total to account for this action's JUMP;
+        #     the PC within the call requires a "correction" of 3.
 
         bytecode = Bytecode()
 
@@ -372,14 +378,19 @@ class Switch(Bytecode):
         # outer-most onion layer. We build up layers around the default_action,
         # after 1 iteration of the loop, a simplified representation of the
         # bytecode is:
-        # JUMPI(case[n-1].condition) + default_action + JUMP() + JUMPDEST +
-        # case[n-1].action + JUMP()
+        #
+        # JUMPI(case[n-1].condition)
+        # + default_action + JUMP()
+        # + JUMPDEST + case[n-1].action + JUMP()
+        #
         # and after n=len(cases) iterations:
-        # JUMPI(case[0].condition) + JUMPI(case[1].condition) ... +
-        # JUMPI(case[n-1].condition) + default_action + JUMP() + JUMPDEST +
+        #
+        # JUMPI(case[0].condition)
+        # + JUMPI(case[1].condition)
+        # ...
+        # + JUMPI(case[n-1].condition) + default_action + JUMP() + JUMPDEST +
         # case[n-1].action + JUMP() + ... + JUMPDEST + case[1].action + JUMP()
         # + JUMPDEST + case[0].action + JUMP()
-        #
         for case in reversed(cases):
             action = case.action
             if evm_code_type == EVMCodeType.LEGACY:

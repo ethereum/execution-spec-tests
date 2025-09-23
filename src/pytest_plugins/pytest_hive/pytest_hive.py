@@ -8,9 +8,11 @@ Simulators using this plugin must define two pytest fixtures:
 
 These fixtures are used when creating the hive test suite.
 
-Log Capture Architecture: ------------------------- This module implements a
-log capture approach that ensures all logs, including those generated during
-fixture teardown, are properly captured and included in the test results.
+Log Capture Architecture:
+-------------------------
+This module implements a log capture approach that ensures all logs,
+including those generated during fixture teardown, are properly
+captured and included in the test results.
 
 The key insight is that we need to ensure that test finalization happens
 *before* the test suite is finalized, but *after* all fixtures have been torn
@@ -19,9 +21,12 @@ teardown mechanism in pytest:
 
 1. Since the `hive_test` fixture depends on the `test_suite` fixture, pytest
 guarantees that the teardown of `hive_test` runs before the teardown of
-`test_suite` 2. All logs are processed and the test is finalized in the
-teardown phase of the `hive_test` fixture using the pytest test report data 3.
-This sequencing ensures that all logs are captured and the test is properly
+`test_suite`
+
+2. All logs are processed and the test is finalized in the
+teardown phase of the `hive_test` fixture using the pytest test report data
+
+3. This sequencing ensures that all logs are captured and the test is properly
 finalized before its parent test suite is finalized
 
 This approach relies on the pytest fixture dependency graph and teardown
@@ -138,8 +143,13 @@ def pytest_runtest_makereport(item, call):
 
     This is used to get the test result and pass it to the hive test suite.
 
-    Available as: - result_setup - setup result - result_call - test result -
-    result_teardown - teardown result
+    Available as:
+    - result_setup
+    - setup result
+    - result_call
+    - test result
+    - result_teardown
+    - teardown result
     """
     del call
 

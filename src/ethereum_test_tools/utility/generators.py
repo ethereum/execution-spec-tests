@@ -67,17 +67,21 @@ class SystemContractDeployTestFunction(Protocol):
         test_type: DeploymentTestType,
     ) -> Generator[Block, None, None]:
         """
-        Args: fork (Fork): The fork to test. pre (Alloc): The pre state of the
-        blockchain. post (Alloc): The post state of the blockchain. test_type
-        (DeploymentTestType): The type of deployment test currently being
-        filled.
+        Arguments:
+          fork (Fork): The fork to test.
+          pre (Alloc): The pre state of the blockchain.
+          post (Alloc): The post state of the blockchain.
+          test_type(DeploymentTestType): The type of deployment test
+                                         currently being filled.
 
-        Yields: Block: To add after the block where the contract was deployed
-        (e.g. can contain extra transactions to execute after the system
-        contract has been deployed, and/or a header object to verify that the
-        headers are correct).
+        Yields:
+          Block: To add after the block where the contract was deployed
+                 (e.g. can contain extra transactions to execute after
+                 the system contract has been deployed, and/or a header
+                 object to verify that the headers are correct).
+
         """
-        ...
+        pass
 
 
 def generate_system_contract_deploy_test(
@@ -93,28 +97,45 @@ def generate_system_contract_deploy_test(
 
     Generates following test cases:
 
-    | before/after fork | fail on     | invalid block | |                   |
-    empty block |               |
-    --------------------------------------|-------------------|-------------|------
-    ---------| `deploy_before_fork-nonzero_balance`  | before            |
-    False       | False         | `deploy_before_fork-zero_balance`     |
-    before            | True        | False         |
-    `deploy_on_fork_block-nonzero_balance`| on fork block     | False       |
-    False         | `deploy_on_fork_block-zero_balance`   | on fork block     |
-    True        | False         | `deploy_after_fork-nonzero_balance`   | after
-    | False       | False         | `deploy_after_fork-zero_balance`      |
-    after             | True        | True |
+                        | before/after fork | fail on      | invalid block  |
+                                              empty block  |                |
+    --------------------|-------------------|--------------|----------------|
+    `deploy_before_fork-| before            | False        | False          |
+    nonzero_balance`
+
+    `deploy_before_fork-| before            | True         | False          |
+    zero_balance`
+
+    `deploy_on_fork_    | on fork block     | False        | False          |
+    block-nonzero_
+    balance`
+
+    `deploy_on_fork_    | on fork block     | True         | False          |
+    block-zero_balance`
+
+    `deploy_after_fork  | after             | False        | False          |
+    -nonzero_balance`
+
+    `deploy_after_fork  | after             | True         | True           |
+    -zero_balance`
+
 
     The `has balance` parametrization does not have an effect on the
     expectation of the test.
 
-    Args: fork (Fork): The fork to test. tx_json_path (Path): Path to the JSON
-    file with the transaction to deploy the system contract. Providing a JSON
-    file is useful to copy-paste the transaction from the EIP.
-    expected_deploy_address (Address): The expected address of the deployed
-    contract. fail_on_empty_code (bool): If True, the test is expected to fail
-    on empty code. expected_system_contract_storage (Dict | None): The expected
-    storage of the system contract.
+    Arguments:
+      fork (Fork): The fork to test.
+      tx_json_path (Path): Path to the JSON file with the transaction to
+                           deploy the system contract. Providing a JSON
+                           file is useful to copy-paste the transaction
+                           from the EIP.
+      expected_deploy_address (Address): The expected address of the deployed
+                                         contract.
+      fail_on_empty_code (bool): If True, the test is expected to fail
+                                 on empty code.
+      expected_system_contract_storage (Dict | None): The expected storage of
+                                                      the system contract.
+
     """
     with open(tx_json_path, mode="r") as f:
         tx_json = json.loads(f.read())
@@ -271,12 +292,13 @@ def generate_system_contract_error_test(
     Generate a test that verifies the correct behavior when a system contract
     fails execution.
 
-    Parametrizations required: - system_contract (Address): The address of the
-    system contract to deploy. - valid_from (Fork): The fork from which the
-    test is valid.
+    Parametrizations required:
+    - system_contract (Address): The address of the system contract to deploy.
+    - valid_from (Fork): The fork from which the test is valid.
 
-    Args: max_gas_limit (int): The maximum gas limit for the system
-    transaction.
+    Arguments:
+      max_gas_limit (int): The maximum gas limit for the system transaction.
+
     """
 
     def decorator(func: SystemContractDeployTestFunction):

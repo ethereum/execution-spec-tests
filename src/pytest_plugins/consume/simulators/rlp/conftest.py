@@ -65,9 +65,9 @@ def client_files(
     """
     Define the files that hive will start the client with.
 
-    The files are specified as a dictionary whose: - Keys are the target file
-    paths in the client's docker container, and, - Values are in-memory
-    buffered file objects.
+    The files are specified as a dictionary whose:
+    - Keys are the target file paths in the client's docker container, and,
+    - Values are in-memory buffered file objects.
     """
     files = {f"/blocks/{i + 1:04d}.rlp": rlp for i, rlp in enumerate(buffered_blocks_rlp)}
     files["/genesis.json"] = buffered_genesis

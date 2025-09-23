@@ -476,8 +476,9 @@ class FixtureBlockBase(CamelModel):
         block = [
             self.header.rlp_encode_list,
             [tx.serializable_list for tx in txs],
-            self.ommers,  # TODO: This is incorrect, and we probably need to
-            # serialize the ommers
+            # TODO: This is incorrect, and we probably
+            # need to serialize the ommers
+            self.ommers,
         ]
 
         if self.withdrawals is not None:
@@ -529,8 +530,8 @@ class BlockchainFixtureCommon(BaseFixture):
     pre: Alloc
     post_state: Alloc | None = Field(None)
     post_state_hash: Hash | None = Field(None)
-    last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME:
-    # lastBlockHash
+    # FIXME: lastBlockHash
+    last_block_hash: Hash = Field(..., alias="lastblockhash")
     config: FixtureConfig
 
     @model_validator(mode="before")
@@ -577,8 +578,8 @@ class BlockchainEngineFixtureCommon(BaseFixture):
 
     fork: Fork = Field(..., alias="network")
     post_state_hash: Hash | None = Field(None)
-    last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME:
-    # lastBlockHash
+    # FIXME: lastBlockHash
+    last_block_hash: Hash = Field(..., alias="lastblockhash")
     config: FixtureConfig
 
     def get_fork(self) -> Fork | None:
@@ -629,11 +630,8 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
 
     post_state_diff: Alloc | None = None
     """
-
-
     State difference from genesis after test execution (efficiency
     optimization).
-
     """
 
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
@@ -644,10 +642,10 @@ class BlockchainEngineSyncFixture(BlockchainEngineFixture):
     """
     Engine Sync specific test fixture information.
 
-    This fixture format is specifically designed for sync testing where: - The
-    client under test receives all payloads - A sync client attempts to sync
-    from the client under test - Both client types are parametrized from hive
-    client config
+    This fixture format is specifically designed for sync testing where:
+    - The client under test receives all payloads
+    - A sync client attempts to sync from the client under test
+    - Both client types are parametrized from hive client config
     """
 
     format_name: ClassVar[str] = "blockchain_test_sync"

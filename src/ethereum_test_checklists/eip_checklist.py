@@ -102,10 +102,15 @@ class EIPChecklist:
     Note: If you modify this class structure, regenerate the type stub file
     using: uv run generate_checklist_stubs
 
-    Examples: @EIPChecklist.Opcode.Test.GasUsage.Normal() def
-    test_normal_gas(): pass
+    Examples:
+      @EIPChecklist.Opcode.Test.GasUsage.Normal()
+      def test_normal_gas():
+          pass
 
-    @EIPChecklist.Opcode.Test.StackOverflow def test_stack_overflow(): pass
+      @EIPChecklist.Opcode.Test.StackOverflow
+      def test_stack_overflow():
+          pass
+
     """
 
     class General(ChecklistItem):

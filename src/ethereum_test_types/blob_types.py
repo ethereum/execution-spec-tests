@@ -50,8 +50,8 @@ class Blob(CamelModel):
     data: Bytes
     commitment: Bytes
     proof: List[Bytes] | Bytes  # Bytes < Osaka, List[Bytes] >= Osaka
-    cells: List[Bytes] | None  # None (in json: null) < Osaka, List[Bytes] >=
-    # Osaka
+    # None (in json: null) < Osaka, List[Bytes] >= Osaka
+    cells: List[Bytes] | None
 
     versioned_hash: Hash
     name: str
@@ -288,8 +288,8 @@ class Blob(CamelModel):
             if output_location.exists():
                 logger.debug(f"Blob {output_location} already exists. It will be overwritten.")
 
-            with open(output_location, "w", encoding="utf-8") as f:  # overwrite
-                # existing
+            # overwrite existing
+            with open(output_location, "w", encoding="utf-8") as f:
                 f.write(json_str)
 
     def verify_cell_kzg_proof_batch(self, cell_indices: list) -> bool:

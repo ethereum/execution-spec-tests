@@ -54,14 +54,18 @@ def compile_yul(source_file: str, evm_version: str | None = None, optimize: str 
     Compiles a Yul source file using solc and returns the binary
     representation.
 
-    Parameters_: source_file (str): Path to the Yul source file. evm_version
-    (str, optional): The EVM version to use (e.g., 'istanbul'). Defaults to
-    None. optimize (any, optional): If provided (non-None), optimization flags
-    are not added. If None, additional optimization flags will be included.
+    Arguments:
+      source_file (str): Path to the Yul source file.
+      evm_version(str, optional): The EVM version to use (e.g., 'istanbul').
+                                  Defaults to None.
+      optimize (any, optional): If provided (non-None), optimization flags
+                                are not added. If None, additional
+                                optimization flags will be included.
 
-    Returns_: str: The binary representation prefixed with "0x".
+    Returns: str: The binary representation prefixed with "0x".
 
-    Raises_: Exception: If the solc output contains an error message.
+    Raises: Exception: If the solc output contains an error message.
+
     """
     cmd = safe_solc_command(source_file, evm_version, optimize)
 

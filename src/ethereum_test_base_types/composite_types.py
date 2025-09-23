@@ -36,16 +36,7 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
         str | int | bytes | SupportsBytes, str | int | bytes | SupportsBytes
     ]
     """
-
-
-
-
-
-
     Dictionary type to be used when defining an input to initialize a storage.
-
-
-
     """
 
     @dataclass(kw_only=True)
@@ -310,17 +301,8 @@ class Account(CamelModel):
 
     nonce: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     """
-
-
-
-
-
-
     The scalar value equal to a) the number of transactions sent by an
     Externally Owned Account, b) the amount of contracts created by a contract.
-
-
-
     """
     balance: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     """The amount of Wei (10<sup>-18</sup> Eth) the account has."""
@@ -331,17 +313,8 @@ class Account(CamelModel):
 
     NONEXISTENT: ClassVar[None] = None
     """
-
-
-
-
-
-
     Sentinel object used to specify when an account should not exist in the
     state.
-
-
-
     """
 
     @dataclass(kw_only=True)

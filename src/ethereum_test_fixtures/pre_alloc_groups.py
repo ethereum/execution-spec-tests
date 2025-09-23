@@ -22,8 +22,8 @@ class PreAllocGroup(CamelModel):
     pre-allocation group optimization.
     """
 
-    model_config = {"populate_by_name": True}  # Allow both field names and
-    # aliases
+    # Allow both field names and aliases
+    model_config = {"populate_by_name": True}
 
     test_ids: List[str] = Field(default_factory=list)
     environment: Environment = Field(..., description="Grouping environment for this test group")

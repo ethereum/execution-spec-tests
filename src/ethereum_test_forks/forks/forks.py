@@ -477,12 +477,8 @@ class Frontier(BaseFork, solc_name="homestead"):
         """
         At genesis, there is no upper bound for code size (bounded by block gas
         limit).
-        """
-        """
-
 
         However, the default is set to the limit of EIP-170 (Spurious Dragon)
-
         """
         return 0x6000
 
@@ -1001,18 +997,26 @@ class London(Berlin):
 
         EIP-1559 block validation pseudo code:
 
-        if INITIAL_FORK_BLOCK_NUMBER == block.number: expected_base_fee_per_gas
-        = INITIAL_BASE_FEE elif parent_gas_used == parent_gas_target:
-        expected_base_fee_per_gas = parent_base_fee_per_gas elif
-        parent_gas_used > parent_gas_target: gas_used_delta = parent_gas_used -
-        parent_gas_target base_fee_per_gas_delta = max( parent_base_fee_per_gas
-        * gas_used_delta // parent_gas_target //
-        BASE_FEE_MAX_CHANGE_DENOMINATOR, 1, ) expected_base_fee_per_gas =
-        parent_base_fee_per_gas + base_fee_per_gas_delta else: gas_used_delta =
-        parent_gas_target - parent_gas_used base_fee_per_gas_delta = (
-        parent_base_fee_per_gas * gas_used_delta // parent_gas_target //
-        BASE_FEE_MAX_CHANGE_DENOMINATOR ) expected_base_fee_per_gas =
-        parent_base_fee_per_gas - base_fee_per_gas_delta
+        if INITIAL_FORK_BLOCK_NUMBER == block.number:
+            expected_base_fee_per_gas = INITIAL_BASE_FEE
+        elif parent_gas_used == parent_gas_target:
+            expected_base_fee_per_gas = parent_base_fee_per_gas
+        elif parent_gas_used > parent_gas_target:
+            gas_used_delta = parent_gas_used - parent_gas_target
+            base_fee_per_gas_delta = max( parent_base_fee_per_gas
+                                  * gas_used_delta // parent_gas_target //
+                                  BASE_FEE_MAX_CHANGE_DENOMINATOR, 1, )
+            expected_base_fee_per_gas = parent_base_fee_per_gas +
+                                       base_fee_per_gas_delta
+        else:
+            gas_used_delta = parent_gas_target - parent_gas_used
+            base_fee_per_gas_delta = (
+                              parent_base_fee_per_gas * gas_used_delta //
+                              parent_gas_target //
+                              BASE_FEE_MAX_CHANGE_DENOMINATOR
+                              )
+            expected_base_fee_per_gas = parent_base_fee_per_gas -
+                                        base_fee_per_gas_delta
         """
         base_fee_max_change_denominator = cls.base_fee_max_change_denominator(
             block_number, timestamp
@@ -1257,8 +1261,8 @@ class Cancun(Shanghai):
             parent_excess_blobs: int | None = None,
             parent_blob_gas_used: int | None = None,
             parent_blob_count: int | None = None,
-            parent_base_fee_per_gas: int,  # Required for Osaka as using this
-            # as base
+            # Required for Osaka as using this as base
+            parent_base_fee_per_gas: int,
         ) -> int:
             del parent_base_fee_per_gas
 
@@ -1436,8 +1440,12 @@ class Prague(Cancun):
         """
         At Prague, pre-compile for BLS operations are added.
 
-        BLS12_G1ADD = 0x0B BLS12_G1MSM = 0x0C BLS12_G2ADD = 0x0D BLS12_G2MSM =
-        0x0E BLS12_PAIRING_CHECK = 0x0F BLS12_MAP_FP_TO_G1 = 0x10
+        BLS12_G1ADD = 0x0B
+        BLS12_G1MSM = 0x0C
+        BLS12_G2ADD = 0x0D
+        BLS12_G2MSM = 0x0E
+        BLS12_PAIRING_CHECK = 0x0F
+        BLS12_MAP_FP_TO_G1 = 0x10
         BLS12_MAP_FP2_TO_G2 = 0x11
         """
         return [

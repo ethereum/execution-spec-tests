@@ -20,8 +20,8 @@ class Tag(BaseModel, Generic[T]):
     name: str
     type: ClassVar[str] = ""
     regex_pattern: ClassVar[re.Pattern] = re.compile(r"<\w+:(\w+)(:[^>]+)?")
-    original_string: str | None = None  # Store the original tag string for
-    # replacement
+    # Store the original tag string for replacement
+    original_string: str | None = None
 
     def __hash__(self) -> int:
         """Hash based on original string for use as dict key."""
@@ -65,14 +65,16 @@ class ContractTag(AddressTag):
 
     type: ClassVar[str] = "contract"
     regex_pattern: ClassVar[re.Pattern] = re.compile(r"<contract:([^:>]+)(?::(0x[a-fA-F0-9]+))?>")
-    debug_address: Address | None = None  # Optional hard-coded address for
-    # debugging
+    # Optional hard-coded address for debugging
+    debug_address: Address | None = None
 
     @model_validator(mode="before")
     @classmethod
     def validate_from_string(cls, data: Any) -> Any:
         """
-        Validate the contract tag from string: <contract:name:0x...> or
+        Validate the contract tag from string:
+        <contract:name:0x...>
+        or
         <contract:0x...>.
         """
         if isinstance(data, str):
@@ -152,8 +154,8 @@ class SenderTag(AddressTag):
 
     type: ClassVar[str] = "eoa"
     regex_pattern: ClassVar[re.Pattern] = re.compile(r"<eoa:(\w+)(?::(0x[a-fA-F0-9]+))?>")
-    debug_address: Address | None = None  # Optional hard-coded address for
-    # debugging
+    # Optional hard-coded address for debugging
+    debug_address: Address | None = None
 
     @model_validator(mode="before")
     @classmethod

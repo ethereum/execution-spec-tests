@@ -29,14 +29,13 @@ from ethereum_test_tools.utility.pytest import UnknownParameterInCasesError
                 id="max_value_200",
             ),
             pytest.param(
-                {"min_value": -10, "max_value": 50},  # override both min_value
-                # and max_value
+                # override both min_value and max_value
+                {"min_value": -10, "max_value": 50},
                 id="min_-10_max_50",
             ),
             pytest.param(
-                {"min_value": 20, "max_value": 80, "average": 50},  # all
-                # defaults
-                # are overridden
+                # all defaults are overridden
+                {"min_value": 20, "max_value": 80, "average": 50},
                 id="min_20_max_80_avg_50",
             ),
             pytest.param(

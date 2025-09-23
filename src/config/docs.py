@@ -1,7 +1,8 @@
 """
 A module for managing documentation-related configurations.
 
-Classes: - DocsConfig: Holds configurations for documentation generation.
+Classes:
+  DocsConfig: Holds configurations for documentation generation.
 """
 
 from pydantic import BaseModel

@@ -28,26 +28,17 @@ class BlockException(ExceptionBase):
     """Block header's extra data >32 bytes."""
     EXTRA_DATA_INVALID_DAO = auto()
     """
-
-
     Block header's extra data after dao fork must be a fixed pre defined hash.
-
     """
     UNKNOWN_PARENT = auto()
     """
-
-
     Block header's parent hash does not correspond to any of existing blocks on
     chain.
-
     """
     UNCLE_UNKNOWN_PARENT = auto()
     """
-
-
     Uncle header's parent hash does not correspond to any of existing blocks on
     chain.
-
     """
     UNKNOWN_PARENT_ZERO = auto()
     """Block header's parent hash is zero hash."""
@@ -59,87 +50,57 @@ class BlockException(ExceptionBase):
     """Block header's timestamp <= parent header's timestamp."""
     INVALID_DIFFICULTY = auto()
     """
-
-
     Block header's difficulty does not match the difficulty formula calculated
     from previous block.
-
     """
     INVALID_LOG_BLOOM = auto()
     """
-
-
     Block header's logs bloom hash does not match the actually computed log
     bloom.
-
     """
     INVALID_STATE_ROOT = auto()
     """
-
-
     Block header's state root hash does not match the actually computed hash of
     the state.
-
     """
     INVALID_RECEIPTS_ROOT = auto()
     """
-
-
     Block header's receipts root hash does not match the actually computed hash
     of receipts.
-
     """
     INVALID_TRANSACTIONS_ROOT = auto()
     """
-
-
     Block header's transactions root hash does not match the actually computed
     hash of tx tree.
-
     """
     INVALID_UNCLES_HASH = auto()
     """
-
-
     Block header's uncle hash does not match the actually computed hash of
     block's uncles.
-
     """
     GAS_USED_OVERFLOW = auto()
     """Block transactions consume more gas than block header allow."""
     INVALID_GASLIMIT = auto()
     """
-
-
     Block header's gas limit does not match the gas limit formula calculated
     from previous block.
-
     """
     INVALID_BASEFEE_PER_GAS = auto()
     """Block header's base_fee_per_gas field is calculated incorrect."""
     INVALID_GAS_USED = auto()
     """
-
-
     Block header's actual gas used does not match the provided header's value
-
     """
     INVALID_GAS_USED_ABOVE_LIMIT = auto()
     """Block header's gas used value is above the gas limit field's value."""
     INVALID_WITHDRAWALS_ROOT = auto()
     """
-
-
     Block header's withdrawals root does not match calculated withdrawals root.
-
     """
     INCORRECT_BLOCK_FORMAT = auto()
     """
-
-
     Block's format is incorrect, contains invalid fields, is missing fields, or
     contains fields of a fork that is not active yet.
-
     """
     BLOB_GAS_USED_ABOVE_LIMIT = auto()
     """Block's blob gas used in header is above the limit."""
@@ -151,10 +112,7 @@ class BlockException(ExceptionBase):
     """Incorrect number of versioned hashes in a payload."""
     RLP_STRUCTURES_ENCODING = auto()
     """
-
-
     Block's rlp encoding is valid but ethereum structures in it are invalid.
-
     """
     RLP_WITHDRAWALS_NOT_READ = auto()
     """Block's rlp encoding is missing withdrawals."""
@@ -170,27 +128,18 @@ class BlockException(ExceptionBase):
     """Legacy block import is impossible in this chain configuration."""
     IMPORT_IMPOSSIBLE_LEGACY_WRONG_PARENT = auto()
     """
-
-
     Legacy block import is impossible, trying to import on top of a block that
     is not legacy.
-
     """
     IMPORT_IMPOSSIBLE_LONDON_WRONG_PARENT = auto()
     """
-
-
     Trying to import london (basefee) block on top of block that is not 1559.
-
     """
     IMPORT_IMPOSSIBLE_PARIS_WRONG_POW = auto()
     """Trying to import paris(merge) block with PoW enabled."""
     IMPORT_IMPOSSIBLE_PARIS_WRONG_POS = auto()
     """
-
-
     Trying to import paris(merge) block with PoS enabled before TTD is reached.
-
     """
     IMPORT_IMPOSSIBLE_LONDON_OVER_PARIS = auto()
     """Trying to import london looking block over paris network (POS)."""
@@ -200,43 +149,28 @@ class BlockException(ExceptionBase):
     """Shanghai block import is impossible in this chain configuration."""
     IMPORT_IMPOSSIBLE_UNCLES_OVER_PARIS = auto()
     """
-
-
     Trying to import a block after paris fork that has not empty uncles hash.
-
     """
     IMPORT_IMPOSSIBLE_DIFFICULTY_OVER_PARIS = auto()
     """Trying to import a block after paris fork that has difficulty != 0."""
     SYSTEM_CONTRACT_EMPTY = auto()
     """
-
-
     A system contract address contains no code at the end of fork activation
     block.
-
     """
     SYSTEM_CONTRACT_CALL_FAILED = auto()
     """
-
-
     A system contract call at the end of block execution (from the system
     address) fails.
-
     """
     INVALID_BLOCK_HASH = auto()
     """
-
-
     Block header's hash does not match the actually computed hash of the block.
-
     """
     INVALID_DEPOSIT_EVENT_LAYOUT = auto()
     """
-
-
     Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but
     the layout of the event does not match the required layout.
-
     """
     # --- Block-Level Access Lists (EIP-7928) --- #
     INVALID_BLOCK_ACCESS_LIST = auto()
@@ -245,16 +179,10 @@ class BlockException(ExceptionBase):
     """Block header's BAL hash does not match the computed BAL hash."""
     INVALID_BAL_EXTRA_ACCOUNT = auto()
     """
-
-
     Block BAL contains an account change that is not present in the computed
     BAL.
-
     """
     INVALID_BAL_MISSING_ACCOUNT = auto()
     """
-
-
     Block BAL is missing an account change that is present in the computed BAL.
-
     """
