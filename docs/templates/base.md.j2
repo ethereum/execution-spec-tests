@@ -11,8 +11,8 @@ Documentation for [`{{ pytest_node_id }}@{{ short_git_ref }}`]({{ source_code_ur
     ```console
 {% if is_benchmark %}
     fill -v {{ pytest_node_id }} -m benchmark
-{% elif is_state %}
-    fill -v {{ pytest_node_id }} -m state
+{% elif is_stateful %}
+    fill -v {{ pytest_node_id }} -m stateful
 {% else %}
     fill -v {{ pytest_node_id }} --fork {{ target_or_valid_fork }}
 {% endif %}

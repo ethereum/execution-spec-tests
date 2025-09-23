@@ -41,7 +41,7 @@ def pytest_collection_modifyitems(config, items):
             if (
                 benchmark_dir in Path(item.fspath).parents
                 and not item.get_closest_marker("benchmark")
-                and not item.get_closest_marker("state")
+                and not item.get_closest_marker("stateful")
             ):
                 item.add_marker(benchmark_marker)
         return
@@ -50,14 +50,16 @@ def pytest_collection_modifyitems(config, items):
     run_benchmarks = (
         marker_expr and "benchmark" in marker_expr and "not benchmark" not in marker_expr
     )
-    run_state_tests = marker_expr and "state" in marker_expr and "not state" not in marker_expr
+    run_stateful_tests = (
+        marker_expr and "stateful" in marker_expr and "not stateful" not in marker_expr
+    )
 
     items_for_removal = []
     for i, item in enumerate(items):
         is_in_benchmark_dir = benchmark_dir in Path(item.fspath).parents
-        has_state_marker = item.get_closest_marker("state")
+        has_stateful_marker = item.get_closest_marker("stateful")
         is_benchmark_test = (
-            is_in_benchmark_dir and not has_state_marker
+            is_in_benchmark_dir and not has_stateful_marker
         ) or item.get_closest_marker("benchmark")
 
         if is_benchmark_test:
@@ -67,7 +69,7 @@ def pytest_collection_modifyitems(config, items):
                 items_for_removal.append(i)
         elif run_benchmarks:
             items_for_removal.append(i)
-        elif is_in_benchmark_dir and has_state_marker and not run_state_tests:
+        elif is_in_benchmark_dir and has_stateful_marker and not run_stateful_tests:
             items_for_removal.append(i)
 
     for i in reversed(items_for_removal):
