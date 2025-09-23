@@ -16,7 +16,7 @@
         <link rel="prev" href="../checklist/">
       
       
-        <link rel="next" href="test_valid/">
+        <link rel="next" href="test_wycheproof_valid/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -5997,6 +5997,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -6047,12 +6051,58 @@
   
   
     <li class="md-nav__item">
-      <a href="test_valid/" class="md-nav__link">
+      <a href="test_wycheproof_valid/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    <code>test_valid</code>
+    <code>test_wycheproof_valid</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_wycheproof_invalid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_wycheproof_invalid</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_wycheproof_extra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_wycheproof_extra</code>
     
   </span>
   
@@ -27200,7 +27250,7 @@
 
 
 <h1 id="test-p256verify">Test P256verify<a class="headerlink" href="#test-p256verify" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6907b0942a3bb302820e4bf9093cef8996b9b5b8/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L31"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py@6907b094</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d60b9048ca7b780991f06290e46e409cf7a703a7/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L31"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py@d60b9048</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py --fork Osaka</span>
@@ -27251,10 +27301,22 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="test_valid/"><code>test_valid</code></a></td>
+<td><a href="test_wycheproof_valid/"><code>test_wycheproof_valid</code></a></td>
 <td>state_test</td>
-<td>294</td>
-<td>Test P256Verify precompile.</td>
+<td>180</td>
+<td>Test P256Verify precompile with Wycheproof test suite (valid cases).</td>
+</tr>
+<tr>
+<td><a href="test_wycheproof_invalid/"><code>test_wycheproof_invalid</code></a></td>
+<td>state_test</td>
+<td>62</td>
+<td>Test P256Verify precompile with Wycheproof test suite (invalid cases).</td>
+</tr>
+<tr>
+<td><a href="test_wycheproof_extra/"><code>test_wycheproof_extra</code></a></td>
+<td>state_test</td>
+<td>52</td>
+<td>Test P256Verify precompile with Wycheproof test suite (mixed valid/invalid cases).</td>
 </tr>
 <tr>
 <td><a href="test_invalid/"><code>test_invalid</code></a></td>
@@ -27357,13 +27419,13 @@
         
         
           
-          <a href="test_valid/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_valid&lt;/code&gt;">
+          <a href="test_wycheproof_valid/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_wycheproof_valid&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                <code>test_valid</code>
+                <code>test_wycheproof_valid</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">

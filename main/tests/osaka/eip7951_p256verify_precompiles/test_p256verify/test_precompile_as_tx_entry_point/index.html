@@ -5997,6 +5997,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -6047,12 +6051,58 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_valid/" class="md-nav__link">
+      <a href="../test_wycheproof_valid/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    <code>test_valid</code>
+    <code>test_wycheproof_valid</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_wycheproof_invalid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_wycheproof_invalid</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_wycheproof_extra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_wycheproof_extra</code>
     
   </span>
   
@@ -27260,7 +27310,7 @@
 
 
 <h1 id="test_precompile_as_tx_entry_point"><code>test_precompile_as_tx_entry_point()</code><a class="headerlink" href="#test_precompile_as_tx_entry_point" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6907b0942a3bb302820e4bf9093cef8996b9b5b8/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L415"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_as_tx_entry_point@6907b094</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d60b9048ca7b780991f06290e46e409cf7a703a7/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L452"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_as_tx_entry_point@d60b9048</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_as_tx_entry_point --fork Osaka</span>
@@ -27280,26 +27330,26 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,call_contract_address,post&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>

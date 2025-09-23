@@ -5997,6 +5997,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -6047,12 +6051,58 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_valid/" class="md-nav__link">
+      <a href="../test_wycheproof_valid/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    <code>test_valid</code>
+    <code>test_wycheproof_valid</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_wycheproof_invalid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_wycheproof_invalid</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_wycheproof_extra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_wycheproof_extra</code>
     
   </span>
   
@@ -27260,7 +27310,7 @@
 
 
 <h1 id="test_modular_comparison"><code>test_modular_comparison()</code><a class="headerlink" href="#test_modular_comparison" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6907b0942a3bb302820e4bf9093cef8996b9b5b8/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L489"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@6907b094</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d60b9048ca7b780991f06290e46e409cf7a703a7/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L526"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@d60b9048</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison --fork Osaka</span>
@@ -27283,44 +27333,7 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">526</span>
 <span class="normal">527</span>
 <span class="normal">528</span>
 <span class="normal">529</span>
@@ -27330,7 +27343,44 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
 <span class="normal">533</span>
 <span class="normal">534</span>
 <span class="normal">535</span>
-<span class="normal">536</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># Test case where computed x-coordinate exceeds curve order N</span>
