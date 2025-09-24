@@ -132,8 +132,7 @@ def test_contract_creating_tx(
     initcode: Initcode,
 ):
     """
-    Tests creating a contract using a transaction with an initcode that is
-    on/over the max allowed limit.
+    Test creating a contract with initcode that is on/over the allowed limit.
     """
     create_contract_address = compute_create_address(
         address=sender,
@@ -204,14 +203,19 @@ def valid_gas_test_case(initcode: Initcode, gas_test_case: str) -> bool:
 )
 class TestContractCreationGasUsage:
     """
-    Tests the following cases that verify the gas cost behavior of a contract
-    creating transaction.
+    Test the gas cost behavior of a contract creating transaction.
+
+    The following scenarios are tested:
 
     1. Test with exact intrinsic gas minus one, contract create fails and tx is
-    invalid. 2. Test with exact intrinsic gas, contract create fails, but tx is
-    valid. 3. Test with exact execution gas minus one, contract create fails,
-    but tx is valid. 4. Test with exact execution gas, contract create
-    succeeds.
+        invalid.
+
+    2. Test with exact intrinsic gas, contract create fails, but tx is valid.
+
+    3. Test with exact execution gas minus one, contract create fails, but tx
+        is valid.
+
+    4. Test with exact execution gas, contract create succeeds.
 
     Initcode must be within a valid EIP-3860 length.
     """
@@ -219,8 +223,10 @@ class TestContractCreationGasUsage:
     @pytest.fixture
     def tx_access_list(self) -> List[AccessList]:
         """
-        On EIP-7623, we need to use an access list to raise the intrinsic gas
-        cost to be above the floor data cost.
+        Return an access list to raise the intrinsic gas cost.
+
+        Upon EIP-7623 activation, we need to use an access list to raise the
+        intrinsic gas cost to be above the floor data cost.
         """
         return [AccessList(address=Address(i), storage_keys=[]) for i in range(1, 478)]
 
@@ -228,7 +234,9 @@ class TestContractCreationGasUsage:
     def exact_intrinsic_gas(
         self, fork: Fork, initcode: Initcode, tx_access_list: List[AccessList]
     ) -> int:
-        """Calculate the intrinsic tx gas cost."""
+        """
+        Calculate the intrinsic tx gas cost.
+        """
         tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
         assert tx_intrinsic_gas_cost_calculator(
             calldata=initcode,
@@ -248,12 +256,16 @@ class TestContractCreationGasUsage:
 
     @pytest.fixture
     def exact_execution_gas(self, exact_intrinsic_gas: int, initcode: Initcode) -> int:
-        """Calculate total execution gas cost."""
+        """
+        Calculate total execution gas cost.
+        """
         return exact_intrinsic_gas + initcode.deployment_gas + initcode.execution_gas
 
     @pytest.fixture
     def tx_error(self, gas_test_case: str) -> TransactionException | None:
         """
+        Return the transaction exception, or None, as expected.
+
         Check that the transaction is invalid if too little intrinsic gas is
         specified, otherwise the tx is valid and succeeds.
         """
@@ -273,7 +285,9 @@ class TestContractCreationGasUsage:
         exact_execution_gas: int,
     ) -> Transaction:
         """
-        Implement the gas_test_case by setting the gas_limit of the tx
+        Return a tx with `gas_limit` corresponding to the `gas_test_case`.
+
+        Implement the gas_test_case by setting the `gas_limit` of the tx
         appropriately and test whether the tx succeeds or fails with
         appropriate error.
         """
@@ -311,8 +325,7 @@ class TestContractCreationGasUsage:
         exact_execution_gas: int,
     ) -> Alloc:
         """
-        Test that contract creation fails unless enough execution gas is
-        provided.
+        Test contract creation fails unless enough execution gas is provided.
         """
         create_contract_address = compute_create_address(
             address=sender,
@@ -335,8 +348,7 @@ class TestContractCreationGasUsage:
         tx: Transaction,
     ):
         """
-        Test transaction and contract creation behavior for different gas
-        limits.
+        Test transaction and contract creation using different gas limits.
         """
         state_test(
             env=env,
@@ -365,20 +377,23 @@ class TestContractCreationGasUsage:
 @pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2], ids=get_create_id)
 class TestCreateInitcode:
     """
-    Test contract creation via the CREATE/CREATE2 opcodes that have an initcode
-    that is on/over the max allowed limit.
+    Test contract creation with valid and invalid initcode lengths.
+
+    Test contract creation via CREATE/CREATE2, parametrized by initcode that is
+    on/over the max allowed limit.
     """
 
     @pytest.fixture
     def create2_salt(self) -> int:
-        """Salt value used for CREATE2 contract creation."""
+        """
+        Salt value used for CREATE2 contract creation.
+        """
         return 0xDEADBEEF
 
     @pytest.fixture
     def creator_code(self, opcode: Op, create2_salt: int) -> Bytecode:
         """
-        Generate code for the creator contract which performs the
-        CREATE/CREATE2 operation.
+        Generate code for the creator contract which calls CREATE/CREATE2.
         """
         return (
             Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
@@ -502,8 +517,10 @@ class TestCreateInitcode:
         create2_word_cost: int,
     ):
         """
-        Test contract creation via the CREATE/CREATE2 opcodes that have an
-        initcode that is on/over the max allowed limit.
+        Test contract creation with valid and invalid initcode lengths.
+
+        Test contract creation via CREATE/CREATE2, parametrized by initcode
+        that is on/over the max allowed limit.
         """
         if len(initcode) > Spec.MAX_INITCODE_SIZE:
             # Call returns 0 as out of gas s[0]==1

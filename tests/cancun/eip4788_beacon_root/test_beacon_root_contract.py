@@ -82,10 +82,17 @@ def test_beacon_root_contract_calls(
     post: Dict,
 ):
     """
-    Tests the beacon root contract call using various call contexts: - `CALL` -
-    `DELEGATECALL` - `CALLCODE` - `STATICCALL` for different call gas amounts:
-    - exact gas (valid call) - extra gas (valid call) - insufficient gas
-    (invalid call).
+    Test calling the beacon root contract in various call contexts.
+
+    These call contexts are tested:
+    - `CALL`
+    - `DELEGATECALL`
+    - `CALLCODE`
+    - `STATICCALL`
+    for different call gas amounts:
+    - exact gas (valid call)
+    - extra gas (valid call)
+    - insufficient gas (invalid call).
 
     The expected result is that the contract call will be executed if the gas
     amount is met and return the correct`parent_beacon_block_root`. Otherwise

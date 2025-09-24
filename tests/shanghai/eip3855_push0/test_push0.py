@@ -91,8 +91,14 @@ def test_push0_contracts(
 
 class TestPush0CallContext:
     """
-    Tests the PUSH0 operation during various call contexts including: - CALL -
-    CALLCODE - DELEGATECALL - STATICCALL.
+    Test the PUSH0 operation in various contract call contexts.
+
+    Test PUSH0 in the following contract call contexts:
+
+    - CALL,
+    - CALLCODE,
+    - DELEGATECALL,
+    - STATICCALL.
     """
 
     @pytest.fixture
@@ -108,8 +114,9 @@ class TestPush0CallContext:
         self, pre: Alloc, call_opcode: Op, push0_contract_callee: Address
     ) -> Address:
         """
-        Deploy contract responsible for calling the callee PUSH0 contract
-        returning its address.
+        Deploy the contract that calls the callee PUSH0 contract into `pre`.
+
+        This fixture returns its address.
         """
         call_code = (
             Op.SSTORE(0, call_opcode(gas=100_000, address=push0_contract_callee))

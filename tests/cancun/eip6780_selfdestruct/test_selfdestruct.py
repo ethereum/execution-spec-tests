@@ -198,9 +198,11 @@ def test_create_selfdestruct_same_tx(
 
     Behavior should be the same before and after EIP-6780.
 
-    Test using: - Different send-all recipient addresses: single, multiple,
-    including self - Different initial balances for the self-destructing
-    contract - Different opcodes: CREATE, CREATE2
+    Test using:
+        - Different send-all recipient addresses: single, multiple,
+           including self
+        - Different initial balances for the self-destructing contract
+        - Different opcodes: CREATE, CREATE2
     """
     selfdestruct_contract_initcode = Initcode(deploy_code=selfdestruct_code)
     initcode_copy_from_address = pre.deploy_contract(selfdestruct_contract_initcode)
@@ -351,9 +353,11 @@ def test_self_destructing_initcode(
 
     Behavior is the same before and after EIP-6780.
 
-    Test using: - Different initial balances for the self-destructing contract
-    - Different opcodes: CREATE, CREATE2 - Different number of calls to the
-    self-destructing contract in the same tx
+    Test using:
+        - Different initial balances for the self-destructing contract
+        - Different opcodes: CREATE, CREATE2
+        - Different number of calls to the self-destructing contract in
+           the same tx
     """
     initcode_copy_from_address = pre.deploy_contract(selfdestruct_code)
     # Our entry point is an initcode that in turn creates a self-destructing
@@ -682,9 +686,10 @@ def test_selfdestruct_pre_existing(
     address, similar to the behavior before the EIP, but the account is not
     deleted.
 
-    Test using: - Different send-all recipient addresses: single, multiple,
-    including self - Different initial balances for the self-destructing
-    contract
+    Test using:
+    - Different send-all recipient addresses: single, multiple,
+       including self
+    - Different initial balances for the self-destructing contract
     """
     selfdestruct_contract_address = pre.deploy_contract(
         selfdestruct_code, balance=selfdestruct_contract_initial_balance

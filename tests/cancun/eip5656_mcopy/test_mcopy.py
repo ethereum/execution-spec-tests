@@ -185,11 +185,13 @@ def test_valid_mcopy_operations(
     tx: Transaction,
 ):
     """
-    Perform MCOPY operations using different offsets and lengths: - Zero inputs
-    - Memory rewrites (copy from and to the same location) - Memory overwrites
-    (copy from and to different locations) - Memory extensions (copy to a
-    location that is out of bounds) - Memory clear (copy from a location that
-    is out of bounds).
+    Perform MCOPY operations using different offsets and lengths.
+
+      - Zero inputs
+      - Memory rewrites (copy from and to the same location)
+      - Memory overwrites (copy from and to different locations)
+      - Memory extensions (copy to a location that is out of bounds)
+      - Memory clear (copy from a location that is out of bounds).
     """
     state_test(
         env=Environment(),

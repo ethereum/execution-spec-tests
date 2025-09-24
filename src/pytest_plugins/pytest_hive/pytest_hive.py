@@ -144,12 +144,9 @@ def pytest_runtest_makereport(item, call):
     This is used to get the test result and pass it to the hive test suite.
 
     Available as:
-    - result_setup
-    - setup result
-    - result_call
-    - test result
-    - result_teardown
-    - teardown result
+    - result_setup - setup result
+    - result_call - test result
+    - result_teardown - teardown result
     """
     del call
 

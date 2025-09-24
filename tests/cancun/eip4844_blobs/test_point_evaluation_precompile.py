@@ -346,9 +346,12 @@ def test_invalid_inputs(
     """
     Test invalid precompile calls.
 
-    - Out of bounds inputs `z` and `y` - Correct proof, commitment, z and y,
-    but incorrect lengths - Null inputs - Zero inputs - Correct proof,
-    commitment, z and y, but incorrect version versioned hash
+    - Out of bounds inputs `z` and `y`
+    - Correct proof, commitment, z and y, but incorrect lengths
+    - Null inputs
+    - Zero inputs
+    - Correct proof, commitment, z and y, but incorrect version versioned
+       hash
     """
     state_test(
         env=Environment(),

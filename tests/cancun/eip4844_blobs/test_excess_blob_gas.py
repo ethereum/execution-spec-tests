@@ -376,11 +376,12 @@ def test_correct_increasing_blob_gas_costs(
     Test calculation of the `excessBlobGas` and blob gas tx costs at value
     points where the cost increases to interesting amounts.
 
-    - At the first blob gas cost increase (1 to 2) - At total transaction data
-    cost increase to `> 2^32` - At blob gas wei cost increase to `> 2^32` - At
-    total transaction data cost increase to `> 2^64` - At blob gas wei cost
-    increase to `> 2^64` - At blob gas wei cost increase of around current
-    total Ether supply
+    - At the first blob gas cost increase (1 to 2)
+    - At total transaction data cost increase to `> 2^32`
+    - At blob gas wei cost increase to `> 2^32`
+    - At total transaction data cost increase to `> 2^64`
+    - At blob gas wei cost increase to `> 2^64`
+    - At blob gas wei cost increase of around current total Ether supply
     """
     blockchain_test(
         pre=pre,
@@ -536,9 +537,10 @@ def test_invalid_excess_blob_gas_above_target_change(
     """
     Test rejection of blocks where the `excessBlobGas`.
 
-    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with
-    zero blobs - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single
-    block with max blobs
+    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block
+        with zero blobs.
+    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block
+        with max blobs.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -820,8 +822,9 @@ def test_invalid_non_multiple_excess_blob_gas(
     is not a multiple of Spec.GAS_PER_BLOB`.
 
     - Parent block contains `TARGET_BLOBS_PER_BLOCK + 1` blobs, but
-    `excessBlobGas` is off by +/-1 - Parent block contains
-    `TARGET_BLOBS_PER_BLOCK - 1` blobs, but `excessBlobGas` is off by +/-1
+       `excessBlobGas` is off by +/-1
+    - Parent block contains `TARGET_BLOBS_PER_BLOCK - 1` blobs, but
+       `excessBlobGas` is off by +/-1
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")

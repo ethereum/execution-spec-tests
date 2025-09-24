@@ -424,11 +424,12 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
     tests = []
     tests.append(
         pytest.param(
-            minimum_excess_blobs_for_first_increment - 1,  # blob gas price is
-            # 1
-            fork.target_blobs_per_block() + 1,  # blob gas cost increases to
-            # above the minimum
-            min_base_fee_per_blob_gas,  # tx max_blob_gas_cost is the minimum
+            # blob gas price is 1
+            minimum_excess_blobs_for_first_increment - 1,
+            # blob gas cost increases to above the minimum
+            fork.target_blobs_per_block() + 1,
+            # tx max_blob_gas_cost is the minimum
+            min_base_fee_per_blob_gas,
             TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
             id="insufficient_max_fee_per_blob_gas",
             marks=pytest.mark.exception_test,
@@ -437,12 +438,12 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
     if (next_base_fee_per_blob_gas - min_base_fee_per_blob_gas) > 1:
         tests.append(
             pytest.param(
-                minimum_excess_blobs_for_first_increment
-                - 1,  # blob gas price is one less than the minimum
-                fork.target_blobs_per_block() + 1,  # blob gas cost increases
-                # to above the minimum
-                next_base_fee_per_blob_gas
-                - 1,  # tx max_blob_gas_cost is one less than the minimum
+                # blob gas price is one less than the minimum
+                minimum_excess_blobs_for_first_increment - 1,
+                # blob gas cost increases to above the minimum
+                fork.target_blobs_per_block() + 1,
+                # tx max_blob_gas_cost is one less than the minimum
+                next_base_fee_per_blob_gas - 1,
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
                 id="insufficient_max_fee_per_blob_gas_one_less_than_next",
                 marks=pytest.mark.exception_test,
@@ -453,8 +454,8 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
             pytest.param(
                 0,  # blob gas price is the minimum
                 0,  # blob gas cost stays put at 1
-                min_base_fee_per_blob_gas - 1,  # tx max_blob_gas_cost is one
-                # less than the minimum
+                # tx max_blob_gas_cost is one less than the minimum
+                min_base_fee_per_blob_gas - 1,
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
                 id="insufficient_max_fee_per_blob_gas_one_less_than_min",
                 marks=pytest.mark.exception_test,

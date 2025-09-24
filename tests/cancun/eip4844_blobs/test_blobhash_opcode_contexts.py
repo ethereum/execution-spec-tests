@@ -175,11 +175,13 @@ def test_blobhash_opcode_contexts(
     Tests that the `BLOBHASH` opcode functions correctly when called in
     different contexts.
 
-    - `BLOBHASH` opcode on the top level of the call stack. - `BLOBHASH` opcode
-    on the max value. - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`,
-    `STATICCALL`, and `CALLCODE`. - `BLOBHASH` opcode on Initcode. - `BLOBHASH`
-    opcode on `CREATE` and `CREATE2`. - `BLOBHASH` opcode on transaction types
-    0, 1 and 2.
+    - `BLOBHASH` opcode on the top level of the call stack.
+    - `BLOBHASH` opcode on the max value.
+    - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`, `STATICCALL`, and
+        `CALLCODE`.
+    - `BLOBHASH` opcode on Initcode.
+    - `BLOBHASH` opcode on `CREATE` and `CREATE2`.
+    - `BLOBHASH` opcode on transaction types 0, 1 and 2.
     """
     tx_to: Address
     post: dict[Address, Account]
@@ -290,11 +292,13 @@ def test_blobhash_opcode_contexts_tx_types(
     Tests that the `BLOBHASH` opcode functions correctly when called in
     different contexts.
 
-    - `BLOBHASH` opcode on the top level of the call stack. - `BLOBHASH` opcode
-    on the max value. - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`,
-    `STATICCALL`, and `CALLCODE`. - `BLOBHASH` opcode on Initcode. - `BLOBHASH`
-    opcode on `CREATE` and `CREATE2`. - `BLOBHASH` opcode on transaction types
-    0, 1 and 2.
+    - `BLOBHASH` opcode on the top level of the call stack.
+    - `BLOBHASH` opcode on the max value.
+    - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`, `STATICCALL`, and
+        `CALLCODE`.
+    - `BLOBHASH` opcode on Initcode.
+    - `BLOBHASH` opcode on `CREATE` and `CREATE2`.
+    - `BLOBHASH` opcode on transaction types 0, 1 and 2.
     """
     blobhash_sstore_address = BlobhashContext.BLOBHASH_SSTORE.deploy_contract(pre=pre, indexes=[0])
     tx_kwargs = {

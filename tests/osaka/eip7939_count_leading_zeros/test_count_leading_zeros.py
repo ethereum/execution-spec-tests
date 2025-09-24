@@ -95,12 +95,15 @@ def test_clz_opcode_scenarios(
     """
     Test CLZ opcode functionality.
 
-    Cases: - Format 0xb000...111: leading zeros followed by ones (2**256 - 1 >>
-    bits) - Format 0xb010...000: single bit set at position (1 << bits)
+    Cases:
+    - Format 0xb000...111: leading zeros followed by ones
+       (2**256 - 1 >> bits)
+    - Format 0xb010...000: single bit set at position (1 << bits)
 
-    Test coverage: - Leading zeros pattern: 0b000...111 (0 to 256 leading
-    zeros) - Single bit pattern: 0b010...000 (bit at each possible position) -
-    Edge cases: CLZ(0) = 256, CLZ(2^256-1) = 0
+    Test coverage:
+    - Leading zeros pattern: 0b000...111 (0 to 256 leading zeros)
+    - Single bit pattern: 0b010...000 (bit at each possible position)
+    - Edge cases: CLZ(0) = 256, CLZ(2^256-1) = 0
     """
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -469,10 +472,8 @@ def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: 
                     address=target_address, dest_offset=0, offset=clz_code_offset, size=1
                 )
             )
-            + Op.SSTORE(storage.store_next(mload_value), Op.MLOAD(0))  # Store
-            # loaded
-            # CLZ
-            # byte
+            # Store loaded CLZ byte
+            + Op.SSTORE(storage.store_next(mload_value), Op.MLOAD(0))
         ),
         storage={"0x00": "0xdeadbeef"},
     )
