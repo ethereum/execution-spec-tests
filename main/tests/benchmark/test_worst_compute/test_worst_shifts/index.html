@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_shifts"><code>test_worst_shifts()</code><a class="headerlink" href="#test_worst_shifts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/99af8e3870bdc05a1997785080549f09ceb3a945/tests/benchmark/test_worst_compute.py#L2183"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@99af8e38</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a2f28413de99d10d349844872a860a340cb2f345/tests/benchmark/test_worst_compute.py#L2169"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@a2f28413</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_shifts -m benchmark</span>
@@ -27330,7 +27330,21 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2183</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2169</span>
+<span class="normal">2170</span>
+<span class="normal">2171</span>
+<span class="normal">2172</span>
+<span class="normal">2173</span>
+<span class="normal">2174</span>
+<span class="normal">2175</span>
+<span class="normal">2176</span>
+<span class="normal">2177</span>
+<span class="normal">2178</span>
+<span class="normal">2179</span>
+<span class="normal">2180</span>
+<span class="normal">2181</span>
+<span class="normal">2182</span>
+<span class="normal">2183</span>
 <span class="normal">2184</span>
 <span class="normal">2185</span>
 <span class="normal">2186</span>
@@ -27396,21 +27410,7 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 <span class="normal">2246</span>
 <span class="normal">2247</span>
 <span class="normal">2248</span>
-<span class="normal">2249</span>
-<span class="normal">2250</span>
-<span class="normal">2251</span>
-<span class="normal">2252</span>
-<span class="normal">2253</span>
-<span class="normal">2254</span>
-<span class="normal">2255</span>
-<span class="normal">2256</span>
-<span class="normal">2257</span>
-<span class="normal">2258</span>
-<span class="normal">2259</span>
-<span class="normal">2260</span>
-<span class="normal">2261</span>
-<span class="normal">2262</span>
-<span class="normal">2263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
+<span class="normal">2249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_shifts</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

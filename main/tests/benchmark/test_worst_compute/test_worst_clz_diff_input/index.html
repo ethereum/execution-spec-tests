@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_clz_diff_input"><code>test_worst_clz_diff_input()</code><a class="headerlink" href="#test_worst_clz_diff_input" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/99af8e3870bdc05a1997785080549f09ceb3a945/tests/benchmark/test_worst_compute.py#L3022"><code>tests/benchmark/test_worst_compute.py::test_worst_clz_diff_input@99af8e38</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a2f28413de99d10d349844872a860a340cb2f345/tests/benchmark/test_worst_compute.py#L2994"><code>tests/benchmark/test_worst_compute.py::test_worst_clz_diff_input@a2f28413</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_clz_diff_input -m benchmark</span>
@@ -27328,7 +27328,35 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3022</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2994</span>
+<span class="normal">2995</span>
+<span class="normal">2996</span>
+<span class="normal">2997</span>
+<span class="normal">2998</span>
+<span class="normal">2999</span>
+<span class="normal">3000</span>
+<span class="normal">3001</span>
+<span class="normal">3002</span>
+<span class="normal">3003</span>
+<span class="normal">3004</span>
+<span class="normal">3005</span>
+<span class="normal">3006</span>
+<span class="normal">3007</span>
+<span class="normal">3008</span>
+<span class="normal">3009</span>
+<span class="normal">3010</span>
+<span class="normal">3011</span>
+<span class="normal">3012</span>
+<span class="normal">3013</span>
+<span class="normal">3014</span>
+<span class="normal">3015</span>
+<span class="normal">3016</span>
+<span class="normal">3017</span>
+<span class="normal">3018</span>
+<span class="normal">3019</span>
+<span class="normal">3020</span>
+<span class="normal">3021</span>
+<span class="normal">3022</span>
 <span class="normal">3023</span>
 <span class="normal">3024</span>
 <span class="normal">3025</span>
@@ -27349,35 +27377,7 @@
 <span class="normal">3040</span>
 <span class="normal">3041</span>
 <span class="normal">3042</span>
-<span class="normal">3043</span>
-<span class="normal">3044</span>
-<span class="normal">3045</span>
-<span class="normal">3046</span>
-<span class="normal">3047</span>
-<span class="normal">3048</span>
-<span class="normal">3049</span>
-<span class="normal">3050</span>
-<span class="normal">3051</span>
-<span class="normal">3052</span>
-<span class="normal">3053</span>
-<span class="normal">3054</span>
-<span class="normal">3055</span>
-<span class="normal">3056</span>
-<span class="normal">3057</span>
-<span class="normal">3058</span>
-<span class="normal">3059</span>
-<span class="normal">3060</span>
-<span class="normal">3061</span>
-<span class="normal">3062</span>
-<span class="normal">3063</span>
-<span class="normal">3064</span>
-<span class="normal">3065</span>
-<span class="normal">3066</span>
-<span class="normal">3067</span>
-<span class="normal">3068</span>
-<span class="normal">3069</span>
-<span class="normal">3070</span>
-<span class="normal">3071</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="normal">3043</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_clz_diff_input</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_mod"><code>test_worst_mod()</code><a class="headerlink" href="#test_worst_mod" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/99af8e3870bdc05a1997785080549f09ceb3a945/tests/benchmark/test_worst_compute.py#L2329"><code>tests/benchmark/test_worst_compute.py::test_worst_mod@99af8e38</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a2f28413de99d10d349844872a860a340cb2f345/tests/benchmark/test_worst_compute.py#L2315"><code>tests/benchmark/test_worst_compute.py::test_worst_mod@a2f28413</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_mod -m benchmark</span>
@@ -27335,7 +27335,21 @@ as long as possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2329</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2315</span>
+<span class="normal">2316</span>
+<span class="normal">2317</span>
+<span class="normal">2318</span>
+<span class="normal">2319</span>
+<span class="normal">2320</span>
+<span class="normal">2321</span>
+<span class="normal">2322</span>
+<span class="normal">2323</span>
+<span class="normal">2324</span>
+<span class="normal">2325</span>
+<span class="normal">2326</span>
+<span class="normal">2327</span>
+<span class="normal">2328</span>
+<span class="normal">2329</span>
 <span class="normal">2330</span>
 <span class="normal">2331</span>
 <span class="normal">2332</span>
@@ -27440,21 +27454,7 @@ as long as possible.</p>
 <span class="normal">2431</span>
 <span class="normal">2432</span>
 <span class="normal">2433</span>
-<span class="normal">2434</span>
-<span class="normal">2435</span>
-<span class="normal">2436</span>
-<span class="normal">2437</span>
-<span class="normal">2438</span>
-<span class="normal">2439</span>
-<span class="normal">2440</span>
-<span class="normal">2441</span>
-<span class="normal">2442</span>
-<span class="normal">2443</span>
-<span class="normal">2444</span>
-<span class="normal">2445</span>
-<span class="normal">2446</span>
-<span class="normal">2447</span>
-<span class="normal">2448</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
+<span class="normal">2434</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;op&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SMOD</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_mod</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>

@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_modexp"><code>test_worst_modexp()</code><a class="headerlink" href="#test_worst_modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/99af8e3870bdc05a1997785080549f09ceb3a945/tests/benchmark/test_worst_compute.py#L487"><code>tests/benchmark/test_worst_compute.py::test_worst_modexp@99af8e38</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a2f28413de99d10d349844872a860a340cb2f345/tests/benchmark/test_worst_compute.py#L489"><code>tests/benchmark/test_worst_compute.py::test_worst_modexp@a2f28413</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_modexp -m benchmark</span>
@@ -27329,9 +27329,7 @@ All the calls have the same parametrized input.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 487</span>
-<span class="normal"> 488</span>
-<span class="normal"> 489</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 489</span>
 <span class="normal"> 490</span>
 <span class="normal"> 491</span>
 <span class="normal"> 492</span>
@@ -28132,7 +28130,9 @@ All the calls have the same parametrized input.</p>
 <span class="normal">1287</span>
 <span class="normal">1288</span>
 <span class="normal">1289</span>
-<span class="normal">1290</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1290</span>
+<span class="normal">1291</span>
+<span class="normal">1292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;mod_exp_input&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>

@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_unop"><code>test_worst_unop()</code><a class="headerlink" href="#test_worst_unop" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/99af8e3870bdc05a1997785080549f09ceb3a945/tests/benchmark/test_worst_compute.py#L2052"><code>tests/benchmark/test_worst_compute.py::test_worst_unop@99af8e38</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a2f28413de99d10d349844872a860a340cb2f345/tests/benchmark/test_worst_compute.py#L2038"><code>tests/benchmark/test_worst_compute.py::test_worst_unop@a2f28413</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_unop -m benchmark</span>
@@ -27329,7 +27329,21 @@ as possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2052</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2038</span>
+<span class="normal">2039</span>
+<span class="normal">2040</span>
+<span class="normal">2041</span>
+<span class="normal">2042</span>
+<span class="normal">2043</span>
+<span class="normal">2044</span>
+<span class="normal">2045</span>
+<span class="normal">2046</span>
+<span class="normal">2047</span>
+<span class="normal">2048</span>
+<span class="normal">2049</span>
+<span class="normal">2050</span>
+<span class="normal">2051</span>
+<span class="normal">2052</span>
 <span class="normal">2053</span>
 <span class="normal">2054</span>
 <span class="normal">2055</span>
@@ -27346,21 +27360,7 @@ as possible.</p>
 <span class="normal">2066</span>
 <span class="normal">2067</span>
 <span class="normal">2068</span>
-<span class="normal">2069</span>
-<span class="normal">2070</span>
-<span class="normal">2071</span>
-<span class="normal">2072</span>
-<span class="normal">2073</span>
-<span class="normal">2074</span>
-<span class="normal">2075</span>
-<span class="normal">2076</span>
-<span class="normal">2077</span>
-<span class="normal">2078</span>
-<span class="normal">2079</span>
-<span class="normal">2080</span>
-<span class="normal">2081</span>
-<span class="normal">2082</span>
-<span class="normal">2083</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span><span class="p">])</span>
+<span class="normal">2069</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_unop</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
