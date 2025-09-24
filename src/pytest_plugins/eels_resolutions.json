@@ -55,6 +55,6 @@
     "Amsterdam": {
       "git_url": "https://github.com/fselmo/execution-specs.git",
       "branch": "feat/amsterdam-fork-and-block-access-lists",
-      "commit": "8c82882175db17a81a3ee86e1827df3c51480337"
+      "commit": "08b46ef83300da7a47f9ee18884620e1700259e8"
     }
 }
