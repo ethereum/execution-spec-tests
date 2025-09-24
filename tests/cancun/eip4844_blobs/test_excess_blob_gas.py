@@ -492,8 +492,8 @@ def test_invalid_blob_gas_used_in_header(
     """
     Test rejection of blocks where the `blobGasUsed` in the header is invalid.
 
-    - `blobGasUsed` is not equal to the number of data blobs in the block -
-    `blobGasUsed` is the max uint64 value
+    - `blobGasUsed` is not equal to the number of data blobs in the block
+    - `blobGasUsed` is the max uint64 value
     """
     if header_blob_gas_used is None:
         raise Exception("test case is badly formatted")

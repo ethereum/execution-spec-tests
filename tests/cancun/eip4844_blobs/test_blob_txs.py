@@ -639,10 +639,12 @@ def test_insufficient_balance_blob_tx(
     Reject blocks where user cannot afford the blob gas specified (but
     max_fee_per_gas would be enough for current block).
 
-    - Transactions with max fee equal or higher than current block base fee -
-    Transactions with and without priority fee - Transactions with and without
-    value - Transactions with and without calldata - Transactions with max fee
-    per blob gas lower or higher than the priority fee
+    - Transactions with max fee equal or higher than current block base fee
+    - Transactions with and without priority fee
+    - Transactions with and without value
+    - Transactions with and without calldata
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
     """
     assert len(txs) == 1
     state_test(
@@ -686,10 +688,12 @@ def test_sufficient_balance_blob_tx(
     Check that transaction is accepted when user can exactly afford the blob
     gas specified (and max_fee_per_gas would be enough for current block).
 
-    - Transactions with max fee equal or higher than current block base fee -
-    Transactions with and without priority fee - Transactions with and without
-    value - Transactions with and without calldata - Transactions with max fee
-    per blob gas lower or higher than the priority fee
+    - Transactions with max fee equal or higher than current block base fee
+    - Transactions with and without priority fee
+    - Transactions with and without value
+    - Transactions with and without calldata
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
     """
     assert len(txs) == 1
     state_test(
@@ -737,10 +741,12 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     gas specified (and max_fee_per_gas would be enough for current block)
     because a funding transaction is prepended in the same block.
 
-    - Transactions with max fee equal or higher than current block base fee -
-    Transactions with and without priority fee - Transactions with and without
-    value - Transactions with and without calldata - Transactions with max fee
-    per blob gas lower or higher than the priority fee
+    - Transactions with max fee equal or higher than current block base fee
+    - Transactions with and without priority fee
+    - Transactions with and without value
+    - Transactions with and without calldata
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
     """
     pre_funding_sender = pre.fund_eoa(amount=(21_000 * 100) + total_account_minimum_balance)
     txs = [
@@ -815,11 +821,13 @@ def test_blob_gas_subtraction_tx(
     Check that the blob gas fee for a transaction is subtracted from the sender
     balance before the transaction is executed.
 
-    - Transactions with max fee equal or higher than current block base fee -
-    Transactions with and without value - Transactions with and without
-    calldata - Transactions with max fee per blob gas lower or higher than the
-    priority fee - Transactions where an externally owned account sends funds
-    to the sender mid execution
+    - Transactions with max fee equal or higher than current block base fee
+    - Transactions with and without value
+    - Transactions with and without calldata
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
+    - Transactions where an externally owned account sends funds to the sender
+        mid execution
     """
     assert len(txs) == 1
     post = {
@@ -859,7 +867,7 @@ def test_insufficient_balance_blob_tx_combinations(
     invalid.
 
     - The amount of blobs is correct but the user cannot afford the transaction
-    total cost
+       total cost
     """
     blockchain_test(
         pre=pre,
@@ -910,8 +918,8 @@ def test_invalid_tx_blob_count(
     """
     Reject blocks that include blob transactions with invalid blob counts.
 
-    - `blob count == 0` in type 3 transaction - `blob count >
-    MAX_BLOBS_PER_BLOCK` in type 3 transaction
+    - `blob count == 0` in type 3 transaction
+    - `blob count > MAX_BLOBS_PER_BLOCK` in type 3 transaction
     """
     assert len(txs) == 1
     state_test(
@@ -955,9 +963,9 @@ def test_invalid_blob_hash_versioning_single_tx(
     """
     Reject blob transactions with invalid blob hash version.
 
-    - Transaction with single blob with invalid version - Transaction with
-    multiple blobs all with invalid version - Transaction with multiple blobs
-    either with invalid version
+    - Transaction with single blob with invalid version
+    - Transaction with multiple blobs all with invalid version
+    - Transaction with multiple blobs either with invalid version
     """
     assert len(txs) == 1
     state_test(
@@ -1013,10 +1021,10 @@ def test_invalid_blob_hash_versioning_multiple_txs(
     Reject blocks that include blob transactions with invalid blob hash
     version.
 
-    - Multiple blob transactions with single blob all with invalid version -
-    Multiple blob transactions with multiple blobs all with invalid version -
-    Multiple blob transactions with multiple blobs only one with invalid
-    version
+    - Multiple blob transactions with single blob all with invalid version
+    - Multiple blob transactions with multiple blobs all with invalid version
+    - Multiple blob transactions with multiple blobs only one with invalid
+        version
     """
     blockchain_test(
         pre=pre,
@@ -1156,7 +1164,8 @@ def test_blob_tx_attribute_opcodes(
     Test opcodes that read transaction attributes work properly for blob type
     transactions.
 
-    - ORIGIN - CALLER
+    - ORIGIN
+    - CALLER
     """
     code, storage = opcode
     destination_account = pre.deploy_contract(code=code)
@@ -1276,7 +1285,9 @@ def test_blob_tx_attribute_calldata_opcodes(
     Test calldata related opcodes to verify their behavior is not affected by
     blobs.
 
-    - CALLDATALOAD - CALLDATASIZE - CALLDATACOPY
+    - CALLDATALOAD
+    - CALLDATASIZE
+    - CALLDATACOPY
     """
     code, storage = opcode
     destination_account = pre.deploy_contract(code=code)
@@ -1336,8 +1347,9 @@ def test_blob_tx_attribute_gasprice_opcode(
     Test GASPRICE opcode to sanity check that the blob gas fee does not affect
     its calculation.
 
-    - No priority fee - Priority fee below data fee - Priority fee above data
-    fee
+    - No priority fee
+    - Priority fee below data fee
+    - Priority fee above data fee
     """
     code, storage = opcode
     destination_account = pre.deploy_contract(code=code)

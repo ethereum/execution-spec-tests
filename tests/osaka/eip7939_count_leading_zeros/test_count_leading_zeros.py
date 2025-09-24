@@ -504,10 +504,15 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
 
     expected_value = 255 - bits
 
-    # Target code pattern: PUSH32 (1 << bits) PUSH0 MSTORE
-    # This sequence stores a 32-byte value in memory. Later, we copy the
-    # immediate value from the PUSH32 instruction into memory using CODECOPY or
-    # EXTCODECOPY, and then load it with MLOAD for the CLZ test.
+    # Target code pattern:
+    #   PUSH32 (1 << bits)
+    #   PUSH0
+    #   MSTORE
+    #
+    # This sequence stores a 32-byte value in memory.
+    # Later, we copy the immediate value from the PUSH32 instruction into
+    # memory using CODECOPY or EXTCODECOPY, and then load it with MLOAD for
+    # the CLZ test.
     target_code = Op.PUSH32(1 << bits)
     offset = 1
 

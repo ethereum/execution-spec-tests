@@ -293,8 +293,8 @@ def test_valid_inputs(
     Test valid sanity precompile calls that are expected to succeed.
 
     - `kzg_commitment` and `kzg_proof` are set to values such that `p(z)==0`
-    for all values of `z`, hence `y` is tested to be zero, and call to be
-    successful.
+        for all values of `z`, hence `y` is tested to be zero, and call to be
+        successful.
     """
     state_test(
         env=Environment(),
@@ -496,8 +496,9 @@ def test_call_opcode_types(
     Test calling the Point Evaluation Precompile with different call types, gas
     and parameter configuration.
 
-    - Using CALL, DELEGATECALL, CALLCODE and STATICCALL. - Using correct and
-    incorrect proofs - Using barely insufficient gas
+    - Using CALL, DELEGATECALL, CALLCODE and STATICCALL.
+    - Using correct and incorrect proofs
+    - Using barely insufficient gas
     """
     state_test(
         env=Environment(),
@@ -538,7 +539,8 @@ def test_tx_entry_point(
     point, and measure the gas consumption.
 
     - Using `gas_limit` with exact necessary gas, insufficient gas and extra
-    gas. - Using correct and incorrect proofs
+        gas.
+    - Using correct and incorrect proofs
     """
     sender = pre.fund_eoa()
 

@@ -1100,7 +1100,7 @@ class Opcodes(Opcode, Enum):
     Outputs
     ----
     - y: the indicated byte at the least significant position.
-    If the byte offset is out of range, the result is 0
+         If the byte offset is out of range, the result is 0
 
     Fork
     ----

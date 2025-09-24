@@ -339,6 +339,9 @@ def test_subcall(
     """
     Test transient storage with a subcall using the following opcodes.
 
-    - `CALL` - `CALLCODE` - `DELEGATECALL` - `STATICCALL`
+    - `CALL`
+    - `CALLCODE`
+    - `DELEGATECALL`
+    - `STATICCALL`
     """
     state_test(env=env, pre=pre, post=post, tx=tx)
