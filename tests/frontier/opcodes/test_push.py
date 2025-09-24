@@ -34,8 +34,8 @@ def get_input_for_push_opcode(opcode: Op) -> bytes:
 )
 @pytest.mark.parametrize(
     "push_opcode",
-    [getattr(Op, f"PUSH{i}") for i in range(1, 33)],  # Dynamically parametrize
-    # PUSH opcodes
+    # Dynamically parametrize PUSH opcodes
+    [getattr(Op, f"PUSH{i}") for i in range(1, 33)],
     ids=lambda op: str(op),
 )
 @pytest.mark.valid_from("Frontier")
@@ -52,16 +52,14 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
     env = Environment()
 
     """
-
-
-    **               Bytecode explanation              **
-    +---------------------------------------------------+ | Bytecode      |
-    Stack        | Storage            |
-    |---------------------------------------------------| | PUSH* excerpt |
-    excerpt      |                    | | PUSH1 0       | 0 excerpt    |
-    | | SSTORE        |              | [0]: excerpt       |
-    +---------------------------------------------------+
-
+     **               Bytecode explanation              **
+     +---------------------------------------------------+
+     | Bytecode      | Stack        | Storage            |
+     |---------------------------------------------------|
+     | PUSH* excerpt | excerpt      |                    |
+     | PUSH1 0       | 0 excerpt    |                    |
+     | SSTORE        |              | [0]: excerpt       |
+     +---------------------------------------------------+
     """
 
     contract_code = push_opcode(excerpt) + Op.PUSH1(0) + Op.SSTORE
@@ -97,8 +95,7 @@ def test_stack_overflow(
     state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: Op, stack_height: int
 ):
     """
-    A test to ensure that the stack overflows when the stack limit of 1024 is
-    exceeded.
+    A test the stack overflows when the stack limit of 1024 is exceeded.
     """
     env = Environment()
 
@@ -116,19 +113,19 @@ def test_stack_overflow(
     offset (0x45 for PUSH1). The last iteration will overflow the stack and the
     storage slot will be empty.
 
-    **               Bytecode explanation              **
-    +---------------------------------------------------+ | Bytecode      |
-    Stack        | Storage            |
-    |---------------------------------------------------| | PUSH* excerpt |
-    excerpt      |                    | | PUSH1 0       | 0 excerpt    |
-    | | SSTORE        |              | [0]: excerpt       |
-    +---------------------------------------------------+
-
+     **               Bytecode explanation              **
+     +---------------------------------------------------+
+     | Bytecode      | Stack        | Storage            |
+     |---------------------------------------------------|
+     | PUSH* excerpt | excerpt      |                    |
+     | PUSH1 0       | 0 excerpt    |                    |
+     | SSTORE        |              | [0]: excerpt       |
+     +---------------------------------------------------+
     """
     contract_code: Bytecode = Bytecode()
     for _ in range(stack_height - 2):
-        contract_code += Op.PUSH1(0)  # mostly push 0 to avoid contract size
-        # limit exceeded
+        # mostly push 0 to avoid contract size limit exceeded
+        contract_code += Op.PUSH1(0)
     contract_code += push_opcode(excerpt) * 2 + Op.SSTORE
 
     contract = pre.deploy_contract(contract_code)
