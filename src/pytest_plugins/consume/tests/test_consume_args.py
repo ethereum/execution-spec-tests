@@ -137,9 +137,11 @@ def copy_consume_test_paths(pytester: Pytester):
         shutil.move("conftest.py", target_dir / "conftest.py")
 
 
-single_test_id = "src/pytest_plugins/consume/direct/"
-"test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/"
-f"{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]"
+single_test_id = (
+    "src/pytest_plugins/consume/direct/"
+    "test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/"
+    f"{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]"
+)
 
 
 @pytest.mark.parametrize(
