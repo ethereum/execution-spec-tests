@@ -1,6 +1,13 @@
 """Ethereum Virtual Machine bytecode primitives and utilities."""
 
-from typing import SupportsBytes
+from typing import Any, SupportsBytes
+
+from pydantic import GetCoreSchemaHandler
+from pydantic_core.core_schema import (
+    PlainValidatorFunctionSchema,
+    no_info_plain_validator_function,
+    plain_serializer_function_ser_schema,
+)
 
 from ethereum_test_base_types import Bytes, Hash
 
@@ -217,3 +224,16 @@ class Bytecode:
     def keccak256(self) -> Hash:
         """Return the keccak256 hash of the opcode byte representation."""
         return Bytes(self._bytes_).keccak256()
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """Provide Pydantic core schema for Bytecode serialization and validation."""
+        return no_info_plain_validator_function(
+            cls,
+            serialization=plain_serializer_function_ser_schema(
+                lambda bytecode: "0x" + bytecode.hex(),
+                info_arg=False,
+            ),
+        )

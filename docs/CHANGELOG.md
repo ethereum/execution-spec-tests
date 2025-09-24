@@ -10,6 +10,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🛠️ Framework
 
+- ✨ Add benchmark-specific test wrapper (`benchmark_test`) that supports **EIP-7825** and create a benchmark code generator for common test pattern ([#1945](https://github.com/ethereum/execution-spec-tests/pull/1945)).
+
 #### `fill`
 
 - Move pytest marker registration for `fill` and `execute-*` from their respective ini files to the shared `pytest_plugins.shared.execute_fill` pytest plugin ([#2110](https://github.com/ethereum/execution-spec-tests/pull/2110)).

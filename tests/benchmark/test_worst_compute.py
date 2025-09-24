@@ -15,10 +15,12 @@ import pytest
 from py_ecc.bn128 import G1, G2, multiply
 
 from ethereum_test_base_types.base_types import Bytes
+from ethereum_test_benchmark.benchmark_code_generator import JumpLoopGenerator
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
+    BenchmarkTestFiller,
     Block,
     BlockchainTestFiller,
     Bytecode,
@@ -1842,30 +1844,14 @@ def test_worst_jumpis(
 
 @pytest.mark.slow
 def test_worst_jumpdests(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
-    gas_benchmark_value: int,
 ):
     """Test running a JUMPDEST-intensive contract."""
-    max_code_size = fork.max_code_size()
-
-    # Create and deploy a contract with many JUMPDESTs
-    code_suffix = Op.JUMP(Op.PUSH0)
-    code_body = Op.JUMPDEST * (max_code_size - len(code_suffix))
-    code = code_body + code_suffix
-    jumpdests_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=jumpdests_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(attack_block=Op.JUMPDEST),
     )
 
 
@@ -2764,31 +2750,17 @@ def test_worst_calldataload(
     ],
 )
 def test_worst_swap(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
     opcode: Opcode,
-    gas_benchmark_value: int,
 ):
     """Test running a block with as many SWAP as possible."""
-    max_code_size = fork.max_code_size()
-
-    code_prefix = Op.JUMPDEST + Op.PUSH0 * opcode.min_stack_height
-    code_suffix = Op.PUSH0 + Op.JUMP
-    opcode_sequence = opcode * (max_code_size - len(code_prefix) - len(code_suffix))
-    code = code_prefix + opcode_sequence + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            attack_block=opcode, setup=Op.PUSH0 * opcode.min_stack_height
+        ),
     )
 
 
