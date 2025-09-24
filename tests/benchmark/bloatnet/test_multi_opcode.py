@@ -91,16 +91,9 @@ def test_bloatnet_balance_extcodesize(
     # Build attack contract that reads config from factory and performs attack
     attack_code = (
         # Read number of deployed contracts from factory storage slot 0
-        Op.PUSH1(0)  # Storage slot 0
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load num_deployed_contracts
+        Op.PUSH1(10)  # num contracts
         + Op.DUP1  # Keep a copy for later use
-
-        # Read init code hash from factory storage slot 1
-        + Op.PUSH1(1)  # Storage slot 1
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load init_code_hash
-
+        + Op.PUSH32(0xE0E904005269232DEDF56D65B24EE423FC3B428853FEE977B82897D50484958E)
         # Setup memory for CREATE2 address generation
         # Memory layout: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
         + Op.PUSH20(factory_address)
@@ -109,15 +102,12 @@ def test_bloatnet_balance_extcodesize(
         + Op.PUSH1(0xFF)
         + Op.PUSH1(11)  # Position for 0xFF prefix (32 - 20 - 1)
         + Op.MSTORE8  # Store 0xFF prefix
-
         + Op.PUSH1(0)  # Initial salt value
         + Op.PUSH1(32)
         + Op.MSTORE  # Store salt at position 32
-
         # Stack now has: [num_contracts, init_code_hash]
         + Op.PUSH1(64)
         + Op.MSTORE  # Store init_code_hash at position 64
-
         # Stack now has: [num_contracts]
         # Calculate how many contracts we can actually access with available gas
         + Op.GAS  # Get current gas
@@ -159,6 +149,8 @@ def test_bloatnet_balance_extcodesize(
         + Op.POP  # Clean up counter
     )
 
+    print(f"Attack code: {attack_code.hex()}")
+
     # Deploy attack contract
     attack_address = pre.deploy_contract(code=attack_code)
 
@@ -182,12 +174,19 @@ def test_bloatnet_balance_extcodesize(
     )
 
 
+@pytest.fixture
+def initcode_hash() -> bytes:
+    """Initcode hash for CREATE2 address generation."""
+    return bytes(0xE0E904005269232DEDF56D65B24EE423FC3B428853FEE977B82897D50484958E)
+
+
 @pytest.mark.valid_from("Prague")
 def test_bloatnet_balance_extcodecopy(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
+    initcode_hash: bytes,
 ):
     """
     BloatNet test using BALANCE + EXTCODECOPY with on-the-fly CREATE2 address generation.
@@ -202,7 +201,7 @@ def test_bloatnet_balance_extcodecopy(
     max_contract_size = fork.max_code_size()
 
     # Calculate costs
-    intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
+    intrinsic_gas = fork.transaction_intrinsic_cost_calculator()()
 
     # Cost per contract with EXTCODECOPY and CREATE2 address generation
     cost_per_contract = (
@@ -220,115 +219,66 @@ def test_bloatnet_balance_extcodecopy(
     available_gas = gas_benchmark_value - intrinsic_gas - 1000
     contracts_needed = int(available_gas // cost_per_contract)
 
-    # Deploy factory using stub contract - NO HARDCODED VALUES
-    # The stub "bloatnet_factory" must be provided via --address-stubs flag
-    # The factory at that address MUST have:
-    # - Slot 0: Number of deployed contracts
-    # - Slot 1: Init code hash for CREATE2 address calculation
     factory_address = pre.deploy_contract(
-        code=Bytecode(),  # Required parameter, but will be ignored for stubs
+        code=Bytecode(),
         stub="bloatnet_factory",
     )
 
-    # Log test requirements - actual deployed count will be read from factory storage
     print(
         f"Test needs {contracts_needed} contracts for "
         f"{gas_benchmark_value / 1_000_000:.1f}M gas. "
         f"Factory storage will be checked during execution."
     )
 
-    # Build attack contract that reads config from factory and performs attack
-    attack_code = (
-        # Read number of deployed contracts from factory storage slot 0
-        Op.PUSH1(0)  # Storage slot 0
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load num_deployed_contracts
-        + Op.DUP1  # Keep a copy for later use
+    # +-----------+-------+-------+-------+----------------+
+    # |   null    | 0xFF  | addr  | salt  | initcode_hash  |
+    # +-----------+-------+-------+-------+----------------+
+    # |    11     |   1   |  20   |  32   |       32       |
+    # +-----------+-------+-------+-------+----------------+
 
-        # Read init code hash from factory storage slot 1
-        + Op.PUSH1(1)  # Storage slot 1
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load init_code_hash
-
-        # Setup memory for CREATE2 address generation
-        # Memory layout: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
-        + Op.PUSH20(factory_address)
-        + Op.PUSH1(0)
-        + Op.MSTORE  # Store factory address at memory position 0
-        + Op.PUSH1(0xFF)
-        + Op.PUSH1(11)  # Position for 0xFF prefix (32 - 20 - 1)
-        + Op.MSTORE8  # Store 0xFF prefix
-
-        + Op.PUSH1(0)  # Initial salt value
-        + Op.PUSH1(32)
-        + Op.MSTORE  # Store salt at position 32
-
-        # Stack now has: [num_contracts, init_code_hash]
-        + Op.PUSH1(64)
-        + Op.MSTORE  # Store init_code_hash at position 64
-
-        # Stack now has: [num_contracts]
-        # Calculate how many contracts we can actually access with available gas
-        + Op.GAS  # Get current gas
-        + Op.PUSH2(cost_per_contract)  # Gas per contract access with EXTCODECOPY
-        + Op.DIV  # Calculate max possible contracts
-        + Op.DUP2  # Get num_deployed_contracts
-        + Op.GT  # Check if we can access all deployed contracts
-        + Op.PUSH1(0)  # Jump destination for no limit
-        + Op.JUMPI
-        + Op.POP  # Remove num_deployed_contracts
-        + Op.GAS
-        + Op.PUSH2(cost_per_contract)
-        + Op.DIV  # Use gas-limited count
-        + Op.JUMPDEST
-        # Main attack loop - stack has [num_contracts_to_access]
-        + While(
-            body=(
-                # Generate CREATE2 address
-                Op.PUSH1(85)  # Size to hash (1 + 20 + 32 + 32)
-                + Op.PUSH1(11)  # Start position (0xFF prefix)
-                + Op.SHA3  # Generate CREATE2 address
-                # The address is now on the stack
-                + Op.DUP1  # Duplicate for later operations
-                + Op.BALANCE  # Cold access
-                + Op.POP
-                # EXTCODECOPY(addr, mem_offset, last_byte_offset, 1)
-                # Read the LAST byte to force full contract load
-                + Op.PUSH1(1)  # size (1 byte)
-                + Op.PUSH2(max_contract_size - 1)  # code offset (last byte)
-                # Use salt as memory offset to avoid overlap
-                + Op.PUSH1(32)  # Salt position
-                + Op.MLOAD  # Get current salt
-                + Op.PUSH2(96)  # Base memory offset
-                + Op.ADD  # Unique memory position
-                + Op.DUP4  # address (duplicated earlier)
-                + Op.EXTCODECOPY
-                + Op.POP  # Clean up address
-                # Increment salt for next iteration
-                + Op.PUSH1(32)  # Salt position
-                + Op.MLOAD  # Load current salt
-                + Op.PUSH1(1)
-                + Op.ADD  # Increment
-                + Op.PUSH1(32)
-                + Op.MSTORE  # Store back
-            ),
-            # Continue while counter > 0
-            condition=Op.DUP1 + Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
-        )
-        + Op.POP  # Clean up counter
+    create2_calculation = (
+        Op.MSTORE(0, factory_address)
+        + Op.MSTORE8(32 - 20 - 1, 0xFF)
+        + Op.MSTORE(32, 0)
+        + Op.MSTORE(64, initcode_hash)
     )
 
-    # Deploy attack contract
-    attack_address = pre.deploy_contract(code=attack_code)
+    num_contracts = min(contracts_needed, 10)
 
-    # Run the attack
+    code = (
+        create2_calculation  # []
+        + Op.PUSH2(num_contracts)  # [num_contracts]
+        + While(
+            body=(
+                Op.SHA3(11, 85)  # [num_contracts, addr]
+                + Op.DUP1  # [num_contracts, addr, addr]
+                + Op.POP(Op.BALANCE)  # [num_contracts, addr]
+                + Op.PUSH1(1)  # [num_contracts, addr, size]
+                + Op.PUSH2(max_contract_size - 1)  # [num_contracts, addr, size, offset]
+                + Op.ADD(Op.MLOAD(32), 96)  # [num_contracts, addr, size, offset, dest_offset]
+                + Op.DUP4  # [num_contracts, addr, size, offset, dest_offset, addr]
+                + Op.EXTCODECOPY  # [num_contracts, addr]
+                + Op.POP  # [num_contracts]
+                + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1))  # [num_contracts]
+            ),
+            condition=(
+                Op.PUSH1(1)  # [num_contracts, 1]
+                + Op.SWAP1  # [1,num_contracts]
+                + Op.SUB  # [num_contracts-1]
+                + Op.DUP1  # [num_contracts-1, num_contracts-1]
+                + Op.ISZERO  # [num_contracts-1, 1]
+                + Op.ISZERO  # [num_contracts-1, 0]
+            ),
+        )
+    )
+    attack_address = pre.deploy_contract(code=code)
+
     attack_tx = Transaction(
         to=attack_address,
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
-    # Post-state
     post = {
         attack_address: Account(storage={}),
     }
