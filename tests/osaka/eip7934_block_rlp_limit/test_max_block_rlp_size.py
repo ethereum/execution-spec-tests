@@ -125,12 +125,16 @@ def exact_size_transactions(
     The calculation uses caching to avoid recalculating the same block rlp for
     each fork. Calculate the block and fill with real sender for testing.
 
-    Args: sender: The sender account block_size_limit: The target block RLP
-    size limit fork: The fork to generate transactions for pre: Required if
-    emit_logs is True, used to deploy the log contract gas_limit: The gas limit
-    for the block emit_logs: If True, transactions will call a contract that
-    emits logs specific_transaction_to_include: If provided, this transaction
-    will be included
+    Args:
+        sender: The sender account
+        block_size_limit: The target block RLP size limit
+        fork: The fork to generate transactions for
+        pre: Required if emit_logs is True, used to deploy the log contract
+        gas_limit: The gas limit for the block
+        emit_logs: If True, transactions will call a contract that emits logs
+        specific_transaction_to_include: If provided, this transaction will
+            be included
+
     """
     log_contract = None
     if emit_logs:
@@ -402,8 +406,9 @@ def test_block_at_rlp_size_limit_boundary(
     """
     Test the block rlp size limit.
 
-    - At the limit - 1 byte, the block is valid - At the limit, the block is
-    valid - At the limit + 1 byte, the block is invalid
+    - At the limit - 1 byte, the block is valid
+    - At the limit, the block is valid
+    - At the limit + 1 byte, the block is invalid
     """
     transactions, gas_used = exact_size_transactions(
         sender,
