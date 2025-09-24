@@ -22,6 +22,8 @@ from ethereum_test_base_types import (
 class BalNonceChange(CamelModel, RLPSerializable):
     """Represents a nonce change in the block access list."""
 
+    model_config = CamelModel.model_config | {"extra": "forbid"}
+
     tx_index: HexNumber = Field(
         HexNumber(1),
         description="Transaction index where the change occurred",
@@ -33,6 +35,8 @@ class BalNonceChange(CamelModel, RLPSerializable):
 
 class BalBalanceChange(CamelModel, RLPSerializable):
     """Represents a balance change in the block access list."""
+
+    model_config = CamelModel.model_config | {"extra": "forbid"}
 
     tx_index: HexNumber = Field(
         HexNumber(1),
@@ -46,6 +50,8 @@ class BalBalanceChange(CamelModel, RLPSerializable):
 class BalCodeChange(CamelModel, RLPSerializable):
     """Represents a code change in the block access list."""
 
+    model_config = CamelModel.model_config | {"extra": "forbid"}
+
     tx_index: HexNumber = Field(
         HexNumber(1),
         description="Transaction index where the change occurred",
@@ -57,6 +63,8 @@ class BalCodeChange(CamelModel, RLPSerializable):
 
 class BalStorageChange(CamelModel, RLPSerializable):
     """Represents a change to a specific storage slot."""
+
+    model_config = CamelModel.model_config | {"extra": "forbid"}
 
     tx_index: HexNumber = Field(
         HexNumber(1),
@@ -70,6 +78,8 @@ class BalStorageChange(CamelModel, RLPSerializable):
 class BalStorageSlot(CamelModel, RLPSerializable):
     """Represents all changes to a specific storage slot."""
 
+    model_config = CamelModel.model_config | {"extra": "forbid"}
+
     slot: StorageKey = Field(..., description="Storage slot key")
     slot_changes: List[BalStorageChange] = Field(
         default_factory=list, description="List of changes to this slot"
@@ -80,6 +90,8 @@ class BalStorageSlot(CamelModel, RLPSerializable):
 
 class BalAccountChange(CamelModel, RLPSerializable):
     """Represents all changes to a specific account in a block."""
+
+    model_config = CamelModel.model_config | {"extra": "forbid"}
 
     address: Address = Field(..., description="Account address")
     nonce_changes: List[BalNonceChange] = Field(
