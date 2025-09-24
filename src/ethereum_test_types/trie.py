@@ -1,4 +1,6 @@
-"""The state trie is the structure responsible for storing."""
+"""
+The state trie is the structure responsible for storing.
+"""
 
 import copy
 from dataclasses import dataclass, field
@@ -131,9 +133,10 @@ InternalNode = LeafNode | ExtensionNode | BranchNode
 
 def encode_internal_node(node: Optional[InternalNode]) -> Extended:
     """
-    Encode a Merkle Trie node into its RLP form. The RLP will then be
-    serialized into a `Bytes` and hashed unless it is less that 32 bytes when
-    serialized.
+    Encode a Merkle Trie node into its RLP form.
+
+    The RLP will then be serialized into a `Bytes` and hashed unless it is less
+    that 32 bytes when serialized.
 
     This function also accepts `None`, representing the absence of a node,
     which is encoded to `b""`.

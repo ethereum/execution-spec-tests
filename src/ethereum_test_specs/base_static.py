@@ -1,4 +1,6 @@
-"""Base class to parse test cases written in static formats."""
+"""
+Base class to parse test cases written in static formats.
+"""
 
 import re
 from abc import abstractmethod

@@ -88,9 +88,10 @@ class ValidatedCode(Enum):
 
 class Factory(Enum):
     """
-    Kinds of systems leading up to a call to TXCREATE. DIRECT just puts the
-    TXCREATE in the code it generates, while *CALL ones call into another
-    account which does the TXCREATE.
+    Kinds of systems leading up to a call to TXCREATE.
+
+    DIRECT just puts the TXCREATE in the code it generates, while *CALL ones
+    call into another account which does the TXCREATE.
     """
 
     DIRECT = auto()
@@ -108,8 +109,9 @@ class Factory(Enum):
         input_size: int,
     ) -> Tuple[Bytecode, Address | None]:
         """
-        Return snippet to cause TXCREATE to be called along with an address
-        which will end up in the `compute_eofcreate_address`, or None if that
+        Return snippet to cause TXCREATE to be called along with an address.
+
+        This will end up in the `compute_eofcreate_address` or None if that
         would be the snippet itself.
         """
         if evm_code_type not in [EVMCodeType.LEGACY, EVMCodeType.EOF_V1]:
@@ -177,8 +179,7 @@ def test_txcreate_validates(
     access_list_a: bool,
 ):
     """
-    Verifies proper validation of initcode on TXCREATE in various circumstances
-    of the opcode.
+    Verifies proper validation of initcode on TXCREATE in various scenarios.
     """
     env = Environment()
     snippet_a, factory_address_a = factory_a.creation_snippet(

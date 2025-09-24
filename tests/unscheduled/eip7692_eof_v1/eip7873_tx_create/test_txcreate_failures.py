@@ -206,8 +206,9 @@ def test_txcreate_deploy_sizes(
     target_deploy_size: int,
 ):
     """
-    Verifies a mix of runtime contract sizes mixing success and multiple size
-    failure modes.
+    Verify a mix of runtime contract sizes.
+
+    This mixes success and multiple size failure modes.
     """
     env = Environment()
 
