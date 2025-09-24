@@ -414,7 +414,7 @@ HoodiWithBPOs:
       target: 15
       max: 20
       baseFeeUpdateFraction: 5007716
-"""
+"""  # W505
 
 
 @pytest.fixture(scope="session")

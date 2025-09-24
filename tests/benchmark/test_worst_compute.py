@@ -456,9 +456,8 @@ def test_worst_precompile_only_data_input(
         iteration_gas_cost = (
             parameters_gas
             + +static_cost  # Precompile static cost
-            + math.ceil(input_length / 32) * per_word_dynamic_cost  # Precompile
-            # dynamic
-            # cost
+            + math.ceil(input_length / 32) * per_word_dynamic_cost
+            # Precompile dynamic cost
             + gsc.G_BASE  # POP
         )
         # From the available gas, we subtract the mem expansion costs

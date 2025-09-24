@@ -113,8 +113,10 @@ def blocks(
         timestamp += 1
 
     return blocks + [
+        # Add an empty block at the end to verify that no more withdrawal
+        # requests are included
         Block(
             header_verify=Header(requests_hash=Requests()),
             timestamp=timestamp,
         )
-    ]  # Add an empty block at the end to verify that no more withdrawal requests are included
+    ]

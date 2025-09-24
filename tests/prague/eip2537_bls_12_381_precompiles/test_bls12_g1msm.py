@@ -176,9 +176,8 @@ def test_valid(
             id="scalar_too_large",
         ),
         pytest.param(
-            Spec.G1 + Scalar(1).x.to_bytes(16, byteorder="big"),  # Invalid
-            # scalar
-            # length
+            # Invalid scalar length
+            Spec.G1 + Scalar(1).x.to_bytes(16, byteorder="big"),
             id="scalar_too_short",
         ),
         pytest.param(

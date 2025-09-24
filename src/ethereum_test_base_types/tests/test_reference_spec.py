@@ -8,7 +8,8 @@ import requests
 from ..reference_spec.git_reference_spec import GitReferenceSpec
 from ..reference_spec.reference_spec import NoLatestKnownVersionError
 
-# the content field from https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-100.md
+# the content field from
+# https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-100.md
 # as of 2023-08-29
 response_content = "LS0tCmVpcDogMTAwCnRpdGxlOiBDaGFuZ2UgZGlmZmljdWx0eSBhZGp1c3Rt\
 ZW50IHRvIHRhcmdldCBtZWFuIGJsb2NrIHRpbWUgaW5jbHVkaW5nIHVuY2xl\

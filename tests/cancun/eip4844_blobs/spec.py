@@ -138,11 +138,9 @@ class SpecHelpers:
             for seq in itertools.combinations_with_replacement(
                 range(1, min(blob_count + 1, max_blobs_per_tx) + 1), i
             )  # We iterate through all possible combinations
-            if sum(seq) == blob_count  # And we only keep the ones that match the expected
-            # blob count
-            and all(tx_blobs <= max_blobs_per_tx for tx_blobs in seq)  # Validate
-            # each
-            # tx
+            # And we only keep the ones that match the expected blob count
+            if sum(seq) == blob_count and all(tx_blobs <= max_blobs_per_tx for tx_blobs in seq)
+            # Validate each tx
         ]
 
         # We also add the reversed version of each combination, only if it's

@@ -531,11 +531,10 @@ def test_address_collision(
         contract_address: Account(
             storage={
                 slot_create_address: salt_zero_address,
-                slot_create_address_2: EOFCREATE_FAILURE,  # had an in-
-                # transaction
-                # collision
-                slot_create_address_3: EOFCREATE_FAILURE,  # had a pre-existing
-                # collision
+                # had an in-transaction collision
+                slot_create_address_2: EOFCREATE_FAILURE,
+                # had a pre-existing collision
+                slot_create_address_3: EOFCREATE_FAILURE,
                 slot_code_worked: value_code_worked,
             }
         )

@@ -35,7 +35,8 @@ class Spec:
     BLAKE2_PRECOMPILE_T_1_LENGTH = 8
     BLAKE2_PRECOMPILE_F_LENGTH = 1
 
-    # Constants for BLAKE2b and BLAKE2s spec defined at https://datatracker.ietf.org/doc/html/rfc7693#section-3.2
+    # Constants for BLAKE2b and BLAKE2s spec defined at
+    # https://datatracker.ietf.org/doc/html/rfc7693#section-3.2
     BLAKE2B_PRECOMPILE_ROUNDS = 12
     BLAKE2B_PRECOMPILE_H_LENGTH = 64
 
@@ -47,7 +48,8 @@ class SpecTestVectors:
     """Defines common test parameters for the BLAKE2b precompile."""
 
     # The following constants are used to define common test parameters
-    # Origin of vectors defined at https://datatracker.ietf.org/doc/html/rfc7693.html#appendix-A
+    # Origin of vectors defined at
+    # https://datatracker.ietf.org/doc/html/rfc7693.html#appendix-A
     BLAKE2_STATE_VECTOR = (
         "48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1"
         "361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f"
