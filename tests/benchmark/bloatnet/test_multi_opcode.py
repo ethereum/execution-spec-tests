@@ -216,8 +216,6 @@ def test_bloatnet_balance_extcodecopy(
         + 20  # Overhead
     )
 
-    print(f"Cost per contract: {cost_per_contract}")
-
     # Calculate how many contracts to access
     available_gas = gas_benchmark_value - intrinsic_gas - 1000
     contracts_needed = int(available_gas // cost_per_contract)
@@ -246,7 +244,7 @@ def test_bloatnet_balance_extcodecopy(
         + Op.MSTORE(64, initcode_hash)
     )
 
-    num_contracts = min(contracts_needed, 10)
+    num_contracts = contracts_needed
 
     code = (
         create2_calculation  # []
