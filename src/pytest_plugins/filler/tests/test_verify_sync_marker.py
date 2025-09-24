@@ -98,7 +98,8 @@ def test_verify_sync_marker(
 
     Final counts:
     - Passed: 8 (base fixtures) + 2 (sync fixtures) = 10 passed
-    - Skipped: 0 skipped - Failed: 0 failed
+    - Skipped: 0 skipped
+    - Failed: 0 failed
     """
     # Create proper directory structure for tests
     tests_dir = pytester.mkdir("tests")

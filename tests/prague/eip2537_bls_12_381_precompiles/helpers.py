@@ -79,8 +79,9 @@ def vectors_from_file(filename: str) -> List:
 
 def add_points_g1(point_a: PointG1, point_b: PointG1) -> PointG1:
     """
-    Add two points in G1 using standard formulas. For points P = (x, y) and Q =
-    (u, v), compute R = P + Q.
+    Add two points in G1 using standard formulas.
+
+    For points P = (x, y) and Q = (u, v), compute R = P + Q.
     """
     if point_a.x == 0 and point_a.y == 0:
         return point_b
@@ -96,8 +97,10 @@ def add_points_g1(point_a: PointG1, point_b: PointG1) -> PointG1:
 
 def add_points_g2(point_a: PointG2, point_b: PointG2) -> PointG2:
     """
-    Add two points in G2 using standard formulas. For points P = ((x_0, x_1),
-    (y_0, y_1)) and Q = ((u_0, u_1), (v_0, v_1)), compute R = P + Q.
+    Add two points in G2 using standard formulas.
+
+    For points P = ((x_0, x_1), (y_0, y_1)) and
+    Q = ((u_0, u_1), (v_0, v_1)), compute R = P + Q.
     """
     if point_a.x == (0, 0) and point_a.y == (0, 0):
         return point_b
@@ -117,10 +120,12 @@ class BLSPointGenerator:
     """
     Generator for points on the BLS12-381 curve with various properties.
 
-    Provides methods to generate points with specific properties: - on the
-    standard curve - in the correct r-order subgroup or not - on the curve or
-    not - on an isomorphic curve (not standard curve) but in the correct
-    r-order subgroup
+    Provides methods to generate points with specific properties:
+        - on the standard curve
+        - in the correct r-order subgroup or not
+        - on the curve or not
+        - on an isomorphic curve (not standard curve) but in the correct
+            r-order subgroup
 
     Additional resource that helped the class implementation:
     https://hackmd.io/@benjaminion/bls12-381
@@ -729,43 +734,60 @@ class BLSPointGenerator:
 
         For reference we can imagine the map to curve function as a simple 2
         step process, where an input t value is mapped to a point on the
-        auxiliary curve via a SWU map, and then that point is mapped to the BLS
-        curve via a 3-isogeny. For reference: -
-        https://eips.ethereum.org/assets/eip-2537/field_to_curve
+        auxiliary curve via a SWU map, and then that point is mapped to the
+        BLS curve via a 3-isogeny. For reference:
+        - https://eips.ethereum.org/assets/eip-2537/field_to_curve
 
         Note we cannot use sage math directly within EEST as it is not a pure
         python library and requires an external dependency to be installed on
         the system machine.
 
-        ```sage q =
-        0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153F
-        FFFB9FEFFFFFFFFAAAB Fp = GF(q) R.<x> = PolynomialRing(Fp) Fp2.<u> =
-        Fp.extension(x^2 + 1) E2 = EllipticCurve(Fp2, [0, 4*(1+u)]) ISO_3_A =
-        240 * u ISO_3_B = 1012 * (1 + u) ISO_3_Z = -(2 + u) Ei =
-        EllipticCurve(Fp2, [ISO_3_A, ISO_3_B]) iso = EllipticCurveIsogeny(E=E2,
-        kernel=None, codomain=Ei, degree=3).dual() x_den_k0 =
-        0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153f
-        fffb9feffffffffaa63 * u x_den_k1 = 0xc +
-        0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153f
-        fffb9feffffffffaa9f * u for (x, _) in iso.kernel_polynomial().roots():
-        y_squared = x^3 + ISO_3_A * x + ISO_3_B is_on_curve =
-        y_squared.is_square() print("Root is on curve:" if is_on_curve else
-        "Warning: Root is not on the curve") inv_factor = (x * ISO_3_A /
-        -ISO_3_B) - 1 if inv_factor == 0: continue discriminant = 1 + 4 /
-        inv_factor if not discriminant.is_square(): continue for sign in [1,
-        -1]: zt2 = (-1 + sign * discriminant.sqrt()) / 2 t2 = zt2 / ISO_3_Z if
-        t2.is_square(): t = t2.sqrt() # Perform the proper SWU mapping tv1_num
-        = ISO_3_Z^2 * t^4 + ISO_3_Z * t^2 tv1 = 1 / tv1_num x1 = (-ISO_3_B /
-        ISO_3_A) * (1 + tv1) gx1 = x1^3 + ISO_3_A * x1 + ISO_3_B x2 = ISO_3_Z *
-        t^2 * x1 swu_x = x1 if gx1.is_square() else x2 x_den_value = swu_x^2 +
-        x_den_k1 * swu_x + x_den_k0 is_kernel_point = (x_den_value == 0)
-        print("Is a kernel point:", is_kernel_point) print(t) ```
+        ```sage
+        q = 0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB
+        Fp = GF(q)
+        R.<x> = PolynomialRing(Fp)
+        Fp2.<u> = Fp.extension(x^2 + 1)
+        E2 = EllipticCurve(Fp2, [0, 4*(1+u)])
+        ISO_3_A = 240 * u
+        ISO_3_B = 1012 * (1 + u)
+        ISO_3_Z = -(2 + u)
+        Ei = EllipticCurve(Fp2, [ISO_3_A, ISO_3_B])
+        iso = EllipticCurveIsogeny(E=E2, kernel=None, codomain=Ei, degree=3).dual()
+        x_den_k0 = 0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaa63 * u
+        x_den_k1 = 0xc + 0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaa9f * u
+        for (x, _) in iso.kernel_polynomial().roots():
+            y_squared = x^3 + ISO_3_A * x + ISO_3_B
+            is_on_curve = y_squared.is_square()
+            print("Root is on curve:" if is_on_curve else "Warning: Root is not on the curve")
+            inv_factor = (x * ISO_3_A / -ISO_3_B) - 1
+            if inv_factor == 0:
+                continue
+            discriminant = 1 + 4 / inv_factor
+            if not discriminant.is_square():
+                continue
+            for sign in [1, -1]:
+                zt2 = (-1 + sign * discriminant.sqrt()) / 2
+                t2 = zt2 / ISO_3_Z
+                if t2.is_square():
+                    t = t2.sqrt()
+                    # Perform the proper SWU mapping
+                    tv1_num = ISO_3_Z^2 * t^4 + ISO_3_Z * t^2
+                    tv1 = 1 / tv1_num
+                    x1 = (-ISO_3_B / ISO_3_A) * (1 + tv1)
+                    gx1 = x1^3 + ISO_3_A * x1 + ISO_3_B
+                    x2 = ISO_3_Z * t^2 * x1
+                    swu_x = x1 if gx1.is_square() else x2
+                    x_den_value = swu_x^2 + x_den_k1 * swu_x + x_den_k0
+                    is_kernel_point = (x_den_value == 0)
+                    print("Is a kernel point:", is_kernel_point)
+                    print(t)
+        ```
 
         Add the script contents to a file called `points.sage`, run `sage
         points.sage`!
 
-        Please see the sage math installation guide to replicate: -
-        https://doc.sagemath.org/html/en/installation/index.html
+        Please see the sage math installation guide to replicate:
+            - https://doc.sagemath.org/html/en/installation/index.html
 
         As G2 uses an 3-degree isogeny, its kernel contains exactly 3 points on
         the auxiliary curve that maps to the point at infinity on the BLS
@@ -793,5 +815,5 @@ class BLSPointGenerator:
         G2 that map to the point at infinity on the BLS curve. This is why we
         return an empty list here. It is kept for consistency with the G1 case,
         and documentation purposes.
-        """
+        """  # noqa: E501, W505
         return []

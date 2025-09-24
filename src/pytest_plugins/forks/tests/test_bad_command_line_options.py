@@ -1,6 +1,5 @@
 """
-Test that the correct error is produced if bad/invalid command-line arguments
-are used.
+Test the correct error is produced with bad/invalid command-line arguments.
 """
 
 import pytest

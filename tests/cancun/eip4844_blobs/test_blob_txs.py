@@ -494,8 +494,8 @@ def test_invalid_tx_max_fee_per_blob_gas(
     """
     Reject blocks with invalid blob txs.
 
-    - tx max_fee_per_blob_gas is barely not enough - tx max_fee_per_blob_gas is
-    zero
+    - tx max_fee_per_blob_gas is barely not enough
+    - tx max_fee_per_blob_gas is zero
     """
     if non_zero_blob_gas_used_genesis_block is not None:
         blocks = [non_zero_blob_gas_used_genesis_block, block]
@@ -524,8 +524,8 @@ def test_invalid_tx_max_fee_per_blob_gas_state(
     """
     Reject an invalid blob transaction.
 
-    - tx max_fee_per_blob_gas is barely not enough - tx max_fee_per_blob_gas is
-    zero
+    - tx max_fee_per_blob_gas is barely not enough
+    - tx max_fee_per_blob_gas is zero
     """
     assert len(txs) == 1
     state_test(

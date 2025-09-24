@@ -177,12 +177,6 @@ def test_initcode_aborts(
 
 
 """
-
-
-
-
-
-
 Size of the initcode portion of test_txcreate_deploy_sizes, but as the runtime
 code is dynamic, we have to use a pre-calculated size
 """
@@ -798,13 +792,15 @@ def test_reentrant_txcreate(
         + Op.STOP,
         storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
     )
-    # Flow is: reenter flag 0 -> factory -> reenter flag 0 -> initcode ->
-    # reenter -> reenter flag 1 -> factory -> reenter flag 1 -> (!) initcode ->
-    # stop, if the EIP-161 nonce bump is not implemented. If it is, it fails
-    # before second inicode marked (!). Storage in 0 should have the address
-    # from the outer TXCREATE. Storage in 1 should have 0 from the inner
-    # TXCREATE. For the created contract storage in `slot_counter` should be 1
-    # as initcode executes only once
+    # Flow is: reenter flag 0 -> factory -> reenter flag 0 -> initcode
+    #          -> reenter -> reenter flag 1 -> factory -> reenter flag 1
+    #          -> (!) initcode -> stop,
+    # if the EIP-161 nonce bump is not implemented. If it is, it fails before
+    # second initcode marked (!).
+    # Storage in 0 should have the address from the outer TXCREATE.
+    # Storage in 1 should have 0 from the inner TXCREATE.
+    # For the created contract storage in `slot_counter` should be 1 as
+    # initcode executes only once
     post = {
         contract_address: Account(
             storage={

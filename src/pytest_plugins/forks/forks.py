@@ -287,8 +287,10 @@ class CovariantDecorator(CovariantDescriptor):
         The decorator must already be subclassed with the appropriate class
         variables before initialization.
 
-        Args: metafunc: The metafunc object that pytest uses when generating
-        tests.
+        Args:
+            metafunc: The metafunc object that pytest uses when generating
+                tests.
+
         """
         self.metafunc = metafunc
 

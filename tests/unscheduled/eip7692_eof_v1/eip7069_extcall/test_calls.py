@@ -1065,16 +1065,19 @@ def test_eof_calls_msg_depth(
     gas_limit = int(200000 * (64 / 63) ** 1024)
     env = Environment(gas_limit=gas_limit)
 
-    # Flow of the test: `callee_code` is recursively calling itself, passing
-    # msg depth as calldata (kept with the `MSTORE(0, ADD(...))`). When maximum
-    # msg depth is reached the call fails and starts returning. The deep-most
-    # frame returns: - current reached msg depth (expected to be the maximum
-    # 1024), with the `MSTORE(32, ADD(...))` - the respective return code of
-    # the EXT*CALL (expected to be 1 - light failure), with the `MSTORE(64,
-    # NOOP)`. Note the `NOOP` is just to appease the `Op.MSTORE` call, the
-    # return code value is actually coming from the `Op.DUP1` When unwinding
-    # the msg call stack, the intermediate frames return whatever the deeper
-    # callee returned with the `RETURNDATACOPY` instruction.
+    # Flow of the test:
+    # `callee_code` is recursively calling itself, passing msg depth as
+    # calldata (kept with the `MSTORE(0, ADD(...))`). When maximum msg depth is
+    # reached the call fails and starts returning. The deep-most frame returns:
+    #   - current reached msg depth (expected to be the maximum 1024), with the
+    #     `MSTORE(32, ADD(...))`
+    #   - the respective return code of the EXT*CALL (expected to be 1 - light
+    #      failure), with the `MSTORE(64, NOOP)`. Note the `NOOP` is just to
+    #      appease the `Op.MSTORE` call, the return code value is actually
+    #      coming from the `Op.DUP1`
+    # When unwinding the msg call stack, the intermediate frames return
+    # whatever the deeper callee returned with the `RETURNDATACOPY`
+    # instruction.
 
     # Memory offsets layout:
     # - 0  - input - msg depth
@@ -1093,9 +1096,11 @@ def test_eof_calls_msg_depth(
         + opcode(address=Op.ADDRESS, args_size=32)
         # duplicate return code for the `returndatacopy_block` below
         + Op.DUP1
-        # if return code was: - 1, we're in the deep-most frame,
-        # `deep_most_result_block` returns the actual result - 0, we're in an
-        # intermediate frame, `returndatacopy_block` only passes on the result
+        # if return code was:
+        #  - 1, we're in the deep-most frame, `deep_most_result_block` returns
+        #       the actual result
+        #  - 0, we're in an intermediate frame, `returndatacopy_block` only
+        #       passes on the result
         + Op.RJUMPI[rjump_offset]
         + returndatacopy_block
         + deep_most_result_block

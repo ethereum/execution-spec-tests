@@ -45,8 +45,7 @@ def pytest_configure(config):
     Register the plugin's custom markers and process command-line options.
 
     Custom marker registration:
-    https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom
-    -markers
+    https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
     """
     config.addinivalue_line(
         "markers",
@@ -74,12 +73,14 @@ def get_ref_spec_from_module(
       module: The module to extract reference spec from
       github_token: Optional GitHub token for API authentication
 
-    Raises: Exception: If the module path contains "eip" and the module does
-    not define a reference spec.
+    Raises:
+      Exception: If the module path contains "eip" and the module does
+                 not define a reference spec.
 
-    Returns: spec_obj: Return None if the module path does not contain "eip",
-    i.e., the module is not required to define a reference spec, otherwise,
-    return the ReferenceSpec object as defined by the module.
+    Returns:
+      spec_obj: Return None if the module path does not contain "eip",
+      i.e., the module is not required to define a reference spec, otherwise,
+      return the ReferenceSpec object as defined by the module.
 
     """
     if not is_test_for_an_eip(str(module.__file__)):
@@ -167,12 +168,11 @@ class EIPSpecTestItem(Item):
     def from_parent(cls, parent: Node, **kw: Any) -> "EIPSpecTestItem":
         """
         Public constructor to define new tests.
-        https://docs.pytest.org/en/latest/reference/reference.html#pytest.nodes.Node.fr
-        om_parent.
+        https://docs.pytest.org/en/latest/reference/reference.html#pytest.nodes.Node.from_parent.
 
         Args:
-          parent: The parent Node
-          kw: Additional keyword arguments (module, github_token)
+            parent: The parent Node
+            kw: Additional keyword arguments (module, github_token)
 
         """
         module = kw.pop("module", None)
@@ -193,7 +193,9 @@ class EIPSpecTestItem(Item):
         """
         Get location information for this test item to use test reports.
 
-        Returns: A tuple of (path, line_number, description)
+        Returns:
+            A tuple of (path, line_number, description)
+
         """
         return "spec_version_checker", 0, f"{self.name}"
 

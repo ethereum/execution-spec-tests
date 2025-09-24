@@ -73,7 +73,9 @@ class BaseStaticTest(BaseModel):
             n: int,
             m: int
         ):
-            assert n == 1 assert m in [1, 2]
+            \"\"\"Generate a test from a static state filler.\"\"\"
+            assert n == 1
+            assert m in [1, 2]
             env = Environment(**self.env.model_dump())
             sender = pre.fund_eoa()
             tx = Transaction(

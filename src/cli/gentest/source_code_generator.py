@@ -39,7 +39,8 @@ def get_test_source(provider: Provider, template_path: str) -> str:
       template_path (str): The path to the Jinja2 template file
                            used to generate tests.
 
-    Returns: str: The formatted pytest source code.
+    Returns:
+        str: The formatted pytest source code.
 
     """
     template = template_env.get_template(template_path)
@@ -58,7 +59,8 @@ def format_code(code: str) -> str:
     Args:
       code (str): The Python code to be formatted.
 
-    Returns: str: The formatted Python code.
+    Returns:
+        str: The formatted Python code.
 
     """
     # Create a temporary python file

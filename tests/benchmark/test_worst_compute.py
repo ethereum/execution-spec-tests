@@ -2412,11 +2412,17 @@ def test_worst_mod(
 ):
     """
     Test running a block with as many MOD instructions with arguments of the
-    parametrized range. The test program consists of code segments evaluating
-    the "MOD chain": mod[0] = calldataload(0) mod[1] = numerators[indexes[0]] %
-    mod[0] mod[2] = numerators[indexes[1]] % mod[1] ... The "numerators" is a
-    pool of 15 constants pushed to the EVM stack at the program start. The
-    order of accessing the numerators is selected in a way the mod value
+    parametrized range.
+
+    The test program consists of code segments evaluating the "MOD chain":
+    mod[0] = calldataload(0)
+    mod[1] = numerators[indexes[0]] % mod[0]
+    mod[2] = numerators[indexes[1]] % mod[1] ...
+
+    The "numerators" is a pool of 15 constants pushed to the EVM stack at the
+    program start.
+
+    The order of accessing the numerators is selected in a way the mod value
     remains in the range as long as possible.
     """
     max_code_size = fork.max_code_size()
@@ -2584,14 +2590,17 @@ def test_worst_modarith(
 ):
     """
     Test running a block with as many "op" instructions with arguments of the
-    parametrized range. The test program consists of code segments evaluating
-    the "op chain": mod[0] = calldataload(0) mod[1] = (fixed_arg op
-    args[indexes[0]]) % mod[0] mod[2] = (fixed_arg op args[indexes[1]]) %
-    mod[1] The "args" is a pool of 15 constants pushed to the EVM stack at the
-    program start. The "fixed_arg" is the 0xFF...FF constant added to the EVM
-    stack by PUSH32 just before executing the "op". The order of accessing the
-    numerators is selected in a way the mod value remains in the range as long
-    as possible.
+    parametrized range.
+    The test program consists of code segments evaluating the "op chain":
+    mod[0] = calldataload(0)
+    mod[1] = (fixed_arg op args[indexes[0]]) % mod[0]
+    mod[2] = (fixed_arg op args[indexes[1]]) % mod[1]
+    The "args" is a pool of 15 constants pushed to the EVM stack at the program
+    start.
+    The "fixed_arg" is the 0xFF...FF constant added to the EVM stack by PUSH32
+    just before executing the "op".
+    The order of accessing the numerators is selected in a way the mod value
+    remains in the range as long as possible.
     """
     fixed_arg = 2**256 - 1
     num_args = 15
@@ -3016,13 +3025,17 @@ def test_worst_return_revert(
     """Test running a block with as many RETURN or REVERT as possible."""
     max_code_size = fork.max_code_size()
 
-    # Create the contract that will be called repeatedly. The bytecode of the
-    # contract is: ``` [CODECOPY(returned_size) -- Conditional if
-    # return_non_zero_data] opcode(returned_size) <Fill with INVALID opcodes up
-    # to the max contract size> ``` Filling the contract up to the max size is
-    # a cheap way of leveraging CODECOPY to return non-zero bytes if requested.
-    # Note that since this is a pre-deploy this cost isn't relevant for the
-    # benchmark.
+    # Create the contract that will be called repeatedly.
+    # The bytecode of the contract is:
+    # ```
+    # [CODECOPY(returned_size) -- Conditional if return_non_zero_data]
+    # opcode(returned_size)
+    # <Fill with INVALID opcodes up to the max contract size>
+    # ```
+    # Filling the contract up to the max size is a cheap way of leveraging
+    # CODECOPY to return non-zero bytes if requested. Note that since this
+    # is a pre-deploy this cost isn't
+    # relevant for the benchmark.
     mem_preparation = Op.CODECOPY(size=return_size) if return_non_zero_data else Bytecode()
     executable_code = mem_preparation + opcode(size=return_size)
     code = executable_code

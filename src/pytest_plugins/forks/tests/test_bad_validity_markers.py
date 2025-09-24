@@ -1,6 +1,5 @@
 """
-Test that the correct error is produced if bad/invalid validity markers are
-specified.
+Test the correct error is produced with bad/invalid validity markers.
 """
 
 import pytest

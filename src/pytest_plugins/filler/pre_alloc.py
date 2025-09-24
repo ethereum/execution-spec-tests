@@ -273,7 +273,9 @@ class Alloc(BaseAlloc):
         does not send any transactions, ensuring that the account remains
         "empty."
 
-        Returns: Address: The address of the created empty account.
+        Returns:
+            Address: The address of the created empty account.
+
         """
         eoa = next(self._eoa_iterator)
 

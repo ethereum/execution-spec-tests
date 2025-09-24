@@ -327,9 +327,12 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
         Waits for a specific transaction to be included in a block by polling
         `eth_getTransactionByHash` until it is confirmed or a timeout occurs.
 
-        Args: transaction: The transaction to track.
+        Args:
+            transaction: The transaction to track.
 
-        Returns: The transaction details after it is included in a block.
+        Returns:
+            The transaction details after it is included in a block.
+
         """
         return self.wait_for_transactions([transaction])[0]
 
@@ -344,13 +347,16 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
         block by polling `eth_getTransactionByHash` until they are confirmed or
         a timeout occurs.
 
-        Args: transactions: A list of transactions to track.
+        Args:
+            transactions: A list of transactions to track.
 
-        Returns: A list of transaction details after they are included in a
-        block.
+        Returns:
+            A list of transaction details after they are included in a block.
 
-        Raises: Exception: If one or more transactions are not included in a
-        block within the timeout period.
+        Raises:
+            Exception: If one or more transactions are not included in a block
+                within the timeout period.
+
         """
         tx_hashes = [tx.hash for tx in transactions]
         responses: List[TransactionByHashResponse] = []
@@ -400,8 +406,10 @@ class PendingTransactionHandler:
     Manages block generation based on the number of pending transactions or a
     block generation interval.
 
-    Attributes: block_generation_interval: The number of iterations after which
-    a block is generated if no new transactions are added (default: 10).
+    Attributes:
+        block_generation_interval: The number of iterations after which a block
+            is generated if no new transactions are added (default: 10).
+
     """
 
     chain_builder_eth_rpc: ChainBuilderEthRPC

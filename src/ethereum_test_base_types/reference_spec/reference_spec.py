@@ -92,7 +92,9 @@ class ReferenceSpec:
         """
         Parse the module's dict into a reference spec.
 
-        Args: module_dict: Dictionary containing module information
-        github_token: Optional GitHub token for API authentication
+        Args:
+            module_dict: Dictionary containing module information
+            github_token: Optional GitHub token for API authentication
+
         """
         pass

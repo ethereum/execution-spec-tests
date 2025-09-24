@@ -135,19 +135,24 @@ def tx_data(
     cases where the floor gas cost is equal or barely greater than the
     intrinsic gas cost.
 
-    We have two different types of tests: -
-    FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS: The floor gas cost is
-    less than or equal to the intrinsic gas cost, which means that the size of
-    the tokens in the data are not enough to trigger the floor gas cost. -
-    FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS: The floor gas cost is greater
-    than the intrinsic gas cost, which means that the size of the tokens in the
-    data are enough to trigger the floor gas cost.
+    We have two different types of tests:
+
+    - FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS: The floor gas cost is
+        less than or equal to the intrinsic gas cost, which means that the size
+        of the tokens in the data are not enough to trigger the floor gas cost.
+
+    - FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS: The floor gas cost is greater
+        than the intrinsic gas cost, which means that the size of the tokens in
+        the data are enough to trigger the floor gas cost.
 
     E.g. Given a transaction with a single access list and a single storage
-    key, its intrinsic gas cost (as of Prague fork) can be calculated as: -
-    21,000 gas for the transaction - 2,400 gas for the access list - 1,900 gas
-    for the storage key - 16 gas for each non-zero byte in the data - 4 gas for
-    each zero byte in the data
+    key, its intrinsic gas cost (as of Prague fork) can be calculated as:
+
+    - 21,000 gas for the transaction
+    - 2,400 gas for the access list
+    - 1,900 gas for the storage key
+    - 16 gas for each non-zero byte in the data
+    - 4 gas for each zero byte in the data
 
     Its floor data gas cost can be calculated as: - 21,000 gas for the
     transaction - 40 gas for each non-zero byte in the data - 10 gas for each

@@ -37,12 +37,15 @@ def precompile_addresses_in_predecessor_successor(
     Yield the addresses of precompiled contracts and whether they existed in
     the parent fork.
 
-    Args: fork (Fork): The transition fork instance containing precompiled
-    contract information.
+    Args:
+        fork (Fork): The transition fork instance containing precompiled
+            contract information.
 
-    Yields: Iterator[Tuple[str, bool]]: A tuple containing the address in
-    hexadecimal format and a boolean indicating whether the address has existed
-    in the predecessor.
+    Yields:
+        Iterator[Tuple[str, bool]]: A tuple containing the address in
+            hexadecimal format and a boolean indicating whether the address
+            has existed in the predecessor.
+
     """
     precompile_range = range(0x01, 0x100)
     predecessor_precompiles = set(get_transition_fork_predecessor(fork).precompiles())
@@ -88,11 +91,15 @@ def test_precompile_warming(
     Call BALANCE of a precompile addresses before and after a fork.
 
     According to EIP-2929, when a transaction begins, accessed_addresses is
-    initialized to include: - tx.sender, tx.to - and the set of all precompiles
+    initialized to include:
+    - tx.sender, tx.to
+    - and the set of all precompiles
 
-    This test verifies that: 1. Precompiles that exist in the predecessor fork
-    are always "warm" (lower gas cost) 2. New precompiles added in a fork are
-    "cold" before the fork and become "warm" after
+    This test verifies that:
+    1. Precompiles that exist in the predecessor fork are always "warm" (lower
+        gas cost).
+    2. New precompiles added in a fork are "cold" before the fork and become
+        "warm" after.
     """
     sender = pre.fund_eoa()
     call_cost_slot = 0

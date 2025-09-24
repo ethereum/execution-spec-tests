@@ -63,10 +63,10 @@ class PhaseManager:
     The filler plugin supports two-phase execution for pre-allocation group
     generation:
     - Phase 1: Generate pre-allocation groups (pytest run with
-    --generate-pre-alloc-groups).
+        --generate-pre-alloc-groups).
 
     - Phase 2: Fill fixtures using pre-allocation
-    groups (pytest run with --use-pre-alloc-groups).
+        groups (pytest run with --use-pre-alloc-groups).
 
     Note: These are separate pytest runs orchestrated by the CLI wrapper. Each
     run gets a fresh PhaseManager instance (no persistence between phases).
@@ -147,10 +147,13 @@ class FormatSelector:
         """
         Determine if a fixture format should be generated in the current phase.
 
-        Args: fixture_format: The fixture format to check (may be wrapped in
-        LabeledFixtureFormat)
+        Args:
+            fixture_format: The fixture format to check (may be wrapped in
+                LabeledFixtureFormat).
 
-        Returns: True if the format should be generated in the current phase
+        Returns:
+            True if the format should be generated in the current phase.
+
         """
         format_phases = fixture_format.format_phases
 
@@ -207,7 +210,9 @@ class FillingSession:
         """
         Initialize a filling session from pytest configuration.
 
-        Args: config: The pytest configuration object.
+        Args:
+            config: The pytest configuration object.
+
         """
         phase_manager = PhaseManager.from_config(config)
         instance = cls(
@@ -251,9 +256,12 @@ class FillingSession:
         Determine if a fixture format should be generated in the current
         session.
 
-        Args: fixture_format: The fixture format to check.
+        Args:
+            fixture_format: The fixture format to check.
 
-        Returns: True if the format should be generated.
+        Returns:
+            True if the format should be generated.
+
         """
         return self.format_selector.should_generate(fixture_format)
 
@@ -261,12 +269,15 @@ class FillingSession:
         """
         Get a pre-allocation group by hash.
 
-        Args: hash_key: The hash of the pre-alloc group.
+        Args:
+            hash_key: The hash of the pre-alloc group.
 
-        Returns: The pre-allocation group.
+        Returns:
+            The pre-allocation group.
 
-        Raises: ValueError: If pre-alloc groups not initialized or hash not
-        found.
+        Raises:
+            ValueError: If pre-alloc groups not initialized or hash not found.
+
         """
         if self.pre_alloc_groups is None:
             raise ValueError("Pre-allocation groups not initialized")
@@ -285,10 +296,13 @@ class FillingSession:
         """
         Update or add a pre-allocation group.
 
-        Args: hash_key: The hash of the pre-alloc group. group: The
-        pre-allocation group.
+        Args:
+            hash_key: The hash of the pre-alloc group.
+            group: The pre-allocation group.
 
-        Raises: ValueError: If not in pre-alloc generation phase.
+        Raises:
+            ValueError: If not in pre-alloc generation phase.
+
         """
         if not self.phase_manager.is_pre_alloc_generation:
             raise ValueError("Can only update pre-alloc groups in generation phase")
@@ -311,7 +325,9 @@ class FillingSession:
         """
         Aggregate pre-alloc groups from a worker process (xdist support).
 
-        Args: worker_groups: Pre-alloc groups from a worker process.
+        Args:
+            worker_groups: Pre-alloc groups from a worker process.
+
         """
         if self.pre_alloc_groups is None:
             self.pre_alloc_groups = PreAllocGroups(root={})
@@ -343,10 +359,11 @@ def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
     - Were deleted during test execution (represented as None)
 
     Args:
-      post_state: Final state after test execution
-      genesis_state: Genesis pre-allocation state
+        post_state: Final state after test execution
+        genesis_state: Genesis pre-allocation state
 
-    Returns: Alloc containing only the state differences for efficient storage
+    Returns:
+        Alloc containing only the state differences for efficient storage
 
     """
     diff: Dict[Address, Account | None] = {}

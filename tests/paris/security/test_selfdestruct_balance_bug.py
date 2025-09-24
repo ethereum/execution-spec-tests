@@ -8,8 +8,8 @@ um/go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4).
 To reproduce the issue with this test case:
 
 1. Fill the test with the most recent geth evm version.
-2. Run the fixture
-    output within a vulnerable geth version: v1.9.20 > geth >= v1.9.4.
+2. Run the fixture output within a vulnerable geth version:
+    v1.9.20 > geth >= v1.9.4.
 """
 
 import pytest
@@ -48,10 +48,11 @@ def test_tx_selfdestruct_balance_bug(blockchain_test: BlockchainTestFiller, pre:
     5. Store the balance of `0xaa` after the second transaction is processed.
     No self-destruct. Expected outcome: 5 wei.
 
-    6. Verify that: - Call within tx 1 is successful, i.e `0xaa`
-    self-destructed. - The balances of `0xaa` after each tx are correct. -
-    During tx 2, code in `0xaa` does not execute, hence self-destruct mechanism
-    does not trigger.
+    6. Verify that:
+        - Call within tx 1 is successful, i.e `0xaa` self-destructed.
+        - The balances of `0xaa` after each tx are correct.
+        - During tx 2, code in `0xaa` does not execute,
+            hence self-destruct mechanism does not trigger.
 
     TODO: EOF - This test could be parametrized for EOFCREATE
     """

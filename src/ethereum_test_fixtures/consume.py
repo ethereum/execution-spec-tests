@@ -71,11 +71,13 @@ class TestCaseIndexFile(TestCaseBase):
 
     # TODO: add pytest marks
     """
-    ConsumerTypes = Literal["all", "direct", "rlp", "engine"] @classmethod def
-    _marks_default(cls): return {consumer_type: [] for consumer_type in
-    get_args(ConsumerTypes)} marks: Mapping[ConsumerTypes,
-    List[pytest.MarkDecorator]] = field( default_factory=lambda:
-    TestCase._marks_default() )
+    ConsumerTypes = Literal["all", "direct", "rlp", "engine"]
+    @classmethod
+    def _marks_default(cls):
+        return {consumer_type: [] for consumer_type in get_args(ConsumerTypes)}
+    marks: Mapping[ConsumerTypes, List[pytest.MarkDecorator]] = field(
+        default_factory=lambda: TestCase._marks_default()
+    )
     """
 
 

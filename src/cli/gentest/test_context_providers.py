@@ -89,8 +89,10 @@ class StateTestProvider(Provider):
         """
         Get the context for generating a blockchain test.
 
-        Returns: Dict[str, Any]: A dictionary containing environment,
-        pre-state, a transaction and its hash.
+        Returns:
+            Dict[str, Any]: A dictionary containing environment,
+                            pre-state, a transaction and its hash.
+
         """
         self._make_rpc_calls()
         return {

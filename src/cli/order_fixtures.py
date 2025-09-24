@@ -33,7 +33,8 @@ def recursive_sort(item: Dict[str, Any] | List[Any]) -> Dict[str, Any] | List[An
     Args:
       item: The item to be sorted. This can be a list or a dictionary.
 
-    Returns: The sorted item.
+    Returns:
+      The sorted item.
 
     """
     if isinstance(item, dict):
@@ -60,7 +61,8 @@ def order_fixture(input_path: Path, output_path: Path) -> None:
       input_path: The Path object of the input .json file.
       output_path: The Path object of the output .json file.
 
-    Returns: None.
+    Returns:
+        None.
 
     """
     with input_path.open("r") as f:
@@ -78,10 +80,13 @@ def process_directory(input_dir: Path, output_dir: Path):
     and writes the sorted .json files to the corresponding locations in the
     output directory.
 
-    Args: input_dir: The Path object of the input directory. output_dir: The
-    Path object of the output directory.
+    Args:
+        input_dir: The Path object of the input directory.
+        output_dir: The Path object of the output directory.
 
-    Returns: None.
+    Returns:
+        None.
+
     """
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
@@ -99,7 +104,7 @@ def process_directory(input_dir: Path, output_dir: Path):
     "input_dir",
     type=click.Path(exists=True, file_okay=False, dir_okay=True, readable=True),
     required=True,
-    help="The input directory",
+    help="input directory",
 )
 @click.option(
     "--output",

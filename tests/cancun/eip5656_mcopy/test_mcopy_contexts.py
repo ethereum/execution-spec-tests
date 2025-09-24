@@ -199,8 +199,9 @@ def test_no_memory_corruption_on_upper_create_stack_levels(
 ):
     """
     Perform a subcall with any of the following opcodes, which uses MCOPY
-    during its execution, and verify that the caller's memory is unaffected: -
-    `CREATE` - `CREATE2`.
+    during its execution, and verify that the caller's memory is unaffected:
+      - `CREATE`
+      - `CREATE2`.
 
     TODO: [EOF] Add EOFCREATE opcode
     """

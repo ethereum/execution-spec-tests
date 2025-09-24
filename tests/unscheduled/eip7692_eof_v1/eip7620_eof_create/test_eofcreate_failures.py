@@ -142,12 +142,6 @@ def test_initcode_aborts(
 
 
 """
-
-
-
-
-
-
 Size of the factory portion of test_eofcreate_deploy_sizes, but as the runtime
 code is dynamic, we have to use a pre-calculated size
 """
