@@ -10,7 +10,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🛠️ Framework
 
-- ✨ Add benchmark specify test wrapper (`benchmark_test`) that supports **EIP-7825** and create a benchmark code generator for common test pattern ([#1945](https://github.com/ethereum/execution-spec-tests/pull/1945)).
+- ✨ Add benchmark-specific test wrapper (`benchmark_test`) that supports **EIP-7825** and create a benchmark code generator for common test pattern ([#1945](https://github.com/ethereum/execution-spec-tests/pull/1945)).
 
 #### `fill`
 
