@@ -126,16 +126,16 @@ The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every ca
 ## Watch Mode for Development
 
 !!! tip "Development workflow"
-    Use `--watch` during test development to get immediate feedback on your changes without manually re-running the fill command.
+    Use `--watch` or `--watcherfall` during test development to get immediate feedback on your changes without manually re-running the fill command.
+
+### Standard Watch Mode (`--watch`)
 
 This will:
 
-1. Run the initial fill command
-2. Monitor all Python files in the `tests/` directory for changes
-3. Automatically re-run the fill command when changes are detected
-4. Clear the screen and show which files changed
-
-Handy for iterative test development:
+1. Run the initial fill command.
+2. Monitor all Python files in the `tests/` and `src/` directories for changes.
+3. Automatically re-run the fill command when changes are detected.
+4. Clear the screen and show which files changed.
 
 ```console
 uv run fill tests/amsterdam/eip7928_block_level_access_lists/test_block_access_lists.py --clean --until Amsterdam --watch
@@ -145,7 +145,29 @@ Watching for changes...
 
 ```
 
-Exit watch mode with Ctrl+C
+### Watcherfall Watch Mode (`--watcherfall`)
+
+!!! info "Watcherfall mode"
+    Like watch but it just keeps the logs keep flowing - perfect when you want to see the full history of runs without clearing the terminal.
+
+Same as `--watch` but without clearing the terminal between runs, so you can see the full output history:
+
+```console
+uv run fill tests/amsterdam/eip7928_block_level_access_lists/test_block_access_lists.py --clean --until Amsterdam --watcherfall
+Starting watcherfall mode (verbose)...
+✓ Fill completed
+
+Watching for changes...
+
+File changes detected, re-running...
+
+✓ Fill completed
+
+Watching for changes...
+
+```
+
+Exit either watch mode with Ctrl+C
 
 ## Other Useful Pytest Command-Line Options
 

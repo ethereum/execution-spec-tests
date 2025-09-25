@@ -12,17 +12,19 @@ from rich.console import Console
 class FileWatcher:
     """Simple file watcher that re-runs the fill command on changes."""
 
-    def __init__(self, console=None):
+    def __init__(self, console=None, verbose=False):
         """Initialize the file watcher."""
         self.console = console or Console(highlight=False)
+        self.verbose = verbose
 
     def run_with_watch(self, args):
         """Watch for file changes and re-run fill command."""
         file_mtimes: Dict[Path, float] = {}
 
         def get_file_mtimes():
-            """Get current modification times of all test files."""
+            """Get current modification times of all test and source files."""
             mtimes = {}
+            # Watch tests directory
             tests_dir = Path("tests")
             if tests_dir.exists():
                 for py_file in tests_dir.rglob("*.py"):
@@ -30,12 +32,19 @@ class FileWatcher:
                         mtimes[py_file] = py_file.stat().st_mtime
                     except (OSError, FileNotFoundError):
                         pass
+            # Watch src directory
+            src_dir = Path("src")
+            if src_dir.exists():
+                for py_file in src_dir.rglob("*.py"):
+                    try:
+                        mtimes[py_file] = py_file.stat().st_mtime
+                    except (OSError, FileNotFoundError):
+                        pass
             return mtimes
 
         def run_fill():
-            """Run fill command without --watch flag."""
-            clean_args = [arg for arg in args if arg != "--watch"]
-            cmd = ["uv", "run", "fill"] + clean_args
+            """Run fill command."""
+            cmd = ["uv", "run", "fill"] + args
             result = subprocess.run(cmd)
 
             if result.returncode == 0:
@@ -44,7 +53,8 @@ class FileWatcher:
                 self.console.print(f"[red]✗ Fill failed (exit {result.returncode})[/red]")
 
         # Setup
-        self.console.print("[blue]Starting watch mode...[/blue]")
+        mode_desc = "watcherfall mode (verbose)" if self.verbose else "watch mode"
+        self.console.print(f"[blue]Starting {mode_desc}...[/blue]")
         file_mtimes = get_file_mtimes()
 
         # Initial run
@@ -52,7 +62,10 @@ class FileWatcher:
         run_fill()
 
         file_count = len(file_mtimes)
-        self.console.print(f"[blue]Watching {file_count} files. Press Ctrl+C to stop.[/blue]")
+        self.console.print(
+            f"[blue]Watching {file_count} files in tests/ and src/ directories."
+            "Press Ctrl+C to stop.[/blue]"
+        )
 
         # Watch loop
         try:
@@ -61,7 +74,8 @@ class FileWatcher:
                 current_mtimes = get_file_mtimes()
 
                 if current_mtimes != file_mtimes:
-                    os.system("clear" if os.name != "nt" else "cls")
+                    if not self.verbose:
+                        os.system("clear" if os.name != "nt" else "cls")
                     self.console.print("[yellow]File changes detected, re-running...[/yellow]\n")
                     run_fill()
                     file_mtimes = current_mtimes

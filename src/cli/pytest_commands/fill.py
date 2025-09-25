@@ -177,8 +177,12 @@ class FillCommand(PytestCommand):
         return False
 
     def _is_watch_mode(self, args: List[str]) -> bool:
-        """Check if --watch flag is present in arguments."""
-        return "--watch" in args
+        """Check if any watch flag is present in arguments."""
+        return any(flag in args for flag in ["--watch", "--watcherfall"])
+
+    def _is_verbose_watch_mode(self, args: List[str]) -> bool:
+        """Check if verbose watch flag (--watcherfall) is present in arguments."""
+        return "--watcherfall" in args
 
     def execute(self, pytest_args: List[str]) -> None:
         """Execute the command with optional watch mode support."""
@@ -189,7 +193,8 @@ class FillCommand(PytestCommand):
 
     def _execute_with_watch(self, pytest_args: List[str]) -> None:
         """Execute fill command in watch mode."""
-        watcher = FileWatcher(console=self.runner.console)
+        verbose = self._is_verbose_watch_mode(pytest_args)
+        watcher = FileWatcher(console=self.runner.console, verbose=verbose)
         watcher.run_with_watch(pytest_args)
 
 
