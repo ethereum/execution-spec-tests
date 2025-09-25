@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_valid_gas_pairing"><code>test_valid_gas_pairing()</code><a class="headerlink" href="#test_valid_gas_pairing" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L540"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_valid_gas_pairing@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L560"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_valid_gas_pairing@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_valid_gas_pairing --fork Osaka</span>
@@ -27325,39 +27325,39 @@
 <a id="tests.prague.eip2537_bls_12_381_precompiles.test_bls12_variable_length_input_contracts.test_valid_gas_pairing"></a>
     <div class="doc doc-contents first">
 
-        <p>Test the BLS12_PAIRING precompile, by expecting the call to succeed for all possible input
-lengths (up to k == PAIRINGS_TO_TEST).</p>
+        <p>Test the BLS12_PAIRING precompile, by expecting the call to succeed for all
+possible input lengths (up to k == PAIRINGS_TO_TEST).</p>
 <p>If any of the calls fails, the test will fail.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">560</span>
 <span class="normal">561</span>
 <span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
-<span class="normal">565</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;precompile_gas_list,precompile_data_length_list&quot;</span><span class="p">,</span>
     <span class="n">get_split_discount_table_by_fork</span><span class="p">(</span><span class="n">PAIRING_GAS</span><span class="p">,</span> <span class="n">PAIRINGS_TO_TEST</span><span class="p">,</span> <span class="n">Spec</span><span class="o">.</span><span class="n">LEN_PER_PAIR</span><span class="p">),</span>
 <span class="p">)</span>
@@ -27372,8 +27372,8 @@ lengths (up to k == PAIRINGS_TO_TEST).</p>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test the BLS12_PAIRING precompile, by expecting the call to succeed for all possible input</span>
-<span class="sd">    lengths (up to k == PAIRINGS_TO_TEST).</span>
+<span class="sd">    Test the BLS12_PAIRING precompile, by expecting the call to succeed for all</span>
+<span class="sd">    possible input lengths (up to k == PAIRINGS_TO_TEST).</span>
 
 <span class="sd">    If any of the calls fails, the test will fail.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

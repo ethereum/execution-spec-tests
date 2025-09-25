@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tstore_clear_after_tx"><code>test_tstore_clear_after_tx()</code><a class="headerlink" href="#test_tstore_clear_after_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L77"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L74"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_tx --fork Osaka</span>
@@ -27325,14 +27325,17 @@
 <a id="tests.cancun.eip1153_tstore.test_tstorage_clear_after_tx.test_tstore_clear_after_tx"></a>
     <div class="doc doc-contents first">
 
-        <p>First SSTOREs the TLOAD value of key 1 in slot 1. Then, it TSTOREs 1 in slot 1.
-The second tx will re-call the contract. The storage should stay empty,
-because the transient storage is cleared after the transaction.</p>
+        <p>First SSTOREs the TLOAD value of key 1 in slot 1. Then, it TSTOREs 1 in
+slot 1. The second tx will re-call the contract. The storage should stay
+empty, because the transient storage is cleared after the transaction.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
 <span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
@@ -27361,19 +27364,16 @@ because the transient storage is cleared after the transaction.</p>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_tstore_clear_after_tx</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    First SSTOREs the TLOAD value of key 1 in slot 1. Then, it TSTOREs 1 in slot 1.</span>
-<span class="sd">    The second tx will re-call the contract. The storage should stay empty,</span>
-<span class="sd">    because the transient storage is cleared after the transaction.</span>
+<span class="sd">    First SSTOREs the TLOAD value of key 1 in slot 1. Then, it TSTOREs 1 in</span>
+<span class="sd">    slot 1. The second tx will re-call the contract. The storage should stay</span>
+<span class="sd">    empty, because the transient storage is cleared after the transaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 

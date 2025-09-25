@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_gas_diff_pointer_vs_direct_call"><code>test_gas_diff_pointer_vs_direct_call()</code><a class="headerlink" href="#test_gas_diff_pointer_vs_direct_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L496"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_gas_diff_pointer_vs_direct_call@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L508"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_gas_diff_pointer_vs_direct_call@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_gas_diff_pointer_vs_direct_call --fork Osaka</span>
@@ -27331,19 +27331,7 @@ Combine with AccessList and AuthTuple gas reductions scenarios.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">508</span>
 <span class="normal">509</span>
 <span class="normal">510</span>
 <span class="normal">511</span>
@@ -27554,7 +27542,19 @@ Combine with AccessList and AuthTuple gas reductions scenarios.</p>
 <span class="normal">716</span>
 <span class="normal">717</span>
 <span class="normal">718</span>
-<span class="normal">719</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;access_list_rule&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">AccessListCall</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>

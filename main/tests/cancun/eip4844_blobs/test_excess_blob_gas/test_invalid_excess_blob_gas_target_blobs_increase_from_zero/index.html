@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_excess_blob_gas_target_blobs_increase_from_zero"><code>test_invalid_excess_blob_gas_target_blobs_increase_from_zero()</code><a class="headerlink" href="#test_invalid_excess_blob_gas_target_blobs_increase_from_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L597"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_target_blobs_increase_from_zero@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L607"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_target_blobs_increase_from_zero@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_target_blobs_increase_from_zero --fork Osaka</span>
@@ -27332,17 +27332,7 @@ even when the included blobs are on or below target.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">607</span>
 <span class="normal">608</span>
 <span class="normal">609</span>
 <span class="normal">610</span>
@@ -27374,7 +27364,17 @@ even when the included blobs are on or below target.</p>
 <span class="normal">636</span>
 <span class="normal">637</span>
 <span class="normal">638</span>
-<span class="normal">639</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;header_excess_blobs_delta&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()),</span>
 <span class="p">)</span>

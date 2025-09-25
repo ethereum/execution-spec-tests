@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_mcopy_memory_expansion"><code>test_mcopy_memory_expansion()</code><a class="headerlink" href="#test_mcopy_memory_expansion" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py#L173"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_memory_expansion@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py#L174"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_memory_expansion@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_memory_expansion --fork Osaka</span>
@@ -27325,13 +27325,13 @@
 <a id="tests.cancun.eip5656_mcopy.test_mcopy_memory_expansion.test_mcopy_memory_expansion"></a>
     <div class="doc doc-contents first">
 
-        <p>Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.</p>
+        <p>Perform MCOPY operations that expand the memory, and verify the gas it
+costs to do so.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
-<span class="normal">174</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
@@ -27384,7 +27384,11 @@
 <span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
-<span class="normal">227</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;dest,src,length&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">),</span>
@@ -27432,7 +27436,10 @@
     <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform MCOPY operations that expand the memory, and verify the gas it</span>
+<span class="sd">    costs to do so.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

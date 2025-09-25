@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_callvalue"><code>test_worst_callvalue()</code><a class="headerlink" href="#test_worst_callvalue" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L148"><code>tests/benchmark/test_worst_compute.py::test_worst_callvalue@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L145"><code>tests/benchmark/test_worst_compute.py::test_worst_callvalue@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_callvalue -m benchmark</span>
@@ -27324,14 +27324,17 @@
     <div class="doc doc-contents first">
 
         <p>Test running a block with as many CALLVALUE opcodes as possible.</p>
-<p>The <code>non_zero_value</code> parameter controls whether opcode must return non-zero value.
-The <code>from_origin</code> parameter controls whether the call frame is the immediate from the
-transaction or a previous CALL.</p>
+<p>The <code>non_zero_value</code> parameter controls whether opcode must return non-zero
+value. The <code>from_origin</code> parameter controls whether the call frame is the
+immediate from the transaction or a previous CALL.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
@@ -27376,10 +27379,7 @@ transaction or a previous CALL.</p>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;non_zero_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;non_zero_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;from_origin&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_callvalue</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -27392,9 +27392,9 @@ transaction or a previous CALL.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test running a block with as many CALLVALUE opcodes as possible.</span>
 
-<span class="sd">    The `non_zero_value` parameter controls whether opcode must return non-zero value.</span>
-<span class="sd">    The `from_origin` parameter controls whether the call frame is the immediate from the</span>
-<span class="sd">    transaction or a previous CALL.</span>
+<span class="sd">    The `non_zero_value` parameter controls whether opcode must return non-zero</span>
+<span class="sd">    value. The `from_origin` parameter controls whether the call frame is the</span>
+<span class="sd">    immediate from the transaction or a previous CALL.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 

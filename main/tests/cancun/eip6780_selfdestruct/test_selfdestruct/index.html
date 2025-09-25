@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-selfdestruct">Test SELFDESTRUCT<a class="headerlink" href="#test-selfdestruct" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L128"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L131"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py --fork Osaka</span>
@@ -27265,12 +27265,9 @@
 <a id="tests.cancun.eip6780_selfdestruct.test_selfdestruct"></a>
     <div class="doc doc-contents first">
 
+        <p>SELFDESTRUCT only in same transaction tests.</p>
+<p>Tests for <a href="https://eips.ethereum.org/EIPS/eip-6780">EIP-6780: SELFDESTRUCT only in same transaction</a>.</p>
 
-
-<details class="abstract" open>
-  <summary>Tests <a href="https://eips.ethereum.org/EIPS/eip-6780">EIP-6780: SELFDESTRUCT only in same transaction</a></summary>
-  <p>Tests for <a href="https://eips.ethereum.org/EIPS/eip-6780">EIP-6780: SELFDESTRUCT only in same transaction</a>.</p>
-</details>
 
 
 
@@ -27304,7 +27301,7 @@
 <td><a href="test_create_selfdestruct_same_tx/"><code>test_create_selfdestruct_same_tx</code></a></td>
 <td>state_test</td>
 <td>36</td>
-<td>Use CREATE or CREATE2 to create a self-destructing contract, and call it in the same</td>
+<td>Use CREATE or CREATE2 to create a self-destructing contract, and call it in</td>
 </tr>
 <tr>
 <td><a href="test_self_destructing_initcode/"><code>test_self_destructing_initcode</code></a></td>
@@ -27322,37 +27319,37 @@
 <td><a href="test_recreate_self_destructed_contract_different_txs/"><code>test_recreate_self_destructed_contract_different_txs</code></a></td>
 <td>blockchain_test</td>
 <td>4</td>
-<td>Test that a contract can be recreated after it has self-destructed, over the lapse</td>
+<td>Test that a contract can be recreated after it has self-destructed, over</td>
 </tr>
 <tr>
 <td><a href="test_selfdestruct_pre_existing/"><code>test_selfdestruct_pre_existing</code></a></td>
 <td>state_test</td>
 <td>18</td>
-<td>Test calling a previously created account that contains a selfdestruct, and verify its balance</td>
+<td>Test calling a previously created account that contains a selfdestruct, and</td>
 </tr>
 <tr>
 <td><a href="test_selfdestruct_created_same_block_different_tx/"><code>test_selfdestruct_created_same_block_different_tx</code></a></td>
 <td>blockchain_test</td>
 <td>4</td>
-<td>Test that if an account created in the same block that contains a selfdestruct is</td>
+<td>Test that if an account created in the same block that contains a</td>
 </tr>
 <tr>
 <td><a href="test_calling_from_new_contract_to_pre_existing_contract/"><code>test_calling_from_new_contract_to_pre_existing_contract</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test that if an account created in the current transaction delegate-call a previously created</td>
+<td>Test that if an account created in the current transaction delegate-call a</td>
 </tr>
 <tr>
 <td><a href="test_calling_from_pre_existing_contract_to_new_contract/"><code>test_calling_from_pre_existing_contract_to_new_contract</code></a></td>
 <td>state_test</td>
 <td>16</td>
-<td>Test that if an account created in the current transaction contains a self-destruct and is</td>
+<td>Test that if an account created in the current transaction contains a</td>
 </tr>
 <tr>
 <td><a href="test_create_selfdestruct_same_tx_increased_nonce/"><code>test_create_selfdestruct_same_tx_increased_nonce</code></a></td>
 <td>state_test</td>
 <td>8</td>
-<td>Verify that a contract can self-destruct if it was created in the same transaction, even when</td>
+<td>Verify that a contract can self-destruct if it was created in the same</td>
 </tr>
 </tbody>
 </table>

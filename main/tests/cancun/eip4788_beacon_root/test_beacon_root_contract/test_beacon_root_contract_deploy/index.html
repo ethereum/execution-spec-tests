@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_beacon_root_contract_deploy"><code>test_beacon_root_contract_deploy()</code><a class="headerlink" href="#test_beacon_root_contract_deploy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L682"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L705"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy --fork Osaka</span>
@@ -27325,36 +27325,13 @@
 <a id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_deploy"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests the fork transition to cancun deploying the contract during Shanghai and verifying the
-code deployed and its functionality after Cancun.</p>
+        <p>Tests the fork transition to cancun deploying the contract during Shanghai
+and verifying the code deployed and its functionality after Cancun.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span>
 <span class="normal">708</span>
@@ -27480,7 +27457,33 @@ code deployed and its functionality after Cancun.</p>
 <span class="normal">828</span>
 <span class="normal">829</span>
 <span class="normal">830</span>
-<span class="normal">831</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span>
+<span class="normal">846</span>
+<span class="normal">847</span>
+<span class="normal">848</span>
+<span class="normal">849</span>
+<span class="normal">850</span>
+<span class="normal">851</span>
+<span class="normal">852</span>
+<span class="normal">853</span>
+<span class="normal">854</span>
+<span class="normal">855</span>
+<span class="normal">856</span>
+<span class="normal">857</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">15_000</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deploy_on_shanghai&quot;</span><span class="p">),</span>
@@ -27505,8 +27508,8 @@ code deployed and its functionality after Cancun.</p>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the fork transition to cancun deploying the contract during Shanghai and verifying the</span>
-<span class="sd">    code deployed and its functionality after Cancun.</span>
+<span class="sd">    Tests the fork transition to cancun deploying the contract during Shanghai</span>
+<span class="sd">    and verifying the code deployed and its functionality after Cancun.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
     <span class="n">tx_gas_limit</span> <span class="o">=</span> <span class="mh">0x3D090</span>
@@ -27547,7 +27550,8 @@ code deployed and its functionality after Cancun.</p>
                     <span class="p">),</span>
                     <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
                     <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
-                        <span class="c1"># Also withdraw to the beacon root contract and the system address</span>
+                        <span class="c1"># Also withdraw to the beacon root contract and the</span>
+                        <span class="c1"># system address</span>
                         <span class="n">Withdrawal</span><span class="p">(</span>
                             <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -27574,7 +27578,8 @@ code deployed and its functionality after Cancun.</p>
                     <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span>
                     <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
                     <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
-                        <span class="c1"># Also withdraw to the beacon root contract and the system address</span>
+                        <span class="c1"># Also withdraw to the beacon root contract and the</span>
+                        <span class="c1"># system address</span>
                         <span class="n">Withdrawal</span><span class="p">(</span>
                             <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">,</span>
                             <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -27601,7 +27606,8 @@ code deployed and its functionality after Cancun.</p>
 
     <span class="n">expected_code</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()[</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">][</span><span class="s2">&quot;code&quot;</span><span class="p">]</span>
     <span class="n">pre</span><span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
-        <span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># Remove the code that is automatically allocated on Cancun fork</span>
+        <span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># Remove the code that is automatically allocated on Cancun</span>
+        <span class="c1"># fork</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>

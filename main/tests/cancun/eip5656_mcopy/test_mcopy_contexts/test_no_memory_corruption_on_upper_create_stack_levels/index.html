@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_no_memory_corruption_on_upper_create_stack_levels"><code>test_no_memory_corruption_on_upper_create_stack_levels()</code><a class="headerlink" href="#test_no_memory_corruption_on_upper_create_stack_levels" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py#L185"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py#L186"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels --fork Osaka</span>
@@ -27325,8 +27325,8 @@
 <a id="tests.cancun.eip5656_mcopy.test_mcopy_contexts.test_no_memory_corruption_on_upper_create_stack_levels"></a>
     <div class="doc doc-contents first">
 
-        <p>Perform a subcall with any of the following opcodes, which uses MCOPY during its execution,
-and verify that the caller's memory is unaffected:
+        <p>Perform a subcall with any of the following opcodes, which uses MCOPY
+during its execution, and verify that the caller's memory is unaffected:
   - <code>CREATE</code>
   - <code>CREATE2</code>.</p>
 <p>TODO: [EOF] Add EOFCREATE opcode</p>
@@ -27334,8 +27334,7 @@ and verify that the caller's memory is unaffected:
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
-<span class="normal">186</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
@@ -27361,7 +27360,8 @@ and verify that the caller's memory is unaffected:
 <span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
-<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">212</span>
+<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
@@ -27376,8 +27376,8 @@ and verify that the caller's memory is unaffected:
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Perform a subcall with any of the following opcodes, which uses MCOPY during its execution,</span>
-<span class="sd">    and verify that the caller&#39;s memory is unaffected:</span>
+<span class="sd">    Perform a subcall with any of the following opcodes, which uses MCOPY</span>
+<span class="sd">    during its execution, and verify that the caller&#39;s memory is unaffected:</span>
 <span class="sd">      - `CREATE`</span>
 <span class="sd">      - `CREATE2`.</span>
 

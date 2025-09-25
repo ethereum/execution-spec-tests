@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_self_sponsored_set_code"><code>test_self_sponsored_set_code()</code><a class="headerlink" href="#test_self_sponsored_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L67"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_self_sponsored_set_code@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L69"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_self_sponsored_set_code@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_self_sponsored_set_code --fork Osaka</span>
@@ -27326,18 +27326,16 @@
     <div class="doc doc-contents first">
 
         <p>Test the executing a self-sponsored set-code transaction.</p>
-<p>The transaction is sent to the sender, and the sender is the signer of the only authorization
-tuple in the authorization list.</p>
-<p>The authorization tuple has a nonce of 1 because the self-sponsored transaction increases the
-nonce of the sender from zero to one first.</p>
+<p>The transaction is sent to the sender, and the sender is the signer of the
+only authorization tuple in the authorization list.</p>
+<p>The authorization tuple has a nonce of 1 because the self-sponsored
+transaction increases the nonce of the sender from zero to one first.</p>
 <p>The expected nonce at the end of the transaction is 2.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
 <span class="normal"> 72</span>
@@ -27406,7 +27404,9 @@ nonce of the sender from zero to one first.</p>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_value&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
 <span class="p">)</span>
@@ -27430,11 +27430,11 @@ nonce of the sender from zero to one first.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test the executing a self-sponsored set-code transaction.</span>
 
-<span class="sd">    The transaction is sent to the sender, and the sender is the signer of the only authorization</span>
-<span class="sd">    tuple in the authorization list.</span>
+<span class="sd">    The transaction is sent to the sender, and the sender is the signer of the</span>
+<span class="sd">    only authorization tuple in the authorization list.</span>
 
-<span class="sd">    The authorization tuple has a nonce of 1 because the self-sponsored transaction increases the</span>
-<span class="sd">    nonce of the sender from zero to one first.</span>
+<span class="sd">    The authorization tuple has a nonce of 1 because the self-sponsored</span>
+<span class="sd">    transaction increases the nonce of the sender from zero to one first.</span>
 
 <span class="sd">    The expected nonce at the end of the transaction is 2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blobbasefee_before_fork"><code>test_blobbasefee_before_fork()</code><a class="headerlink" href="#test_blobbasefee_before_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py#L149"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_before_fork@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py#L158"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_before_fork@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_before_fork --fork Osaka</span>
@@ -27325,21 +27325,13 @@
 <a id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_before_fork"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests that the BLOBBASEFEE opcode results on exception when called before the fork.</p>
+        <p>Tests that the BLOBBASEFEE opcode results on exception when called before
+the fork.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
@@ -27357,7 +27349,19 @@
 <span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;caller_pre_storage&quot;</span><span class="p">,</span> <span class="p">[{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;caller_pre_storage&quot;</span><span class="p">,</span> <span class="p">[{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">}],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_blobbasefee_before_fork</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -27366,7 +27370,10 @@
     <span class="n">callee_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests that the BLOBBASEFEE opcode results on exception when called before the fork.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests that the BLOBBASEFEE opcode results on exception when called before</span>
+<span class="sd">    the fork.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Fork happens at timestamp 15_000</span>
     <span class="n">timestamp</span> <span class="o">=</span> <span class="mi">7_500</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>

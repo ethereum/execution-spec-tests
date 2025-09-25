@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_selfdestruct_pre_existing"><code>test_selfdestruct_pre_existing()</code><a class="headerlink" href="#test_selfdestruct_pre_existing" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L602"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L620"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing --fork Osaka</span>
@@ -27325,41 +27325,20 @@
 <a id="tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_selfdestruct_pre_existing"></a>
     <div class="doc doc-contents first">
 
-        <p>Test calling a previously created account that contains a selfdestruct, and verify its balance
-is sent to the destination address.</p>
-<p>After EIP-6780, the balance should be sent to the send-all recipient address, similar to
-the behavior before the EIP, but the account is not deleted.</p>
+        <p>Test calling a previously created account that contains a selfdestruct, and
+verify its balance is sent to the destination address.</p>
+<p>After EIP-6780, the balance should be sent to the send-all recipient
+address, similar to the behavior before the EIP, but the account is not
+deleted.</p>
+<p>Test using:
+- Different send-all recipient addresses: single, multiple,
+   including self
+- Different initial balances for the self-destructing contract</p>
 
-
-<details class="test-using" open>
-  <summary>Test using</summary>
-  <ul>
-<li>Different send-all recipient addresses: single, multiple, including self</li>
-<li>Different initial balances for the self-destructing contract</li>
-</ul>
-</details>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">620</span>
 <span class="normal">621</span>
 <span class="normal">622</span>
 <span class="normal">623</span>
@@ -27513,7 +27492,28 @@ the behavior before the EIP, but the account is not deleted.</p>
 <span class="normal">771</span>
 <span class="normal">772</span>
 <span class="normal">773</span>
-<span class="normal">774</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
+<span class="normal">786</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_times,sendall_recipient_addresses&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27577,15 +27577,17 @@ the behavior before the EIP, but the account is not deleted.</p>
     <span class="n">call_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test calling a previously created account that contains a selfdestruct, and verify its balance</span>
-<span class="sd">    is sent to the destination address.</span>
+<span class="sd">    Test calling a previously created account that contains a selfdestruct, and</span>
+<span class="sd">    verify its balance is sent to the destination address.</span>
 
-<span class="sd">    After EIP-6780, the balance should be sent to the send-all recipient address, similar to</span>
-<span class="sd">    the behavior before the EIP, but the account is not deleted.</span>
+<span class="sd">    After EIP-6780, the balance should be sent to the send-all recipient</span>
+<span class="sd">    address, similar to the behavior before the EIP, but the account is not</span>
+<span class="sd">    deleted.</span>
 
 <span class="sd">    Test using:</span>
-<span class="sd">        - Different send-all recipient addresses: single, multiple, including self</span>
-<span class="sd">        - Different initial balances for the self-destructing contract</span>
+<span class="sd">    - Different send-all recipient addresses: single, multiple,</span>
+<span class="sd">       including self</span>
+<span class="sd">    - Different initial balances for the self-destructing contract</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">selfdestruct_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
         <span class="n">selfdestruct_code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="n">selfdestruct_contract_initial_balance</span>
@@ -27602,12 +27604,12 @@ the behavior before the EIP, but the account is not deleted.</p>
     <span class="p">)</span>
     <span class="n">selfdestruct_contract_current_balance</span> <span class="o">=</span> <span class="n">selfdestruct_contract_initial_balance</span>
 
-    <span class="c1"># Entry code in this case will simply call the pre-existing self-destructing contract,</span>
-    <span class="c1"># as many times as required</span>
+    <span class="c1"># Entry code in this case will simply call the pre-existing self-</span>
+    <span class="c1"># destructing contract, as many times as required</span>
     <span class="n">entry_code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
 
-    <span class="c1"># Call the self-destructing contract multiple times as required, increasing the wei sent each</span>
-    <span class="c1"># time</span>
+    <span class="c1"># Call the self-destructing contract multiple times as required, increasing</span>
+    <span class="c1"># the wei sent each time</span>
     <span class="n">entry_code_balance</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sendall_recipient</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">call_times</span><span class="p">),</span> <span class="n">cycle</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">)):</span>
         <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sendall_recipient</span><span class="p">)</span>
@@ -27630,8 +27632,9 @@ the behavior before the EIP, but the account is not deleted.</p>
         <span class="k">if</span> <span class="n">sendall_recipient</span> <span class="o">!=</span> <span class="n">selfdestruct_contract_address</span><span class="p">:</span>
             <span class="n">sendall_final_balances</span><span class="p">[</span><span class="n">sendall_recipient</span><span class="p">]</span> <span class="o">+=</span> <span class="n">selfdestruct_contract_current_balance</span>
 
-        <span class="c1"># Balance is only kept by the self-destructing contract if we are sending to self and the</span>
-        <span class="c1"># EIP is activated, otherwise the balance is destroyed</span>
+        <span class="c1"># Balance is only kept by the self-destructing contract if we are</span>
+        <span class="c1"># sending to self and the EIP is activated, otherwise the balance is</span>
+        <span class="c1"># destroyed</span>
         <span class="k">if</span> <span class="n">sendall_recipient</span> <span class="o">!=</span> <span class="n">selfdestruct_contract_address</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">eip_enabled</span><span class="p">:</span>
             <span class="n">selfdestruct_contract_current_balance</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -27651,8 +27654,8 @@ the behavior before the EIP, but the account is not deleted.</p>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="c1"># Lastly return zero so the entry point contract is created and we can retain the stored</span>
-    <span class="c1"># values for verification.</span>
+    <span class="c1"># Lastly return zero so the entry point contract is created and we can</span>
+    <span class="c1"># retain the stored values for verification.</span>
     <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

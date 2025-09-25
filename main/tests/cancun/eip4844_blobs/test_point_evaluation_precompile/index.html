@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-point-evaluation-precompile">Test Point Evaluation Precompile<a class="headerlink" href="#test-point-evaluation-precompile" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L267"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L268"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py --fork Osaka</span>
@@ -27265,36 +27265,29 @@
 <a id="tests.cancun.eip4844_blobs.test_point_evaluation_precompile"></a>
     <div class="doc doc-contents first">
 
-
-
-<details class="abstract" open>
-  <summary>Tests point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a></summary>
-  <p>Test point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
-</details>
-
-<details class="note" open>
-  <summary>Adding a new test</summary>
-  <p>Add a function that is named <code>test_&lt;test_name&gt;</code> and takes at least the following arguments:</p>
+        <p>Tests point evaluation precompile for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
+<p>Note: Adding a new test Add a function that is named <code>test_&lt;test_name&gt;</code> and
+takes at least the following arguments.</p>
+<p>Required arguments:
+- <code>blockchain_test</code> or <code>state_test</code>
+- <code>pre</code>
+- <code>tx</code>
+- <code>post</code></p>
+<p>The following arguments <em>need</em> to be parametrized or the test will not be
+generated:</p>
 <ul>
-<li>blockchain_test | state_test</li>
-<li>pre</li>
-<li>tx</li>
-<li>post</li>
+<li><code>versioned_hash</code></li>
+<li><code>kzg_commitment</code></li>
+<li><code>z</code></li>
+<li><code>y</code></li>
+<li><code>kzg_proof</code></li>
+<li><code>result</code></li>
 </ul>
-<p>The following arguments <em>need</em> to be parametrized or the test will not be generated:</p>
-<ul>
-<li>versioned_hash</li>
-<li>kzg_commitment</li>
-<li>z</li>
-<li>y</li>
-<li>kzg_proof</li>
-<li>result</li>
-</ul>
-<p>These values correspond to a single call of the precompile, and <code>result</code> refers to
-whether the call should succeed or fail.</p>
-<p>All other <code>pytest.fixture</code> fixtures can be parametrized to generate new combinations and test
-cases.</p>
-</details>
+<p>These values correspond to a single call of the precompile, and <code>result</code>
+refers to whether the call should succeed or fail.</p>
+<p>All other <code>pytest.fixture</code> fixtures can be parametrized to generate new
+combinations and test cases.</p>
+
 
 
 
@@ -27340,7 +27333,7 @@ cases.</p>
 <td><a href="test_external_vectors/"><code>test_external_vectors</code></a></td>
 <td>state_test</td>
 <td>122</td>
-<td>Test precompile calls using external test vectors compiled from different sources.</td>
+<td>Test precompile calls using external test vectors compiled from different</td>
 </tr>
 <tr>
 <td><a href="test_call_opcode_types/"><code>test_call_opcode_types</code></a></td>
@@ -27352,7 +27345,7 @@ cases.</p>
 <td><a href="test_tx_entry_point/"><code>test_tx_entry_point</code></a></td>
 <td>state_test</td>
 <td>6</td>
-<td>Test calling the Point Evaluation Precompile directly as</td>
+<td>Test calling the Point Evaluation Precompile directly as transaction entry</td>
 </tr>
 <tr>
 <td><a href="test_precompile_before_fork/"><code>test_precompile_before_fork</code></a></td>

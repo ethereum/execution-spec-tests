@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_precompiles"><code>test_precompiles()</code><a class="headerlink" href="#test_precompiles" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/precompiles/test_precompiles.py#L42"><code>tests/frontier/precompiles/test_precompiles.py::test_precompiles@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/precompiles/test_precompiles.py#L44"><code>tests/frontier/precompiles/test_precompiles.py::test_precompiles@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/precompiles/test_precompiles.py::test_precompiles --fork Osaka</span>
@@ -27348,7 +27348,8 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The state test filler object used to run the test.</p>
+                <p>The state test filler object used to
+                            run the test.</p>
               </div>
             </td>
             <td>
@@ -27380,8 +27381,8 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A flag indicating whether the precompiled contract exists at the
-given address.</p>
+                <p>A flag indicating whether the precompiled
+                        contract exists at the given address.</p>
               </div>
             </td>
             <td>
@@ -27397,8 +27398,8 @@ given address.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The allocation object used to deploy the contract and set up the initial
-state.</p>
+                <p>The allocation object used to deploy the contract and
+           set up the initial state.</p>
               </div>
             </td>
             <td>
@@ -27407,17 +27408,16 @@ state.</p>
           </tr>
       </tbody>
     </table>
-        <p>This test deploys a contract that performs two CALL operations to the specified address and a
-fixed address (0x10000), measuring the gas used for each call. It then stores the difference
-in gas usage in storage slot 0. The test verifies the expected storage value based on
-whether the precompiled contract exists at the given address.</p>
+        <p>This test deploys a contract that performs two CALL operations to the
+specified address and a fixed address (0x10000), measuring the gas used for
+each call. It then stores the difference in gas usage in storage slot 0.
+The test verifies the expected storage value based on whether the
+precompiled contract exists at the given address.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/precompiles/test_precompiles.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 44</span>
 <span class="normal"> 45</span>
 <span class="normal"> 46</span>
 <span class="normal"> 47</span>
@@ -27506,7 +27506,11 @@ whether the precompiled contract exists at the given address.</p>
 <span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
-<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/idPrecompsFiller.yml&quot;</span>
     <span class="p">],</span>
@@ -27527,17 +27531,19 @@ whether the precompiled contract exists at the given address.</p>
 <span class="sd">    Tests the behavior of precompiled contracts in the Ethereum state test.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        state_test (StateTestFiller): The state test filler object used to run the test.</span>
-<span class="sd">        address (str): The address of the precompiled contract to test.</span>
-<span class="sd">        precompile_exists (bool): A flag indicating whether the precompiled contract exists at the</span>
-<span class="sd">            given address.</span>
-<span class="sd">        pre (Alloc): The allocation object used to deploy the contract and set up the initial</span>
-<span class="sd">            state.</span>
+<span class="sd">      state_test (StateTestFiller): The state test filler object used to</span>
+<span class="sd">                                    run the test.</span>
+<span class="sd">      address (str): The address of the precompiled contract to test.</span>
+<span class="sd">      precompile_exists (bool): A flag indicating whether the precompiled</span>
+<span class="sd">                                contract exists at the given address.</span>
+<span class="sd">      pre (Alloc): The allocation object used to deploy the contract and</span>
+<span class="sd">                   set up the initial state.</span>
 
-<span class="sd">    This test deploys a contract that performs two CALL operations to the specified address and a</span>
-<span class="sd">    fixed address (0x10000), measuring the gas used for each call. It then stores the difference</span>
-<span class="sd">    in gas usage in storage slot 0. The test verifies the expected storage value based on</span>
-<span class="sd">    whether the precompiled contract exists at the given address.</span>
+<span class="sd">    This test deploys a contract that performs two CALL operations to the</span>
+<span class="sd">    specified address and a fixed address (0x10000), measuring the gas used for</span>
+<span class="sd">    each call. It then stores the difference in gas usage in storage slot 0.</span>
+<span class="sd">    The test verifies the expected storage value based on whether the</span>
+<span class="sd">    precompiled contract exists at the given address.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>

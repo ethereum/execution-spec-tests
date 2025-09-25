@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_correct_decreasing_blob_gas_costs"><code>test_correct_decreasing_blob_gas_costs()</code><a class="headerlink" href="#test_correct_decreasing_blob_gas_costs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L387"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_decreasing_blob_gas_costs@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L395"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_decreasing_blob_gas_costs@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_decreasing_blob_gas_costs --fork Osaka</span>
@@ -27325,22 +27325,14 @@
 <a id="tests.cancun.eip4844_blobs.test_excess_blob_gas.test_correct_decreasing_blob_gas_costs"></a>
     <div class="doc doc-contents first">
 
-        <p>Test calculation of the <code>excessBlobGas</code> and blob gas tx costs at
-value points where the cost decreases to interesting amounts.</p>
+        <p>Test calculation of the <code>excessBlobGas</code> and blob gas tx costs at value
+points where the cost decreases to interesting amounts.</p>
 <p>See test_correct_increasing_blob_gas_costs.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
 <span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
@@ -27361,7 +27353,15 @@ value points where the cost decreases to interesting amounts.</p>
 <span class="normal">413</span>
 <span class="normal">414</span>
 <span class="normal">415</span>
-<span class="normal">416</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
     <span class="n">generate_blob_gas_cost_increases_tests</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
 <span class="p">)</span>
@@ -27379,8 +27379,8 @@ value points where the cost decreases to interesting amounts.</p>
     <span class="n">correct_excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test calculation of the `excessBlobGas` and blob gas tx costs at</span>
-<span class="sd">    value points where the cost decreases to interesting amounts.</span>
+<span class="sd">    Test calculation of the `excessBlobGas` and blob gas tx costs at value</span>
+<span class="sd">    points where the cost decreases to interesting amounts.</span>
 
 <span class="sd">    See test_correct_increasing_blob_gas_costs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_calldatasize"><code>test_calldatasize()</code><a class="headerlink" href="#test_calldatasize" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/opcodes/test_calldatasize.py#L11"><code>tests/frontier/opcodes/test_calldatasize.py::test_calldatasize@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/opcodes/test_calldatasize.py#L11"><code>tests/frontier/opcodes/test_calldatasize.py::test_calldatasize@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_calldatasize.py::test_calldatasize --fork Osaka</span>
@@ -27327,9 +27327,14 @@
 
         <p>Test <code>CALLDATASIZE</code> opcode.</p>
 <p>Tests two scenarios:
-- calldata_source is "contract": CALLDATASIZE reads from calldata passed by another contract
-- calldata_source is "tx": CALLDATASIZE reads directly from transaction calldata</p>
-<p>Based on <a href="https://github.com/ethereum/tests/blob/81862e4848585a438d64f911a19b3825f0f4cd95/src/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml">https://github.com/ethereum/tests/blob/81862e4848585a438d64f911a19b3825f0f4cd95/src/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml</a></p>
+- calldata_source is "contract": CALLDATASIZE reads from calldata
+                                 passed by another contract
+- calldata_source is "tx": CALLDATASIZE reads directly from
+                           transaction calldata</p>
+<p>Based on
+<a href="https://github.com/ethereum/tests/blob/">https://github.com/ethereum/tests/blob/</a>
+<a class="magiclink magiclink-github magiclink-commit" href="https://github.com/ethereum/execution-spec-tests/commit/81862e4848585a438d64f911a19b3825f0f4cd95" title="GitHub Commit: ethereum/execution-spec-tests@81862e4">81862e4</a>/src/
+GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml</p>
 
 
             <details class="quote">
@@ -27397,7 +27402,12 @@
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml&quot;</span><span class="p">,</span>
     <span class="p">],</span>
@@ -27419,10 +27429,15 @@
 <span class="sd">    Test `CALLDATASIZE` opcode.</span>
 
 <span class="sd">    Tests two scenarios:</span>
-<span class="sd">    - calldata_source is &quot;contract&quot;: CALLDATASIZE reads from calldata passed by another contract</span>
-<span class="sd">    - calldata_source is &quot;tx&quot;: CALLDATASIZE reads directly from transaction calldata</span>
+<span class="sd">    - calldata_source is &quot;contract&quot;: CALLDATASIZE reads from calldata</span>
+<span class="sd">                                     passed by another contract</span>
+<span class="sd">    - calldata_source is &quot;tx&quot;: CALLDATASIZE reads directly from</span>
+<span class="sd">                               transaction calldata</span>
 
-<span class="sd">    Based on https://github.com/ethereum/tests/blob/81862e4848585a438d64f911a19b3825f0f4cd95/src/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml</span>
+<span class="sd">    Based on</span>
+<span class="sd">    https://github.com/ethereum/tests/blob/</span>
+<span class="sd">    81862e4848585a438d64f911a19b3825f0f4cd95/src/</span>
+<span class="sd">    GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">))</span>
     <span class="n">calldata</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x01</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="n">args_size</span>

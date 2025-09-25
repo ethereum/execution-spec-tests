@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blob_tx_attribute_opcodes"><code>test_blob_tx_attribute_opcodes()</code><a class="headerlink" href="#test_blob_tx_attribute_opcodes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blob_txs.py#L1117"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blob_txs.py#L1141"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes --fork Osaka</span>
@@ -27325,7 +27325,8 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_opcodes"></a>
     <div class="doc doc-contents first">
 
-        <p>Test opcodes that read transaction attributes work properly for blob type transactions.</p>
+        <p>Test opcodes that read transaction attributes work properly for blob type
+transactions.</p>
 <ul>
 <li>ORIGIN</li>
 <li>CALLER</li>
@@ -27334,31 +27335,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1117</span>
-<span class="normal">1118</span>
-<span class="normal">1119</span>
-<span class="normal">1120</span>
-<span class="normal">1121</span>
-<span class="normal">1122</span>
-<span class="normal">1123</span>
-<span class="normal">1124</span>
-<span class="normal">1125</span>
-<span class="normal">1126</span>
-<span class="normal">1127</span>
-<span class="normal">1128</span>
-<span class="normal">1129</span>
-<span class="normal">1130</span>
-<span class="normal">1131</span>
-<span class="normal">1132</span>
-<span class="normal">1133</span>
-<span class="normal">1134</span>
-<span class="normal">1135</span>
-<span class="normal">1136</span>
-<span class="normal">1137</span>
-<span class="normal">1138</span>
-<span class="normal">1139</span>
-<span class="normal">1140</span>
-<span class="normal">1141</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1141</span>
 <span class="normal">1142</span>
 <span class="normal">1143</span>
 <span class="normal">1144</span>
@@ -27387,7 +27364,32 @@
 <span class="normal">1167</span>
 <span class="normal">1168</span>
 <span class="normal">1169</span>
-<span class="normal">1170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1170</span>
+<span class="normal">1171</span>
+<span class="normal">1172</span>
+<span class="normal">1173</span>
+<span class="normal">1174</span>
+<span class="normal">1175</span>
+<span class="normal">1176</span>
+<span class="normal">1177</span>
+<span class="normal">1178</span>
+<span class="normal">1179</span>
+<span class="normal">1180</span>
+<span class="normal">1181</span>
+<span class="normal">1182</span>
+<span class="normal">1183</span>
+<span class="normal">1184</span>
+<span class="normal">1185</span>
+<span class="normal">1186</span>
+<span class="normal">1187</span>
+<span class="normal">1188</span>
+<span class="normal">1189</span>
+<span class="normal">1190</span>
+<span class="normal">1191</span>
+<span class="normal">1192</span>
+<span class="normal">1193</span>
+<span class="normal">1194</span>
+<span class="normal">1195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">],</span>
     <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">],</span>
@@ -27410,7 +27412,8 @@
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test opcodes that read transaction attributes work properly for blob type transactions.</span>
+<span class="sd">    Test opcodes that read transaction attributes work properly for blob type</span>
+<span class="sd">    transactions.</span>
 
 <span class="sd">    - ORIGIN</span>
 <span class="sd">    - CALLER</span>

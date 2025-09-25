@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_beacon_root_contract_timestamps"><code>test_beacon_root_contract_timestamps()</code><a class="headerlink" href="#test_beacon_root_contract_timestamps" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L105"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_timestamps@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L109"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_timestamps@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_timestamps --fork Osaka</span>
@@ -27325,19 +27325,16 @@
 <a id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_timestamps"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests the beacon root contract call across for various valid and invalid timestamps.</p>
+        <p>Tests the beacon root contract call across for various valid and invalid
+timestamps.</p>
 <p>The expected result is that the contract call will return the correct
-<code>parent_beacon_block_root</code> for a valid input timestamp and return the zero'd 32 bytes value
-for an invalid input timestamp.</p>
+<code>parent_beacon_block_root</code> for a valid input timestamp and return the
+zero'd 32 bytes value for an invalid input timestamp.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
@@ -27394,7 +27391,12 @@ for an invalid input timestamp.</p>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamp, valid_input&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mh">0x0C</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>  <span class="c1"># twelve</span>
@@ -27445,11 +27447,12 @@ for an invalid input timestamp.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root contract call across for various valid and invalid timestamps.</span>
+<span class="sd">    Tests the beacon root contract call across for various valid and invalid</span>
+<span class="sd">    timestamps.</span>
 
 <span class="sd">    The expected result is that the contract call will return the correct</span>
-<span class="sd">    `parent_beacon_block_root` for a valid input timestamp and return the zero&#39;d 32 bytes value</span>
-<span class="sd">    for an invalid input timestamp.</span>
+<span class="sd">    `parent_beacon_block_root` for a valid input timestamp and return the</span>
+<span class="sd">    zero&#39;d 32 bytes value for an invalid input timestamp.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

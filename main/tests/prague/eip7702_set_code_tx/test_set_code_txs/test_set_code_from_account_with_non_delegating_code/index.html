@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_set_code_from_account_with_non_delegating_code"><code>test_set_code_from_account_with_non_delegating_code()</code><a class="headerlink" href="#test_set_code_from_account_with_non_delegating_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3679"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3728"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code --fork Osaka</span>
@@ -27325,65 +27325,16 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_set_code_from_account_with_non_delegating_code"></a>
     <div class="doc doc-contents first">
 
-        <p>Test that a transaction is correctly rejected,
-if the sender account has a non-delegating code set.</p>
-<p>The auth transaction is sent from sender which has contract code (not delegating)
-But at the same time it has auth tuple that will point this sender account
-To be eoa, delegation, contract .. etc</p>
+        <p>Test that a transaction is correctly rejected, if the sender account has a
+non-delegating code set.</p>
+<p>The auth transaction is sent from sender which has contract code (not
+delegating) But at the same time it has auth tuple that will point this
+sender account To be eoa, delegation, contract .. etc</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3679</span>
-<span class="normal">3680</span>
-<span class="normal">3681</span>
-<span class="normal">3682</span>
-<span class="normal">3683</span>
-<span class="normal">3684</span>
-<span class="normal">3685</span>
-<span class="normal">3686</span>
-<span class="normal">3687</span>
-<span class="normal">3688</span>
-<span class="normal">3689</span>
-<span class="normal">3690</span>
-<span class="normal">3691</span>
-<span class="normal">3692</span>
-<span class="normal">3693</span>
-<span class="normal">3694</span>
-<span class="normal">3695</span>
-<span class="normal">3696</span>
-<span class="normal">3697</span>
-<span class="normal">3698</span>
-<span class="normal">3699</span>
-<span class="normal">3700</span>
-<span class="normal">3701</span>
-<span class="normal">3702</span>
-<span class="normal">3703</span>
-<span class="normal">3704</span>
-<span class="normal">3705</span>
-<span class="normal">3706</span>
-<span class="normal">3707</span>
-<span class="normal">3708</span>
-<span class="normal">3709</span>
-<span class="normal">3710</span>
-<span class="normal">3711</span>
-<span class="normal">3712</span>
-<span class="normal">3713</span>
-<span class="normal">3714</span>
-<span class="normal">3715</span>
-<span class="normal">3716</span>
-<span class="normal">3717</span>
-<span class="normal">3718</span>
-<span class="normal">3719</span>
-<span class="normal">3720</span>
-<span class="normal">3721</span>
-<span class="normal">3722</span>
-<span class="normal">3723</span>
-<span class="normal">3724</span>
-<span class="normal">3725</span>
-<span class="normal">3726</span>
-<span class="normal">3727</span>
-<span class="normal">3728</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3728</span>
 <span class="normal">3729</span>
 <span class="normal">3730</span>
 <span class="normal">3731</span>
@@ -27410,7 +27361,57 @@ To be eoa, delegation, contract .. etc</p>
 <span class="normal">3752</span>
 <span class="normal">3753</span>
 <span class="normal">3754</span>
-<span class="normal">3755</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3755</span>
+<span class="normal">3756</span>
+<span class="normal">3757</span>
+<span class="normal">3758</span>
+<span class="normal">3759</span>
+<span class="normal">3760</span>
+<span class="normal">3761</span>
+<span class="normal">3762</span>
+<span class="normal">3763</span>
+<span class="normal">3764</span>
+<span class="normal">3765</span>
+<span class="normal">3766</span>
+<span class="normal">3767</span>
+<span class="normal">3768</span>
+<span class="normal">3769</span>
+<span class="normal">3770</span>
+<span class="normal">3771</span>
+<span class="normal">3772</span>
+<span class="normal">3773</span>
+<span class="normal">3774</span>
+<span class="normal">3775</span>
+<span class="normal">3776</span>
+<span class="normal">3777</span>
+<span class="normal">3778</span>
+<span class="normal">3779</span>
+<span class="normal">3780</span>
+<span class="normal">3781</span>
+<span class="normal">3782</span>
+<span class="normal">3783</span>
+<span class="normal">3784</span>
+<span class="normal">3785</span>
+<span class="normal">3786</span>
+<span class="normal">3787</span>
+<span class="normal">3788</span>
+<span class="normal">3789</span>
+<span class="normal">3790</span>
+<span class="normal">3791</span>
+<span class="normal">3792</span>
+<span class="normal">3793</span>
+<span class="normal">3794</span>
+<span class="normal">3795</span>
+<span class="normal">3796</span>
+<span class="normal">3797</span>
+<span class="normal">3798</span>
+<span class="normal">3799</span>
+<span class="normal">3800</span>
+<span class="normal">3801</span>
+<span class="normal">3802</span>
+<span class="normal">3803</span>
+<span class="normal">3804</span>
+<span class="normal">3805</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;set_code_type&quot;</span><span class="p">,</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">AddressType</span><span class="p">),</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">address_type</span><span class="p">:</span> <span class="n">address_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -27428,12 +27429,12 @@ To be eoa, delegation, contract .. etc</p>
     <span class="n">self_sponsored</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that a transaction is correctly rejected,</span>
-<span class="sd">    if the sender account has a non-delegating code set.</span>
+<span class="sd">    Test that a transaction is correctly rejected, if the sender account has a</span>
+<span class="sd">    non-delegating code set.</span>
 
-<span class="sd">    The auth transaction is sent from sender which has contract code (not delegating)</span>
-<span class="sd">    But at the same time it has auth tuple that will point this sender account</span>
-<span class="sd">    To be eoa, delegation, contract .. etc</span>
+<span class="sd">    The auth transaction is sent from sender which has contract code (not</span>
+<span class="sd">    delegating) But at the same time it has auth tuple that will point this</span>
+<span class="sd">    sender account To be eoa, delegation, contract .. etc</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">random_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -27453,7 +27454,8 @@ To be eoa, delegation, contract .. etc</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported set code type: </span><span class="si">{</span><span class="n">set_code_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
 
-    <span class="c1"># Set the sender account to have some code, that is specifically not a delegation.</span>
+    <span class="c1"># Set the sender account to have some code, that is specifically not a</span>
+    <span class="c1"># delegation.</span>
     <span class="n">sender_account</span> <span class="o">=</span> <span class="n">pre</span><span class="p">[</span><span class="n">sender</span><span class="p">]</span>
     <span class="k">assert</span> <span class="n">sender_account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">sender_account</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>

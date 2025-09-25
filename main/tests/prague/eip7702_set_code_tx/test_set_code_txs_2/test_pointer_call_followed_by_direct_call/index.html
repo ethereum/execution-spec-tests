@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_pointer_call_followed_by_direct_call"><code>test_pointer_call_followed_by_direct_call()</code><a class="headerlink" href="#test_pointer_call_followed_by_direct_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L722"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_pointer_call_followed_by_direct_call@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L734"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_pointer_call_followed_by_direct_call@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_pointer_call_followed_by_direct_call --fork Osaka</span>
@@ -27326,26 +27326,14 @@
     <div class="doc doc-contents first">
 
         <p>If we first call by pointer then direct call, will the call/sload be hot
-The direct call will warm because pointer access marks it warm
-But the sload is still cold because
-storage marked hot from pointer's account in a pointer call.</p>
+The direct call will warm because pointer access marks it warm But the
+sload is still cold because storage marked hot from pointer's account in a
+pointer call.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">734</span>
 <span class="normal">735</span>
 <span class="normal">736</span>
 <span class="normal">737</span>
@@ -27411,7 +27399,21 @@ storage marked hot from pointer's account in a pointer call.</p>
 <span class="normal">797</span>
 <span class="normal">798</span>
 <span class="normal">799</span>
-<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_pointer_call_followed_by_direct_call</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27419,9 +27421,9 @@ storage marked hot from pointer's account in a pointer call.</p>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    If we first call by pointer then direct call, will the call/sload be hot</span>
-<span class="sd">    The direct call will warm because pointer access marks it warm</span>
-<span class="sd">    But the sload is still cold because</span>
-<span class="sd">    storage marked hot from pointer&#39;s account in a pointer call.</span>
+<span class="sd">    The direct call will warm because pointer access marks it warm But the</span>
+<span class="sd">    sload is still cold because storage marked hot from pointer&#39;s account in a</span>
+<span class="sd">    pointer call.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
@@ -27439,8 +27441,10 @@ storage marked hot from pointer's account in a pointer call.</p>
     <span class="p">)</span>
     <span class="n">direct_call_gas</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_SET</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>  <span class="c1"># since previous pointer call, contract is now warm</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span>  <span class="c1"># but storage is cold, because it&#39;s contract&#39;s direct</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>  <span class="c1"># since previous pointer call,</span>
+        <span class="c1"># contract is now warm</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span>  <span class="c1"># but storage is cold, because it&#39;s</span>
+        <span class="c1"># contract&#39;s direct</span>
         <span class="o">+</span> <span class="n">opcodes_price</span>
     <span class="p">)</span>
 

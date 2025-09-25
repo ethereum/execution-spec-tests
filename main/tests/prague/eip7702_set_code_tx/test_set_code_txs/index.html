@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-set-code-txs">Test Set Code Txs<a class="headerlink" href="#test-set-code-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L67"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L69"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py --fork Osaka</span>
@@ -27265,12 +27265,10 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs"></a>
     <div class="doc doc-contents first">
 
+        <p>Tests use of set-code transactions from EIP-7702.</p>
+<p>Tests use of set-code transactions from
+<a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702: Set EOA account code for one transaction</a>.</p>
 
-
-<details class="abstract" open>
-  <summary>Tests use of set-code transactions from <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702: Set EOA account code for one transaction</a></summary>
-  <p>Tests use of set-code transactions from <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702: Set EOA account code for one transaction</a>.</p>
-</details>
 
 
 
@@ -27322,19 +27320,19 @@
 <td><a href="test_set_code_to_sstore_then_sload/"><code>test_set_code_to_sstore_then_sload</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Test the executing a simple SSTORE then SLOAD in two separate set-code transactions.</td>
+<td>Test the executing a simple SSTORE then SLOAD in two separate set-code</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_tstore_reentry/"><code>test_set_code_to_tstore_reentry</code></a></td>
 <td>state_test</td>
 <td>8</td>
-<td>Test the executing a simple TSTORE in a set-code transaction, which also performs a</td>
+<td>Test the executing a simple TSTORE in a set-code transaction, which also</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_tstore_available_at_correct_address/"><code>test_set_code_to_tstore_available_at_correct_address</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in slot 2.</td>
+<td>Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_self_destruct/"><code>test_set_code_to_self_destruct</code></a></td>
@@ -27358,7 +27356,7 @@
 <td><a href="test_set_code_max_depth_call_stack/"><code>test_set_code_max_depth_call_stack</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test re-entry to delegated account until the max call stack depth possible in a</td>
+<td>Test re-entry to delegated account until the max call stack depth possible</td>
 </tr>
 <tr>
 <td><a href="test_set_code_call_set_code/"><code>test_set_code_call_set_code</code></a></td>
@@ -27376,13 +27374,13 @@
 <td><a href="test_tx_into_self_delegating_set_code/"><code>test_tx_into_self_delegating_set_code</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test a transaction that has entry-point into a set-code account that delegates to itself.</td>
+<td>Test a transaction that has entry-point into a set-code account that</td>
 </tr>
 <tr>
 <td><a href="test_tx_into_chain_delegating_set_code/"><code>test_tx_into_chain_delegating_set_code</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test a transaction that has entry-point into a set-code account that delegates to another</td>
+<td>Test a transaction that has entry-point into a set-code account that</td>
 </tr>
 <tr>
 <td><a href="test_call_into_self_delegating_set_code/"><code>test_call_into_self_delegating_set_code</code></a></td>
@@ -27394,7 +27392,7 @@
 <td><a href="test_call_into_chain_delegating_set_code/"><code>test_call_into_chain_delegating_set_code</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test call into a set-code account that delegates to another set-code account.</td>
+<td>Test call into a set-code account that delegates to another set-code</td>
 </tr>
 <tr>
 <td><a href="test_ext_code_on_set_code/"><code>test_ext_code_on_set_code</code></a></td>
@@ -27424,13 +27422,13 @@
 <td><a href="test_ext_code_on_self_delegating_set_code/"><code>test_ext_code_on_self_delegating_set_code</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test different ext*code operations on a set-code address that delegates to itself.</td>
+<td>Test different ext*code operations on a set-code address that delegates to</td>
 </tr>
 <tr>
 <td><a href="test_ext_code_on_chain_delegating_set_code/"><code>test_ext_code_on_chain_delegating_set_code</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test different ext*code operations on a set-code address that references another delegated</td>
+<td>Test different ext*code operations on a set-code address that references</td>
 </tr>
 <tr>
 <td><a href="test_self_code_on_set_code/"><code>test_self_code_on_set_code</code></a></td>
@@ -27442,103 +27440,103 @@
 <td><a href="test_set_code_to_account_deployed_in_same_tx/"><code>test_set_code_to_account_deployed_in_same_tx</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test setting the code of an account to an address that is deployed in the same transaction,</td>
+<td>Test setting the code of an account to an address that is deployed in the</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_self_destructing_account_deployed_in_same_tx/"><code>test_set_code_to_self_destructing_account_deployed_in_same_tx</code></a></td>
 <td>state_test</td>
 <td>16</td>
-<td>Test setting the code of an account to an account that contains the SELFDESTRUCT opcode and</td>
+<td>Test setting the code of an account to an account that contains the</td>
 </tr>
 <tr>
 <td><a href="test_set_code_multiple_first_valid_authorization_tuples_same_signer/"><code>test_set_code_multiple_first_valid_authorization_tuples_same_signer</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test setting the code of an account with multiple authorization tuples</td>
+<td>Test setting the code of an account with multiple authorization tuples from</td>
 </tr>
 <tr>
 <td><a href="test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce/"><code>test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test setting the code of an account with multiple authorization tuples from the same signer</td>
+<td>Test setting the code of an account with multiple authorization tuples from</td>
 </tr>
 <tr>
 <td><a href="test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored/"><code>test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test setting the code of an account with multiple authorization tuples from the same signer</td>
+<td>Test setting the code of an account with multiple authorization tuples from</td>
 </tr>
 <tr>
 <td><a href="test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer/"><code>test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test setting the code of an account with multiple authorization tuples from the same signer</td>
+<td>Test setting the code of an account with multiple authorization tuples from</td>
 </tr>
 <tr>
 <td><a href="test_set_code_all_invalid_authorization_tuples/"><code>test_set_code_all_invalid_authorization_tuples</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test setting the code of an account with multiple authorization tuples from the same signer</td>
+<td>Test setting the code of an account with multiple authorization tuples from</td>
 </tr>
 <tr>
 <td><a href="test_set_code_using_chain_specific_id/"><code>test_set_code_using_chain_specific_id</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test sending a transaction to set the code of an account using a chain-specific ID.</td>
+<td>Test sending a transaction to set the code of an account using a</td>
 </tr>
 <tr>
 <td><a href="test_set_code_using_valid_synthetic_signatures/"><code>test_set_code_using_valid_synthetic_signatures</code></a></td>
 <td>state_test</td>
 <td>6</td>
-<td>Test sending a transaction to set the code of an account using synthetic signatures.</td>
+<td>Test sending a transaction to set the code of an account using synthetic</td>
 </tr>
 <tr>
 <td><a href="test_valid_tx_invalid_auth_signature/"><code>test_valid_tx_invalid_auth_signature</code></a></td>
 <td>state_test</td>
 <td>21</td>
-<td>Test sending a transaction to set the code of an account using synthetic signatures,</td>
+<td>Test sending a transaction to set the code of an account using synthetic</td>
 </tr>
 <tr>
 <td><a href="test_signature_s_out_of_range/"><code>test_signature_s_out_of_range</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test sending a transaction with an authorization tuple where the signature s value is out of</td>
+<td>Test sending a transaction with an authorization tuple where the signature</td>
 </tr>
 <tr>
 <td><a href="test_valid_tx_invalid_chain_id/"><code>test_valid_tx_invalid_chain_id</code></a></td>
 <td>state_test</td>
 <td>3</td>
-<td>Test sending a transaction where the chain id field does not match</td>
+<td>Test sending a transaction where the chain id field does not match the</td>
 </tr>
 <tr>
 <td><a href="test_nonce_validity/"><code>test_nonce_validity</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test sending a transaction where the nonce field of an authorization almost overflows the</td>
+<td>Test sending a transaction where the nonce field of an authorization almost</td>
 </tr>
 <tr>
 <td><a href="test_nonce_overflow_after_first_authorization/"><code>test_nonce_overflow_after_first_authorization</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test sending a transaction with two authorization where the first one bumps the nonce</td>
+<td>Test sending a transaction with two authorization where the first one bumps</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_log/"><code>test_set_code_to_log</code></a></td>
 <td>state_test</td>
 <td>5</td>
-<td>Test setting the code of an account to a contract that performs the log operation.</td>
+<td>Test setting the code of an account to a contract that performs the log</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_precompile/"><code>test_set_code_to_precompile</code></a></td>
 <td>state_test</td>
 <td>72</td>
-<td>Test setting the code of an account to a pre-compile address and executing all call</td>
+<td>Test setting the code of an account to a pre-compile address and executing</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_precompile_not_enough_gas_for_precompile_execution/"><code>test_set_code_to_precompile_not_enough_gas_for_precompile_execution</code></a></td>
 <td>state_test</td>
 <td>18</td>
-<td>Test set code to precompile and making direct call in same transaction with intrinsic gas</td>
+<td>Test set code to precompile and making direct call in same transaction with</td>
 </tr>
 <tr>
 <td><a href="test_set_code_to_system_contract/"><code>test_set_code_to_system_contract</code></a></td>
@@ -27550,7 +27548,7 @@
 <td><a href="test_eoa_tx_after_set_code/"><code>test_eoa_tx_after_set_code</code></a></td>
 <td>blockchain_test</td>
 <td>8</td>
-<td>Test sending a transaction from an EOA after code has been set to the account.</td>
+<td>Test sending a transaction from an EOA after code has been set to the</td>
 </tr>
 <tr>
 <td><a href="test_reset_code/"><code>test_reset_code</code></a></td>
@@ -27574,7 +27572,7 @@
 <td><a href="test_delegation_clearing/"><code>test_delegation_clearing</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test clearing the delegation of an account under a variety of circumstances.</td>
+<td>Test clearing the delegation of an account under a variety of</td>
 </tr>
 <tr>
 <td><a href="test_delegation_clearing_tx_to/"><code>test_delegation_clearing_tx_to</code></a></td>
@@ -27586,13 +27584,13 @@
 <td><a href="test_delegation_clearing_and_set/"><code>test_delegation_clearing_and_set</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Tests clearing and setting the delegation again in the same authorization list.</td>
+<td>Tests clearing and setting the delegation again in the same authorization</td>
 </tr>
 <tr>
 <td><a href="test_delegation_clearing_failing_tx/"><code>test_delegation_clearing_failing_tx</code></a></td>
 <td>state_test</td>
 <td>3</td>
-<td>Test clearing the delegation of an account in a transaction that fails, OOGs or reverts.</td>
+<td>Test clearing the delegation of an account in a transaction that fails,</td>
 </tr>
 <tr>
 <td><a href="test_deploying_delegation_designation_contract/"><code>test_deploying_delegation_designation_contract</code></a></td>
@@ -27604,31 +27602,31 @@
 <td><a href="test_creating_delegation_designation_contract/"><code>test_creating_delegation_designation_contract</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Tx -&gt; create -&gt; pointer bytecode</td>
+<td>Tx -&gt; create -&gt; pointer bytecode.</td>
 </tr>
 <tr>
 <td><a href="test_many_delegations/"><code>test_many_delegations</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Perform as many delegations as possible in a transaction using the entire block gas limit.</td>
+<td>Perform as many delegations as possible in a transaction using the entire</td>
 </tr>
 <tr>
 <td><a href="test_invalid_transaction_after_authorization/"><code>test_invalid_transaction_after_authorization</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Test an invalid block due to a transaction reusing the same nonce as an authorization</td>
+<td>Test an invalid block due to a transaction reusing the same nonce as an</td>
 </tr>
 <tr>
 <td><a href="test_authorization_reusing_nonce/"><code>test_authorization_reusing_nonce</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Test an authorization reusing the same nonce as a prior transaction included in the same</td>
+<td>Test an authorization reusing the same nonce as a prior transaction</td>
 </tr>
 <tr>
 <td><a href="test_set_code_from_account_with_non_delegating_code/"><code>test_set_code_from_account_with_non_delegating_code</code></a></td>
 <td>state_test</td>
 <td>8</td>
-<td>Test that a transaction is correctly rejected,</td>
+<td>Test that a transaction is correctly rejected, if the sender account has a</td>
 </tr>
 <tr>
 <td><a href="test_set_code_transaction_fee_validations/"><code>test_set_code_transaction_fee_validations</code></a></td>

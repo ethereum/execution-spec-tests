@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_block_at_rlp_limit_with_logs"><code>test_block_at_rlp_limit_with_logs()</code><a class="headerlink" href="#test_block_at_rlp_limit_with_logs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L484"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_limit_with_logs@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L487"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_limit_with_logs@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_limit_with_logs --fork Osaka</span>
@@ -27325,15 +27325,13 @@
 <a id="tests.osaka.eip7934_block_rlp_limit.test_max_block_rlp_size.test_block_at_rlp_limit_with_logs"></a>
     <div class="doc doc-contents first">
 
-        <p>Test that a block at the RLP size limit is valid even when transactions emit logs.</p>
+        <p>Test that a block at the RLP size limit is valid even when transactions
+emit logs.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">487</span>
 <span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
@@ -27366,7 +27364,13 @@
 <span class="normal">517</span>
 <span class="normal">518</span>
 <span class="normal">519</span>
-<span class="normal">520</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">verify_sync</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_block_at_rlp_limit_with_logs</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -27377,7 +27381,10 @@
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">block_size_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that a block at the RLP size limit is valid even when transactions emit logs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test that a block at the RLP size limit is valid even when transactions</span>
+<span class="sd">    emit logs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">transactions</span><span class="p">,</span> <span class="n">gas_used</span> <span class="o">=</span> <span class="n">exact_size_transactions</span><span class="p">(</span>
         <span class="n">sender</span><span class="p">,</span>
         <span class="n">block_size_limit</span><span class="p">,</span>

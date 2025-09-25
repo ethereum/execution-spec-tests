@@ -27308,7 +27308,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7951_p256verify_precompiles/spec.py"><code>tests/osaka/eip7951_p256verify_precompiles/spec.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7951_p256verify_precompiles/spec.py"><code>tests/osaka/eip7951_p256verify_precompiles/spec.py@b281a78b</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27399,7 +27399,8 @@
 <span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
-<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-7951 specifications as defined at</span>
@@ -27423,7 +27424,8 @@
     <span class="n">INVALID_RETURN_VALUE</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
     <span class="n">DELEGATION_DESIGNATION</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;ef0100&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Test constants (from https://github.com/C2SP/wycheproof/blob/4a6c2bf5dc4c0b67c770233ad33961ee653996a0/testvectors/ecdsa_secp256r1_sha256_test.json#L35)</span>
+    <span class="c1"># Test constants, from:</span>
+    <span class="c1"># https://github.com/C2SP/wycheproof/blob/4a6c2bf5dc4c0b67c770233ad33961ee653996a0/testvectors/ecdsa_secp256r1_sha256_test.json#L35</span>
     <span class="n">H0</span> <span class="o">=</span> <span class="n">H</span><span class="p">(</span><span class="mh">0xBB5A52F42F9C9261ED4361F59422A1E30036E7C32B270C8807A419FECA605023</span><span class="p">)</span>
     <span class="n">R0</span> <span class="o">=</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x2BA3A8BE6B94D5EC80A6D9D1190A436EFFE50D85A1EEE859B8CC6AF9BD5C2E18</span><span class="p">)</span>
     <span class="n">S0</span> <span class="o">=</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x4CD60B855D442F5B3C7B11EB6C4E0AE7525FE710FAB9AA7C77A67F79E6FADD76</span><span class="p">)</span>

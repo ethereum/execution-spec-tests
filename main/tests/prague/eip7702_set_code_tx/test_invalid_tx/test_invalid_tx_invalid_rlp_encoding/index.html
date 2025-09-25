@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_tx_invalid_rlp_encoding"><code>test_invalid_tx_invalid_rlp_encoding()</code><a class="headerlink" href="#test_invalid_tx_invalid_rlp_encoding" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L577"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_rlp_encoding@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L587"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_rlp_encoding@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_rlp_encoding --fork Osaka</span>
@@ -27325,23 +27325,13 @@
 <a id="tests.prague.eip7702_set_code_tx.test_invalid_tx.test_invalid_tx_invalid_rlp_encoding"></a>
     <div class="doc doc-contents first">
 
-        <p>Test sending a transaction type-4 where the RLP encoding of the transaction is
-invalid.</p>
+        <p>Test sending a transaction type-4 where the RLP encoding of the transaction
+is invalid.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span>
-<span class="normal">587</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">587</span>
 <span class="normal">588</span>
 <span class="normal">589</span>
 <span class="normal">590</span>
@@ -27382,7 +27372,17 @@ invalid.</p>
 <span class="normal">625</span>
 <span class="normal">626</span>
 <span class="normal">627</span>
-<span class="normal">628</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;invalid_rlp_mode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">InvalidRLPMode</span><span class="o">.</span><span class="n">TRUNCATED_RLP</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;truncated_rlp&quot;</span><span class="p">),</span>
@@ -27403,8 +27403,8 @@ invalid.</p>
     <span class="n">invalid_rlp_mode</span><span class="p">:</span> <span class="n">InvalidRLPMode</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending a transaction type-4 where the RLP encoding of the transaction is</span>
-<span class="sd">    invalid.</span>
+<span class="sd">    Test sending a transaction type-4 where the RLP encoding of the transaction</span>
+<span class="sd">    is invalid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 

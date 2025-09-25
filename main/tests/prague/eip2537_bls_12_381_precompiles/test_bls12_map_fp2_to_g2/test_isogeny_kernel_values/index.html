@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_isogeny_kernel_values"><code>test_isogeny_kernel_values()</code><a class="headerlink" href="#test_isogeny_kernel_values" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L89"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L91"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values --fork Osaka</span>
@@ -27325,21 +27325,21 @@
 <a id="tests.prague.eip2537_bls_12_381_precompiles.test_bls12_map_fp2_to_g2.test_isogeny_kernel_values"></a>
     <div class="doc doc-contents first">
 
-        <p>Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note this test only exists
-to align with the G1 test. <code>G2_FIELD_POINTS_MAP_TO_IDENTITY</code> is empty so there are no cases.</p>
-<p>The isogeny kernel is simply the set of special field values, that after the two step mapping
-(first SWU onto an auxiliary curve, then a 3-degree isogeny back to G2), collapse exactly
-to the identity point.</p>
-<p>For the G2 case the only kernel element is the point at infinity, and SWU never produces the
-identity point from a finite input t. Hence <code>G2_FIELD_POINTS_MAP_TO_IDENTITY</code> is empty. Please
-proceed to the generator in <code>helpers.py</code> for more details.</p>
+        <p>Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note
+this test only exists to align with the G1 test.
+<code>G2_FIELD_POINTS_MAP_TO_IDENTITY</code> is empty so there are no cases.</p>
+<p>The isogeny kernel is simply the set of special field values, that after
+the two step mapping (first SWU onto an auxiliary curve, then a 3-degree
+isogeny back to G2), collapse exactly to the identity point.</p>
+<p>For the G2 case the only kernel element is the point at infinity, and SWU
+never produces the identity point from a finite input t. Hence
+<code>G2_FIELD_POINTS_MAP_TO_IDENTITY</code> is empty. Please proceed to the generator
+in <code>helpers.py</code> for more details.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
@@ -27368,7 +27368,11 @@ proceed to the generator in <code>helpers.py</code> for more details.</p>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
-<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,vector_gas_value&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27383,16 +27387,18 @@ proceed to the generator in <code>helpers.py</code> for more details.</p>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note this test only exists</span>
-<span class="sd">    to align with the G1 test. `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty so there are no cases.</span>
+<span class="sd">    Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note</span>
+<span class="sd">    this test only exists to align with the G1 test.</span>
+<span class="sd">    `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty so there are no cases.</span>
 
-<span class="sd">    The isogeny kernel is simply the set of special field values, that after the two step mapping</span>
-<span class="sd">    (first SWU onto an auxiliary curve, then a 3-degree isogeny back to G2), collapse exactly</span>
-<span class="sd">    to the identity point.</span>
+<span class="sd">    The isogeny kernel is simply the set of special field values, that after</span>
+<span class="sd">    the two step mapping (first SWU onto an auxiliary curve, then a 3-degree</span>
+<span class="sd">    isogeny back to G2), collapse exactly to the identity point.</span>
 
-<span class="sd">    For the G2 case the only kernel element is the point at infinity, and SWU never produces the</span>
-<span class="sd">    identity point from a finite input t. Hence `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty. Please</span>
-<span class="sd">    proceed to the generator in `helpers.py` for more details.</span>
+<span class="sd">    For the G2 case the only kernel element is the point at infinity, and SWU</span>
+<span class="sd">    never produces the identity point from a finite input t. Hence</span>
+<span class="sd">    `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty. Please proceed to the generator</span>
+<span class="sd">    in `helpers.py` for more details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>

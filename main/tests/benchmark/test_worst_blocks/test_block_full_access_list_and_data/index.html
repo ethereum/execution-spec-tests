@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_block_full_access_list_and_data"><code>test_block_full_access_list_and_data()</code><a class="headerlink" href="#test_block_full_access_list_and_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_blocks.py#L235"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_blocks.py#L238"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data -m benchmark</span>
@@ -27323,15 +27323,13 @@
 <a id="tests.benchmark.test_worst_blocks.test_block_full_access_list_and_data"></a>
     <div class="doc doc-contents first">
 
-        <p>Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes.</p>
+        <p>Test a block with access lists (60% gas) and calldata (40% gas) using
+random mixed bytes.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
@@ -27417,7 +27415,15 @@
 <span class="normal">321</span>
 <span class="normal">322</span>
 <span class="normal">323</span>
-<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -27425,7 +27431,10 @@
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test a block with access lists (60% gas) and calldata (40% gas) using</span>
+<span class="sd">    random mixed bytes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
     <span class="n">gas_available</span> <span class="o">=</span> <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_cost</span>
 
@@ -27456,7 +27465,8 @@
         <span class="p">)</span>
     <span class="p">]</span>
 
-    <span class="c1"># Calculate calldata with 29% of gas for zero bytes and 71% for non-zero bytes</span>
+    <span class="c1"># Calculate calldata with 29% of gas for zero bytes and 71% for non-zero</span>
+    <span class="c1"># bytes</span>
     <span class="c1"># Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes</span>
     <span class="c1"># We want to split the gas budget:</span>
     <span class="c1"># - 29% of gas_for_calldata for zero bytes</span>
@@ -27472,7 +27482,8 @@
     <span class="c1"># Zero bytes: 1 token per byte</span>
     <span class="c1"># Non-zero bytes: 4 tokens per byte</span>
     <span class="n">num_zero_bytes</span> <span class="o">=</span> <span class="n">tokens_for_zero_bytes</span>  <span class="c1"># 1 token = 1 zero byte</span>
-    <span class="n">num_non_zero_bytes</span> <span class="o">=</span> <span class="n">tokens_for_non_zero_bytes</span> <span class="o">//</span> <span class="mi">4</span>  <span class="c1"># 4 tokens = 1 non-zero byte</span>
+    <span class="c1"># 4 tokens = 1 non-zero byte</span>
+    <span class="n">num_non_zero_bytes</span> <span class="o">=</span> <span class="n">tokens_for_non_zero_bytes</span> <span class="o">//</span> <span class="mi">4</span>
 
     <span class="c1"># Create calldata with mixed bytes</span>
     <span class="n">calldata</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>

@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_storage_access_cold"><code>test_worst_storage_access_cold()</code><a class="headerlink" href="#test_worst_storage_access_cold" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_stateful_opcodes.py#L199"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_stateful_opcodes.py#L202"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold -m benchmark</span>
@@ -27328,10 +27328,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
@@ -27507,7 +27504,14 @@
 <span class="normal">375</span>
 <span class="normal">376</span>
 <span class="normal">377</span>
-<span class="normal">378</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;storage_action,tx_result&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27564,7 +27568,9 @@
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">tx_result</span><span class="p">:</span> <span class="n">TransactionResult</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many cold storage slot accesses as possible.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test running a block with as many cold storage slot accesses as possible.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
     <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
@@ -27591,7 +27597,8 @@
         <span class="n">execution_code_body</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">)</span>
         <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="k">elif</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">:</span>
-        <span class="c1"># The new value 2^256-1 is guaranteed to be different from the initial value.</span>
+        <span class="c1"># The new value 2^256-1 is guaranteed to be different from the initial</span>
+        <span class="c1"># value.</span>
         <span class="n">execution_code_body</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
         <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>
     <span class="k">elif</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">READ</span><span class="p">:</span>
@@ -27647,8 +27654,9 @@
             <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="c1"># To create the contract, we apply the slots_init code to initialize the storage slots</span>
-    <span class="c1"># (int the case of absent_slots=False) and then copy the execution code to the contract.</span>
+    <span class="c1"># To create the contract, we apply the slots_init code to initialize the</span>
+    <span class="c1"># storage slots (int the case of absent_slots=False) and then copy the</span>
+    <span class="c1"># execution code to the contract.</span>
     <span class="n">creation_code</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">slots_init</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>

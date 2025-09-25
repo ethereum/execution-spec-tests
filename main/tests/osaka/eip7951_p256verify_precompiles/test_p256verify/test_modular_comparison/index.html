@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_modular_comparison"><code>test_modular_comparison()</code><a class="headerlink" href="#test_modular_comparison" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L526"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L560"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison --fork Osaka</span>
@@ -27326,48 +27326,14 @@
     <div class="doc doc-contents first">
 
         <p>Test the modular comparison condition for secp256r1 precompile.</p>
-<p>This tests that when the x-coordinate of R' exceeds the curve order N,
-the verification should use modular arithmetic:
-r' ≡ r (mod N) instead of direct equality r' == r.</p>
+<p>This tests that when the x-coordinate of R' exceeds the curve order N, the
+verification should use modular arithmetic: r' ≡ r (mod N) instead of
+direct equality r' == r.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">560</span>
 <span class="normal">561</span>
 <span class="normal">562</span>
 <span class="normal">563</span>
@@ -27380,17 +27346,57 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
 <span class="normal">570</span>
 <span class="normal">571</span>
 <span class="normal">572</span>
-<span class="normal">573</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># Test case where computed x-coordinate exceeds curve order N</span>
         <span class="c1"># This tests the modular comparison: r&#39; ≡ r (mod N)</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span>
-            <span class="c1"># R: A value that when used in ECDSA verification produces an x-coordinate &gt; N</span>
+            <span class="c1"># R: A value that when used in ECDSA verification produces an</span>
+            <span class="c1"># x-coordinate &gt; N</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x000000000000000000000000000000004319055358E8617B0C46353D039CDAAB</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC63254E</span><span class="p">)</span>
-            <span class="c1"># X, Y: Public key coordinates that will produce x-coordinate &gt; N during verification</span>
+            <span class="c1"># X, Y: Public key coordinates that will produce x-coordinate &gt; N</span>
+            <span class="c1"># during verification</span>
             <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x0AD99500288D466940031D72A9F5445A4D43784640855BF0A69874D2DE5FE103</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xC5011E6EF2C42DCD50D5D3D29F99AE6EBA2C80C9244F4C5422F0979FF0C3BA5E</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">SUCCESS_RETURN_VALUE</span><span class="p">,</span>
@@ -27402,7 +27408,8 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INVALID_RETURN_VALUE</span><span class="p">,</span>  <span class="c1"># Should fail because R = 1 is not a valid signature</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INVALID_RETURN_VALUE</span><span class="p">,</span>  <span class="c1"># Should fail because R = 1 is not a</span>
+            <span class="c1"># valid signature</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;r_equals_n_plus_one&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27411,7 +27418,8 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INVALID_RETURN_VALUE</span><span class="p">,</span>  <span class="c1"># Should fail because R = 2 is not a valid signature</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INVALID_RETURN_VALUE</span><span class="p">,</span>  <span class="c1"># Should fail because R = 2 is not a</span>
+            <span class="c1"># valid signature</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;r_equals_n_plus_two&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
@@ -27423,9 +27431,9 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test the modular comparison condition for secp256r1 precompile.</span>
 
-<span class="sd">    This tests that when the x-coordinate of R&#39; exceeds the curve order N,</span>
-<span class="sd">    the verification should use modular arithmetic:</span>
-<span class="sd">    r&#39; ≡ r (mod N) instead of direct equality r&#39; == r.</span>
+<span class="sd">    This tests that when the x-coordinate of R&#39; exceeds the curve order N, the</span>
+<span class="sd">    verification should use modular arithmetic: r&#39; ≡ r (mod N) instead of</span>
+<span class="sd">    direct equality r&#39; == r.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>

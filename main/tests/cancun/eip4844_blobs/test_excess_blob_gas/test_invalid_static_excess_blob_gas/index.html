@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_static_excess_blob_gas"><code>test_invalid_static_excess_blob_gas()</code><a class="headerlink" href="#test_invalid_static_excess_blob_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L555"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_static_excess_blob_gas@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L565"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_static_excess_blob_gas@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_static_excess_blob_gas --fork Osaka</span>
@@ -27325,24 +27325,14 @@
 <a id="tests.cancun.eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas"></a>
     <div class="doc doc-contents first">
 
-        <p>Test rejection of blocks where the <code>excessBlobGas</code> remains unchanged
-but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
+        <p>Test rejection of blocks where the <code>excessBlobGas</code> remains unchanged but
+the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
 <p>Test is parametrized to <code>MAX_BLOBS_PER_BLOCK</code> and <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">565</span>
 <span class="normal">566</span>
 <span class="normal">567</span>
 <span class="normal">568</span>
@@ -27371,7 +27361,17 @@ but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
 <span class="normal">591</span>
 <span class="normal">592</span>
 <span class="normal">593</span>
-<span class="normal">594</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;parent_blobs&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="p">[</span>
         <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">b</span> <span class="o">!=</span> <span class="n">fork</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span>
@@ -27391,8 +27391,8 @@ but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
     <span class="n">parent_excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test rejection of blocks where the `excessBlobGas` remains unchanged</span>
-<span class="sd">    but the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.</span>
+<span class="sd">    Test rejection of blocks where the `excessBlobGas` remains unchanged but</span>
+<span class="sd">    the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.</span>
 
 <span class="sd">    Test is parametrized to `MAX_BLOBS_PER_BLOCK` and `TARGET_BLOBS_PER_BLOCK`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

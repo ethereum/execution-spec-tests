@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_blob_tx_contract_creation"><code>test_invalid_blob_tx_contract_creation()</code><a class="headerlink" href="#test_invalid_blob_tx_contract_creation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blob_txs.py#L1020"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blob_txs.py#L1037"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation --fork Osaka</span>
@@ -27325,29 +27325,13 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_blob_tx_contract_creation"></a>
     <div class="doc doc-contents first">
 
-        <p>Reject blocks that include blob transactions that have nil to value (contract creating).</p>
+        <p>Reject blocks that include blob transactions that have nil to value
+(contract creating).</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1020</span>
-<span class="normal">1021</span>
-<span class="normal">1022</span>
-<span class="normal">1023</span>
-<span class="normal">1024</span>
-<span class="normal">1025</span>
-<span class="normal">1026</span>
-<span class="normal">1027</span>
-<span class="normal">1028</span>
-<span class="normal">1029</span>
-<span class="normal">1030</span>
-<span class="normal">1031</span>
-<span class="normal">1032</span>
-<span class="normal">1033</span>
-<span class="normal">1034</span>
-<span class="normal">1035</span>
-<span class="normal">1036</span>
-<span class="normal">1037</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1037</span>
 <span class="normal">1038</span>
 <span class="normal">1039</span>
 <span class="normal">1040</span>
@@ -27366,7 +27350,28 @@
 <span class="normal">1053</span>
 <span class="normal">1054</span>
 <span class="normal">1055</span>
-<span class="normal">1056</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span>
+<span class="normal">1061</span>
+<span class="normal">1062</span>
+<span class="normal">1063</span>
+<span class="normal">1064</span>
+<span class="normal">1065</span>
+<span class="normal">1066</span>
+<span class="normal">1067</span>
+<span class="normal">1068</span>
+<span class="normal">1069</span>
+<span class="normal">1070</span>
+<span class="normal">1071</span>
+<span class="normal">1072</span>
+<span class="normal">1073</span>
+<span class="normal">1074</span>
+<span class="normal">1075</span>
+<span class="normal">1076</span>
+<span class="normal">1077</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">)</span>  <span class="c1"># Increase gas to account for contract creation</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
@@ -27378,10 +27383,14 @@
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reject blocks that include blob transactions that have nil to value (contract creating).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reject blocks that include blob transactions that have nil to value</span>
+<span class="sd">    (contract creating).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">assert</span> <span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="c1"># Replace the transaction with a contract creating one, only in the RLP version</span>
+    <span class="c1"># Replace the transaction with a contract creating one, only in the RLP</span>
+    <span class="c1"># version</span>
     <span class="n">contract_creating_tx</span> <span class="o">=</span> <span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span>
     <span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rlp_override</span> <span class="o">=</span> <span class="n">contract_creating_tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">()</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
@@ -27396,8 +27405,8 @@
                 <span class="p">],</span>
                 <span class="n">header_verify</span><span class="o">=</span><span class="n">header_verify</span><span class="p">,</span>
                 <span class="c1"># Skipped due to the T8N not receiving the invalid transaction,</span>
-                <span class="c1"># instead we are passing a valid transaction to T8N and then the transaction</span>
-                <span class="c1"># is replaced directly in the block RLP.</span>
+                <span class="c1"># instead we are passing a valid transaction to T8N and then</span>
+                <span class="c1"># the transaction is replaced directly in the block RLP.</span>
                 <span class="n">skip_exception_verification</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>

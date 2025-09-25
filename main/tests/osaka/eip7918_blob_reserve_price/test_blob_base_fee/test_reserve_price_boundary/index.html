@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_reserve_price_boundary"><code>test_reserve_price_boundary()</code><a class="headerlink" href="#test_reserve_price_boundary" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py#L157"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_boundary@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py#L161"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_boundary@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_boundary --fork Osaka</span>
@@ -27325,23 +27325,32 @@
 <a id="tests.osaka.eip7918_blob_reserve_price.test_blob_base_fee.test_reserve_price_boundary"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests the reserve price boundary mechanism. Note the default block base fee per gas is 7 (delta is 0).
-With a non zero delta the block base fee per gas is set to (boundary * blob base fee) + delta.</p>
-<p>Example scenarios from parametrization, assume parent_excess_blobs = 3:
-    delta=-2: blob_base_fee=1, boundary=8, block_base_fee_per_gas=8+(-2)=6, 6 &lt; 8, reserve inactive, effective_fee=1
-    delta=0: blob_base_fee=1, boundary=8, block_base_fee_per_gas=7, 7 &lt; 8, reserve inactive, effective_fee=1
-    delta=100: blob_base_fee=1, boundary=8, block_base_fee_per_gas=8+100=108, 108 &gt; 8, reserve active, effective_fee=max(108/8, 1)=13</p>
-<p>All values give a blob base_ fee of 1 because we need a much higher excess blob gas
-to increase the blob fee. This only increases to 2 at 20 excess blobs.</p>
+        <p>Tests the reserve price boundary mechanism. Note the default block base fee
+per gas is 7 (delta is 0). With a non zero delta the block base fee per gas
+is set to (boundary * blob base fee) + delta.</p>
+<p>Example scenarios from parametrization:
+Assume
+  parent_excess_blobs = 3:
+  delta=-2:
+  blob_base_fee=1,
+  boundary=8,
+  block_base_fee_per_gas=8+(-2)=6, 6 &lt; 8,
+  reserve inactive,
+  effective_fee=1 delta=0:
+  blob_base_fee=1, boundary=8,
+  block_base_fee_per_gas=7, 7 &lt; 8,
+  reserve inactive, effective_fee=1
+  delta=100: blob_base_fee=1,
+  boundary=8, block_base_fee_per_gas=8+100=108, 108 &gt; 8,
+  reserve active, effective_fee=max(108/8, 1)=13</p>
+<p>All values give a blob base_ fee of 1 because we need a much higher excess
+blob gas to increase the blob fee. This only increases to 2 at 20 excess
+blobs.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
@@ -27367,9 +27376,28 @@ to increase the blob fee. This only increases to 2 at 20 excess blobs.</p>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
-<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
-    <span class="c1"># Keep max assuming this will be greater than 20 in the future, to test a blob fee of &gt; 1 :)</span>
+    <span class="c1"># Keep max assuming this will be greater than 20 in the future, to test a</span>
+    <span class="c1"># blob fee of &gt; 1 :)</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">fork</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">(),</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;block_base_fee_per_gas_delta&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
@@ -27381,17 +27409,30 @@ to increase the blob fee. This only increases to 2 at 20 excess blobs.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the reserve price boundary mechanism. Note the default block base fee per gas is 7 (delta is 0).</span>
-<span class="sd">    With a non zero delta the block base fee per gas is set to (boundary * blob base fee) + delta.</span>
+<span class="sd">    Tests the reserve price boundary mechanism. Note the default block base fee</span>
+<span class="sd">    per gas is 7 (delta is 0). With a non zero delta the block base fee per gas</span>
+<span class="sd">    is set to (boundary * blob base fee) + delta.</span>
 
-<span class="sd">    Example scenarios from parametrization, assume parent_excess_blobs = 3:</span>
-<span class="sd">        delta=-2: blob_base_fee=1, boundary=8, block_base_fee_per_gas=8+(-2)=6, 6 &lt; 8, reserve inactive, effective_fee=1</span>
-<span class="sd">        delta=0: blob_base_fee=1, boundary=8, block_base_fee_per_gas=7, 7 &lt; 8, reserve inactive, effective_fee=1</span>
-<span class="sd">        delta=100: blob_base_fee=1, boundary=8, block_base_fee_per_gas=8+100=108, 108 &gt; 8, reserve active, effective_fee=max(108/8, 1)=13</span>
+<span class="sd">    Example scenarios from parametrization:</span>
+<span class="sd">    Assume</span>
+<span class="sd">      parent_excess_blobs = 3:</span>
+<span class="sd">      delta=-2:</span>
+<span class="sd">      blob_base_fee=1,</span>
+<span class="sd">      boundary=8,</span>
+<span class="sd">      block_base_fee_per_gas=8+(-2)=6, 6 &lt; 8,</span>
+<span class="sd">      reserve inactive,</span>
+<span class="sd">      effective_fee=1 delta=0:</span>
+<span class="sd">      blob_base_fee=1, boundary=8,</span>
+<span class="sd">      block_base_fee_per_gas=7, 7 &lt; 8,</span>
+<span class="sd">      reserve inactive, effective_fee=1</span>
+<span class="sd">      delta=100: blob_base_fee=1,</span>
+<span class="sd">      boundary=8, block_base_fee_per_gas=8+100=108, 108 &gt; 8,</span>
+<span class="sd">      reserve active, effective_fee=max(108/8, 1)=13</span>
 
-<span class="sd">    All values give a blob base_ fee of 1 because we need a much higher excess blob gas</span>
-<span class="sd">    to increase the blob fee. This only increases to 2 at 20 excess blobs.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">    All values give a blob base_ fee of 1 because we need a much higher excess</span>
+<span class="sd">    blob gas to increase the blob fee. This only increases to 2 at 20 excess</span>
+<span class="sd">    blobs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

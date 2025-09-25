@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_blockhash"><code>test_worst_blockhash()</code><a class="headerlink" href="#test_worst_blockhash" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_stateful_opcodes.py#L453"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_blockhash@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_stateful_opcodes.py#L462"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_blockhash@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_blockhash -m benchmark</span>
@@ -27323,21 +27323,13 @@
 <a id="tests.benchmark.test_worst_stateful_opcodes.test_worst_blockhash"></a>
     <div class="doc doc-contents first">
 
-        <p>Test running a block with as many blockhash accessing oldest allowed block as possible.</p>
+        <p>Test running a block with as many blockhash accessing oldest allowed block
+as possible.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
 <span class="normal">465</span>
@@ -27353,12 +27345,27 @@
 <span class="normal">475</span>
 <span class="normal">476</span>
 <span class="normal">477</span>
-<span class="normal">478</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_blockhash</span><span class="p">(</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_blockhash</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many blockhash accessing oldest allowed block as possible.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test running a block with as many blockhash accessing oldest allowed block</span>
+<span class="sd">    as possible.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Create 256 dummy blocks to fill the blockhash window.</span>
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">Block</span><span class="p">()]</span> <span class="o">*</span> <span class="mi">256</span>
 

@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_address_state_cold"><code>test_worst_address_state_cold()</code><a class="headerlink" href="#test_worst_address_state_cold" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_stateful_opcodes.py#L36"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_stateful_opcodes.py#L33"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold -m benchmark</span>
@@ -27328,7 +27328,10 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
 <span class="normal"> 39</span>
@@ -27429,14 +27432,17 @@
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many stateful opcodes accessing cold accounts.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test running a block with as many stateful opcodes accessing cold accounts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
 
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
-    <span class="c1"># For calculation robustness, the calculation below ignores &quot;glue&quot; opcodes like  PUSH and POP.</span>
-    <span class="c1"># It should be considered a worst-case number of accounts, and a few of them might not be</span>
-    <span class="c1"># targeted before the attacking transaction runs out of gas.</span>
+    <span class="c1"># For calculation robustness, the calculation below ignores &quot;glue&quot; opcodes</span>
+    <span class="c1"># like  PUSH and POP. It should be considered a worst-case number of</span>
+    <span class="c1"># accounts, and a few of them might not be targeted before the attacking</span>
+    <span class="c1"># transaction runs out of gas.</span>
     <span class="n">num_target_accounts</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">//</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>
@@ -27444,10 +27450,10 @@
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="c1"># Setup</span>
-    <span class="c1"># The target addresses are going to be constructed (in the case of absent=False) and called</span>
-    <span class="c1"># as addr_offset + i, where i is the index of the account. This is to avoid</span>
-    <span class="c1"># collisions with the addresses indirectly created by the testing framework.</span>
+    <span class="c1"># Setup The target addresses are going to be constructed (in the case of</span>
+    <span class="c1"># absent=False) and called as addr_offset + i, where i is the index of the</span>
+    <span class="c1"># account. This is to avoid collisions with the addresses indirectly</span>
+    <span class="c1"># created by the testing framework.</span>
     <span class="n">addr_offset</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">absent_accounts</span><span class="p">:</span>

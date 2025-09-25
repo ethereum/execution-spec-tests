@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_calldatacopy"><code>test_worst_calldatacopy()</code><a class="headerlink" href="#test_worst_calldatacopy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_memory.py#L33"><code>tests/benchmark/test_worst_memory.py::test_worst_calldatacopy@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_memory.py#L30"><code>tests/benchmark/test_worst_memory.py::test_worst_calldatacopy@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_memory.py::test_worst_calldatacopy -m benchmark</span>
@@ -27328,7 +27328,10 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_memory.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 33</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
 <span class="normal"> 34</span>
 <span class="normal"> 35</span>
 <span class="normal"> 36</span>
@@ -27420,8 +27423,7 @@
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;origin&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">CallDataOrigin</span><span class="o">.</span><span class="n">TRANSACTION</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;transaction&quot;</span><span class="p">),</span>
@@ -27465,8 +27467,9 @@
     <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">non_zero_data</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Non-zero data with size 0 is not applicable.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># If `non_zero_data` is True, we fill the calldata with deterministic random data.</span>
-    <span class="c1"># Note that if `size == 0` and `non_zero_data` is a skipped case.</span>
+    <span class="c1"># If `non_zero_data` is True, we fill the calldata with deterministic</span>
+    <span class="c1"># random data. Note that if `size == 0` and `non_zero_data` is a skipped</span>
+    <span class="c1"># case.</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">([</span><span class="n">i</span> <span class="o">%</span> <span class="mi">256</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="k">else</span> <span class="n">Bytes</span><span class="p">()</span>
 
     <span class="n">intrinsic_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
@@ -27474,10 +27477,11 @@
     <span class="k">if</span> <span class="n">min_gas</span> <span class="o">&gt;</span> <span class="n">gas_benchmark_value</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Minimum gas required for calldata (</span><span class="si">{min_gas}</span><span class="s2">) is greater than the gas limit&quot;</span><span class="p">)</span>
 
-    <span class="c1"># We create the contract that will be doing the CALLDATACOPY multiple times.</span>
-    <span class="c1">#</span>
-    <span class="c1"># If `non_zero_data` is True, we leverage CALLDATASIZE for the copy length. Otherwise, since we</span>
-    <span class="c1"># don&#39;t send zero data explicitly via calldata, PUSH the target size and use DUP1 to copy it.</span>
+    <span class="c1"># We create the contract that will be doing the CALLDATACOPY multiple</span>
+    <span class="c1"># times.</span>
+    <span class="c1"># If `non_zero_data` is True, we leverage CALLDATASIZE for the copy length.</span>
+    <span class="c1"># Otherwise, since we don&#39;t send zero data explicitly via calldata, PUSH</span>
+    <span class="c1"># the target size and use DUP1 to copy it.</span>
     <span class="n">prefix</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH3</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
     <span class="n">src_dst</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">fixed_src_dst</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span>
@@ -27488,11 +27492,11 @@
 
     <span class="n">tx_target</span> <span class="o">=</span> <span class="n">code_address</span>
 
-    <span class="c1"># If the origin is CALL, we need to create a contract that will call the target contract with</span>
-    <span class="c1"># the calldata.</span>
+    <span class="c1"># If the origin is CALL, we need to create a contract that will call the</span>
+    <span class="c1"># target contract with the calldata.</span>
     <span class="k">if</span> <span class="n">origin</span> <span class="o">==</span> <span class="n">CallDataOrigin</span><span class="o">.</span><span class="n">CALL</span><span class="p">:</span>
-        <span class="c1"># If `non_zero_data` is False we leverage just using zeroed memory. Otherwise, we</span>
-        <span class="c1"># copy the calldata received from the transaction.</span>
+        <span class="c1"># If `non_zero_data` is False we leverage just using zeroed memory.</span>
+        <span class="c1"># Otherwise, we copy the calldata received from the transaction.</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="k">else</span> <span class="n">Bytecode</span><span class="p">()</span>
         <span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>

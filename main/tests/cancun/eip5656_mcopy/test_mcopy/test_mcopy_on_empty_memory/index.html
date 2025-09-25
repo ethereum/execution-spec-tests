@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_mcopy_on_empty_memory"><code>test_mcopy_on_empty_memory()</code><a class="headerlink" href="#test_mcopy_on_empty_memory" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip5656_mcopy/test_mcopy.py#L205"><code>tests/cancun/eip5656_mcopy/test_mcopy.py::test_mcopy_on_empty_memory@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip5656_mcopy/test_mcopy.py#L204"><code>tests/cancun/eip5656_mcopy/test_mcopy.py::test_mcopy_on_empty_memory@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip5656_mcopy/test_mcopy.py::test_mcopy_on_empty_memory --fork Osaka</span>
@@ -27325,12 +27325,14 @@
 <a id="tests.cancun.eip5656_mcopy.test_mcopy.test_mcopy_on_empty_memory"></a>
     <div class="doc doc-contents first">
 
-        <p>Perform MCOPY operations on an empty memory, using different offsets and lengths.</p>
+        <p>Perform MCOPY operations on an empty memory, using different offsets and
+lengths.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip5656_mcopy/test_mcopy.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
+<span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
@@ -27348,7 +27350,9 @@
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
-<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;dest&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">])</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;dest&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;initial_memory&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">bytes</span><span class="p">()],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;empty_memory&quot;</span><span class="p">])</span>
@@ -27360,7 +27364,10 @@
     <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform MCOPY operations on an empty memory, using different offsets and lengths.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform MCOPY operations on an empty memory, using different offsets and</span>
+<span class="sd">    lengths.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

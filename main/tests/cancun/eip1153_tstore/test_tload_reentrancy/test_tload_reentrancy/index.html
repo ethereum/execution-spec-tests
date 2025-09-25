@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tload_reentrancy"><code>test_tload_reentrancy()</code><a class="headerlink" href="#test_tload_reentrancy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip1153_tstore/test_tload_reentrancy.py#L36"><code>tests/cancun/eip1153_tstore/test_tload_reentrancy.py::test_tload_reentrancy@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip1153_tstore/test_tload_reentrancy.py#L35"><code>tests/cancun/eip1153_tstore/test_tload_reentrancy.py::test_tload_reentrancy@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tload_reentrancy.py::test_tload_reentrancy --fork Osaka</span>
@@ -27326,13 +27326,14 @@
     <div class="doc doc-contents first">
 
         <p>Ported .json vectors.</p>
-<p>(05_tloadReentrancyFiller.yml)
-Reentrant calls access the same transient storage</p>
+<p>(05_tloadReentrancyFiller.yml) Reentrant calls access the same transient
+storage</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tload_reentrancy.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
+<span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
 <span class="normal"> 39</span>
@@ -27482,8 +27483,8 @@ Reentrant calls access the same transient storage</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ported .json vectors.</span>
 
-<span class="sd">    (05_tloadReentrancyFiller.yml)</span>
-<span class="sd">    Reentrant calls access the same transient storage</span>
+<span class="sd">    (05_tloadReentrancyFiller.yml) Reentrant calls access the same transient</span>
+<span class="sd">    storage</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tload_value</span> <span class="o">=</span> <span class="mi">44</span>
     <span class="n">empty_value</span> <span class="o">=</span> <span class="mi">0</span>
@@ -27567,7 +27568,8 @@ Reentrant calls access the same transient storage</p>
                     <span class="n">slot_tload_in_subcall_result</span><span class="p">:</span> <span class="p">(</span>
                         <span class="mh">0xFF</span>  <span class="c1"># if call OOG, we fail to obtain the result</span>
                         <span class="k">if</span> <span class="n">call_return</span> <span class="o">==</span> <span class="n">Om</span><span class="o">.</span><span class="n">OOG</span>
-                        <span class="c1"># else delegate and callcode are working in the same context so tload works</span>
+                        <span class="c1"># else delegate and callcode are working in the same</span>
+                        <span class="c1"># context so tload works</span>
                         <span class="k">else</span> <span class="p">(</span>
                             <span class="n">tload_value</span>
                             <span class="k">if</span> <span class="n">call_type</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span> <span class="ow">or</span> <span class="n">call_type</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span>

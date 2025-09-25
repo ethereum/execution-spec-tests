@@ -27326,7 +27326,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/istanbul/eip152_blake2/spec.py"><code>tests/istanbul/eip152_blake2/spec.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/istanbul/eip152_blake2/spec.py"><code>tests/istanbul/eip152_blake2/spec.py@b281a78b</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27407,7 +27407,8 @@ out.</p>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">40</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-152 specifications as defined at</span>
@@ -27427,7 +27428,8 @@ out.</p>
     <span class="n">BLAKE2_PRECOMPILE_T_1_LENGTH</span> <span class="o">=</span> <span class="mi">8</span>
     <span class="n">BLAKE2_PRECOMPILE_F_LENGTH</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="c1"># Constants for BLAKE2b and BLAKE2s spec defined at https://datatracker.ietf.org/doc/html/rfc7693#section-3.2</span>
+    <span class="c1"># Constants for BLAKE2b and BLAKE2s spec defined at</span>
+    <span class="c1"># https://datatracker.ietf.org/doc/html/rfc7693#section-3.2</span>
     <span class="n">BLAKE2B_PRECOMPILE_ROUNDS</span> <span class="o">=</span> <span class="mi">12</span>
     <span class="n">BLAKE2B_PRECOMPILE_H_LENGTH</span> <span class="o">=</span> <span class="mi">64</span>
 </code></pre></div></td></tr></table></div>
@@ -27476,21 +27478,43 @@ out.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/istanbul/eip152_blake2/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
-<span class="normal">47</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SpecTestVectors</span><span class="p">:</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SpecTestVectors</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines common test parameters for the BLAKE2b precompile.&quot;&quot;&quot;</span>
 
     <span class="c1"># The following constants are used to define common test parameters</span>
-    <span class="c1"># Origin of vectors defined at https://datatracker.ietf.org/doc/html/rfc7693.html#appendix-A</span>
-    <span class="n">BLAKE2_STATE_VECTOR</span> <span class="o">=</span> <span class="s2">&quot;48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f79217e1319cde05b&quot;</span>  <span class="c1"># noqa:E501</span>
-    <span class="n">BLAKE2_MESSAGE_BLOCK_VECTOR</span> <span class="o">=</span> <span class="s2">&quot;6162630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&quot;</span>  <span class="c1"># noqa:E501</span>
+    <span class="c1"># Origin of vectors defined at</span>
+    <span class="c1"># https://datatracker.ietf.org/doc/html/rfc7693.html#appendix-A</span>
+    <span class="n">BLAKE2_STATE_VECTOR</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1&quot;</span>
+        <span class="s2">&quot;361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f&quot;</span>
+        <span class="s2">&quot;79217e1319cde05b&quot;</span>
+    <span class="p">)</span>
+    <span class="n">BLAKE2_MESSAGE_BLOCK_VECTOR</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;616263000000000000000000000000000000000&quot;</span>
+        <span class="s2">&quot;00000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+        <span class="s2">&quot;00000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+        <span class="s2">&quot;00000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+        <span class="s2">&quot;0000000000000000000000&quot;</span>
+    <span class="p">)</span>
     <span class="n">BLAKE2_OFFSET_COUNTER_0</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">BLAKE2_OFFSET_COUNTER_1</span> <span class="o">=</span> <span class="mi">0</span>
 </code></pre></div></td></tr></table></div>

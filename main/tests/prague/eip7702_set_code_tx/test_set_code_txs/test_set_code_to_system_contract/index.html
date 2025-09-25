@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_set_code_to_system_contract"><code>test_set_code_to_system_contract()</code><a class="headerlink" href="#test_set_code_to_system_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2715"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2748"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract --fork Osaka</span>
@@ -27330,40 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2715</span>
-<span class="normal">2716</span>
-<span class="normal">2717</span>
-<span class="normal">2718</span>
-<span class="normal">2719</span>
-<span class="normal">2720</span>
-<span class="normal">2721</span>
-<span class="normal">2722</span>
-<span class="normal">2723</span>
-<span class="normal">2724</span>
-<span class="normal">2725</span>
-<span class="normal">2726</span>
-<span class="normal">2727</span>
-<span class="normal">2728</span>
-<span class="normal">2729</span>
-<span class="normal">2730</span>
-<span class="normal">2731</span>
-<span class="normal">2732</span>
-<span class="normal">2733</span>
-<span class="normal">2734</span>
-<span class="normal">2735</span>
-<span class="normal">2736</span>
-<span class="normal">2737</span>
-<span class="normal">2738</span>
-<span class="normal">2739</span>
-<span class="normal">2740</span>
-<span class="normal">2741</span>
-<span class="normal">2742</span>
-<span class="normal">2743</span>
-<span class="normal">2744</span>
-<span class="normal">2745</span>
-<span class="normal">2746</span>
-<span class="normal">2747</span>
-<span class="normal">2748</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2748</span>
 <span class="normal">2749</span>
 <span class="normal">2750</span>
 <span class="normal">2751</span>
@@ -27474,7 +27441,43 @@
 <span class="normal">2856</span>
 <span class="normal">2857</span>
 <span class="normal">2858</span>
-<span class="normal">2859</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
+<span class="normal">2859</span>
+<span class="normal">2860</span>
+<span class="normal">2861</span>
+<span class="normal">2862</span>
+<span class="normal">2863</span>
+<span class="normal">2864</span>
+<span class="normal">2865</span>
+<span class="normal">2866</span>
+<span class="normal">2867</span>
+<span class="normal">2868</span>
+<span class="normal">2869</span>
+<span class="normal">2870</span>
+<span class="normal">2871</span>
+<span class="normal">2872</span>
+<span class="normal">2873</span>
+<span class="normal">2874</span>
+<span class="normal">2875</span>
+<span class="normal">2876</span>
+<span class="normal">2877</span>
+<span class="normal">2878</span>
+<span class="normal">2879</span>
+<span class="normal">2880</span>
+<span class="normal">2881</span>
+<span class="normal">2882</span>
+<span class="normal">2883</span>
+<span class="normal">2884</span>
+<span class="normal">2885</span>
+<span class="normal">2886</span>
+<span class="normal">2887</span>
+<span class="normal">2888</span>
+<span class="normal">2889</span>
+<span class="normal">2890</span>
+<span class="normal">2891</span>
+<span class="normal">2892</span>
+<span class="normal">2893</span>
+<span class="normal">2894</span>
+<span class="normal">2895</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">opcode</span>
         <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">]</span>
@@ -27500,10 +27503,12 @@
 
     <span class="n">call_value</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="c1"># Setup the initial storage of the account to mimic the system contract if required</span>
+    <span class="c1"># Setup the initial storage of the account to mimic the system contract if</span>
+    <span class="c1"># required</span>
     <span class="k">match</span> <span class="n">system_contract</span><span class="p">:</span>
         <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x00000000219AB540356CBB839CBE05303D7705FA</span><span class="p">):</span>  <span class="c1"># EIP-6110</span>
-            <span class="c1"># Deposit contract needs specific storage values, so we set them on the account</span>
+            <span class="c1"># Deposit contract needs specific storage values, so we set them on</span>
+            <span class="c1"># the account</span>
             <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span>
                 <span class="n">auth_account_start_balance</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">deposit_contract_initial_storage</span><span class="p">()</span>
             <span class="p">)</span>
@@ -27550,8 +27555,8 @@
             <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">consolidation_request</span><span class="o">.</span><span class="n">calldata</span>
             <span class="n">call_value</span> <span class="o">=</span> <span class="n">consolidation_request</span><span class="o">.</span><span class="n">value</span>
         <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">):</span>  <span class="c1"># EIP-2935</span>
-            <span class="c1"># This payload is used to identify the number of blocks to be subtracted from the</span>
-            <span class="c1"># latest block number</span>
+            <span class="c1"># This payload is used to identify the number of blocks to be</span>
+            <span class="c1"># subtracted from the latest block number</span>
             <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">caller_code_storage</span><span class="p">[</span><span class="n">call_return_data_size_slot</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span>
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
@@ -27560,8 +27565,8 @@
     <span class="c1"># Setup the code to call the system contract</span>
     <span class="k">match</span> <span class="n">system_contract</span><span class="p">:</span>
         <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">):</span>  <span class="c1"># EIP-2935</span>
-            <span class="c1"># Do a trick here to get the block number of the penultimate block to ensure it is</span>
-            <span class="c1"># saved in the history contract</span>
+            <span class="c1"># Do a trick here to get the block number of the penultimate block</span>
+            <span class="c1"># to ensure it is saved in the history contract</span>
             <span class="n">check_block_number</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
             <span class="n">call_system_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_block_number</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
                 <span class="n">call_return_code_slot</span><span class="p">,</span>
@@ -27606,7 +27611,8 @@
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
-                <span class="n">requests_hash</span><span class="o">=</span><span class="n">Requests</span><span class="p">(),</span>  <span class="c1"># Verify nothing slipped into the requests trie</span>
+                <span class="n">requests_hash</span><span class="o">=</span><span class="n">Requests</span><span class="p">(),</span>  <span class="c1"># Verify nothing slipped into the</span>
+                <span class="c1"># requests trie</span>
             <span class="p">)</span>
         <span class="p">],</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{</span>

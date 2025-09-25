@@ -28831,7 +28831,13 @@
 <span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
-<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseFixture</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseFixture</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a base Ethereum test fixture of any type.&quot;&quot;&quot;</span>
 
     <span class="c1"># Base Fixture class properties</span>
@@ -28848,7 +28854,10 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">output_base_dir_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return name of the subdirectory where this type of fixture should be dumped to.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return name of the subdirectory where this type of fixture should be</span>
+<span class="sd">        dumped to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
@@ -28945,7 +28954,10 @@
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Discard a fixture format from filling if the appropriate marker is used.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Discard a fixture format from filling if the appropriate marker is</span>
+<span class="sd">        used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -28975,7 +28987,8 @@
 
     <div class="doc doc-contents ">
 
-        <p>Return name of the subdirectory where this type of fixture should be dumped to.</p>
+        <p>Return name of the subdirectory where this type of fixture should be
+dumped to.</p>
 
 
             <details class="quote">
@@ -28983,9 +28996,15 @@
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">output_base_dir_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return name of the subdirectory where this type of fixture should be dumped to.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return name of the subdirectory where this type of fixture should be</span>
+<span class="sd">    dumped to.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29019,10 +29038,7 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
@@ -29044,7 +29060,10 @@ as possible fixture formats.</p>
 <span class="normal">92</span>
 <span class="normal">93</span>
 <span class="normal">94</span>
-<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">__pydantic_init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Register all subclasses of BaseFixture with a fixture format name set</span>
@@ -29153,13 +29172,13 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
-<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_dict_with_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hash_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_dict_with_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hash_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return JSON representation of the fixture with the info field.&quot;&quot;&quot;</span>
     <span class="n">dict_with_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">dict_with_info</span><span class="p">[</span><span class="s2">&quot;_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash</span><span class="p">}</span>
@@ -29193,10 +29212,7 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
@@ -29211,7 +29227,10 @@ as possible fixture formats.</p>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fill_info</span><span class="p">(</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fill_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">test_case_description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -29257,9 +29276,9 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fork of the fixture as a string.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
@@ -29294,14 +29313,14 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">supports_fork</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return whether the fixture can be generated for the given fork.</span>
@@ -29335,25 +29354,32 @@ as possible fixture formats.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Discard a fixture format from filling if the appropriate marker is used.</p>
+        <p>Discard a fixture format from filling if the appropriate marker is
+used.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
-<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard a fixture format from filling if the appropriate marker is used.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Discard a fixture format from filling if the appropriate marker is</span>
+<span class="sd">    used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29447,8 +29473,8 @@ as possible fixture formats.</p>
 
 
         <p>Represents a fixture format with a custom label.</p>
-<p>This label will be used in the test id and also will be added as a marker to the
-generated test case when filling the test.</p>
+<p>This label will be used in the test id and also will be added as a marker
+to the generated test case when filling the test.</p>
 
 
 
@@ -29458,13 +29484,7 @@ generated test case when filling the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
@@ -29510,12 +29530,18 @@ generated test case when filling the test.</p>
 <span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
-<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LabeledFixtureFormat</span><span class="p">:</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LabeledFixtureFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a fixture format with a custom label.</span>
 
-<span class="sd">    This label will be used in the test id and also will be added as a marker to the</span>
-<span class="sd">    generated test case when filling the test.</span>
+<span class="sd">    This label will be used in the test id and also will be added as a marker</span>
+<span class="sd">    to the generated test case when filling the test.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">format</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseFixture</span><span class="p">]</span>
@@ -29555,8 +29581,8 @@ generated test case when filling the test.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if two labeled fixture formats are equal.</span>
 
-<span class="sd">        If the other object is a FixtureFormat type, the format of the labeled fixture</span>
-<span class="sd">        format will be compared with the format of the other object.</span>
+<span class="sd">        If the other object is a FixtureFormat type, the format of the labeled</span>
+<span class="sd">        fixture format will be compared with the format of the other object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">LabeledFixtureFormat</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">format</span>
@@ -29592,13 +29618,7 @@ generated test case when filling the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
@@ -29607,7 +29627,13 @@ generated test case when filling the test.</p>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
-<span class="normal">197</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="s2">&quot;Type[BaseFixture] | LabeledFixtureFormat&quot;</span><span class="p">,</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -29700,29 +29726,29 @@ generated test case when filling the test.</p>
     <div class="doc doc-contents ">
 
         <p>Check if two labeled fixture formats are equal.</p>
-<p>If the other object is a FixtureFormat type, the format of the labeled fixture
-format will be compared with the format of the other object.</p>
+<p>If the other object is a FixtureFormat type, the format of the labeled
+fixture format will be compared with the format of the other object.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
-<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if two labeled fixture formats are equal.</span>
 
-<span class="sd">    If the other object is a FixtureFormat type, the format of the labeled fixture</span>
-<span class="sd">    format will be compared with the format of the other object.</span>
+<span class="sd">    If the other object is a FixtureFormat type, the format of the labeled</span>
+<span class="sd">    fixture format will be compared with the format of the other object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">LabeledFixtureFormat</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">format</span>
@@ -29775,17 +29801,17 @@ format will be compared with the format of the other object.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">586</span>
-<span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixtureCommon</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Engine specific test fixture information.&quot;&quot;&quot;</span>
 
     <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test_engine&quot;</span>
@@ -29846,19 +29872,7 @@ duplicating large pre-allocations.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">570</span>
 <span class="normal">571</span>
 <span class="normal">572</span>
 <span class="normal">573</span>
@@ -29871,7 +29885,20 @@ duplicating large pre-allocations.</p>
 <span class="normal">580</span>
 <span class="normal">581</span>
 <span class="normal">582</span>
-<span class="normal">583</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineFixtureCommon</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base blockchain test fixture model for Engine API based execution.</span>
@@ -29882,7 +29909,8 @@ duplicating large pre-allocations.</p>
 
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
     <span class="n">post_state_hash</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">last_block_hash</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;lastblockhash&quot;</span><span class="p">)</span>  <span class="c1"># FIXME: lastBlockHash</span>
+    <span class="c1"># FIXME: lastBlockHash</span>
+    <span class="n">last_block_hash</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;lastblockhash&quot;</span><span class="p">)</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">FixtureConfig</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -29926,9 +29954,9 @@ duplicating large pre-allocations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fixture&#39;s `Fork`.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fork</span>
 </code></pre></div></td></tr></table></div>
@@ -29963,14 +29991,14 @@ duplicating large pre-allocations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">supports_fork</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return whether the fixture can be generated for the given fork.</span>
@@ -30028,23 +30056,7 @@ duplicating large pre-allocations.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">641</span>
 <span class="normal">642</span>
 <span class="normal">643</span>
 <span class="normal">644</span>
@@ -30052,7 +30064,23 @@ duplicating large pre-allocations.</p>
 <span class="normal">646</span>
 <span class="normal">647</span>
 <span class="normal">648</span>
-<span class="normal">649</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineSyncFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixture</span><span class="p">):</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineSyncFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Engine Sync specific test fixture information.</span>
 
@@ -30110,15 +30138,15 @@ duplicating large pre-allocations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -30175,20 +30203,7 @@ test execution without client restarts.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">612</span>
 <span class="normal">613</span>
 <span class="normal">614</span>
 <span class="normal">615</span>
@@ -30198,7 +30213,23 @@ test execution without client restarts.</p>
 <span class="normal">619</span>
 <span class="normal">620</span>
 <span class="normal">621</span>
-<span class="normal">622</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">(</span><span class="n">alternate_field</span><span class="o">=</span><span class="s2">&quot;post_state_diff&quot;</span><span class="p">)</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">(</span><span class="n">alternate_field</span><span class="o">=</span><span class="s2">&quot;post_state_diff&quot;</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineXFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Engine X specific test fixture information.</span>
@@ -30218,7 +30249,10 @@ test execution without client restarts.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Hash of the pre-allocation group this test belongs to.&quot;&quot;&quot;</span>
 
     <span class="n">post_state_diff</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;State difference from genesis after test execution (efficiency optimization).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    State difference from genesis after test execution (efficiency</span>
+<span class="sd">    optimization).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">payloads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;engineNewPayloads&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Engine API payloads for blockchain execution.&quot;&quot;&quot;</span>
@@ -30279,7 +30313,8 @@ test execution without client restarts.</p>
 
     <div class="doc doc-contents ">
 
-        <p>State difference from genesis after test execution (efficiency optimization).</p>
+        <p>State difference from genesis after test execution (efficiency
+optimization).</p>
 
     </div>
 
@@ -30353,15 +30388,15 @@ test execution without client restarts.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainFixture</span><span class="p">(</span><span class="n">BlockchainFixtureCommon</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainFixture</span><span class="p">(</span><span class="n">BlockchainFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cross-client specific blockchain test model use in JSON fixtures.&quot;&quot;&quot;</span>
 
     <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test&quot;</span>
@@ -30418,18 +30453,7 @@ test execution without client restarts.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
 <span class="normal">527</span>
@@ -30449,7 +30473,19 @@ test execution without client restarts.</p>
 <span class="normal">541</span>
 <span class="normal">542</span>
 <span class="normal">543</span>
-<span class="normal">544</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockchainFixtureCommon</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base blockchain test fixture model.&quot;&quot;&quot;</span>
 
@@ -30458,15 +30494,16 @@ test execution without client restarts.</p>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
     <span class="n">post_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">post_state_hash</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">last_block_hash</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;lastblockhash&quot;</span><span class="p">)</span>  <span class="c1"># FIXME: lastBlockHash</span>
+    <span class="c1"># FIXME: lastBlockHash</span>
+    <span class="n">last_block_hash</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;lastblockhash&quot;</span><span class="p">)</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">FixtureConfig</span>
 
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">config_defaults_for_backwards_compatibility</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if the config field is populated, otherwise use the root-level field values for</span>
-<span class="sd">        backwards compatibility.</span>
+<span class="sd">        Check if the config field is populated, otherwise use the root-level</span>
+<span class="sd">        field values for backwards compatibility.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="s2">&quot;config&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
@@ -30509,33 +30546,33 @@ test execution without client restarts.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Check if the config field is populated, otherwise use the root-level field values for
-backwards compatibility.</p>
+        <p>Check if the config field is populated, otherwise use the root-level
+field values for backwards compatibility.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">537</span>
 <span class="normal">538</span>
 <span class="normal">539</span>
-<span class="normal">540</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
 <span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">config_defaults_for_backwards_compatibility</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check if the config field is populated, otherwise use the root-level field values for</span>
-<span class="sd">    backwards compatibility.</span>
+<span class="sd">    Check if the config field is populated, otherwise use the root-level</span>
+<span class="sd">    field values for backwards compatibility.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;config&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
@@ -30573,9 +30610,9 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fork of the fixture as a string.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fork</span>
 </code></pre></div></td></tr></table></div>
@@ -30626,8 +30663,7 @@ backwards compatibility.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
-<span class="normal">107</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
@@ -30722,7 +30758,10 @@ backwards compatibility.</p>
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FixtureCollector</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Collects all fixtures generated by the test cases.&quot;&quot;&quot;</span>
 
@@ -30741,8 +30780,9 @@ backwards compatibility.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return basename of the fixture file for a given test case.&quot;&quot;&quot;</span>
         <span class="n">module_relative_output_dir</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get_module_relative_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filler_path</span><span class="p">)</span>
 
-        <span class="c1"># Each legacy test filler has only 1 test per file if it&#39;s a !state test!</span>
-        <span class="c1"># So no need to create directory Add11/add11.json it can be plain add11.json</span>
+        <span class="c1"># Each legacy test filler has only 1 test per file if it&#39;s a !state</span>
+        <span class="c1"># test! So no need to create directory Add11/add11.json it can be plain</span>
+        <span class="c1"># add11.json</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_static_tests</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">module_relative_output_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">info</span><span class="o">.</span><span class="n">original_name</span>
 
@@ -30759,7 +30799,8 @@ backwards compatibility.</p>
             <span class="o">/</span> <span class="n">fixture</span><span class="o">.</span><span class="n">output_base_dir_name</span><span class="p">()</span>
             <span class="o">/</span> <span class="n">fixture_basename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="n">output_file_extension</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">fixture_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># relevant when we group by test function</span>
+        <span class="c1"># relevant when we group by test function</span>
+        <span class="k">if</span> <span class="n">fixture_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">Fixtures</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="p">{})</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_test_item</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span>
 
@@ -30848,8 +30889,7 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">121</span>
-<span class="normal">122</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
@@ -30859,12 +30899,15 @@ backwards compatibility.</p>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fixture_basename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">TestInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fixture_basename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">TestInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return basename of the fixture file for a given test case.&quot;&quot;&quot;</span>
     <span class="n">module_relative_output_dir</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get_module_relative_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filler_path</span><span class="p">)</span>
 
-    <span class="c1"># Each legacy test filler has only 1 test per file if it&#39;s a !state test!</span>
-    <span class="c1"># So no need to create directory Add11/add11.json it can be plain add11.json</span>
+    <span class="c1"># Each legacy test filler has only 1 test per file if it&#39;s a !state</span>
+    <span class="c1"># test! So no need to create directory Add11/add11.json it can be plain</span>
+    <span class="c1"># add11.json</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_static_tests</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">module_relative_output_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">info</span><span class="o">.</span><span class="n">original_name</span>
 
@@ -30898,9 +30941,7 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
@@ -30916,7 +30957,10 @@ backwards compatibility.</p>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
-<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_fixture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">TestInfo</span><span class="p">,</span> <span class="n">fixture</span><span class="p">:</span> <span class="n">BaseFixture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_fixture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">TestInfo</span><span class="p">,</span> <span class="n">fixture</span><span class="p">:</span> <span class="n">BaseFixture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add fixture to the list of fixtures of a given test case.&quot;&quot;&quot;</span>
     <span class="n">fixture_basename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_fixture_basename</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
@@ -30925,7 +30969,8 @@ backwards compatibility.</p>
         <span class="o">/</span> <span class="n">fixture</span><span class="o">.</span><span class="n">output_base_dir_name</span><span class="p">()</span>
         <span class="o">/</span> <span class="n">fixture_basename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="n">output_file_extension</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="n">fixture_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># relevant when we group by test function</span>
+    <span class="c1"># relevant when we group by test function</span>
+    <span class="k">if</span> <span class="n">fixture_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">Fixtures</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="p">{})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_test_item</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span>
 
@@ -30962,10 +31007,7 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
@@ -30977,7 +31019,10 @@ backwards compatibility.</p>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dump_fixtures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">dump_fixtures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dump all collected fixtures to their respective files.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;stdout&quot;</span><span class="p">:</span>
         <span class="n">combined_fixtures</span> <span class="o">=</span> <span class="p">{</span>
@@ -31020,10 +31065,7 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
@@ -31032,7 +31074,10 @@ backwards compatibility.</p>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureConsumer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureConsumer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run `evm [state|block]test` on each fixture.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">name_fixture_dict</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">_fixture_name</span><span class="p">,</span> <span class="n">fixture</span> <span class="ow">in</span> <span class="n">name_fixture_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -31175,14 +31220,17 @@ backwards compatibility.</p>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TestInfo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Contains test information from the current node.&quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># pytest: Item.name, e.g. test_paris_one[fork_Paris-state_test]</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># pytest: Item.nodeid, e.g. tests/paris/test_module_paris.py::test_paris_one[...]</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># pytest: Item.nodeid, e.g.</span>
+    <span class="c1"># tests/paris/test_module_paris.py::test_paris_one[...]</span>
     <span class="n">original_name</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># pytest: Item.originalname, e.g. test_paris_one</span>
-    <span class="n">module_path</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># pytest: Item.path, e.g. .../tests/paris/test_module_paris.py</span>
+    <span class="n">module_path</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># pytest: Item.path, e.g.</span>
+    <span class="c1"># .../tests/paris/test_module_paris.py</span>
 
     <span class="n">test_prefix</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;test_&quot;</span>  <span class="c1"># Python test prefix</span>
     <span class="n">filler_suffix</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Filler&quot;</span>  <span class="c1"># Static test suffix</span>
@@ -31198,11 +31246,11 @@ backwards compatibility.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_name_and_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert test name to a tuple containing the test name and test parameters.</span>
+<span class="sd">        Convert test name to a tuple containing the test name and test</span>
+<span class="sd">        parameters.</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">        test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai</span>
-
+<span class="sd">        Example: test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore,</span>
+<span class="sd">        fork_Shanghai</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">test_name</span><span class="p">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\[\-]&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -31248,9 +31296,8 @@ backwards compatibility.</p>
 <span class="sd">        base ./tests directory) that can be used for output (within the</span>
 <span class="sd">        configured fixtures output path or the base_dump_dir directory).</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">        tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_push0</span>
-
+<span class="sd">        Example: tests/shanghai/eip3855_push0/test_push0.py -&gt;</span>
+<span class="sd">        shanghai/eip3855_push0/test_push0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">module_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
         <span class="n">basename_relative</span> <span class="o">=</span> <span class="n">basename</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span>
@@ -31291,14 +31338,14 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">strip_test_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove test prefix from a python test case name.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">test_prefix</span><span class="p">):</span>
@@ -31328,29 +31375,30 @@ backwards compatibility.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Convert test name to a tuple containing the test name and test parameters.</p>
-<p>Example:
-test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai</p>
+        <p>Convert test name to a tuple containing the test name and test
+parameters.</p>
+<p>Example: test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore,
+fork_Shanghai</p>
 
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
-<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_name_and_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_name_and_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert test name to a tuple containing the test name and test parameters.</span>
+<span class="sd">    Convert test name to a tuple containing the test name and test</span>
+<span class="sd">    parameters.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">    test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai</span>
-
+<span class="sd">    Example: test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore,</span>
+<span class="sd">    fork_Shanghai</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">test_name</span><span class="p">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\[\-]&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -31381,16 +31429,16 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_single_test_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;module&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;module&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_single_test_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;module&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;module&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert test name to a single test name.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;module&quot;</span><span class="p">:</span>
         <span class="c1"># Use the module name as the test name</span>
@@ -31427,9 +31475,7 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
@@ -31445,7 +31491,9 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
-<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_dump_dir_path</span><span class="p">(</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_dump_dir_path</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">base_dump_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">],</span>
     <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -31491,9 +31539,9 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the test id.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
 </code></pre></div></td></tr></table></div>
@@ -31521,15 +31569,13 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
         <p>Return a directory name for the provided test_module (relative to the
 base ./tests directory) that can be used for output (within the
 configured fixtures output path or the base_dump_dir directory).</p>
-<p>Example:
-tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_push0</p>
+<p>Example: tests/shanghai/eip3855_push0/test_push0.py -&gt;
+shanghai/eip3855_push0/test_push0</p>
 
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/collector.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
@@ -31542,15 +31588,15 @@ tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_pus
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_module_relative_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_module_relative_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a directory name for the provided test_module (relative to the</span>
 <span class="sd">    base ./tests directory) that can be used for output (within the</span>
 <span class="sd">    configured fixtures output path or the base_dump_dir directory).</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">    tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_push0</span>
-
+<span class="sd">    Example: tests/shanghai/eip3855_push0/test_push0.py -&gt;</span>
+<span class="sd">    shanghai/eip3855_push0/test_push0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">basename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">module_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
     <span class="n">basename_relative</span> <span class="o">=</span> <span class="n">basename</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span>
@@ -31627,7 +31673,10 @@ tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_pus
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FixtureConsumer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FixtureConsumer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for verifying Ethereum test fixtures.&quot;&quot;&quot;</span>
 
     <span class="n">fixture_formats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureFormat</span><span class="p">]</span>
@@ -31647,7 +31696,10 @@ tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_pus
         <span class="n">fixture_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the client with the specified fixture using its direct consumer interface.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test the client with the specified fixture using its direct consumer</span>
+<span class="sd">        interface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;The `consume_fixture()` function is not supported by this tool.&quot;</span>
         <span class="p">)</span>
@@ -31717,7 +31769,8 @@ tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_pus
 
     <div class="doc doc-contents ">
 
-        <p>Test the client with the specified fixture using its direct consumer interface.</p>
+        <p>Test the client with the specified fixture using its direct consumer
+interface.</p>
 
 
             <details class="quote">
@@ -31733,7 +31786,10 @@ tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_pus
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">consume_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
@@ -31741,7 +31797,10 @@ tests/shanghai/eip3855_push0/test_push0.py -&gt; shanghai/eip3855_push0/test_pus
     <span class="n">fixture_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the client with the specified fixture using its direct consumer interface.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test the client with the specified fixture using its direct consumer</span>
+<span class="sd">    interface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
         <span class="s2">&quot;The `consume_fixture()` function is not supported by this tool.&quot;</span>
     <span class="p">)</span>
@@ -31960,7 +32019,9 @@ pre-allocation group optimization.</p>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PreAllocGroup</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PreAllocGroup</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pre-allocation group for tests with identical Environment and fork values.</span>
 
@@ -31968,7 +32029,8 @@ pre-allocation group optimization.</p>
 <span class="sd">    pre-allocation group optimization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;populate_by_name&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>  <span class="c1"># Allow both field names and aliases</span>
+    <span class="c1"># Allow both field names and aliases</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;populate_by_name&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
     <span class="n">test_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">environment</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Grouping environment for this test group&quot;</span><span class="p">)</span>
@@ -32011,9 +32073,10 @@ pre-allocation group optimization.</p>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">new_account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span>
                         <span class="k">if</span> <span class="n">new_account</span> <span class="o">!=</span> <span class="n">existing_account</span><span class="p">:</span>
-                            <span class="c1"># This procedure fails during xdist worker&#39;s pytest_sessionfinish</span>
-                            <span class="c1"># and is not reported to the master thread.</span>
-                            <span class="c1"># We signal here that the groups created contain a collision.</span>
+                            <span class="c1"># This procedure fails during xdist worker&#39;s</span>
+                            <span class="c1"># pytest_sessionfinish and is not reported to the</span>
+                            <span class="c1"># master thread. We signal here that the groups</span>
+                            <span class="c1"># created contain a collision.</span>
                             <span class="n">collision_file_path</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.fail&quot;</span><span class="p">)</span>
                             <span class="n">collision_exception</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">CollisionError</span><span class="p">(</span>
                                 <span class="n">address</span><span class="o">=</span><span class="n">account</span><span class="p">,</span>
@@ -32137,8 +32200,7 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
-<span class="normal">55</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
@@ -32166,7 +32228,9 @@ pre-allocation group optimization.</p>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Save PreAllocGroup to a file.&quot;&quot;&quot;</span>
     <span class="n">lock_file_path</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.lock&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">FileLock</span><span class="p">(</span><span class="n">lock_file_path</span><span class="p">):</span>
@@ -32180,9 +32244,10 @@ pre-allocation group optimization.</p>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">new_account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span>
                     <span class="k">if</span> <span class="n">new_account</span> <span class="o">!=</span> <span class="n">existing_account</span><span class="p">:</span>
-                        <span class="c1"># This procedure fails during xdist worker&#39;s pytest_sessionfinish</span>
-                        <span class="c1"># and is not reported to the master thread.</span>
-                        <span class="c1"># We signal here that the groups created contain a collision.</span>
+                        <span class="c1"># This procedure fails during xdist worker&#39;s</span>
+                        <span class="c1"># pytest_sessionfinish and is not reported to the</span>
+                        <span class="c1"># master thread. We signal here that the groups</span>
+                        <span class="c1"># created contain a collision.</span>
                         <span class="n">collision_file_path</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.fail&quot;</span><span class="p">)</span>
                         <span class="n">collision_exception</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">CollisionError</span><span class="p">(</span>
                             <span class="n">address</span><span class="o">=</span><span class="n">account</span><span class="p">,</span>
@@ -32233,7 +32298,8 @@ pre-allocation group optimization.</p>
 
 
         <p>Root model mapping pre-allocation group hashes to test groups.</p>
-<p>If lazy_load is True, the groups are not loaded from the folder until they are accessed.</p>
+<p>If lazy_load is True, the groups are not loaded from the folder until they
+are accessed.</p>
 <p>Iterating will fail if lazy_load is True.</p>
 
 
@@ -32244,9 +32310,7 @@ pre-allocation group optimization.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
 <span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
@@ -32328,11 +32392,15 @@ pre-allocation group optimization.</p>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PreAllocGroups</span><span class="p">(</span><span class="n">EthereumTestRootModel</span><span class="p">):</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PreAllocGroups</span><span class="p">(</span><span class="n">EthereumTestRootModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Root model mapping pre-allocation group hashes to test groups.</span>
 
-<span class="sd">    If lazy_load is True, the groups are not loaded from the folder until they are accessed.</span>
+<span class="sd">    If lazy_load is True, the groups are not loaded from the folder until they</span>
+<span class="sd">    are accessed.</span>
 
 <span class="sd">    Iterating will fail if lazy_load is True.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -32442,12 +32510,12 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set item in root dict.&quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_folder_source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
         <span class="s2">&quot;Cannot set item in root dict after folder source is set&quot;</span>
@@ -32484,10 +32552,7 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
@@ -32502,7 +32567,10 @@ pre-allocation group optimization.</p>
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_folder</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lazy_load</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PreAllocGroups&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create PreAllocGroups from a folder of pre-allocation files.&quot;&quot;&quot;</span>
     <span class="c1"># First check for collision failures</span>
@@ -32548,11 +32616,11 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Save PreAllocGroups to a folder of pre-allocation files.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">assert</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Value for key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> is None&quot;</span>
@@ -32584,17 +32652,17 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
-<span class="normal">142</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get item from root dict.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_folder_source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
@@ -32632,9 +32700,9 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Iterate over root dict.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -32664,9 +32732,9 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if item in root dict.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
 </code></pre></div></td></tr></table></div>
@@ -32696,9 +32764,9 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get length of root dict.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -32728,9 +32796,9 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get keys from root dict.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
@@ -32760,11 +32828,11 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">PreAllocGroup</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">PreAllocGroup</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get values from root dict.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="k">assert</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Value is None&quot;</span>
@@ -32796,11 +32864,11 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PreAllocGroup</span><span class="p">]]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PreAllocGroup</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get items from root dict.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">assert</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Value for key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> is None&quot;</span>
@@ -32851,9 +32919,7 @@ pre-allocation group optimization.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/state.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
 <span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
@@ -32867,7 +32933,9 @@ pre-allocation group optimization.</p>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateFixture</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateFixture</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture for a single StateTest.&quot;&quot;&quot;</span>
 
     <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;state_test&quot;</span>
@@ -32913,11 +32981,11 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fork of the fixture as a string.&quot;&quot;&quot;</span>
     <span class="n">forks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">forks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Expected state test fixture with single fork&quot;</span>

@@ -27248,7 +27248,7 @@
 
 
 <h1 id="test-worst-compute">Test Worst Compute<a class="headerlink" href="#test-worst-compute" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L67"><code>tests/benchmark/test_worst_compute.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L64"><code>tests/benchmark/test_worst_compute.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py -m benchmark</span>
@@ -27263,12 +27263,7 @@
 <a id="tests.benchmark.test_worst_compute"></a>
     <div class="doc doc-contents first">
 
-
-
-<details class="abstract" open>
-  <summary>Tests that benchmark EVMs in worst-case compute scenarios.</summary>
-  <p>Tests that benchmark EVMs in worst-case compute scenarios.</p>
-</details>        <p>Tests that benchmark EVMs when running worst-case compute opcodes and precompile scenarios.</p>
+        <p>Tests that benchmark EVMs in worst-case compute scenarios.</p>
 
 
 
@@ -27321,13 +27316,13 @@
 <td><a href="test_worst_returndatasize_nonzero/"><code>test_worst_returndatasize_nonzero</code></a></td>
 <td>state_test</td>
 <td>6</td>
-<td>Test running a block which execute as many RETURNDATASIZE opcodes which return a non-zero</td>
+<td>Test running a block which execute as many RETURNDATASIZE opcodes which</td>
 </tr>
 <tr>
 <td><a href="test_worst_returndatasize_zero/"><code>test_worst_returndatasize_zero</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer.</td>
+<td>Test running a block with as many RETURNDATASIZE opcodes as possible with a</td>
 </tr>
 <tr>
 <td><a href="test_worst_msize/"><code>test_worst_msize</code></a></td>
@@ -27345,13 +27340,13 @@
 <td><a href="test_worst_precompile_only_data_input/"><code>test_worst_precompile_only_data_input</code></a></td>
 <td>state_test</td>
 <td>3</td>
-<td>Test running a block with as many precompile calls which have a single <code>data</code> input.</td>
+<td>Test running a block with as many precompile calls which have a single</td>
 </tr>
 <tr>
 <td><a href="test_worst_modexp/"><code>test_worst_modexp</code></a></td>
 <td>state_test</td>
 <td>89</td>
-<td>Test running a block with as many calls to the MODEXP (5) precompile as possible.</td>
+<td>Test running a block with as many calls to the MODEXP (5) precompile as</td>
 </tr>
 <tr>
 <td><a href="test_worst_precompile_fixed_cost/"><code>test_worst_precompile_fixed_cost</code></a></td>
@@ -27387,13 +27382,13 @@
 <td><a href="test_worst_binop_simple/"><code>test_worst_binop_simple</code></a></td>
 <td>state_test</td>
 <td>23</td>
-<td>Test running a block with as many binary instructions (takes two args, produces one value)</td>
+<td>Test running a block with as many binary instructions (takes two args,</td>
 </tr>
 <tr>
 <td><a href="test_worst_unop/"><code>test_worst_unop</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test running a block with as many unary instructions (takes one arg, produces one value)</td>
+<td>Test running a block with as many unary instructions (takes one arg,</td>
 </tr>
 <tr>
 <td><a href="test_worst_tload/"><code>test_worst_tload</code></a></td>
@@ -27411,7 +27406,7 @@
 <td><a href="test_worst_shifts/"><code>test_worst_shifts</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test running a block with as many shift instructions with non-trivial arguments.</td>
+<td>Test running a block with as many shift instructions with non-trivial</td>
 </tr>
 <tr>
 <td><a href="test_worst_blobhash/"><code>test_worst_blobhash</code></a></td>
@@ -27423,7 +27418,7 @@
 <td><a href="test_worst_mod/"><code>test_worst_mod</code></a></td>
 <td>state_test</td>
 <td>8</td>
-<td>Test running a block with as many MOD instructions with arguments of the parametrized range.</td>
+<td>Test running a block with as many MOD instructions with arguments of the</td>
 </tr>
 <tr>
 <td><a href="test_worst_memory_access/"><code>test_worst_memory_access</code></a></td>
@@ -27435,7 +27430,7 @@
 <td><a href="test_worst_modarith/"><code>test_worst_modarith</code></a></td>
 <td>state_test</td>
 <td>8</td>
-<td>Test running a block with as many "op" instructions with arguments of the parametrized range.</td>
+<td>Test running a block with as many "op" instructions with arguments of the</td>
 </tr>
 <tr>
 <td><a href="test_empty_block/"><code>test_empty_block</code></a></td>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blobbasefee_stack_overflow"><code>test_blobbasefee_stack_overflow()</code><a class="headerlink" href="#test_blobbasefee_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py#L83"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_stack_overflow@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py#L89"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_stack_overflow@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_stack_overflow --fork Osaka</span>
@@ -27325,18 +27325,13 @@
 <a id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_stack_overflow"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests that the BLOBBASEFEE opcode produces a stack overflow by using it repeatedly.</p>
+        <p>Tests that the BLOBBASEFEE opcode produces a stack overflow by using it
+repeatedly.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
@@ -27360,7 +27355,16 @@
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
-<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_code,call_fails&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BLOBBASEFEE</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_stack_overflow&quot;</span><span class="p">),</span>
@@ -27376,7 +27380,10 @@
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">call_fails</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests that the BLOBBASEFEE opcode produces a stack overflow by using it repeatedly.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests that the BLOBBASEFEE opcode produces a stack overflow by using it</span>
+<span class="sd">    repeatedly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">call_fails</span> <span class="k">else</span> <span class="mi">1</span><span class="p">},</span>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_modexp_fork_transition"><code>test_modexp_fork_transition()</code><a class="headerlink" href="#test_modexp_fork_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py#L19"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py#L21"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition --fork Osaka</span>
@@ -27325,14 +27325,13 @@
 <a id="tests.osaka.eip7883_modexp_gas_increase.test_modexp_thresholds_transition.test_modexp_fork_transition"></a>
     <div class="doc doc-contents first">
 
-        <p>Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard fork.</p>
+        <p>Test ModExp gas cost transition from EIP-7883 before and after the Osaka
+hard fork.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 19</span>
-<span class="normal"> 20</span>
-<span class="normal"> 21</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 21</span>
 <span class="normal"> 22</span>
 <span class="normal"> 23</span>
 <span class="normal"> 24</span>
@@ -27414,7 +27413,12 @@
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,modexp_expected,gas_old,gas_new&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">modexp_input</span><span class="p">,</span> <span class="n">Spec</span><span class="o">.</span><span class="n">modexp_expected</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">),</span>
@@ -27436,7 +27440,10 @@
     <span class="n">modexp_input</span><span class="p">:</span> <span class="n">ModExpInput</span><span class="p">,</span>
     <span class="n">modexp_expected</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard fork.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test ModExp gas cost transition from EIP-7883 before and after the Osaka</span>
+<span class="sd">    hard fork.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">call_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
         <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">MODEXP_ADDRESS</span><span class="p">,</span>
         <span class="n">args_size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span>

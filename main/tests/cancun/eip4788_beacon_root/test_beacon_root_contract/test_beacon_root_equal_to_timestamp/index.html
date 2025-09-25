@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_beacon_root_equal_to_timestamp"><code>test_beacon_root_equal_to_timestamp()</code><a class="headerlink" href="#test_beacon_root_equal_to_timestamp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L198"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_equal_to_timestamp@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L205"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_equal_to_timestamp@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_equal_to_timestamp --fork Osaka</span>
@@ -27325,21 +27325,15 @@
 <a id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_equal_to_timestamp"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests the beacon root contract call where the beacon root is equal to the timestamp.</p>
-<p>The expected result is that the contract call will return the <code>parent_beacon_block_root</code>,
-as all timestamps used are valid.</p>
+        <p>Tests the beacon root contract call where the beacon root is equal to the
+timestamp.</p>
+<p>The expected result is that the contract call will return the
+<code>parent_beacon_block_root</code>, as all timestamps used are valid.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
@@ -27362,7 +27356,15 @@ as all timestamps used are valid.</p>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
-<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;beacon_root, timestamp&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>  <span class="c1"># twelve</span>
@@ -27383,10 +27385,11 @@ as all timestamps used are valid.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root contract call where the beacon root is equal to the timestamp.</span>
+<span class="sd">    Tests the beacon root contract call where the beacon root is equal to the</span>
+<span class="sd">    timestamp.</span>
 
-<span class="sd">    The expected result is that the contract call will return the `parent_beacon_block_root`,</span>
-<span class="sd">    as all timestamps used are valid.</span>
+<span class="sd">    The expected result is that the contract call will return the</span>
+<span class="sd">    `parent_beacon_block_root`, as all timestamps used are valid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_stack_overflow"><code>test_stack_overflow()</code><a class="headerlink" href="#test_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/opcodes/test_push.py#L77"><code>tests/frontier/opcodes/test_push.py::test_stack_overflow@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/opcodes/test_push.py#L81"><code>tests/frontier/opcodes/test_push.py::test_stack_overflow@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_push.py::test_stack_overflow --fork Osaka</span>
@@ -27325,16 +27325,12 @@
 <a id="tests.frontier.opcodes.test_push.test_stack_overflow"></a>
     <div class="doc doc-contents first">
 
-        <p>A test to ensure that the stack overflows when the stack limit of 1024 is exceeded.</p>
+        <p>A test the stack overflows when the stack limit of 1024 is exceeded.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_push.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 81</span>
 <span class="normal"> 82</span>
 <span class="normal"> 83</span>
 <span class="normal"> 84</span>
@@ -27391,7 +27387,17 @@
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml&quot;</span><span class="p">,</span>
     <span class="p">],</span>
@@ -27407,19 +27413,24 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">test_stack_overflow</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">push_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">stack_height</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A test to ensure that the stack overflows when the stack limit of 1024 is exceeded.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A test the stack overflows when the stack limit of 1024 is exceeded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="c1"># Input used to test the `PUSH*` opcode.</span>
     <span class="n">excerpt</span> <span class="o">=</span> <span class="n">get_input_for_push_opcode</span><span class="p">(</span><span class="n">push_opcode</span><span class="p">)</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Essentially write a n-byte message to storage by pushing [1024,1025] times to stack. This</span>
-<span class="sd">    simulates a &quot;jump&quot; over the stack limit of 1024.</span>
 
-<span class="sd">    The message is UTF-8 encoding of excerpt (say 0x45 for PUSH1). Within the stack limit,</span>
-<span class="sd">    the message is written to the to the storage at the same offset (0x45 for PUSH1).</span>
-<span class="sd">    The last iteration will overflow the stack and the storage slot will be empty.</span>
+
+<span class="sd">    Essentially write a n-byte message to storage by pushing [1024,1025] times</span>
+<span class="sd">    to stack. This simulates a &quot;jump&quot; over the stack limit of 1024.</span>
+
+<span class="sd">    The message is UTF-8 encoding of excerpt (say 0x45 for PUSH1). Within the</span>
+<span class="sd">    stack limit, the message is written to the to the storage at the same</span>
+<span class="sd">    offset (0x45 for PUSH1). The last iteration will overflow the stack and the</span>
+<span class="sd">    storage slot will be empty.</span>
 
 <span class="sd">     **               Bytecode explanation              **</span>
 <span class="sd">     +---------------------------------------------------+</span>
@@ -27432,7 +27443,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">contract_code</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stack_height</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="n">contract_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># mostly push 0 to avoid contract size limit exceeded</span>
+        <span class="c1"># mostly push 0 to avoid contract size limit exceeded</span>
+        <span class="n">contract_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">contract_code</span> <span class="o">+=</span> <span class="n">push_opcode</span><span class="p">(</span><span class="n">excerpt</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span>
 
     <span class="n">contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">contract_code</span><span class="p">)</span>

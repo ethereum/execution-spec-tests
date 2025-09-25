@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blob_txs.py#L375"><code>tests/cancun/eip4844_blobs/test_blob_txs.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blob_txs.py#L376"><code>tests/cancun/eip4844_blobs/test_blob_txs.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py --fork Osaka</span>
@@ -27265,24 +27265,18 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs"></a>
     <div class="doc doc-contents first">
 
-
-
-<details class="abstract" open>
-  <summary>Tests blob type transactions for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a></summary>
-  <p>Test blob type transactions for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
-</details>
-
-<details class="note" open>
-  <summary>Adding a new test</summary>
-  <p>Add a function that is named <code>test_&lt;test_name&gt;</code> and takes at least the following arguments:</p>
+        <p>Tests blob type transactions for <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
+<p>Note: To add a new test, add a function that is named <code>test_&lt;test_name&gt;</code>.</p>
+<p>It must at least use the following arguments:</p>
 <ul>
-<li>blockchain_test or state_test</li>
-<li>pre</li>
-<li>env</li>
-<li>block or txs</li>
+<li><code>blockchain_test</code> or <code>state_test</code></li>
+<li><code>pre</code></li>
+<li><code>env</code></li>
+<li><code>block</code> or <code>txs</code>.</li>
 </ul>
-<p>All other <code>pytest.fixture</code> fixtures can be parametrized to generate new combinations and test cases.</p>
-</details>
+<p>All other <code>pytest.fixture</code> fixtures can be parametrized to generate new
+combinations and test cases.</p>
+
 
 
 
@@ -27316,7 +27310,7 @@
 <td><a href="test_valid_blob_tx_combinations/"><code>test_valid_blob_tx_combinations</code></a></td>
 <td>blockchain_test</td>
 <td>316</td>
-<td>Test all valid blob combinations in a single block, assuming a given value of</td>
+<td>Test all valid blob combinations in a single block, assuming a given value</td>
 </tr>
 <tr>
 <td><a href="test_invalid_tx_max_fee_per_blob_gas/"><code>test_invalid_tx_max_fee_per_blob_gas</code></a></td>
@@ -27340,7 +27334,7 @@
 <td><a href="test_invalid_block_blob_count/"><code>test_invalid_block_blob_count</code></a></td>
 <td>blockchain_test</td>
 <td>68</td>
-<td>Test all invalid blob combinations in a single block, where the sum of all blobs in a block is</td>
+<td>Test all invalid blob combinations in a single block, where the sum of all</td>
 </tr>
 <tr>
 <td><a href="test_insufficient_balance_blob_tx/"><code>test_insufficient_balance_blob_tx</code></a></td>
@@ -27352,25 +27346,25 @@
 <td><a href="test_sufficient_balance_blob_tx/"><code>test_sufficient_balance_blob_tx</code></a></td>
 <td>state_test</td>
 <td>576</td>
-<td>Check that transaction is accepted when user can exactly afford the blob gas specified (and</td>
+<td>Check that transaction is accepted when user can exactly afford the blob</td>
 </tr>
 <tr>
 <td><a href="test_sufficient_balance_blob_tx_pre_fund_tx/"><code>test_sufficient_balance_blob_tx_pre_fund_tx</code></a></td>
 <td>blockchain_test</td>
 <td>288</td>
-<td>Check that transaction is accepted when user can exactly afford the blob gas specified (and</td>
+<td>Check that transaction is accepted when user can exactly afford the blob</td>
 </tr>
 <tr>
 <td><a href="test_blob_gas_subtraction_tx/"><code>test_blob_gas_subtraction_tx</code></a></td>
 <td>state_test</td>
 <td>128</td>
-<td>Check that the blob gas fee for a transaction is subtracted from the sender balance before the</td>
+<td>Check that the blob gas fee for a transaction is subtracted from the sender</td>
 </tr>
 <tr>
 <td><a href="test_insufficient_balance_blob_tx_combinations/"><code>test_insufficient_balance_blob_tx_combinations</code></a></td>
 <td>blockchain_test</td>
 <td>158</td>
-<td>Reject all valid blob transaction combinations in a block, but block is invalid.</td>
+<td>Reject all valid blob transaction combinations in a block, but block is</td>
 </tr>
 <tr>
 <td><a href="test_invalid_tx_blob_count/"><code>test_invalid_tx_blob_count</code></a></td>
@@ -27394,13 +27388,13 @@
 <td><a href="test_invalid_blob_tx_contract_creation/"><code>test_invalid_blob_tx_contract_creation</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Reject blocks that include blob transactions that have nil to value (contract creating).</td>
+<td>Reject blocks that include blob transactions that have nil to value</td>
 </tr>
 <tr>
 <td><a href="test_blob_tx_attribute_opcodes/"><code>test_blob_tx_attribute_opcodes</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test opcodes that read transaction attributes work properly for blob type transactions.</td>
+<td>Test opcodes that read transaction attributes work properly for blob type</td>
 </tr>
 <tr>
 <td><a href="test_blob_tx_attribute_value_opcode/"><code>test_blob_tx_attribute_value_opcode</code></a></td>
@@ -27412,13 +27406,13 @@
 <td><a href="test_blob_tx_attribute_calldata_opcodes/"><code>test_blob_tx_attribute_calldata_opcodes</code></a></td>
 <td>state_test</td>
 <td>9</td>
-<td>Test calldata related opcodes to verify their behavior is not affected by blobs.</td>
+<td>Test calldata related opcodes to verify their behavior is not affected by</td>
 </tr>
 <tr>
 <td><a href="test_blob_tx_attribute_gasprice_opcode/"><code>test_blob_tx_attribute_gasprice_opcode</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test GASPRICE opcode to sanity check that the blob gas fee does not affect its calculation.</td>
+<td>Test GASPRICE opcode to sanity check that the blob gas fee does not affect</td>
 </tr>
 <tr>
 <td><a href="test_blob_type_tx_pre_fork/"><code>test_blob_type_tx_pre_fork</code></a></td>

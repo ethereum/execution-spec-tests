@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_dynamic_create2_selfdestruct_collision_multi_tx"><code>test_dynamic_create2_selfdestruct_collision_multi_tx()</code><a class="headerlink" href="#test_dynamic_create2_selfdestruct_collision_multi_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L434"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L462"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx --fork Osaka</span>
@@ -27325,52 +27325,32 @@
 <a id="tests.cancun.eip6780_selfdestruct.test_dynamic_create2_selfdestruct_collision.test_dynamic_create2_selfdestruct_collision_multi_tx"></a>
     <div class="doc doc-contents first">
 
-        <p>Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple transactions.</p>
-<p>Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-then on a different call, in the same or different tx but same block, perform a self-destruct.
+        <p>Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple
+transactions.</p>
+<p>Perform a CREATE2, make sure that the initcode sets at least a couple of
+storage keys, then on a different call, in the same or different tx but
+same block, perform a self-destruct.
 Then:
-    a) on the same tx, attempt to recreate the contract
-    b) on a different tx, attempt to recreate the contract
-Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-then in a different tx, perform a self-destruct.
-Then:
-    a) on the same tx, attempt to recreate the contract       &lt;=== Covered in this test
-    b) on a different tx, attempt to recreate the contract    &lt;=== Covered in this test
-Verify that the test case described in
-<a href="https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event">https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event</a></p>
+  a) on the same tx, attempt to recreate the contract
+  b) on a different tx, attempt to recreate the contract</p>
+<p>Perform a CREATE2, make sure that the initcode sets at least a
+couple of storage keys, then in a different tx, perform a self-destruct.</p>
+
+
+<details class="then" open>
+  <summary>Then</summary>
+  <p>a) on the same tx, attempt to recreate the contract
+   -&gt; Covered in this test
+b) on a different tx, attempt to recreate the contract
+   -&gt; Covered in this test</p>
+</details>        <p>Check the test case described in
+<a href="https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06">https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06</a>
++Mainnet+Halting+Event</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
 <span class="normal">465</span>
@@ -27559,7 +27539,50 @@ Verify that the test case described in
 <span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
-<span class="normal">651</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span>
+<span class="normal">671</span>
+<span class="normal">672</span>
+<span class="normal">673</span>
+<span class="normal">674</span>
+<span class="normal">675</span>
+<span class="normal">676</span>
+<span class="normal">677</span>
+<span class="normal">678</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;selfdestruct_on_first_tx,recreate_on_first_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27576,20 +27599,28 @@ Verify that the test case described in
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple transactions.</span>
+<span class="sd">    Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple</span>
+<span class="sd">    transactions.</span>
 
-<span class="sd">    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,</span>
-<span class="sd">    then on a different call, in the same or different tx but same block, perform a self-destruct.</span>
+<span class="sd">    Perform a CREATE2, make sure that the initcode sets at least a couple of</span>
+<span class="sd">    storage keys, then on a different call, in the same or different tx but</span>
+<span class="sd">    same block, perform a self-destruct.</span>
 <span class="sd">    Then:</span>
-<span class="sd">        a) on the same tx, attempt to recreate the contract</span>
-<span class="sd">        b) on a different tx, attempt to recreate the contract</span>
-<span class="sd">    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,</span>
-<span class="sd">    then in a different tx, perform a self-destruct.</span>
+<span class="sd">      a) on the same tx, attempt to recreate the contract</span>
+<span class="sd">      b) on a different tx, attempt to recreate the contract</span>
+
+<span class="sd">    Perform a CREATE2, make sure that the initcode sets at least a</span>
+<span class="sd">    couple of storage keys, then in a different tx, perform a self-destruct.</span>
+
 <span class="sd">    Then:</span>
-<span class="sd">        a) on the same tx, attempt to recreate the contract       &lt;=== Covered in this test</span>
-<span class="sd">        b) on a different tx, attempt to recreate the contract    &lt;=== Covered in this test</span>
-<span class="sd">    Verify that the test case described in</span>
-<span class="sd">    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event</span>
+<span class="sd">      a) on the same tx, attempt to recreate the contract</span>
+<span class="sd">         -&gt; Covered in this test</span>
+<span class="sd">      b) on a different tx, attempt to recreate the contract</span>
+<span class="sd">         -&gt; Covered in this test</span>
+
+<span class="sd">    Check the test case described in</span>
+<span class="sd">    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06</span>
+<span class="sd">    +Mainnet+Halting+Event</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">recreate_on_first_tx</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">selfdestruct_on_first_tx</span><span class="p">,</span> <span class="s2">&quot;invalid test&quot;</span>
@@ -27605,7 +27636,8 @@ Verify that the test case described in
     <span class="n">create2_salt</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="c1"># Create EOA for sendall destination (receives selfdestruct funds)</span>
-    <span class="n">sendall_destination</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Will be funded by selfdestruct calls</span>
+    <span class="n">sendall_destination</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Will be funded by selfdestruct</span>
+    <span class="c1"># calls</span>
 
     <span class="c1"># Create storage contract that will be called during initialization</span>
     <span class="n">address_create2_storage</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
@@ -27668,7 +27700,8 @@ Verify that the test case described in
 
     <span class="k">if</span> <span class="n">recreate_on_first_tx</span><span class="p">:</span>
         <span class="n">first_tx_code</span> <span class="o">+=</span> <span class="p">(</span>
-            <span class="c1"># Make a subcall that do CREATE2 collision and returns its address as the result</span>
+            <span class="c1"># Make a subcall that do CREATE2 collision and returns its address</span>
+            <span class="c1"># as the result</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">())</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">address_code</span><span class="p">,</span> <span class="n">second_create2_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
@@ -27679,7 +27712,8 @@ Verify that the test case described in
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">second_tx_code</span> <span class="o">+=</span> <span class="p">(</span>
-            <span class="c1"># Make a subcall that do CREATE2 collision and returns its address as the result</span>
+            <span class="c1"># Make a subcall that do CREATE2 collision and returns its address</span>
+            <span class="c1"># as the result</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">())</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">address_code</span><span class="p">,</span> <span class="n">second_create2_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
@@ -27694,7 +27728,8 @@ Verify that the test case described in
     <span class="n">first_tx_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">part_1_worked</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">second_tx_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">part_2_worked</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># Create the main contract that uses conditional logic to handle both transactions</span>
+    <span class="c1"># Create the main contract that uses conditional logic to handle both</span>
+    <span class="c1"># transactions</span>
     <span class="n">address_to</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">Conditional</span><span class="p">(</span>
             <span class="c1"># Depending on the tx, execute the first or second tx code</span>
@@ -27713,8 +27748,9 @@ Verify that the test case described in
 
     <span class="c1"># Create2 address only exists if it was pre-existing and after cancun</span>
     <span class="n">account_will_exist_with_code</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">selfdestruct_on_first_tx</span> <span class="ow">and</span> <span class="n">fork</span> <span class="o">&gt;=</span> <span class="n">Cancun</span>
-    <span class="c1"># If the contract is self-destructed and we also attempt to recreate it on the first tx,</span>
-    <span class="c1"># the second call on the second tx will only place balance in the account</span>
+    <span class="c1"># If the contract is self-destructed and we also attempt to recreate it on</span>
+    <span class="c1"># the first tx, the second call on the second tx will only place balance in</span>
+    <span class="c1"># the account</span>
     <span class="n">account_will_exist_with_balance</span> <span class="o">=</span> <span class="n">selfdestruct_on_first_tx</span> <span class="ow">and</span> <span class="n">recreate_on_first_tx</span>
 
     <span class="n">post</span><span class="p">[</span><span class="n">create2_address</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
@@ -27737,14 +27773,16 @@ Verify that the test case described in
             <span class="n">part_2_worked</span><span class="p">:</span> <span class="mh">0x01</span><span class="p">,</span>
             <span class="c1"># First create2 always works</span>
             <span class="n">first_create2_result</span><span class="p">:</span> <span class="n">create2_address</span><span class="p">,</span>
-            <span class="c1"># Second create2 only works if we successfully self-destructed on the first tx</span>
+            <span class="c1"># Second create2 only works if we successfully self-destructed on</span>
+            <span class="c1"># the first tx</span>
             <span class="n">second_create2_result</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">create2_address</span> <span class="k">if</span> <span class="n">selfdestruct_on_first_tx</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">recreate_on_first_tx</span> <span class="k">else</span> <span class="mh">0x00</span>
             <span class="p">),</span>
         <span class="p">}</span>
     <span class="p">)</span>
 
-    <span class="c1"># Calculate the destination account expected balance for the selfdestruct/sendall calls</span>
+    <span class="c1"># Calculate the destination account expected balance for the</span>
+    <span class="c1"># selfdestruct/sendall calls</span>
     <span class="n">sendall_destination_balance</span> <span class="o">=</span> <span class="n">first_create2_value</span> <span class="o">+</span> <span class="n">first_call_value</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">account_will_exist_with_balance</span><span class="p">:</span>

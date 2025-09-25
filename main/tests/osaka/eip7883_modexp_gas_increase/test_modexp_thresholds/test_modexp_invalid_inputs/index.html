@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_modexp_invalid_inputs"><code>test_modexp_invalid_inputs()</code><a class="headerlink" href="#test_modexp_invalid_inputs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L75"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L77"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs --fork Osaka</span>
@@ -27330,9 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
 <span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
@@ -27369,11 +27367,13 @@
 <span class="normal">111</span>
 <span class="normal">112</span>
 <span class="normal">113</span>
-<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="c1"># These invalid inputs are from EIP-7823.</span>
-        <span class="c1"># Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7823.md#analysis</span>
+        <span class="c1"># These invalid inputs are from EIP-7823. Ref:</span>
+        <span class="c1"># https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7823.md#analysis</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;9e5faafc&quot;</span><span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid-case-1&quot;</span><span class="p">,</span>

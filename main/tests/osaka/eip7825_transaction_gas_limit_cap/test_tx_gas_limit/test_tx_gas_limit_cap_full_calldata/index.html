@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tx_gas_limit_cap_full_calldata"><code>test_tx_gas_limit_cap_full_calldata()</code><a class="headerlink" href="#test_tx_gas_limit_cap_full_calldata" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L274"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_full_calldata@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L281"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_full_calldata@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_full_calldata --fork Osaka</span>
@@ -27330,14 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
 <span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
@@ -27404,7 +27397,15 @@
 <span class="normal">345</span>
 <span class="normal">346</span>
 <span class="normal">347</span>
-<span class="normal">348</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27435,7 +27436,8 @@
 
     <span class="n">num_of_bytes</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">exceed_tx_gas_limit</span><span class="p">)</span>
 
-    <span class="c1"># Gas cost calculation based on EIP-7623: (https://eips.ethereum.org/EIPS/eip-7623)</span>
+    <span class="c1"># Gas cost calculation based on EIP-7623:</span>
+    <span class="c1"># (https://eips.ethereum.org/EIPS/eip-7623)</span>
     <span class="c1">#</span>
     <span class="c1"># Simplified in this test case:</span>
     <span class="c1"># - No execution gas used (no opcodes are executed)</span>

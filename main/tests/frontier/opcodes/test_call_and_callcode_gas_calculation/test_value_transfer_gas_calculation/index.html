@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_value_transfer_gas_calculation"><code>test_value_transfer_gas_calculation()</code><a class="headerlink" href="#test_value_transfer_gas_calculation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py#L138"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py#L147"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation --fork Osaka</span>
@@ -27325,21 +27325,13 @@
 <a id="tests.frontier.opcodes.test_call_and_callcode_gas_calculation.test_value_transfer_gas_calculation"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests the nested CALL/CALLCODE opcode gas consumption with a positive value transfer.</p>
+        <p>Tests the nested CALL/CALLCODE opcode gas consumption with a positive value
+transfer.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -27347,7 +27339,19 @@
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
-<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_opcode, caller_gas_limit, is_sufficient_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">CALL_SUFFICIENT_GAS</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
@@ -27363,7 +27367,10 @@
     <span class="n">caller_tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests the nested CALL/CALLCODE opcode gas consumption with a positive value transfer.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests the nested CALL/CALLCODE opcode gas consumption with a positive value</span>
+<span class="sd">    transfer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">caller_tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

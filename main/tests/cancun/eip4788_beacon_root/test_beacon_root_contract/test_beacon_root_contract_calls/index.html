@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_beacon_root_contract_calls"><code>test_beacon_root_contract_calls()</code><a class="headerlink" href="#test_beacon_root_contract_calls" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L56"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L58"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls --fork Osaka</span>
@@ -27325,7 +27325,8 @@
 <a id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract.test_beacon_root_contract_calls"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests the beacon root contract call using various call contexts:
+        <p>Test calling the beacon root contract in various call contexts.</p>
+<p>These call contexts are tested:
 - <code>CALL</code>
 - <code>DELEGATECALL</code>
 - <code>CALLCODE</code>
@@ -27334,17 +27335,15 @@ for different call gas amounts:
 - exact gas (valid call)
 - extra gas (valid call)
 - insufficient gas (invalid call).</p>
-<p>The expected result is that the contract call will be executed if the gas amount is met
-and return the correct<code>parent_beacon_block_root</code>. Otherwise the call will be invalid, and not
-be executed. This is highlighted within storage by storing the return value of each call
-context.</p>
+<p>The expected result is that the contract call will be executed if the gas
+amount is met and return the correct<code>parent_beacon_block_root</code>. Otherwise
+the call will be invalid, and not be executed. This is highlighted within
+storage by storing the return value of each call context.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 58</span>
 <span class="normal"> 59</span>
 <span class="normal"> 60</span>
 <span class="normal"> 61</span>
@@ -27388,7 +27387,11 @@ context.</p>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
-<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas, valid_call&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_CALL_GAS</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
@@ -27415,7 +27418,9 @@ context.</p>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root contract call using various call contexts:</span>
+<span class="sd">    Test calling the beacon root contract in various call contexts.</span>
+
+<span class="sd">    These call contexts are tested:</span>
 <span class="sd">    - `CALL`</span>
 <span class="sd">    - `DELEGATECALL`</span>
 <span class="sd">    - `CALLCODE`</span>
@@ -27425,10 +27430,10 @@ context.</p>
 <span class="sd">    - extra gas (valid call)</span>
 <span class="sd">    - insufficient gas (invalid call).</span>
 
-<span class="sd">    The expected result is that the contract call will be executed if the gas amount is met</span>
-<span class="sd">    and return the correct`parent_beacon_block_root`. Otherwise the call will be invalid, and not</span>
-<span class="sd">    be executed. This is highlighted within storage by storing the return value of each call</span>
-<span class="sd">    context.</span>
+<span class="sd">    The expected result is that the contract call will be executed if the gas</span>
+<span class="sd">    amount is met and return the correct`parent_beacon_block_root`. Otherwise</span>
+<span class="sd">    the call will be invalid, and not be executed. This is highlighted within</span>
+<span class="sd">    storage by storing the return value of each call context.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

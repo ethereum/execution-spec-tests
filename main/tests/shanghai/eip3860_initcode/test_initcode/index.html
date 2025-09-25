@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-initcode">Test Initcode<a class="headerlink" href="#test-initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/shanghai/eip3860_initcode/test_initcode.py#L120"><code>tests/shanghai/eip3860_initcode/test_initcode.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/shanghai/eip3860_initcode/test_initcode.py#L115"><code>tests/shanghai/eip3860_initcode/test_initcode.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py --fork Osaka</span>
@@ -27265,20 +27265,11 @@
 <a id="tests.shanghai.eip3860_initcode.test_initcode"></a>
     <div class="doc doc-contents first">
 
+        <p>Test <a href="https://eips.ethereum.org/EIPS/eip-3860">EIP-3860: Limit and meter initcode</a>.</p>
+<p>Tests ported from:
+- <a href="https://github.com/ethereum/tests/pull/990">ethereum/tests/pull/990</a>
+- <a href="https://github.com/ethereum/tests/pull/990">ethereum/tests/pull/1012</a></p>
 
-
-<details class="abstract" open>
-  <summary>Test <a href="https://eips.ethereum.org/EIPS/eip-3860">EIP-3860: Limit and meter initcode</a></summary>
-  <p>Tests for  <a href="https://eips.ethereum.org/EIPS/eip-3860">EIP-3860: Limit and meter initcode</a>.</p>
-</details>
-
-<details class="note" open>
-  <summary>Tests ported from:</summary>
-  <ul>
-<li><a href="https://github.com/ethereum/tests/pull/990">ethereum/tests/pull/990</a></li>
-<li><a href="https://github.com/ethereum/tests/pull/990">ethereum/tests/pull/1012</a></li>
-</ul>
-</details>
 
 
 
@@ -27312,19 +27303,19 @@
 <td><a href="test_contract_creating_tx/"><code>test_contract_creating_tx</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Tests creating a contract using a transaction with an initcode that is</td>
+<td>Test creating a contract with initcode that is on/over the allowed limit.</td>
 </tr>
 <tr>
 <td><a href="test_gas_usage/"><code>test_gas_usage</code></a></td>
 <td>state_test</td>
 <td>30</td>
-<td>Test transaction and contract creation behavior for different gas limits.</td>
+<td>Test transaction and contract creation using different gas limits.</td>
 </tr>
 <tr>
 <td><a href="test_create_opcode_initcode/"><code>test_create_opcode_initcode</code></a></td>
 <td>state_test</td>
 <td>20</td>
-<td>Test contract creation via the CREATE/CREATE2 opcodes that have an</td>
+<td>Test contract creation with valid and invalid initcode lengths.</td>
 </tr>
 </tbody>
 </table>

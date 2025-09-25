@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_modexp_variable_gas_cost"><code>test_modexp_variable_gas_cost()</code><a class="headerlink" href="#test_modexp_variable_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L629"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L643"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost --fork Osaka</span>
@@ -27330,26 +27330,26 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">643</span>
 <span class="normal">644</span>
 <span class="normal">645</span>
 <span class="normal">646</span>
 <span class="normal">647</span>
-<span class="normal">648</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,modexp_expected,gas_usage&quot;</span><span class="p">,</span>
     <span class="n">create_modexp_variable_gas_test_cases</span><span class="p">(),</span>
 <span class="p">)</span>

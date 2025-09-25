@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes"><code>test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes()</code><a class="headerlink" href="#test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L535"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L544"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes --fork Osaka</span>
@@ -27325,22 +27325,14 @@
 <a id="tests.prague.eip7702_set_code_tx.test_invalid_tx.test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes"></a>
     <div class="doc doc-contents first">
 
-        <p>Test sending a transaction where the authorization tuple field of the type-4 transaction
-is encoded in the outer element as bytes instead of a list of elements.</p>
+        <p>Test sending a transaction where the authorization tuple field of the
+type-4 transaction is encoded in the outer element as bytes instead of a
+list of elements.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
 <span class="normal">547</span>
@@ -27370,7 +27362,17 @@ is encoded in the outer element as bytes instead of a list of elements.</p>
 <span class="normal">571</span>
 <span class="normal">572</span>
 <span class="normal">573</span>
-<span class="normal">574</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;delegate_address&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">RESET_DELEGATION_ADDRESS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;reset_delegation_address&quot;</span><span class="p">),</span>
@@ -27383,8 +27385,9 @@ is encoded in the outer element as bytes instead of a list of elements.</p>
     <span class="n">delegate_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending a transaction where the authorization tuple field of the type-4 transaction</span>
-<span class="sd">    is encoded in the outer element as bytes instead of a list of elements.</span>
+<span class="sd">    Test sending a transaction where the authorization tuple field of the</span>
+<span class="sd">    type-4 transaction is encoded in the outer element as bytes instead of a</span>
+<span class="sd">    list of elements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span><span class="w"> </span><span class="nc">ModifiedTransaction</span><span class="p">(</span><span class="n">Transaction</span><span class="p">):</span>

@@ -28012,9 +28012,10 @@ to the <code>@pytest.mark.parametrize</code> decorator.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A dictionary of default parameter names and
-their values. These values will be added to each case unless the case
-already defines a value for each parameter.</p>
+                <p>A dictionary of default parameter names
+                         and their values. These values will be added
+                         to each case unless the case already defines
+                         a value for each parameter.</p>
               </div>
             </td>
             <td>
@@ -28030,9 +28031,10 @@ already defines a value for each parameter.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A list of <code>pytest.param</code> objects representing
-different test cases. Its first argument must be a dictionary defining
-parameter names and values.</p>
+                <p>A list of <code>pytest.param</code> objects
+                          representing different test cases.
+                          Its first argument must be a dictionary
+                          defining parameter names and values.</p>
               </div>
             </td>
             <td>
@@ -28049,8 +28051,9 @@ parameter names and values.</p>
             <td>
               <div class="doc-md-description">
                 <p>Additional keyword arguments to be passed to
-<code>@pytest.mark.parametrize</code>. These arguments are not modified by this
-function and are passed through unchanged.</p>
+                      <code>@pytest.mark.parametrize</code>. These arguments are
+                      not modified by this function and are passed
+                      through unchanged.</p>
               </div>
             </td>
             <td>
@@ -28077,47 +28080,51 @@ function and are passed through unchanged.</p>
             <td>
               <div class="doc-md-description">
                 <p>Dict[str, Any]: A dictionary with the following structure:
-<code>argnames</code>: A list of parameter names.
-<code>argvalues</code>: A list of test cases with modified parameter values.
-<code>parametrize_kwargs</code>: Additional keyword arguments passed through unchanged.</p>
+  <code>argnames</code>: A list of parameter names.
+  <code>argvalues</code>: A list of test cases with modified parameter values.
+  <code>parametrize_kwargs</code>: Additional keyword arguments passed
+                        through unchanged.</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">extend_with_defaults</span><span class="p">(</span>
+        <p>Example:
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">extend_with_defaults</span><span class="p">(</span>
     <span class="n">defaults</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
         <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># default minimum value is 0</span>
-        <span class="n">max_value</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># default maximum value is 100</span>
+        <span class="n">max_value</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="c1"># default maximum value is 100</span>
         <span class="n">average</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>  <span class="c1"># default average value is 50</span>
     <span class="p">),</span>
+
     <span class="n">cases</span><span class="o">=</span><span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="nb">dict</span><span class="p">(),</span>  <span class="c1"># use default values</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;default_case&#39;</span><span class="p">,</span>
+            <span class="nb">dict</span><span class="p">(),</span>  <span class="c1"># use default</span>
+            <span class="n">values</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;default_case&#39;</span><span class="p">,</span>
         <span class="p">),</span>
+
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>  <span class="c1"># override with min_value=10</span>
             <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;min_value_10&#39;</span><span class="p">,</span>
         <span class="p">),</span>
+
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span><span class="n">max_value</span><span class="o">=</span><span class="mi">200</span><span class="p">),</span>  <span class="c1"># override with max_value=200</span>
             <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;max_value_200&#39;</span><span class="p">,</span>
         <span class="p">),</span>
+
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>  <span class="c1"># override both min_value</span>
-            <span class="c1"># and max_value</span>
+                                                <span class="c1"># and max_value</span>
             <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;min_-10_max_50&#39;</span><span class="p">,</span>
         <span class="p">),</span>
+
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>  <span class="c1"># all defaults</span>
-            <span class="c1"># are overridden</span>
+            <span class="c1"># all defaults are overridden</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;min_20_max_80_avg_50&quot;</span><span class="p">,</span>
         <span class="p">),</span>
+
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>  <span class="c1"># invalid range</span>
             <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;invalid_range&#39;</span><span class="p">,</span>
@@ -28128,26 +28135,22 @@ function and are passed through unchanged.</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_range</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">,</span> <span class="n">average</span><span class="p">):</span>
     <span class="k">assert</span> <span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">max_value</span>
     <span class="k">assert</span> <span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">average</span> <span class="o">&lt;=</span> <span class="n">max_value</span>
-</code></pre></div>
-</details>        <p>The above test will execute with the following sets of parameters:</p>
+</code></pre></div></p>
+<p>The above test will execute with the following sets of parameters:</p>
 <div class="highlight"><pre><span></span><code><span class="s2">&quot;default_case&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="s2">&quot;min_value_10&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="s2">&quot;max_value_200&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="s2">&quot;min_-10_max_50&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="s2">&quot;min_20_max_80_avg_50&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
-<span class="s2">&quot;invalid_range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>  <span class="c1"># expected to fail</span>
+<span class="c1"># expected to fail</span>
+<span class="s2">&quot;invalid_range&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 </code></pre></div>
+<p>Notes:
+- Each case in <code>cases</code> must contain exactly one value, which is a
+  dictionary of parameter values.
+- The function performs an in-place update of the <code>cases</code> list, so
+  the original <code>cases</code> list is modified.</p>
 
-
-<details class="notes" open>
-  <summary>Notes</summary>
-  <ul>
-<li>Each case in <code>cases</code> must contain exactly one value, which is a dictionary
-  of parameter values.</li>
-<li>The function performs an in-place update of the <code>cases</code> list, so the
-  original <code>cases</code> list is modified.</li>
-</ul>
-</details>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/utility/pytest.py</code></summary>
@@ -28258,7 +28261,19 @@ function and are passed through unchanged.</p>
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extend_with_defaults</span><span class="p">(</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extend_with_defaults</span><span class="p">(</span>
     <span class="n">defaults</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterSet</span><span class="p">],</span> <span class="o">**</span><span class="n">parametrize_kwargs</span><span class="p">:</span> <span class="n">Any</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -28275,66 +28290,76 @@ function and are passed through unchanged.</p>
 <span class="sd">    The function returns a dictionary that can be directly unpacked and passed</span>
 <span class="sd">    to the `@pytest.mark.parametrize` decorator.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        defaults (Dict[str, Any]): A dictionary of default parameter names and</span>
-<span class="sd">            their values. These values will be added to each case unless the case</span>
-<span class="sd">            already defines a value for each parameter.</span>
-<span class="sd">        cases (List[ParameterSet]): A list of `pytest.param` objects representing</span>
-<span class="sd">            different test cases. Its first argument must be a dictionary defining</span>
-<span class="sd">            parameter names and values.</span>
-<span class="sd">        parametrize_kwargs (Any): Additional keyword arguments to be passed to</span>
-<span class="sd">            `@pytest.mark.parametrize`. These arguments are not modified by this</span>
-<span class="sd">            function and are passed through unchanged.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">      defaults (Dict[str, Any]): A dictionary of default parameter names</span>
+<span class="sd">                                 and their values. These values will be added</span>
+<span class="sd">                                 to each case unless the case already defines</span>
+<span class="sd">                                 a value for each parameter.</span>
+<span class="sd">      cases (List[ParameterSet]): A list of `pytest.param` objects</span>
+<span class="sd">                                  representing different test cases.</span>
+<span class="sd">                                  Its first argument must be a dictionary</span>
+<span class="sd">                                  defining parameter names and values.</span>
+<span class="sd">      parametrize_kwargs (Any): Additional keyword arguments to be passed to</span>
+<span class="sd">                              `@pytest.mark.parametrize`. These arguments are</span>
+<span class="sd">                              not modified by this function and are passed</span>
+<span class="sd">                              through unchanged.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Dict[str, Any]: A dictionary with the following structure:</span>
-<span class="sd">            `argnames`: A list of parameter names.</span>
-<span class="sd">            `argvalues`: A list of test cases with modified parameter values.</span>
-<span class="sd">            `parametrize_kwargs`: Additional keyword arguments passed through unchanged.</span>
+<span class="sd">      Dict[str, Any]: A dictionary with the following structure:</span>
+<span class="sd">          `argnames`: A list of parameter names.</span>
+<span class="sd">          `argvalues`: A list of test cases with modified parameter values.</span>
+<span class="sd">          `parametrize_kwargs`: Additional keyword arguments passed</span>
+<span class="sd">                                through unchanged.</span>
 
 
 <span class="sd">    Example:</span>
-<span class="sd">        ```python</span>
-<span class="sd">        @pytest.mark.parametrize(**extend_with_defaults(</span>
-<span class="sd">            defaults=dict(</span>
-<span class="sd">                min_value=0,  # default minimum value is 0</span>
-<span class="sd">                max_value=100,  # default maximum value is 100</span>
-<span class="sd">                average=50,  # default average value is 50</span>
+<span class="sd">    ```python</span>
+<span class="sd">    @pytest.mark.parametrize(**extend_with_defaults(</span>
+<span class="sd">        defaults=dict(</span>
+<span class="sd">            min_value=0,  # default minimum value is 0</span>
+<span class="sd">            max_value=100, # default maximum value is 100</span>
+<span class="sd">            average=50,  # default average value is 50</span>
+<span class="sd">        ),</span>
+
+<span class="sd">        cases=[</span>
+<span class="sd">            pytest.param(</span>
+<span class="sd">                dict(),  # use default</span>
+<span class="sd">                values id=&#39;default_case&#39;,</span>
 <span class="sd">            ),</span>
-<span class="sd">            cases=[</span>
-<span class="sd">                pytest.param(</span>
-<span class="sd">                    dict(),  # use default values</span>
-<span class="sd">                    id=&#39;default_case&#39;,</span>
-<span class="sd">                ),</span>
-<span class="sd">                pytest.param(</span>
-<span class="sd">                    dict(min_value=10),  # override with min_value=10</span>
-<span class="sd">                    id=&#39;min_value_10&#39;,</span>
-<span class="sd">                ),</span>
-<span class="sd">                pytest.param(</span>
-<span class="sd">                    dict(max_value=200),  # override with max_value=200</span>
-<span class="sd">                    id=&#39;max_value_200&#39;,</span>
-<span class="sd">                ),</span>
-<span class="sd">                pytest.param(</span>
-<span class="sd">                    dict(min_value=-10, max_value=50),  # override both min_value</span>
-<span class="sd">                    # and max_value</span>
-<span class="sd">                    id=&#39;min_-10_max_50&#39;,</span>
-<span class="sd">                ),</span>
-<span class="sd">                pytest.param(</span>
-<span class="sd">                    dict(min_value=20, max_value=80, average=50),  # all defaults</span>
-<span class="sd">                    # are overridden</span>
-<span class="sd">                    id=&quot;min_20_max_80_avg_50&quot;,</span>
-<span class="sd">                ),</span>
-<span class="sd">                pytest.param(</span>
-<span class="sd">                    dict(min_value=100, max_value=0),  # invalid range</span>
-<span class="sd">                    id=&#39;invalid_range&#39;,</span>
-<span class="sd">                    marks=pytest.mark.xfail(reason=&#39;invalid range&#39;),</span>
-<span class="sd">                )</span>
-<span class="sd">            ],</span>
-<span class="sd">        ))</span>
-<span class="sd">        def test_range(min_value, max_value, average):</span>
-<span class="sd">            assert min_value &lt;= max_value</span>
-<span class="sd">            assert min_value &lt;= average &lt;= max_value</span>
-<span class="sd">        ```</span>
+
+<span class="sd">            pytest.param(</span>
+<span class="sd">                dict(min_value=10),  # override with min_value=10</span>
+<span class="sd">                id=&#39;min_value_10&#39;,</span>
+<span class="sd">            ),</span>
+
+<span class="sd">            pytest.param(</span>
+<span class="sd">                dict(max_value=200),  # override with max_value=200</span>
+<span class="sd">                id=&#39;max_value_200&#39;,</span>
+<span class="sd">            ),</span>
+
+<span class="sd">            pytest.param(</span>
+<span class="sd">                dict(min_value=-10, max_value=50),  # override both min_value</span>
+<span class="sd">                                                    # and max_value</span>
+<span class="sd">                id=&#39;min_-10_max_50&#39;,</span>
+<span class="sd">            ),</span>
+
+<span class="sd">            pytest.param(</span>
+<span class="sd">                # all defaults are overridden</span>
+<span class="sd">                dict(min_value=20, max_value=80, average=50),</span>
+<span class="sd">                id=&quot;min_20_max_80_avg_50&quot;,</span>
+<span class="sd">            ),</span>
+
+<span class="sd">            pytest.param(</span>
+<span class="sd">                dict(min_value=100, max_value=0),  # invalid range</span>
+<span class="sd">                id=&#39;invalid_range&#39;,</span>
+<span class="sd">                marks=pytest.mark.xfail(reason=&#39;invalid range&#39;),</span>
+<span class="sd">            )</span>
+<span class="sd">        ],</span>
+<span class="sd">    ))</span>
+<span class="sd">    def test_range(min_value, max_value, average):</span>
+<span class="sd">        assert min_value &lt;= max_value</span>
+<span class="sd">        assert min_value &lt;= average &lt;= max_value</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    The above test will execute with the following sets of parameters:</span>
 
@@ -28344,14 +28369,15 @@ function and are passed through unchanged.</p>
 <span class="sd">    &quot;max_value_200&quot;: {&quot;min_value&quot;: 0, &quot;max_value&quot;: 200, &quot;average&quot;: 50}</span>
 <span class="sd">    &quot;min_-10_max_50&quot;: {&quot;min_value&quot;: -10, &quot;max_value&quot;: 50, &quot;average&quot;: 50}</span>
 <span class="sd">    &quot;min_20_max_80_avg_50&quot;: {&quot;min_value&quot;: 20, &quot;max_value&quot;: 80, &quot;average&quot;: 50}</span>
-<span class="sd">    &quot;invalid_range&quot;: {&quot;min_value&quot;: 100, &quot;max_value&quot;: 0, &quot;average&quot;: 50}  # expected to fail</span>
+<span class="sd">    # expected to fail</span>
+<span class="sd">    &quot;invalid_range&quot;: {&quot;min_value&quot;: 100, &quot;max_value&quot;: 0, &quot;average&quot;: 50}</span>
 <span class="sd">    ```</span>
 
 <span class="sd">    Notes:</span>
-<span class="sd">        - Each case in `cases` must contain exactly one value, which is a dictionary</span>
-<span class="sd">          of parameter values.</span>
-<span class="sd">        - The function performs an in-place update of the `cases` list, so the</span>
-<span class="sd">          original `cases` list is modified.</span>
+<span class="sd">    - Each case in `cases` must contain exactly one value, which is a</span>
+<span class="sd">      dictionary of parameter values.</span>
+<span class="sd">    - The function performs an in-place update of the `cases` list, so</span>
+<span class="sd">      the original `cases` list is modified.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cases</span><span class="p">):</span>
@@ -28361,7 +28387,8 @@ function and are passed through unchanged.</p>
             <span class="p">)</span>
         <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="k">raise</span> <span class="n">UnknownParameterInCasesError</span><span class="p">()</span>
-        <span class="c1"># Overwrite values in defaults if the parameter is present in the test case values</span>
+        <span class="c1"># Overwrite values in defaults if the parameter is present in the test</span>
+        <span class="c1"># case values</span>
         <span class="n">merged_params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">defaults</span><span class="p">,</span> <span class="o">**</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>  <span class="c1"># type: ignore</span>
         <span class="n">cases</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="o">*</span><span class="n">merged_params</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="n">case</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">case</span><span class="o">.</span><span class="n">marks</span><span class="p">)</span>
 

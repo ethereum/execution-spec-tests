@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blobbasefee_during_fork"><code>test_blobbasefee_during_fork()</code><a class="headerlink" href="#test_blobbasefee_during_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py#L182"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_during_fork@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py#L194"><code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_during_fork@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py::test_blobbasefee_during_fork --fork Osaka</span>
@@ -27325,25 +27325,13 @@
 <a id="tests.cancun.eip7516_blobgasfee.test_blobgasfee_opcode.test_blobbasefee_during_fork"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests that the BLOBBASEFEE opcode results on exception when called before the fork and
-succeeds when called after the fork.</p>
+        <p>Tests that the BLOBBASEFEE opcode results on exception when called before
+the fork and succeeds when called after the fork.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
@@ -27377,7 +27365,19 @@ succeeds when called after the fork.</p>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
-<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;caller_pre_storage&quot;</span><span class="p">,</span>
     <span class="p">[{</span><span class="n">block_number</span><span class="p">:</span> <span class="mh">0xFF</span> <span class="k">for</span> <span class="n">block_number</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">)}],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
@@ -27391,8 +27391,8 @@ succeeds when called after the fork.</p>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests that the BLOBBASEFEE opcode results on exception when called before the fork and</span>
-<span class="sd">    succeeds when called after the fork.</span>
+<span class="sd">    Tests that the BLOBBASEFEE opcode results on exception when called before</span>
+<span class="sd">    the fork and succeeds when called after the fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">code_caller_post_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 

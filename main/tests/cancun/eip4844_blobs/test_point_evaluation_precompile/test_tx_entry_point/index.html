@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tx_entry_point"><code>test_tx_entry_point()</code><a class="headerlink" href="#test_tx_entry_point" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L507"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_tx_entry_point@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L511"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_tx_entry_point@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_tx_entry_point --fork Osaka</span>
@@ -27325,21 +27325,18 @@
 <a id="tests.cancun.eip4844_blobs.test_point_evaluation_precompile.test_tx_entry_point"></a>
     <div class="doc doc-contents first">
 
-        <p>Test calling the Point Evaluation Precompile directly as
-transaction entry point, and measure the gas consumption.</p>
+        <p>Test calling the Point Evaluation Precompile directly as transaction entry
+point, and measure the gas consumption.</p>
 <ul>
-<li>Using <code>gas_limit</code> with exact necessary gas, insufficient gas and extra gas.</li>
+<li>Using <code>gas_limit</code> with exact necessary gas, insufficient gas and extra
+    gas.</li>
 <li>Using correct and incorrect proofs</li>
 </ul>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
 <span class="normal">514</span>
@@ -27413,7 +27410,12 @@ transaction entry point, and measure the gas consumption.</p>
 <span class="normal">582</span>
 <span class="normal">583</span>
 <span class="normal">584</span>
-<span class="normal">585</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span><span class="p">),</span>
@@ -27440,16 +27442,17 @@ transaction entry point, and measure the gas consumption.</p>
     <span class="n">proof_correct</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test calling the Point Evaluation Precompile directly as</span>
-<span class="sd">    transaction entry point, and measure the gas consumption.</span>
+<span class="sd">    Test calling the Point Evaluation Precompile directly as transaction entry</span>
+<span class="sd">    point, and measure the gas consumption.</span>
 
-<span class="sd">    - Using `gas_limit` with exact necessary gas, insufficient gas and extra gas.</span>
+<span class="sd">    - Using `gas_limit` with exact necessary gas, insufficient gas and extra</span>
+<span class="sd">        gas.</span>
 <span class="sd">    - Using correct and incorrect proofs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
-    <span class="c1"># Starting from EIP-7623, we need to use an access list to raise the intrinsic gas cost to be</span>
-    <span class="c1"># above the floor data cost.</span>
+    <span class="c1"># Starting from EIP-7623, we need to use an access list to raise the</span>
+    <span class="c1"># intrinsic gas cost to be above the floor data cost.</span>
     <span class="n">access_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
 
     <span class="c1"># Gas is appended the intrinsic gas cost of the transaction</span>

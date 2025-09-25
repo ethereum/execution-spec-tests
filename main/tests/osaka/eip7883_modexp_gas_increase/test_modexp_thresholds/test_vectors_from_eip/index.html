@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_vectors_from_eip"><code>test_vectors_from_eip()</code><a class="headerlink" href="#test_vectors_from_eip" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L31"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_vectors_from_eip@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L33"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_vectors_from_eip@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_vectors_from_eip --fork Osaka</span>
@@ -27330,9 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
@@ -27350,7 +27348,9 @@
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
-<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,modexp_expected,gas_old,gas_new&quot;</span><span class="p">,</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;vectors.json&quot;</span><span class="p">),</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>

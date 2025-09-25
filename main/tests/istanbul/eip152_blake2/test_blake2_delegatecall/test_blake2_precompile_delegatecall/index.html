@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blake2_precompile_delegatecall"><code>test_blake2_precompile_delegatecall()</code><a class="headerlink" href="#test_blake2_precompile_delegatecall" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/istanbul/eip152_blake2/test_blake2_delegatecall.py#L22"><code>tests/istanbul/eip152_blake2/test_blake2_delegatecall.py::test_blake2_precompile_delegatecall@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/istanbul/eip152_blake2/test_blake2_delegatecall.py#L24"><code>tests/istanbul/eip152_blake2/test_blake2_delegatecall.py::test_blake2_precompile_delegatecall@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip152_blake2/test_blake2_delegatecall.py::test_blake2_precompile_delegatecall --fork Osaka</span>
@@ -27325,14 +27325,13 @@
 <a id="tests.istanbul.eip152_blake2.test_blake2_delegatecall.test_blake2_precompile_delegatecall"></a>
     <div class="doc doc-contents first">
 
-        <p>Test delegatecall consumes specified gas for the Blake2B precompile when it exists.</p>
+        <p>Test delegatecall consumes specified gas for the Blake2B precompile when it
+exists.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/istanbul/eip152_blake2/test_blake2_delegatecall.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
@@ -27363,9 +27362,18 @@
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;ConstantinopleFix&quot;</span><span class="p">)</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;ConstantinopleFix&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_blake2_precompile_delegatecall</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test delegatecall consumes specified gas for the Blake2B precompile when it exists.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test delegatecall consumes specified gas for the Blake2B precompile when it</span>
+<span class="sd">    exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
@@ -27387,7 +27395,8 @@
         <span class="n">protected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="c1"># If precompile exists, DELEGATECALL will fail, otherwise DELEGATECALL will succeed</span>
+    <span class="c1"># If precompile exists, DELEGATECALL will fail, otherwise DELEGATECALL will</span>
+    <span class="c1"># succeed</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>

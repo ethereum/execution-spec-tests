@@ -27326,7 +27326,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7883_modexp_gas_increase/spec.py"><code>tests/osaka/eip7883_modexp_gas_increase/spec.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7883_modexp_gas_increase/spec.py"><code>tests/osaka/eip7883_modexp_gas_increase/spec.py@b281a78b</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27449,7 +27449,8 @@
 <span class="normal">91</span>
 <span class="normal">92</span>
 <span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constants and helpers for the ModExp gas cost calculation.&quot;&quot;&quot;</span>
 
@@ -27488,9 +27489,9 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_iteration_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">modexp_input</span><span class="p">:</span> <span class="n">ModExpInput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the iteration count of the ModExp precompile.</span>
-<span class="sd">        This handles length mismatch cases by using declared lengths from the raw input</span>
-<span class="sd">        and only the first 32 bytes of exponent data for iteration calculation.</span>
+<span class="sd">        Calculate the iteration count of the ModExp precompile. This handles</span>
+<span class="sd">        length mismatch cases by using declared lengths from the raw input and</span>
+<span class="sd">        only the first 32 bytes of exponent data for iteration calculation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">exponent_length</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">modexp_input</span><span class="o">.</span><span class="n">get_declared_lengths</span><span class="p">()</span>
         <span class="n">exponent_head</span> <span class="o">=</span> <span class="n">modexp_input</span><span class="o">.</span><span class="n">get_exponent_head</span><span class="p">()</span>
@@ -27508,8 +27509,9 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_gas_cost</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">modexp_input</span><span class="p">:</span> <span class="n">ModExpInput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the ModExp gas cost according to EIP-2565 specification, overridden by the</span>
-<span class="sd">        constants within `Spec7883` when calculating for the EIP-7883 specification.</span>
+<span class="sd">        Calculate the ModExp gas cost according to EIP-2565 specification,</span>
+<span class="sd">        overridden by the constants within `Spec7883` when calculating for the</span>
+<span class="sd">        EIP-7883 specification.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">base_length</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">modulus_length</span> <span class="o">=</span> <span class="n">modexp_input</span><span class="o">.</span><span class="n">get_declared_lengths</span><span class="p">()</span>
         <span class="n">multiplication_complexity</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">calculate_multiplication_complexity</span><span class="p">(</span>
@@ -27564,8 +27566,8 @@
    (tests.osaka.eip7883_modexp_gas_increase.spec.Spec)" href="#tests.osaka.eip7883_modexp_gas_increase.spec.Spec">Spec</a></code></p>
 
 
-        <p>Constants and helpers for the ModExp gas cost increase EIP.
-These override the original Spec class variables for EIP-7883.</p>
+        <p>Constants and helpers for the ModExp gas cost increase EIP. These override
+the original Spec class variables for EIP-7883.</p>
 
 
 
@@ -27575,8 +27577,7 @@ These override the original Spec class variables for EIP-7883.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
-<span class="normal"> 98</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
@@ -27597,11 +27598,15 @@ These override the original Spec class variables for EIP-7883.</p>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
-<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec7883</span><span class="p">(</span><span class="n">Spec</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Constants and helpers for the ModExp gas cost increase EIP.</span>
-<span class="sd">    These override the original Spec class variables for EIP-7883.</span>
+<span class="sd">    Constants and helpers for the ModExp gas cost increase EIP. These override</span>
+<span class="sd">    the original Spec class variables for EIP-7883.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">MODEXP_ADDRESS</span> <span class="o">=</span> <span class="mh">0x05</span>
@@ -27613,7 +27618,10 @@ These override the original Spec class variables for EIP-7883.</p>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_multiplication_complexity</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">base_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">modulus_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the multiplication complexity of the ModExp precompile for EIP-7883.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the multiplication complexity of the ModExp precompile for</span>
+<span class="sd">        EIP-7883.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">max_length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">base_length</span><span class="p">,</span> <span class="n">modulus_length</span><span class="p">)</span>
         <span class="n">words</span> <span class="o">=</span> <span class="n">ceiling_division</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">WORD_SIZE</span><span class="p">)</span>
         <span class="n">complexity</span> <span class="o">=</span> <span class="mi">16</span>

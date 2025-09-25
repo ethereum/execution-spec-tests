@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-max-blob-per-tx">Test Max Blob Per Tx<a class="headerlink" href="#test-max-blob-per-tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py#L79"><code>tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py#L81"><code>tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py --fork Osaka</span>
@@ -27265,12 +27265,10 @@
 <a id="tests.osaka.eip7594_peerdas.test_max_blob_per_tx"></a>
     <div class="doc doc-contents first">
 
+        <p>MAX_BLOBS_PER_TX limit tests.</p>
+<p>Tests for <code>MAX_BLOBS_PER_TX</code> limit in <a href="https://eips.ethereum.org/EIPS/eip-7594">EIP-7594: PeerDAS - Peer Data
+Availability Sampling</a>.</p>
 
-
-<details class="abstract" open>
-  <summary>Tests <code>MAX_BLOBS_PER_TX</code> limit for <a href="https://eips.ethereum.org/EIPS/eip-7594">EIP-7594: PeerDAS - Peer Data Availability Sampling</a></summary>
-  <p>Tests <code>MAX_BLOBS_PER_TX</code> limit for <a href="https://eips.ethereum.org/EIPS/eip-7594">EIP-7594: PeerDAS - Peer Data Availability Sampling</a>.</p>
-</details>
 
 
 
@@ -27304,13 +27302,13 @@
 <td><a href="test_valid_max_blobs_per_tx/"><code>test_valid_max_blobs_per_tx</code></a></td>
 <td>state_test</td>
 <td>6</td>
-<td>Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are accepted.</td>
+<td>Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are</td>
 </tr>
 <tr>
 <td><a href="test_invalid_max_blobs_per_tx/"><code>test_invalid_max_blobs_per_tx</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test that transactions exceeding MAX_BLOBS_PER_TX are rejected.</td>
+<td>Test that transactions exceeding MAX_BLOBS_PER_TX are rejected. Verifies</td>
 </tr>
 <tr>
 <td><a href="test_max_blobs_per_tx_fork_transition/"><code>test_max_blobs_per_tx_fork_transition</code></a></td>

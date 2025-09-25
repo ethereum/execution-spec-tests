@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_call_pointer_to_created_from_create_after_oog_call_again"><code>test_call_pointer_to_created_from_create_after_oog_call_again()</code><a class="headerlink" href="#test_call_pointer_to_created_from_create_after_oog_call_again" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1244"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_call_pointer_to_created_from_create_after_oog_call_again@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1272"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_call_pointer_to_created_from_create_after_oog_call_again@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_call_pointer_to_created_from_create_after_oog_call_again --fork Osaka</span>
@@ -27326,44 +27326,18 @@
     <div class="doc doc-contents first">
 
         <p>Set pointer to account that we are about to create.</p>
-<p>Pointer is set to create address that is yet not in the state
-During the call, address is created. pointer is called from init code to do nothing
-Then after account is created it is called again to run created code</p>
-<p>Then revert / no revert</p>
-<p>Call pointer again from the upper level to ensure it does not call reverted code</p>
+<p>Pointer is set to create address that is yet not in the state.</p>
+<p>During the call, address is created. pointer is called from init code
+to do nothing.</p>
+<p>Then after account is created it is called again to run created code</p>
+<p>Then revert / no revert.</p>
+<p>Call pointer again from the upper level to ensure it does not call reverted
+code.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1244</span>
-<span class="normal">1245</span>
-<span class="normal">1246</span>
-<span class="normal">1247</span>
-<span class="normal">1248</span>
-<span class="normal">1249</span>
-<span class="normal">1250</span>
-<span class="normal">1251</span>
-<span class="normal">1252</span>
-<span class="normal">1253</span>
-<span class="normal">1254</span>
-<span class="normal">1255</span>
-<span class="normal">1256</span>
-<span class="normal">1257</span>
-<span class="normal">1258</span>
-<span class="normal">1259</span>
-<span class="normal">1260</span>
-<span class="normal">1261</span>
-<span class="normal">1262</span>
-<span class="normal">1263</span>
-<span class="normal">1264</span>
-<span class="normal">1265</span>
-<span class="normal">1266</span>
-<span class="normal">1267</span>
-<span class="normal">1268</span>
-<span class="normal">1269</span>
-<span class="normal">1270</span>
-<span class="normal">1271</span>
-<span class="normal">1272</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1272</span>
 <span class="normal">1273</span>
 <span class="normal">1274</span>
 <span class="normal">1275</span>
@@ -27412,7 +27386,39 @@ Then after account is created it is called again to run created code</p>
 <span class="normal">1318</span>
 <span class="normal">1319</span>
 <span class="normal">1320</span>
-<span class="normal">1321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
+<span class="normal">1321</span>
+<span class="normal">1322</span>
+<span class="normal">1323</span>
+<span class="normal">1324</span>
+<span class="normal">1325</span>
+<span class="normal">1326</span>
+<span class="normal">1327</span>
+<span class="normal">1328</span>
+<span class="normal">1329</span>
+<span class="normal">1330</span>
+<span class="normal">1331</span>
+<span class="normal">1332</span>
+<span class="normal">1333</span>
+<span class="normal">1334</span>
+<span class="normal">1335</span>
+<span class="normal">1336</span>
+<span class="normal">1337</span>
+<span class="normal">1338</span>
+<span class="normal">1339</span>
+<span class="normal">1340</span>
+<span class="normal">1341</span>
+<span class="normal">1342</span>
+<span class="normal">1343</span>
+<span class="normal">1344</span>
+<span class="normal">1345</span>
+<span class="normal">1346</span>
+<span class="normal">1347</span>
+<span class="normal">1348</span>
+<span class="normal">1349</span>
+<span class="normal">1350</span>
+<span class="normal">1351</span>
+<span class="normal">1352</span>
+<span class="normal">1353</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_return&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span> <span class="n">Macros</span><span class="o">.</span><span class="n">OOG</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_call_pointer_to_created_from_create_after_oog_call_again</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">call_return</span><span class="p">:</span> <span class="n">Op</span>
@@ -27420,13 +27426,17 @@ Then after account is created it is called again to run created code</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set pointer to account that we are about to create.</span>
 
-<span class="sd">    Pointer is set to create address that is yet not in the state</span>
-<span class="sd">    During the call, address is created. pointer is called from init code to do nothing</span>
+<span class="sd">    Pointer is set to create address that is yet not in the state.</span>
+
+<span class="sd">    During the call, address is created. pointer is called from init code</span>
+<span class="sd">    to do nothing.</span>
+
 <span class="sd">    Then after account is created it is called again to run created code</span>
 
-<span class="sd">    Then revert / no revert</span>
+<span class="sd">    Then revert / no revert.</span>
 
-<span class="sd">    Call pointer again from the upper level to ensure it does not call reverted code</span>
+<span class="sd">    Call pointer again from the upper level to ensure it does not call reverted</span>
+<span class="sd">    code.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 

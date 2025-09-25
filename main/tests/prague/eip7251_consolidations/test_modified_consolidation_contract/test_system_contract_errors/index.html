@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_system_contract_errors"><code>test_system_contract_errors()</code><a class="headerlink" href="#test_system_contract_errors" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py#L280"><code>tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py::test_system_contract_errors@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py#L305"><code>tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py::test_system_contract_errors@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py::test_system_contract_errors --fork Osaka</span>
@@ -27325,16 +27325,15 @@
 <a id="tests.prague.eip7251_consolidations.test_modified_consolidation_contract.test_system_contract_errors"></a>
     <div class="doc doc-contents first">
 
-        <p>Test system contract raising different errors when called by the system account at the
-end of the block execution.</p>
+        <p>Test system contract raising different errors when called by the system
+account at the end of the block execution.</p>
 <p>To see the list of generated tests, please refer to the
 <code>generate_system_contract_error_test</code> decorator definition.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
-<span class="normal">139</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
@@ -27348,7 +27347,8 @@ end of the block execution.</p>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">153</span>
+<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;system_contract&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="n">Spec_EIP7251</span><span class="o">.</span><span class="n">CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS</span><span class="p">)]</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span><span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Deploys custom consolidation contract bytecode&quot;</span><span class="p">)</span>
@@ -27357,8 +27357,8 @@ end of the block execution.</p>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_system_contract_errors</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test system contract raising different errors when called by the system account at the</span>
-<span class="sd">    end of the block execution.</span>
+<span class="sd">    Test system contract raising different errors when called by the system</span>
+<span class="sd">    account at the end of the block execution.</span>
 
 <span class="sd">    To see the list of generated tests, please refer to the</span>
 <span class="sd">    `generate_system_contract_error_test` decorator definition.</span>

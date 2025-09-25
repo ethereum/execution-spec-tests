@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_auth_signature"><code>test_invalid_auth_signature()</code><a class="headerlink" href="#test_invalid_auth_signature" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L80"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_auth_signature@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L82"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_auth_signature@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_auth_signature --fork Osaka</span>
@@ -27325,14 +27325,13 @@
 <a id="tests.prague.eip7702_set_code_tx.test_invalid_tx.test_invalid_auth_signature"></a>
     <div class="doc doc-contents first">
 
-        <p>Test sending a transaction where one of the signature elements is out of range.</p>
+        <p>Test sending a transaction where one of the signature elements is out of
+range.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 82</span>
 <span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
@@ -27380,7 +27379,12 @@
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
-<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;v,r,s&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;v=2**8&quot;</span><span class="p">),</span>
@@ -27405,7 +27409,10 @@
     <span class="n">s</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">delegate_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test sending a transaction where one of the signature elements is out of range.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test sending a transaction where one of the signature elements is out of</span>
+<span class="sd">    range.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>

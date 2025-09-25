@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_modexp"><code>test_modexp()</code><a class="headerlink" href="#test_modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/byzantium/eip198_modexp_precompile/test_modexp.py#L26"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/byzantium/eip198_modexp_precompile/test_modexp.py#L27"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp --fork Osaka</span>
@@ -27330,8 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/byzantium/eip198_modexp_precompile/test_modexp.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 26</span>
-<span class="normal"> 27</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 27</span>
 <span class="normal"> 28</span>
 <span class="normal"> 29</span>
 <span class="normal"> 30</span>
@@ -27502,7 +27501,13 @@
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
-<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Byzantium&quot;</span><span class="p">)</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Byzantium&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;mod_exp_input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">],</span>
     <span class="p">[</span>
@@ -27573,7 +27578,8 @@
             <span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EIP-198-case2&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>  <span class="c1"># Note: This is the only test case which goes out-of-gas.</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>  <span class="c1"># Note: This is the only test case which goes out-of-</span>
+            <span class="c1"># gas.</span>
             <span class="n">Bytes</span><span class="p">(</span>
                 <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
                 <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000020&quot;</span>
@@ -27614,7 +27620,8 @@
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EIP-198-case5-raw-input&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">param</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>  <span class="c1"># only required to remove parameter names (input/output)</span>
+    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">param</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>  <span class="c1"># only required to remove parameter</span>
+    <span class="c1"># names (input/output)</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_modexp</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -27632,17 +27639,18 @@
         <span class="c1"># Store the returned CALL status (success = 1, fail = 0) into slot 0:</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
             <span class="mi">0</span><span class="p">,</span>
-            <span class="c1"># Setup stack to CALL into ModExp with the CALLDATA and CALL into it (+ pop value)</span>
+            <span class="c1"># Setup stack to CALL into ModExp with the CALLDATA and CALL into</span>
+            <span class="c1"># it (+ pop value)</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">(),</span> <span class="mh">0x05</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="c1"># Store contract deployment code to deploy the returned data from ModExp as</span>
-        <span class="c1"># contract code (16 bytes)</span>
+        <span class="c1"># Store contract deployment code to deploy the returned data from</span>
+        <span class="c1"># ModExp as contract code (16 bytes)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span>
             <span class="mi">0</span><span class="p">,</span>
             <span class="p">(</span>
-                <span class="c1"># Need to `ljust` this PUSH32 in order to ensure the code starts</span>
-                <span class="c1"># in memory at offset 0 (memory right-aligns stack items which are not</span>
-                <span class="c1"># 32 bytes)</span>
+                <span class="c1"># Need to `ljust` this PUSH32 in order to ensure the code</span>
+                <span class="c1"># starts in memory at offset 0 (memory right-aligns stack items</span>
+                <span class="c1"># which are not 32 bytes)</span>
                 <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span>
                     <span class="nb">bytes</span><span class="p">(</span>
                         <span class="n">Op</span><span class="o">.</span><span class="n">CODECOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CODESIZE</span><span class="p">(),</span> <span class="mi">16</span><span class="p">))</span>
@@ -27651,9 +27659,11 @@
                 <span class="p">)</span>
             <span class="p">),</span>
         <span class="p">)</span>
-        <span class="c1"># RETURNDATACOPY the returned data from ModExp into memory (offset 16 bytes)</span>
+        <span class="c1"># RETURNDATACOPY the returned data from ModExp into memory (offset 16</span>
+        <span class="c1"># bytes)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATACOPY</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">())</span>
-        <span class="c1"># CREATE contract with the deployment code + the returned data from ModExp</span>
+        <span class="c1"># CREATE contract with the deployment code + the returned data from</span>
+        <span class="c1"># ModExp</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">()))</span>
         <span class="c1"># STOP (handy for tracing)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">(),</span>

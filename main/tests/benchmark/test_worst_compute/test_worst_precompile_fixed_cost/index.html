@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_precompile_fixed_cost"><code>test_worst_precompile_fixed_cost()</code><a class="headerlink" href="#test_worst_precompile_fixed_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L1295"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_fixed_cost@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L1364"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_fixed_cost@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_precompile_fixed_cost -m benchmark</span>
@@ -27328,76 +27328,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1295</span>
-<span class="normal">1296</span>
-<span class="normal">1297</span>
-<span class="normal">1298</span>
-<span class="normal">1299</span>
-<span class="normal">1300</span>
-<span class="normal">1301</span>
-<span class="normal">1302</span>
-<span class="normal">1303</span>
-<span class="normal">1304</span>
-<span class="normal">1305</span>
-<span class="normal">1306</span>
-<span class="normal">1307</span>
-<span class="normal">1308</span>
-<span class="normal">1309</span>
-<span class="normal">1310</span>
-<span class="normal">1311</span>
-<span class="normal">1312</span>
-<span class="normal">1313</span>
-<span class="normal">1314</span>
-<span class="normal">1315</span>
-<span class="normal">1316</span>
-<span class="normal">1317</span>
-<span class="normal">1318</span>
-<span class="normal">1319</span>
-<span class="normal">1320</span>
-<span class="normal">1321</span>
-<span class="normal">1322</span>
-<span class="normal">1323</span>
-<span class="normal">1324</span>
-<span class="normal">1325</span>
-<span class="normal">1326</span>
-<span class="normal">1327</span>
-<span class="normal">1328</span>
-<span class="normal">1329</span>
-<span class="normal">1330</span>
-<span class="normal">1331</span>
-<span class="normal">1332</span>
-<span class="normal">1333</span>
-<span class="normal">1334</span>
-<span class="normal">1335</span>
-<span class="normal">1336</span>
-<span class="normal">1337</span>
-<span class="normal">1338</span>
-<span class="normal">1339</span>
-<span class="normal">1340</span>
-<span class="normal">1341</span>
-<span class="normal">1342</span>
-<span class="normal">1343</span>
-<span class="normal">1344</span>
-<span class="normal">1345</span>
-<span class="normal">1346</span>
-<span class="normal">1347</span>
-<span class="normal">1348</span>
-<span class="normal">1349</span>
-<span class="normal">1350</span>
-<span class="normal">1351</span>
-<span class="normal">1352</span>
-<span class="normal">1353</span>
-<span class="normal">1354</span>
-<span class="normal">1355</span>
-<span class="normal">1356</span>
-<span class="normal">1357</span>
-<span class="normal">1358</span>
-<span class="normal">1359</span>
-<span class="normal">1360</span>
-<span class="normal">1361</span>
-<span class="normal">1362</span>
-<span class="normal">1363</span>
-<span class="normal">1364</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1364</span>
 <span class="normal">1365</span>
 <span class="normal">1366</span>
 <span class="normal">1367</span>
@@ -27795,14 +27726,93 @@
 <span class="normal">1759</span>
 <span class="normal">1760</span>
 <span class="normal">1761</span>
-<span class="normal">1762</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1762</span>
+<span class="normal">1763</span>
+<span class="normal">1764</span>
+<span class="normal">1765</span>
+<span class="normal">1766</span>
+<span class="normal">1767</span>
+<span class="normal">1768</span>
+<span class="normal">1769</span>
+<span class="normal">1770</span>
+<span class="normal">1771</span>
+<span class="normal">1772</span>
+<span class="normal">1773</span>
+<span class="normal">1774</span>
+<span class="normal">1775</span>
+<span class="normal">1776</span>
+<span class="normal">1777</span>
+<span class="normal">1778</span>
+<span class="normal">1779</span>
+<span class="normal">1780</span>
+<span class="normal">1781</span>
+<span class="normal">1782</span>
+<span class="normal">1783</span>
+<span class="normal">1784</span>
+<span class="normal">1785</span>
+<span class="normal">1786</span>
+<span class="normal">1787</span>
+<span class="normal">1788</span>
+<span class="normal">1789</span>
+<span class="normal">1790</span>
+<span class="normal">1791</span>
+<span class="normal">1792</span>
+<span class="normal">1793</span>
+<span class="normal">1794</span>
+<span class="normal">1795</span>
+<span class="normal">1796</span>
+<span class="normal">1797</span>
+<span class="normal">1798</span>
+<span class="normal">1799</span>
+<span class="normal">1800</span>
+<span class="normal">1801</span>
+<span class="normal">1802</span>
+<span class="normal">1803</span>
+<span class="normal">1804</span>
+<span class="normal">1805</span>
+<span class="normal">1806</span>
+<span class="normal">1807</span>
+<span class="normal">1808</span>
+<span class="normal">1809</span>
+<span class="normal">1810</span>
+<span class="normal">1811</span>
+<span class="normal">1812</span>
+<span class="normal">1813</span>
+<span class="normal">1814</span>
+<span class="normal">1815</span>
+<span class="normal">1816</span>
+<span class="normal">1817</span>
+<span class="normal">1818</span>
+<span class="normal">1819</span>
+<span class="normal">1820</span>
+<span class="normal">1821</span>
+<span class="normal">1822</span>
+<span class="normal">1823</span>
+<span class="normal">1824</span>
+<span class="normal">1825</span>
+<span class="normal">1826</span>
+<span class="normal">1827</span>
+<span class="normal">1828</span>
+<span class="normal">1829</span>
+<span class="normal">1830</span>
+<span class="normal">1831</span>
+<span class="normal">1832</span>
+<span class="normal">1833</span>
+<span class="normal">1834</span>
+<span class="normal">1835</span>
+<span class="normal">1836</span>
+<span class="normal">1837</span>
+<span class="normal">1838</span>
+<span class="normal">1839</span>
+<span class="normal">1840</span>
+<span class="normal">1841</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;precompile_address,parameters&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x01</span><span class="p">,</span>
             <span class="p">[</span>
-                <span class="c1"># The inputs below are a valid signature, thus ECRECOVER call won&#39;t</span>
-                <span class="c1"># be short-circuited by validations and do actual work.</span>
+                <span class="c1"># The inputs below are a valid signature, thus ECRECOVER call</span>
+                <span class="c1"># won&#39;t be short-circuited by validations and do actual work.</span>
                 <span class="s2">&quot;38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;000000000000000000000000000000000000000000000000000000000000001B&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E&quot;</span><span class="p">,</span>
@@ -27820,7 +27830,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_add&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L326</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L326</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x06</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27831,7 +27842,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_add_infinities&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L329</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L329</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x06</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27851,7 +27863,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L335</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L335</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x07</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27861,7 +27874,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_infinities_2_scalar&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L338</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L338</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x07</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27871,7 +27885,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_infinities_32_byte_scalar&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L341</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L341</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x07</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27881,7 +27896,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_1_2_2_scalar&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L344</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L344</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x07</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27891,7 +27907,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_1_2_32_byte_scalar&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L347</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L347</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x07</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27901,7 +27918,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_32_byte_coord_and_2_scalar&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L350</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L350</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x07</span><span class="p">,</span>
             <span class="p">[</span>
@@ -27944,7 +27962,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_one_pairing&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L353</span>
+        <span class="c1"># Ported from</span>
+        <span class="c1"># https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L353</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x08</span><span class="p">,</span> <span class="p">[],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;ec_pairing_zero_input&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x08</span><span class="p">,</span>
@@ -28143,9 +28162,10 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">bls12381_spec</span><span class="o">.</span><span class="n">Spec</span><span class="o">.</span><span class="n">G2MSM</span><span class="p">,</span>
             <span class="p">[</span>
-                <span class="c1"># TODO: the //2 is required due to a limitation of the max contract size limit.</span>
-                <span class="c1"># In a further iteration we can insert the inputs as calldata or storage and avoid</span>
-                <span class="c1"># having to do PUSHes which has this limitation. This also applies to G1MSM.</span>
+                <span class="c1"># TODO: the //2 is required due to a limitation of the max</span>
+                <span class="c1"># contract size limit. In a further iteration we can insert the</span>
+                <span class="c1"># inputs as calldata or storage and avoid having to do PUSHes</span>
+                <span class="c1"># which has this limitation. This also applies to G1MSM.</span>
                 <span class="p">(</span><span class="n">bls12381_spec</span><span class="o">.</span><span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">bls12381_spec</span><span class="o">.</span><span class="n">Scalar</span><span class="p">(</span><span class="n">bls12381_spec</span><span class="o">.</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">))</span>
                 <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bls12381_spec</span><span class="o">.</span><span class="n">Spec</span><span class="o">.</span><span class="n">G2MSM_DISCOUNT_TABLE</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span>
             <span class="p">],</span>

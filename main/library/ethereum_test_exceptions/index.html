@@ -31100,7 +31100,10 @@ t8n or other tools.</p>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExceptionMapper</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExceptionMapper</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Translate between EEST exceptions and error strings returned by client&#39;s</span>
 <span class="sd">    t8n or other tools.</span>
@@ -31111,9 +31114,11 @@ t8n or other tools.</p>
 
     <span class="n">mapping_substring</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Mapping of exception to substring that should be present in the error message.</span>
+<span class="sd">    Mapping of exception to substring that should be present in the error</span>
+<span class="sd">    message.</span>
 
-<span class="sd">    Items in this mapping are used for substring matching (`substring in message`).</span>
+<span class="sd">    Items in this mapping are used for substring matching (`substring in</span>
+<span class="sd">    message`).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">mapping_regex</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
@@ -31125,13 +31130,14 @@ t8n or other tools.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">reliable</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Whether the exceptions returned by the tool are reliable and can be accurately</span>
-<span class="sd">    mapped to the exceptions in this class.</span>
+<span class="sd">    Whether the exceptions returned by the tool are reliable and can be</span>
+<span class="sd">    accurately mapped to the exceptions in this class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the exception mapper.&quot;&quot;&quot;</span>
-        <span class="c1"># Ensure that the subclass has properly defined mapping_substring before accessing it</span>
+        <span class="c1"># Ensure that the subclass has properly defined mapping_substring</span>
+        <span class="c1"># before accessing it</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_substring must be defined in subclass&quot;</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_regex must be defined in subclass&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
@@ -31182,8 +31188,10 @@ t8n or other tools.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Mapping of exception to substring that should be present in the error message.</p>
-<p>Items in this mapping are used for substring matching (<code>substring in message</code>).</p>
+        <p>Mapping of exception to substring that should be present in the error
+message.</p>
+<p>Items in this mapping are used for substring matching (<code>substring in
+message</code>).</p>
 
     </div>
 
@@ -31239,8 +31247,8 @@ and then used for regex matching (<code>pattern.search(message)</code>).</p>
 
     <div class="doc doc-contents ">
 
-        <p>Whether the exceptions returned by the tool are reliable and can be accurately
-mapped to the exceptions in this class.</p>
+        <p>Whether the exceptions returned by the tool are reliable and can be
+accurately mapped to the exceptions in this class.</p>
 
     </div>
 
@@ -31267,17 +31275,19 @@ mapped to the exceptions in this class.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
-<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the exception mapper.&quot;&quot;&quot;</span>
-    <span class="c1"># Ensure that the subclass has properly defined mapping_substring before accessing it</span>
+    <span class="c1"># Ensure that the subclass has properly defined mapping_substring</span>
+    <span class="c1"># before accessing it</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_substring must be defined in subclass&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_regex must be defined in subclass&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
@@ -31311,10 +31321,7 @@ mapped to the exceptions in this class.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
@@ -31324,7 +31331,10 @@ mapped to the exceptions in this class.</p>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">message_to_exception</span><span class="p">(</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">message_to_exception</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">]</span> <span class="o">|</span> <span class="n">UndefinedException</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Match a formatted string to an exception.&quot;&quot;&quot;</span>
@@ -31374,16 +31384,17 @@ mapped to the exceptions in this class.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Validator that can be used to annotate a pydantic field in a model that is meant to be
-parsed from an external tool or client.</p>
-<p>The annotated type must be an union that can include <code>None</code>, <code>UndefinedException</code> and a
-custom model as:
+        <p>Validator that can be used to annotate a pydantic field in a model that is
+meant to be parsed from an external tool or client.</p>
+<p>The annotated type must be an union that can include <code>None</code>,
+<code>UndefinedException</code> and a custom model as:
 <div class="highlight"><pre><span></span><code>class BlockExceptionWithMessage(ExceptionWithMessage[BlockException]):
     pass
 </code></pre></div>
 where <code>BlockException</code> can be any derivation of <code>ExceptionBase</code>.</p>
-<p>The <code>message</code> attribute is the verbatim message received from the external tool or client,
-and can be used to be printed for extra context information in case of failures.</p>
+<p>The <code>message</code> attribute is the verbatim message received from the external tool
+or client, and can be used to be printed for extra context information in case
+of failures.</p>
 
     </div>
 
@@ -31410,8 +31421,8 @@ and can be used to be printed for extra context information in case of failures.
               Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code>, <code><span title="typing.Generic">Generic</span>[<span title="ethereum_test_exceptions.exceptions.ExceptionBoundTypeVar">ExceptionBoundTypeVar</span>]</code></p>
 
 
-        <p>Class that contains the exception along with the verbatim message from the external
-tool/client.</p>
+        <p>Class that contains the exception along with the verbatim message from the
+external tool/client.</p>
 
 
 
@@ -31421,10 +31432,7 @@ tool/client.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
@@ -31438,10 +31446,13 @@ tool/client.</p>
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExceptionWithMessage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">ExceptionBoundTypeVar</span><span class="p">]):</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExceptionWithMessage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">ExceptionBoundTypeVar</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class that contains the exception along with the verbatim message from the external</span>
-<span class="sd">    tool/client.</span>
+<span class="sd">    Class that contains the exception along with the verbatim message from the</span>
+<span class="sd">    external tool/client.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">exceptions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExceptionBoundTypeVar</span><span class="p">]</span>
@@ -31485,11 +31496,11 @@ tool/client.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the item is in the exceptions list.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">exception</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span> <span class="k">for</span> <span class="n">exception</span> <span class="ow">in</span> <span class="n">item</span><span class="p">)</span>
@@ -31521,9 +31532,9 @@ tool/client.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the string representation of the exception message.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span><span class="p">)</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -31563,8 +31574,8 @@ tool/client.</p>
 
 
         <p>Exception raised when a block is invalid, but not due to a transaction.</p>
-<p>E.g. all transactions in the block are valid, and can be applied to the state, but the
-block header contains an invalid field.</p>
+<p>E.g. all transactions in the block are valid, and can be applied to the
+state, but the block header contains an invalid field.</p>
 
 
 
@@ -31754,254 +31765,163 @@ block header contains an invalid field.</p>
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
 
-<span class="sd">    E.g. all transactions in the block are valid, and can be applied to the state, but the</span>
-<span class="sd">    block header contains an invalid field.</span>
+<span class="sd">    E.g. all transactions in the block are valid, and can be applied to the</span>
+<span class="sd">    state, but the block header contains an invalid field.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">TOO_MANY_UNCLES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block declares too many uncles over the allowed limit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block declares too many uncles over the allowed limit.&quot;&quot;&quot;</span>
     <span class="n">UNCLE_IN_CHAIN</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block declares uncle header that is already imported into chain.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block declares uncle header that is already imported into chain.&quot;&quot;&quot;</span>
     <span class="n">UNCLE_IS_ANCESTOR</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block declares uncle header that is directly a parent of this block.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block declares uncle header that is directly a parent of this block.&quot;&quot;&quot;</span>
     <span class="n">UNCLE_IS_BROTHER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block declares two similar uncle headers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block declares two similar uncle headers.&quot;&quot;&quot;</span>
     <span class="n">UNCLE_PARENT_INCORRECT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block declares uncle header that is an outdated block to be an uncle.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block declares uncle header that is an outdated block to be an uncle.&quot;&quot;&quot;</span>
     <span class="n">EXTRA_DATA_TOO_BIG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s extra data &gt;32 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s extra data &gt;32 bytes.&quot;&quot;&quot;</span>
     <span class="n">EXTRA_DATA_INVALID_DAO</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block header&#39;s extra data after dao fork must be a fixed pre defined hash.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">UNKNOWN_PARENT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s parent hash does not correspond to any of existing blocks on chain.</span>
+<span class="sd">    Block header&#39;s parent hash does not correspond to any of existing blocks on</span>
+<span class="sd">    chain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">UNCLE_UNKNOWN_PARENT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uncle header&#39;s parent hash does not correspond to any of existing blocks on chain.</span>
+<span class="sd">    Uncle header&#39;s parent hash does not correspond to any of existing blocks on</span>
+<span class="sd">    chain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">UNKNOWN_PARENT_ZERO</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s parent hash is zero hash.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s parent hash is zero hash.&quot;&quot;&quot;</span>
     <span class="n">GASLIMIT_TOO_BIG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s gas limit &gt; 0x7fffffffffffffff.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s gas limit &gt; 0x7fffffffffffffff.&quot;&quot;&quot;</span>
     <span class="n">INVALID_BLOCK_NUMBER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s number != parent header&#39;s number + 1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s number != parent header&#39;s number + 1.&quot;&quot;&quot;</span>
     <span class="n">INVALID_BLOCK_TIMESTAMP_OLDER_THAN_PARENT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s timestamp &lt;= parent header&#39;s timestamp.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s timestamp &lt;= parent header&#39;s timestamp.&quot;&quot;&quot;</span>
     <span class="n">INVALID_DIFFICULTY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s difficulty does not match the difficulty formula calculated from previous block.</span>
+<span class="sd">    Block header&#39;s difficulty does not match the difficulty formula calculated</span>
+<span class="sd">    from previous block.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_LOG_BLOOM</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s logs bloom hash does not match the actually computed log bloom.</span>
+<span class="sd">    Block header&#39;s logs bloom hash does not match the actually computed log</span>
+<span class="sd">    bloom.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_STATE_ROOT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s state root hash does not match the actually computed hash of the state.</span>
+<span class="sd">    Block header&#39;s state root hash does not match the actually computed hash of</span>
+<span class="sd">    the state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_RECEIPTS_ROOT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s receipts root hash does not match the actually computed hash of receipts.</span>
+<span class="sd">    Block header&#39;s receipts root hash does not match the actually computed hash</span>
+<span class="sd">    of receipts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_TRANSACTIONS_ROOT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s transactions root hash does not match the actually computed hash of tx tree.</span>
+<span class="sd">    Block header&#39;s transactions root hash does not match the actually computed</span>
+<span class="sd">    hash of tx tree.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_UNCLES_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s uncle hash does not match the actually computed hash of block&#39;s uncles.</span>
+<span class="sd">    Block header&#39;s uncle hash does not match the actually computed hash of</span>
+<span class="sd">    block&#39;s uncles.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">GAS_USED_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block transactions consume more gas than block header allow.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block transactions consume more gas than block header allow.&quot;&quot;&quot;</span>
     <span class="n">INVALID_GASLIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s gas limit does not match the gas limit formula calculated from previous block.</span>
+<span class="sd">    Block header&#39;s gas limit does not match the gas limit formula calculated</span>
+<span class="sd">    from previous block.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_BASEFEE_PER_GAS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s base_fee_per_gas field is calculated incorrect.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s base_fee_per_gas field is calculated incorrect.&quot;&quot;&quot;</span>
     <span class="n">INVALID_GAS_USED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block header&#39;s actual gas used does not match the provided header&#39;s value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_GAS_USED_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s gas used value is above the gas limit field&#39;s value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s gas used value is above the gas limit field&#39;s value.&quot;&quot;&quot;</span>
     <span class="n">INVALID_WITHDRAWALS_ROOT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block header&#39;s withdrawals root does not match calculated withdrawals root.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INCORRECT_BLOCK_FORMAT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s format is incorrect, contains invalid fields, is missing fields, or contains fields of</span>
-<span class="sd">    a fork that is not active yet.</span>
+<span class="sd">    Block&#39;s format is incorrect, contains invalid fields, is missing fields, or</span>
+<span class="sd">    contains fields of a fork that is not active yet.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">BLOB_GAS_USED_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s blob gas used in header is above the limit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block&#39;s blob gas used in header is above the limit.&quot;&quot;&quot;</span>
     <span class="n">INCORRECT_BLOB_GAS_USED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s blob gas used in header is incorrect.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block&#39;s blob gas used in header is incorrect.&quot;&quot;&quot;</span>
     <span class="n">INCORRECT_EXCESS_BLOB_GAS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s excess blob gas in header is incorrect.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block&#39;s excess blob gas in header is incorrect.&quot;&quot;&quot;</span>
     <span class="n">INVALID_VERSIONED_HASHES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Incorrect number of versioned hashes in a payload.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Incorrect number of versioned hashes in a payload.&quot;&quot;&quot;</span>
     <span class="n">RLP_STRUCTURES_ENCODING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block&#39;s rlp encoding is valid but ethereum structures in it are invalid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">RLP_WITHDRAWALS_NOT_READ</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s rlp encoding is missing withdrawals.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block&#39;s rlp encoding is missing withdrawals.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_FIELD_OVERFLOW_64</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    One of block&#39;s fields rlp is overflow 2**64 value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of block&#39;s fields rlp is overflow 2**64 value.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_ADDRESS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block withdrawals address is rlp of invalid address != 20 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block withdrawals address is rlp of invalid address != 20 bytes.&quot;&quot;&quot;</span>
     <span class="n">RLP_BLOCK_LIMIT_EXCEEDED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s rlp encoding is larger than the allowed limit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block&#39;s rlp encoding is larger than the allowed limit.&quot;&quot;&quot;</span>
     <span class="n">INVALID_REQUESTS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s requests are invalid.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block&#39;s requests are invalid.&quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_LEGACY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Legacy block import is impossible in this chain configuration.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Legacy block import is impossible in this chain configuration.&quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_LEGACY_WRONG_PARENT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Legacy block import is impossible, trying to import on top of a block that is not legacy.</span>
+<span class="sd">    Legacy block import is impossible, trying to import on top of a block that</span>
+<span class="sd">    is not legacy.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_LONDON_WRONG_PARENT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trying to import london (basefee) block on top of block that is not 1559.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_PARIS_WRONG_POW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Trying to import paris(merge) block with PoW enabled.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trying to import paris(merge) block with PoW enabled.&quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_PARIS_WRONG_POS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trying to import paris(merge) block with PoS enabled before TTD is reached.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_LONDON_OVER_PARIS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Trying to import london looking block over paris network (POS).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trying to import london looking block over paris network (POS).&quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_PARIS_OVER_SHANGHAI</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Trying to import paris block on top of shanghai block.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trying to import paris block on top of shanghai block.&quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_SHANGHAI</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Shanghai block import is impossible in this chain configuration.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shanghai block import is impossible in this chain configuration.&quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_UNCLES_OVER_PARIS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trying to import a block after paris fork that has not empty uncles hash.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">IMPORT_IMPOSSIBLE_DIFFICULTY_OVER_PARIS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Trying to import a block after paris fork that has difficulty != 0.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trying to import a block after paris fork that has difficulty != 0.&quot;&quot;&quot;</span>
     <span class="n">SYSTEM_CONTRACT_EMPTY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A system contract address contains no code at the end of fork activation block.</span>
+<span class="sd">    A system contract address contains no code at the end of fork activation</span>
+<span class="sd">    block.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">SYSTEM_CONTRACT_CALL_FAILED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A system contract call at the end of block execution (from the system address) fails.</span>
+<span class="sd">    A system contract call at the end of block execution (from the system</span>
+<span class="sd">    address) fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_BLOCK_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -32009,21 +31929,18 @@ block header contains an invalid field.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but the layout</span>
-<span class="sd">    of the event does not match the required layout.</span>
+<span class="sd">    Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but</span>
+<span class="sd">    the layout of the event does not match the required layout.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># --- Block-Level Access Lists (EIP-7928) --- #</span>
     <span class="n">INVALID_BLOCK_ACCESS_LIST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block&#39;s access list is invalid.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block&#39;s access list is invalid.&quot;&quot;&quot;</span>
     <span class="n">INVALID_BAL_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block header&#39;s BAL hash does not match the computed BAL hash.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block header&#39;s BAL hash does not match the computed BAL hash.&quot;&quot;&quot;</span>
     <span class="n">INVALID_BAL_EXTRA_ACCOUNT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Block BAL contains an account change that is not present in the computed BAL.</span>
+<span class="sd">    Block BAL contains an account change that is not present in the computed</span>
+<span class="sd">    BAL.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_BAL_MISSING_ACCOUNT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -32255,7 +32172,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's parent hash does not correspond to any of existing blocks on chain.</p>
+        <p>Block header's parent hash does not correspond to any of existing blocks on
+chain.</p>
 
     </div>
 
@@ -32283,7 +32201,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Uncle header's parent hash does not correspond to any of existing blocks on chain.</p>
+        <p>Uncle header's parent hash does not correspond to any of existing blocks on
+chain.</p>
 
     </div>
 
@@ -32423,7 +32342,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's difficulty does not match the difficulty formula calculated from previous block.</p>
+        <p>Block header's difficulty does not match the difficulty formula calculated
+from previous block.</p>
 
     </div>
 
@@ -32451,7 +32371,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's logs bloom hash does not match the actually computed log bloom.</p>
+        <p>Block header's logs bloom hash does not match the actually computed log
+bloom.</p>
 
     </div>
 
@@ -32479,7 +32400,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's state root hash does not match the actually computed hash of the state.</p>
+        <p>Block header's state root hash does not match the actually computed hash of
+the state.</p>
 
     </div>
 
@@ -32507,7 +32429,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's receipts root hash does not match the actually computed hash of receipts.</p>
+        <p>Block header's receipts root hash does not match the actually computed hash
+of receipts.</p>
 
     </div>
 
@@ -32535,7 +32458,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's transactions root hash does not match the actually computed hash of tx tree.</p>
+        <p>Block header's transactions root hash does not match the actually computed
+hash of tx tree.</p>
 
     </div>
 
@@ -32563,7 +32487,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's uncle hash does not match the actually computed hash of block's uncles.</p>
+        <p>Block header's uncle hash does not match the actually computed hash of
+block's uncles.</p>
 
     </div>
 
@@ -32619,7 +32544,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block header's gas limit does not match the gas limit formula calculated from previous block.</p>
+        <p>Block header's gas limit does not match the gas limit formula calculated
+from previous block.</p>
 
     </div>
 
@@ -32759,8 +32685,8 @@ block header contains an invalid field.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block's format is incorrect, contains invalid fields, is missing fields, or contains fields of
-a fork that is not active yet.</p>
+        <p>Block's format is incorrect, contains invalid fields, is missing fields, or
+contains fields of a fork that is not active yet.</p>
 
     </div>
 
@@ -33096,7 +33022,8 @@ a fork that is not active yet.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Legacy block import is impossible, trying to import on top of a block that is not legacy.</p>
+        <p>Legacy block import is impossible, trying to import on top of a block that
+is not legacy.</p>
 
     </div>
 
@@ -33348,7 +33275,8 @@ a fork that is not active yet.</p>
 
     <div class="doc doc-contents ">
 
-        <p>A system contract address contains no code at the end of fork activation block.</p>
+        <p>A system contract address contains no code at the end of fork activation
+block.</p>
 
     </div>
 
@@ -33376,7 +33304,8 @@ a fork that is not active yet.</p>
 
     <div class="doc doc-contents ">
 
-        <p>A system contract call at the end of block execution (from the system address) fails.</p>
+        <p>A system contract call at the end of block execution (from the system
+address) fails.</p>
 
     </div>
 
@@ -33432,8 +33361,8 @@ a fork that is not active yet.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Transaction emits a <code>DepositEvent</code> in the deposit contract (EIP-6110), but the layout
-of the event does not match the required layout.</p>
+        <p>Transaction emits a <code>DepositEvent</code> in the deposit contract (EIP-6110), but
+the layout of the event does not match the required layout.</p>
 
     </div>
 
@@ -33517,7 +33446,8 @@ of the event does not match the required layout.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Block BAL contains an account change that is not present in the computed BAL.</p>
+        <p>Block BAL contains an account change that is not present in the computed
+BAL.</p>
 
     </div>
 
@@ -33708,312 +33638,124 @@ of the event does not match the required layout.</p>
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
     <span class="n">DEFAULT_EXCEPTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expect some exception, not yet known.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expect some exception, not yet known.&quot;&quot;&quot;</span>
 
     <span class="n">UNDEFINED_EXCEPTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Indicates that exception string is not mapped to an exception enum.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Indicates that exception string is not mapped to an exception enum.&quot;&quot;&quot;</span>
 
     <span class="n">UNDEFINED_INSTRUCTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container has undefined instruction in it&#39;s body code.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container has undefined instruction in it&#39;s body code.&quot;&quot;&quot;</span>
 
     <span class="n">UNKNOWN_VERSION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container has an unknown version.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container has an unknown version.&quot;&quot;&quot;</span>
     <span class="n">INCOMPLETE_MAGIC</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container has not enough bytes to read magic.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container has not enough bytes to read magic.&quot;&quot;&quot;</span>
     <span class="n">INVALID_MAGIC</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container has not allowed magic version byte.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container has not allowed magic version byte.&quot;&quot;&quot;</span>
     <span class="n">INVALID_VERSION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container version bytes mismatch.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container version bytes mismatch.&quot;&quot;&quot;</span>
     <span class="n">INVALID_NON_RETURNING_FLAG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s section has non-returning flag set incorrectly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s section has non-returning flag set incorrectly.&quot;&quot;&quot;</span>
     <span class="n">INVALID_RJUMP_DESTINATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Code has RJUMP instruction with invalid parameters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Code has RJUMP instruction with invalid parameters.&quot;&quot;&quot;</span>
     <span class="n">MISSING_TYPE_HEADER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container missing types section.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container missing types section.&quot;&quot;&quot;</span>
     <span class="n">INVALID_TYPE_SECTION_SIZE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container types section has wrong size.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container types section has wrong size.&quot;&quot;&quot;</span>
     <span class="n">INVALID_TYPE_BODY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container types body section bytes are wrong.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container types body section bytes are wrong.&quot;&quot;&quot;</span>
     <span class="n">MISSING_CODE_HEADER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container missing code section.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container missing code section.&quot;&quot;&quot;</span>
     <span class="n">INVALID_CODE_SECTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container code section bytes are incorrect.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container code section bytes are incorrect.&quot;&quot;&quot;</span>
     <span class="n">INCOMPLETE_CODE_HEADER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container code header missing bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container code header missing bytes.&quot;&quot;&quot;</span>
     <span class="n">INCOMPLETE_DATA_HEADER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container data header missing bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container data header missing bytes.&quot;&quot;&quot;</span>
     <span class="n">ZERO_SECTION_SIZE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container data header construction is wrong.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container data header construction is wrong.&quot;&quot;&quot;</span>
     <span class="n">MISSING_DATA_SECTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container missing data section</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container missing data section&quot;&quot;&quot;</span>
     <span class="n">INCOMPLETE_CONTAINER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container bytes are incomplete.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container bytes are incomplete.&quot;&quot;&quot;</span>
     <span class="n">INVALID_SECTION_BODIES_SIZE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sections bodies does not match sections headers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sections bodies does not match sections headers.&quot;&quot;&quot;</span>
     <span class="n">TRAILING_BYTES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container has bytes beyond data section.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container has bytes beyond data section.&quot;&quot;&quot;</span>
     <span class="n">MISSING_TERMINATOR</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container missing terminator bytes between header and body.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container missing terminator bytes between header and body.&quot;&quot;&quot;</span>
     <span class="n">MISSING_HEADERS_TERMINATOR</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Some type of another exception about missing headers terminator.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Some type of another exception about missing headers terminator.&quot;&quot;&quot;</span>
     <span class="n">INVALID_FIRST_SECTION_TYPE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container header does not have types section first.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container header does not have types section first.&quot;&quot;&quot;</span>
     <span class="n">INCOMPLETE_SECTION_NUMBER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container header has section that is missing declaration bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container header has section that is missing declaration bytes.&quot;&quot;&quot;</span>
     <span class="n">INCOMPLETE_SECTION_SIZE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container header has section that is defined incorrectly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container header has section that is defined incorrectly.&quot;&quot;&quot;</span>
     <span class="n">TOO_MANY_CODE_SECTIONS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container header has too many code sections.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container header has too many code sections.&quot;&quot;&quot;</span>
     <span class="n">MISSING_STOP_OPCODE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s code missing STOP bytecode at it&#39;s end.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s code missing STOP bytecode at it&#39;s end.&quot;&quot;&quot;</span>
     <span class="n">INPUTS_OUTPUTS_NUM_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container code section inputs/outputs number is above the limit</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container code section inputs/outputs number is above the limit&quot;&quot;&quot;</span>
     <span class="n">UNREACHABLE_INSTRUCTIONS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s code have instructions that are unreachable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s code have instructions that are unreachable.&quot;&quot;&quot;</span>
     <span class="n">UNREACHABLE_CODE_SECTIONS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s body have code sections that are unreachable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s body have code sections that are unreachable.&quot;&quot;&quot;</span>
     <span class="n">STACK_UNDERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s code produces an stack underflow.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s code produces an stack underflow.&quot;&quot;&quot;</span>
     <span class="n">STACK_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s code produces an stack overflow.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s code produces an stack overflow.&quot;&quot;&quot;</span>
     <span class="n">STACK_HEIGHT_MISMATCH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container section stack height mismatch.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container section stack height mismatch.&quot;&quot;&quot;</span>
     <span class="n">MAX_STACK_INCREASE_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s specified max stack increase is above the limit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s specified max stack increase is above the limit.&quot;&quot;&quot;</span>
     <span class="n">STACK_HIGHER_THAN_OUTPUTS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container section stack height is higher than the outputs.</span>
-<span class="sd">    when returning</span>
+<span class="sd">    EOF container section stack height is higher than the outputs. when</span>
+<span class="sd">    returning</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container section JUMPF&#39;s to a destination section with incompatible outputs.</span>
+<span class="sd">    EOF container section JUMPF&#39;s to a destination section with incompatible</span>
+<span class="sd">    outputs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_MAX_STACK_INCREASE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container section&#39;s specified max stack increase does not match the actual stack height.</span>
+<span class="sd">    EOF container section&#39;s specified max stack increase does not match the</span>
+<span class="sd">    actual stack height.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_DATALOADN_INDEX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A DATALOADN instruction has out-of-bounds index for the data section.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A DATALOADN instruction has out-of-bounds index for the data section.&quot;&quot;&quot;</span>
     <span class="n">TRUNCATED_INSTRUCTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container&#39;s code section has truncated instruction.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container&#39;s code section has truncated instruction.&quot;&quot;&quot;</span>
     <span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Top-level EOF container has data section truncated</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-level EOF container has data section truncated&quot;&quot;&quot;</span>
     <span class="n">ORPHAN_SUBCONTAINER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container has an unreferenced subcontainer.</span>
-<span class="sd">    &#39;&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container has an unreferenced subcontainer. &#39;&quot;&quot;&quot;</span>
     <span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container is above size limit</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container is above size limit&quot;&quot;&quot;</span>
     <span class="n">INVALID_CONTAINER_SECTION_INDEX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Instruction references container section that does not exist.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instruction references container section that does not exist.&quot;&quot;&quot;</span>
     <span class="n">INCOMPATIBLE_CONTAINER_KIND</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Incompatible instruction found in a container of a specific kind.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Incompatible instruction found in a container of a specific kind.&quot;&quot;&quot;</span>
     <span class="n">AMBIGUOUS_CONTAINER_KIND</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The kind of a sub-container cannot be uniquely deduced.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The kind of a sub-container cannot be uniquely deduced.&quot;&quot;&quot;</span>
     <span class="n">TOO_MANY_CONTAINERS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF container header has too many sub-containers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF container header has too many sub-containers.&quot;&quot;&quot;</span>
     <span class="n">INVALID_CODE_SECTION_INDEX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    CALLF Operation refers to a non-existent code section</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;CALLF Operation refers to a non-existent code section&quot;&quot;&quot;</span>
     <span class="n">UNEXPECTED_HEADER_KIND</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Header parsing encountered a section kind it wasn&#39;t expecting</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Header parsing encountered a section kind it wasn&#39;t expecting&quot;&quot;&quot;</span>
     <span class="n">CALLF_TO_NON_RETURNING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    CALLF instruction targeting a non-returning code section</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;CALLF instruction targeting a non-returning code section&quot;&quot;&quot;</span>
     <span class="n">EOFCREATE_WITH_TRUNCATED_CONTAINER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOFCREATE with truncated container</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOFCREATE with truncated container&quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -35024,8 +34766,8 @@ of the event does not match the required layout.</p>
 
     <div class="doc doc-contents ">
 
-        <p>EOF container section stack height is higher than the outputs.
-when returning</p>
+        <p>EOF container section stack height is higher than the outputs. when
+returning</p>
 
     </div>
 
@@ -35053,7 +34795,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>EOF container section JUMPF's to a destination section with incompatible outputs.</p>
+        <p>EOF container section JUMPF's to a destination section with incompatible
+outputs.</p>
 
     </div>
 
@@ -35081,7 +34824,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>EOF container section's specified max stack increase does not match the actual stack height.</p>
+        <p>EOF container section's specified max stack increase does not match the
+actual stack height.</p>
 
     </div>
 
@@ -35193,8 +34937,7 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>EOF container has an unreferenced subcontainer.
-'</p>
+        <p>EOF container has an unreferenced subcontainer. '</p>
 
     </div>
 
@@ -35540,7 +35283,10 @@ when returning</p>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExceptionBase</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExceptionBase</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for exceptions.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -35552,7 +35298,10 @@ when returning</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainValidatorFunctionSchema</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call class constructor without info and appends the serialization schema.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call class constructor without info and appends the serialization</span>
+<span class="sd">        schema.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">no_info_plain_validator_function</span><span class="p">(</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">from_str</span><span class="p">,</span>
             <span class="n">serialization</span><span class="o">=</span><span class="n">to_string_ser_schema</span><span class="p">(),</span>
@@ -35651,7 +35400,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Call class constructor without info and appends the serialization schema.</p>
+        <p>Call class constructor without info and appends the serialization
+schema.</p>
 
 
             <details class="quote">
@@ -35664,11 +35414,17 @@ when returning</p>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
-<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainValidatorFunctionSchema</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call class constructor without info and appends the serialization schema.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Call class constructor without info and appends the serialization</span>
+<span class="sd">    schema.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">no_info_plain_validator_function</span><span class="p">(</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">from_str</span><span class="p">,</span>
         <span class="n">serialization</span><span class="o">=</span><span class="n">to_string_ser_schema</span><span class="p">(),</span>
@@ -35704,10 +35460,7 @@ when returning</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exceptions/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
@@ -35726,7 +35479,10 @@ when returning</p>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="s2">&quot;str | ExceptionBase&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ExceptionBase&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return ContainerKind enum value from a string.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ExceptionBase</span><span class="p">):</span>
@@ -35776,9 +35532,9 @@ when returning</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exceptions/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if provided exception is equal to this.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
@@ -35808,9 +35564,9 @@ when returning</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exceptions/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return string representation of the exception.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -35849,8 +35605,10 @@ when returning</p>
               Bases: <code><a class="autorefs autorefs-internal" title="ExceptionBase (ethereum_test_exceptions.exceptions.base.ExceptionBase)" href="#ethereum_test_exceptions.ExceptionBase">ExceptionBase</a></code></p>
 
 
-        <p>Exception raised when a transaction is invalid, and thus cannot be executed.</p>
-<p>If a transaction with any of these exceptions is included in a block, the block is invalid.</p>
+        <p>Exception raised when a transaction is invalid, and thus cannot be
+executed.</p>
+<p>If a transaction with any of these exceptions is included in a block, the
+block is invalid.</p>
 
 
 
@@ -36044,297 +35802,128 @@ when returning</p>
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
+<span class="sd">    Exception raised when a transaction is invalid, and thus cannot be</span>
+<span class="sd">    executed.</span>
 
-<span class="sd">    If a transaction with any of these exceptions is included in a block, the block is invalid.</span>
+<span class="sd">    If a transaction with any of these exceptions is included in a block, the</span>
+<span class="sd">    block is invalid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">TYPE_NOT_SUPPORTED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction type is not supported on this chain configuration.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction type is not supported on this chain configuration.&quot;&quot;&quot;</span>
     <span class="n">SENDER_NOT_EOA</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction is coming from address that is not exist anymore.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction is coming from address that is not exist anymore.&quot;&quot;&quot;</span>
     <span class="n">ADDRESS_TOO_SHORT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction `to` is not allowed to be less than 20 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction `to` is not allowed to be less than 20 bytes.&quot;&quot;&quot;</span>
     <span class="n">ADDRESS_TOO_LONG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction `to` is not allowed to be more than 20 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction `to` is not allowed to be more than 20 bytes.&quot;&quot;&quot;</span>
     <span class="n">NONCE_MISMATCH_TOO_HIGH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction nonce &gt; sender.nonce.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction nonce &gt; sender.nonce.&quot;&quot;&quot;</span>
     <span class="n">NONCE_MISMATCH_TOO_LOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction nonce &lt; sender.nonce.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction nonce &lt; sender.nonce.&quot;&quot;&quot;</span>
     <span class="n">NONCE_TOO_BIG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction `nonce` is not allowed to be max_uint64 - 1 (this is probably TransactionTest).</span>
+<span class="sd">    Transaction `nonce` is not allowed to be max_uint64 - 1 (this is probably</span>
+<span class="sd">    TransactionTest).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">NONCE_IS_MAX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction `nonce` is not allowed to be max_uint64 - 1 (this is StateTests).</span>
+<span class="sd">    Transaction `nonce` is not allowed to be max_uint64 - 1 (this is</span>
+<span class="sd">    StateTests).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">NONCE_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction `nonce` is not allowed to be more than uint64.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction `nonce` is not allowed to be more than uint64.&quot;&quot;&quot;</span>
     <span class="n">GASLIMIT_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction gaslimit exceeds 2^64-1 maximum value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction gaslimit exceeds 2^64-1 maximum value.&quot;&quot;&quot;</span>
     <span class="n">VALUE_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction value exceeds 2^256-1 maximum value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction value exceeds 2^256-1 maximum value.&quot;&quot;&quot;</span>
     <span class="n">GASPRICE_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction gasPrice exceeds 2^256-1 maximum value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction gasPrice exceeds 2^256-1 maximum value.&quot;&quot;&quot;</span>
     <span class="n">GASLIMIT_PRICE_PRODUCT_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction gasPrice * gasLimit exceeds 2^256-1 maximum value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction gasPrice * gasLimit exceeds 2^256-1 maximum value.&quot;&quot;&quot;</span>
     <span class="n">INVALID_SIGNATURE_VRS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Invalid transaction v, r, s values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Invalid transaction v, r, s values.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_SIGNATURE_R</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction signature R value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction signature R value.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_SIGNATURE_S</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction signature S value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction signature S value.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_GASLIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction gaslimit field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction gaslimit field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_GASPRICE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction gasprice field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction gasprice field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_VALUE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction value field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction value field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_NONCE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction nonce field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction nonce field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_R</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction signature R field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction signature R field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_S</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction signature S field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction signature S field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_V</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction signature V field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction signature V field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_BASEFEE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction basefee field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction basefee field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_PRIORITY_FEE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction priority fee field RLP.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction priority fee field RLP.&quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_DATA_SIZE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction data field RLP, (rlp field length has leading zeros).</span>
+<span class="sd">    Error reading transaction data field RLP, (rlp field length has leading</span>
+<span class="sd">    zeros).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">RLP_LEADING_ZEROS_NONCE_SIZE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction nonce field RLP, (rlp field length has leading zeros).</span>
+<span class="sd">    Error reading transaction nonce field RLP, (rlp field length has leading</span>
+<span class="sd">    zeros).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">RLP_TOO_FEW_ELEMENTS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction RLP, structure has too few elements than expected.</span>
+<span class="sd">    Error reading transaction RLP, structure has too few elements than</span>
+<span class="sd">    expected.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">RLP_TOO_MANY_ELEMENTS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction RLP, structure has too many elements than expected.</span>
+<span class="sd">    Error reading transaction RLP, structure has too many elements than</span>
+<span class="sd">    expected.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">RLP_ERROR_EOF</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction RLP, rlp stream unexpectedly finished.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction RLP, rlp stream unexpectedly finished.&quot;&quot;&quot;</span>
     <span class="n">RLP_ERROR_SIZE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction RLP, rlp size is invalid.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction RLP, rlp size is invalid.&quot;&quot;&quot;</span>
     <span class="n">RLP_ERROR_SIZE_LEADING_ZEROS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Error reading transaction RLP, field size has leading zeros.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error reading transaction RLP, field size has leading zeros.&quot;&quot;&quot;</span>
     <span class="n">INVALID_CHAINID</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction chain id encoding is incorrect.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction chain id encoding is incorrect.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_DATA</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction data field is invalid rlp.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction data field is invalid rlp.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_GASLIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction gaslimit field is invalid rlp.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction gaslimit field is invalid rlp.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_NONCE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction nonce field is invalid rlp.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction nonce field is invalid rlp.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_TO</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction to field is invalid rlp.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction to field is invalid rlp.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_ACCESS_LIST_ADDRESS_TOO_LONG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction access list address is &gt; 20 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction access list address is &gt; 20 bytes.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_ACCESS_LIST_ADDRESS_TOO_SHORT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction access list address is &lt; 20 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction access list address is &lt; 20 bytes.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_ACCESS_LIST_STORAGE_TOO_LONG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction access list storage hash &gt; 32 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction access list storage hash &gt; 32 bytes.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_ACCESS_LIST_STORAGE_TOO_SHORT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction access list storage hash &lt; 32 bytes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction access list storage hash &lt; 32 bytes.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_HEADER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction failed to read from RLP as rlp header is invalid.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction failed to read from RLP as rlp header is invalid.&quot;&quot;&quot;</span>
     <span class="n">RLP_INVALID_VALUE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction value field is invalid rlp/structure.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction value field is invalid rlp/structure.&quot;&quot;&quot;</span>
     <span class="n">EC_RECOVERY_FAIL</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction has correct signature, but ec recovery failed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction has correct signature, but ec recovery failed.&quot;&quot;&quot;</span>
     <span class="n">INSUFFICIENT_ACCOUNT_FUNDS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction&#39;s sender does not have enough funds to pay for the transaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INSUFFICIENT_MAX_FEE_PER_GAS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction&#39;s max-fee-per-gas is lower than the block base-fee.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction&#39;s max-fee-per-gas is lower than the block base-fee.&quot;&quot;&quot;</span>
     <span class="n">PRIORITY_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction&#39;s max-priority-fee-per-gas is exceeds 2^256-1 maximum value.</span>
@@ -36345,88 +35934,59 @@ when returning</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS_2</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction&#39;s max-priority-fee-per-gas is greater than the max-fee-per-gas (TransactionTests).</span>
+<span class="sd">    Transaction&#39;s max-priority-fee-per-gas is greater than the max-fee-per-gas</span>
+<span class="sd">    (TransactionTests).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction&#39;s max-fee-per-blob-gas is lower than the block&#39;s blob-gas price.</span>
+<span class="sd">    Transaction&#39;s max-fee-per-blob-gas is lower than the block&#39;s blob-gas</span>
+<span class="sd">    price.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INTRINSIC_GAS_TOO_LOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction&#39;s gas limit is too low.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction&#39;s gas limit is too low.&quot;&quot;&quot;</span>
     <span class="n">INTRINSIC_GAS_BELOW_FLOOR_GAS_COST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction&#39;s gas limit is below the floor gas cost.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction&#39;s gas limit is below the floor gas cost.&quot;&quot;&quot;</span>
     <span class="n">INITCODE_SIZE_EXCEEDED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction&#39;s initcode for a contract-creating transaction is too large.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_PRE_FORK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction type 3 included before activation fork.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction type 3 included before activation fork.&quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_ZERO_BLOBS_PRE_FORK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction type 3, with zero blobs, included before activation fork.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction type 3, with zero blobs, included before activation fork.&quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction contains a blob versioned hash with an invalid version.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction contains a blob versioned hash with an invalid version.&quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_WITH_FULL_BLOBS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction contains full blobs (network-version of the transaction).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction contains full blobs (network-version of the transaction).&quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_BLOB_COUNT_EXCEEDED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction contains too many blob versioned hashes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction contains too many blob versioned hashes.&quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_CONTRACT_CREATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction is a type 3 transaction and has an empty `to`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction is a type 3 transaction and has an empty `to`.&quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction causes block to go over blob gas limit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction causes block to go over blob gas limit.&quot;&quot;&quot;</span>
     <span class="n">GAS_ALLOWANCE_EXCEEDED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction causes block to go over blob gas limit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction causes block to go over blob gas limit.&quot;&quot;&quot;</span>
     <span class="n">GAS_LIMIT_EXCEEDS_MAXIMUM</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction gas limit exceeds the maximum allowed limit of 30 million.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">TYPE_3_TX_ZERO_BLOBS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction is type 3, but has no blobs.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction is type 3, but has no blobs.&quot;&quot;&quot;</span>
     <span class="n">TYPE_4_EMPTY_AUTHORIZATION_LIST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction is type 4, but has an empty authorization list.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction is type 4, but has an empty authorization list.&quot;&quot;&quot;</span>
     <span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction authority signature is invalid</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction authority signature is invalid&quot;&quot;&quot;</span>
     <span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction authority signature is invalid</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction authority signature is invalid&quot;&quot;&quot;</span>
     <span class="n">TYPE_4_TX_CONTRACT_CREATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction is a type 4 transaction and has an empty `to`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction is a type 4 transaction and has an empty `to`.&quot;&quot;&quot;</span>
     <span class="n">TYPE_4_INVALID_AUTHORIZATION_FORMAT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction is type 4, but contains an authorization that has an invalid format.</span>
+<span class="sd">    Transaction is type 4, but contains an authorization that has an invalid</span>
+<span class="sd">    format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">TYPE_4_TX_PRE_FORK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction type 4 included before activation fork.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction type 4 included before activation fork.&quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -36625,7 +36185,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Transaction <code>nonce</code> is not allowed to be max_uint64 - 1 (this is probably TransactionTest).</p>
+        <p>Transaction <code>nonce</code> is not allowed to be max_uint64 - 1 (this is probably
+TransactionTest).</p>
 
     </div>
 
@@ -36653,7 +36214,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Transaction <code>nonce</code> is not allowed to be max_uint64 - 1 (this is StateTests).</p>
+        <p>Transaction <code>nonce</code> is not allowed to be max_uint64 - 1 (this is
+StateTests).</p>
 
     </div>
 
@@ -37157,7 +36719,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Error reading transaction data field RLP, (rlp field length has leading zeros).</p>
+        <p>Error reading transaction data field RLP, (rlp field length has leading
+zeros).</p>
 
     </div>
 
@@ -37185,7 +36748,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Error reading transaction nonce field RLP, (rlp field length has leading zeros).</p>
+        <p>Error reading transaction nonce field RLP, (rlp field length has leading
+zeros).</p>
 
     </div>
 
@@ -37213,7 +36777,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Error reading transaction RLP, structure has too few elements than expected.</p>
+        <p>Error reading transaction RLP, structure has too few elements than
+expected.</p>
 
     </div>
 
@@ -37241,7 +36806,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Error reading transaction RLP, structure has too many elements than expected.</p>
+        <p>Error reading transaction RLP, structure has too many elements than
+expected.</p>
 
     </div>
 
@@ -37801,7 +37367,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Transaction's max-priority-fee-per-gas is greater than the max-fee-per-gas (TransactionTests).</p>
+        <p>Transaction's max-priority-fee-per-gas is greater than the max-fee-per-gas
+(TransactionTests).</p>
 
     </div>
 
@@ -37829,7 +37396,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Transaction's max-fee-per-blob-gas is lower than the block's blob-gas price.</p>
+        <p>Transaction's max-fee-per-blob-gas is lower than the block's blob-gas
+price.</p>
 
     </div>
 
@@ -38333,7 +37901,8 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Transaction is type 4, but contains an authorization that has an invalid format.</p>
+        <p>Transaction is type 4, but contains an authorization that has an invalid
+format.</p>
 
     </div>
 
@@ -38407,10 +37976,7 @@ when returning</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions/base.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
@@ -38429,7 +37995,13 @@ when returning</p>
 <span class="normal">86</span>
 <span class="normal">87</span>
 <span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UndefinedException</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UndefinedException</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Undefined Exception.&quot;&quot;&quot;</span>
 
     <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
@@ -38447,7 +38019,10 @@ when returning</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainValidatorFunctionSchema</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call class constructor without info and appends the serialization schema.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call class constructor without info and appends the serialization</span>
+<span class="sd">        schema.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">no_info_plain_validator_function</span><span class="p">(</span>
             <span class="bp">cls</span><span class="p">,</span>
             <span class="n">serialization</span><span class="o">=</span><span class="n">to_string_ser_schema</span><span class="p">(),</span>
@@ -38481,14 +38056,14 @@ when returning</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exceptions/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
 <span class="normal">78</span>
-<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UndefinedException&quot;</span><span class="p">:</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UndefinedException&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new UndefinedException instance.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">UndefinedException</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span>
@@ -38522,24 +38097,31 @@ when returning</p>
 
     <div class="doc doc-contents ">
 
-        <p>Call class constructor without info and appends the serialization schema.</p>
+        <p>Call class constructor without info and appends the serialization
+schema.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exceptions/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
 <span class="normal">87</span>
 <span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainValidatorFunctionSchema</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call class constructor without info and appends the serialization schema.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Call class constructor without info and appends the serialization</span>
+<span class="sd">    schema.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">no_info_plain_validator_function</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">serialization</span><span class="o">=</span><span class="n">to_string_ser_schema</span><span class="p">(),</span>

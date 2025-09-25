@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_mod"><code>test_worst_mod()</code><a class="headerlink" href="#test_worst_mod" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L2315"><code>tests/benchmark/test_worst_compute.py::test_worst_mod@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L2406"><code>tests/benchmark/test_worst_compute.py::test_worst_mod@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_mod -m benchmark</span>
@@ -27323,110 +27323,21 @@
 <a id="tests.benchmark.test_worst_compute.test_worst_mod"></a>
     <div class="doc doc-contents first">
 
-        <p>Test running a block with as many MOD instructions with arguments of the parametrized range.
-The test program consists of code segments evaluating the "MOD chain":
+        <p>Test running a block with as many MOD instructions with arguments of the
+parametrized range.</p>
+<p>The test program consists of code segments evaluating the "MOD chain":
 mod[0] = calldataload(0)
 mod[1] = numerators[indexes[0]] % mod[0]
-mod[2] = numerators[indexes[1]] % mod[1] ...
-The "numerators" is a pool of 15 constants pushed to the EVM stack at the program start.
-The order of accessing the numerators is selected in a way the mod value remains in the range
-as long as possible.</p>
+mod[2] = numerators[indexes[1]] % mod[1] ...</p>
+<p>The "numerators" is a pool of 15 constants pushed to the EVM stack at the
+program start.</p>
+<p>The order of accessing the numerators is selected in a way the mod value
+remains in the range as long as possible.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2315</span>
-<span class="normal">2316</span>
-<span class="normal">2317</span>
-<span class="normal">2318</span>
-<span class="normal">2319</span>
-<span class="normal">2320</span>
-<span class="normal">2321</span>
-<span class="normal">2322</span>
-<span class="normal">2323</span>
-<span class="normal">2324</span>
-<span class="normal">2325</span>
-<span class="normal">2326</span>
-<span class="normal">2327</span>
-<span class="normal">2328</span>
-<span class="normal">2329</span>
-<span class="normal">2330</span>
-<span class="normal">2331</span>
-<span class="normal">2332</span>
-<span class="normal">2333</span>
-<span class="normal">2334</span>
-<span class="normal">2335</span>
-<span class="normal">2336</span>
-<span class="normal">2337</span>
-<span class="normal">2338</span>
-<span class="normal">2339</span>
-<span class="normal">2340</span>
-<span class="normal">2341</span>
-<span class="normal">2342</span>
-<span class="normal">2343</span>
-<span class="normal">2344</span>
-<span class="normal">2345</span>
-<span class="normal">2346</span>
-<span class="normal">2347</span>
-<span class="normal">2348</span>
-<span class="normal">2349</span>
-<span class="normal">2350</span>
-<span class="normal">2351</span>
-<span class="normal">2352</span>
-<span class="normal">2353</span>
-<span class="normal">2354</span>
-<span class="normal">2355</span>
-<span class="normal">2356</span>
-<span class="normal">2357</span>
-<span class="normal">2358</span>
-<span class="normal">2359</span>
-<span class="normal">2360</span>
-<span class="normal">2361</span>
-<span class="normal">2362</span>
-<span class="normal">2363</span>
-<span class="normal">2364</span>
-<span class="normal">2365</span>
-<span class="normal">2366</span>
-<span class="normal">2367</span>
-<span class="normal">2368</span>
-<span class="normal">2369</span>
-<span class="normal">2370</span>
-<span class="normal">2371</span>
-<span class="normal">2372</span>
-<span class="normal">2373</span>
-<span class="normal">2374</span>
-<span class="normal">2375</span>
-<span class="normal">2376</span>
-<span class="normal">2377</span>
-<span class="normal">2378</span>
-<span class="normal">2379</span>
-<span class="normal">2380</span>
-<span class="normal">2381</span>
-<span class="normal">2382</span>
-<span class="normal">2383</span>
-<span class="normal">2384</span>
-<span class="normal">2385</span>
-<span class="normal">2386</span>
-<span class="normal">2387</span>
-<span class="normal">2388</span>
-<span class="normal">2389</span>
-<span class="normal">2390</span>
-<span class="normal">2391</span>
-<span class="normal">2392</span>
-<span class="normal">2393</span>
-<span class="normal">2394</span>
-<span class="normal">2395</span>
-<span class="normal">2396</span>
-<span class="normal">2397</span>
-<span class="normal">2398</span>
-<span class="normal">2399</span>
-<span class="normal">2400</span>
-<span class="normal">2401</span>
-<span class="normal">2402</span>
-<span class="normal">2403</span>
-<span class="normal">2404</span>
-<span class="normal">2405</span>
-<span class="normal">2406</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2406</span>
 <span class="normal">2407</span>
 <span class="normal">2408</span>
 <span class="normal">2409</span>
@@ -27454,7 +27365,108 @@ as long as possible.</p>
 <span class="normal">2431</span>
 <span class="normal">2432</span>
 <span class="normal">2433</span>
-<span class="normal">2434</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
+<span class="normal">2434</span>
+<span class="normal">2435</span>
+<span class="normal">2436</span>
+<span class="normal">2437</span>
+<span class="normal">2438</span>
+<span class="normal">2439</span>
+<span class="normal">2440</span>
+<span class="normal">2441</span>
+<span class="normal">2442</span>
+<span class="normal">2443</span>
+<span class="normal">2444</span>
+<span class="normal">2445</span>
+<span class="normal">2446</span>
+<span class="normal">2447</span>
+<span class="normal">2448</span>
+<span class="normal">2449</span>
+<span class="normal">2450</span>
+<span class="normal">2451</span>
+<span class="normal">2452</span>
+<span class="normal">2453</span>
+<span class="normal">2454</span>
+<span class="normal">2455</span>
+<span class="normal">2456</span>
+<span class="normal">2457</span>
+<span class="normal">2458</span>
+<span class="normal">2459</span>
+<span class="normal">2460</span>
+<span class="normal">2461</span>
+<span class="normal">2462</span>
+<span class="normal">2463</span>
+<span class="normal">2464</span>
+<span class="normal">2465</span>
+<span class="normal">2466</span>
+<span class="normal">2467</span>
+<span class="normal">2468</span>
+<span class="normal">2469</span>
+<span class="normal">2470</span>
+<span class="normal">2471</span>
+<span class="normal">2472</span>
+<span class="normal">2473</span>
+<span class="normal">2474</span>
+<span class="normal">2475</span>
+<span class="normal">2476</span>
+<span class="normal">2477</span>
+<span class="normal">2478</span>
+<span class="normal">2479</span>
+<span class="normal">2480</span>
+<span class="normal">2481</span>
+<span class="normal">2482</span>
+<span class="normal">2483</span>
+<span class="normal">2484</span>
+<span class="normal">2485</span>
+<span class="normal">2486</span>
+<span class="normal">2487</span>
+<span class="normal">2488</span>
+<span class="normal">2489</span>
+<span class="normal">2490</span>
+<span class="normal">2491</span>
+<span class="normal">2492</span>
+<span class="normal">2493</span>
+<span class="normal">2494</span>
+<span class="normal">2495</span>
+<span class="normal">2496</span>
+<span class="normal">2497</span>
+<span class="normal">2498</span>
+<span class="normal">2499</span>
+<span class="normal">2500</span>
+<span class="normal">2501</span>
+<span class="normal">2502</span>
+<span class="normal">2503</span>
+<span class="normal">2504</span>
+<span class="normal">2505</span>
+<span class="normal">2506</span>
+<span class="normal">2507</span>
+<span class="normal">2508</span>
+<span class="normal">2509</span>
+<span class="normal">2510</span>
+<span class="normal">2511</span>
+<span class="normal">2512</span>
+<span class="normal">2513</span>
+<span class="normal">2514</span>
+<span class="normal">2515</span>
+<span class="normal">2516</span>
+<span class="normal">2517</span>
+<span class="normal">2518</span>
+<span class="normal">2519</span>
+<span class="normal">2520</span>
+<span class="normal">2521</span>
+<span class="normal">2522</span>
+<span class="normal">2523</span>
+<span class="normal">2524</span>
+<span class="normal">2525</span>
+<span class="normal">2526</span>
+<span class="normal">2527</span>
+<span class="normal">2528</span>
+<span class="normal">2529</span>
+<span class="normal">2530</span>
+<span class="normal">2531</span>
+<span class="normal">2532</span>
+<span class="normal">2533</span>
+<span class="normal">2534</span>
+<span class="normal">2535</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;op&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SMOD</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_mod</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -27465,20 +27477,25 @@ as long as possible.</p>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test running a block with as many MOD instructions with arguments of the parametrized range.</span>
+<span class="sd">    Test running a block with as many MOD instructions with arguments of the</span>
+<span class="sd">    parametrized range.</span>
+
 <span class="sd">    The test program consists of code segments evaluating the &quot;MOD chain&quot;:</span>
 <span class="sd">    mod[0] = calldataload(0)</span>
 <span class="sd">    mod[1] = numerators[indexes[0]] % mod[0]</span>
 <span class="sd">    mod[2] = numerators[indexes[1]] % mod[1] ...</span>
-<span class="sd">    The &quot;numerators&quot; is a pool of 15 constants pushed to the EVM stack at the program start.</span>
-<span class="sd">    The order of accessing the numerators is selected in a way the mod value remains in the range</span>
-<span class="sd">    as long as possible.</span>
+
+<span class="sd">    The &quot;numerators&quot; is a pool of 15 constants pushed to the EVM stack at the</span>
+<span class="sd">    program start.</span>
+
+<span class="sd">    The order of accessing the numerators is selected in a way the mod value</span>
+<span class="sd">    remains in the range as long as possible.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 
-    <span class="c1"># For SMOD we negate both numerator and modulus. The underlying computation is the same,</span>
-    <span class="c1"># just the SMOD implementation will have to additionally handle the sign bits.</span>
-    <span class="c1"># The result stays negative.</span>
+    <span class="c1"># For SMOD we negate both numerator and modulus. The underlying computation</span>
+    <span class="c1"># is the same, just the SMOD implementation will have to additionally</span>
+    <span class="c1"># handle the sign bits. The result stays negative.</span>
     <span class="n">should_negate</span> <span class="o">=</span> <span class="n">op</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">SMOD</span>
 
     <span class="n">num_numerators</span> <span class="o">=</span> <span class="mi">15</span>
@@ -27486,12 +27503,13 @@ as long as possible.</p>
     <span class="n">numerator_max</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">numerator_bits</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">numerator_min</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">numerator_bits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># Pick the modulus min value so that it is _unlikely_ to drop to the lower word count.</span>
+    <span class="c1"># Pick the modulus min value so that it is _unlikely_ to drop to the lower</span>
+    <span class="c1"># word count.</span>
     <span class="k">assert</span> <span class="n">mod_bits</span> <span class="o">&gt;=</span> <span class="mi">63</span>
     <span class="n">mod_min</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">mod_bits</span> <span class="o">-</span> <span class="mi">63</span><span class="p">)</span>
 
-    <span class="c1"># Select the random seed giving the longest found MOD chain.</span>
-    <span class="c1"># You can look for a longer one by increasing the numerators_min_len. This will activate</span>
+    <span class="c1"># Select the random seed giving the longest found MOD chain. You can look</span>
+    <span class="c1"># for a longer one by increasing the numerators_min_len. This will activate</span>
     <span class="c1"># the while loop below.</span>
     <span class="k">match</span> <span class="n">op</span><span class="p">,</span> <span class="n">mod_bits</span><span class="p">:</span>
         <span class="k">case</span> <span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">,</span> <span class="mi">255</span><span class="p">:</span>
@@ -27534,18 +27552,22 @@ as long as possible.</p>
         <span class="n">mod</span> <span class="o">=</span> <span class="n">initial_mod</span>
         <span class="n">indexes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">while</span> <span class="n">mod</span> <span class="o">&gt;=</span> <span class="n">mod_min</span><span class="p">:</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">%</span> <span class="n">mod</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numerators</span><span class="p">]</span>  <span class="c1"># Compute results for each numerator.</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">)</span>  <span class="c1"># And pick the best one.</span>
+            <span class="c1"># Compute results for each numerator.</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">%</span> <span class="n">mod</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numerators</span><span class="p">]</span>
+            <span class="c1"># And pick the best one.</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">)</span>
             <span class="n">mod</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">numerators_min_len</span>  <span class="c1"># Disable if you want to find longer MOD chains.</span>
+        <span class="c1"># Disable if you want to find longer MOD chains.</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">numerators_min_len</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">numerators_min_len</span><span class="p">:</span>
             <span class="k">break</span>
         <span class="n">seed</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">seed</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="c1"># TODO: Don&#39;t use fixed PUSH32. Let Bytecode helpers to select optimal push opcode.</span>
+    <span class="c1"># TODO: Don&#39;t use fixed PUSH32. Let Bytecode helpers to select optimal push</span>
+    <span class="c1"># opcode.</span>
     <span class="n">code_constant_pool</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numerators</span><span class="p">),</span> <span class="n">Bytecode</span><span class="p">())</span>
     <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">code_constant_pool</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
     <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code_constant_pool</span><span class="p">))</span>

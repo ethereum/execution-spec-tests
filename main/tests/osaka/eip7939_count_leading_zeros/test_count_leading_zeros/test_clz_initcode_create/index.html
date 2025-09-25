@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_clz_initcode_create"><code>test_clz_initcode_create()</code><a class="headerlink" href="#test_clz_initcode_create" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L574"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_initcode_create@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L581"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_initcode_create@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_initcode_create --fork Osaka</span>
@@ -27330,14 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">581</span>
 <span class="normal">582</span>
 <span class="normal">583</span>
 <span class="normal">584</span>
@@ -27370,7 +27363,14 @@
 <span class="normal">611</span>
 <span class="normal">612</span>
 <span class="normal">613</span>
-<span class="normal">614</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Opcode</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ExecutionContext</span><span class="o">.</span><span class="n">Initcode</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="n">Opcode</span><span class="p">()</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Opcode</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ExecutionContext</span><span class="o">.</span><span class="n">Initcode</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="n">Opcode</span><span class="p">()</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_clz_initcode_create</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">):</span>

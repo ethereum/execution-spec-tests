@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_insufficient_balance_blob_tx_combinations"><code>test_insufficient_balance_blob_tx_combinations()</code><a class="headerlink" href="#test_insufficient_balance_blob_tx_combinations" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blob_txs.py#L839"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx_combinations@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blob_txs.py#L851"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx_combinations@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx_combinations --fork Osaka</span>
@@ -27325,28 +27325,17 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_insufficient_balance_blob_tx_combinations"></a>
     <div class="doc doc-contents first">
 
-        <p>Reject all valid blob transaction combinations in a block, but block is invalid.</p>
+        <p>Reject all valid blob transaction combinations in a block, but block is
+invalid.</p>
 <ul>
-<li>The amount of blobs is correct but the user cannot afford the
-        transaction total cost</li>
+<li>The amount of blobs is correct but the user cannot afford the transaction
+   total cost</li>
 </ul>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">839</span>
-<span class="normal">840</span>
-<span class="normal">841</span>
-<span class="normal">842</span>
-<span class="normal">843</span>
-<span class="normal">844</span>
-<span class="normal">845</span>
-<span class="normal">846</span>
-<span class="normal">847</span>
-<span class="normal">848</span>
-<span class="normal">849</span>
-<span class="normal">850</span>
-<span class="normal">851</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">851</span>
 <span class="normal">852</span>
 <span class="normal">853</span>
 <span class="normal">854</span>
@@ -27359,7 +27348,20 @@
 <span class="normal">861</span>
 <span class="normal">862</span>
 <span class="normal">863</span>
-<span class="normal">864</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">864</span>
+<span class="normal">865</span>
+<span class="normal">866</span>
+<span class="normal">867</span>
+<span class="normal">868</span>
+<span class="normal">869</span>
+<span class="normal">870</span>
+<span class="normal">871</span>
+<span class="normal">872</span>
+<span class="normal">873</span>
+<span class="normal">874</span>
+<span class="normal">875</span>
+<span class="normal">876</span>
+<span class="normal">877</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">all_valid_blob_combinations</span><span class="p">,</span>
 <span class="p">)</span>
@@ -27374,10 +27376,11 @@
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reject all valid blob transaction combinations in a block, but block is invalid.</span>
+<span class="sd">    Reject all valid blob transaction combinations in a block, but block is</span>
+<span class="sd">    invalid.</span>
 
-<span class="sd">    - The amount of blobs is correct but the user cannot afford the</span>
-<span class="sd">            transaction total cost</span>
+<span class="sd">    - The amount of blobs is correct but the user cannot afford the transaction</span>
+<span class="sd">       total cost</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

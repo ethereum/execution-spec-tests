@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_excess_blob_gas_above_target_change"><code>test_invalid_excess_blob_gas_above_target_change()</code><a class="headerlink" href="#test_invalid_excess_blob_gas_above_target_change" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L515"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L523"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change --fork Osaka</span>
@@ -27327,22 +27327,16 @@
 
         <p>Test rejection of blocks where the <code>excessBlobGas</code>.</p>
 <ul>
-<li>decreases more than <code>TARGET_BLOB_GAS_PER_BLOCK</code> in a single block with zero blobs</li>
-<li>increases more than <code>TARGET_BLOB_GAS_PER_BLOCK</code> in a single block with max blobs</li>
+<li>decreases more than <code>TARGET_BLOB_GAS_PER_BLOCK</code> in a single block
+    with zero blobs.</li>
+<li>increases more than <code>TARGET_BLOB_GAS_PER_BLOCK</code> in a single block
+    with max blobs.</li>
 </ul>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">523</span>
 <span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
@@ -27371,7 +27365,17 @@
 <span class="normal">549</span>
 <span class="normal">550</span>
 <span class="normal">551</span>
-<span class="normal">552</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;header_excess_blobs_delta,parent_blobs&quot;</span><span class="p">,</span>
     <span class="n">generate_invalid_excess_blob_gas_above_target_change_tests</span><span class="p">,</span>
 <span class="p">)</span>
@@ -27388,8 +27392,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test rejection of blocks where the `excessBlobGas`.</span>
 
-<span class="sd">    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with zero blobs</span>
-<span class="sd">    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with max blobs</span>
+<span class="sd">    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block</span>
+<span class="sd">        with zero blobs.</span>
+<span class="sd">    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block</span>
+<span class="sd">        with max blobs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">header_excess_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;test case is badly formatted&quot;</span><span class="p">)</span>

@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-beacon-root-contract">Test Beacon Root Contract<a class="headerlink" href="#test-beacon-root-contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L56"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L58"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py --fork Osaka</span>
@@ -27265,27 +27265,20 @@
 <a id="tests.cancun.eip4788_beacon_root.test_beacon_root_contract"></a>
     <div class="doc doc-contents first">
 
-
-
-<details class="abstract" open>
-  <summary>Tests beacon block root for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a></summary>
-  <p>Test the exposed beacon chain root in the EVM for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a>.</p>
-</details>
-
-<details class="note" open>
-  <summary>Adding a new test</summary>
-  <p>Add a function that is named <code>test_&lt;test_name&gt;</code> and takes at least the following arguments:</p>
+        <p>Tests beacon block root for <a href="https://eips.ethereum.org/EIPS/eip-4788">EIP-4788: Beacon block root in the EVM</a>.</p>
+<p>Note: To add a new test, add a function that is named <code>test_&lt;test_name&gt;</code>.</p>
+<p>It must take at least the following arguments:</p>
 <ul>
-<li>state_test</li>
-<li>env</li>
-<li>pre</li>
-<li>tx</li>
-<li>post</li>
-<li>valid_call</li>
+<li><code>state_test</code></li>
+<li><code>env</code></li>
+<li><code>pre</code></li>
+<li><code>tx</code></li>
+<li><code>post</code></li>
+<li><code>valid_call</code></li>
 </ul>
-<p>All other <code>pytest.fixtures</code> can be parametrized to generate new combinations and test
-cases.</p>
-</details>
+<p>All other <code>pytest.fixtures</code> can be parametrized to generate new
+combinations and test cases.</p>
+
 
 
 
@@ -27319,13 +27312,13 @@ cases.</p>
 <td><a href="test_beacon_root_contract_calls/"><code>test_beacon_root_contract_calls</code></a></td>
 <td>blockchain_test</td>
 <td>10</td>
-<td>Tests the beacon root contract call using various call contexts:(<a href="https://github.com/ethereum/execution-spec-tests/issues/new?title=docs(bug):%20Bad%20docstring%20oneliner%20for%20test_beacon_root_contract_calls&amp;labels=scope:docs,type:bug">📖🐛?</a>)</td>
+<td>Test calling the beacon root contract in various call contexts.</td>
 </tr>
 <tr>
 <td><a href="test_beacon_root_contract_timestamps/"><code>test_beacon_root_contract_timestamps</code></a></td>
 <td>blockchain_test</td>
 <td>24</td>
-<td>Tests the beacon root contract call across for various valid and invalid timestamps.</td>
+<td>Tests the beacon root contract call across for various valid and invalid</td>
 </tr>
 <tr>
 <td><a href="test_calldata_lengths/"><code>test_calldata_lengths</code></a></td>
@@ -27337,13 +27330,13 @@ cases.</p>
 <td><a href="test_beacon_root_equal_to_timestamp/"><code>test_beacon_root_equal_to_timestamp</code></a></td>
 <td>blockchain_test</td>
 <td>8</td>
-<td>Tests the beacon root contract call where the beacon root is equal to the timestamp.</td>
+<td>Tests the beacon root contract call where the beacon root is equal to the</td>
 </tr>
 <tr>
 <td><a href="test_tx_to_beacon_root_contract/"><code>test_tx_to_beacon_root_contract</code></a></td>
 <td>blockchain_test</td>
 <td>10</td>
-<td>Tests the beacon root contract using a transaction with different types and data lengths.</td>
+<td>Tests the beacon root contract using a transaction with different types and</td>
 </tr>
 <tr>
 <td><a href="test_invalid_beacon_root_calldata_value/"><code>test_invalid_beacon_root_calldata_value</code></a></td>
@@ -27355,31 +27348,31 @@ cases.</p>
 <td><a href="test_beacon_root_selfdestruct/"><code>test_beacon_root_selfdestruct</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Tests that self destructing the beacon root address transfers actors balance correctly.</td>
+<td>Tests that self destructing the beacon root address transfers actors</td>
 </tr>
 <tr>
 <td><a href="test_multi_block_beacon_root_timestamp_calls/"><code>test_multi_block_beacon_root_timestamp_calls</code></a></td>
 <td>blockchain_test</td>
 <td>5</td>
-<td>Tests multiple blocks where each block writes a timestamp to storage and contains one</td>
+<td>Tests multiple blocks where each block writes a timestamp to storage and</td>
 </tr>
 <tr>
 <td><a href="test_beacon_root_transition/"><code>test_beacon_root_transition</code></a></td>
 <td>blockchain_test</td>
 <td>0</td>
-<td>Tests the fork transition to cancun and verifies that blocks with timestamp lower than the</td>
+<td>Tests the fork transition to cancun and verifies that blocks with timestamp</td>
 </tr>
 <tr>
 <td><a href="test_no_beacon_root_contract_at_transition/"><code>test_no_beacon_root_contract_at_transition</code></a></td>
 <td>blockchain_test</td>
 <td>0</td>
-<td>Tests the fork transition to cancun in the case where the beacon root pre-deploy was not</td>
+<td>Tests the fork transition to cancun in the case where the beacon root</td>
 </tr>
 <tr>
 <td><a href="test_beacon_root_contract_deploy/"><code>test_beacon_root_contract_deploy</code></a></td>
 <td>blockchain_test</td>
 <td>0</td>
-<td>Tests the fork transition to cancun deploying the contract during Shanghai and verifying the</td>
+<td>Tests the fork transition to cancun deploying the contract during Shanghai</td>
 </tr>
 </tbody>
 </table>

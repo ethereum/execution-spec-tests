@@ -27308,7 +27308,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7918_blob_reserve_price/spec.py"><code>tests/osaka/eip7918_blob_reserve_price/spec.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7918_blob_reserve_price/spec.py"><code>tests/osaka/eip7918_blob_reserve_price/spec.py@b281a78b</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27361,8 +27361,8 @@
    (tests.cancun.eip4844_blobs.spec.Spec)" href="../../../cancun/eip4844_blobs/spec/#tests.cancun.eip4844_blobs.spec.Spec">Spec</a></code></p>
 
 
-        <p>Parameters from the EIP-7918 specifications.
-Extends EIP-4844 spec with the new reserve price constant and functionality.</p>
+        <p>Parameters from the EIP-7918 specifications. Extends EIP-4844 spec with the
+new reserve price constant and functionality.</p>
 
 
 
@@ -27407,11 +27407,13 @@ Extends EIP-4844 spec with the new reserve price constant and functionality.</p>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">(</span><span class="n">EIP4844Spec</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters from the EIP-7918 specifications.</span>
-<span class="sd">    Extends EIP-4844 spec with the new reserve price constant and functionality.</span>
+<span class="sd">    Parameters from the EIP-7918 specifications. Extends EIP-4844 spec with the</span>
+<span class="sd">    new reserve price constant and functionality.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">BLOB_BASE_COST</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">13</span>
@@ -27440,7 +27442,9 @@ Extends EIP-4844 spec with the new reserve price constant and functionality.</p>
         <span class="n">base_fee_per_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">blob_base_fee</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the effective blob base fee considering the reserve price.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the effective blob base fee considering the reserve price.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">reserve_price</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_reserve_price</span><span class="p">(</span><span class="n">base_fee_per_gas</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">reserve_price</span><span class="p">,</span> <span class="n">blob_base_fee</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_selfdestruct_created_in_same_tx_with_revert"><code>test_selfdestruct_created_in_same_tx_with_revert()</code><a class="headerlink" href="#test_selfdestruct_created_in_same_tx_with_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py#L311"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py#L316"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert --fork Osaka</span>
@@ -27329,20 +27329,19 @@
 
 <details class="given" open>
   <summary>Given</summary>
-  <p>Contract A which has methods to receive balance and selfdestruct, and was created in current tx</p>
-</details>        <p>Test the following call sequence:
-     Transfer value to A and call A.selfdestruct.
-     Recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.</p>
+  <p>Contract A which has methods to receive balance and selfdestruct,
+and was created in current tx.</p>
+</details>
 
+<details class="test-the-following-call-sequence" open>
+  <summary>Test the following call sequence</summary>
+  <p>Transfer value to A and call A.selfdestruct. Recurse into a new call
+from transfers value to A, calls A.selfdestruct, and reverts.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
 <span class="normal">319</span>
@@ -27446,7 +27445,16 @@
 <span class="normal">417</span>
 <span class="normal">418</span>
 <span class="normal">419</span>
-<span class="normal">420</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;same_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="kc">True</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;same_tx&quot;</span><span class="p">],</span>
@@ -27478,11 +27486,13 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given:</span>
-<span class="sd">        Contract A which has methods to receive balance and selfdestruct, and was created in current tx</span>
+<span class="sd">      Contract A which has methods to receive balance and selfdestruct,</span>
+<span class="sd">      and was created in current tx.</span>
+
 <span class="sd">    Test the following call sequence:</span>
-<span class="sd">         Transfer value to A and call A.selfdestruct.</span>
-<span class="sd">         Recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">      Transfer value to A and call A.selfdestruct. Recurse into a new call</span>
+<span class="sd">      from transfers value to A, calls A.selfdestruct, and reverts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">entry_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>
         <span class="n">selfdestruct_with_transfer_initcode_copy_from_address</span><span class="p">,</span>
         <span class="mi">0</span><span class="p">,</span>
@@ -27495,7 +27505,8 @@
         <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span>
             <span class="mi">0</span><span class="p">,</span>
             <span class="mi">0</span><span class="p">,</span>
-            <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_with_transfer_contract_initcode</span><span class="p">)),</span>  <span class="c1"># Value  # Offset</span>
+            <span class="c1"># Value Offset</span>
+            <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">selfdestruct_with_transfer_contract_initcode</span><span class="p">)),</span>
         <span class="p">),</span>
     <span class="p">)</span>
 
@@ -27538,7 +27549,8 @@
             <span class="n">code</span><span class="o">=</span><span class="n">selfdestruct_with_transfer_contract_code</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">Storage</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="c1"># 2 value transfers (1 in outer call, 1 in reverted inner call)</span>
+                    <span class="c1"># 2 value transfers (1 in outer call, 1 in reverted inner</span>
+                    <span class="c1"># call)</span>
                     <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
                     <span class="c1"># 1 selfdestruct in reverted inner call</span>
                     <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># type: ignore</span>

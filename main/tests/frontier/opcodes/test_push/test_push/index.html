@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_push"><code>test_push()</code><a class="headerlink" href="#test_push" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/opcodes/test_push.py#L25"><code>tests/frontier/opcodes/test_push.py::test_push@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/opcodes/test_push.py#L29"><code>tests/frontier/opcodes/test_push.py::test_push@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_push.py::test_push --fork Osaka</span>
@@ -27326,18 +27326,13 @@
     <div class="doc doc-contents first">
 
         <p>The set of <code>PUSH*</code> opcodes pushes data onto the stack.</p>
-<p>In this test, we ensure that the set of <code>PUSH*</code> opcodes writes
-a portion of an excerpt from the Ethereum yellow paper to
-storage.</p>
+<p>In this test, we ensure that the set of <code>PUSH*</code> opcodes writes a portion of
+an excerpt from the Ethereum yellow paper to storage.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_push.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
@@ -27382,7 +27377,11 @@ storage.</p>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml&quot;</span><span class="p">,</span>
     <span class="p">],</span>
@@ -27390,7 +27389,8 @@ storage.</p>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;push_opcode&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">Op</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;PUSH</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">)],</span>  <span class="c1"># Dynamically parametrize PUSH opcodes</span>
+    <span class="c1"># Dynamically parametrize PUSH opcodes</span>
+    <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">Op</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;PUSH</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">)],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">op</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
@@ -27398,9 +27398,8 @@ storage.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The set of `PUSH*` opcodes pushes data onto the stack.</span>
 
-<span class="sd">    In this test, we ensure that the set of `PUSH*` opcodes writes</span>
-<span class="sd">    a portion of an excerpt from the Ethereum yellow paper to</span>
-<span class="sd">    storage.</span>
+<span class="sd">    In this test, we ensure that the set of `PUSH*` opcodes writes a portion of</span>
+<span class="sd">    an excerpt from the Ethereum yellow paper to storage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Input used to test the `PUSH*` opcode.</span>
     <span class="n">excerpt</span> <span class="o">=</span> <span class="n">get_input_for_push_opcode</span><span class="p">(</span><span class="n">push_opcode</span><span class="p">)</span>

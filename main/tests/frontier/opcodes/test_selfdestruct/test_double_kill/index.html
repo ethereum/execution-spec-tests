@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_double_kill"><code>test_double_kill()</code><a class="headerlink" href="#test_double_kill" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/opcodes/test_selfdestruct.py#L9"><code>tests/frontier/opcodes/test_selfdestruct.py::test_double_kill@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/opcodes/test_selfdestruct.py#L9"><code>tests/frontier/opcodes/test_selfdestruct.py::test_double_kill@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_selfdestruct.py::test_double_kill --fork Osaka</span>
@@ -27325,9 +27325,9 @@
 <a id="tests.frontier.opcodes.test_selfdestruct.test_double_kill"></a>
     <div class="doc doc-contents first">
 
-        <p>Test that when two transactions attempt to destruct a contract,
-the second transaction actually resurrects the contract as an empty account (prior to Spurious
-Dragon).</p>
+        <p>Test that when two transactions attempt to destruct a contract, the second
+transaction actually resurrects the contract as an empty account (prior to
+Spurious Dragon).</p>
 
 
             <details class="quote">
@@ -27385,9 +27385,9 @@ Dragon).</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_until</span><span class="p">(</span><span class="s2">&quot;Homestead&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_double_kill</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that when two transactions attempt to destruct a contract,</span>
-<span class="sd">    the second transaction actually resurrects the contract as an empty account (prior to Spurious</span>
-<span class="sd">    Dragon).</span>
+<span class="sd">    Test that when two transactions attempt to destruct a contract, the second</span>
+<span class="sd">    transaction actually resurrects the contract as an empty account (prior to</span>
+<span class="sd">    Spurious Dragon).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 

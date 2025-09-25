@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_initcode_jumpdest_analysis"><code>test_worst_initcode_jumpdest_analysis()</code><a class="headerlink" href="#test_worst_initcode_jumpdest_analysis" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_bytecode.py#L235"><code>tests/benchmark/test_worst_bytecode.py::test_worst_initcode_jumpdest_analysis@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_bytecode.py#L235"><code>tests/benchmark/test_worst_bytecode.py::test_worst_initcode_jumpdest_analysis@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_bytecode.py::test_worst_initcode_jumpdest_analysis -m benchmark</span>
@@ -27324,11 +27324,12 @@
     <div class="doc doc-contents first">
 
         <p>Test the jumpdest analysis performance of the initcode.</p>
-<p>This benchmark places a very long initcode in the memory and then invoke CREATE instructions
-with this initcode up to the block gas limit. The initcode itself has minimal execution time
-but forces the EVM to perform the full jumpdest analysis on the parametrized byte pattern.
-The initicode is modified by mixing-in the returned create address between CREATE invocations
-to prevent caching.</p>
+<p>This benchmark places a very long initcode in the memory and then invoke
+CREATE instructions with this initcode up to the block gas limit. The
+initcode itself has minimal execution time but forces the EVM to perform
+the full jumpdest analysis on the parametrized byte pattern. The initicode
+is modified by mixing-in the returned create address between CREATE
+invocations to prevent caching.</p>
 
 
             <details class="quote">
@@ -27420,7 +27421,8 @@ to prevent caching.</p>
 <span class="normal">319</span>
 <span class="normal">320</span>
 <span class="normal">321</span>
-<span class="normal">322</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">322</span>
+<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;pattern&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
@@ -27442,17 +27444,18 @@ to prevent caching.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test the jumpdest analysis performance of the initcode.</span>
 
-<span class="sd">    This benchmark places a very long initcode in the memory and then invoke CREATE instructions</span>
-<span class="sd">    with this initcode up to the block gas limit. The initcode itself has minimal execution time</span>
-<span class="sd">    but forces the EVM to perform the full jumpdest analysis on the parametrized byte pattern.</span>
-<span class="sd">    The initicode is modified by mixing-in the returned create address between CREATE invocations</span>
-<span class="sd">    to prevent caching.</span>
+<span class="sd">    This benchmark places a very long initcode in the memory and then invoke</span>
+<span class="sd">    CREATE instructions with this initcode up to the block gas limit. The</span>
+<span class="sd">    initcode itself has minimal execution time but forces the EVM to perform</span>
+<span class="sd">    the full jumpdest analysis on the parametrized byte pattern. The initicode</span>
+<span class="sd">    is modified by mixing-in the returned create address between CREATE</span>
+<span class="sd">    invocations to prevent caching.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
     <span class="n">initcode_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_initcode_size</span><span class="p">()</span>
 
-    <span class="c1"># Expand the initcode pattern to the transaction data so it can be used in CALLDATACOPY</span>
-    <span class="c1"># in the main contract. TODO: tune the tx_data_len param.</span>
+    <span class="c1"># Expand the initcode pattern to the transaction data so it can be used in</span>
+    <span class="c1"># CALLDATACOPY in the main contract. TODO: tune the tx_data_len param.</span>
     <span class="n">tx_data_len</span> <span class="o">=</span> <span class="mi">1024</span>
     <span class="n">tx_data</span> <span class="o">=</span> <span class="n">pattern</span> <span class="o">*</span> <span class="p">(</span><span class="n">tx_data_len</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
     <span class="n">tx_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">tx_data_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">tx_data</span><span class="p">))</span> <span class="o">*</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span><span class="p">)</span>

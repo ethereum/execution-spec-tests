@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tstore_clear_after_deployment_tx"><code>test_tstore_clear_after_deployment_tx()</code><a class="headerlink" href="#test_tstore_clear_after_deployment_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L29"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L26"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx --fork Osaka</span>
@@ -27325,15 +27325,18 @@
 <a id="tests.cancun.eip1153_tstore.test_tstorage_clear_after_tx.test_tstore_clear_after_deployment_tx"></a>
     <div class="doc doc-contents first">
 
-        <p>First creates a contract, which TSTOREs a value 1 in slot 1.
-After creating the contract, a new tx will call this contract, storing TLOAD(1) into slot 1.
-The transient storage should be cleared after creating the contract (at tx-level), so
-the storage should stay empty.</p>
+        <p>First creates a contract, which TSTOREs a value 1 in slot 1. After creating
+the contract, a new tx will call this contract, storing TLOAD(1) into slot
+1. The transient storage should be cleared after creating the contract (at
+tx-level), so the storage should stay empty.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
@@ -27375,10 +27378,7 @@ the storage should stay empty.</p>
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_tstore_clear_after_deployment_tx</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -27386,10 +27386,10 @@ the storage should stay empty.</p>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    First creates a contract, which TSTOREs a value 1 in slot 1.</span>
-<span class="sd">    After creating the contract, a new tx will call this contract, storing TLOAD(1) into slot 1.</span>
-<span class="sd">    The transient storage should be cleared after creating the contract (at tx-level), so</span>
-<span class="sd">    the storage should stay empty.</span>
+<span class="sd">    First creates a contract, which TSTOREs a value 1 in slot 1. After creating</span>
+<span class="sd">    the contract, a new tx will call this contract, storing TLOAD(1) into slot</span>
+<span class="sd">    1. The transient storage should be cleared after creating the contract (at</span>
+<span class="sd">    tx-level), so the storage should stay empty.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 

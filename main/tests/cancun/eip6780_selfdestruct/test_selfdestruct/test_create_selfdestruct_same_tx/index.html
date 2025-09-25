@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_create_selfdestruct_same_tx"><code>test_create_selfdestruct_same_tx()</code><a class="headerlink" href="#test_create_selfdestruct_same_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L128"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L131"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx --fork Osaka</span>
@@ -27325,15 +27325,16 @@
 <a id="tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_create_selfdestruct_same_tx"></a>
     <div class="doc doc-contents first">
 
-        <p>Use CREATE or CREATE2 to create a self-destructing contract, and call it in the same
-transaction.</p>
+        <p>Use CREATE or CREATE2 to create a self-destructing contract, and call it in
+the same transaction.</p>
 <p>Behavior should be the same before and after EIP-6780.</p>
 
 
 <details class="test-using" open>
   <summary>Test using</summary>
   <ul>
-<li>Different send-all recipient addresses: single, multiple, including self</li>
+<li>Different send-all recipient addresses: single, multiple,
+   including self</li>
 <li>Different initial balances for the self-destructing contract</li>
 <li>Different opcodes: CREATE, CREATE2</li>
 </ul>
@@ -27341,10 +27342,7 @@ transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
@@ -27538,7 +27536,15 @@ transaction.</p>
 <span class="normal">322</span>
 <span class="normal">323</span>
 <span class="normal">324</span>
-<span class="normal">325</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_times,sendall_recipient_addresses&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27603,19 +27609,21 @@ transaction.</p>
     <span class="n">selfdestruct_contract_initial_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Use CREATE or CREATE2 to create a self-destructing contract, and call it in the same</span>
-<span class="sd">    transaction.</span>
+<span class="sd">    Use CREATE or CREATE2 to create a self-destructing contract, and call it in</span>
+<span class="sd">    the same transaction.</span>
 
 <span class="sd">    Behavior should be the same before and after EIP-6780.</span>
 
 <span class="sd">    Test using:</span>
-<span class="sd">        - Different send-all recipient addresses: single, multiple, including self</span>
+<span class="sd">        - Different send-all recipient addresses: single, multiple,</span>
+<span class="sd">           including self</span>
 <span class="sd">        - Different initial balances for the self-destructing contract</span>
 <span class="sd">        - Different opcodes: CREATE, CREATE2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">selfdestruct_contract_initcode</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">selfdestruct_code</span><span class="p">)</span>
     <span class="n">initcode_copy_from_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">)</span>
-    <span class="c1"># Our entry point is an initcode that in turn creates a self-destructing contract</span>
+    <span class="c1"># Our entry point is an initcode that in turn creates a self-destructing</span>
+    <span class="c1"># contract</span>
     <span class="n">entry_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 
     <span class="c1"># Bytecode used to create the contract, can be CREATE or CREATE2</span>
@@ -27638,9 +27646,11 @@ transaction.</p>
     <span class="p">)</span>
     <span class="n">selfdestruct_contract_current_balance</span> <span class="o">=</span> <span class="n">selfdestruct_contract_initial_balance</span>
 
-    <span class="c1"># Entry code that will be executed, creates the contract and then calls it in the same tx</span>
+    <span class="c1"># Entry code that will be executed, creates the contract and then calls it</span>
+    <span class="c1"># in the same tx</span>
     <span class="n">entry_code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="c1"># Initcode is already deployed at `initcode_copy_from_address`, so just copy it</span>
+        <span class="c1"># Initcode is already deployed at `initcode_copy_from_address`, so just</span>
+        <span class="c1"># copy it</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>
             <span class="n">initcode_copy_from_address</span><span class="p">,</span>
             <span class="mi">0</span><span class="p">,</span>
@@ -27665,8 +27675,8 @@ transaction.</p>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="c1"># Call the self-destructing contract multiple times as required, increasing the wei sent each</span>
-    <span class="c1"># time</span>
+    <span class="c1"># Call the self-destructing contract multiple times as required, increasing</span>
+    <span class="c1"># the wei sent each time</span>
     <span class="n">entry_code_balance</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sendall_recipient</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">call_times</span><span class="p">),</span> <span class="n">cycle</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">)):</span>
         <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sendall_recipient</span><span class="p">)</span>
@@ -27689,8 +27699,9 @@ transaction.</p>
         <span class="k">if</span> <span class="n">sendall_recipient</span> <span class="o">!=</span> <span class="n">selfdestruct_contract_address</span><span class="p">:</span>
             <span class="n">sendall_final_balances</span><span class="p">[</span><span class="n">sendall_recipient</span><span class="p">]</span> <span class="o">+=</span> <span class="n">selfdestruct_contract_current_balance</span>
 
-        <span class="c1"># Self-destructing contract must always have zero balance after the call because the</span>
-        <span class="c1"># self-destruct always happens in the same transaction in this test</span>
+        <span class="c1"># Self-destructing contract must always have zero balance after the</span>
+        <span class="c1"># call because the self-destruct always happens in the same transaction</span>
+        <span class="c1"># in this test</span>
         <span class="n">selfdestruct_contract_current_balance</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
@@ -27709,8 +27720,8 @@ transaction.</p>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="c1"># Lastly return zero so the entry point contract is created and we can retain the stored</span>
-    <span class="c1"># values for verification.</span>
+    <span class="c1"># Lastly return zero so the entry point contract is created and we can</span>
+    <span class="c1"># retain the stored values for verification.</span>
     <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">),</span> <span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

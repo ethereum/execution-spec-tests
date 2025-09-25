@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_call_large_args_offset_size_zero"><code>test_call_large_args_offset_size_zero()</code><a class="headerlink" href="#test_call_large_args_offset_size_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/opcodes/test_call.py#L154"><code>tests/frontier/opcodes/test_call.py::test_call_large_args_offset_size_zero@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/opcodes/test_call.py#L168"><code>tests/frontier/opcodes/test_call.py::test_call_large_args_offset_size_zero@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call.py::test_call_large_args_offset_size_zero --fork Osaka</span>
@@ -27331,21 +27331,7 @@ Since the size is zero, the large offset should not cause a revert.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_call.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
@@ -27378,7 +27364,22 @@ Since the size is zero, the large offset should not cause a revert.</p>
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_call_large_args_offset_size_zero</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -27397,7 +27398,8 @@ Since the size is zero, the large offset should not cause a revert.</p>
 
     <span class="n">call_measure</span> <span class="o">=</span> <span class="n">CodeGasMeasure</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">call_opcode</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">args_offset</span><span class="o">=</span><span class="n">very_large_offset</span><span class="p">,</span> <span class="n">args_size</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">overhead_cost</span><span class="o">=</span><span class="n">gsc</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_opcode</span><span class="o">.</span><span class="n">kwargs</span><span class="p">),</span>  <span class="c1"># Cost of pushing xCALL args</span>
+        <span class="c1"># Cost of pushing xCALL args</span>
+        <span class="n">overhead_cost</span><span class="o">=</span><span class="n">gsc</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_opcode</span><span class="o">.</span><span class="n">kwargs</span><span class="p">),</span>
         <span class="n">extra_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Because xCALL pushes 1 item to the stack</span>
         <span class="n">sstore_key</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>

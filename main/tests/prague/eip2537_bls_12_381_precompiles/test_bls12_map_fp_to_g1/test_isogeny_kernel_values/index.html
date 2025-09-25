@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_isogeny_kernel_values"><code>test_isogeny_kernel_values()</code><a class="headerlink" href="#test_isogeny_kernel_values" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py#L74"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py#L76"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values --fork Osaka</span>
@@ -27326,18 +27326,16 @@
     <div class="doc doc-contents first">
 
         <p>Test the BLS12_MAP_FP_TO_G1 precompile with isogeny kernel inputs.</p>
-<p>The isogeny kernel is simply the set of special field values, that after the two step mapping
-(first SWU onto an auxiliary curve, then an 11-degree isogeny back to G1), collapse exactly
-to the identity point.</p>
-<p>Please proceed to the generator in <code>helpers.py</code> to see how the isogeny kernel values are
-generated.</p>
+<p>The isogeny kernel is simply the set of special field values, that after
+the two step mapping (first SWU onto an auxiliary curve, then an 11-degree
+isogeny back to G1), collapse exactly to the identity point.</p>
+<p>Please proceed to the generator in <code>helpers.py</code> to see how the isogeny
+kernel values are generated.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 76</span>
 <span class="normal"> 77</span>
 <span class="normal"> 78</span>
 <span class="normal"> 79</span>
@@ -27364,7 +27362,9 @@ generated.</p>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,vector_gas_value&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27381,12 +27381,12 @@ generated.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test the BLS12_MAP_FP_TO_G1 precompile with isogeny kernel inputs.</span>
 
-<span class="sd">    The isogeny kernel is simply the set of special field values, that after the two step mapping</span>
-<span class="sd">    (first SWU onto an auxiliary curve, then an 11-degree isogeny back to G1), collapse exactly</span>
-<span class="sd">    to the identity point.</span>
+<span class="sd">    The isogeny kernel is simply the set of special field values, that after</span>
+<span class="sd">    the two step mapping (first SWU onto an auxiliary curve, then an 11-degree</span>
+<span class="sd">    isogeny back to G1), collapse exactly to the identity point.</span>
 
-<span class="sd">    Please proceed to the generator in `helpers.py` to see how the isogeny kernel values are</span>
-<span class="sd">    generated.</span>
+<span class="sd">    Please proceed to the generator in `helpers.py` to see how the isogeny</span>
+<span class="sd">    kernel values are generated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tx_gas_limit_cap_authorized_tx"><code>test_tx_gas_limit_cap_authorized_tx()</code><a class="headerlink" href="#test_tx_gas_limit_cap_authorized_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L560"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_authorized_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L574"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_authorized_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_authorized_tx --fork Osaka</span>
@@ -27330,21 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
 <span class="normal">577</span>
@@ -27427,7 +27413,20 @@
 <span class="normal">654</span>
 <span class="normal">655</span>
 <span class="normal">656</span>
-<span class="normal">657</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span><span class="p">),</span>
@@ -27458,14 +27457,13 @@
     <span class="p">)</span>
 
     <span class="c1"># EIP-7702 authorization transaction cost:</span>
+    <span class="c1"># 21000 + 16 * non-zero calldata bytes + 4 * zero calldata bytes + 1900 *</span>
+    <span class="c1"># access list storage key count + 2400 * access list address count +</span>
+    <span class="c1"># PER_EMPTY_ACCOUNT_COST * authorization list length</span>
     <span class="c1">#</span>
-    <span class="c1"># 21000 + 16 * non-zero calldata bytes + 4 * zero calldata bytes</span>
-    <span class="c1"># + 1900 * access list storage key count</span>
-    <span class="c1"># + 2400 * access list address count</span>
-    <span class="c1"># + PER_EMPTY_ACCOUNT_COST * authorization list length</span>
+    <span class="c1"># There is no calldata and no storage keys in this test case and the access</span>
+    <span class="c1"># address list count is equal to the authorization list length</span>
     <span class="c1">#</span>
-    <span class="c1"># There is no calldata and no storage keys in this test case</span>
-    <span class="c1"># and the access address list count is equal to the authorization list length</span>
     <span class="c1"># total cost = 21000 + (2400 + 25_000) * auth_list_length</span>
 
     <span class="n">auth_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>

@@ -27328,7 +27328,7 @@
 
 
 <h1 id="test_contract_creation"><code>test_contract_creation()</code><a class="headerlink" href="#test_contract_creation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py#L196"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py#L207"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation --fork Osaka</span>
@@ -27345,10 +27345,12 @@
 
 
         <p>Test transient storage in contract creation contexts.
-- TSTORE/TLOAD in initcode should not be able to access the creator's transient storage.
-- TSTORE/TLOAD in initcode should be able to access the created contract's transient
-    storage.
-- TSTORE/TLOAD in creator contract should be able to use its own transient storage.</p>
+- TSTORE/TLOAD in initcode should not be able to access the creator's
+  transient storage.
+- TSTORE/TLOAD in initcode should be able to access the created contract's
+  transient storage.
+- TSTORE/TLOAD in creator contract should be able to use its own
+  transient storage.</p>
 
 
 
@@ -27358,16 +27360,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
@@ -27468,15 +27461,28 @@
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
-<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="nd">@InitcodeTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TestTransientStorageInContractCreation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test transient storage in contract creation contexts.</span>
-<span class="sd">    - TSTORE/TLOAD in initcode should not be able to access the creator&#39;s transient storage.</span>
-<span class="sd">    - TSTORE/TLOAD in initcode should be able to access the created contract&#39;s transient</span>
-<span class="sd">        storage.</span>
-<span class="sd">    - TSTORE/TLOAD in creator contract should be able to use its own transient storage.</span>
+<span class="sd">    - TSTORE/TLOAD in initcode should not be able to access the creator&#39;s</span>
+<span class="sd">      transient storage.</span>
+<span class="sd">    - TSTORE/TLOAD in initcode should be able to access the created contract&#39;s</span>
+<span class="sd">      transient storage.</span>
+<span class="sd">    - TSTORE/TLOAD in creator contract should be able to use its own</span>
+<span class="sd">      transient storage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
@@ -27512,8 +27518,8 @@
                     <span class="p">)</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-            <span class="c1"># Save the state of transient storage following call to storage; the transient</span>
-            <span class="c1"># storage should not have been overwritten</span>
+            <span class="c1"># Save the state of transient storage following call to storage;</span>
+            <span class="c1"># the transient storage should not have been overwritten</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
@@ -27608,18 +27614,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
 <span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
@@ -27646,7 +27641,18 @@
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
-<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_contract_creation</span><span class="p">(</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_contract_creation</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

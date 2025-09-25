@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-mcopy-memory-expansion">Test MCOPY Memory Expansion<a class="headerlink" href="#test-mcopy-memory-expansion" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py#L173"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py#L174"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py --fork Osaka</span>
@@ -27265,13 +27265,11 @@
 <a id="tests.cancun.eip5656_mcopy.test_mcopy_memory_expansion"></a>
     <div class="doc doc-contents first">
 
+        <p>Test MCOPY with memory expansion and potential OOG errors.</p>
+<p>Test copy operations of <a href="https://eips.ethereum.org/EIPS/eip-5656">EIP-5656: MCOPY - Memory copying
+instruction</a> that produce
+a memory expansion, and potentially an out-of-gas error.</p>
 
-
-<details class="abstract" open>
-  <summary>Tests <a href="https://eips.ethereum.org/EIPS/eip-5656">EIP-5656: MCOPY - Memory copying instruction</a></summary>
-  <p>Test copy operations of <a href="https://eips.ethereum.org/EIPS/eip-5656">EIP-5656: MCOPY - Memory copying instruction</a>
-that produce a memory expansion, and potentially an out-of-gas error.</p>
-</details>
 
 
 
@@ -27305,13 +27303,13 @@ that produce a memory expansion, and potentially an out-of-gas error.</p>
 <td><a href="test_mcopy_memory_expansion/"><code>test_mcopy_memory_expansion</code></a></td>
 <td>state_test</td>
 <td>40</td>
-<td>Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.</td>
+<td>Perform MCOPY operations that expand the memory, and verify the gas it</td>
 </tr>
 <tr>
 <td><a href="test_mcopy_huge_memory_expansion/"><code>test_mcopy_huge_memory_expansion</code></a></td>
 <td>state_test</td>
 <td>18</td>
-<td>Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly</td>
+<td>Perform MCOPY operations that expand the memory by huge amounts, and verify</td>
 </tr>
 </tbody>
 </table>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_self_destructing_initcode_create_tx"><code>test_self_destructing_initcode_create_tx()</code><a class="headerlink" href="#test_self_destructing_initcode_create_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L448"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_self_destructing_initcode_create_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L461"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_self_destructing_initcode_create_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_self_destructing_initcode_create_tx --fork Osaka</span>
@@ -27339,20 +27339,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
@@ -27378,7 +27365,21 @@
 <span class="normal">484</span>
 <span class="normal">485</span>
 <span class="normal">486</span>
-<span class="normal">487</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_self_destructing_initcode_create_tx</span><span class="p">(</span>
@@ -27396,8 +27397,8 @@
 <span class="sd">    Behavior should be the same before and after EIP-6780.</span>
 
 <span class="sd">    Test using:</span>
-<span class="sd">        - Different initial balances for the self-destructing contract</span>
-<span class="sd">        - Different transaction value amounts</span>
+<span class="sd">      - Different initial balances for the self-destructing contract</span>
+<span class="sd">      - Different transaction value amounts</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
@@ -27409,7 +27410,8 @@
     <span class="n">selfdestruct_contract_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
     <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">,</span> <span class="n">selfdestruct_contract_initial_balance</span><span class="p">)</span>
 
-    <span class="c1"># Our entry point is an initcode that in turn creates a self-destructing contract</span>
+    <span class="c1"># Our entry point is an initcode that in turn creates a self-destructing</span>
+    <span class="c1"># contract</span>
     <span class="n">sendall_amount</span> <span class="o">=</span> <span class="n">selfdestruct_contract_initial_balance</span> <span class="o">+</span> <span class="n">tx_value</span>
 
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>

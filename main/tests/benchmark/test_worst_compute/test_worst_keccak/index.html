@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_keccak"><code>test_worst_keccak()</code><a class="headerlink" href="#test_worst_keccak" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L338"><code>tests/benchmark/test_worst_compute.py::test_worst_keccak@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L339"><code>tests/benchmark/test_worst_compute.py::test_worst_keccak@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_keccak -m benchmark</span>
@@ -27328,8 +27328,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">338</span>
-<span class="normal">339</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">339</span>
 <span class="normal">340</span>
 <span class="normal">341</span>
 <span class="normal">342</span>
@@ -27399,7 +27398,12 @@
 <span class="normal">406</span>
 <span class="normal">407</span>
 <span class="normal">408</span>
-<span class="normal">409</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_keccak</span><span class="p">(</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_keccak</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -27415,40 +27419,44 @@
 
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 
-    <span class="c1"># Discover the optimal input size to maximize keccak-permutations, not keccak calls.</span>
-    <span class="c1"># The complication of the discovery arises from the non-linear gas cost of memory expansion.</span>
+    <span class="c1"># Discover the optimal input size to maximize keccak-permutations, not</span>
+    <span class="c1"># keccak calls. The complication of the discovery arises from the non-</span>
+    <span class="c1"># linear gas cost of memory expansion.</span>
     <span class="n">max_keccak_perm_per_block</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">optimal_input_length</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1_000_000</span><span class="p">,</span> <span class="mi">32</span><span class="p">):</span>
         <span class="n">iteration_gas_cost</span> <span class="o">=</span> <span class="p">(</span>
             <span class="mi">2</span> <span class="o">*</span> <span class="n">gsc</span><span class="o">.</span><span class="n">G_VERY_LOW</span>  <span class="c1"># PUSHN + PUSH1</span>
             <span class="o">+</span> <span class="n">gsc</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># KECCAK256 static cost</span>
-            <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gsc</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK256 dynamic cost</span>
+            <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gsc</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK256 dynamic</span>
+            <span class="c1"># cost</span>
             <span class="o">+</span> <span class="n">gsc</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP</span>
         <span class="p">)</span>
-        <span class="c1"># From the available gas, we subtract the mem expansion costs considering we know the</span>
-        <span class="c1"># current input size length i.</span>
+        <span class="c1"># From the available gas, we subtract the mem expansion costs</span>
+        <span class="c1"># considering we know the current input size length i.</span>
         <span class="n">available_gas_after_expansion</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">available_gas</span> <span class="o">-</span> <span class="n">mem_exp_gas_calculator</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
         <span class="c1"># Calculate how many calls we can do.</span>
         <span class="n">num_keccak_calls</span> <span class="o">=</span> <span class="n">available_gas_after_expansion</span> <span class="o">//</span> <span class="n">iteration_gas_cost</span>
         <span class="c1"># KECCAK does 1 permutation every 136 bytes.</span>
         <span class="n">num_keccak_permutations</span> <span class="o">=</span> <span class="n">num_keccak_calls</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">KECCAK_RATE</span><span class="p">)</span>
 
-        <span class="c1"># If we found an input size that is better (reg permutations/gas), then save it.</span>
+        <span class="c1"># If we found an input size that is better (reg permutations/gas), then</span>
+        <span class="c1"># save it.</span>
         <span class="k">if</span> <span class="n">num_keccak_permutations</span> <span class="o">&gt;</span> <span class="n">max_keccak_perm_per_block</span><span class="p">:</span>
             <span class="n">max_keccak_perm_per_block</span> <span class="o">=</span> <span class="n">num_keccak_permutations</span>
             <span class="n">optimal_input_length</span> <span class="o">=</span> <span class="n">i</span>
 
-    <span class="c1"># max_iters_loop contains how many keccak calls can be done per loop.</span>
-    <span class="c1"># The loop is as big as possible bounded by the maximum code size.</span>
+    <span class="c1"># max_iters_loop contains how many keccak calls can be done per loop. The</span>
+    <span class="c1"># loop is as big as possible bounded by the maximum code size.</span>
     <span class="c1">#</span>
     <span class="c1"># The loop structure is: JUMPDEST + [attack iteration] + PUSH0 + JUMP</span>
     <span class="c1">#</span>
     <span class="c1"># Now calculate available gas for [attack iteration]:</span>
-    <span class="c1">#   Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.</span>
-    <span class="c1">#   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA</span>
-    <span class="c1"># TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the</span>
-    <span class="c1"># attack, whenever this is fixed adjust accordingly.</span>
+    <span class="c1"># Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP</span>
+    <span class="c1"># Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA</span>
+    <span class="c1">#</span>
+    <span class="c1"># TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is</span>
+    <span class="c1"># suboptimal for the attack, whenever this is fixed adjust accordingly.</span>
     <span class="n">start_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">[</span><span class="n">optimal_input_length</span><span class="p">]</span>
     <span class="n">loop_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">))</span>
     <span class="n">end_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)</span>

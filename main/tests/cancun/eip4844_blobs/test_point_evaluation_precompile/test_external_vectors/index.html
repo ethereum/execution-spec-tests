@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_external_vectors"><code>test_external_vectors()</code><a class="headerlink" href="#test_external_vectors" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L443"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_external_vectors@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L446"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_external_vectors@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_external_vectors --fork Osaka</span>
@@ -27325,7 +27325,8 @@
 <a id="tests.cancun.eip4844_blobs.test_point_evaluation_precompile.test_external_vectors"></a>
     <div class="doc doc-contents first">
 
-        <p>Test precompile calls using external test vectors compiled from different sources.</p>
+        <p>Test precompile calls using external test vectors compiled from different
+sources.</p>
 <ul>
 <li><code>go_kzg_4844_verify_kzg_proof.json</code>: test vectors from the
 <a href="https://github.com/crate-crypto/go-kzg-4844">go-kzg-4844</a> repository.</li>
@@ -27334,10 +27335,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">446</span>
 <span class="normal">447</span>
 <span class="normal">448</span>
 <span class="normal">449</span>
@@ -27357,7 +27355,11 @@
 <span class="normal">463</span>
 <span class="normal">464</span>
 <span class="normal">465</span>
-<span class="normal">466</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;z,y,kzg_commitment,kzg_proof,result&quot;</span><span class="p">,</span>
     <span class="n">all_external_vectors</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -27370,7 +27372,8 @@
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test precompile calls using external test vectors compiled from different sources.</span>
+<span class="sd">    Test precompile calls using external test vectors compiled from different</span>
+<span class="sd">    sources.</span>
 
 <span class="sd">    - `go_kzg_4844_verify_kzg_proof.json`: test vectors from the</span>
 <span class="sd">    [go-kzg-4844](https://github.com/crate-crypto/go-kzg-4844) repository.</span>

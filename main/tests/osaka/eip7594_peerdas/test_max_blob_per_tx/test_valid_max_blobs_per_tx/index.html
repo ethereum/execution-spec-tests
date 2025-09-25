@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_valid_max_blobs_per_tx"><code>test_valid_max_blobs_per_tx()</code><a class="headerlink" href="#test_valid_max_blobs_per_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py#L79"><code>tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py::test_valid_max_blobs_per_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py#L81"><code>tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py::test_valid_max_blobs_per_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py::test_valid_max_blobs_per_tx --fork Osaka</span>
@@ -27325,16 +27325,14 @@
 <a id="tests.osaka.eip7594_peerdas.test_max_blob_per_tx.test_valid_max_blobs_per_tx"></a>
     <div class="doc doc-contents first">
 
-        <p>Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are accepted.
-Verifies that individual transactions can contain up to the maximum allowed
-number of blobs per transaction.</p>
+        <p>Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are
+accepted. Verifies that individual transactions can contain up to the
+maximum allowed number of blobs per transaction.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 81</span>
 <span class="normal"> 82</span>
 <span class="normal"> 83</span>
 <span class="normal"> 84</span>
@@ -27353,7 +27351,9 @@ number of blobs per transaction.</p>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;blob_count&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_tx</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
 <span class="p">)</span>
@@ -27365,9 +27365,9 @@ number of blobs per transaction.</p>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are accepted.</span>
-<span class="sd">    Verifies that individual transactions can contain up to the maximum allowed</span>
-<span class="sd">    number of blobs per transaction.</span>
+<span class="sd">    Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are</span>
+<span class="sd">    accepted. Verifies that individual transactions can contain up to the</span>
+<span class="sd">    maximum allowed number of blobs per transaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>

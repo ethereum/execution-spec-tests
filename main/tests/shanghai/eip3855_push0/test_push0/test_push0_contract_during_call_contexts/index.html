@@ -27328,7 +27328,7 @@
 
 
 <h1 id="test_push0_contract_during_call_contexts"><code>test_push0_contract_during_call_contexts()</code><a class="headerlink" href="#test_push0_contract_during_call_contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/shanghai/eip3855_push0/test_push0.py#L124"><code>tests/shanghai/eip3855_push0/test_push0.py::TestPush0CallContext::test_push0_contract_during_call_contexts@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/shanghai/eip3855_push0/test_push0.py#L129"><code>tests/shanghai/eip3855_push0/test_push0.py::TestPush0CallContext::test_push0_contract_during_call_contexts@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3855_push0/test_push0.py::TestPush0CallContext::test_push0_contract_during_call_contexts --fork Osaka</span>
@@ -27344,11 +27344,14 @@
     <div class="doc doc-contents first">
 
 
-        <p>Tests the PUSH0 operation during various call contexts including:
-- CALL
-- CALLCODE
-- DELEGATECALL
-- STATICCALL.</p>
+        <p>Test the PUSH0 operation in various contract call contexts.</p>
+<p>Test PUSH0 in the following contract call contexts:</p>
+<ul>
+<li>CALL,</li>
+<li>CALLCODE,</li>
+<li>DELEGATECALL,</li>
+<li>STATICCALL.</li>
+</ul>
 
 
 
@@ -27358,7 +27361,8 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
+<span class="normal"> 93</span>
 <span class="normal"> 94</span>
 <span class="normal"> 95</span>
 <span class="normal"> 96</span>
@@ -27412,18 +27416,28 @@
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">TestPush0CallContext</span><span class="p">:</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">TestPush0CallContext</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the PUSH0 operation during various call contexts including:</span>
-<span class="sd">    - CALL</span>
-<span class="sd">    - CALLCODE</span>
-<span class="sd">    - DELEGATECALL</span>
+<span class="sd">    Test the PUSH0 operation in various contract call contexts.</span>
+
+<span class="sd">    Test PUSH0 in the following contract call contexts:</span>
+
+<span class="sd">    - CALL,</span>
+<span class="sd">    - CALLCODE,</span>
+<span class="sd">    - DELEGATECALL,</span>
 <span class="sd">    - STATICCALL.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">push0_contract_callee</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deploys a PUSH0 contract callee to the pre alloc returning its address.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deploys a PUSH0 contract callee to the pre alloc returning its address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">push0_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">push0_contract</span>
 
@@ -27432,8 +27446,9 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">push0_contract_callee</span><span class="p">:</span> <span class="n">Address</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Deploy contract responsible for calling the callee PUSH0 contract</span>
-<span class="sd">        returning its address.</span>
+<span class="sd">        Deploy the contract that calls the callee PUSH0 contract into `pre`.</span>
+
+<span class="sd">        This fixture returns its address.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">call_code</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">call_opcode</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">push0_contract_callee</span><span class="p">))</span>
@@ -27496,12 +27511,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3855_push0/test_push0.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
@@ -27519,7 +27529,12 @@
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>

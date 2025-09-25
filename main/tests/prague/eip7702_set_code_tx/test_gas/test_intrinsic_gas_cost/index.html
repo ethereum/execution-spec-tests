@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_intrinsic_gas_cost"><code>test_intrinsic_gas_cost()</code><a class="headerlink" href="#test_intrinsic_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_gas.py#L986"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_gas.py#L1016"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost --fork Osaka</span>
@@ -27325,43 +27325,13 @@
 <a id="tests.prague.eip7702_set_code_tx.test_gas.test_intrinsic_gas_cost"></a>
     <div class="doc doc-contents first">
 
-        <p>Test sending a transaction with the exact intrinsic gas required and also insufficient
-gas.</p>
+        <p>Test sending a transaction with the exact intrinsic gas required and also
+insufficient gas.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 986</span>
-<span class="normal"> 987</span>
-<span class="normal"> 988</span>
-<span class="normal"> 989</span>
-<span class="normal"> 990</span>
-<span class="normal"> 991</span>
-<span class="normal"> 992</span>
-<span class="normal"> 993</span>
-<span class="normal"> 994</span>
-<span class="normal"> 995</span>
-<span class="normal"> 996</span>
-<span class="normal"> 997</span>
-<span class="normal"> 998</span>
-<span class="normal"> 999</span>
-<span class="normal">1000</span>
-<span class="normal">1001</span>
-<span class="normal">1002</span>
-<span class="normal">1003</span>
-<span class="normal">1004</span>
-<span class="normal">1005</span>
-<span class="normal">1006</span>
-<span class="normal">1007</span>
-<span class="normal">1008</span>
-<span class="normal">1009</span>
-<span class="normal">1010</span>
-<span class="normal">1011</span>
-<span class="normal">1012</span>
-<span class="normal">1013</span>
-<span class="normal">1014</span>
-<span class="normal">1015</span>
-<span class="normal">1016</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1016</span>
 <span class="normal">1017</span>
 <span class="normal">1018</span>
 <span class="normal">1019</span>
@@ -27380,7 +27350,37 @@ gas.</p>
 <span class="normal">1032</span>
 <span class="normal">1033</span>
 <span class="normal">1034</span>
-<span class="normal">1035</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">gas_test_parameter_args</span><span class="p">(</span><span class="n">include_pre_authorized</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="normal">1035</span>
+<span class="normal">1036</span>
+<span class="normal">1037</span>
+<span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span>
+<span class="normal">1041</span>
+<span class="normal">1042</span>
+<span class="normal">1043</span>
+<span class="normal">1044</span>
+<span class="normal">1045</span>
+<span class="normal">1046</span>
+<span class="normal">1047</span>
+<span class="normal">1048</span>
+<span class="normal">1049</span>
+<span class="normal">1050</span>
+<span class="normal">1051</span>
+<span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span>
+<span class="normal">1061</span>
+<span class="normal">1062</span>
+<span class="normal">1063</span>
+<span class="normal">1064</span>
+<span class="normal">1065</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">gas_test_parameter_args</span><span class="p">(</span><span class="n">include_pre_authorized</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;valid&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span><span class="p">)],</span>
@@ -27396,8 +27396,8 @@ gas.</p>
     <span class="n">valid</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending a transaction with the exact intrinsic gas required and also insufficient</span>
-<span class="sd">    gas.</span>
+<span class="sd">    Test sending a transaction with the exact intrinsic gas required and also</span>
+<span class="sd">    insufficient gas.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Calculate the intrinsic gas cost of the authorizations, by default the</span>
     <span class="c1"># full empty account cost is charged for each authorization.</span>

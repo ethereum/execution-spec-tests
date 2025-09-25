@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_create"><code>test_worst_create()</code><a class="headerlink" href="#test_worst_create" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_bytecode.py#L325"><code>tests/benchmark/test_worst_bytecode.py::test_worst_create@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_bytecode.py#L326"><code>tests/benchmark/test_worst_bytecode.py::test_worst_create@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_bytecode.py::test_worst_create -m benchmark</span>
@@ -27328,8 +27328,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">325</span>
-<span class="normal">326</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">326</span>
 <span class="normal">327</span>
 <span class="normal">328</span>
 <span class="normal">329</span>
@@ -27432,7 +27431,14 @@
 <span class="normal">426</span>
 <span class="normal">427</span>
 <span class="normal">428</span>
-<span class="normal">429</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
@@ -27442,8 +27448,9 @@
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;max_code_size_ratio, non_zero_data, value&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="c1"># To avoid a blowup of combinations, the value dimension is only explored for</span>
-        <span class="c1"># the non-zero data case, so isn&#39;t affected by code size influence.</span>
+        <span class="c1"># To avoid a blowup of combinations, the value dimension is only</span>
+        <span class="c1"># explored for the non-zero data case, so isn&#39;t affected by code size</span>
+        <span class="c1"># influence.</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;0 bytes without value&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;0 bytes with value&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;0.25x max code size with non-zero data&quot;</span><span class="p">),</span>
@@ -27466,7 +27473,9 @@
     <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the CREATE and CREATE2 performance with different configurations.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test the CREATE and CREATE2 performance with different configurations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 
     <span class="n">code_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_code_size</span> <span class="o">*</span> <span class="n">max_code_size_ratio</span><span class="p">)</span>
@@ -27491,7 +27500,9 @@
     <span class="c1"># Create the benchmark contract which has the following design:</span>
     <span class="c1"># ```</span>
     <span class="c1"># PUSH(value)</span>
-    <span class="c1"># [EXTCODECOPY(full initcode_template_contract) -- Conditional that non_zero_data is True]`</span>
+    <span class="c1"># [EXTCODECOPY(full initcode_template_contract)</span>
+    <span class="c1"># -&gt; Conditional that non_zero_data is True]</span>
+    <span class="c1">#</span>
     <span class="c1"># JUMPDEST (#)</span>
     <span class="c1"># (CREATE|CREATE2)</span>
     <span class="c1"># (CREATE|CREATE2)</span>
@@ -27517,10 +27528,11 @@
         <span class="c1"># - DUP3 refers to PUSH1(value) above.</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP3</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span>
-        <span class="c1"># For CREATE2: we manually push the arguments because we leverage the return value of</span>
-        <span class="c1"># previous CREATE2 calls as salt for the next CREATE2 call.</span>
-        <span class="c1">#  - DUP4 is targeting the PUSH1(value) from the code_prefix.</span>
-        <span class="c1">#  - DUP3 is targeting the EXTCODESIZE value pushed in code_prefix.</span>
+        <span class="c1"># For CREATE2: we manually push the arguments because we leverage the</span>
+        <span class="c1"># return value of previous CREATE2 calls as salt for the next CREATE2</span>
+        <span class="c1"># call.</span>
+        <span class="c1"># - DUP4 is targeting the PUSH1(value) from the code_prefix.</span>
+        <span class="c1"># - DUP3 is targeting the EXTCODESIZE value pushed in code_prefix.</span>
         <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP3</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span>
     <span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>

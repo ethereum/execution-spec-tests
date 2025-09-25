@@ -27299,16 +27299,20 @@
 <li><em><a href="#eest-make">make</a></em>: Generate project files.</li>
 </ul>
 <h3 id="eest-clean">eest clean<a class="headerlink" href="#eest-clean" title="Permanent link">&para;</a></h3>
-<p>Remove all generated files and directories from the repository.
-If <code>--all</code> is specified, the virtual environment and .tox directory will also be removed.</p>
+<p>Remove all generated files and directories from the repository.</p>
+<p>If <code>--all</code> is specified, the virtual environment and .tox directory will
+also be removed.</p>
 <p>Args:
-    all_files (bool): Remove the virtual environment and .tox directory as well.</p>
+    all_files (bool): Remove the virtual environment and .tox directory
+                      as well.</p>
 <div class="highlight"><pre><span></span><code>dry_run (bool): Simulate the cleanup without removing files.
 
 verbose (bool): Show verbose output.
 </code></pre></div>
-<p>Note: The virtual environment and .tox directory are not removed by default.</p>
-<p>Example: Cleaning all generated files and directories and show the deleted items.</p>
+<p>Note: The virtual environment and .tox directory are not removed by
+default.</p>
+<p>Example: Cleaning all generated files and directories and show the deleted
+items.</p>
 <div class="highlight"><pre><span></span><code>uv run eest clean --all -v
 </code></pre></div>
 <p>Output:</p>
@@ -27371,10 +27375,11 @@ In that case, it is recommended to manually make changes.</p>
 </code></pre></div>
 <h4 id="eest-make-test">eest make test<a class="headerlink" href="#eest-make-test" title="Permanent link">&para;</a></h4>
 <p>Generate a new test file for an EIP.</p>
-<p>This function guides the user through a series of prompts to generate a test file
-for Ethereum execution specifications. The user is prompted to select the type of test,
-the fork to use, and to provide the EIP number and name. Based on the inputs, a test file
-is created in the appropriate directory with a rendered template.</p>
+<p>This function guides the user through a series of prompts to generate a
+test file for Ethereum execution specifications. The user is prompted to
+select the type of test, the fork to use, and to provide the EIP number and
+name. Based on the inputs, a test file is created in the appropriate
+directory with a rendered template.</p>
 <p>Example:
     uv run eest make test</p>
 <figure class="video_container">

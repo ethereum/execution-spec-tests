@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_contract_creating_tx"><code>test_contract_creating_tx()</code><a class="headerlink" href="#test_contract_creating_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/shanghai/eip3860_initcode/test_initcode.py#L120"><code>tests/shanghai/eip3860_initcode/test_initcode.py::test_contract_creating_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/shanghai/eip3860_initcode/test_initcode.py#L115"><code>tests/shanghai/eip3860_initcode/test_initcode.py::test_contract_creating_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py::test_contract_creating_tx --fork Osaka</span>
@@ -27325,13 +27325,17 @@
 <a id="tests.shanghai.eip3860_initcode.test_initcode.test_contract_creating_tx"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests creating a contract using a transaction with an initcode that is
-on/over the max allowed limit.</p>
+        <p>Test creating a contract with initcode that is on/over the allowed limit.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
@@ -27377,13 +27381,7 @@ on/over the max allowed limit.</p>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
+<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27403,8 +27401,7 @@ on/over the max allowed limit.</p>
     <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests creating a contract using a transaction with an initcode that is</span>
-<span class="sd">    on/over the max allowed limit.</span>
+<span class="sd">    Test creating a contract with initcode that is on/over the allowed limit.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">create_contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span>
         <span class="n">address</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>

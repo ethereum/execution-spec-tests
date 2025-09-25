@@ -27308,7 +27308,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7825_transaction_gas_limit_cap/spec.py"><code>tests/osaka/eip7825_transaction_gas_limit_cap/spec.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7825_transaction_gas_limit_cap/spec.py"><code>tests/osaka/eip7825_transaction_gas_limit_cap/spec.py@b281a78b</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27372,9 +27372,13 @@
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
-<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Constants and helpers for the EIP-7825 Transaction Gas Limit Cap tests.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Constants and helpers for the EIP-7825 Transaction Gas Limit Cap tests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Gas limit constants</span>
     <span class="n">tx_gas_limit_cap</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">24</span>  <span class="c1"># 16,777,216</span>

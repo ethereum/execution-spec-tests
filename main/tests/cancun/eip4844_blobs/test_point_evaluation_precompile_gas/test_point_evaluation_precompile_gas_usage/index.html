@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_point_evaluation_precompile_gas_usage"><code>test_point_evaluation_precompile_gas_usage()</code><a class="headerlink" href="#test_point_evaluation_precompile_gas_usage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py#L186"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py::test_point_evaluation_precompile_gas_usage@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py#L189"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py::test_point_evaluation_precompile_gas_usage@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py::test_point_evaluation_precompile_gas_usage --fork Osaka</span>
@@ -27325,20 +27325,18 @@
 <a id="tests.cancun.eip4844_blobs.test_point_evaluation_precompile_gas.test_point_evaluation_precompile_gas_usage"></a>
     <div class="doc doc-contents first">
 
-        <p>Test point evaluation precompile gas usage under different call contexts and gas limits.</p>
+        <p>Test point evaluation precompile gas usage under different call contexts
+and gas limits.</p>
 <ul>
-<li>Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL)</li>
-<li>Test using different gas limits (exact gas, insufficient gas, extra gas)</li>
-<li>Test using correct and incorrect proofs</li>
+<li>Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL) -
+Test using different gas limits (exact gas, insufficient gas, extra gas) -
+Test using correct and incorrect proofs</li>
 </ul>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
@@ -27368,7 +27366,11 @@
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_type&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">],</span>
 <span class="p">)</span>
@@ -27390,11 +27392,12 @@
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test point evaluation precompile gas usage under different call contexts and gas limits.</span>
+<span class="sd">    Test point evaluation precompile gas usage under different call contexts</span>
+<span class="sd">    and gas limits.</span>
 
-<span class="sd">    - Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL)</span>
-<span class="sd">    - Test using different gas limits (exact gas, insufficient gas, extra gas)</span>
-<span class="sd">    - Test using correct and incorrect proofs</span>
+<span class="sd">    - Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL) -</span>
+<span class="sd">    Test using different gas limits (exact gas, insufficient gas, extra gas) -</span>
+<span class="sd">    Test using correct and incorrect proofs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>

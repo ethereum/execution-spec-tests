@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_clz_from_set_code"><code>test_clz_from_set_code()</code><a class="headerlink" href="#test_clz_from_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L399"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_from_set_code@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L404"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_from_set_code@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_from_set_code --fork Osaka</span>
@@ -27330,12 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
 <span class="normal">407</span>
@@ -27374,7 +27369,12 @@
 <span class="normal">440</span>
 <span class="normal">441</span>
 <span class="normal">442</span>
-<span class="normal">443</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Opcode</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ExecutionContext</span><span class="o">.</span><span class="n">SetCode</span><span class="p">()</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Opcode</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ExecutionContext</span><span class="o">.</span><span class="n">SetCode</span><span class="p">()</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_clz_from_set_code</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>

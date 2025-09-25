@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_block_full_data"><code>test_block_full_data()</code><a class="headerlink" href="#test_block_full_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_blocks.py#L179"><code>tests/benchmark/test_worst_blocks.py::test_block_full_data@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_blocks.py#L179"><code>tests/benchmark/test_worst_blocks.py::test_block_full_data@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_data -m benchmark</span>
@@ -27381,7 +27381,10 @@
 <span class="normal">229</span>
 <span class="normal">230</span>
 <span class="normal">231</span>
-<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;zero_byte&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;zero_byte&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_data</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27391,12 +27394,14 @@
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test a block with empty payload.&quot;&quot;&quot;</span>
-    <span class="c1"># Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)</span>
+    <span class="c1"># Gas cost calculation based on EIP-7683:</span>
+    <span class="c1"># (https://eips.ethereum.org/EIPS/eip-7683)</span>
     <span class="c1">#</span>
     <span class="c1">#   tx.gasUsed = 21000 + max(</span>
     <span class="c1">#       STANDARD_TOKEN_COST * tokens_in_calldata</span>
     <span class="c1">#       + execution_gas_used</span>
-    <span class="c1">#       + isContractCreation * (32000 + INITCODE_WORD_COST * words(calldata)),</span>
+    <span class="c1">#       + isContractCreation * (32000 +</span>
+    <span class="c1">#                                 INITCODE_WORD_COST * words(calldata)),</span>
     <span class="c1">#       TOTAL_COST_FLOOR_PER_TOKEN * tokens_in_calldata)</span>
     <span class="c1">#</span>
     <span class="c1"># Simplified in this test case:</span>
@@ -27413,7 +27418,8 @@
     <span class="c1"># Token accounting:</span>
     <span class="c1">#   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes</span>
     <span class="c1">#</span>
-    <span class="c1"># So we calculate how many bytes we can fit into calldata based on available gas.</span>
+    <span class="c1"># So we calculate how many bytes we can fit into calldata based on</span>
+    <span class="c1"># available gas.</span>
 
     <span class="n">gas_available</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">intrinsic_cost</span>
 

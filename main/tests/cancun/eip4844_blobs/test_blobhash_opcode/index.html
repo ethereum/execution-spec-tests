@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-blobhash-opcode">Test BLOBHASH Opcode<a class="headerlink" href="#test-blobhash-opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L149"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L147"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode.py --fork Osaka</span>
@@ -27265,26 +27265,19 @@
 <a id="tests.cancun.eip4844_blobs.test_blobhash_opcode"></a>
     <div class="doc doc-contents first">
 
-
-
-<details class="abstract" open>
-  <summary>Tests <code>BLOBHASH</code> opcode in <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a></summary>
-  <p>Test cases for the <code>BLOBHASH</code> opcode in
-<a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
-</details>
-
-<details class="note" open>
-  <summary>Adding a new test</summary>
-  <p>Add a function that is named <code>test_&lt;test_name&gt;</code> and takes at least the following arguments:</p>
-<ul>
-<li>blockchain_test</li>
-<li>pre</li>
-<li>tx</li>
-<li>post</li>
-</ul>
-<p>Additional custom <code>pytest.fixture</code> fixtures can be added and parametrized for new test cases.</p>
+        <p>Tests <code>BLOBHASH</code> opcode in <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844: Shard Blob Transactions</a>.</p>
+<p>Note: Adding a new test Add a function that is named <code>test_&lt;test_name&gt;</code> and
+takes at least the following arguments.</p>
+<p>Required arguments:
+- <code>blockchain_test</code>
+- <code>pre</code>
+- <code>tx</code>
+- <code>post</code></p>
+<p>Additional custom <code>pytest.fixture</code> fixtures can be added and parametrized
+for
+new test cases.</p>
 <p>There is no specific structure to follow within this test module.</p>
-</details>
+
 
 
 
@@ -27330,7 +27323,7 @@
 <td><a href="test_blobhash_invalid_blob_index/"><code>test_blobhash_invalid_blob_index</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Tests that the <code>BLOBHASH</code> opcode returns a zeroed <code>bytes32</code> value for invalid</td>
+<td>Tests that the <code>BLOBHASH</code> opcode returns a zeroed <code>bytes32</code> value for</td>
 </tr>
 <tr>
 <td><a href="test_blobhash_multiple_txs_in_block/"><code>test_blobhash_multiple_txs_in_block</code></a></td>

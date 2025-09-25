@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_set_code_to_tstore_available_at_correct_address"><code>test_set_code_to_tstore_available_at_correct_address()</code><a class="headerlink" href="#test_set_code_to_tstore_available_at_correct_address" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L394"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_tstore_available_at_correct_address@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L399"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_tstore_available_at_correct_address@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_tstore_available_at_correct_address --fork Osaka</span>
@@ -27325,19 +27325,15 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_set_code_to_tstore_available_at_correct_address"></a>
     <div class="doc doc-contents first">
 
-        <p>Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in slot 2.
-This is done both from the EOA which is delegated to account A, and then A is called.
-The storage should stay empty on both the EOA and the delegated account.</p>
+        <p>Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in
+slot 2. This is done both from the EOA which is delegated to account A, and
+then A is called. The storage should stay empty on both the EOA and the
+delegated account.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">399</span>
 <span class="normal">400</span>
 <span class="normal">401</span>
 <span class="normal">402</span>
@@ -27396,7 +27392,13 @@ The storage should stay empty on both the EOA and the delegated account.</p>
 <span class="normal">455</span>
 <span class="normal">456</span>
 <span class="normal">457</span>
-<span class="normal">458</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">call_opcode</span><span class="p">:</span> <span class="n">call_opcode</span>
     <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">]</span>
 <span class="p">)</span>
@@ -27408,9 +27410,10 @@ The storage should stay empty on both the EOA and the delegated account.</p>
     <span class="n">call_eoa_first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in slot 2.</span>
-<span class="sd">    This is done both from the EOA which is delegated to account A, and then A is called.</span>
-<span class="sd">    The storage should stay empty on both the EOA and the delegated account.</span>
+<span class="sd">    Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in</span>
+<span class="sd">    slot 2. This is done both from the EOA which is delegated to account A, and</span>
+<span class="sd">    then A is called. The storage should stay empty on both the EOA and the</span>
+<span class="sd">    delegated account.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_account_start_balance</span><span class="p">)</span>
 

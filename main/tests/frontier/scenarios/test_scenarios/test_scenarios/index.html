@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_scenarios"><code>test_scenarios()</code><a class="headerlink" href="#test_scenarios" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/scenarios/test_scenarios.py#L107"><code>tests/frontier/scenarios/test_scenarios.py::test_scenarios@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/scenarios/test_scenarios.py#L110"><code>tests/frontier/scenarios/test_scenarios.py::test_scenarios@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/scenarios/test_scenarios.py::test_scenarios --fork Osaka</span>
@@ -27325,20 +27325,17 @@
 <a id="tests.frontier.scenarios.test_scenarios.test_scenarios"></a>
     <div class="doc doc-contents first">
 
-        <p>Test given operation in different scenarios
-Verify that it's return value equal to expected result on every scenario,
-that is valid for the given fork.</p>
-<p>Note: Don't use pytest parametrize for scenario production, because scenarios will be complex
-Generate one test file for [each operation] * [each scenario] to save space
-As well as operations will be complex too</p>
+        <p>Test given operation in different scenarios Verify that it's return value
+equal to expected result on every scenario, that is valid for the given
+fork.</p>
+<p>Note: Don't use pytest parametrize for scenario production, because
+scenarios will be complex Generate one test file for [each operation] *
+[each scenario] to save space As well as operations will be complex too</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/scenarios/test_scenarios.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
 <span class="normal">113</span>
@@ -27488,7 +27485,15 @@ As well as operations will be complex too</p>
 <span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
-<span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/templateGen.js&quot;</span><span class="p">,</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/createDiffPlacesTests.sh&quot;</span><span class="p">,</span>
@@ -27502,9 +27507,13 @@ As well as operations will be complex too</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="c1"># select program to debug (&quot;program_id&quot;,&quot;scenario_name&quot;)</span>
-    <span class="c1"># program=&quot;&quot; select all programs</span>
-    <span class="c1"># scenario_name=&quot;&quot; select all scenarios</span>
-    <span class="c1"># Example: [ScenarioDebug(program_id=ProgramSstoreSload().id, scenario_name=&quot;scenario_CALL_CALL&quot;)],  # noqa: E501</span>
+    <span class="c1"># program=&quot;&quot;</span>
+    <span class="c1"># select all programs scenario_name=&quot;&quot;</span>
+    <span class="c1"># select all scenarios</span>
+    <span class="c1">#</span>
+    <span class="c1"># Example:</span>
+    <span class="c1"># [ScenarioDebug(program_id=ProgramSstoreSload().id,</span>
+    <span class="c1"># scenario_name=&quot;scenario_CALL_CALL&quot;)]</span>
     <span class="s2">&quot;debug&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">ScenarioDebug</span><span class="p">(</span>
@@ -27562,13 +27571,13 @@ As well as operations will be complex too</p>
     <span class="n">scenarios</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test given operation in different scenarios</span>
-<span class="sd">    Verify that it&#39;s return value equal to expected result on every scenario,</span>
-<span class="sd">    that is valid for the given fork.</span>
+<span class="sd">    Test given operation in different scenarios Verify that it&#39;s return value</span>
+<span class="sd">    equal to expected result on every scenario, that is valid for the given</span>
+<span class="sd">    fork.</span>
 
-<span class="sd">    Note: Don&#39;t use pytest parametrize for scenario production, because scenarios will be complex</span>
-<span class="sd">    Generate one test file for [each operation] * [each scenario] to save space</span>
-<span class="sd">    As well as operations will be complex too</span>
+<span class="sd">    Note: Don&#39;t use pytest parametrize for scenario production, because</span>
+<span class="sd">    scenarios will be complex Generate one test file for [each operation] *</span>
+<span class="sd">    [each scenario] to save space As well as operations will be complex too</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tx_env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">tx_origin</span><span class="p">:</span> <span class="n">Address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
@@ -27597,7 +27606,8 @@ As well as operations will be complex too</p>
             <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
             <span class="n">origin</span><span class="o">=</span><span class="n">tx_origin</span><span class="p">,</span>
             <span class="n">gasprice</span><span class="o">=</span><span class="n">tx_gasprice</span><span class="p">,</span>
-            <span class="n">timestamp</span><span class="o">=</span><span class="n">tx_env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>  <span class="c1"># we can&#39;t know timestamp before head, use gas hash</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">tx_env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>  <span class="c1"># we can&#39;t know timestamp before head,</span>
+            <span class="c1"># use gas hash</span>
             <span class="n">number</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
             <span class="n">gaslimit</span><span class="o">=</span><span class="n">tx_env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
             <span class="n">coinbase</span><span class="o">=</span><span class="n">tx_env</span><span class="o">.</span><span class="n">fee_recipient</span><span class="p">,</span>

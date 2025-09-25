@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blob_type_tx_pre_fork"><code>test_blob_type_tx_pre_fork()</code><a class="headerlink" href="#test_blob_type_tx_pre_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blob_txs.py#L1348"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blob_txs.py#L1380"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork --fork Osaka</span>
@@ -27326,45 +27326,14 @@
     <div class="doc doc-contents first">
 
         <p>Reject blocks with blob type transactions before Cancun fork.</p>
-<p>Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions, furthermore blobs
-field within NewPayloadV2 method must be computed as INVALID, due to an invalid block hash.</p>
+<p>Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions,
+furthermore blobs field within NewPayloadV2 method must be computed as
+INVALID, due to an invalid block hash.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1348</span>
-<span class="normal">1349</span>
-<span class="normal">1350</span>
-<span class="normal">1351</span>
-<span class="normal">1352</span>
-<span class="normal">1353</span>
-<span class="normal">1354</span>
-<span class="normal">1355</span>
-<span class="normal">1356</span>
-<span class="normal">1357</span>
-<span class="normal">1358</span>
-<span class="normal">1359</span>
-<span class="normal">1360</span>
-<span class="normal">1361</span>
-<span class="normal">1362</span>
-<span class="normal">1363</span>
-<span class="normal">1364</span>
-<span class="normal">1365</span>
-<span class="normal">1366</span>
-<span class="normal">1367</span>
-<span class="normal">1368</span>
-<span class="normal">1369</span>
-<span class="normal">1370</span>
-<span class="normal">1371</span>
-<span class="normal">1372</span>
-<span class="normal">1373</span>
-<span class="normal">1374</span>
-<span class="normal">1375</span>
-<span class="normal">1376</span>
-<span class="normal">1377</span>
-<span class="normal">1378</span>
-<span class="normal">1379</span>
-<span class="normal">1380</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1380</span>
 <span class="normal">1381</span>
 <span class="normal">1382</span>
 <span class="normal">1383</span>
@@ -27379,7 +27348,40 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 <span class="normal">1392</span>
 <span class="normal">1393</span>
 <span class="normal">1394</span>
-<span class="normal">1395</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1395</span>
+<span class="normal">1396</span>
+<span class="normal">1397</span>
+<span class="normal">1398</span>
+<span class="normal">1399</span>
+<span class="normal">1400</span>
+<span class="normal">1401</span>
+<span class="normal">1402</span>
+<span class="normal">1403</span>
+<span class="normal">1404</span>
+<span class="normal">1405</span>
+<span class="normal">1406</span>
+<span class="normal">1407</span>
+<span class="normal">1408</span>
+<span class="normal">1409</span>
+<span class="normal">1410</span>
+<span class="normal">1411</span>
+<span class="normal">1412</span>
+<span class="normal">1413</span>
+<span class="normal">1414</span>
+<span class="normal">1415</span>
+<span class="normal">1416</span>
+<span class="normal">1417</span>
+<span class="normal">1418</span>
+<span class="normal">1419</span>
+<span class="normal">1420</span>
+<span class="normal">1421</span>
+<span class="normal">1422</span>
+<span class="normal">1423</span>
+<span class="normal">1424</span>
+<span class="normal">1425</span>
+<span class="normal">1426</span>
+<span class="normal">1427</span>
+<span class="normal">1428</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
@@ -27416,8 +27418,9 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reject blocks with blob type transactions before Cancun fork.</span>
 
-<span class="sd">    Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions, furthermore blobs</span>
-<span class="sd">    field within NewPayloadV2 method must be computed as INVALID, due to an invalid block hash.</span>
+<span class="sd">    Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions,</span>
+<span class="sd">    furthermore blobs field within NewPayloadV2 method must be computed as</span>
+<span class="sd">    INVALID, due to an invalid block hash.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">state_test</span><span class="p">(</span>

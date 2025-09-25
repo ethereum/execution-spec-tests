@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_transaction_gas_limit_cap_at_transition"><code>test_transaction_gas_limit_cap_at_transition()</code><a class="headerlink" href="#test_transaction_gas_limit_cap_at_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py#L26"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py#L28"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition --fork Osaka</span>
@@ -27326,15 +27326,13 @@
     <div class="doc doc-contents first">
 
         <p>Test transaction gas limit cap behavior at the Osaka transition.</p>
-<p>Before timestamp 15000: No gas limit cap (transactions with gas &gt; 2^24 are valid)
-At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
+<p>Before timestamp 15000: No gas limit cap (transactions with gas &gt; 2^24 are
+valid) At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
 <span class="normal"> 29</span>
 <span class="normal"> 30</span>
 <span class="normal"> 31</span>
@@ -27428,7 +27426,11 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">AcceptedBeforeFork</span><span class="p">()</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">AcceptedBeforeFork</span><span class="p">()</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">RejectedBeforeFork</span><span class="p">()</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">AcceptedAfterFork</span><span class="p">()</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">RejectedAfterFork</span><span class="p">()</span>
@@ -27449,8 +27451,8 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test transaction gas limit cap behavior at the Osaka transition.</span>
 
-<span class="sd">    Before timestamp 15000: No gas limit cap (transactions with gas &gt; 2^24 are valid)</span>
-<span class="sd">    At/after timestamp 15000: Gas limit cap of 2^24 is enforced</span>
+<span class="sd">    Before timestamp 15000: No gas limit cap (transactions with gas &gt; 2^24 are</span>
+<span class="sd">    valid) At/after timestamp 15000: Gas limit cap of 2^24 is enforced</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
@@ -27463,7 +27465,8 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
     <span class="c1"># Test boundary: cap + 1 should fail after fork activation</span>
     <span class="n">above_cap</span> <span class="o">=</span> <span class="n">tx_gas_cap</span> <span class="o">+</span> <span class="mi">1</span>
 
-    <span class="c1"># Before fork activation: both cap and above_cap transactions should succeed</span>
+    <span class="c1"># Before fork activation: both cap and above_cap transactions should</span>
+    <span class="c1"># succeed</span>
     <span class="n">at_cap_tx_before_fork</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Legacy transaction</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
@@ -27491,7 +27494,8 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># Before transition (timestamp &lt; 15000): both cap and above_cap transactions should succeed</span>
+    <span class="c1"># Before transition (timestamp &lt; 15000): both cap and above_cap</span>
+    <span class="c1"># transactions should succeed</span>
     <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">timestamp</span><span class="o">=</span><span class="mi">14_999</span><span class="p">,</span>

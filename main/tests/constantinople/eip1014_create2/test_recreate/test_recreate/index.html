@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_recreate"><code>test_recreate()</code><a class="headerlink" href="#test_recreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/constantinople/eip1014_create2/test_recreate.py#L23"><code>tests/constantinople/eip1014_create2/test_recreate.py::test_recreate@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/constantinople/eip1014_create2/test_recreate.py#L23"><code>tests/constantinople/eip1014_create2/test_recreate.py::test_recreate@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/constantinople/eip1014_create2/test_recreate.py::test_recreate --fork Osaka</span>
@@ -27325,8 +27325,8 @@
 <a id="tests.constantinople.eip1014_create2.test_recreate.test_recreate"></a>
     <div class="doc doc-contents first">
 
-        <p>Test that the storage is cleared when a contract is first destructed then re-created using
-CREATE2.</p>
+        <p>Test that the storage is cleared when a contract is first destructed then
+re-created using CREATE2.</p>
 
 
             <details class="quote">
@@ -27430,8 +27430,8 @@ CREATE2.</p>
     <span class="n">recreate_on_separate_block</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that the storage is cleared when a contract is first destructed then re-created using</span>
-<span class="sd">    CREATE2.</span>
+<span class="sd">    Test that the storage is cleared when a contract is first destructed then</span>
+<span class="sd">    re-created using CREATE2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">creator_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">(</span>
         <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="mi">0</span>

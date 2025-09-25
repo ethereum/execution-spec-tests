@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_identity_precompile_returndata"><code>test_identity_precompile_returndata()</code><a class="headerlink" href="#test_identity_precompile_returndata" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/identity_precompile/test_identity_returndatasize.py#L18"><code>tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/identity_precompile/test_identity_returndatasize.py#L18"><code>tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata --fork Osaka</span>
@@ -27325,7 +27325,8 @@
 <a id="tests.frontier.identity_precompile.test_identity_returndatasize.test_identity_precompile_returndata"></a>
     <div class="doc doc-contents first">
 
-        <p>Test identity precompile RETURNDATA is sized correctly based on the input size.</p>
+        <p>Test identity precompile RETURNDATA is sized correctly based on the input
+size.</p>
 
 
             <details class="quote">
@@ -27383,7 +27384,10 @@
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
-<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v17.1/src/GeneralStateTestsFiller/stPreCompiledContracts/identity_to_biggerFiller.json&quot;</span><span class="p">,</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v17.1/src/GeneralStateTestsFiller/stPreCompiledContracts/identity_to_smallerFiller.json&quot;</span><span class="p">,</span>
@@ -27405,7 +27409,10 @@
     <span class="n">output_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">expected_returndatasize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test identity precompile RETURNDATA is sized correctly based on the input size.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test identity precompile RETURNDATA is sized correctly based on the input</span>
+<span class="sd">    size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 

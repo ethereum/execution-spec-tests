@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_amortized_bn128_pairings"><code>test_amortized_bn128_pairings()</code><a class="headerlink" href="#test_amortized_bn128_pairings" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L2596"><code>tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L2705"><code>tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings -m benchmark</span>
@@ -27328,69 +27328,72 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2596</span>
-<span class="normal">2597</span>
-<span class="normal">2598</span>
-<span class="normal">2599</span>
-<span class="normal">2600</span>
-<span class="normal">2601</span>
-<span class="normal">2602</span>
-<span class="normal">2603</span>
-<span class="normal">2604</span>
-<span class="normal">2605</span>
-<span class="normal">2606</span>
-<span class="normal">2607</span>
-<span class="normal">2608</span>
-<span class="normal">2609</span>
-<span class="normal">2610</span>
-<span class="normal">2611</span>
-<span class="normal">2612</span>
-<span class="normal">2613</span>
-<span class="normal">2614</span>
-<span class="normal">2615</span>
-<span class="normal">2616</span>
-<span class="normal">2617</span>
-<span class="normal">2618</span>
-<span class="normal">2619</span>
-<span class="normal">2620</span>
-<span class="normal">2621</span>
-<span class="normal">2622</span>
-<span class="normal">2623</span>
-<span class="normal">2624</span>
-<span class="normal">2625</span>
-<span class="normal">2626</span>
-<span class="normal">2627</span>
-<span class="normal">2628</span>
-<span class="normal">2629</span>
-<span class="normal">2630</span>
-<span class="normal">2631</span>
-<span class="normal">2632</span>
-<span class="normal">2633</span>
-<span class="normal">2634</span>
-<span class="normal">2635</span>
-<span class="normal">2636</span>
-<span class="normal">2637</span>
-<span class="normal">2638</span>
-<span class="normal">2639</span>
-<span class="normal">2640</span>
-<span class="normal">2641</span>
-<span class="normal">2642</span>
-<span class="normal">2643</span>
-<span class="normal">2644</span>
-<span class="normal">2645</span>
-<span class="normal">2646</span>
-<span class="normal">2647</span>
-<span class="normal">2648</span>
-<span class="normal">2649</span>
-<span class="normal">2650</span>
-<span class="normal">2651</span>
-<span class="normal">2652</span>
-<span class="normal">2653</span>
-<span class="normal">2654</span>
-<span class="normal">2655</span>
-<span class="normal">2656</span>
-<span class="normal">2657</span>
-<span class="normal">2658</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_amortized_bn128_pairings</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2705</span>
+<span class="normal">2706</span>
+<span class="normal">2707</span>
+<span class="normal">2708</span>
+<span class="normal">2709</span>
+<span class="normal">2710</span>
+<span class="normal">2711</span>
+<span class="normal">2712</span>
+<span class="normal">2713</span>
+<span class="normal">2714</span>
+<span class="normal">2715</span>
+<span class="normal">2716</span>
+<span class="normal">2717</span>
+<span class="normal">2718</span>
+<span class="normal">2719</span>
+<span class="normal">2720</span>
+<span class="normal">2721</span>
+<span class="normal">2722</span>
+<span class="normal">2723</span>
+<span class="normal">2724</span>
+<span class="normal">2725</span>
+<span class="normal">2726</span>
+<span class="normal">2727</span>
+<span class="normal">2728</span>
+<span class="normal">2729</span>
+<span class="normal">2730</span>
+<span class="normal">2731</span>
+<span class="normal">2732</span>
+<span class="normal">2733</span>
+<span class="normal">2734</span>
+<span class="normal">2735</span>
+<span class="normal">2736</span>
+<span class="normal">2737</span>
+<span class="normal">2738</span>
+<span class="normal">2739</span>
+<span class="normal">2740</span>
+<span class="normal">2741</span>
+<span class="normal">2742</span>
+<span class="normal">2743</span>
+<span class="normal">2744</span>
+<span class="normal">2745</span>
+<span class="normal">2746</span>
+<span class="normal">2747</span>
+<span class="normal">2748</span>
+<span class="normal">2749</span>
+<span class="normal">2750</span>
+<span class="normal">2751</span>
+<span class="normal">2752</span>
+<span class="normal">2753</span>
+<span class="normal">2754</span>
+<span class="normal">2755</span>
+<span class="normal">2756</span>
+<span class="normal">2757</span>
+<span class="normal">2758</span>
+<span class="normal">2759</span>
+<span class="normal">2760</span>
+<span class="normal">2761</span>
+<span class="normal">2762</span>
+<span class="normal">2763</span>
+<span class="normal">2764</span>
+<span class="normal">2765</span>
+<span class="normal">2766</span>
+<span class="normal">2767</span>
+<span class="normal">2768</span>
+<span class="normal">2769</span>
+<span class="normal">2770</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_amortized_bn128_pairings</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -27405,8 +27408,9 @@
     <span class="n">intrinsic_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
     <span class="n">mem_exp_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">memory_expansion_gas_calculator</span><span class="p">()</span>
 
-    <span class="c1"># This is a theoretical maximum number of pairings that can be done in a block.</span>
-    <span class="c1"># It is only used for an upper bound for calculating the optimal number of pairings below.</span>
+    <span class="c1"># This is a theoretical maximum number of pairings that can be done in a</span>
+    <span class="c1"># block. It is only used for an upper bound for calculating the optimal</span>
+    <span class="c1"># number of pairings below.</span>
     <span class="n">maximum_number_of_pairings</span> <span class="o">=</span> <span class="p">(</span><span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">base_cost</span><span class="p">)</span> <span class="o">//</span> <span class="n">pairing_cost</span>
 
     <span class="c1"># Discover the optimal number of pairings balancing two dimensions:</span>
@@ -27417,19 +27421,21 @@
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">maximum_number_of_pairings</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="c1"># We&#39;ll pass all pairing arguments via calldata.</span>
         <span class="n">available_gas_after_intrinsic</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">intrinsic_gas_calculator</span><span class="p">(</span>
-            <span class="n">calldata</span><span class="o">=</span><span class="p">[</span><span class="mh">0xFF</span><span class="p">]</span> <span class="o">*</span> <span class="n">size_per_pairing</span> <span class="o">*</span> <span class="n">i</span>  <span class="c1"># 0xFF is to indicate non-zero bytes.</span>
+            <span class="n">calldata</span><span class="o">=</span><span class="p">[</span><span class="mh">0xFF</span><span class="p">]</span> <span class="o">*</span> <span class="n">size_per_pairing</span> <span class="o">*</span> <span class="n">i</span>  <span class="c1"># 0xFF is to indicate non-</span>
+            <span class="c1"># zero bytes.</span>
         <span class="p">)</span>
         <span class="n">available_gas_after_expansion</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
             <span class="mi">0</span><span class="p">,</span>
             <span class="n">available_gas_after_intrinsic</span> <span class="o">-</span> <span class="n">mem_exp_gas_calculator</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="n">i</span> <span class="o">*</span> <span class="n">size_per_pairing</span><span class="p">),</span>
         <span class="p">)</span>
 
-        <span class="c1"># This is ignoring &quot;glue&quot; opcodes, but helps to have a rough idea of the right</span>
-        <span class="c1"># cutting point.</span>
+        <span class="c1"># This is ignoring &quot;glue&quot; opcodes, but helps to have a rough idea of</span>
+        <span class="c1"># the right cutting point.</span>
         <span class="n">approx_gas_cost_per_call</span> <span class="o">=</span> <span class="n">gsc</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span> <span class="o">+</span> <span class="n">base_cost</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">pairing_cost</span>
 
         <span class="n">num_precompile_calls</span> <span class="o">=</span> <span class="n">available_gas_after_expansion</span> <span class="o">//</span> <span class="n">approx_gas_cost_per_call</span>
-        <span class="n">num_pairings_done</span> <span class="o">=</span> <span class="n">num_precompile_calls</span> <span class="o">*</span> <span class="n">i</span>  <span class="c1"># Each precompile call does i pairings.</span>
+        <span class="n">num_pairings_done</span> <span class="o">=</span> <span class="n">num_precompile_calls</span> <span class="o">*</span> <span class="n">i</span>  <span class="c1"># Each precompile call</span>
+        <span class="c1"># does i pairings.</span>
 
         <span class="k">if</span> <span class="n">num_pairings_done</span> <span class="o">&gt;</span> <span class="n">max_pairings</span><span class="p">:</span>
             <span class="n">max_pairings</span> <span class="o">=</span> <span class="n">num_pairings_done</span>

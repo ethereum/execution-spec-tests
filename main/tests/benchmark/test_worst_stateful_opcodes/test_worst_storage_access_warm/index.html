@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_storage_access_warm"><code>test_worst_storage_access_warm()</code><a class="headerlink" href="#test_worst_storage_access_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_stateful_opcodes.py#L381"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_warm@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_stateful_opcodes.py#L388"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_warm@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_warm -m benchmark</span>
@@ -27328,14 +27328,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
 <span class="normal">391</span>
@@ -27397,7 +27390,16 @@
 <span class="normal">447</span>
 <span class="normal">448</span>
 <span class="normal">449</span>
-<span class="normal">450</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;storage_action&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">StorageAction</span><span class="o">.</span><span class="n">READ</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SLOAD&quot;</span><span class="p">),</span>
@@ -27412,7 +27414,9 @@
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many warm storage slot accesses as possible.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test running a block with as many warm storage slot accesses as possible.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[]</span>

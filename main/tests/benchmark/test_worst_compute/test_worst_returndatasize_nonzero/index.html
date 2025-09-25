@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_returndatasize_nonzero"><code>test_worst_returndatasize_nonzero()</code><a class="headerlink" href="#test_worst_returndatasize_nonzero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L207"><code>tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L204"><code>tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero -m benchmark</span>
@@ -27323,15 +27323,19 @@
 <a id="tests.benchmark.test_worst_compute.test_worst_returndatasize_nonzero"></a>
     <div class="doc doc-contents first">
 
-        <p>Test running a block which execute as many RETURNDATASIZE opcodes which return a non-zero
-buffer as possible.</p>
-<p>The <code>returned_size</code> parameter indicates the size of the returned data buffer.
-The <code>return_data_style</code> indicates how returned data is produced for the opcode caller.</p>
+        <p>Test running a block which execute as many RETURNDATASIZE opcodes which
+return a non-zero buffer as possible.</p>
+<p>The <code>returned_size</code> parameter indicates the size of the returned data
+buffer. The <code>return_data_style</code> indicates how returned data is produced for
+the opcode caller.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
 <span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
@@ -27387,9 +27391,7 @@ The <code>return_data_style</code> indicates how returned data is produced for t
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;return_data_style&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">ReturnDataStyle</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span>
@@ -27407,11 +27409,12 @@ The <code>return_data_style</code> indicates how returned data is produced for t
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test running a block which execute as many RETURNDATASIZE opcodes which return a non-zero</span>
-<span class="sd">    buffer as possible.</span>
+<span class="sd">    Test running a block which execute as many RETURNDATASIZE opcodes which</span>
+<span class="sd">    return a non-zero buffer as possible.</span>
 
-<span class="sd">    The `returned_size` parameter indicates the size of the returned data buffer.</span>
-<span class="sd">    The `return_data_style` indicates how returned data is produced for the opcode caller.</span>
+<span class="sd">    The `returned_size` parameter indicates the size of the returned data</span>
+<span class="sd">    buffer. The `return_data_style` indicates how returned data is produced for</span>
+<span class="sd">    the opcode caller.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 

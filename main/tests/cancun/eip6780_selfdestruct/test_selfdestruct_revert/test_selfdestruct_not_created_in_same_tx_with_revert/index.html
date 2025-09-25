@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_selfdestruct_not_created_in_same_tx_with_revert"><code>test_selfdestruct_not_created_in_same_tx_with_revert()</code><a class="headerlink" href="#test_selfdestruct_not_created_in_same_tx_with_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py#L423"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_not_created_in_same_tx_with_revert@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py#L432"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_not_created_in_same_tx_with_revert@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_not_created_in_same_tx_with_revert --fork Osaka</span>
@@ -27325,22 +27325,13 @@
 <a id="tests.cancun.eip6780_selfdestruct.test_selfdestruct_revert.test_selfdestruct_not_created_in_same_tx_with_revert"></a>
     <div class="doc doc-contents first">
 
-        <p>Same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract
-is pre-existing.</p>
+        <p>Same test as selfdestruct_created_in_same_tx_with_revert except
+selfdestructable contract is pre-existing.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">432</span>
 <span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span>
@@ -27421,7 +27412,19 @@ is pre-existing.</p>
 <span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
-<span class="normal">513</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;recursive_revert_contract_address_init_balance&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;init_balance_2&quot;</span><span class="p">],</span>
@@ -27455,8 +27458,8 @@ is pre-existing.</p>
     <span class="n">recursive_revert_contract_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract</span>
-<span class="sd">    is pre-existing.</span>
+<span class="sd">    Same test as selfdestruct_created_in_same_tx_with_revert except</span>
+<span class="sd">    selfdestructable contract is pre-existing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">entry_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">GASLIMIT</span><span class="p">(),</span>
@@ -27478,7 +27481,8 @@ is pre-existing.</p>
             <span class="n">code</span><span class="o">=</span><span class="n">selfdestruct_with_transfer_contract_code</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">Storage</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="c1"># 2 value transfers: 1 in outer call, 1 in reverted inner call</span>
+                    <span class="c1"># 2 value transfers: 1 in outer call, 1 in reverted inner</span>
+                    <span class="c1"># call</span>
                     <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
                     <span class="c1"># 1 selfdestruct in reverted inner call</span>
                     <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
@@ -27494,9 +27498,11 @@ is pre-existing.</p>
             <span class="n">code</span><span class="o">=</span><span class="n">selfdestruct_with_transfer_contract_code</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">Storage</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="c1"># 2 value transfers: 1 in outer call, 1 in reverted inner call</span>
+                    <span class="c1"># 2 value transfers:</span>
+                    <span class="c1">#   1 in outer call, 1 in reverted inner call</span>
                     <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-                    <span class="c1"># 2 selfdestructs: 1 in outer call, 1 in reverted inner call # noqa SC100</span>
+                    <span class="c1"># 2 selfdestructs:</span>
+                    <span class="c1">#   1 in outer call, 1 in reverted inner call</span>
                     <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
                 <span class="p">}</span>
             <span class="p">),</span>

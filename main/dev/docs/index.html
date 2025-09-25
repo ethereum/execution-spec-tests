@@ -27669,27 +27669,26 @@
     <div class="doc doc-contents first">
 
         <p>A pytest plugin that generates test case documentation for use in mkdocs.</p>
-<p>It generates the top-level "Test Case Reference" section in EEST's mkdocs
-site.</p>
+<p>It generates the top-level "Test Case Reference" section in EEST's mkdocs site.</p>
 <h3 id="src.pytest_plugins.filler.gen_test_doc.gen_test_doc--note">Note:<a class="headerlink" href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--note" title="Permanent link">&para;</a></h3>
 <ul>
-<li>No output directory is specified for the generated output; file IO occurs
-    via the <code>mkdocs-gen-files</code> plugin. <code>mkdocs serve</code> writes intermediate files
-    to our local <code>docs/</code> directory and then copies it to the site directory.
-    We modify <code>docs/navigation.md</code> and write all other output underneath
-    <code>docs/tests</code>. If mkdocs is interrupted, these intermediate artifacts are
-    left in <code>docs/</code>.</li>
+<li>No output directory is specified for the generated output; file IO
+occurs via the <code>mkdocs-gen-files</code> plugin. <code>mkdocs serve</code> writes intermediate
+files to our local <code>docs/</code> directory and then copies it to the site directory.
+We modify <code>docs/navigation.md</code> and write all other output underneath
+<code>docs/tests</code>. If mkdocs is interrupted, these intermediate artifacts are left
+in <code>docs/</code>.</li>
 </ul>
 <h3 id="src.pytest_plugins.filler.gen_test_doc.gen_test_doc--usage">Usage:<a class="headerlink" href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--usage" title="Permanent link">&para;</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Ensuring a clean build</p>
+</div>
 <p>In case mkdocs has polluted the <code>docs/</code> directory with intermediate files, run:</p>
 <div class="highlight"><pre><span></span><code><span class="go">git restore docs/navigation.md  # Careful if you have local modifications!</span>
 <span class="go">rm -rf docs/tests docs/docs site</span>
 </code></pre></div>
-</div>
 <p>To test doc generation, run the plugin without mkdocs:</p>
-<div class="highlight"><pre><span></span><code><span class="go">uv run fill -p pytest_plugins.filler.gen_test_doc.gen_test_doc --gen-docs --fork=&lt;fork&gt; tests</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill -p pytest_plugins.filler.gen_test_doc.gen_test_doc --gen-docs     --fork=&lt;fork&gt; tests</span>
 </code></pre></div>
 <p>Or to build and view the site:</p>
 <div class="highlight"><pre><span></span><code><span class="go">uv run mkdocs serve</span>

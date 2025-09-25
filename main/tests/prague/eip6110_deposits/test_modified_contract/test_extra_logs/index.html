@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_extra_logs"><code>test_extra_logs()</code><a class="headerlink" href="#test_extra_logs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip6110_deposits/test_modified_contract.py#L56"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_extra_logs@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip6110_deposits/test_modified_contract.py#L60"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_extra_logs@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip6110_deposits/test_modified_contract.py::test_extra_logs --fork Osaka</span>
@@ -27325,16 +27325,13 @@
 <a id="tests.prague.eip6110_deposits.test_modified_contract.test_extra_logs"></a>
     <div class="doc doc-contents first">
 
-        <p>Test deposit contract emitting more log event types than the ones in mainnet.</p>
+        <p>Test deposit contract emitting more log event types than the ones in
+mainnet.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip6110_deposits/test_modified_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 60</span>
 <span class="normal"> 61</span>
 <span class="normal"> 62</span>
 <span class="normal"> 63</span>
@@ -27426,7 +27423,18 @@
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
-<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;include_deposit_event&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27450,36 +27458,43 @@
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">include_deposit_event</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test deposit contract emitting more log event types than the ones in mainnet.&quot;&quot;&quot;</span>
-    <span class="c1"># Supplant mainnet contract with a variant that emits a `Transfer`` log</span>
-    <span class="c1"># If `include_deposit_event` is `True``, it will also emit a `DepositEvent` log`</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test deposit contract emitting more log event types than the ones in</span>
+<span class="sd">    mainnet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Supplant mainnet contract with a variant that emits a `Transfer`` log If</span>
+    <span class="c1"># `include_deposit_event` is `True``, it will also emit a `DepositEvent`</span>
+    <span class="c1"># log`</span>
 
     <span class="c1"># ERC20 token transfer log (Sepolia)</span>
-    <span class="c1"># https://sepolia.etherscan.io/tx/0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f</span>
-    <span class="c1"># JSON RPC:</span>
-    <span class="c1"># curl https://sepolia.infura.io/v3/APIKEY \</span>
-    <span class="c1"># -X POST \</span>
-    <span class="c1"># -H &quot;Content-Type: application/json&quot; \</span>
-    <span class="c1"># -d &#39;{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;eth_getLogs&quot;,</span>
-    <span class="c1"># &quot;params&quot;: [{&quot;address&quot;: &quot;0x7f02C3E3c98b133055B8B348B2Ac625669Ed295D&quot;,</span>
-    <span class="c1"># &quot;blockHash&quot;: &quot;0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53&quot;}],</span>
+    <span class="c1"># https://sepolia.etherscan.io/tx/</span>
+    <span class="c1">#   0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f</span>
+    <span class="c1"># JSON RPC: curl https://sepolia.infura.io/v3/APIKEY \ -X POST \ -H</span>
+    <span class="c1"># &quot;Content-Type: application/json&quot; \ -d &#39;{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;:</span>
+    <span class="c1"># &quot;eth_getLogs&quot;, &quot;params&quot;: [{&quot;address&quot;:</span>
+    <span class="c1"># &quot;0x7f02C3E3c98b133055B8B348B2Ac625669Ed295D&quot;, &quot;blockHash&quot;:</span>
+    <span class="c1"># &quot;0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53&quot;}],</span>
     <span class="c1"># &quot;id&quot;: 1}&#39;</span>
 
     <span class="c1"># {&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;result&quot;:</span>
     <span class="c1"># [{&quot;removed&quot;:false,&quot;logIndex&quot;:&quot;0x80&quot;,&quot;transactionIndex&quot;:&quot;0x56&quot;,</span>
-    <span class="c1"># &quot;transactionHash&quot;:&quot;0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f&quot;,</span>
-    <span class="c1"># &quot;blockHash&quot;:&quot;0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53&quot;,</span>
+    <span class="c1"># &quot;transactionHash&quot;:</span>
+    <span class="c1">#   &quot;0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f&quot;,</span>
+    <span class="c1"># &quot;blockHash&quot;:</span>
+    <span class="c1">#   &quot;0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53&quot;,</span>
     <span class="c1"># &quot;blockNumber&quot;:&quot;0x794fb5&quot;,</span>
     <span class="c1"># &quot;address&quot;:&quot;0x7f02c3e3c98b133055b8b348b2ac625669ed295d&quot;,</span>
-    <span class="c1"># &quot;data&quot;:&quot;0x0000000000000000000000000000000000000000000000000000000000000001&quot;,</span>
-    <span class="c1"># &quot;topics&quot;:[&quot;0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&quot;,</span>
+    <span class="c1"># &quot;data&quot;:</span>
+    <span class="c1">#   &quot;0x0000000000000000000000000000000000000000000000000000000000000001&quot;,</span>
+    <span class="c1"># &quot;topics&quot;:</span>
+    <span class="c1">#   [&quot;0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&quot;,</span>
     <span class="c1"># &quot;0x0000000000000000000000006885e36bfcb68cb383dfe90023a462c03bcb2ae5&quot;,</span>
     <span class="c1"># &quot;0x00000000000000000000000080b5dc88c98e528bf9cb4b7f0f076ac41da24651&quot;]</span>
 
     <span class="n">bytecode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">LOG3</span><span class="p">(</span>
-        <span class="c1"># ERC-20 token transfer log</span>
-        <span class="c1"># ERC-20 token transfers are LOG3, since the topic, the sender, and receiver</span>
-        <span class="c1"># are all topics (the sender and receiver are `indexed` in the solidity event)</span>
+        <span class="c1"># ERC-20 token transfer log ERC-20 token transfers are LOG3, since the</span>
+        <span class="c1"># topic, the sender, and receiver are all topics (the sender and</span>
+        <span class="c1"># receiver are `indexed` in the solidity event)</span>
         <span class="mi">0</span><span class="p">,</span>
         <span class="mi">32</span><span class="p">,</span>
         <span class="mh">0xDDF252AD1BE2C89B69C2B068FC378DAA952BA7F163C4A11628F55A4DF523B3EF</span><span class="p">,</span>

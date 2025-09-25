@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_many_delegations"><code>test_many_delegations()</code><a class="headerlink" href="#test_many_delegations" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3507"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3554"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations --fork Osaka</span>
@@ -27325,63 +27325,18 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_many_delegations"></a>
     <div class="doc doc-contents first">
 
-        <p>Perform as many delegations as possible in a transaction using the entire block gas limit.</p>
+        <p>Perform as many delegations as possible in a transaction using the entire
+block gas limit.</p>
 <p>Every delegation comes from a different signer.</p>
-<p>The account of can be empty or not depending on the <code>signer_balance</code> parameter.</p>
-<p>The transaction is expected to succeed and the state after the transaction is expected to have
-the code of the entry contract set to 1.</p>
+<p>The account of can be empty or not depending on the <code>signer_balance</code>
+parameter.</p>
+<p>The transaction is expected to succeed and the state after the transaction
+is expected to have the code of the entry contract set to 1.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3507</span>
-<span class="normal">3508</span>
-<span class="normal">3509</span>
-<span class="normal">3510</span>
-<span class="normal">3511</span>
-<span class="normal">3512</span>
-<span class="normal">3513</span>
-<span class="normal">3514</span>
-<span class="normal">3515</span>
-<span class="normal">3516</span>
-<span class="normal">3517</span>
-<span class="normal">3518</span>
-<span class="normal">3519</span>
-<span class="normal">3520</span>
-<span class="normal">3521</span>
-<span class="normal">3522</span>
-<span class="normal">3523</span>
-<span class="normal">3524</span>
-<span class="normal">3525</span>
-<span class="normal">3526</span>
-<span class="normal">3527</span>
-<span class="normal">3528</span>
-<span class="normal">3529</span>
-<span class="normal">3530</span>
-<span class="normal">3531</span>
-<span class="normal">3532</span>
-<span class="normal">3533</span>
-<span class="normal">3534</span>
-<span class="normal">3535</span>
-<span class="normal">3536</span>
-<span class="normal">3537</span>
-<span class="normal">3538</span>
-<span class="normal">3539</span>
-<span class="normal">3540</span>
-<span class="normal">3541</span>
-<span class="normal">3542</span>
-<span class="normal">3543</span>
-<span class="normal">3544</span>
-<span class="normal">3545</span>
-<span class="normal">3546</span>
-<span class="normal">3547</span>
-<span class="normal">3548</span>
-<span class="normal">3549</span>
-<span class="normal">3550</span>
-<span class="normal">3551</span>
-<span class="normal">3552</span>
-<span class="normal">3553</span>
-<span class="normal">3554</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3554</span>
 <span class="normal">3555</span>
 <span class="normal">3556</span>
 <span class="normal">3557</span>
@@ -27408,7 +27363,56 @@ the code of the entry contract set to 1.</p>
 <span class="normal">3578</span>
 <span class="normal">3579</span>
 <span class="normal">3580</span>
-<span class="normal">3581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3581</span>
+<span class="normal">3582</span>
+<span class="normal">3583</span>
+<span class="normal">3584</span>
+<span class="normal">3585</span>
+<span class="normal">3586</span>
+<span class="normal">3587</span>
+<span class="normal">3588</span>
+<span class="normal">3589</span>
+<span class="normal">3590</span>
+<span class="normal">3591</span>
+<span class="normal">3592</span>
+<span class="normal">3593</span>
+<span class="normal">3594</span>
+<span class="normal">3595</span>
+<span class="normal">3596</span>
+<span class="normal">3597</span>
+<span class="normal">3598</span>
+<span class="normal">3599</span>
+<span class="normal">3600</span>
+<span class="normal">3601</span>
+<span class="normal">3602</span>
+<span class="normal">3603</span>
+<span class="normal">3604</span>
+<span class="normal">3605</span>
+<span class="normal">3606</span>
+<span class="normal">3607</span>
+<span class="normal">3608</span>
+<span class="normal">3609</span>
+<span class="normal">3610</span>
+<span class="normal">3611</span>
+<span class="normal">3612</span>
+<span class="normal">3613</span>
+<span class="normal">3614</span>
+<span class="normal">3615</span>
+<span class="normal">3616</span>
+<span class="normal">3617</span>
+<span class="normal">3618</span>
+<span class="normal">3619</span>
+<span class="normal">3620</span>
+<span class="normal">3621</span>
+<span class="normal">3622</span>
+<span class="normal">3623</span>
+<span class="normal">3624</span>
+<span class="normal">3625</span>
+<span class="normal">3626</span>
+<span class="normal">3627</span>
+<span class="normal">3628</span>
+<span class="normal">3629</span>
+<span class="normal">3630</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;signer_balance&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;empty_balance&quot;</span><span class="p">),</span>
@@ -27426,14 +27430,16 @@ the code of the entry contract set to 1.</p>
     <span class="n">signer_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Perform as many delegations as possible in a transaction using the entire block gas limit.</span>
+<span class="sd">    Perform as many delegations as possible in a transaction using the entire</span>
+<span class="sd">    block gas limit.</span>
 
 <span class="sd">    Every delegation comes from a different signer.</span>
 
-<span class="sd">    The account of can be empty or not depending on the `signer_balance` parameter.</span>
+<span class="sd">    The account of can be empty or not depending on the `signer_balance`</span>
+<span class="sd">    parameter.</span>
 
-<span class="sd">    The transaction is expected to succeed and the state after the transaction is expected to have</span>
-<span class="sd">    the code of the entry contract set to 1.</span>
+<span class="sd">    The transaction is expected to succeed and the state after the transaction</span>
+<span class="sd">    is expected to have the code of the entry contract set to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">tx_gas_limit_cap</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_gas_limit_cap</span><span class="p">()</span>

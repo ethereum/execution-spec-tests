@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid"><code>test_invalid()</code><a class="headerlink" href="#test_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L83"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L92"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid --fork Osaka</span>
@@ -27330,16 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
 <span class="normal"> 95</span>
@@ -27623,7 +27614,41 @@
 <span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
-<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_length_input&quot;</span><span class="p">),</span>
@@ -27712,11 +27737,14 @@
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;near_field_boundary_p_minus_3&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="c1"># Invalid curve attack: This point satisfies y² = x³ - 3x + 1 (mod p)</span>
-            <span class="c1"># instead of the correct P-256 equation y² = x³ - 3x + b where</span>
-            <span class="c1"># b = 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B</span>
-            <span class="c1"># This tests that the implementation properly validates the curve equation</span>
-            <span class="c1"># and rejects points on different curves (CVE-2020-0601 class vulnerability)</span>
+            <span class="c1"># Invalid curve attack: This point satisfies y² = x³ - 3x + 1 (mod</span>
+            <span class="c1"># p) instead of the correct P-256 equation y² = x³ - 3x + b where</span>
+            <span class="c1"># b = 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53...</span>
+            <span class="c1"># ...B0F63BCE3C3E27D2604B</span>
+            <span class="c1">#</span>
+            <span class="c1"># This tests that the implementation properly validates the curve</span>
+            <span class="c1"># equation and rejects points on different curves (CVE-2020-0601</span>
+            <span class="c1"># class vulnerability)</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span>
@@ -27726,9 +27754,12 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: Singular curve with b = 0</span>
-            <span class="c1"># Point satisfies y² = x³ - 3x (mod p) - a singular/degenerate curve</span>
-            <span class="c1"># Singular curves have discriminant = 0 and provide no security guarantees</span>
-            <span class="c1"># This tests rejection of points on curves with catastrophic security failures</span>
+            <span class="c1"># Point satisfies y² = x³ - 3x (mod p) - a singular/degenerate</span>
+            <span class="c1">#                                        curve</span>
+            <span class="c1"># Singular curves have discriminant = 0 and provide no security</span>
+            <span class="c1"># guarantees.</span>
+            <span class="c1"># This tests rejection of points on curves with catastrophic</span>
+            <span class="c1"># security failures</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span>
@@ -27739,8 +27770,11 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: Boundary value b = p-1</span>
             <span class="c1"># Point satisfies y² = x³ - 3x + (p-1) (mod p)</span>
-            <span class="c1"># Tests proper parameter validation at modular arithmetic boundaries</span>
-            <span class="c1"># Ensures implementations handle field arithmetic edge cases correctly</span>
+            <span class="c1">#</span>
+            <span class="c1"># Tests proper parameter validation at</span>
+            <span class="c1"># modular arithmetic boundaries.</span>
+            <span class="c1"># Ensures implementations handle field arithmetic edge cases</span>
+            <span class="c1"># correctly.</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span>
             <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span>
@@ -27751,8 +27785,11 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: Small discriminant curve with b = 2</span>
             <span class="c1"># Point satisfies y² = x³ - 3x + 2 (mod p)</span>
-            <span class="c1"># Curves with small discriminants are vulnerable to specialized attacks</span>
-            <span class="c1"># Tests rejection of cryptographically weak curve parameters</span>
+            <span class="c1">#</span>
+            <span class="c1"># Curves with small discriminants are vulnerable to specialized</span>
+            <span class="c1"># attacks.</span>
+            <span class="c1">#</span>
+            <span class="c1"># Tests rejection of cryptographically weak curve parameters.</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0x0</span><span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_curve_attack_small_discriminant&quot;</span><span class="p">,</span>
         <span class="p">),</span>
@@ -27771,7 +27808,8 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: Composite order curve with b = -Spec.B</span>
             <span class="c1"># Random point which satisfies y² = x³ - 3x - Spec.B (mod p)</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0xC223E1538C4D7B5BBD3EF932736826FD64F4E8B5C80250D9E07A728689D13C38</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x0C7CB59EF6BE7539397CC979AD9A87A3B73A0DD268BBA4990A3378C6391512D5</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xF8C943685BCFE7864C0F8485CACD732D3A9F167531CAF26B67A3CB10B641F92C</span><span class="p">)</span>
@@ -27782,7 +27820,8 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: Composite order curve with b = -Spec.B</span>
             <span class="c1"># Random point which satisfies y² = x³ - 3x - Spec.B (mod p)</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0x982D25BF8E0E81FF41AC3C8033604C78ED5EF17C6EDDA977072EAB6821A7AD0A</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x7C1996FA0EC911E4739AE7340B5345823272F494DFA32034A4FE5642C3DB91F2</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x1E4D6CCF1AFB675D18BD27274770C8B84028D272D1D2641E70B30E1DF17AF3DC</span><span class="p">)</span>
@@ -27792,7 +27831,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0xD21697149F598FEAE9A750DCA86AE6D5EFA654680BA748D2DF7053115101C129</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xEF3FD943AD1F126B3EBA1A5900D79886755DB6DAFCB6B0117D86364340CE36CC</span><span class="p">)</span>
@@ -27802,7 +27842,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x52E47C5D6AAB66AB6A18A694359EB86FDD40F10E79EF5493C5469EC88BA03334</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x7584C5BF3CA2869C7E383B1603A935EEB79D990B7F7152E055EC562E87FD715E</span><span class="p">)</span>
@@ -27812,7 +27853,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x81333B13B13F362253BD536D17563A72EB575F1993F55ED40E633E503F60B864</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xE2208C4045F5241ECCF08F825399224C4B78595A10433EC33799DCAD7B0E1F4A</span><span class="p">)</span>
@@ -27822,7 +27864,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x3C593B5857D1D0EB83923D73E76A7A53EF191BB210267D8C0BE17A4E34AB2E73</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xD022359310067882F713AFBECECE71CB80E4857368F46AB0346362DB033ED298</span><span class="p">)</span>
@@ -27832,7 +27875,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x425CFFCA652791CABFC81B1E4B7712DBA196599FABCE16978E06E6AF486B1FEC</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x58B864B5A41CD17524E4773EC353C9590D792F601DA075AD9B3F40E8E7070E8A</span><span class="p">)</span>
@@ -27842,7 +27886,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0x2DA0A74BE3122AEAEF5704D0EB27881FBFB918B4A5252B660935263D0569BA92</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x5543729CBCFD99EE6C3B422D7F245903E7177B3A6A4E3C20C0DC5F5E109795AE</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x96403D5BB253EBD7DEF44BCBC062FCD4EA5E358B19B67C13E625EFDF6B977597</span><span class="p">)</span>
@@ -27852,7 +27897,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0x1F9D9B26DB42380C85F075174DDAF158F9DE4CD10C3104190D7AF96938DD8ECD</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x159946DBC4F1DE68CD4096862A5B10E5986ACB32229D6E68884DC83DAB70A307</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x63D80724A4074421F7DD255630794E3AEBE635B756D72B24652AAC07D01B289C</span><span class="p">)</span>
@@ -27862,7 +27908,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0xD380DA9251F1FB809ED48C70DC8F81E91C471F0E81BC95E7611C653278A5B6B4</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0xFF197EB72A9E531B17B872525247E6564B786CC014ED28B6849CE7D8C976BDF2</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x7B0B2EFF9BB5409052B35FD3FF81DCE77D95A1F75C46989817045120DA5C3C9C</span><span class="p">)</span>
@@ -27872,7 +27919,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0x4B082B60497ED87FFE570612D521E73A2CD6C832744EF8E4E2E329E30D3D5879</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x6665A88CB3FF30D339A1975FD46CF5EF480A68A093AB778550073D3528C3B609</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xAEAADDB235E4AC6097356DB96161E27849EA8EDF1E971F74EB51E19A1CC950A1</span><span class="p">)</span>
@@ -27882,7 +27930,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0x6CC2B605CFBDB22B9E7B55EFE8C1DA0F1C5A0EC1AA8D82EEDFB5EA70E9846E88</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x3C593B5857D1D0EB83923D73E76A7A53EF191BB210267D8C0BE17A4E34AB2E73</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xD022359310067882F713AFBECECE71CB80E4857368F46AB0346362DB033ED298</span><span class="p">)</span>
@@ -27892,7 +27941,8 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Invalid curve attack: random point bytes.</span>
-            <span class="c1"># Without the curve check in the implementation, the signature checks out.</span>
+            <span class="c1"># Without the curve check in the implementation,</span>
+            <span class="c1"># the signature checks out.</span>
             <span class="n">H</span><span class="p">(</span><span class="mh">0x810C1D53EA96A700C93F6AF1C183197B040EA6FEAE10564877A1C78EC6074FF1</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x34D0F0C8E14D39002B5DEA00808957963E849503DDFD626323433047D696C7C4</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x6A7FE39C046304317F799FB900877073F2AE3C798DD4414795551A833ABCBA85</span><span class="p">)</span>

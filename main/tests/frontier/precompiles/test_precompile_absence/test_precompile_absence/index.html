@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_precompile_absence"><code>test_precompile_absence()</code><a class="headerlink" href="#test_precompile_absence" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/frontier/precompiles/test_precompile_absence.py#L21"><code>tests/frontier/precompiles/test_precompile_absence.py::test_precompile_absence@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/frontier/precompiles/test_precompile_absence.py#L21"><code>tests/frontier/precompiles/test_precompile_absence.py::test_precompile_absence@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/precompiles/test_precompile_absence.py::test_precompile_absence --fork Osaka</span>
@@ -27325,7 +27325,8 @@
 <a id="tests.frontier.precompiles.test_precompile_absence.test_precompile_absence"></a>
     <div class="doc doc-contents first">
 
-        <p>Test that addresses close to zero are not precompiles unless active in the fork.</p>
+        <p>Test that addresses close to zero are not precompiles unless active in the
+fork.</p>
 
 
             <details class="quote">
@@ -27383,7 +27384,10 @@
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;calldata_size&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;empty_calldata&quot;</span><span class="p">),</span>
@@ -27398,7 +27402,10 @@
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">calldata_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that addresses close to zero are not precompiles unless active in the fork.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test that addresses close to zero are not precompiles unless active in the</span>
+<span class="sd">    fork.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">active_precompiles</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">precompiles</span><span class="p">()</span>
     <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
     <span class="n">call_code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>

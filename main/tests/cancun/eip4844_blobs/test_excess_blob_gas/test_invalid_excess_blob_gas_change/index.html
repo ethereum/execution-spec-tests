@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_excess_blob_gas_change"><code>test_invalid_excess_blob_gas_change()</code><a class="headerlink" href="#test_invalid_excess_blob_gas_change" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L684"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_change@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L695"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_change@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_change --fork Osaka</span>
@@ -27327,25 +27327,14 @@
 
         <p>Test rejection of blocks where the <code>excessBlobGas</code> changes to an invalid
 value.</p>
-<p>Given a parent block containing <code>[0, MAX_BLOBS_PER_BLOCK]</code> blobs, test an invalid
-<code>excessBlobGas</code> value by changing it by <code>[-TARGET_BLOBS_PER_BLOCK, TARGET_BLOBS_PER_BLOCK]</code>
-from the correct value.</p>
+<p>Given a parent block containing <code>[0, MAX_BLOBS_PER_BLOCK]</code> blobs, test an
+invalid <code>excessBlobGas</code> value by changing it by <code>[-TARGET_BLOBS_PER_BLOCK,
+TARGET_BLOBS_PER_BLOCK]</code> from the correct value.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
 <span class="normal">698</span>
@@ -27382,7 +27371,18 @@ from the correct value.</p>
 <span class="normal">729</span>
 <span class="normal">730</span>
 <span class="normal">731</span>
-<span class="normal">732</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span>
+<span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;parent_blobs,header_excess_blobs_delta&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span>
         <span class="c1"># parent_blobs</span>
@@ -27409,9 +27409,9 @@ from the correct value.</p>
 <span class="sd">    Test rejection of blocks where the `excessBlobGas` changes to an invalid</span>
 <span class="sd">    value.</span>
 
-<span class="sd">    Given a parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs, test an invalid</span>
-<span class="sd">    `excessBlobGas` value by changing it by `[-TARGET_BLOBS_PER_BLOCK, TARGET_BLOBS_PER_BLOCK]`</span>
-<span class="sd">    from the correct value.</span>
+<span class="sd">    Given a parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs, test an</span>
+<span class="sd">    invalid `excessBlobGas` value by changing it by `[-TARGET_BLOBS_PER_BLOCK,</span>
+<span class="sd">    TARGET_BLOBS_PER_BLOCK]` from the correct value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">header_excess_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;test case is badly formatted&quot;</span><span class="p">)</span>

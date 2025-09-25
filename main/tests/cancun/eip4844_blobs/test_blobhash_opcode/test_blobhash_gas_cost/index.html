@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blobhash_gas_cost"><code>test_blobhash_gas_cost()</code><a class="headerlink" href="#test_blobhash_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L149"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L147"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost --fork Osaka</span>
@@ -27326,14 +27326,16 @@
     <div class="doc doc-contents first">
 
         <p>Tests <code>BLOBHASH</code> opcode gas cost using a variety of indexes.</p>
-<p>Asserts that the gas consumption of the <code>BLOBHASH</code> opcode is correct by ensuring
-it matches <code>HASH_OPCODE_GAS = 3</code>. Includes both valid and invalid random
-index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
+<p>Asserts that the gas consumption of the <code>BLOBHASH</code> opcode is correct by
+ensuring it matches <code>HASH_OPCODE_GAS = 3</code>. Includes both valid and invalid
+random index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
@@ -27385,9 +27387,7 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;blobhash_index&quot;</span><span class="p">,</span> <span class="n">blobhash_index_values</span><span class="p">)</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;blobhash_index&quot;</span><span class="p">,</span> <span class="n">blobhash_index_values</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_blobhash_gas_cost</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27399,9 +27399,9 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests `BLOBHASH` opcode gas cost using a variety of indexes.</span>
 
-<span class="sd">    Asserts that the gas consumption of the `BLOBHASH` opcode is correct by ensuring</span>
-<span class="sd">    it matches `HASH_OPCODE_GAS = 3`. Includes both valid and invalid random</span>
-<span class="sd">    index sizes from the range `[0, 2**256-1]`, for tx types 2 and 3.</span>
+<span class="sd">    Asserts that the gas consumption of the `BLOBHASH` opcode is correct by</span>
+<span class="sd">    ensuring it matches `HASH_OPCODE_GAS = 3`. Includes both valid and invalid</span>
+<span class="sd">    random index sizes from the range `[0, 2**256-1]`, for tx types 2 and 3.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gas_measure_code</span> <span class="o">=</span> <span class="n">CodeGasMeasure</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">BLOBHASH</span><span class="p">(</span><span class="n">blobhash_index</span><span class="p">),</span>

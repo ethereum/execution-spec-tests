@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_set_code_to_precompile"><code>test_set_code_to_precompile()</code><a class="headerlink" href="#test_set_code_to_precompile" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2597"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2630"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile --fork Osaka</span>
@@ -27325,46 +27325,13 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_set_code_to_precompile"></a>
     <div class="doc doc-contents first">
 
-        <p>Test setting the code of an account to a pre-compile address and executing all call
-opcodes.</p>
+        <p>Test setting the code of an account to a pre-compile address and executing
+all call opcodes.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2597</span>
-<span class="normal">2598</span>
-<span class="normal">2599</span>
-<span class="normal">2600</span>
-<span class="normal">2601</span>
-<span class="normal">2602</span>
-<span class="normal">2603</span>
-<span class="normal">2604</span>
-<span class="normal">2605</span>
-<span class="normal">2606</span>
-<span class="normal">2607</span>
-<span class="normal">2608</span>
-<span class="normal">2609</span>
-<span class="normal">2610</span>
-<span class="normal">2611</span>
-<span class="normal">2612</span>
-<span class="normal">2613</span>
-<span class="normal">2614</span>
-<span class="normal">2615</span>
-<span class="normal">2616</span>
-<span class="normal">2617</span>
-<span class="normal">2618</span>
-<span class="normal">2619</span>
-<span class="normal">2620</span>
-<span class="normal">2621</span>
-<span class="normal">2622</span>
-<span class="normal">2623</span>
-<span class="normal">2624</span>
-<span class="normal">2625</span>
-<span class="normal">2626</span>
-<span class="normal">2627</span>
-<span class="normal">2628</span>
-<span class="normal">2629</span>
-<span class="normal">2630</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2630</span>
 <span class="normal">2631</span>
 <span class="normal">2632</span>
 <span class="normal">2633</span>
@@ -27389,7 +27356,40 @@ opcodes.</p>
 <span class="normal">2652</span>
 <span class="normal">2653</span>
 <span class="normal">2654</span>
-<span class="normal">2655</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span>
+<span class="normal">2655</span>
+<span class="normal">2656</span>
+<span class="normal">2657</span>
+<span class="normal">2658</span>
+<span class="normal">2659</span>
+<span class="normal">2660</span>
+<span class="normal">2661</span>
+<span class="normal">2662</span>
+<span class="normal">2663</span>
+<span class="normal">2664</span>
+<span class="normal">2665</span>
+<span class="normal">2666</span>
+<span class="normal">2667</span>
+<span class="normal">2668</span>
+<span class="normal">2669</span>
+<span class="normal">2670</span>
+<span class="normal">2671</span>
+<span class="normal">2672</span>
+<span class="normal">2673</span>
+<span class="normal">2674</span>
+<span class="normal">2675</span>
+<span class="normal">2676</span>
+<span class="normal">2677</span>
+<span class="normal">2678</span>
+<span class="normal">2679</span>
+<span class="normal">2680</span>
+<span class="normal">2681</span>
+<span class="normal">2682</span>
+<span class="normal">2683</span>
+<span class="normal">2684</span>
+<span class="normal">2685</span>
+<span class="normal">2686</span>
+<span class="normal">2687</span>
+<span class="normal">2688</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_precompiles</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">CallContexts</span><span class="o">.</span><span class="n">SetCode</span><span class="p">(</span><span class="n">eip</span><span class="o">=</span><span class="p">[</span><span class="mi">7951</span><span class="p">,</span> <span class="mi">7883</span><span class="p">,</span> <span class="mi">7823</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_set_code_to_precompile</span><span class="p">(</span>
@@ -27399,8 +27399,8 @@ opcodes.</p>
     <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test setting the code of an account to a pre-compile address and executing all call</span>
-<span class="sd">    opcodes.</span>
+<span class="sd">    Test setting the code of an account to a pre-compile address and executing</span>
+<span class="sd">    all call opcodes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_account_start_balance</span><span class="p">)</span>
 

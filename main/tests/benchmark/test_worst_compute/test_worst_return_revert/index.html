@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_return_revert"><code>test_worst_return_revert()</code><a class="headerlink" href="#test_worst_return_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L2891"><code>tests/benchmark/test_worst_compute.py::test_worst_return_revert@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L3003"><code>tests/benchmark/test_worst_compute.py::test_worst_return_revert@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_return_revert -m benchmark</span>
@@ -27328,65 +27328,66 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2891</span>
-<span class="normal">2892</span>
-<span class="normal">2893</span>
-<span class="normal">2894</span>
-<span class="normal">2895</span>
-<span class="normal">2896</span>
-<span class="normal">2897</span>
-<span class="normal">2898</span>
-<span class="normal">2899</span>
-<span class="normal">2900</span>
-<span class="normal">2901</span>
-<span class="normal">2902</span>
-<span class="normal">2903</span>
-<span class="normal">2904</span>
-<span class="normal">2905</span>
-<span class="normal">2906</span>
-<span class="normal">2907</span>
-<span class="normal">2908</span>
-<span class="normal">2909</span>
-<span class="normal">2910</span>
-<span class="normal">2911</span>
-<span class="normal">2912</span>
-<span class="normal">2913</span>
-<span class="normal">2914</span>
-<span class="normal">2915</span>
-<span class="normal">2916</span>
-<span class="normal">2917</span>
-<span class="normal">2918</span>
-<span class="normal">2919</span>
-<span class="normal">2920</span>
-<span class="normal">2921</span>
-<span class="normal">2922</span>
-<span class="normal">2923</span>
-<span class="normal">2924</span>
-<span class="normal">2925</span>
-<span class="normal">2926</span>
-<span class="normal">2927</span>
-<span class="normal">2928</span>
-<span class="normal">2929</span>
-<span class="normal">2930</span>
-<span class="normal">2931</span>
-<span class="normal">2932</span>
-<span class="normal">2933</span>
-<span class="normal">2934</span>
-<span class="normal">2935</span>
-<span class="normal">2936</span>
-<span class="normal">2937</span>
-<span class="normal">2938</span>
-<span class="normal">2939</span>
-<span class="normal">2940</span>
-<span class="normal">2941</span>
-<span class="normal">2942</span>
-<span class="normal">2943</span>
-<span class="normal">2944</span>
-<span class="normal">2945</span>
-<span class="normal">2946</span>
-<span class="normal">2947</span>
-<span class="normal">2948</span>
-<span class="normal">2949</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3003</span>
+<span class="normal">3004</span>
+<span class="normal">3005</span>
+<span class="normal">3006</span>
+<span class="normal">3007</span>
+<span class="normal">3008</span>
+<span class="normal">3009</span>
+<span class="normal">3010</span>
+<span class="normal">3011</span>
+<span class="normal">3012</span>
+<span class="normal">3013</span>
+<span class="normal">3014</span>
+<span class="normal">3015</span>
+<span class="normal">3016</span>
+<span class="normal">3017</span>
+<span class="normal">3018</span>
+<span class="normal">3019</span>
+<span class="normal">3020</span>
+<span class="normal">3021</span>
+<span class="normal">3022</span>
+<span class="normal">3023</span>
+<span class="normal">3024</span>
+<span class="normal">3025</span>
+<span class="normal">3026</span>
+<span class="normal">3027</span>
+<span class="normal">3028</span>
+<span class="normal">3029</span>
+<span class="normal">3030</span>
+<span class="normal">3031</span>
+<span class="normal">3032</span>
+<span class="normal">3033</span>
+<span class="normal">3034</span>
+<span class="normal">3035</span>
+<span class="normal">3036</span>
+<span class="normal">3037</span>
+<span class="normal">3038</span>
+<span class="normal">3039</span>
+<span class="normal">3040</span>
+<span class="normal">3041</span>
+<span class="normal">3042</span>
+<span class="normal">3043</span>
+<span class="normal">3044</span>
+<span class="normal">3045</span>
+<span class="normal">3046</span>
+<span class="normal">3047</span>
+<span class="normal">3048</span>
+<span class="normal">3049</span>
+<span class="normal">3050</span>
+<span class="normal">3051</span>
+<span class="normal">3052</span>
+<span class="normal">3053</span>
+<span class="normal">3054</span>
+<span class="normal">3055</span>
+<span class="normal">3056</span>
+<span class="normal">3057</span>
+<span class="normal">3058</span>
+<span class="normal">3059</span>
+<span class="normal">3060</span>
+<span class="normal">3061</span>
+<span class="normal">3062</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">],</span>
 <span class="p">)</span>
@@ -27419,8 +27420,9 @@
     <span class="c1"># opcode(returned_size)</span>
     <span class="c1"># &lt;Fill with INVALID opcodes up to the max contract size&gt;</span>
     <span class="c1"># ```</span>
-    <span class="c1"># Filling the contract up to the max size is a cheap way of leveraging CODECOPY to return</span>
-    <span class="c1"># non-zero bytes if requested. Note that since this is a pre-deploy this cost isn&#39;t</span>
+    <span class="c1"># Filling the contract up to the max size is a cheap way of leveraging</span>
+    <span class="c1"># CODECOPY to return non-zero bytes if requested. Note that since this</span>
+    <span class="c1"># is a pre-deploy this cost isn&#39;t</span>
     <span class="c1"># relevant for the benchmark.</span>
     <span class="n">mem_preparation</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CODECOPY</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">return_size</span><span class="p">)</span> <span class="k">if</span> <span class="n">return_non_zero_data</span> <span class="k">else</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="n">executable_code</span> <span class="o">=</span> <span class="n">mem_preparation</span> <span class="o">+</span> <span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">return_size</span><span class="p">)</span>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_reentrant_selfdestructing_call"><code>test_reentrant_selfdestructing_call()</code><a class="headerlink" href="#test_reentrant_selfdestructing_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py#L219"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py#L223"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call --fork Osaka</span>
@@ -27325,16 +27325,13 @@
 <a id="tests.cancun.eip1153_tstore.test_tstorage_selfdestruct.test_reentrant_selfdestructing_call"></a>
     <div class="doc doc-contents first">
 
-        <p>Test transient storage in different reentrancy contexts after selfdestructing.</p>
+        <p>Test transient storage in different reentrancy contexts after
+selfdestructing.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
@@ -27368,7 +27365,14 @@
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
-<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@SelfDestructCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@SelfDestructCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_reentrant_selfdestructing_call</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27377,7 +27381,10 @@
     <span class="n">callee_bytecode</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
     <span class="n">expected_storage</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test transient storage in different reentrancy contexts after selfdestructing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test transient storage in different reentrancy contexts after</span>
+<span class="sd">    selfdestructing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">caller_bytecode</span><span class="p">)</span>

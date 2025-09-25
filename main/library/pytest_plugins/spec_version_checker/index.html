@@ -27612,8 +27612,8 @@ modules matches that of <a class="magiclink magiclink-github magiclink-repositor
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If the module path contains "eip" and the module
-does not define a reference spec.</p>
+                <p>If the module path contains "eip" and the module does
+         not define a reference spec.</p>
               </div>
             </td>
           </tr>
@@ -27636,10 +27636,27 @@ does not define a reference spec.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Return None if the module path does not contain "eip",
-i.e., the module is not required to define a reference spec,
-otherwise, return the ReferenceSpec object as defined by the
-module.</p>
+                <p>Return None if the module path does not contain "eip",</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+<td></td>            <td>
+                  <code>None | <a class="autorefs autorefs-internal" title="ReferenceSpec (ethereum_test_tools.ReferenceSpec)" href="../../ethereum_test_tools/#ethereum_test_tools.ReferenceSpec">ReferenceSpec</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>i.e., the module is not required to define a reference spec, otherwise,</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+<td></td>            <td>
+                  <code>None | <a class="autorefs autorefs-internal" title="ReferenceSpec (ethereum_test_tools.ReferenceSpec)" href="../../ethereum_test_tools/#ethereum_test_tools.ReferenceSpec">ReferenceSpec</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>return the ReferenceSpec object as defined by the module.</p>
               </div>
             </td>
           </tr>
@@ -27687,26 +27704,24 @@ module.</p>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ref_spec_from_module</span><span class="p">(</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ref_spec_from_module</span><span class="p">(</span>
     <span class="n">module</span><span class="p">:</span> <span class="n">ModuleType</span><span class="p">,</span> <span class="n">github_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">ReferenceSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the reference spec object defined in a module.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        module: The module to extract reference spec from</span>
-<span class="sd">        github_token: Optional GitHub token for API authentication</span>
+<span class="sd">      module: The module to extract reference spec from</span>
+<span class="sd">      github_token: Optional GitHub token for API authentication</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        Exception: If the module path contains &quot;eip&quot; and the module</span>
-<span class="sd">            does not define a reference spec.</span>
+<span class="sd">      Exception: If the module path contains &quot;eip&quot; and the module does</span>
+<span class="sd">                 not define a reference spec.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        spec_obj: Return None if the module path does not contain &quot;eip&quot;,</span>
-<span class="sd">            i.e., the module is not required to define a reference spec,</span>
-<span class="sd">            otherwise, return the ReferenceSpec object as defined by the</span>
-<span class="sd">            module.</span>
+<span class="sd">      spec_obj: Return None if the module path does not contain &quot;eip&quot;,</span>
+<span class="sd">      i.e., the module is not required to define a reference spec, otherwise,</span>
+<span class="sd">      return the ReferenceSpec object as defined by the module.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_test_for_an_eip</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)):</span>
@@ -27755,12 +27770,12 @@ module.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
+<span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_test_for_an_eip</span><span class="p">(</span><span class="n">input_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_test_for_an_eip</span><span class="p">(</span><span class="n">input_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if `input_string` contains an EIP number, i.e., eipNNNN.&quot;&quot;&quot;</span>
     <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*eip\d{1,4}&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
@@ -27788,9 +27803,8 @@ module.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Test that the ReferenceSpec object as defined in the test module
-is not outdated when compared to the remote hash from
-ethereum/EIPs.</p>
+        <p>Test that the ReferenceSpec object as defined in the test module is not
+outdated when compared to the remote hash from ethereum/EIPs.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -27842,7 +27856,8 @@ ethereum/EIPs.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+<span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
@@ -27870,17 +27885,14 @@ ethereum/EIPs.</p>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_eip_spec_version</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">ModuleType</span><span class="p">,</span> <span class="n">github_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_eip_spec_version</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">ModuleType</span><span class="p">,</span> <span class="n">github_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that the ReferenceSpec object as defined in the test module</span>
-<span class="sd">    is not outdated when compared to the remote hash from</span>
-<span class="sd">    ethereum/EIPs.</span>
+<span class="sd">    Test that the ReferenceSpec object as defined in the test module is not</span>
+<span class="sd">    outdated when compared to the remote hash from ethereum/EIPs.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        module: Module to test</span>
-<span class="sd">        github_token: Optional GitHub token for API authentication</span>
+<span class="sd">      module: Module to test</span>
+<span class="sd">      github_token: Optional GitHub token for API authentication</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ref_spec</span> <span class="o">=</span> <span class="n">get_ref_spec_from_module</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">github_token</span><span class="o">=</span><span class="n">github_token</span><span class="p">)</span>
@@ -27940,7 +27952,9 @@ ethereum/EIPs.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
@@ -27991,9 +28005,7 @@ ethereum/EIPs.</p>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EIPSpecTestItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EIPSpecTestItem</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom pytest test item to test EIP spec versions.&quot;&quot;&quot;</span>
 
     <span class="n">module</span><span class="p">:</span> <span class="n">ModuleType</span>
@@ -28004,9 +28016,9 @@ ethereum/EIPs.</p>
 <span class="sd">        Initialize the test item.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            name: Name of the test</span>
-<span class="sd">            parent: Parent node</span>
-<span class="sd">            **kwargs: Additional keyword arguments</span>
+<span class="sd">          name: Name of the test</span>
+<span class="sd">          parent: Parent node</span>
+<span class="sd">          **kwargs: Additional keyword arguments</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
@@ -28139,7 +28151,9 @@ ethereum/EIPs.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
@@ -28149,16 +28163,14 @@ ethereum/EIPs.</p>
 <span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize the test item.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name: Name of the test</span>
-<span class="sd">        parent: Parent node</span>
-<span class="sd">        **kwargs: Additional keyword arguments</span>
+<span class="sd">      name: Name of the test</span>
+<span class="sd">      parent: Parent node</span>
+<span class="sd">      **kwargs: Additional keyword arguments</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
@@ -28243,7 +28255,9 @@ ethereum/EIPs.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
@@ -28260,9 +28274,7 @@ ethereum/EIPs.</p>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_parent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EIPSpecTestItem&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Public constructor to define new tests.</span>
@@ -28309,9 +28321,9 @@ ethereum/EIPs.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">runtest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">runtest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Define the test to execute for this item.&quot;&quot;&quot;</span>
     <span class="n">test_eip_spec_version</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">github_token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">github_token</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -28364,15 +28376,15 @@ ethereum/EIPs.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reportinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reportinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get location information for this test item to use test reports.</span>
 
@@ -28405,19 +28417,22 @@ ethereum/EIPs.</p>
 
 
 <h2 id="pytest_plugins.spec_version_checker.spec_version_checker.pytest_collection_modifyitems" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.spec_version_checker.spec_version_checker.pytest_collection_modifyitems" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
 
-        <p>Insert a new test EIPSpecTestItem for every test module with 'eip' in its path.</p>
+        <p>Insert a new test EIPSpecTestItem for every test module with 'eip' in its
+path.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/spec_version_checker/spec_version_checker.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
@@ -28430,15 +28445,11 @@ ethereum/EIPs.</p>
 <span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
-    <span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Insert a new test EIPSpecTestItem for every test module with &#39;eip&#39; in its path.&quot;&quot;&quot;</span>
-    <span class="k">del</span> <span class="n">session</span>
-
+<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Insert a new test EIPSpecTestItem for every test module with &#39;eip&#39; in its</span>
+<span class="sd">    path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">github_token</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">github_token</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;github_token&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="n">modules</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">item</span><span class="o">.</span><span class="n">parent</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">Module</span><span class="p">)}</span>

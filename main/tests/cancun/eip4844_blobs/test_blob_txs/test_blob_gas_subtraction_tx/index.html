@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blob_gas_subtraction_tx"><code>test_blob_gas_subtraction_tx()</code><a class="headerlink" href="#test_blob_gas_subtraction_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blob_txs.py#L763"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_gas_subtraction_tx@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blob_txs.py#L773"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_gas_subtraction_tx@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_gas_subtraction_tx --fork Osaka</span>
@@ -27325,30 +27325,22 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_gas_subtraction_tx"></a>
     <div class="doc doc-contents first">
 
-        <p>Check that the blob gas fee for a transaction is subtracted from the sender balance before the
-transaction is executed.</p>
+        <p>Check that the blob gas fee for a transaction is subtracted from the sender
+balance before the transaction is executed.</p>
 <ul>
 <li>Transactions with max fee equal or higher than current block base fee</li>
 <li>Transactions with and without value</li>
 <li>Transactions with and without calldata</li>
-<li>Transactions with max fee per blob gas lower or higher than the priority fee</li>
-<li>Transactions where an externally owned account sends funds to the sender mid execution</li>
+<li>Transactions with max fee per blob gas lower or higher than the priority
+    fee</li>
+<li>Transactions where an externally owned account sends funds to the sender
+    mid execution</li>
 </ul>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span>
-<span class="normal">772</span>
-<span class="normal">773</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">773</span>
 <span class="normal">774</span>
 <span class="normal">775</span>
 <span class="normal">776</span>
@@ -27411,7 +27403,19 @@ transaction is executed.</p>
 <span class="normal">833</span>
 <span class="normal">834</span>
 <span class="normal">835</span>
-<span class="normal">836</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">836</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span>
+<span class="normal">846</span>
+<span class="normal">847</span>
+<span class="normal">848</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;single_blob&quot;</span><span class="p">),</span>
@@ -27459,14 +27463,16 @@ transaction is executed.</p>
     <span class="n">total_account_transactions_fee</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check that the blob gas fee for a transaction is subtracted from the sender balance before the</span>
-<span class="sd">    transaction is executed.</span>
+<span class="sd">    Check that the blob gas fee for a transaction is subtracted from the sender</span>
+<span class="sd">    balance before the transaction is executed.</span>
 
 <span class="sd">    - Transactions with max fee equal or higher than current block base fee</span>
 <span class="sd">    - Transactions with and without value</span>
 <span class="sd">    - Transactions with and without calldata</span>
-<span class="sd">    - Transactions with max fee per blob gas lower or higher than the priority fee</span>
-<span class="sd">    - Transactions where an externally owned account sends funds to the sender mid execution</span>
+<span class="sd">    - Transactions with max fee per blob gas lower or higher than the priority</span>
+<span class="sd">        fee</span>
+<span class="sd">    - Transactions where an externally owned account sends funds to the sender</span>
+<span class="sd">        mid execution</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>

@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_binop_simple"><code>test_worst_binop_simple()</code><a class="headerlink" href="#test_worst_binop_simple" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_compute.py#L1864"><code>tests/benchmark/test_worst_compute.py::test_worst_binop_simple@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_compute.py#L1943"><code>tests/benchmark/test_worst_compute.py::test_worst_binop_simple@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_binop_simple -m benchmark</span>
@@ -27323,93 +27323,14 @@
 <a id="tests.benchmark.test_worst_compute.test_worst_binop_simple"></a>
     <div class="doc doc-contents first">
 
-        <p>Test running a block with as many binary instructions (takes two args, produces one value)
-as possible. The execution starts with two initial values on the stack, and the stack is
-balanced by the DUP2 instruction.</p>
+        <p>Test running a block with as many binary instructions (takes two args,
+produces one value) as possible. The execution starts with two initial
+values on the stack, and the stack is balanced by the DUP2 instruction.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1864</span>
-<span class="normal">1865</span>
-<span class="normal">1866</span>
-<span class="normal">1867</span>
-<span class="normal">1868</span>
-<span class="normal">1869</span>
-<span class="normal">1870</span>
-<span class="normal">1871</span>
-<span class="normal">1872</span>
-<span class="normal">1873</span>
-<span class="normal">1874</span>
-<span class="normal">1875</span>
-<span class="normal">1876</span>
-<span class="normal">1877</span>
-<span class="normal">1878</span>
-<span class="normal">1879</span>
-<span class="normal">1880</span>
-<span class="normal">1881</span>
-<span class="normal">1882</span>
-<span class="normal">1883</span>
-<span class="normal">1884</span>
-<span class="normal">1885</span>
-<span class="normal">1886</span>
-<span class="normal">1887</span>
-<span class="normal">1888</span>
-<span class="normal">1889</span>
-<span class="normal">1890</span>
-<span class="normal">1891</span>
-<span class="normal">1892</span>
-<span class="normal">1893</span>
-<span class="normal">1894</span>
-<span class="normal">1895</span>
-<span class="normal">1896</span>
-<span class="normal">1897</span>
-<span class="normal">1898</span>
-<span class="normal">1899</span>
-<span class="normal">1900</span>
-<span class="normal">1901</span>
-<span class="normal">1902</span>
-<span class="normal">1903</span>
-<span class="normal">1904</span>
-<span class="normal">1905</span>
-<span class="normal">1906</span>
-<span class="normal">1907</span>
-<span class="normal">1908</span>
-<span class="normal">1909</span>
-<span class="normal">1910</span>
-<span class="normal">1911</span>
-<span class="normal">1912</span>
-<span class="normal">1913</span>
-<span class="normal">1914</span>
-<span class="normal">1915</span>
-<span class="normal">1916</span>
-<span class="normal">1917</span>
-<span class="normal">1918</span>
-<span class="normal">1919</span>
-<span class="normal">1920</span>
-<span class="normal">1921</span>
-<span class="normal">1922</span>
-<span class="normal">1923</span>
-<span class="normal">1924</span>
-<span class="normal">1925</span>
-<span class="normal">1926</span>
-<span class="normal">1927</span>
-<span class="normal">1928</span>
-<span class="normal">1929</span>
-<span class="normal">1930</span>
-<span class="normal">1931</span>
-<span class="normal">1932</span>
-<span class="normal">1933</span>
-<span class="normal">1934</span>
-<span class="normal">1935</span>
-<span class="normal">1936</span>
-<span class="normal">1937</span>
-<span class="normal">1938</span>
-<span class="normal">1939</span>
-<span class="normal">1940</span>
-<span class="normal">1941</span>
-<span class="normal">1942</span>
-<span class="normal">1943</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1943</span>
 <span class="normal">1944</span>
 <span class="normal">1945</span>
 <span class="normal">1946</span>
@@ -27501,7 +27422,92 @@ balanced by the DUP2 instruction.</p>
 <span class="normal">2032</span>
 <span class="normal">2033</span>
 <span class="normal">2034</span>
-<span class="normal">2035</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2035</span>
+<span class="normal">2036</span>
+<span class="normal">2037</span>
+<span class="normal">2038</span>
+<span class="normal">2039</span>
+<span class="normal">2040</span>
+<span class="normal">2041</span>
+<span class="normal">2042</span>
+<span class="normal">2043</span>
+<span class="normal">2044</span>
+<span class="normal">2045</span>
+<span class="normal">2046</span>
+<span class="normal">2047</span>
+<span class="normal">2048</span>
+<span class="normal">2049</span>
+<span class="normal">2050</span>
+<span class="normal">2051</span>
+<span class="normal">2052</span>
+<span class="normal">2053</span>
+<span class="normal">2054</span>
+<span class="normal">2055</span>
+<span class="normal">2056</span>
+<span class="normal">2057</span>
+<span class="normal">2058</span>
+<span class="normal">2059</span>
+<span class="normal">2060</span>
+<span class="normal">2061</span>
+<span class="normal">2062</span>
+<span class="normal">2063</span>
+<span class="normal">2064</span>
+<span class="normal">2065</span>
+<span class="normal">2066</span>
+<span class="normal">2067</span>
+<span class="normal">2068</span>
+<span class="normal">2069</span>
+<span class="normal">2070</span>
+<span class="normal">2071</span>
+<span class="normal">2072</span>
+<span class="normal">2073</span>
+<span class="normal">2074</span>
+<span class="normal">2075</span>
+<span class="normal">2076</span>
+<span class="normal">2077</span>
+<span class="normal">2078</span>
+<span class="normal">2079</span>
+<span class="normal">2080</span>
+<span class="normal">2081</span>
+<span class="normal">2082</span>
+<span class="normal">2083</span>
+<span class="normal">2084</span>
+<span class="normal">2085</span>
+<span class="normal">2086</span>
+<span class="normal">2087</span>
+<span class="normal">2088</span>
+<span class="normal">2089</span>
+<span class="normal">2090</span>
+<span class="normal">2091</span>
+<span class="normal">2092</span>
+<span class="normal">2093</span>
+<span class="normal">2094</span>
+<span class="normal">2095</span>
+<span class="normal">2096</span>
+<span class="normal">2097</span>
+<span class="normal">2098</span>
+<span class="normal">2099</span>
+<span class="normal">2100</span>
+<span class="normal">2101</span>
+<span class="normal">2102</span>
+<span class="normal">2103</span>
+<span class="normal">2104</span>
+<span class="normal">2105</span>
+<span class="normal">2106</span>
+<span class="normal">2107</span>
+<span class="normal">2108</span>
+<span class="normal">2109</span>
+<span class="normal">2110</span>
+<span class="normal">2111</span>
+<span class="normal">2112</span>
+<span class="normal">2113</span>
+<span class="normal">2114</span>
+<span class="normal">2115</span>
+<span class="normal">2116</span>
+<span class="normal">2117</span>
+<span class="normal">2118</span>
+<span class="normal">2119</span>
+<span class="normal">2120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,opcode_args&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span>
@@ -27513,7 +27519,8 @@ balanced by the DUP2 instruction.</p>
             <span class="n">DEFAULT_BINOP_ARGS</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="c1"># This has the cycle of 2, after two SUBs values are back to initials.</span>
+            <span class="c1"># This has the cycle of 2, after two SUBs values are back to</span>
+            <span class="c1"># initials.</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">,</span>
             <span class="n">DEFAULT_BINOP_ARGS</span><span class="p">,</span>
         <span class="p">),</span>
@@ -27526,8 +27533,8 @@ balanced by the DUP2 instruction.</p>
             <span class="p">(</span>
                 <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
                 <span class="c1"># We want the first divisor to be slightly bigger than 2**128:</span>
-                <span class="c1"># this is the worst case for the division algorithm with optimized paths</span>
-                <span class="c1"># for division by 1 and 2 words.</span>
+                <span class="c1"># this is the worst case for the division algorithm with</span>
+                <span class="c1"># optimized paths for division by 1 and 2 words.</span>
                 <span class="mh">0x100000000000000000000000000000033</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">),</span>
@@ -27537,13 +27544,14 @@ balanced by the DUP2 instruction.</p>
             <span class="p">(</span>
                 <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
                 <span class="c1"># We want the first divisor to be slightly bigger than 2**64:</span>
-                <span class="c1"># this is the worst case for the division algorithm with an optimized path</span>
-                <span class="c1"># for division by 1 word.</span>
+                <span class="c1"># this is the worst case for the division algorithm with an</span>
+                <span class="c1"># optimized path for division by 1 word.</span>
                 <span class="mh">0x10000000000000033</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="c1"># Same as DIV-0, but the numerator made positive, and the divisor made negative.</span>
+            <span class="c1"># Same as DIV-0, but the numerator made positive, and the divisor</span>
+            <span class="c1"># made negative.</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">SDIV</span><span class="p">,</span>
             <span class="p">(</span>
                 <span class="mh">0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
@@ -27551,7 +27559,8 @@ balanced by the DUP2 instruction.</p>
             <span class="p">),</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="c1"># Same as DIV-1, but the numerator made positive, and the divisor made negative.</span>
+            <span class="c1"># Same as DIV-1, but the numerator made positive, and the divisor</span>
+            <span class="c1"># made negative.</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">SDIV</span><span class="p">,</span>
             <span class="p">(</span>
                 <span class="mh">0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
@@ -27559,17 +27568,20 @@ balanced by the DUP2 instruction.</p>
             <span class="p">),</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="c1"># This scenario is not suitable for MOD because the values quickly become 0.</span>
+            <span class="c1"># This scenario is not suitable for MOD because the values quickly</span>
+            <span class="c1"># become 0.</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">,</span>
             <span class="n">DEFAULT_BINOP_ARGS</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="c1"># This scenario is not suitable for SMOD because the values quickly become 0.</span>
+            <span class="c1"># This scenario is not suitable for SMOD because the values quickly</span>
+            <span class="c1"># become 0.</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">SMOD</span><span class="p">,</span>
             <span class="n">DEFAULT_BINOP_ARGS</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="c1"># This keeps the values unchanged, pow(2**256-1, 2**256-1, 2**256) == 2**256-1.</span>
+            <span class="c1"># This keeps the values unchanged, pow(2**256-1, 2**256-1, 2**256)</span>
+            <span class="c1"># == 2**256-1.</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">EXP</span><span class="p">,</span>
             <span class="p">(</span>
                 <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span><span class="p">,</span>
@@ -27646,9 +27658,9 @@ balanced by the DUP2 instruction.</p>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test running a block with as many binary instructions (takes two args, produces one value)</span>
-<span class="sd">    as possible. The execution starts with two initial values on the stack, and the stack is</span>
-<span class="sd">    balanced by the DUP2 instruction.</span>
+<span class="sd">    Test running a block with as many binary instructions (takes two args,</span>
+<span class="sd">    produces one value) as possible. The execution starts with two initial</span>
+<span class="sd">    values on the stack, and the stack is balanced by the DUP2 instruction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 

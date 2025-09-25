@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-selfdestruct-balance-bug">Test SELFDESTRUCT BALANCE Bug<a class="headerlink" href="#test-selfdestruct-balance-bug" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/paris/security/test_selfdestruct_balance_bug.py#L29"><code>tests/paris/security/test_selfdestruct_balance_bug.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/paris/security/test_selfdestruct_balance_bug.py#L31"><code>tests/paris/security/test_selfdestruct_balance_bug.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/paris/security/test_selfdestruct_balance_bug.py --fork Osaka</span>
@@ -27265,17 +27265,15 @@
 <a id="tests.paris.security.test_selfdestruct_balance_bug"></a>
     <div class="doc doc-contents first">
 
-
-
-<details class="bug" open>
-  <summary>Tests the Consensus Flaw During Block Processing related to SELFDESTRUCT</summary>
-  <p>Tests the consensus-vulnerability reported in
-<a href="https://github.com/ethereum/go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4">go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4</a>.</p>
-</details>        <p>To reproduce the issue with this test case:</p>
+        <p>Tests the Consensus Flaw During Block Processing related to SELFDESTRUCT.</p>
+<p>Tests the consensus-vulnerability reported in
+<a href="https://github.com/ethere
+um/go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4">go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4</a>.</p>
+<p>To reproduce the issue with this test case:</p>
 <ol>
 <li>Fill the test with the most recent geth evm version.</li>
-<li>Run the fixture output within a vulnerable geth version: v1.9.20 &gt; geth &gt;=
-    v1.9.4.</li>
+<li>Run the fixture output within a vulnerable geth version:
+    v1.9.20 &gt; geth &gt;= v1.9.4.</li>
 </ol>
 
 

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_block_blob_count"><code>test_invalid_block_blob_count()</code><a class="headerlink" href="#test_invalid_block_blob_count" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blob_txs.py#L569"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_block_blob_count@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blob_txs.py#L576"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_block_blob_count@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_block_blob_count --fork Osaka</span>
@@ -27325,23 +27325,16 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_block_blob_count"></a>
     <div class="doc doc-contents first">
 
-        <p>Test all invalid blob combinations in a single block, where the sum of all blobs in a block is
-at <code>MAX_BLOBS_PER_BLOCK + 1</code>.</p>
+        <p>Test all invalid blob combinations in a single block, where the sum of all
+blobs in a block is at <code>MAX_BLOBS_PER_BLOCK + 1</code>.</p>
 <p>This test is parametrized with all blob transaction combinations exceeding
-<code>MAX_BLOBS_PER_BLOCK</code> by one for a given block, and
-therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is automatically updated.</p>
+<code>MAX_BLOBS_PER_BLOCK</code> by one for a given block, and therefore if value of
+<code>MAX_BLOBS_PER_BLOCK</code> changes, this test is automatically updated.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">576</span>
 <span class="normal">577</span>
 <span class="normal">578</span>
 <span class="normal">579</span>
@@ -27369,7 +27362,14 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
 <span class="normal">601</span>
 <span class="normal">602</span>
 <span class="normal">603</span>
-<span class="normal">604</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">invalid_blob_combinations</span><span class="p">,</span>
 <span class="p">)</span>
@@ -27392,12 +27392,12 @@ therefore if value of <code>MAX_BLOBS_PER_BLOCK</code> changes, this test is aut
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test all invalid blob combinations in a single block, where the sum of all blobs in a block is</span>
-<span class="sd">    at `MAX_BLOBS_PER_BLOCK + 1`.</span>
+<span class="sd">    Test all invalid blob combinations in a single block, where the sum of all</span>
+<span class="sd">    blobs in a block is at `MAX_BLOBS_PER_BLOCK + 1`.</span>
 
 <span class="sd">    This test is parametrized with all blob transaction combinations exceeding</span>
-<span class="sd">    `MAX_BLOBS_PER_BLOCK` by one for a given block, and</span>
-<span class="sd">    therefore if value of `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.</span>
+<span class="sd">    `MAX_BLOBS_PER_BLOCK` by one for a given block, and therefore if value of</span>
+<span class="sd">    `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>

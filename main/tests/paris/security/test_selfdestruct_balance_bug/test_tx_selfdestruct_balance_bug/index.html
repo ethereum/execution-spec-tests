@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tx_selfdestruct_balance_bug"><code>test_tx_selfdestruct_balance_bug()</code><a class="headerlink" href="#test_tx_selfdestruct_balance_bug" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/paris/security/test_selfdestruct_balance_bug.py#L29"><code>tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/paris/security/test_selfdestruct_balance_bug.py#L31"><code>tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug --fork Osaka</span>
@@ -27330,22 +27330,22 @@
 <ol>
 <li>
 <p>Start with contract <code>0xaa</code> which has initial balance of 3 wei.
-    <code>0xaa</code> contract code simply performs a self-destruct to itself.</p>
+<code>0xaa</code> contract code simply performs a self-destruct to itself.</p>
 </li>
 <li>
-<p>Send a transaction (tx 1) to invoke caller contract <code>0xcc</code> (which
-    has a balance of 1 wei), which in turn invokes <code>0xaa</code> with a 1 wei call.</p>
+<p>Send a transaction (tx 1) to invoke caller contract <code>0xcc</code> (which has a
+balance of 1 wei), which in turn invokes <code>0xaa</code> with a 1 wei call.</p>
 </li>
 <li>
-<p>Store the balance of <code>0xaa</code> after the first transaction
-    is processed. <code>0xaa</code> self-destructed. Expected outcome: 0 wei.</p>
+<p>Store the balance of <code>0xaa</code> after the first transaction is processed.
+<code>0xaa</code> self-destructed. Expected outcome: 0 wei.</p>
 </li>
 <li>
 <p>Send another transaction (tx 2) to call 0xaa with 5 wei.</p>
 </li>
 <li>
-<p>Store the balance of <code>0xaa</code> after the second transaction
-    is processed. No self-destruct. Expected outcome: 5 wei.</p>
+<p>Store the balance of <code>0xaa</code> after the second transaction is processed.
+No self-destruct. Expected outcome: 5 wei.</p>
 </li>
 <li>
 <p>Verify that:</p>
@@ -27362,9 +27362,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/paris/security/test_selfdestruct_balance_bug.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
 <span class="normal"> 34</span>
@@ -27474,25 +27472,27 @@
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
-<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Constantinople&quot;</span><span class="p">)</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Constantinople&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_tx_selfdestruct_balance_bug</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that the vulnerability is not present by checking the balance of the</span>
 <span class="sd">    `0xaa` contract after executing specific transactions.</span>
 
 <span class="sd">    1. Start with contract `0xaa` which has initial balance of 3 wei.</span>
-<span class="sd">        `0xaa` contract code simply performs a self-destruct to itself.</span>
+<span class="sd">    `0xaa` contract code simply performs a self-destruct to itself.</span>
 
-<span class="sd">    2. Send a transaction (tx 1) to invoke caller contract `0xcc` (which</span>
-<span class="sd">        has a balance of 1 wei), which in turn invokes `0xaa` with a 1 wei call.</span>
+<span class="sd">    2. Send a transaction (tx 1) to invoke caller contract `0xcc` (which has a</span>
+<span class="sd">    balance of 1 wei), which in turn invokes `0xaa` with a 1 wei call.</span>
 
-<span class="sd">    3. Store the balance of `0xaa` after the first transaction</span>
-<span class="sd">        is processed. `0xaa` self-destructed. Expected outcome: 0 wei.</span>
+<span class="sd">    3. Store the balance of `0xaa` after the first transaction is processed.</span>
+<span class="sd">    `0xaa` self-destructed. Expected outcome: 0 wei.</span>
 
 <span class="sd">    4. Send another transaction (tx 2) to call 0xaa with 5 wei.</span>
 
-<span class="sd">    5. Store the balance of `0xaa` after the second transaction</span>
-<span class="sd">        is processed. No self-destruct. Expected outcome: 5 wei.</span>
+<span class="sd">    5. Store the balance of `0xaa` after the second transaction is processed.</span>
+<span class="sd">    No self-destruct. Expected outcome: 5 wei.</span>
 
 <span class="sd">    6. Verify that:</span>
 <span class="sd">        - Call within tx 1 is successful, i.e `0xaa` self-destructed.</span>

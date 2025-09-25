@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_correct_excess_blob_gas_calculation"><code>test_correct_excess_blob_gas_calculation()</code><a class="headerlink" href="#test_correct_excess_blob_gas_calculation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L289"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_excess_blob_gas_calculation@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L295"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_excess_blob_gas_calculation@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_excess_blob_gas_calculation --fork Osaka</span>
@@ -27325,23 +27325,22 @@
 <a id="tests.cancun.eip4844_blobs.test_excess_blob_gas.test_correct_excess_blob_gas_calculation"></a>
     <div class="doc doc-contents first">
 
-        <p>Test calculation of the <code>excessBlobGas</code> increase/decrease across
-multiple blocks with and without blobs.</p>
+        <p>Test calculation of the <code>excessBlobGas</code> increase/decrease across multiple
+blocks with and without blobs.</p>
 <ul>
-<li>With parent block containing <code>[0, MAX_BLOBS_PER_BLOCK]</code> blobs</li>
-<li>With parent block containing <code>[0, TARGET_BLOBS_PER_BLOCK]</code> equivalent value of excess blob gas</li>
+<li>
+<p>With parent block containing <code>[0, MAX_BLOBS_PER_BLOCK]</code> blobs</p>
+</li>
+<li>
+<p>With parent block containing <code>[0, TARGET_BLOBS_PER_BLOCK]</code> equivalent
+value of excess blob gas</p>
+</li>
 </ul>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">295</span>
 <span class="normal">296</span>
 <span class="normal">297</span>
 <span class="normal">298</span>
@@ -27365,7 +27364,15 @@ multiple blocks with and without blobs.</p>
 <span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
-<span class="normal">319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;parent_blobs&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
 <span class="p">)</span>
@@ -27383,12 +27390,14 @@ multiple blocks with and without blobs.</p>
     <span class="n">correct_excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test calculation of the `excessBlobGas` increase/decrease across</span>
-<span class="sd">    multiple blocks with and without blobs.</span>
+<span class="sd">    Test calculation of the `excessBlobGas` increase/decrease across multiple</span>
+<span class="sd">    blocks with and without blobs.</span>
 
 <span class="sd">    - With parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs</span>
-<span class="sd">    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent value of excess blob gas</span>
-<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+
+<span class="sd">    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent</span>
+<span class="sd">    value of excess blob gas</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>

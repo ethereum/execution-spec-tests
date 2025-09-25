@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_valid"><code>test_valid()</code><a class="headerlink" href="#test_valid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py#L24"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py#L26"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid --fork Osaka</span>
@@ -27330,9 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 26</span>
 <span class="normal"> 27</span>
 <span class="normal"> 28</span>
 <span class="normal"> 29</span>
@@ -27456,7 +27454,9 @@
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
-<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output,vector_gas_value&quot;</span><span class="p">,</span>
     <span class="c1"># Test vectors from the reference spec (from the cryptography team)</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;mul_G2_bls.json&quot;</span><span class="p">)</span>
@@ -27520,12 +27520,12 @@
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
             <span class="n">PointG2</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="mh">0x2663E1C3431E174CA80E5A84489569462E13B52DA27E7720AF5567941603475F1F9BC0102E13B92A0A21D96B94E9B22</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
-                    <span class="mh">0x6A80D056486365020A6B53E2680B2D72D8A93561FC2F72B960936BB16F509C1A39C4E4174A7C9219E3D7EF130317C05</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+                    <span class="mh">0x2663E1C3431E174CA80E5A84489569462E13B52DA27E7720AF5567941603475F1F9BC0102E13B92A0A21D96B94E9B22</span><span class="p">,</span>
+                    <span class="mh">0x6A80D056486365020A6B53E2680B2D72D8A93561FC2F72B960936BB16F509C1A39C4E4174A7C9219E3D7EF130317C05</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="p">(</span>
-                    <span class="mh">0xC49EAD39E9EB7E36E8BC25824299661D5B6D0E200BBC527ECCB946134726BF5DBD861E8E6EC946260B82ED26AFE15FB</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
-                    <span class="mh">0x5397DAD1357CF8333189821B737172B18099ECF7EE8BDB4B3F05EBCCDF40E1782A6C71436D5ACE0843D7F361CBC6DB2</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+                    <span class="mh">0xC49EAD39E9EB7E36E8BC25824299661D5B6D0E200BBC527ECCB946134726BF5DBD861E8E6EC946260B82ED26AFE15FB</span><span class="p">,</span>
+                    <span class="mh">0x5397DAD1357CF8333189821B737172B18099ECF7EE8BDB4B3F05EBCCDF40E1782A6C71436D5ACE0843D7F361CBC6DB2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">),</span>
             <span class="kc">None</span><span class="p">,</span>

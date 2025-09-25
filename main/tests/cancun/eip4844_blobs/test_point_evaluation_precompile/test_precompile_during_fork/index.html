@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_precompile_during_fork"><code>test_precompile_during_fork()</code><a class="headerlink" href="#test_precompile_during_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L640"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_precompile_during_fork@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L647"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_precompile_during_fork@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_precompile_during_fork --fork Osaka</span>
@@ -27330,14 +27330,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">647</span>
 <span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
@@ -27405,7 +27398,16 @@
 <span class="normal">712</span>
 <span class="normal">713</span>
 <span class="normal">714</span>
-<span class="normal">715</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;z,y,kzg_commitment,kzg_proof,versioned_hash&quot;</span><span class="p">,</span>
     <span class="p">[[</span><span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="kc">None</span><span class="p">]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;correct_proof&quot;</span><span class="p">],</span>
@@ -27435,7 +27437,9 @@
     <span class="n">precompile_input</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
     <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test calling the Point Evaluation Precompile during the appropriate fork.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test calling the Point Evaluation Precompile during the appropriate fork.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Blocks before fork</span>
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Block</span><span class="p">(</span>

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_blobhash_opcode_contexts_tx_types"><code>test_blobhash_opcode_contexts_tx_types()</code><a class="headerlink" href="#test_blobhash_opcode_contexts_tx_types" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py#L288"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts_tx_types@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py#L287"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts_tx_types@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts_tx_types --fork Osaka</span>
@@ -27325,11 +27325,13 @@
 <a id="tests.cancun.eip4844_blobs.test_blobhash_opcode_contexts.test_blobhash_opcode_contexts_tx_types"></a>
     <div class="doc doc-contents first">
 
-        <p>Tests that the <code>BLOBHASH</code> opcode functions correctly when called in different contexts.</p>
+        <p>Tests that the <code>BLOBHASH</code> opcode functions correctly when called in
+different contexts.</p>
 <ul>
 <li><code>BLOBHASH</code> opcode on the top level of the call stack.</li>
 <li><code>BLOBHASH</code> opcode on the max value.</li>
-<li><code>BLOBHASH</code> opcode on <code>CALL</code>, <code>DELEGATECALL</code>, <code>STATICCALL</code>, and <code>CALLCODE</code>.</li>
+<li><code>BLOBHASH</code> opcode on <code>CALL</code>, <code>DELEGATECALL</code>, <code>STATICCALL</code>, and
+    <code>CALLCODE</code>.</li>
 <li><code>BLOBHASH</code> opcode on Initcode.</li>
 <li><code>BLOBHASH</code> opcode on <code>CREATE</code> and <code>CREATE2</code>.</li>
 <li><code>BLOBHASH</code> opcode on transaction types 0, 1 and 2.</li>
@@ -27338,7 +27340,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">288</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">287</span>
+<span class="normal">288</span>
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
@@ -27377,18 +27380,21 @@
 <span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
-<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="normal">327</span>
+<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_blobhash_opcode_contexts_tx_types</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests that the `BLOBHASH` opcode functions correctly when called in different contexts.</span>
+<span class="sd">    Tests that the `BLOBHASH` opcode functions correctly when called in</span>
+<span class="sd">    different contexts.</span>
 
 <span class="sd">    - `BLOBHASH` opcode on the top level of the call stack.</span>
 <span class="sd">    - `BLOBHASH` opcode on the max value.</span>
-<span class="sd">    - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`, `STATICCALL`, and `CALLCODE`.</span>
+<span class="sd">    - `BLOBHASH` opcode on `CALL`, `DELEGATECALL`, `STATICCALL`, and</span>
+<span class="sd">        `CALLCODE`.</span>
 <span class="sd">    - `BLOBHASH` opcode on Initcode.</span>
 <span class="sd">    - `BLOBHASH` opcode on `CREATE` and `CREATE2`.</span>
 <span class="sd">    - `BLOBHASH` opcode on transaction types 0, 1 and 2.</span>

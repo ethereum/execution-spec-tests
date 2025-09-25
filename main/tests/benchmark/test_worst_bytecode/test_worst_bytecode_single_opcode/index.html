@@ -27308,7 +27308,7 @@
 
 
 <h1 id="test_worst_bytecode_single_opcode"><code>test_worst_bytecode_single_opcode()</code><a class="headerlink" href="#test_worst_bytecode_single_opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/benchmark/test_worst_bytecode.py#L38"><code>tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/benchmark/test_worst_bytecode.py#L35"><code>tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode -m benchmark</span>
@@ -27323,18 +27323,21 @@
 <a id="tests.benchmark.test_worst_bytecode.test_worst_bytecode_single_opcode"></a>
     <div class="doc doc-contents first">
 
-        <p>Test a block execution where a single opcode execution maxes out the gas limit,
-and the opcodes access a huge amount of contract code.</p>
-<p>We first use a single block to deploy a factory contract that will be used to deploy
-a large number of contracts.</p>
+        <p>Test a block execution where a single opcode execution maxes out the gas
+limit, and the opcodes access a huge amount of contract code.</p>
+<p>We first use a single block to deploy a factory contract that will be used
+to deploy a large number of contracts.</p>
 <p>This is done to avoid having a big pre-allocation size for the test.</p>
-<p>The test is performed in the last block of the test, and the entire block gas limit is
-consumed by repeated opcode executions.</p>
+<p>The test is performed in the last block of the test, and the entire block
+gas limit is consumed by repeated opcode executions.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 38</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
 <span class="normal"> 39</span>
 <span class="normal"> 40</span>
 <span class="normal"> 41</span>
@@ -27549,30 +27552,30 @@ consumed by repeated opcode executions.</p>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test a block execution where a single opcode execution maxes out the gas limit,</span>
-<span class="sd">    and the opcodes access a huge amount of contract code.</span>
+<span class="sd">    Test a block execution where a single opcode execution maxes out the gas</span>
+<span class="sd">    limit, and the opcodes access a huge amount of contract code.</span>
 
-<span class="sd">    We first use a single block to deploy a factory contract that will be used to deploy</span>
-<span class="sd">    a large number of contracts.</span>
+<span class="sd">    We first use a single block to deploy a factory contract that will be used</span>
+<span class="sd">    to deploy a large number of contracts.</span>
 
 <span class="sd">    This is done to avoid having a big pre-allocation size for the test.</span>
 
-<span class="sd">    The test is performed in the last block of the test, and the entire block gas limit is</span>
-<span class="sd">    consumed by repeated opcode executions.</span>
+<span class="sd">    The test is performed in the last block of the test, and the entire block</span>
+<span class="sd">    gas limit is consumed by repeated opcode executions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># The attack gas limit is the gas limit which the target tx will use</span>
-    <span class="c1"># The test will scale the block gas limit to setup the contracts accordingly to be</span>
-    <span class="c1"># able to pay for the contract deposit. This has to take into account the 200 gas per byte,</span>
-    <span class="c1"># but also the quadratic memory expansion costs which have to be paid each time the</span>
-    <span class="c1"># memory is being setup</span>
+    <span class="c1"># The attack gas limit is the gas limit which the target tx will use The</span>
+    <span class="c1"># test will scale the block gas limit to setup the contracts accordingly to</span>
+    <span class="c1"># be able to pay for the contract deposit. This has to take into account</span>
+    <span class="c1"># the 200 gas per byte, but also the quadratic memory expansion costs which</span>
+    <span class="c1"># have to be paid each time the memory is being setup</span>
     <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
     <span class="n">max_contract_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
 
-    <span class="c1"># Calculate the absolute minimum gas costs to deploy the contract</span>
-    <span class="c1"># This does not take into account setting up the actual memory (using KECCAK256 and XOR)</span>
-    <span class="c1"># so the actual costs of deploying the contract is higher</span>
+    <span class="c1"># Calculate the absolute minimum gas costs to deploy the contract This does</span>
+    <span class="c1"># not take into account setting up the actual memory (using KECCAK256 and</span>
+    <span class="c1"># XOR) so the actual costs of deploying the contract is higher</span>
     <span class="n">memory_expansion_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">memory_expansion_gas_calculator</span><span class="p">()</span>
     <span class="n">memory_gas_minimum</span> <span class="o">=</span> <span class="n">memory_expansion_gas_calculator</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">max_contract_size</span><span class="p">)))</span>
     <span class="n">code_deposit_gas_minimum</span> <span class="o">=</span> <span class="p">(</span>
@@ -27583,7 +27586,8 @@ consumed by repeated opcode executions.</p>
     <span class="c1"># Calculate the loop cost of the attacker to query one address</span>
     <span class="n">loop_cost</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># KECCAK static cost</span>
-        <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">85</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK dynamic cost for CREATE2</span>
+        <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">85</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK dynamic</span>
+        <span class="c1"># cost for CREATE2</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># ~MSTOREs+ADDs</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># Opcode cost</span>
         <span class="o">+</span> <span class="mi">30</span>  <span class="c1"># ~Gluing opcodes</span>
@@ -27594,8 +27598,9 @@ consumed by repeated opcode executions.</p>
         <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>
     <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
 
-    <span class="c1"># Set the block gas limit to a relative high value to ensure the code deposit tx</span>
-    <span class="c1"># fits in the block (there is enough gas available in the block to execute this)</span>
+    <span class="c1"># Set the block gas limit to a relative high value to ensure the code</span>
+    <span class="c1"># deposit tx fits in the block (there is enough gas available in the block</span>
+    <span class="c1"># to execute this)</span>
     <span class="n">minimum_gas_limit</span> <span class="o">=</span> <span class="n">code_deposit_gas_minimum</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">num_contracts</span>
     <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&lt;</span> <span class="n">minimum_gas_limit</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
@@ -27604,16 +27609,17 @@ consumed by repeated opcode executions.</p>
             <span class="s2">&quot;optimizing gas usage during the setup phase of this test.&quot;</span>
         <span class="p">)</span>
 
-    <span class="c1"># The initcode will take its address as a starting point to the input to the keccak</span>
-    <span class="c1"># hash function.</span>
-    <span class="c1"># It will reuse the output of the hash function in a loop to create a large amount of</span>
-    <span class="c1"># seemingly random code, until it reaches the maximum contract size.</span>
+    <span class="c1"># The initcode will take its address as a starting point to the input to</span>
+    <span class="c1"># the keccak hash function. It will reuse the output of the hash function</span>
+    <span class="c1"># in a loop to create a large amount of seemingly random code, until it</span>
+    <span class="c1"># reaches the maximum contract size.</span>
     <span class="n">initcode</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
             <span class="n">body</span><span class="o">=</span><span class="p">(</span>
                 <span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MSIZE</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="mi">32</span><span class="p">)</span>
-                <span class="c1"># Use a xor table to avoid having to call the &quot;expensive&quot; sha3 opcode as much</span>
+                <span class="c1"># Use a xor table to avoid having to call the &quot;expensive&quot; sha3</span>
+                <span class="c1"># opcode as much</span>
                 <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span>
                     <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">[</span><span class="n">xor_value</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">XOR</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSIZE</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">)</span>
                     <span class="k">for</span> <span class="n">xor_value</span> <span class="ow">in</span> <span class="n">XOR_TABLE</span>
@@ -27622,16 +27628,16 @@ consumed by repeated opcode executions.</p>
             <span class="p">),</span>
             <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">LT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MSIZE</span><span class="p">,</span> <span class="n">max_contract_size</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="c1"># Despite the whole contract has random bytecode, we make the first opcode be a STOP</span>
-        <span class="c1"># so CALL-like attacks return as soon as possible, while EXTCODE(HASH|SIZE) work as</span>
-        <span class="c1"># intended.</span>
+        <span class="c1"># Despite the whole contract has random bytecode, we make the first</span>
+        <span class="c1"># opcode be a STOP so CALL-like attacks return as soon as possible,</span>
+        <span class="c1"># while EXTCODE(HASH|SIZE) work as intended.</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_contract_size</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">initcode_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">initcode</span><span class="p">)</span>
 
-    <span class="c1"># The factory contract will simply use the initcode that is already deployed,</span>
-    <span class="c1"># and create a new contract and return its address if successful.</span>
+    <span class="c1"># The factory contract will simply use the initcode that is already</span>
+    <span class="c1"># deployed, and create a new contract and return its address if successful.</span>
     <span class="n">factory_code</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>
             <span class="n">address</span><span class="o">=</span><span class="n">initcode_address</span><span class="p">,</span>
@@ -27653,8 +27659,8 @@ consumed by repeated opcode executions.</p>
     <span class="p">)</span>
     <span class="n">factory_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">factory_code</span><span class="p">)</span>
 
-    <span class="c1"># The factory caller will call the factory contract N times, creating N new contracts.</span>
-    <span class="c1"># Calldata should contain the N value.</span>
+    <span class="c1"># The factory caller will call the factory contract N times, creating N new</span>
+    <span class="c1"># contracts. Calldata should contain the N value.</span>
     <span class="n">factory_caller_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
         <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">factory_address</span><span class="p">)),</span>
         <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span>
@@ -27701,8 +27707,8 @@ consumed by repeated opcode executions.</p>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attack_code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_contract_size</span><span class="p">:</span>
-        <span class="c1"># TODO: A workaround could be to split the opcode code into multiple contracts</span>
-        <span class="c1"># and call them in sequence.</span>
+        <span class="c1"># TODO: A workaround could be to split the opcode code into multiple</span>
+        <span class="c1"># contracts and call them in sequence.</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">attack_code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">max_contract_size</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>

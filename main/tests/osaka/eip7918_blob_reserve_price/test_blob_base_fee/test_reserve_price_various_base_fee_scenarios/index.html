@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_reserve_price_various_base_fee_scenarios"><code>test_reserve_price_various_base_fee_scenarios()</code><a class="headerlink" href="#test_reserve_price_various_base_fee_scenarios" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py#L133"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_various_base_fee_scenarios@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py#L134"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_various_base_fee_scenarios@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_various_base_fee_scenarios --fork Osaka</span>
@@ -27325,13 +27325,13 @@
 <a id="tests.osaka.eip7918_blob_reserve_price.test_blob_base_fee.test_reserve_price_various_base_fee_scenarios"></a>
     <div class="doc doc-contents first">
 
-        <p>Test reserve price mechanism across various block base fee and excess blob gas scenarios.</p>
+        <p>Test reserve price mechanism across various block base fee and excess blob
+gas scenarios.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
-<span class="normal">134</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
@@ -27351,7 +27351,11 @@
 <span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
-<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;block_base_fee_per_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">],</span>
 <span class="p">)</span>
@@ -27366,7 +27370,10 @@
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test reserve price mechanism across various block base fee and excess blob gas scenarios.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test reserve price mechanism across various block base fee and excess blob</span>
+<span class="sd">    gas scenarios.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>

@@ -27250,7 +27250,7 @@
 
 
 <h1 id="test-withdrawals">Test Withdrawals<a class="headerlink" href="#test-withdrawals" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L124"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L122"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py --fork Osaka</span>
@@ -27265,13 +27265,8 @@
 <a id="tests.shanghai.eip4895_withdrawals.test_withdrawals"></a>
     <div class="doc doc-contents first">
 
+        <p>Tests for <a href="https://eips.ethereum.org/EIPS/eip-4895">EIP-4895: Beacon chain withdrawals</a>.</p>
 
-
-<details class="abstract" open>
-  <summary>Tests <a href="https://eips.ethereum.org/EIPS/eip-4895">EIP-4895: Beacon chain withdrawals</a></summary>
-  <p>Test cases for <a href="https://eips.ethereum.org/EIPS/eip-4895">EIP-4895: Beacon chain push withdrawals as
-operations</a>.</p>
-</details>
 
 
 
@@ -27317,19 +27312,19 @@ operations</a>.</p>
 <td><a href="test_balance_within_block/"><code>test_balance_within_block</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Test Withdrawal balance increase within the same block,</td>
+<td>Test withdrawal balance increase within the same block in a contract call.</td>
 </tr>
 <tr>
 <td><a href="test_multiple_withdrawals_same_address/"><code>test_multiple_withdrawals_same_address</code></a></td>
 <td>blockchain_test</td>
 <td>2</td>
-<td>Test Withdrawals can be done to the same address multiple times in</td>
+<td>Test withdrawals to the same address multiple times in the same block.</td>
 </tr>
 <tr>
 <td><a href="test_many_withdrawals/"><code>test_many_withdrawals</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Test Withdrawals with a count of N withdrawals in a single block where</td>
+<td>Test an unexpected high number of withdrawals in a single block.</td>
 </tr>
 <tr>
 <td><a href="test_self_destructing_account/"><code>test_self_destructing_account</code></a></td>
@@ -27341,25 +27336,25 @@ operations</a>.</p>
 <td><a href="test_newly_created_contract/"><code>test_newly_created_contract</code></a></td>
 <td>blockchain_test</td>
 <td>2</td>
-<td>Test Withdrawing to a newly created contract.</td>
+<td>Test withdrawing to a newly created contract.</td>
 </tr>
 <tr>
 <td><a href="test_no_evm_execution/"><code>test_no_evm_execution</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Test Withdrawals don't trigger EVM execution.</td>
+<td>Test withdrawals don't trigger EVM execution.</td>
 </tr>
 <tr>
 <td><a href="test_zero_amount/"><code>test_zero_amount</code></a></td>
 <td>blockchain_test</td>
 <td>4</td>
-<td>Test withdrawals with zero amount for the following cases, all withdrawals</td>
+<td>Test withdrawal scenarios with a zero amount in a single block.</td>
 </tr>
 <tr>
 <td><a href="test_large_amount/"><code>test_large_amount</code></a></td>
 <td>blockchain_test</td>
 <td>1</td>
-<td>Test Withdrawals that have a large gwei amount, so that (gwei * 1e9)</td>
+<td>Test withdrawals that have a large gwei amount.</td>
 </tr>
 <tr>
 <td><a href="test_withdrawing_to_precompiles/"><code>test_withdrawing_to_precompiles</code></a></td>

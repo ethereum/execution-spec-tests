@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_clz_opcode_scenarios"><code>test_clz_opcode_scenarios()</code><a class="headerlink" href="#test_clz_opcode_scenarios" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L83"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L82"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios --fork Osaka</span>
@@ -27327,7 +27327,8 @@
 
         <p>Test CLZ opcode functionality.</p>
 <p>Cases:
-- Format 0xb000...111: leading zeros followed by ones (2**256 - 1 &gt;&gt; bits)
+- Format 0xb000...111: leading zeros followed by ones
+   (2**256 - 1 &gt;&gt; bits)
 - Format 0xb010...000: single bit set at position (1 &lt;&lt; bits)</p>
 <p>Test coverage:
 - Leading zeros pattern: 0b000...111 (0 to 256 leading zeros)
@@ -27337,7 +27338,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 82</span>
+<span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
 <span class="normal"> 86</span>
@@ -27392,7 +27394,8 @@
 <span class="sd">    Test CLZ opcode functionality.</span>
 
 <span class="sd">    Cases:</span>
-<span class="sd">    - Format 0xb000...111: leading zeros followed by ones (2**256 - 1 &gt;&gt; bits)</span>
+<span class="sd">    - Format 0xb000...111: leading zeros followed by ones</span>
+<span class="sd">       (2**256 - 1 &gt;&gt; bits)</span>
 <span class="sd">    - Format 0xb010...000: single bit set at position (1 &lt;&lt; bits)</span>
 
 <span class="sd">    Test coverage:</span>

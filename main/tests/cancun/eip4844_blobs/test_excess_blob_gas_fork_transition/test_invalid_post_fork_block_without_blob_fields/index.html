@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_post_fork_block_without_blob_fields"><code>test_invalid_post_fork_block_without_blob_fields()</code><a class="headerlink" href="#test_invalid_post_fork_block_without_blob_fields" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L360"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_post_fork_block_without_blob_fields@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L361"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_post_fork_block_without_blob_fields@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_post_fork_block_without_blob_fields --fork Osaka</span>
@@ -27325,16 +27325,16 @@
 <a id="tests.cancun.eip4844_blobs.test_excess_blob_gas_fork_transition.test_invalid_post_fork_block_without_blob_fields"></a>
     <div class="doc doc-contents first">
 
-        <p>Test block rejection when <code>excessBlobGas</code> and/or <code>blobGasUsed</code> fields are missing on a
-post-fork block.</p>
-<p>Blocks sent by NewPayloadV3 (Cancun) without <code>excessBlobGas</code> and <code>blobGasUsed</code> fields must be
-rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</p>
+        <p>Test block rejection when <code>excessBlobGas</code> and/or <code>blobGasUsed</code> fields are
+missing on a post-fork block.</p>
+<p>Blocks sent by NewPayloadV3 (Cancun) without <code>excessBlobGas</code> and
+<code>blobGasUsed</code> fields must be rejected with the appropriate
+<code>EngineAPIError.InvalidParams</code> error.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">360</span>
-<span class="normal">361</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
 <span class="normal">364</span>
@@ -27376,7 +27376,9 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
 <span class="normal">400</span>
 <span class="normal">401</span>
 <span class="normal">402</span>
-<span class="normal">403</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;excess_blob_gas_missing,blob_gas_used_missing&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27395,11 +27397,12 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
     <span class="n">blob_gas_used_missing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are missing on a</span>
-<span class="sd">    post-fork block.</span>
+<span class="sd">    Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are</span>
+<span class="sd">    missing on a post-fork block.</span>
 
-<span class="sd">    Blocks sent by NewPayloadV3 (Cancun) without `excessBlobGas` and `blobGasUsed` fields must be</span>
-<span class="sd">    rejected with the appropriate `EngineAPIError.InvalidParams` error.</span>
+<span class="sd">    Blocks sent by NewPayloadV3 (Cancun) without `excessBlobGas` and</span>
+<span class="sd">    `blobGasUsed` fields must be rejected with the appropriate</span>
+<span class="sd">    `EngineAPIError.InvalidParams` error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">header_modifier</span> <span class="o">=</span> <span class="n">Header</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">excess_blob_gas_missing</span><span class="p">:</span>

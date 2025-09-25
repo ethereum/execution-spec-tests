@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_tx_into_chain_delegating_set_code"><code>test_tx_into_chain_delegating_set_code()</code><a class="headerlink" href="#test_tx_into_chain_delegating_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L900"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_tx_into_chain_delegating_set_code@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L911"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_tx_into_chain_delegating_set_code@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_tx_into_chain_delegating_set_code --fork Osaka</span>
@@ -27325,24 +27325,13 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_tx_into_chain_delegating_set_code"></a>
     <div class="doc doc-contents first">
 
-        <p>Test a transaction that has entry-point into a set-code account that delegates to another
-set-code account.</p>
+        <p>Test a transaction that has entry-point into a set-code account that
+delegates to another set-code account.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">900</span>
-<span class="normal">901</span>
-<span class="normal">902</span>
-<span class="normal">903</span>
-<span class="normal">904</span>
-<span class="normal">905</span>
-<span class="normal">906</span>
-<span class="normal">907</span>
-<span class="normal">908</span>
-<span class="normal">909</span>
-<span class="normal">910</span>
-<span class="normal">911</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">911</span>
 <span class="normal">912</span>
 <span class="normal">913</span>
 <span class="normal">914</span>
@@ -27369,13 +27358,24 @@ set-code account.</p>
 <span class="normal">935</span>
 <span class="normal">936</span>
 <span class="normal">937</span>
-<span class="normal">938</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_tx_into_chain_delegating_set_code</span><span class="p">(</span>
+<span class="normal">938</span>
+<span class="normal">939</span>
+<span class="normal">940</span>
+<span class="normal">941</span>
+<span class="normal">942</span>
+<span class="normal">943</span>
+<span class="normal">944</span>
+<span class="normal">945</span>
+<span class="normal">946</span>
+<span class="normal">947</span>
+<span class="normal">948</span>
+<span class="normal">949</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_tx_into_chain_delegating_set_code</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test a transaction that has entry-point into a set-code account that delegates to another</span>
-<span class="sd">    set-code account.</span>
+<span class="sd">    Test a transaction that has entry-point into a set-code account that</span>
+<span class="sd">    delegates to another set-code account.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer_1</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_account_start_balance</span><span class="p">)</span>
     <span class="n">auth_signer_2</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_account_start_balance</span><span class="p">)</span>

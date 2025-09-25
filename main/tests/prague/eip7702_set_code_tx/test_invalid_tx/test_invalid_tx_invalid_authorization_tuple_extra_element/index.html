@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_tx_invalid_authorization_tuple_extra_element"><code>test_invalid_tx_invalid_authorization_tuple_extra_element()</code><a class="headerlink" href="#test_invalid_tx_invalid_authorization_tuple_extra_element" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L423"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_authorization_tuple_extra_element@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L428"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_authorization_tuple_extra_element@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_authorization_tuple_extra_element --fork Osaka</span>
@@ -27325,18 +27325,13 @@
 <a id="tests.prague.eip7702_set_code_tx.test_invalid_tx.test_invalid_tx_invalid_authorization_tuple_extra_element"></a>
     <div class="doc doc-contents first">
 
-        <p>Test sending a transaction where the authorization tuple field of the type-4 transaction
-is serialized to contain an extra element.</p>
+        <p>Test sending a transaction where the authorization tuple field of the
+type-4 transaction is serialized to contain an extra element.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">428</span>
 <span class="normal">429</span>
 <span class="normal">430</span>
 <span class="normal">431</span>
@@ -27379,7 +27374,14 @@ is serialized to contain an extra element.</p>
 <span class="normal">468</span>
 <span class="normal">469</span>
 <span class="normal">470</span>
-<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;extra_element_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;extra_element_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;delegate_address&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27394,8 +27396,8 @@ is serialized to contain an extra element.</p>
     <span class="n">extra_element_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending a transaction where the authorization tuple field of the type-4 transaction</span>
-<span class="sd">    is serialized to contain an extra element.</span>
+<span class="sd">    Test sending a transaction where the authorization tuple field of the</span>
+<span class="sd">    type-4 transaction is serialized to contain an extra element.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
@@ -27403,7 +27405,9 @@ is serialized to contain an extra element.</p>
         <span class="n">extra_element</span><span class="p">:</span> <span class="n">HexNumber</span>  <span class="c1"># type: ignore</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">get_rlp_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Append the extra field to the list of fields to be encoded in RLP.&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Append the extra field to the list of fields to be encoded in RLP.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">rlp_fields</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_rlp_fields</span><span class="p">()[:]</span>
             <span class="n">rlp_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;extra_element&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">rlp_fields</span>

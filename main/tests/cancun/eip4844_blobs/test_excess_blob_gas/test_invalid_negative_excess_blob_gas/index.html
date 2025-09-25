@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_invalid_negative_excess_blob_gas"><code>test_invalid_negative_excess_blob_gas()</code><a class="headerlink" href="#test_invalid_negative_excess_blob_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L735"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_negative_excess_blob_gas@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L746"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_negative_excess_blob_gas@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_negative_excess_blob_gas --fork Osaka</span>
@@ -27327,24 +27327,13 @@
 
         <p>Test rejection of blocks where the <code>excessBlobGas</code> changes to the two's
 complement equivalent of the negative value after subtracting target blobs.</p>
-<p>Reasoning is that the <code>excessBlobGas</code> is a <code>uint64</code>, so it cannot be negative, and
-we test for a potential underflow here.</p>
+<p>Reasoning is that the <code>excessBlobGas</code> is a <code>uint64</code>, so it cannot be
+negative, and we test for a potential underflow here.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span>
-<span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span>
-<span class="normal">743</span>
-<span class="normal">744</span>
-<span class="normal">745</span>
-<span class="normal">746</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">746</span>
 <span class="normal">747</span>
 <span class="normal">748</span>
 <span class="normal">749</span>
@@ -27381,7 +27370,18 @@ we test for a potential underflow here.</p>
 <span class="normal">780</span>
 <span class="normal">781</span>
 <span class="normal">782</span>
-<span class="normal">783</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
+<span class="normal">786</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;header_excess_blob_gas&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">()))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">fork</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span>
@@ -27409,8 +27409,8 @@ we test for a potential underflow here.</p>
 <span class="sd">    Test rejection of blocks where the `excessBlobGas` changes to the two&#39;s</span>
 <span class="sd">    complement equivalent of the negative value after subtracting target blobs.</span>
 
-<span class="sd">    Reasoning is that the `excessBlobGas` is a `uint64`, so it cannot be negative, and</span>
-<span class="sd">    we test for a potential underflow here.</span>
+<span class="sd">    Reasoning is that the `excessBlobGas` is a `uint64`, so it cannot be</span>
+<span class="sd">    negative, and we test for a potential underflow here.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">header_excess_blob_gas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;test case is badly formatted&quot;</span><span class="p">)</span>

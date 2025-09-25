@@ -27267,11 +27267,13 @@
 </ul>
 <h3 id="evm_bytes-binary-file">evm_bytes binary-file<a class="headerlink" href="#evm_bytes-binary-file" title="Permanent link">&para;</a></h3>
 <p>Convert the BINARY_FILE containing EVM bytes to Python Opcodes or assembly.</p>
-<p>BINARY_FILE is a binary file containing EVM bytes, use <code>-</code> to read from stdin.</p>
+<p>BINARY_FILE is a binary file containing EVM bytes, use <code>-</code> to read from
+stdin.</p>
 <p>Returns:
     (str): The processed EVM opcodes in Python or assembly format.</p>
 <p>Example: Convert the Withdrawal Request contract to assembly
-    uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin --assembly</p>
+    uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/
+        contracts/withdrawal_request.bin --assembly</p>
 <p>Output:
     caller
     push20 0xfffffffffffffffffffffffffffffffffffffffe
@@ -27294,7 +27296,8 @@
 <p>Example 1: Convert a hex string to EEST Python <code>Opcodes</code>
     uv run evm_bytes hex-string 604260005260206000F3</p>
 <p>Output 1:
-    Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN</p>
+    Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] +
+    Op.PUSH1[0x0] + Op.RETURN</p>
 <p>Example 2: Convert a hex string to assembly
     uv run evm_bytes hex-string --assembly 604260005260206000F3</p>
 <p>Output 2:

@@ -27310,7 +27310,7 @@
 
 
 <h1 id="test_reentrancy_selfdestruct_revert"><code>test_reentrancy_selfdestruct_revert()</code><a class="headerlink" href="#test_reentrancy_selfdestruct_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cc952d792b1cbaceba95b66f1b0c9b77f98a0a9/tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py#L128"><code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py::test_reentrancy_selfdestruct_revert@1cc952d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b281a78b129f3c764fc2dc50ce8ca32db7a2d48f/tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py#L125"><code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py::test_reentrancy_selfdestruct_revert@b281a78b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py::test_reentrancy_selfdestruct_revert --fork Osaka</span>
@@ -27337,7 +27337,10 @@ It is expected the S is self destructed after the transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
@@ -27425,7 +27428,8 @@ It is expected the S is self destructed after the transaction.</p>
 <span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
-<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;first_suicide&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;second_suicide&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_reentrancy_selfdestruct_revert</span><span class="p">(</span>
@@ -27463,12 +27467,14 @@ It is expected the S is self destructed after the transaction.</p>
 
     <span class="k">if</span> <span class="n">first_suicide</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">fork</span> <span class="o">&gt;=</span> <span class="n">Cancun</span><span class="p">:</span>
-            <span class="c1"># On Cancun even callcode/delegatecall does not remove the account, so the value remain</span>
+            <span class="c1"># On Cancun even callcode/delegatecall does not remove the account,</span>
+            <span class="c1"># so the value remain</span>
             <span class="n">post</span><span class="p">[</span><span class="n">executor_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                     <span class="mh">0x01</span><span class="p">:</span> <span class="mh">0x01</span><span class="p">,</span>  <span class="c1"># First call to contract S-&gt;suicide success</span>
                     <span class="mh">0x02</span><span class="p">:</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1"># Second call to contract S-&gt;suicide reverted</span>
-                    <span class="mh">0x03</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>  <span class="c1"># Reverted value to check that revert really worked</span>
+                    <span class="mh">0x03</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>  <span class="c1"># Reverted value to check that revert really</span>
+                    <span class="c1"># worked</span>
                 <span class="p">},</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -27484,7 +27490,8 @@ It is expected the S is self destructed after the transaction.</p>
             <span class="n">balance</span><span class="o">=</span><span class="n">executor_contract_init_balance</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="c1"># On Cancun suicide no longer destroys the account from state, just cleans the balance</span>
+    <span class="c1"># On Cancun suicide no longer destroys the account from state, just cleans</span>
+    <span class="c1"># the balance</span>
     <span class="k">if</span> <span class="n">first_suicide</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">]:</span>
         <span class="n">post</span><span class="p">[</span><span class="n">executor_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
@@ -27494,7 +27501,8 @@ It is expected the S is self destructed after the transaction.</p>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">fork</span> <span class="o">&gt;=</span> <span class="n">Cancun</span><span class="p">:</span>
-            <span class="c1"># On Cancun suicide does not remove the account, just sends the balance</span>
+            <span class="c1"># On Cancun suicide does not remove the account, just sends the</span>
+            <span class="c1"># balance</span>
             <span class="n">post</span><span class="p">[</span><span class="n">selfdestruct_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">selfdestruct_contract_bytecode</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{}</span>
             <span class="p">)</span>
