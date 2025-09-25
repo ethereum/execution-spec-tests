@@ -11,18 +11,16 @@ from typing import cast
 import pytest
 from py_ecc.bn128 import G1, G2, multiply
 
-from ethereum_test_base_types.base_types import Bytes
-from ethereum_test_benchmark.benchmark_code_generator import JumpLoopGenerator
+from ethereum_test_base_types.base_types import Bytes, HexNumber
+from ethereum_test_benchmark import ExtCallGenerator, JumpLoopGenerator
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
     BenchmarkTestFiller,
     Block,
-    BlockchainTestFiller,
     Bytecode,
     Environment,
-    StateTestFiller,
     Transaction,
     add_kzg_version,
 )
@@ -38,7 +36,6 @@ from ..osaka.eip7951_p256verify_precompiles import spec as p256verify_spec
 from ..osaka.eip7951_p256verify_precompiles.spec import FieldElement
 from ..prague.eip2537_bls_12_381_precompiles import spec as bls12381_spec
 from ..prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
-from .helpers import code_loop_precompile_call
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
@@ -82,60 +79,33 @@ def make_dup(index: int) -> Opcode:
     ],
 )
 def test_worst_zero_param(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     opcode: Op,
-    fork: Fork,
-    gas_benchmark_value: int,
 ):
     """Test running a block with as many zero-parameter opcodes as possible."""
-    opcode_sequence = opcode * fork.max_stack_height()
-    target_contract_address = pre.deploy_contract(code=opcode_sequence)
-
-    calldata = Bytecode()
-    attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    code_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=ExtCallGenerator(setup=Bytecode(), attack_block=opcode),
     )
 
 
 @pytest.mark.parametrize("calldata_length", [0, 1_000, 10_000])
 def test_worst_calldatasize(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     calldata_length: int,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many CALLDATASIZE as possible."""
-    max_code_size = fork.max_code_size()
+    tx = JumpLoopGenerator(
+        setup=Bytecode(), attack_block=Op.POP(Op.CALLDATASIZE)
+    ).generate_transaction(pre, gas_benchmark_value, fork)
+    tx.data = Bytes(b"\x00" * calldata_length)
 
-    code_prefix = Op.JUMPDEST
-    iter_loop = Op.POP(Op.CALLDATASIZE)
-    code_suffix = Op.PUSH0 + Op.JUMP
-    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
-    code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=bytes(code)),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-        data=b"\x00" * calldata_length,
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -145,12 +115,11 @@ def test_worst_calldatasize(
 @pytest.mark.parametrize("non_zero_value", [True, False])
 @pytest.mark.parametrize("from_origin", [True, False])
 def test_worst_callvalue(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     non_zero_value: bool,
     from_origin: bool,
-    gas_benchmark_value: int,
 ):
     """
     Test running a block with as many CALLVALUE opcodes as possible.
@@ -159,15 +128,9 @@ def test_worst_callvalue(
     value. The `from_origin` parameter controls whether the call frame is the
     immediate from the transaction or a previous CALL.
     """
-    max_code_size = fork.max_code_size()
-
-    code_prefix = Op.JUMPDEST
-    iter_loop = Op.POP(Op.CALLVALUE)
-    code_suffix = Op.PUSH0 + Op.JUMP
-    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
-    code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= max_code_size
-    code_address = pre.deploy_contract(code=bytes(code))
+    code_address = JumpLoopGenerator(
+        setup=Bytecode(), attack_block=Op.POP(Op.CALLVALUE), cleanup=Bytecode()
+    ).deploy_contracts(pre, fork)
 
     if from_origin:
         tx_to = code_address
@@ -181,12 +144,11 @@ def test_worst_callvalue(
 
     tx = Transaction(
         to=tx_to,
-        gas_limit=gas_benchmark_value,
         value=1 if non_zero_value and from_origin else 0,
         sender=pre.fund_eoa(),
     )
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -211,12 +173,10 @@ class ReturnDataStyle(Enum):
 )
 @pytest.mark.parametrize("returned_size", [1, 0])
 def test_worst_returndatasize_nonzero(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
     returned_size: int,
     return_data_style: ReturnDataStyle,
-    gas_benchmark_value: int,
 ):
     """
     Test running a block which execute as many RETURNDATASIZE opcodes which
@@ -226,11 +186,9 @@ def test_worst_returndatasize_nonzero(
     buffer. The `return_data_style` indicates how returned data is produced for
     the opcode caller.
     """
-    max_code_size = fork.max_code_size()
-
-    dummy_contract_call = Bytecode()
+    setup = Bytecode()
     if return_data_style != ReturnDataStyle.IDENTITY:
-        dummy_contract_call = Op.STATICCALL(
+        setup += Op.STATICCALL(
             address=pre.deploy_contract(
                 code=Op.REVERT(0, returned_size)
                 if return_data_style == ReturnDataStyle.REVERT
@@ -238,68 +196,33 @@ def test_worst_returndatasize_nonzero(
             )
         )
     else:
-        dummy_contract_call = Op.MSTORE8(0, 1) + Op.STATICCALL(
+        setup += Op.MSTORE8(0, 1) + Op.STATICCALL(
             address=0x04,  # Identity precompile
             args_size=returned_size,
         )
 
-    code_prefix = dummy_contract_call + Op.JUMPDEST
-    iter_loop = Op.POP(Op.RETURNDATASIZE)
-    code_suffix = Op.JUMP(len(code_prefix) - 1)
-    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
-    code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=bytes(code)),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=setup, attack_block=Op.POP(Op.RETURNDATASIZE)),
     )
 
 
 def test_worst_returndatasize_zero(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
-    gas_benchmark_value: int,
 ):
-    """
-    Test running a block with as many RETURNDATASIZE opcodes as possible with a
-    zero buffer.
-    """
-    max_code_size = fork.max_code_size()
-
-    dummy_contract_call = Bytecode()
-
-    code_prefix = dummy_contract_call + Op.JUMPDEST
-    iter_loop = Op.POP(Op.RETURNDATASIZE)
-    code_suffix = Op.JUMP(len(code_prefix) - 1)
-    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
-    code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=bytes(code)),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=ExtCallGenerator(setup=Bytecode(), attack_block=Op.RETURNDATASIZE),
     )
 
 
 @pytest.mark.parametrize("mem_size", [0, 1, 1_000, 100_000, 1_000_000])
 def test_worst_msize(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     mem_size: int,
@@ -310,26 +233,15 @@ def test_worst_msize(
 
     The `mem_size` parameter indicates by how much the memory is expanded.
     """
-    max_stack_height = fork.max_stack_height()
-
-    code_sequence = Op.MLOAD(Op.CALLVALUE) + Op.POP + Op.MSIZE * max_stack_height
-    target_address = pre.deploy_contract(code=code_sequence)
-
-    calldata = Bytecode()
-    attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_address, 0, 0, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    assert len(code) <= fork.max_code_size()
-
-    code_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-        value=mem_size,
+    generator = ExtCallGenerator(
+        setup=Op.MLOAD(Op.CALLVALUE) + Op.POP,
+        attack_block=Op.MSIZE,
     )
+    generator.deploy_contracts(pre, fork)
+    tx = generator.generate_transaction(pre, gas_benchmark_value, fork)
+    tx.value = HexNumber(mem_size)
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -337,7 +249,7 @@ def test_worst_msize(
 
 
 def test_worst_keccak(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
@@ -350,11 +262,8 @@ def test_worst_keccak(
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
 
-    max_code_size = fork.max_code_size()
-
-    # Discover the optimal input size to maximize keccak-permutations, not
-    # keccak calls. The complication of the discovery arises from the non-
-    # linear gas cost of memory expansion.
+    # Discover the optimal input size to maximize keccak-permutations, not keccak calls.
+    # The complication of the discovery arises from the non-linear gas cost of memory expansion.
     max_keccak_perm_per_block = 0
     optimal_input_length = 0
     for i in range(1, 1_000_000, 32):
@@ -385,32 +294,18 @@ def test_worst_keccak(
     # The loop structure is: JUMPDEST + [attack iteration] + PUSH0 + JUMP
     #
     # Now calculate available gas for [attack iteration]:
-    # Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP
-    # Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
-    #
-    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is
-    # suboptimal for the attack, whenever this is fixed adjust accordingly.
-    start_code = Op.JUMPDEST + Op.PUSH20[optimal_input_length]
-    loop_code = Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1))
-    end_code = Op.POP + Op.JUMP(Op.PUSH0)
-    max_iters_loop = (max_code_size - (len(start_code) + len(end_code))) // len(loop_code)
-    code = start_code + (loop_code * max_iters_loop) + end_code
-    if len(code) > max_code_size:
-        # Must never happen, but keep it as a sanity check.
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
-
-    code_address = pre.deploy_contract(code=bytes(code))
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    #   Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.
+    #   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
+    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the
+    # attack, whenever this is fixed adjust accordingly.
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=Op.PUSH20[optimal_input_length],
+            attack_block=Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1)),
+            cleanup=Bytecode(),
+        ),
     )
 
 
@@ -423,7 +318,7 @@ def test_worst_keccak(
     ],
 )
 def test_worst_precompile_only_data_input(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     address: Address,
@@ -478,22 +373,14 @@ def test_worst_precompile_only_data_input(
             max_work = total_work
             optimal_input_length = input_length
 
-    calldata = Op.CODECOPY(0, 0, optimal_input_length)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, address, 0, optimal_input_length, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block, fork)
 
-    code_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=Op.CODECOPY(0, 0, optimal_input_length), attack_block=attack_block
+        ),
     )
 
 
@@ -1327,7 +1214,7 @@ def test_worst_precompile_only_data_input(
     ],
 )
 def test_worst_modexp(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     mod_exp_input: ModExpInput,
@@ -1337,24 +1224,16 @@ def test_worst_modexp(
     Test running a block with as many calls to the MODEXP (5) precompile as
     possible. All the calls have the same parametrized input.
     """
-    # Skip the trailing zeros from the input to make EVM work even harder.
-    calldata = bytes(mod_exp_input).rstrip(b"\x00")
-
-    code = code_loop_precompile_call(
-        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE),  # Copy the input to the
-        # memory.
-        Op.POP(Op.STATICCALL(Op.GAS, 0x5, Op.PUSH0, Op.CALLDATASIZE, Op.PUSH0, Op.PUSH0)),
-        fork,
+    attack_block = Op.POP(
+        Op.STATICCALL(Op.GAS, 0x5, Op.PUSH0, Op.CALLDATASIZE, Op.PUSH0, Op.PUSH0)
     )
 
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-        input=calldata,
-    )
+    tx = JumpLoopGenerator(
+        setup=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE), attack_block=attack_block
+    ).generate_transaction(pre, gas_benchmark_value, fork)
+    tx.data = Bytes(bytes(mod_exp_input).rstrip(b"\x00"))
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -1786,7 +1665,7 @@ def test_worst_modexp(
     ],
 )
 def test_worst_precompile_fixed_cost(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     precompile_address: Address,
@@ -1816,47 +1695,34 @@ def test_worst_precompile_fixed_cost(
     padding_length = (32 - (len(concatenated_bytes) % 32)) % 32
     input_bytes = concatenated_bytes + b"\x00" * padding_length
 
-    calldata = Bytecode()
+    setup = Bytecode()
     for i in range(0, len(input_bytes), 32):
         chunk = input_bytes[i : i + 32]
         value_to_store = int.from_bytes(chunk, "big")
-        calldata += Op.MSTORE(i, value_to_store)
+        setup += Op.MSTORE(i, value_to_store)
 
     attack_block = Op.POP(
         Op.STATICCALL(Op.GAS, precompile_address, 0, len(concatenated_bytes), 0, 0)
     )
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    code_address = pre.deploy_contract(code=bytes(code))
 
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )
 
 
 def test_worst_jumps(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    gas_benchmark_value: int,
 ):
     """Test running a JUMP-intensive contract."""
-    jumps_code = Op.JUMPDEST + Op.JUMP(Op.PUSH0)
-    jumps_address = pre.deploy_contract(jumps_code)
-
     tx = Transaction(
-        to=jumps_address,
-        gas_limit=gas_benchmark_value,
+        to=pre.deploy_contract(code=(Op.JUMPDEST + Op.JUMP(Op.PUSH0))),
         sender=pre.fund_eoa(),
     )
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -1864,64 +1730,37 @@ def test_worst_jumps(
 
 
 def test_worst_jumpi_fallthrough(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
-    gas_benchmark_value: int,
 ):
     """Test running a JUMPI-intensive contract with fallthrough."""
-    max_code_size = fork.max_code_size()
-
-    def jumpi_seq():
-        return Op.JUMPI(Op.PUSH0, Op.PUSH0)
-
-    prefix_seq = Op.JUMPDEST
-    suffix_seq = Op.JUMP(Op.PUSH0)
-    bytes_per_seq = len(jumpi_seq())
-    seqs_per_call = (max_code_size - len(prefix_seq) - len(suffix_seq)) // bytes_per_seq
-
-    # Create and deploy the jumpi-intensive contract
-    jumpis_code = prefix_seq + jumpi_seq() * seqs_per_call + suffix_seq
-    assert len(jumpis_code) <= max_code_size
-
-    jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
-
-    tx = Transaction(
-        to=jumpis_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=Bytecode(), attack_block=Op.JUMPI(Op.PUSH0, Op.PUSH0)
+        ),
     )
 
 
 def test_worst_jumpis(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    gas_benchmark_value: int,
 ):
     """Test running a JUMPI-intensive contract."""
-    jumpi_code = Op.JUMPDEST + Op.JUMPI(Op.PUSH0, Op.NUMBER)
-    jumpi_address = pre.deploy_contract(jumpi_code)
-
     tx = Transaction(
-        to=jumpi_address,
-        gas_limit=gas_benchmark_value,
+        to=pre.deploy_contract(code=(Op.JUMPDEST + Op.JUMPI(Op.PUSH0, Op.NUMBER))),
         sender=pre.fund_eoa(),
     )
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
     )
 
 
-@pytest.mark.slow
 def test_worst_jumpdests(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
@@ -2083,7 +1922,7 @@ DEFAULT_BINOP_ARGS = (
     ids=lambda param: "" if isinstance(param, tuple) else param,
 )
 def test_worst_binop_simple(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     opcode: Op,
     fork: Fork,
@@ -2095,25 +1934,17 @@ def test_worst_binop_simple(
     produces one value) as possible. The execution starts with two initial
     values on the stack, and the stack is balanced by the DUP2 instruction.
     """
-    max_code_size = fork.max_code_size()
-
     tx_data = b"".join(arg.to_bytes(32, byteorder="big") for arg in opcode_args)
 
-    code_prefix = Op.JUMPDEST + Op.CALLDATALOAD(0) + Op.CALLDATALOAD(32)
-    code_suffix = Op.POP + Op.POP + Op.PUSH0 + Op.JUMP
-    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
-    code_body = (Op.DUP2 + opcode) * (code_body_len // 2)
-    code = code_prefix + code_body + code_suffix
-    assert len(code) == max_code_size - 1
+    setup = Op.CALLDATALOAD(0) + Op.CALLDATALOAD(32) + Op.DUP2 + Op.DUP2
+    attack_block = Op.DUP2 + opcode
+    cleanup = Op.POP + Op.POP
+    tx = JumpLoopGenerator(
+        setup=setup, attack_block=attack_block, cleanup=cleanup
+    ).generate_transaction(pre, gas_benchmark_value, fork)
+    tx.data = Bytes(tx_data)
 
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        data=tx_data,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -2122,35 +1953,21 @@ def test_worst_binop_simple(
 
 @pytest.mark.parametrize("opcode", [Op.ISZERO, Op.NOT])
 def test_worst_unop(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     opcode: Op,
     fork: Fork,
-    gas_benchmark_value: int,
 ):
     """
     Test running a block with as many unary instructions (takes one arg,
     produces one value) as possible.
     """
-    max_code_size = fork.max_code_size()
-
-    code_prefix = Op.JUMPDEST + Op.PUSH0  # Start with the arg 0.
-    code_suffix = Op.POP + Op.PUSH0 + Op.JUMP
-    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
-    code_body = opcode * code_body_len
-    code = code_prefix + code_body + code_suffix
-    assert len(code) == max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=Op.PUSH0, attack_block=opcode, cleanup=Op.POP + Op.PUSH0
+        ),
     )
 
 
@@ -2160,7 +1977,7 @@ def test_worst_unop(
 # key changes.
 @pytest.mark.parametrize("val_mut", [True, False])
 def test_worst_tload(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     fork: Fork,
     pre: Alloc,
     key_mut: bool,
@@ -2168,43 +1985,31 @@ def test_worst_tload(
     gas_benchmark_value: int,
 ):
     """Test running a block with as many TLOAD calls as possible."""
-    max_code_size = fork.max_code_size()
-
     start_key = 41
     code_key_mut = Bytecode()
     code_val_mut = Bytecode()
+    setup = Bytecode()
     if key_mut and val_mut:
-        code_prefix = Op.PUSH1(start_key) + Op.JUMPDEST
-        loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
+        setup = Op.PUSH1(start_key)
+        attack_block = Op.POP(Op.TLOAD(Op.DUP1))
         code_key_mut = Op.POP + Op.GAS
         code_val_mut = Op.TSTORE(Op.DUP2, Op.GAS)
     if key_mut and not val_mut:
-        code_prefix = Op.JUMPDEST
-        loop_iter = Op.POP(Op.TLOAD(Op.GAS))
+        attack_block = Op.POP(Op.TLOAD(Op.GAS))
     if not key_mut and val_mut:
-        code_prefix = Op.JUMPDEST
-        loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
-        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured
-        # in the tx
+        attack_block = Op.POP(Op.TLOAD(Op.CALLVALUE))
+        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured in the tx
     if not key_mut and not val_mut:
-        code_prefix = Op.JUMPDEST
-        loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
+        attack_block = Op.POP(Op.TLOAD(Op.CALLVALUE))
 
-    code_suffix = code_key_mut + code_val_mut + Op.JUMP(len(code_prefix) - 1)
+    cleanup = code_key_mut + code_val_mut
 
-    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
-    code_body = loop_iter * code_body_len
-    code = code_prefix + code_body + code_suffix
-    assert len(code) <= max_code_size
+    tx = JumpLoopGenerator(
+        setup=setup, attack_block=attack_block, cleanup=cleanup
+    ).generate_transaction(pre, gas_benchmark_value, fork)
+    tx.value = HexNumber(start_key if not key_mut and val_mut else 0)
 
-    tx = Transaction(
-        to=pre.deploy_contract(code),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-        value=start_key if not key_mut and val_mut else 0,
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -2214,49 +2019,32 @@ def test_worst_tload(
 @pytest.mark.parametrize("key_mut", [True, False])
 @pytest.mark.parametrize("dense_val_mut", [True, False])
 def test_worst_tstore(
-    state_test: StateTestFiller,
-    fork: Fork,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     key_mut: bool,
     dense_val_mut: bool,
-    gas_benchmark_value: int,
 ):
     """Test running a block with as many TSTORE calls as possible."""
-    max_code_size = fork.max_code_size()
-
     init_key = 42
-    code_prefix = Op.PUSH1(init_key) + Op.JUMPDEST
+    setup = Op.PUSH1(init_key)
 
-    # If `key_mut` is True, we mutate the key on every iteration of the big
-    # loop.
-    code_key_mut = Op.POP + Op.GAS if key_mut else Bytecode()
-    code_suffix = code_key_mut + Op.JUMP(len(code_prefix) - 1)
+    # If `dense_val_mut` is set, we use GAS as a cheap way of always storing a different value than
+    # the previous one.
+    attack_block = Op.TSTORE(Op.DUP2, Op.GAS if dense_val_mut else Op.DUP1)
 
-    # If `dense_val_mut` is set, we use GAS as a cheap way of always storing a
-    # different value than the previous one.
-    loop_iter = Op.TSTORE(Op.DUP2, Op.GAS if dense_val_mut else Op.DUP1)
+    # If `key_mut` is True, we mutate the key on every iteration of the big loop.
+    cleanup = Op.POP + Op.GAS if key_mut else Bytecode()
 
-    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
-    code_body = loop_iter * code_body_len
-    code = code_prefix + code_body + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block, cleanup=cleanup),
     )
 
 
 @pytest.mark.parametrize("shift_right", [Op.SHR, Op.SAR])
 def test_worst_shifts(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     shift_right: Op,
@@ -2333,7 +2121,7 @@ def test_worst_shifts(
         sender=pre.fund_eoa(),
     )
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -2351,52 +2139,26 @@ def test_worst_shifts(
 )
 def test_worst_blobhash(
     fork: Fork,
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     blob_index: int,
     blobs_present: bool,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many BLOBHASH instructions as possible."""
-    max_code_size = fork.max_code_size()
-    max_stack_height = fork.max_stack_height()
+    tx = ExtCallGenerator(
+        setup=Bytecode(), attack_block=Op.BLOBHASH(blob_index)
+    ).generate_transaction(pre, gas_benchmark_value, fork)
 
-    # Contract that contains a collection of BLOBHASH instructions.
-    opcode_sequence = Op.BLOBHASH(blob_index) * max_stack_height
-    assert len(opcode_sequence) <= max_code_size
-
-    target_contract_address = pre.deploy_contract(code=opcode_sequence)
-
-    # Contract that contains a loop of STATICCALLs to the target contract.
-    calldata = Bytecode()
-    attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    assert len(code) <= max_code_size
-
-    code_address = pre.deploy_contract(code=code)
-
-    # Create blob transaction if blobs are present.
-    tx_type = TransactionType.LEGACY
-    blob_versioned_hashes = None
-    max_fee_per_blob_gas = None
     if blobs_present > 0:
-        tx_type = TransactionType.BLOB_TRANSACTION
-        max_fee_per_blob_gas = fork.min_base_fee_per_blob_gas()
-        blob_versioned_hashes = add_kzg_version(
+        tx.ty = HexNumber(TransactionType.BLOB_TRANSACTION)
+        tx.max_fee_per_blob_gas = HexNumber(fork.min_base_fee_per_blob_gas())
+        tx.blob_versioned_hashes = add_kzg_version(
             [i.to_bytes() * 32 for i in range(blobs_present)],
             BlobsSpec.BLOB_COMMITMENT_VERSION_KZG,
         )
 
-    tx = Transaction(
-        ty=tx_type,
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        max_fee_per_blob_gas=max_fee_per_blob_gas,
-        blob_versioned_hashes=blob_versioned_hashes,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -2406,7 +2168,7 @@ def test_worst_blobhash(
 @pytest.mark.parametrize("mod_bits", [255, 191, 127, 63])
 @pytest.mark.parametrize("op", [Op.MOD, Op.SMOD])
 def test_worst_mod(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     mod_bits: int,
@@ -2428,11 +2190,9 @@ def test_worst_mod(
     The order of accessing the numerators is selected in a way the mod value
     remains in the range as long as possible.
     """
-    max_code_size = fork.max_code_size()
-
-    # For SMOD we negate both numerator and modulus. The underlying computation
-    # is the same, just the SMOD implementation will have to additionally
-    # handle the sign bits. The result stays negative.
+    # For SMOD we negate both numerator and modulus. The underlying computation is the same,
+    # just the SMOD implementation will have to additionally handle the sign bits.
+    # The result stays negative.
     should_negate = op == Op.SMOD
 
     num_numerators = 15
@@ -2503,32 +2263,20 @@ def test_worst_mod(
         seed += 1
         print(f"{seed=}")
 
-    # TODO: Don't use fixed PUSH32. Let Bytecode helpers to select optimal push
-    # opcode.
-    code_constant_pool = sum((Op.PUSH32[n] for n in numerators), Bytecode())
-    code_prefix = code_constant_pool + Op.JUMPDEST
-    code_suffix = Op.JUMP(len(code_constant_pool))
-    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
-    code_segment = (
+    # TODO: Don't use fixed PUSH32. Let Bytecode helpers to select optimal push opcode.
+    setup = sum((Op.PUSH32[n] for n in numerators), Bytecode())
+    attack_block = (
         Op.CALLDATALOAD(0) + sum(make_dup(len(numerators) - i) + op for i in indexes) + Op.POP
     )
-    code = (
-        code_prefix
-        # TODO: Add int * Bytecode support
-        + sum(code_segment for _ in range(code_body_len // len(code_segment)))
-        + code_suffix
+
+    tx = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_transaction(
+        pre, gas_benchmark_value, fork
     )
-    assert (max_code_size - len(code_segment)) < len(code) <= max_code_size
 
     input_value = initial_mod if not should_negate else neg(initial_mod)
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        data=input_value.to_bytes(32, byteorder="big"),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
+    tx.data = Bytes(input_value.to_bytes(32, byteorder="big"))
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -2540,50 +2288,31 @@ def test_worst_mod(
 @pytest.mark.parametrize("offset_initialized", [True, False])
 @pytest.mark.parametrize("big_memory_expansion", [True, False])
 def test_worst_memory_access(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
     opcode: Op,
     offset: int,
     offset_initialized: bool,
     big_memory_expansion: bool,
-    gas_benchmark_value: int,
 ):
-    """
-    Test running a block with as many memory access instructions as possible.
-    """
-    max_code_size = fork.max_code_size()
-
+    """Test running a block with as many memory access instructions as possible."""
     mem_exp_code = Op.MSTORE8(10 * 1024, 1) if big_memory_expansion else Bytecode()
     offset_set_code = Op.MSTORE(offset, 43) if offset_initialized else Bytecode()
-    code_prefix = mem_exp_code + offset_set_code + Op.PUSH1(42) + Op.PUSH1(offset) + Op.JUMPDEST
+    setup = mem_exp_code + offset_set_code + Op.PUSH1(42) + Op.PUSH1(offset)
 
-    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    attack_block = Op.POP(Op.MLOAD(Op.DUP1)) if opcode == Op.MLOAD else opcode(Op.DUP2, Op.DUP2)
 
-    loop_iter = Op.POP(Op.MLOAD(Op.DUP1)) if opcode == Op.MLOAD else opcode(Op.DUP2, Op.DUP2)
-
-    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
-    code_body = loop_iter * code_body_len
-    code = code_prefix + code_body + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )
 
 
 @pytest.mark.parametrize("mod_bits", [255, 191, 127, 63])
 @pytest.mark.parametrize("op", [Op.ADDMOD, Op.MULMOD])
 def test_worst_modarith(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     mod_bits: int,
@@ -2682,7 +2411,7 @@ def test_worst_modarith(
         sender=pre.fund_eoa(),
     )
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -2690,11 +2419,11 @@ def test_worst_modarith(
 
 
 def test_empty_block(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
 ):
     """Test running an empty block as a baseline for fixed proving costs."""
-    blockchain_test(
+    benchmark_test(
         pre=pre,
         post={},
         blocks=[Block(txs=[])],
@@ -2703,7 +2432,7 @@ def test_empty_block(
 
 
 def test_amortized_bn128_pairings(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
@@ -2750,20 +2479,15 @@ def test_amortized_bn128_pairings(
             max_pairings = num_pairings_done
             optimal_per_call_num_pairings = i
 
-    calldata = Op.CALLDATACOPY(size=Op.CALLDATASIZE)
+    setup = Op.CALLDATACOPY(size=Op.CALLDATASIZE)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, 0x08, 0, Op.CALLDATASIZE, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block, fork)
 
-    code_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        data=_generate_bn128_pairs(optimal_per_call_num_pairings, 42),
-        sender=pre.fund_eoa(),
+    tx = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_transaction(
+        pre, gas_benchmark_value, fork
     )
+    tx.data = _generate_bn128_pairs(optimal_per_call_num_pairings, 42)
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -2809,34 +2533,15 @@ def _generate_bn128_pairs(n: int, seed: int = 0):
     ],
 )
 def test_worst_calldataload(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
     calldata: bytes,
-    gas_benchmark_value: int,
 ):
     """Test running a block with as many CALLDATALOAD as possible."""
-    max_code_size = fork.max_code_size()
-
-    code_prefix = Op.PUSH0 + Op.JUMPDEST
-    code_suffix = Op.PUSH1(1) + Op.JUMP
-    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
-    code_loop_iter = Op.CALLDATALOAD
-    code_body = code_loop_iter * (code_body_len // len(code_loop_iter))
-    code = code_prefix + code_body + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        data=calldata,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=Op.PUSH0, attack_block=Op.CALLDATALOAD),
     )
 
 
@@ -2898,36 +2603,24 @@ def test_worst_swap(
     ],
 )
 def test_worst_dup(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
-    gas_benchmark_value: int,
 ):
     """Test running a block with as many DUP as possible."""
     max_stack_height = fork.max_stack_height()
 
     min_stack_height = opcode.min_stack_height
-    code_prefix = Op.PUSH0 * min_stack_height
-    opcode_sequence = opcode * (max_stack_height - min_stack_height)
-    target_contract_address = pre.deploy_contract(code=code_prefix + opcode_sequence)
+    code = Op.PUSH0 * min_stack_height + opcode * (max_stack_height - min_stack_height)
+    target_contract_address = pre.deploy_contract(code=code)
 
-    calldata = Bytecode()
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
 
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    code_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=Bytecode(), attack_block=attack_block),
     )
 
 
@@ -2970,33 +2663,17 @@ def test_worst_dup(
     ],
 )
 def test_worst_push(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
     opcode: Op,
-    gas_benchmark_value: int,
 ):
     """Test running a block with as many PUSH as possible."""
-    op = opcode[1] if opcode.has_data_portion() else opcode
-    opcode_sequence = op * fork.max_stack_height()
-    target_contract_address = pre.deploy_contract(code=opcode_sequence)
-
-    calldata = Bytecode()
-    attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
-
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    code_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=ExtCallGenerator(
+            setup=Bytecode(), attack_block=opcode[1] if opcode.has_data_portion() else opcode
+        ),
     )
 
 
@@ -3015,7 +2692,7 @@ def test_worst_push(
     ],
 )
 def test_worst_return_revert(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
@@ -3044,78 +2721,42 @@ def test_worst_return_revert(
         code += Op.INVALID * (max_code_size - len(executable_code))
     target_contract_address = pre.deploy_contract(code=code)
 
-    calldata = Bytecode()
     attack_block = Op.POP(Op.STATICCALL(address=target_contract_address))
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    code_address = pre.deploy_contract(code=code)
 
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=Bytecode(), attack_block=attack_block),
     )
 
 
 @pytest.mark.valid_from("Osaka")
 def test_worst_clz_same_input(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
     env: Environment,
 ):
     """Test running a block with as many CLZ with same input as possible."""
-    tx_gas_limit = fork.transaction_gas_limit_cap() or env.gas_limit
-
     magic_value = 248  # CLZ(248) = 248
 
-    calldata = Op.PUSH1(magic_value)
-    attack_block = Op.CLZ
-    code = code_loop_precompile_call(calldata, attack_block, fork)
-    assert len(code) <= fork.max_code_size()
-
-    code_address = pre.deploy_contract(code=code)
-
-    sender = pre.fund_eoa()
-    tx_count = gas_benchmark_value // tx_gas_limit
-    remainder_gas = gas_benchmark_value % tx_gas_limit
-
-    txs = [
-        Transaction(
-            to=code_address,
-            gas_limit=tx_gas_limit if i < tx_count else remainder_gas,
-            nonce=i,
-            sender=sender,
-        )
-        for i in range(tx_count + 1)
-    ]
-
-    blockchain_test(
-        genesis_environment=env,
+    benchmark_test(
         pre=pre,
         post={},
-        blocks=[Block(txs=txs)],
+        code_generator=JumpLoopGenerator(setup=Op.PUSH1(magic_value), attack_block=Op.CLZ),
     )
 
 
 @pytest.mark.valid_from("Osaka")
 def test_worst_clz_diff_input(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
     env: Environment,
 ):
-    """
-    Test running a block with as many CLZ with different input as possible.
-    """
-    tx_gas_limit = fork.transaction_gas_limit_cap() or env.gas_limit
+    """Test running a block with as many CLZ with different input as possible."""
     max_code_size = fork.max_code_size()
 
     code_prefix = Op.JUMPDEST
@@ -3135,24 +2776,13 @@ def test_worst_clz_diff_input(
     attack_code = code_prefix + code_seq + code_suffix
     assert len(attack_code) <= max_code_size
 
-    code_address = pre.deploy_contract(code=attack_code)
+    tx = Transaction(
+        to=pre.deploy_contract(code=attack_code),
+        sender=pre.fund_eoa(),
+    )
 
-    sender = pre.fund_eoa()
-    tx_count = gas_benchmark_value // tx_gas_limit
-    remainder_gas = gas_benchmark_value % tx_gas_limit
-    txs = [
-        Transaction(
-            to=code_address,
-            gas_limit=tx_gas_limit if i < tx_count else remainder_gas,
-            nonce=i,
-            sender=sender,
-        )
-        for i in range(tx_count + 1)
-    ]
-
-    blockchain_test(
-        genesis_environment=env,
+    benchmark_test(
         pre=pre,
         post={},
-        blocks=[Block(txs=txs)],
+        tx=tx,
     )
