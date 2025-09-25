@@ -54,7 +54,10 @@ class BenchmarkCodeGenerator(ABC):
     def generate_repeated_code(
         self, repeated_code: Bytecode, setup: Bytecode, fork: Fork
     ) -> Bytecode:
-        """Calculate the maximum number of iterations that can fit in the code size limit."""
+        """
+        Calculate the maximum number of iterations that
+        can fit in the code size limit.
+        """
         assert len(repeated_code) > 0, "repeated_code cannot be empty"
         max_code_size = fork.max_code_size()
 
@@ -114,7 +117,10 @@ class BenchmarkTest(BaseTest):
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
-        """Return the parameter name used in pytest to select this spec type."""
+        """
+        Return the parameter name used in pytest
+        to select this spec type.
+        """
         return "benchmark_test"
 
     @classmethod
@@ -124,7 +130,10 @@ class BenchmarkTest(BaseTest):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard a fixture format from filling if the appropriate marker is used."""
+        """
+        Discard a fixture format from filling if the
+        appropriate marker is used.
+        """
         if "blockchain_test_only" in [m.name for m in markers]:
             return fixture_format != BlockchainFixture
         if "blockchain_test_engine_only" in [m.name for m in markers]:
@@ -136,7 +145,10 @@ class BenchmarkTest(BaseTest):
         return self.env
 
     def split_transaction(self, tx: Transaction, gas_limit_cap: int | None) -> List[Transaction]:
-        """Split a transaction that exceeds the gas limit cap into multiple transactions."""
+        """
+        Split a transaction that exceeds the gas
+        limit cap into multiple transactions.
+        """
         if gas_limit_cap is None:
             tx.gas_limit = HexNumber(self.gas_benchmark_value)
             return [tx]

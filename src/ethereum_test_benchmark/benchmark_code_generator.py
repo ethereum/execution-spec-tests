@@ -1,4 +1,7 @@
-"""Benchmark code generator classes for creating optimized bytecode patterns."""
+"""
+Benchmark code generator classes for creating
+optimized bytecode patterns.
+"""
 
 from ethereum_test_forks import Fork
 from ethereum_test_specs.benchmark import BenchmarkCodeGenerator
@@ -13,7 +16,8 @@ class JumpLoopGenerator(BenchmarkCodeGenerator):
     def deploy_contracts(self, pre: Alloc, fork: Fork) -> None:
         """Deploy the looping contract."""
         # Benchmark Test Structure:
-        # setup + JUMPDEST + attack + attack + ... + attack + JUMP(setup_length)
+        # setup + JUMPDEST + attack + attack + ... +
+        # attack + JUMP(setup_length)
         code = self.generate_repeated_code(self.attack_block, self.setup, fork)
         self._contract_address = pre.deploy_contract(code=code)
 
@@ -30,13 +34,17 @@ class JumpLoopGenerator(BenchmarkCodeGenerator):
 
 
 class ExtCallGenerator(BenchmarkCodeGenerator):
-    """Generates bytecode that fills the contract to maximum allowed code size."""
+    """
+    Generates bytecode that fills the contract to
+    maximum allowed code size.
+    """
 
     def deploy_contracts(self, pre: Alloc, fork: Fork) -> None:
         """Deploy both target and caller contracts."""
         # Benchmark Test Structure:
         # There are two contracts:
-        # 1. The target contract that executes certain operation but not loop (e.g. PUSH)
+        # 1. The target contract that executes certain operation
+        #    but not loop (e.g. PUSH)
         # 2. The loop contract that calls the target contract in a loop
 
         max_iterations = min(
@@ -49,8 +57,12 @@ class ExtCallGenerator(BenchmarkCodeGenerator):
         )
 
         # Create caller contract that repeatedly calls the target contract
-        # attack = POP(STATICCALL(GAS, target_contract_address, 0, 0, 0, 0))
-        # setup + JUMPDEST + attack + attack + ... + attack + JUMP(setup_length)
+        # attack = POP(
+        #             STATICCALL(GAS, target_contract_address, 0, 0, 0, 0)
+        #          )
+        #
+        # setup + JUMPDEST + attack + attack + ... + attack +
+        # JUMP(setup_length)
         code_sequence = Op.POP(Op.STATICCALL(Op.GAS, self._target_contract_address, 0, 0, 0, 0))
 
         caller_code = self.generate_repeated_code(code_sequence, Bytecode(), fork)

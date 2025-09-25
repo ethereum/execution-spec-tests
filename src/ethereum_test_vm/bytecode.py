@@ -245,7 +245,10 @@ class Bytecode:
     def __get_pydantic_core_schema__(
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Provide Pydantic core schema for Bytecode serialization and validation."""
+        """
+        Provide Pydantic core schema for Bytecode
+        serialization and validation.
+        """
         return no_info_plain_validator_function(
             cls,
             serialization=plain_serializer_function_ser_schema(
