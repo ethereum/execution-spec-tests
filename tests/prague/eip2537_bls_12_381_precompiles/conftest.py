@@ -65,8 +65,11 @@ def call_opcode() -> Op:
 @pytest.fixture
 def call_contract_post_storage() -> Storage:
     """
-    Storage of the test contract after the transaction is executed. Note:
+    Storage of the test contract after the transaction is executed.
+
+    Note:
     Fixture `call_contract_code` fills the actual expected storage values.
+
     """
     return Storage()
 
@@ -95,18 +98,25 @@ def call_contract_code(
     """
     Code of the test contract.
 
-    Args: precompile_address: Address of the precompile to call.
-    precompile_gas: Gas cost for the precompile, which is automatically
-    calculated by the `precompile_gas` fixture, but can be overridden in the
-    test. precompile_gas_modifier: Gas cost modifier for the precompile, which
-    is automatically set to zero by the `precompile_gas_modifier` fixture, but
-    can be overridden in the test. expected_output: Expected output of the
-    precompile call. This value is used to determine if the call is expected to
-    succeed or fail. call_succeeds: Boolean that indicates if the call is
-    expected to succeed or fail. call_opcode: Type of call used to call the
-    precompile (Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL).
-    call_contract_post_storage: Storage of the test contract after the
-    transaction is executed.
+    Args:
+      precompile_address: Address of the precompile to call.
+      precompile_gas: Gas cost for the precompile, which is automatically
+                      calculated by the `precompile_gas` fixture, but can
+                      be overridden in the test.
+      precompile_gas_modifier: Gas cost modifier for the precompile, which
+                               is automatically set to zero by the
+                               `precompile_gas_modifier` fixture, but
+                               can be overridden in the test.
+      expected_output: Expected output of the precompile call.
+                       This value is used to determine if the call is
+                       expected to succeed or fail.
+      call_succeeds: Boolean that indicates if the call is expected to
+                     succeed or fail.
+      call_opcode: Type of call used to call the precompile (Op.CALL,
+                   Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL).
+      call_contract_post_storage: Storage of the test contract after the
+                                  transaction is executed.
+
     """
     expected_output = bytes(expected_output)
 

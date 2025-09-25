@@ -47,29 +47,25 @@ from ethereum_test_tools import (
 from ethereum_test_vm import Opcodes as Op
 
 """
-
-
-PUSH opcode cost is 3, GAS opcode cost is 2. We need 6 PUSH's and one GAS to
-fill the stack for both CALL & CALLCODE, in the callee contract.
+PUSH opcode cost is 3, GAS opcode cost is 2.
+We need 6 PUSH's and one GAS to fill the stack for both CALL & CALLCODE,
+in the callee contract.
 """
 CALLEE_INIT_STACK_GAS = 6 * 3 + 2
 
 """
-
-
-CALL gas breakdowns: (https://www.evm.codes/#f1) memory_exp_cost +
-code_exec_cost + address_access_cost + positive_value_cost + empty_account_cost
+CALL gas breakdowns: (https://www.evm.codes/#f1)
+memory_exp_cost + code_exec_cost + address_access_cost +
+positive_value_cost + empty_account_cost
 = 0 + 0 + 2600 + 9000 + 25000 = 36600
 """
 CALL_GAS = 36600
 CALL_SUFFICIENT_GAS = CALL_GAS + CALLEE_INIT_STACK_GAS
 
 """
-
-
-CALLCODE gas breakdowns: (https://www.evm.codes/#f2) memory_exp_cost +
-code_exec_cost + address_access_cost + positive_value_cost = 0 + 0 + 2600 +
-9000 = 11600
+CALLCODE gas breakdowns: (https://www.evm.codes/#f2)
+memory_exp_cost + code_exec_cost + address_access_cost +
+positive_value_cost = 0 + 0 + 2600 + 9000 = 11600
 """
 CALLCODE_GAS = 11600
 CALLCODE_SUFFICIENT_GAS = CALLCODE_GAS + CALLEE_INIT_STACK_GAS
@@ -78,9 +74,12 @@ CALLCODE_SUFFICIENT_GAS = CALLCODE_GAS + CALLEE_INIT_STACK_GAS
 @pytest.fixture
 def callee_code(pre: Alloc, callee_opcode: Op) -> Bytecode:
     """
-    Code called by the caller contract: PUSH1 0x00 * 4 PUSH1 0x01 <- for
-    positive value transfer PUSH2 Contract.nonexistent GAS <- value doesn't
-    matter CALL/CALLCODE.
+    Code called by the caller contract:
+      PUSH1 0x00 * 4
+      PUSH1 0x01 <- for positive value transfer
+      PUSH2 Contract.nonexistent
+      GAS <- value doesn't matter
+      CALL/CALLCODE.
     """
     # The address needs to be empty and different for each execution of the
     # fixture, otherwise the calculations (empty_account_cost) are incorrect.
@@ -102,9 +101,13 @@ def callee_address(pre: Alloc, callee_code: Bytecode) -> Address:
 @pytest.fixture
 def caller_code(caller_gas_limit: int, callee_address: Address) -> Bytecode:
     """
-    Code to CALL the callee contract: PUSH1 0x00 * 5 PUSH2 Contract.callee
-    PUSH2 caller_gas <- gas limit set for CALL to callee contract CALL PUSH1
-    0x00 SSTORE.
+    Code to CALL the callee contract:
+      PUSH1 0x00 * 5
+      PUSH2 Contract.callee
+      PUSH2 caller_gas <- gas limit set for CALL to callee contract
+      CALL
+      PUSH1 0x00
+      SSTORE.
     """
     return Op.SSTORE(0, Op.CALL(caller_gas_limit, callee_address, 0, 0, 0, 0, 0))
 
@@ -112,9 +115,13 @@ def caller_code(caller_gas_limit: int, callee_address: Address) -> Bytecode:
 @pytest.fixture
 def caller_address(pre: Alloc, caller_code: Bytecode) -> Address:
     """
-    Code to CALL the callee contract: PUSH1 0x00 * 5 PUSH2 Contract.callee
-    PUSH2 caller_gas <- gas limit set for CALL to callee contract CALL PUSH1
-    0x00 SSTORE.
+    Code to CALL the callee contract:
+      PUSH1 0x00 * 5
+      PUSH2 Contract.callee
+      PUSH2 caller_gas <- gas limit set for CALL to callee contract
+      CALL
+      PUSH1 0x00
+      SSTORE.
     """
     return pre.deploy_contract(caller_code, balance=0x03)
 

@@ -1056,9 +1056,12 @@ def test_eof_calls_msg_depth(
     opcode: Op,
 ):
     """
-    Test EOF contracts calls handle msg depth limit correctly (1024). NOTE: due
-    to block gas limit and the 63/64th rule this limit is unlikely to be hit on
-    mainnet.
+    Test EOF contracts calls handle msg depth limit correctly (1024).
+
+    Note:
+    due to block gas limit and the 63/64th rule this limit is unlikely
+    to be hit on mainnet.
+
     """
     # Not a precise gas_limit formula, but enough to exclude risk of gas
     # causing the failure.

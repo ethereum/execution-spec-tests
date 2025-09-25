@@ -381,12 +381,15 @@ def test_worst_keccak(
 
     # max_iters_loop contains how many keccak calls can be done per loop. The
     # loop is as big as possible bounded by the maximum code size.
+    #
     # The loop structure is: JUMPDEST + [attack iteration] + PUSH0 + JUMP
-    # Now calculate available gas for [attack iteration]: Numerator =
-    # max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP. Denominator
-    # = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA TODO: the
-    # testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for
-    # the attack, whenever this is fixed adjust accordingly.
+    #
+    # Now calculate available gas for [attack iteration]:
+    # Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP
+    # Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
+    #
+    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is
+    # suboptimal for the attack, whenever this is fixed adjust accordingly.
     start_code = Op.JUMPDEST + Op.PUSH20[optimal_input_length]
     loop_code = Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1))
     end_code = Op.POP + Op.JUMP(Op.PUSH0)
@@ -2486,16 +2489,15 @@ def test_worst_mod(
         mod = initial_mod
         indexes = []
         while mod >= mod_min:
-            results = [n % mod for n in numerators]  # Compute results for each
-            # numerator.
-            i = max(range(len(results)), key=results.__getitem__)  # And pick
-            # the best
-            # one.
+            # Compute results for each numerator.
+            results = [n % mod for n in numerators]
+            # And pick the best one.
+            i = max(range(len(results)), key=results.__getitem__)
             mod = results[i]
             indexes.append(i)
 
-        assert len(indexes) > numerators_min_len  # Disable if you want to find
-        # longer MOD chains.
+        # Disable if you want to find longer MOD chains.
+        assert len(indexes) > numerators_min_len
         if len(indexes) > numerators_min_len:
             break
         seed += 1
@@ -2650,14 +2652,13 @@ def test_worst_modarith(
         indexes: list[int] = []
         while mod >= mod_min and len(indexes) < op_chain_len:
             results = [op_fn(a, fixed_arg) % mod for a in args]
-            i = max(range(len(results)), key=results.__getitem__)  # And pick
-            # the best
-            # one.
+            # And pick the best one.
+            i = max(range(len(results)), key=results.__getitem__)
             mod = results[i]
             indexes.append(i)
 
-        assert len(indexes) == op_chain_len  # Disable if you want to find
-        # longer op chains.
+        # Disable if you want to find longer op chains.
+        assert len(indexes) == op_chain_len
         if len(indexes) == op_chain_len:
             break
         seed += 1

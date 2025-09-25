@@ -61,8 +61,11 @@ def call_opcode() -> Op:
 @pytest.fixture
 def call_contract_post_storage() -> Storage:
     """
-    Storage of the test contract after the transaction is executed. Note:
+    Storage of the test contract after the transaction is executed.
+
+    Note:
     Fixture `call_contract_code` fills the actual expected storage values.
+
     """
     return Storage()
 

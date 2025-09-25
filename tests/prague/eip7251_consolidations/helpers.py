@@ -126,29 +126,11 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
 
     contract_balance: int = 1_000_000_000_000_000_000
     """
-
-
-
-
-
-
     Balance of the contract that will make the call to the pre-deploy contract.
-
-
-
     """
     contract_address: Address | None = None
     """
-
-
-
-
-
-
     Address of the contract that will make the call to the pre-deploy contract.
-
-
-
     """
     entry_address: Address | None = None
     """Address to send the transaction to."""

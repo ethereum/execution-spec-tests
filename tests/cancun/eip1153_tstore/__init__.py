@@ -19,20 +19,27 @@ class PytestParameterEnum(Enum):
     can be used to create a parametrize decorator that can be applied to tests,
     for example,
 
-    ```python @TStorageCallContextTestCases.parametrize() def
-    test_function(test_value): pass ```
+    ```python
+    @TStorageCallContextTestCases.parametrize()
+    def test_function(test_value):
+        pass
+    ```
 
     Classes which derive from this class must define each test case as a
     different enum field with a dictionary as value.
 
-    The dictionary must contain: i. A `description` key with a string value
-    describing the test case. ii. (Optional) A `pytest_marks` key with a single
-    mark or list of pytest marks to apply to the test case. For example,
-
-    ``` pytest_marks=pytest.mark.xfail ``` or
-
-    ``` pytest_marks=[pytest.mark.xfail, pytest.mark.skipif] ``` iii.
-    (Optional) An `id` key with the name of the test.
+    The dictionary must contain:
+      i. A `description` key with a string value describing the test case.
+      ii. (Optional) A `pytest_marks` key with a single mark or list of pytest
+                     marks to apply to the test case. For example:
+        ```
+        pytest_marks=pytest.mark.xfail
+        ```
+        or
+        ```
+        pytest_marks=[pytest.mark.xfail, pytest.mark.skipif]
+        ```
+      iii. (Optional) An `id` key with the name of the test.
 
     The rest of the keys in the dictionary are the parameters of the test case.
 

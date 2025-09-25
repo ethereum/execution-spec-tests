@@ -89,17 +89,22 @@ def call_contract_code(
     given gas and data length, data being passed to the precompile is all
     zeros.
 
-    Args: precompile_address: Address of the precompile to call.
-    precompile_gas_list: List of gas values to be used to call the precompile,
-    one for each call. precompile_data_length_list: List of data lengths to be
-    used to call the precompile, one for each call. gas_modifier: Integer to
-    add to the gas passed to the precompile. input_length_modifier: Integer to
-    add to the length of the input passed to the precompile. expected_output:
-    Expected output of the contract, it is only used to determine if the call
-    is expected to succeed or fail. call_opcode: Type of call used to call the
-    precompile (Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL).
-    call_contract_post_storage: Storage of the test contract after the
-    transaction is executed.
+    Args:
+      precompile_address: Address of the precompile to call.
+      precompile_gas_list: List of gas values to be used to call the
+                           precompile, one for each call.
+      precompile_data_length_list: List of data lengths to be used to call
+                                   the precompile, one for each call.
+      gas_modifier: Integer to add to the gas passed to the precompile.
+      input_length_modifier: Integer to add to the length of the input
+                             passed to the precompile.
+      expected_output: Expected output of the contract, it is only used to
+                       determine if the call is expected to succeed or fail.
+      call_opcode: Type of call used to call the precompile (Op.CALL,
+                   Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL).
+      call_contract_post_storage: Storage of the test contract after the
+                                  transaction is executed.
+
     """
     expected_output = bytes(expected_output)
 

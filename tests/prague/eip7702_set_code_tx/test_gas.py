@@ -105,17 +105,8 @@ class AuthorityWithProperties:
     """The type of the address the authority was before the authorization."""
     invalidity_type: AuthorizationInvalidityType | None
     """
-
-
-
-
-
-
     Whether the authorization will be invalid and if so, which type of
     invalidity it is.
-
-
-
     """
 
     @property
@@ -209,36 +200,18 @@ class AuthorizationWithProperties:
     """The authorization tuple to be used in the transaction."""
     invalidity_type: AuthorizationInvalidityType | None
     """
-
-
-
-
-
-
     Whether the authorization is invalid and if so, which type of invalidity it
     is.
-
-
-
     """
     authority_type: AddressType
     """The type of the address the authority was before the authorization."""
     skip: bool
     """
-
-
-
-
-
-
     Whether the authorization should be skipped and therefore not included in
     the transaction.
 
     Used for tests where the authorization was already in the state before the
     transaction was created.
-
-
-
     """
 
     @property

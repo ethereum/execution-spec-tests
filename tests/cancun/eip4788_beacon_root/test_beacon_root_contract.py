@@ -277,8 +277,8 @@ def test_invalid_beacon_root_calldata_value(
     post: Dict,
 ):
     """
-    Tests the beacon root contract call using invalid input values: - zero
-    calldata.
+    Tests the beacon root contract call using invalid input values:
+    - zero calldata.
 
     Contract should revert.
     """

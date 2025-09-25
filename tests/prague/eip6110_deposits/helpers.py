@@ -84,12 +84,9 @@ class DepositRequest(DepositRequestBase):
     """Calldata modifier function."""
     extra_wei: int = 0
     """
-
-
     Extra amount in wei to be sent with the deposit. If this value modulo 10**9
     is not zero, the deposit will be invalid. The value can be negative but if
     the total value is negative, an exception will be raised.
-
     """
 
     interaction_contract_address: ClassVar[Address] = Address(Spec.DEPOSIT_CONTRACT_ADDRESS)
@@ -123,8 +120,12 @@ class DepositRequest(DepositRequestBase):
         Return the calldata needed to call the beacon chain deposit contract
         and make the deposit.
 
-        deposit( bytes calldata pubkey, bytes calldata withdrawal_credentials,
-        bytes calldata signature, bytes32 deposit_data_root )
+        deposit(
+          bytes calldata pubkey,
+          bytes calldata withdrawal_credentials,
+          bytes calldata signature,
+          bytes32 deposit_data_root
+        )
         """
         offset_length = 32
         pubkey_offset = offset_length * 3 + len(self.deposit_data_root)
@@ -148,8 +149,13 @@ class DepositRequest(DepositRequestBase):
         """
         Return the log data for the deposit event.
 
-        event DepositEvent( bytes pubkey, bytes withdrawal_credentials, bytes
-        amount, bytes signature, bytes index );
+        event DepositEvent(
+          bytes pubkey,
+          bytes withdrawal_credentials,
+          bytes amount,
+          bytes signature,
+          bytes index
+        );
         """
         data = bytearray(576)
         if include_abi_encoding:
@@ -268,18 +274,12 @@ class DepositContract(DepositInteractionBase):
     """Type of call to be made to the deposit contract."""
     call_depth: int = 2
     """
-
-
     Frame depth of the beacon chain deposit contract when it executes the
     deposit requests.
-
     """
     extra_code: Bytecode = field(default_factory=Bytecode)
     """
-
-
     Extra code to be included in the contract that sends the deposit requests.
-
     """
 
     @property

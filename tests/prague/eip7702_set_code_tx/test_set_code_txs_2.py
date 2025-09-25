@@ -42,8 +42,9 @@ def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
     """
     Tx -> call -> pointer A -> contract A -> pointer B -> contract loop C.
 
-    Call pointer that goes more level of depth to call a contract loop Loop is
-    created only if pointers are set with auth tuples
+    Call pointer that goes more level of depth to call a contract loop.
+
+    Loop is created only if pointers are set with auth tuples.
     """
     env = Environment()
 
@@ -139,7 +140,9 @@ def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
 @pytest.mark.valid_from("Prague")
 def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
-    Tx -> call -> pointer A -> contract Other normal tx can interact with
+    Tx -> call -> pointer A -> contract.
+
+    Other normal tx can interact with
     previously assigned pointers.
     """
     env = Environment()
@@ -199,9 +202,11 @@ def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
 @pytest.mark.valid_from("Prague")
 def test_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
-    Check extcode* operations on pointer before and after pointer is set Check
-    context opcode results when called under pointer call Opcodes have context
-    of an original pointer account (balance, storage).
+    Check extcode* operations on pointer before and after pointer is set.
+
+    Check context opcode results when called under pointer call.
+
+    Opcodes have context of an original pointer account (balance, storage).
     """
     env = Environment()
 
@@ -330,9 +335,10 @@ def test_call_to_precompile_in_pointer_context(
     state_test: StateTestFiller, pre: Alloc, precompile: int
 ):
     """
-    Tx -> call -> pointer A -> precompile contract Make sure that gas consumed
-    when calling precompiles in normal call are the same As from inside the
-    pointer context call.
+    Tx -> call -> pointer A -> precompile contract.
+
+    Make sure that gas consumed when calling precompiles in normal call
+    are the same As from inside the pointer context call.
     """
     env = Environment()
 
@@ -811,8 +817,9 @@ def test_pointer_call_followed_by_direct_call(
 @pytest.mark.valid_from("Prague")
 def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc):
     """
-    Tx -> call -> pointer A -> static -> static violation Verify that static
-    context is active when called under pointer.
+    Tx -> call -> pointer A -> static -> static violation.
+
+    Verify that static context is active when called under pointer.
     """
     env = Environment()
     storage: Storage = Storage()
@@ -857,8 +864,9 @@ def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc):
 @pytest.mark.valid_from("Prague")
 def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc):
     """
-    Tx -> staticcall -> pointer A -> static violation Verify that static
-    context is active when make sub call to pointer.
+    Tx -> staticcall -> pointer A -> static violation.
+
+    Verify that static context is active when make sub call to pointer.
     """
     env = Environment()
     storage: Storage = Storage()
@@ -902,7 +910,11 @@ def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc):
 
 @pytest.mark.valid_from("EOFv1")
 def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc):
-    """Tx -> call -> pointer A -> EOF Pointer to eof contract works."""
+    """
+    Tx -> call -> pointer A -> EOF.
+
+    Pointer to eof contract works.
+    """
     env = Environment()
     storage: Storage = Storage()
     sender = pre.fund_eoa()
@@ -1019,8 +1031,9 @@ def test_contract_storage_to_pointer_with_storage(
 ):
     """
     Tx call -> contract with storage -> pointer A with storage ->
-    storage/tstorage modify Check storage/tstorage modifications when
-    interacting with pointers.
+    storage/tstorage modify.
+
+    Check storage/tstorage modifications when interacting with pointers.
     """
     env = Environment()
 
@@ -1122,8 +1135,10 @@ class ReentryAction(IntEnum):
 @pytest.mark.valid_from("Prague")
 def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
     """
-    Check operations when reenter the pointer again TODO: feel free to extend
-    the code checks under given scenarios in switch case.
+    Check operations when reenter the pointer again.
+
+    TODO: feel free to extend the code checks under given scenarios in
+          switch case.
     """
     env = Environment()
     arg_contract = 0
@@ -1180,8 +1195,9 @@ def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
                     ),
                 ),
                 Case(
-                    # This code is executed under pointer -> proxy -> pointer
-                    # -> contract so pointer calling the code of it's dest
+                    # This code is executed under
+                    # pointer -> proxy -> pointer -> contract
+                    # so pointer calling the code of it's dest
                     # after reentry to itself
                     condition=Op.EQ(Op.MLOAD(arg_action), ReentryAction.MEASURE_VALUES_CONTRACT),
                     action=Op.SSTORE(storage_b.store_next(sender, "origin"), Op.ORIGIN())
@@ -1226,9 +1242,11 @@ def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
 @pytest.mark.valid_from("Prague")
 def test_eoa_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
     """
-    It was agreed before that senders don't have code And there were issues
-    with tests sending transactions from account's with code With EIP7702 it is
-    again possible, let's check the test runners are ok.
+    It was agreed before that senders don't have code.
+
+    And there were issues with tests sending transactions from account's
+    with code With EIP7702 it is again possible,
+    let's check the test runners are ok.
     """
     env = Environment()
     storage = Storage()
@@ -1259,14 +1277,17 @@ def test_call_pointer_to_created_from_create_after_oog_call_again(
     """
     Set pointer to account that we are about to create.
 
-    Pointer is set to create address that is yet not in the state During the
-    call, address is created. pointer is called from init code to do nothing
+    Pointer is set to create address that is yet not in the state.
+
+    During the call, address is created. pointer is called from init code
+    to do nothing.
+
     Then after account is created it is called again to run created code
 
-    Then revert / no revert
+    Then revert / no revert.
 
     Call pointer again from the upper level to ensure it does not call reverted
-    code
+    code.
     """
     env = Environment()
 
@@ -1556,7 +1577,9 @@ def test_pointer_resets_an_empty_code_account_with_storage(
 ):
     """
     So in Block1 we create a sender with empty code, but non empty storage
-    using pointers In Block2 we create account that perform suicide, then we
+    using pointers.
+
+    In Block2 we create account that perform suicide, then we
     check that when calling a pointer, that points to newly created account and
     runs suicide, is not deleted as well as its storage.
 
@@ -1633,8 +1656,10 @@ def test_pointer_resets_an_empty_code_account_with_storage(
         sender=sender,
     )
 
-    # Block 2 Sender with storage and pointer code calling selfdestruct on
-    # itself But it points to a newly created account, check that pointer
+    # Block 2
+    # Sender with storage and pointer code calling selfdestruct on itself
+    #
+    # But it points to a newly created account, check that pointer
     # storage is not deleted
     suicide_dest = pre.fund_eoa(amount=0)
     deploy_code = Op.SSTORE(5, 5) + Op.SELFDESTRUCT(suicide_dest)
@@ -1690,9 +1715,14 @@ def test_pointer_resets_an_empty_code_account_with_storage(
         pre=pre,
         post=post,
         blocks=[
-            # post = { pointer: Account(nonce=2, balance=0,
-            # storage=pointer_storage, code=bytes()), sender:
-            # Account(storage=pointer_storage, code=bytes()), }
+            # post = {
+            #       pointer: Account(nonce=2,
+            #                      balance=0,
+            #                      storage=pointer_storage,
+            #                      code=bytes()
+            #              ),
+            #       sender: Account(storage=pointer_storage, code=bytes())
+            #         }
             Block(
                 txs=[
                     tx_set_pointer_storage,

@@ -154,9 +154,10 @@ def tx_data(
     - 16 gas for each non-zero byte in the data
     - 4 gas for each zero byte in the data
 
-    Its floor data gas cost can be calculated as: - 21,000 gas for the
-    transaction - 40 gas for each non-zero byte in the data - 10 gas for each
-    zero byte in the data
+    Its floor data gas cost can be calculated as:
+    - 21,000 gas for the transaction
+    - 40 gas for each non-zero byte in the data
+    - 10 gas for each zero byte in the data
 
     Notice that the data included in the transaction affects both the intrinsic
     gas cost and the floor data cost, but at different rates.

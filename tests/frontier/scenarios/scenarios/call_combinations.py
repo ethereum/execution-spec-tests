@@ -59,10 +59,14 @@ class ScenariosCallCombinations:
         test at scenario_input.operation_contract and put it in the context of
         call combinations.
 
-        Example: root_contract -> call -> scenario_contract -> first_call ->
-        sub_contract sub_contact -> second_call -> code We assume that code
-        always returns it's result That we pass as return value in
-        scenario_contract for the post state verification
+        Example:
+        root_contract -> call -> scenario_contract -> first_call ->
+        sub_contract sub_contact -> second_call -> code
+
+        We assume that code always returns its result.
+        That we pass as return value in scenario_contract for the
+        post state verification.
+
         """
         scenarios_list: List[Scenario] = []
 
@@ -168,8 +172,8 @@ class ScenariosCallCombinations:
         def _compute_code_caller() -> Address:
             """
             Calculate who is the code caller in program_contract's code in
-            given sequence root -CALL-> scenario_contract -(first_call)->
-            sub_contract -(second_call)-> program.
+            given sequence root -CALL-> scenario_contract -(first_call)
+            -> sub_contract -(second_call)-> program.
             """
             code_caller: Address = root_contract
             if first_call == Op.DELEGATECALL:

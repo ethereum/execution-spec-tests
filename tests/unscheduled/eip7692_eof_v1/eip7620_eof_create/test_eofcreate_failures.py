@@ -315,7 +315,9 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
     deployed_container_size = len(smallest_runtime_subcontainer) + auxdata_size
 
     # Storage in 0 will have address in first test, 0 in all other cases
-    # indicating failure Storage 1 in 1 is a canary to see if EOFCREATE opcode
+    # indicating failure
+    #
+    # Storage 1 in 1 is a canary to see if EOFCREATE opcode
     # halted
     success = deployed_container_size <= MAX_BYTECODE_SIZE
     post = {
@@ -377,7 +379,9 @@ def test_eofcreate_insufficient_stipend(
         balance=value - 1,
     )
     # create will fail but not trigger a halt, so canary at storage 1 should be
-    # set also validate target created contract fails
+    # set
+    #
+    # also validate target created contract fails
     post = {
         contract_address: Account(
             storage={
@@ -680,14 +684,15 @@ def test_eof_eofcreate_msg_depth(
 ):
     """
     Test EOFCREATE handles msg depth limit correctly (1024).
+
     NOTE: due to block gas limit and the 63/64th rule this limit is
-    unlikely to be hit on mainnet.
+          unlikely to be hit on mainnet.
     NOTE: See `tests/unscheduled/eip7692_eof_v1/eip7069_extcall/
-    test_calls.py::test_eof_calls_msg_depth` for more explanations and
-    comments. Most notable deviation from that test is that here calls
-    and `EOFCREATE`s alternate in order to reach the max depth.
-    `who_fails` decides whether the failing depth 1024 will be on a call
-    or on an `EOFCREATE` to happen.
+          test_calls.py::test_eof_calls_msg_depth` for more explanations and
+          comments. Most notable deviation from that test is that here calls
+          and `EOFCREATE`s alternate in order to reach the max depth.
+          `who_fails` decides whether the failing depth 1024 will be on a call
+          or on an `EOFCREATE` to happen.
     """
     # Not a precise gas_limit formula, but enough to exclude risk of gas
     # causing the failure.
@@ -809,17 +814,19 @@ def test_reentrant_eofcreate(
             Section.Container(smallest_runtime_subcontainer),
         ]
     )
-    # Factory: Passes on its input into the initcode. It's 0 first time, 1 the
-    # second time. Saves the result of deployment in slot 0 first time, 1 the
-    # second time.
+    # Factory:
+    #     Passes on its input into the initcode.
+    #     It's 0 first time, 1 the second time.
+    #     Saves the result of deployment in slot 0 first time, 1 the
+    #     second time.
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
                 Section.Code(
                     Op.CALLDATACOPY(0, 0, 32)
                     + Op.MSTORE(32, Op.ADDRESS)
-                    # 1st word - copied from input (reenter flag), 2nd word -
-                    # `this.address`.
+                    # 1st word - copied from input (reenter flag)
+                    # 2nd word - `this.address`
                     + Op.SSTORE(Op.CALLDATALOAD(0), Op.EOFCREATE[0](input_size=64))
                     + Op.STOP,
                 ),
@@ -828,13 +835,18 @@ def test_reentrant_eofcreate(
         ),
         storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
     )
-    # Flow is: reenter flag 0 -> factory -> reenter flag 0 -> initcode ->
-    # reenter -> reenter flag 1 -> factory -> reenter flag 1 -> (!) initcode ->
-    # stop, if the EIP-161 nonce bump is not implemented. If it is, it fails
-    # before second inicode marked (!). Storage in 0 should have the address
-    # from the outer EOFCREATE. Storage in 1 should have 0 from the inner
-    # EOFCREATE. For the created contract storage in `slot_counter` should be 1
-    # as initcode executes only once
+    # Flow is:
+    #   reenter flag 0 -> factory -> reenter flag 0 -> initcode ->
+    #   reenter -> reenter flag 1 -> factory -> reenter flag 1 -> (!) initcode
+    #   -> stop
+    # if the EIP-161 nonce bump is not implemented.
+    #
+    # If it is, it fails before second inicode marked (!).
+    #
+    # Storage in 0 should have the address from the outer EOFCREATE.
+    # Storage in 1 should have 0 from the inner EOFCREATE. For the created
+    # contract storage in `slot_counter` should be 1 as initcode
+    # executes only once.
     post = {
         contract_address: Account(
             storage={

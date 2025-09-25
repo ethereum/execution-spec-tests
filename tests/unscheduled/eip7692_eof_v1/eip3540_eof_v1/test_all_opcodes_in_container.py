@@ -331,12 +331,14 @@ def test_all_unreachable_terminating_opcodes_before_stop(
 )
 @pytest.mark.parametrize(
     "exception",
-    # We test two types of exceptions here: 1. Invalid max stack height, where
-    # we modify the `max_stack_height` field of the code section to the maximum
-    # stack height allowed by the EIP-3540, so the code still has to be checked
-    # for stack overflow. 2. Max stack height above limit, where we don't
-    # modify the `max_stack_height` field of the code section, so the actual
-    # code doesn't have to be verified for the stack overflow.
+    # We test two types of exceptions here:
+    # 1. Invalid max stack height, where we modify the `max_stack_height`
+    #    field of the code section to the maximum stack height allowed by
+    #    the EIP-3540, so the code still has to be checked for stack overflow.
+    #
+    # 2. Max stack height above limit, where we don't modify the
+    #    `max_stack_height` field of the code section, so the actual
+    #    code doesn't have to be verified for the stack overflow.
     [EOFException.INVALID_MAX_STACK_INCREASE, EOFException.MAX_STACK_INCREASE_ABOVE_LIMIT],
 )
 def test_all_opcodes_stack_overflow(

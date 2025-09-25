@@ -76,8 +76,10 @@ class BlobhashContext(Enum):
         """
         Deploy a contract with the given context and indexes.
 
-        Args: pre: The pre state to deploy the contract on indexes: The indexes
-        to request using the BLOBHASH opcode
+        Args:
+          pre: The pre state to deploy the contract on
+          indexes: The indexes to request using the BLOBHASH opcode
+
         """
         match self:
             case BlobhashContext.BLOBHASH_SSTORE | BlobhashContext.BLOBHASH_RETURN:

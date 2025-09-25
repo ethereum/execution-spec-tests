@@ -34,8 +34,8 @@ def test_tx_selfdestruct_balance_bug(blockchain_test: BlockchainTestFiller, pre:
     Test that the vulnerability is not present by checking the balance of the
     `0xaa` contract after executing specific transactions.
 
-    1. Start with contract `0xaa` which has initial balance of 3 wei. `0xaa`
-    contract code simply performs a self-destruct to itself.
+    1. Start with contract `0xaa` which has initial balance of 3 wei.
+    `0xaa` contract code simply performs a self-destruct to itself.
 
     2. Send a transaction (tx 1) to invoke caller contract `0xcc` (which has a
     balance of 1 wei), which in turn invokes `0xaa` with a 1 wei call.

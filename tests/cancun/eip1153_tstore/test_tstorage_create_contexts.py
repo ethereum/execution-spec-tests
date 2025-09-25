@@ -134,11 +134,13 @@ class InitcodeTestCases(PytestParameterEnum):
 @InitcodeTestCases.parametrize()
 class TestTransientStorageInContractCreation:
     """
-    Test transient storage in contract creation contexts. - TSTORE/TLOAD in
-    initcode should not be able to access the creator's transient storage. -
-    TSTORE/TLOAD in initcode should be able to access the created contract's
-    transient storage. - TSTORE/TLOAD in creator contract should be able to use
-    its own transient storage.
+    Test transient storage in contract creation contexts.
+    - TSTORE/TLOAD in initcode should not be able to access the creator's
+      transient storage.
+    - TSTORE/TLOAD in initcode should be able to access the created contract's
+      transient storage.
+    - TSTORE/TLOAD in creator contract should be able to use its own
+      transient storage.
     """
 
     @pytest.fixture()

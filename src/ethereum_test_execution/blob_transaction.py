@@ -124,8 +124,9 @@ class BlobTransaction(BaseExecute):
 
         assert blob_response is not None
         local_blobs_and_proofs = list(versioned_hashes.values())
-        assert len(blob_response) == len(local_blobs_and_proofs), "Expected "
-        f"{len(local_blobs_and_proofs)} blobs and proofs, got {len(blob_response)}."
+        assert len(blob_response) == len(local_blobs_and_proofs), (
+            f"Expected {len(local_blobs_and_proofs)} blobs and proofs, got {len(blob_response)}."
+        )
 
         for expected_blob, received_blob in zip(
             local_blobs_and_proofs, blob_response.root, strict=True

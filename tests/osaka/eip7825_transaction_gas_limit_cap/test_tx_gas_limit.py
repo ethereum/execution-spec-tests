@@ -311,9 +311,13 @@ def test_tx_gas_limit_cap_full_calldata(
 
     # Gas cost calculation based on EIP-7623:
     # (https://eips.ethereum.org/EIPS/eip-7623)
-    # Simplified in this test case: - No execution gas used (no opcodes are
-    # executed) - Not a contract creation (no initcode)
-    # Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
+    #
+    # Simplified in this test case:
+    # - No execution gas used (no opcodes are executed)
+    # - Not a contract creation (no initcode)
+    #
+    # Token accounting:
+    #   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
 
     byte_data = b"\x00" if zero_byte else b"\xff"
 
@@ -383,10 +387,14 @@ def test_tx_gas_limit_cap_contract_creation(
 
     # Craft a contract creation transaction that exceeds the transaction gas
     # limit cap
-    # Total cost = intrinsic cost (base tx cost + contract creation cost) +
-    # calldata cost + init code execution cost
-    # The contract body is filled with JUMPDEST instructions, so: total cost =
-    # intrinsic cost + calldata cost + (num_of_jumpdest * 1 gas)
+    #
+    # Total cost =
+    # intrinsic cost (base tx cost + contract creation cost)
+    # + calldata cost + init code execution cost
+    #
+    # The contract body is filled with JUMPDEST instructions, so:
+    # total cost = intrinsic cost + calldata cost + (num_of_jumpdest * 1 gas)
+    #
     # If the total cost exceeds the tx limit cap, the transaction should fail
 
     total_cost = intrinsic_cost(contract_creation=True, calldata=code) + num_of_bytes
@@ -597,9 +605,11 @@ def test_tx_gas_limit_cap_authorized_tx(
     # 21000 + 16 * non-zero calldata bytes + 4 * zero calldata bytes + 1900 *
     # access list storage key count + 2400 * access list address count +
     # PER_EMPTY_ACCOUNT_COST * authorization list length
+    #
     # There is no calldata and no storage keys in this test case and the access
-    # address list count is equal to the authorization list length total cost =
-    # 21000 + (2400 + 25_000) * auth_list_length
+    # address list count is equal to the authorization list length
+    #
+    # total cost = 21000 + (2400 + 25_000) * auth_list_length
 
     auth_address = pre.deploy_contract(code=Op.STOP)
 

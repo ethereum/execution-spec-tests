@@ -84,11 +84,11 @@ class BlobhashScenario:
         Create list of MAX_BLOBS_PER_TX blob hashes using `random_blob_hashes`.
 
         Cycle over random_blob_hashes to get a large list of length:
-        MAX_BLOBS_PER_TX * length -> [0x01, 0x02, 0x03, 0x04, ..., 0x0A, 0x0B,
-        0x0C, 0x0D]
+        MAX_BLOBS_PER_TX * length
+        -> [0x01, 0x02, 0x03, 0x04, ..., 0x0A, 0x0B, 0x0C, 0x0D]
 
-        Then split list into smaller chunks of MAX_BLOBS_PER_TX -> [[0x01,
-        0x02, 0x03, 0x04], ..., [0x0a, 0x0b, 0x0c, 0x0d]]
+        Then split list into smaller chunks of MAX_BLOBS_PER_TX
+        -> [[0x01, 0x02, 0x03, 0x04], ..., [0x0a, 0x0b, 0x0c, 0x0d]]
         """
         b_hashes = [
             random_blob_hashes[i % len(random_blob_hashes)]
@@ -281,8 +281,8 @@ def test_blobhash_invalid_blob_index(
     invalid indexes.
 
     Includes cases where the index is negative (`index < 0`) or exceeds the
-    maximum number of `blob_versioned_hash` values stored: (`index >=
-    len(tx.message.blob_versioned_hashes)`).
+    maximum number of `blob_versioned_hash` values stored:
+    (`index >= len(tx.message.blob_versioned_hashes)`).
 
     It confirms that the returned value is a zeroed `bytes32` for each case.
     """

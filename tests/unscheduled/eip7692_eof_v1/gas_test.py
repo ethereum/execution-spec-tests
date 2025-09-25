@@ -111,11 +111,14 @@ def gas_test(
             + (
                 (
                     # do an oog gas run, unless skipped with
-                    # `out_of_gas_testing=False`: - DUP7 is the gas of the
-                    # baseline gas run, after other CALL args were pushed -
-                    # subtract the gas charged by the harness - add warm gas
-                    # charged by the subject - subtract `oog_difference` to
-                    # cause OOG exception (1 by default)
+                    # `out_of_gas_testing=False`:
+                    #
+                    # - DUP7 is the gas of the baseline gas run, after other
+                    #   CALL args were pushed
+                    # - subtract the gas charged by the harness
+                    # - add warm gas charged by the subject
+                    # - subtract `oog_difference` to cause OOG exception
+                    #   (1 by default)
                     Op.SSTORE(
                         slot_oog_call_result,
                         Op.CALL(

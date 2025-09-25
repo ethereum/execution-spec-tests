@@ -185,8 +185,8 @@ def test_valid(
             id="swapped_coordinates_times_0",
         ),
         pytest.param(
-            PointG1(0x01, 0x07) + Scalar(0),  # Point on wrong curve y^2 = x^3
-            # + 5
+            # Point on wrong curve y^2 = x^3 + 5
+            PointG1(0x01, 0x07) + Scalar(0),
             id="point_on_wrong_curve_times_0",
         ),
         pytest.param(

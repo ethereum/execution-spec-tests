@@ -444,9 +444,12 @@ def test_jumpf_stack_overflow(
     so we need to ensure the rule is checked.
 
     `no_overflow` - the stack does not overflow at JUMPF call, executes to end
+
     `rule_overflow` - reserved stack rule triggers, but execution would not
-    overflow if allowed `execution_overflow` - execution would overflow (but
-    still blocked by reserved stack rule)
+                      overflow if allowed
+
+    `execution_overflow` - execution would overflow (but still blocked by
+                           reserved stack rule)
     """
     eof_state_test(
         container=Container(

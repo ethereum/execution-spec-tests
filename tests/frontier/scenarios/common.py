@@ -62,10 +62,12 @@ class ProgramResult:
     """
     Describe expected result of a program.
 
-    Attributes: result (int | ScenarioExpectOpcode): The result of the program
-    from_fork (Fork): The result is only valid from this fork (default:
-    Frontier) static_support (bool): Can be verified in static context
-    (default: True)
+    Attributes:
+      result (int | ScenarioExpectOpcode): The result of the program
+      from_fork (Fork): The result is only valid from this fork
+                        (default: Frontier)
+      static_support (bool): Can be verified in static context (default: True)
+
     """
 
     result: int | ScenarioExpectOpcode
@@ -152,10 +154,12 @@ class ScenarioGeneratorInput:
     """
     Parameters for the scenario generator function.
 
-    Attributes: fork (Fork): Fork for which we ask to generate scenarios pre
-    (Alloc): Access to the state to be able to deploy contracts into pre
-    operation (Bytecode): Evm bytecode program that will be tested
-    external_address (Address): Static external address for ext opcodes
+    Attributes:
+      fork (Fork): Fork for which we ask to generate scenarios
+      pre(Alloc): Access to the state to be able to deploy contracts into pre
+      operation (Bytecode): Evm bytecode program that will be tested
+      external_address (Address): Static external address for ext opcodes
+
     """
 
     fork: Fork
@@ -168,11 +172,14 @@ class Scenario:
     """
     Describe test scenario that will be run in test for each program.
 
-    Attributes: category (str): Scenario category name name (str): Scenario
-    name for the test vector code (Address): Address that is an entry point for
-    scenario code env (ScenarioEnvironment): Evm values for
-    ScenarioExpectAddress map reverting (bool): If scenario reverts program
-    execution, making result 0 (default: False)
+    Attributes:
+      category (str): Scenario category name
+      name (str): Scenario name for the test vector
+      code (Address): Address that is an entry point for scenario code
+      env (ScenarioEnvironment): Evm values for ScenarioExpectAddress map
+      reverting (bool): If scenario reverts program execution,
+                        making result 0 (default: False)
+
     """
 
     category: str
@@ -184,10 +191,10 @@ class Scenario:
 
 def make_gas_hash_contract(pre: Alloc) -> Address:
     """
-    Contract that spends unique amount of gas based on input Used for the
-    values we can't predict, can be gas consuming on high values So that if we
-    can't check exact value in expect section, we at least could spend unique
-    gas amount.
+    Contract that spends unique amount of gas based on input.
+    Used for the values we can't predict, can be gas consuming on high values.
+    So that if we can't check exact value in expect section, we at least
+    could spend unique gas amount.
     """
     gas_hash_address = pre.deploy_contract(
         code=Op.MSTORE(0, 0)

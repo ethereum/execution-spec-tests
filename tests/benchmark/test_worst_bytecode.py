@@ -382,10 +382,18 @@ def test_worst_create(
 
     initcode_template_contract = pre.deploy_contract(code=code)
 
-    # Create the benchmark contract which has the following design: ```
-    # PUSH(value) [EXTCODECOPY(full initcode_template_contract) -- Conditional
-    # that non_zero_data is True]` JUMPDEST (#) (CREATE|CREATE2)
-    # (CREATE|CREATE2) ... JUMP(#) ```
+    # Create the benchmark contract which has the following design:
+    # ```
+    # PUSH(value)
+    # [EXTCODECOPY(full initcode_template_contract)
+    # -> Conditional that non_zero_data is True]
+    #
+    # JUMPDEST (#)
+    # (CREATE|CREATE2)
+    # (CREATE|CREATE2)
+    # ...
+    # JUMP(#)
+    # ```
     code_prefix = (
         Op.PUSH3(code_size)
         + Op.PUSH1(value)
@@ -407,8 +415,9 @@ def test_worst_create(
         if opcode == Op.CREATE
         # For CREATE2: we manually push the arguments because we leverage the
         # return value of previous CREATE2 calls as salt for the next CREATE2
-        # call. - DUP4 is targeting the PUSH1(value) from the code_prefix. -
-        # DUP3 is targeting the EXTCODESIZE value pushed in code_prefix.
+        # call.
+        # - DUP4 is targeting the PUSH1(value) from the code_prefix.
+        # - DUP3 is targeting the EXTCODESIZE value pushed in code_prefix.
         else Op.DUP3 + Op.PUSH0 + Op.DUP4 + Op.CREATE2
     )
     code = code_loop_precompile_call(code_prefix, attack_block, fork)

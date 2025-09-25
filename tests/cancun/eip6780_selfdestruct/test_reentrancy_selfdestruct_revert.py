@@ -145,11 +145,13 @@ def test_reentrancy_selfdestruct_revert(
     """
     Suicide reentrancy scenario.
 
-    Call|Callcode|Delegatecall the contract S. S self destructs. Call the
-    revert proxy contract R. R Calls|Callcode|Delegatecall S. S self destructs
-    (for the second time). R reverts (including the effects of the second
-    selfdestruct). It is expected the S is self destructed after the
-    transaction.
+    Call|Callcode|Delegatecall the contract S.
+    S self destructs.
+    Call the revert proxy contract R.
+    R Calls|Callcode|Delegatecall S.
+    S self destructs (for the second time).
+    R reverts (including the effects of the second selfdestruct).
+    It is expected the S is self destructed after the transaction.
     """
     post = {
         # Second caller unchanged as call gets reverted

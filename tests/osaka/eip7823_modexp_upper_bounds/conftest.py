@@ -60,9 +60,12 @@ def gas_measure_contract(
     Deploys a contract that measures ModExp gas consumption and execution
     result.
 
-    Always stored: storage[0]: precompile call success storage[1]: return data
-    length from precompile Only if the precompile call succeeds: storage[2]:
-    gas consumed by precompile storage[3]: hash of return data from precompile
+    Always stored:
+      storage[0]: precompile call success
+      storage[1]: return data length from precompile
+    Only if the precompile call succeeds:
+      storage[2]: gas consumed by precompile
+      storage[3]: hash of return data from precompile
     """
     call_code = Op.CALL(
         precompile_gas,

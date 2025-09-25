@@ -257,10 +257,8 @@ class CallContextTestCases(PytestParameterEnum, metaclass=DynamicCallContextTest
             + Op.SSTORE(1, Op.TLOAD(0))
             + Op.STOP
         ),
-        "callee_bytecode": Op.TSTORE(0, unchecked=True)  # calling with stack
-        # underflow still
-        # fails
-        + Op.STOP,
+        # calling with stack underflow still fails
+        "callee_bytecode": Op.TSTORE(0, unchecked=True) + Op.STOP,
         "expected_caller_storage": {0: 0, 1: 420},
         "expected_callee_storage": {},
     }
@@ -275,8 +273,8 @@ class CallContextTestCases(PytestParameterEnum, metaclass=DynamicCallContextTest
             + Op.SSTORE(1, Op.TLOAD(0))
             + Op.STOP
         ),
-        "callee_bytecode": Op.TLOAD(0) + Op.STOP,  # calling tload does not
-        # cause the call to fail
+        # calling tload does not cause the call to fail
+        "callee_bytecode": Op.TLOAD(0) + Op.STOP,
         "expected_caller_storage": {0: 1, 1: 420},
         "expected_callee_storage": {},
     }

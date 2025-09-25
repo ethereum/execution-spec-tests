@@ -63,9 +63,11 @@ def recursive_revert_contract_code(
     selfdestruct_with_transfer_contract_address: Address,
 ) -> Bytecode:
     """
-    Contract code that: Given selfdestructable contract A, transfer value to A
-    and call A.selfdestruct. Then, recurse into a new call which transfers
-    value to A, call A.selfdestruct, and reverts.
+    Contract code that:
+      Given selfdestructable contract A, transfer value to A
+      and call A.selfdestruct.
+      Then, recurse into a new call which transfers value to A,
+      call A.selfdestruct, and reverts.
     """
     # Common prefix for all three cases:
     #   case 1: selfdestruct_on_outer_call=1
@@ -362,9 +364,8 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
         Op.CREATE(
             0,
             0,
-            len(bytes(selfdestruct_with_transfer_contract_initcode)),  # Value
-            # #
-            # Offset
+            # Value Offset
+            len(bytes(selfdestruct_with_transfer_contract_initcode)),
         ),
     )
 
@@ -502,11 +503,11 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
             code=selfdestruct_with_transfer_contract_code,
             storage=Storage(
                 {
-                    # 2 value transfers: 1 in outer call, 1 in reverted inner
-                    # call
+                    # 2 value transfers:
+                    #   1 in outer call, 1 in reverted inner call
                     0: 1,  # type: ignore
-                    # 2 selfdestructs: 1 in outer call, 1 in reverted inner
-                    # call # noqa SC100
+                    # 2 selfdestructs:
+                    #   1 in outer call, 1 in reverted inner call
                     1: 0,  # type: ignore
                 }
             ),

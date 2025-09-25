@@ -332,11 +332,12 @@ def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
             ),
             callee_address: Account(
                 storage={
-                    14_999: "0xdeadbeef",  # CLZ not valid before fork, storage
-                    # unchanged
-                    15_000: 155,  # CLZ valid on transition block, CLZ(1 <<
-                    # 100) = 155
-                    15_001: 155,  # CLZ continues to be valid after transition
+                    # CLZ not valid before fork, storage unchanged
+                    14_999: "0xdeadbeef",
+                    # CLZ valid on transition block, CLZ(1 << 100) = 155
+                    15_000: 155,
+                    # CLZ continues to be valid after transition
+                    15_001: 155,
                 }
             ),
         },

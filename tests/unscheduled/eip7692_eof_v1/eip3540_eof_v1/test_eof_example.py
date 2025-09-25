@@ -68,9 +68,9 @@ def test_eof_example(eof_test: EOFTestFiller):
 def test_eof_example_custom_fields(eof_test: EOFTestFiller):
     """Example of python EOF container class tuning."""
     # if you need to overwrite certain structure bytes, you can use
-    # customization this is useful for unit testing the eof structure format,
+    # customization. this is useful for unit testing the eof structure format,
     # you can reorganize sections and overwrite the header bytes for testing
-    # purposes most of the combinations are covered by the unit tests
+    # purposes. most of the combinations are covered by the unit tests
 
     # This features are subject for development and will change in the future
 
@@ -97,22 +97,26 @@ def test_eof_example_custom_fields(eof_test: EOFTestFiller):
                 data="0xef",
                 # custom_size overrides the size bytes, so you can put only 1
                 # byte into data but still make the header size of 2 to produce
-                # invalid section if custom_size != len(data), the section will
-                # be invalid
+                # invalid section
+                #
+                # if custom_size != len(data), the section will be invalid
                 custom_size=1,
             ),
         ],
         # auto generate types section based on provided code sections
         # AutoSection.ONLY_BODY - means the section will be generated only for
-        # the body bytes AutoSection.ONLY_BODY - means the section will be
-        # generated only for the header bytes
+        #                         the body bytes
+        #
+        # AutoSection.ONLY_BODY - means the section will be generated only for
+        #                         the header bytes
         auto_type_section=AutoSection.AUTO,
         # auto generate default data section (0x empty), by default is True
         auto_data_section=True,
-        # auto sort section by order 01 02 03 04 AutoSection.ONLY_BODY - means
-        # the sorting will be done only for the body bytes
+        # auto sort section by order 01 02 03 04
+        # AutoSection.ONLY_BODY - means the sorting will be done only for the
+        #                         body bytes
         # AutoSection.ONLY_BODY - means the section will be done only for the
-        # header bytes
+        #                         header bytes
         auto_sort_sections=AutoSection.AUTO,
     )
 

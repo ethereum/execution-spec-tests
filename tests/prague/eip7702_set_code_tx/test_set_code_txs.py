@@ -3188,9 +3188,10 @@ def test_delegation_clearing(
     circumstances.
 
     - pre_set_delegation_code: The code to set on the account before clearing
-    delegation, or None if the account should not have any code set. -
-    self_sponsored: Whether the delegation clearing transaction is
-    self-sponsored.
+                               delegation, or None if the account should not
+                               have any code set.
+    - self_sponsored: Whether the delegation clearing transaction is
+                      self-sponsored.
     """  # noqa: D417
     pre_set_delegation_address: Address | None = None
     if pre_set_delegation_code is not None:
@@ -3279,9 +3280,10 @@ def test_delegation_clearing_tx_to(
     Tests directly calling the account which delegation is being cleared.
 
     - pre_set_delegation_code: The code to set on the account before clearing
-    delegation, or None if the account should not have any code set. -
-    self_sponsored: Whether the delegation clearing transaction is
-    self-sponsored.
+                               delegation, or None if the account should not
+                               have any code set.
+    - self_sponsored: Whether the delegation clearing transaction is
+                      self-sponsored.
     """  # noqa: D417
     pre_set_delegation_address: Address | None = None
     if pre_set_delegation_code is not None:
@@ -3502,8 +3504,10 @@ def test_creating_delegation_designation_contract(
     initcode_is_delegation_designation: bool,
 ):
     """
-    Tx -> create -> pointer bytecode Attempt to deploy contract with magic
-    bytes result in no contract being created.
+    Tx -> create -> pointer bytecode.
+
+    Attempt to deploy contract with magic bytes result in no
+    contract being created.
     """
     env = Environment()
 

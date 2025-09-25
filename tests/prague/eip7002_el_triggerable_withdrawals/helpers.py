@@ -17,8 +17,6 @@ class WithdrawalRequest(WithdrawalRequestBase):
 
     fee: int = 0
     """
-
-
     Fee to be paid to the system contract for the withdrawal request. This is
     different from `amount` which is the amount of gwei to be withdrawn on the
     beacon chain.
@@ -133,17 +131,11 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
 
     contract_balance: int = 1_000_000_000_000_000_000
     """
-
-
     Balance of the contract that will make the call to the pre-deploy contract.
-
     """
     contract_address: Address | None = None
     """
-
-
     Address of the contract that will make the call to the pre-deploy contract.
-
     """
     entry_address: Address | None = None
     """Address to send the transaction to."""

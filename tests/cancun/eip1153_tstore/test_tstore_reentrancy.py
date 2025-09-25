@@ -56,26 +56,28 @@ def test_tstore_reentrancy(
     """
     Ported .json vectors.
 
-    (06_tstoreInReentrancyCallFiller.yml) Reentrant calls access the same
-    transient storage
+    (06_tstoreInReentrancyCallFiller.yml)
+    Reentrant calls access the same transient storage
 
-    (07_tloadAfterReentrancyStoreFiller.yml) Successfully returned calls do not
-    revert transient storage writes
+    (07_tloadAfterReentrancyStoreFiller.yml)
+    Successfully returned calls do not revert transient storage writes
 
-    (08_revertUndoesTransientStoreFiller.yml) Revert undoes the transient
-    storage writes from a call.
+    (08_revertUndoesTransientStoreFiller.yml)
+    Revert undoes the transient storage writes from a call.
 
-    (09_revertUndoesAllFiller.yml) Revert undoes all the transient storage
-    writes to the same key from the failed call.
+    (09_revertUndoesAllFiller.yml)
+    Revert undoes all the transient storage writes to the same key
+    from the failed call.
 
-    (11_tstoreDelegateCallFiller.yml) delegatecall manipulates transient
-    storage in the context of the current address.
+    (11_tstoreDelegateCallFiller.yml)
+    delegatecall manipulates transient storage in the context of
+    the current address.
 
-    (13_tloadStaticCallFiller.yml) Transient storage cannot be manipulated in a
-    static context, tstore reverts
+    (13_tloadStaticCallFiller.yml)
+    Transient storage cannot be manipulated in a static context, tstore reverts
 
-    (20_oogUndoesTransientStoreInCallFiller.yml) Out of gas undoes the
-    transient storage writes from a call.
+    (20_oogUndoesTransientStoreInCallFiller.yml)
+    Out of gas undoes the transient storage writes from a call.
     """
     tload_value_set_before_call = 80
     tload_value_set_in_call = 90

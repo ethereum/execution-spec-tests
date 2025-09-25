@@ -35,12 +35,15 @@ def generate_block_check_code(
     Generate EVM code to check that the block hashes are correctly stored in
     the state.
 
-    Args: check_block_number (int): The block number to check.
-    current_block_number (int): The current block number where the check is
-    taking place. fork_block_number (int): The block number of the fork
-    transition. storage (Storage): The storage object to use.
-    check_contract_first (bool): Whether to check the contract first, for slot
-    warming checks.
+    Args:
+      check_block_number (int): The block number to check.
+      current_block_number (int): The current block number where the check is
+                                  taking place.
+      fork_block_number (int): The block number of the fork transition.
+      storage (Storage): The storage object to use.
+      check_contract_first (bool): Whether to check the contract first,
+                                   for slot warming checks.
+
     """
     contract_ret_offset = 32
 

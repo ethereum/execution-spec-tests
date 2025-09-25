@@ -475,8 +475,9 @@ def test_self_destructing_initcode_create_tx(
 
     Behavior should be the same before and after EIP-6780.
 
-    Test using: - Different initial balances for the self-destructing contract
-    - Different transaction value amounts
+    Test using:
+      - Different initial balances for the self-destructing contract
+      - Different transaction value amounts
     """
     tx = Transaction(
         sender=sender,
@@ -500,8 +501,8 @@ def test_self_destructing_initcode_create_tx(
     state_test(pre=pre, post=post, tx=tx)
 
 
-@pytest.mark.parametrize("create_opcode", [Op.CREATE2])  # Can only recreate
-# using CREATE2
+# Can only recreate using CREATE2
+@pytest.mark.parametrize("create_opcode", [Op.CREATE2])
 @pytest.mark.parametrize(
     "sendall_recipient_addresses",
     [
@@ -528,10 +529,10 @@ def test_recreate_self_destructed_contract_different_txs(
     selfdestruct_contract_initial_balance: int,
     sendall_recipient_addresses: List[Address],
     create_opcode: Op,
-    recreate_times: int,  # Number of times to recreate the contract in
-    # different transactions
-    call_times: int,  # Number of times to call the self-destructing contract
-    # in the same tx
+    # Number of times to recreate the contract in different transactions
+    recreate_times: int,
+    # Number of times to call the self-destructing contract in the same tx
+    call_times: int,
 ):
     """
     Test that a contract can be recreated after it has self-destructed, over
@@ -539,8 +540,9 @@ def test_recreate_self_destructed_contract_different_txs(
 
     Behavior should be the same before and after EIP-6780.
 
-    Test using: - Different initial balances for the self-destructing contract
-    - Contract creating opcodes that are not CREATE
+    Test using:
+      - Different initial balances for the self-destructing contract
+      - Contract creating opcodes that are not CREATE
     """
     selfdestruct_contract_initcode = Initcode(deploy_code=selfdestruct_code)
     initcode_copy_from_address = pre.deploy_contract(selfdestruct_contract_initcode)

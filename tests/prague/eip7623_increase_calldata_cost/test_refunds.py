@@ -34,19 +34,13 @@ class RefundTestType(Enum):
 
     EXECUTION_GAS_MINUS_REFUND_GREATER_THAN_DATA_FLOOR = 0
     """
-
-
     The execution gas minus the refund is greater than the data floor, hence
     the execution gas cost is charged.
-
     """
     EXECUTION_GAS_MINUS_REFUND_LESS_THAN_DATA_FLOOR = 1
     """
-
-
     The execution gas minus the refund is less than the data floor, hence the
     data floor cost is charged.
-
     """
     EXECUTION_GAS_MINUS_REFUND_EQUAL_TO_DATA_FLOOR = 2
     """The execution gas minus the refund is equal to the data floor."""
@@ -298,10 +292,11 @@ def test_gas_refunds_from_data_floor(
         raise ValueError("Invalid refund test type")
     if gas_used < tx_floor_data_cost:
         gas_used = tx_floor_data_cost
-    # This is the actual test verification: - During test filling, the receipt
-    # returned by the transition tool (t8n) is verified against the expected
-    # receipt. - During test consumption, this is reflected in the balance
-    # difference and the state root.
+    # This is the actual test verification:
+    #   - During test filling, the receipt returned by the transition tool
+    #     (t8n) is verified against the expected receipt.
+    #   - During test consumption, this is reflected in the balance difference
+    #     and the state root.
     tx.expected_receipt = TransactionReceipt(gas_used=gas_used)
     state_test(
         pre=pre,

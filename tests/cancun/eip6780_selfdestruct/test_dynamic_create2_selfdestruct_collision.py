@@ -53,16 +53,24 @@ def test_dynamic_create2_selfdestruct_collision(
 
     Perform a CREATE2, make sure that the initcode sets at least a couple of
     storage keys, then on a different call, in the same tx, perform a
-    self-destruct. Then: a) on the same tx, attempt to recreate the contract
-    <=== Covered in this test 1) and create2 contract already in the state 2)
-    and create2 contract is not in the state b) on a different tx, attempt to
-    recreate the contract Perform a CREATE2, make sure that the initcode sets
-    at least a couple of storage keys, then in a different tx, perform a
-    self-destruct. Then: a) on the same tx, attempt to recreate the contract b)
-    on a different tx, attempt to recreate the contract Verify that the test
-    case described in
-    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06
-    +Mainnet+Halting+Event
+    self-destruct.
+    Then:
+      a) on the same tx, attempt to recreate the contract
+         -> Covered in this test
+           1) and create2 contract already in the state
+           2) and create2 contract is not in the state
+      b) on a different tx, attempt to recreate the contract
+
+    Perform a CREATE2, make sure that the initcode sets at least a couple
+    of storage keys, then in a different tx, perform a self-destruct.
+
+    Then:
+      a) on the same tx, attempt to recreate the contract
+      b) on a different tx, attempt to recreate the contract
+
+    Check the test case described in
+    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/
+    22156575/2024-01-06+Mainnet+Halting+Event
     """
     assert call_create2_contract_in_between or call_create2_contract_at_the_end, "invalid test"
 
@@ -228,14 +236,24 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
 
     Perform a CREATE2, make sure that the initcode sets at least a couple of
     storage keys, then on a different call, in the same tx, perform a
-    self-destruct. Then: a) on the same tx, attempt to recreate the contract 1)
-    and create2 contract already in the state 2) and create2 contract is not in
-    the state b) on a different tx, attempt to recreate the contract <===
-    Covered in this test Perform a CREATE2, make sure that the initcode sets at
+    self-destruct.
+
+    Then:
+      a) on the same tx, attempt to recreate the contract
+        1) and create2 contract already in the state
+        2) and create2 contract is not in the state
+      b) on a different tx, attempt to recreate the contract
+         -> Covered in this test
+
+    Perform a CREATE2, make sure that the initcode sets at
     least a couple of storage keys, then in a different tx, perform a
-    self-destruct. Then: a) on the same tx, attempt to recreate the contract b)
-    on a different tx, attempt to recreate the contract Verify that the test
-    case described in
+    self-destruct.
+
+    Then:
+      a) on the same tx, attempt to recreate the contract
+      b) on a different tx, attempt to recreate the contract
+
+    Check the test case described in
     https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06
     +Mainnet+Halting+Event
     """
@@ -374,7 +392,9 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
         storage={
             code_worked: 0x01,
             # Second create2 will not collide before Cancun as the first tx
-            # calls selfdestruct After cancun it will collide only if
+            # calls selfdestruct
+            #
+            # After cancun it will collide only if
             # create2_dest_already_in_state otherwise the first tx creates and
             # deletes it
             second_create2_result: (
@@ -461,13 +481,21 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     Perform a CREATE2, make sure that the initcode sets at least a couple of
     storage keys, then on a different call, in the same or different tx but
-    same block, perform a self-destruct. Then: a) on the same tx, attempt to
-    recreate the contract b) on a different tx, attempt to recreate the
-    contract Perform a CREATE2, make sure that the initcode sets at least a
+    same block, perform a self-destruct.
+    Then:
+      a) on the same tx, attempt to recreate the contract
+      b) on a different tx, attempt to recreate the contract
+
+    Perform a CREATE2, make sure that the initcode sets at least a
     couple of storage keys, then in a different tx, perform a self-destruct.
-    Then: a) on the same tx, attempt to recreate the contract       <===
-    Covered in this test b) on a different tx, attempt to recreate the contract
-    <=== Covered in this test Verify that the test case described in
+
+    Then:
+      a) on the same tx, attempt to recreate the contract
+         -> Covered in this test
+      b) on a different tx, attempt to recreate the contract
+         -> Covered in this test
+
+    Check the test case described in
     https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06
     +Mainnet+Halting+Event
     """

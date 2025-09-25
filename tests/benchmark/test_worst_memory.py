@@ -228,8 +228,15 @@ def test_worst_returndatacopy(
 
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(returndata_gen))
-    # The attack loop is constructed as: ``` JUMPDEST(#) RETURNDATACOPY(...)
-    # RETURNDATACOPY(...) ... STATICCALL(address=helper_contract) JUMP(#) ```
+    # The attack loop is constructed as:
+    # ```
+    # JUMPDEST(#)
+    # RETURNDATACOPY(...)
+    # RETURNDATACOPY(...)
+    # ...
+    # STATICCALL(address=helper_contract)
+    # JUMP(#)
+    # ```
     # The goal is that once per (big) loop iteration, the helper contract is
     # called to generate fresh returndata to continue calling RETURNDATACOPY.
     max_iters_loop = (
