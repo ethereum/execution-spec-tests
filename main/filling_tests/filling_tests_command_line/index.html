@@ -1495,6 +1495,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#watch-mode-for-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Watch Mode for Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Watch Mode for Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-watch-mode-watch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Standard Watch Mode (--watch)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#watcherfall-watch-mode-watcherfall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Watcherfall Watch Mode (--watcherfall)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-useful-pytest-command-line-options" class="md-nav__link">
     <span class="md-ellipsis">
       Other Useful Pytest Command-Line Options
@@ -27360,6 +27393,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#watch-mode-for-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Watch Mode for Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Watch Mode for Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-watch-mode-watch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Standard Watch Mode (--watch)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#watcherfall-watch-mode-watcherfall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Watcherfall Watch Mode (--watcherfall)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-useful-pytest-command-line-options" class="md-nav__link">
     <span class="md-ellipsis">
       Other Useful Pytest Command-Line Options
@@ -27477,6 +27543,43 @@
 </div>
 <h2 id="debugging-the-t8n-command">Debugging the <code>t8n</code> Command<a class="headerlink" href="#debugging-the-t8n-command" title="Permanent link">&para;</a></h2>
 <p>The <code>--evm-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes, see <a href="../debugging_t8n_tools/">Debugging Transition Tools</a>.</p>
+<h2 id="watch-mode-for-development">Watch Mode for Development<a class="headerlink" href="#watch-mode-for-development" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Development workflow</p>
+<p>Use <code>--watch</code> or <code>--watcherfall</code> during test development to get immediate feedback on your changes without manually re-running the fill command.</p>
+</div>
+<h3 id="standard-watch-mode-watch">Standard Watch Mode (<code>--watch</code>)<a class="headerlink" href="#standard-watch-mode-watch" title="Permanent link">&para;</a></h3>
+<p>This will:</p>
+<ol>
+<li>Run the initial fill command.</li>
+<li>Monitor all Python files in the <code>tests/</code> and <code>src/</code> directories for changes.</li>
+<li>Automatically re-run the fill command when changes are detected.</li>
+<li>Clear the screen and show which files changed.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill tests/amsterdam/eip7928_block_level_access_lists/test_block_access_lists.py --clean --until Amsterdam --watch</span>
+<span class="go">✓ Fill completed</span>
+
+<span class="go">Watching for changes...</span>
+</code></pre></div>
+<h3 id="watcherfall-watch-mode-watcherfall">Watcherfall Watch Mode (<code>--watcherfall</code>)<a class="headerlink" href="#watcherfall-watch-mode-watcherfall" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Watcherfall mode</p>
+<p>A verbose mode; like watch but the logs keep flowing - perfect when you want to see the full history of runs without clearing the terminal.</p>
+</div>
+<p>Same as <code>--watch</code> but without clearing the terminal between runs, so you can see the full output history:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill tests/amsterdam/eip7928_block_level_access_lists/test_block_access_lists.py --clean --until Amsterdam --watcherfall</span>
+<span class="go">Starting watcherfall mode (verbose)...</span>
+<span class="go">✓ Fill completed</span>
+
+<span class="go">Watching for changes...</span>
+
+<span class="go">File changes detected, re-running...</span>
+
+<span class="go">✓ Fill completed</span>
+
+<span class="go">Watching for changes...</span>
+</code></pre></div>
+<p>Exit either watch mode with Ctrl+C</p>
 <h2 id="other-useful-pytest-command-line-options">Other Useful Pytest Command-Line Options<a class="headerlink" href="#other-useful-pytest-command-line-options" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="go">uv run fill -vv            # More verbose output</span>
 <span class="go">uv run fill -x             # Exit instantly on first error or failed test case</span>
@@ -27516,7 +27619,8 @@
       
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
-        <a href="mailto:kclowes@users.noreply.github.com">kclowes</a>
+        <a href="mailto:kclowes@users.noreply.github.com">kclowes</a>, 
+        <a href="mailto:10168946+raxhvl@users.noreply.github.com">raxhvl</a>
     </nav>
   </span>
 
