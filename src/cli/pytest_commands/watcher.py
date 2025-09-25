@@ -43,8 +43,9 @@ class FileWatcher:
             return mtimes
 
         def run_fill():
-            """Run fill command."""
-            cmd = ["uv", "run", "fill"] + args
+            """Run fill command without --watch / --watcherfall flag."""
+            clean_args = [arg for arg in args if arg not in ["--watch", "--watcherfall"]]
+            cmd = ["uv", "run", "fill"] + clean_args
             result = subprocess.run(cmd)
 
             if result.returncode == 0:
@@ -64,7 +65,7 @@ class FileWatcher:
         file_count = len(file_mtimes)
         self.console.print(
             f"[blue]Watching {file_count} files in tests/ and src/ directories."
-            "Press Ctrl+C to stop.[/blue]"
+            "\n Press Ctrl+C to stop.[/blue]"
         )
 
         # Watch loop
