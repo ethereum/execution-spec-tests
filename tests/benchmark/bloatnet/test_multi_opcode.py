@@ -90,49 +90,42 @@ def test_bloatnet_balance_extcodesize(
 
     # Build attack contract that reads config from factory and performs attack
     attack_code = (
-        # Read number of deployed contracts from factory storage slot 0
-        Op.PUSH1(0)  # Storage slot 0
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load num_deployed_contracts
-        + Op.DUP1  # Keep a copy for later use
-
-        # Read init code hash from factory storage slot 1
-        + Op.PUSH1(1)  # Storage slot 1
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load init_code_hash
-
+        # Call getConfig() on factory to get num_deployed_contracts and init_code_hash
+        # STATICCALL(gas, addr, argsOffset, argsSize, retOffset, retSize)
+        Op.PUSH1(64)  # retSize (64 bytes = 2 * 32)
+        + Op.PUSH1(96)  # retOffset (store result at memory position 96)
+        + Op.PUSH1(0)  # argsSize (no calldata for getConfig)
+        + Op.PUSH1(0)  # argsOffset
+        + Op.PUSH20(factory_address)  # factory address
+        + Op.GAS  # Use all available gas
+        + Op.STATICCALL  # Call getConfig()
+        # Check if call succeeded
+        + Op.ISZERO
+        + Op.PUSH2(0x1000)  # Jump to error handler if failed (far jump)
+        + Op.JUMPI
+        # Load results from memory
+        # Memory[96:128] = num_deployed_contracts
+        # Memory[128:160] = init_code_hash
+        + Op.PUSH1(96)  # Memory position for num_deployed_contracts
+        + Op.MLOAD  # Load num_deployed_contracts
+        + Op.PUSH1(128)  # Memory position for init_code_hash
+        + Op.MLOAD  # Load init_code_hash
         # Setup memory for CREATE2 address generation
-        # Memory layout: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
+        # Memory layout at position 0: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
         + Op.PUSH20(factory_address)
         + Op.PUSH1(0)
         + Op.MSTORE  # Store factory address at memory position 0
         + Op.PUSH1(0xFF)
         + Op.PUSH1(11)  # Position for 0xFF prefix (32 - 20 - 1)
         + Op.MSTORE8  # Store 0xFF prefix
-
         + Op.PUSH1(0)  # Initial salt value
         + Op.PUSH1(32)
         + Op.MSTORE  # Store salt at position 32
-
         # Stack now has: [num_contracts, init_code_hash]
         + Op.PUSH1(64)
         + Op.MSTORE  # Store init_code_hash at position 64
-
         # Stack now has: [num_contracts]
-        # Calculate how many contracts we can actually access with available gas
-        + Op.GAS  # Get current gas
-        + Op.PUSH2(cost_per_contract)  # Gas per contract access
-        + Op.DIV  # Calculate max possible contracts
-        + Op.DUP2  # Get num_deployed_contracts
-        + Op.GT  # Check if we can access all deployed contracts
-        + Op.PUSH1(0)  # Jump destination for no limit
-        + Op.JUMPI
-        + Op.POP  # Remove num_deployed_contracts
-        + Op.GAS
-        + Op.PUSH2(cost_per_contract)
-        + Op.DIV  # Use gas-limited count
-        + Op.JUMPDEST
-        # Main attack loop - stack has [num_contracts_to_access]
+        # Main attack loop - iterate through all deployed contracts
         + While(
             body=(
                 # Generate CREATE2 address: keccak256(0xFF + factory + salt + init_code_hash)
@@ -239,49 +232,42 @@ def test_bloatnet_balance_extcodecopy(
 
     # Build attack contract that reads config from factory and performs attack
     attack_code = (
-        # Read number of deployed contracts from factory storage slot 0
-        Op.PUSH1(0)  # Storage slot 0
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load num_deployed_contracts
-        + Op.DUP1  # Keep a copy for later use
-
-        # Read init code hash from factory storage slot 1
-        + Op.PUSH1(1)  # Storage slot 1
-        + Op.PUSH20(factory_address)  # Factory address
-        + Op.SLOAD  # Load init_code_hash
-
+        # Call getConfig() on factory to get num_deployed_contracts and init_code_hash
+        # STATICCALL(gas, addr, argsOffset, argsSize, retOffset, retSize)
+        Op.PUSH1(64)  # retSize (64 bytes = 2 * 32)
+        + Op.PUSH1(96)  # retOffset (store result at memory position 96)
+        + Op.PUSH1(0)  # argsSize (no calldata for getConfig)
+        + Op.PUSH1(0)  # argsOffset
+        + Op.PUSH20(factory_address)  # factory address
+        + Op.GAS  # Use all available gas
+        + Op.STATICCALL  # Call getConfig()
+        # Check if call succeeded
+        + Op.ISZERO
+        + Op.PUSH2(0x1000)  # Jump to error handler if failed (far jump)
+        + Op.JUMPI
+        # Load results from memory
+        # Memory[96:128] = num_deployed_contracts
+        # Memory[128:160] = init_code_hash
+        + Op.PUSH1(96)  # Memory position for num_deployed_contracts
+        + Op.MLOAD  # Load num_deployed_contracts
+        + Op.PUSH1(128)  # Memory position for init_code_hash
+        + Op.MLOAD  # Load init_code_hash
         # Setup memory for CREATE2 address generation
-        # Memory layout: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
+        # Memory layout at position 0: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
         + Op.PUSH20(factory_address)
         + Op.PUSH1(0)
         + Op.MSTORE  # Store factory address at memory position 0
         + Op.PUSH1(0xFF)
         + Op.PUSH1(11)  # Position for 0xFF prefix (32 - 20 - 1)
         + Op.MSTORE8  # Store 0xFF prefix
-
         + Op.PUSH1(0)  # Initial salt value
         + Op.PUSH1(32)
         + Op.MSTORE  # Store salt at position 32
-
         # Stack now has: [num_contracts, init_code_hash]
         + Op.PUSH1(64)
         + Op.MSTORE  # Store init_code_hash at position 64
-
         # Stack now has: [num_contracts]
-        # Calculate how many contracts we can actually access with available gas
-        + Op.GAS  # Get current gas
-        + Op.PUSH2(cost_per_contract)  # Gas per contract access with EXTCODECOPY
-        + Op.DIV  # Calculate max possible contracts
-        + Op.DUP2  # Get num_deployed_contracts
-        + Op.GT  # Check if we can access all deployed contracts
-        + Op.PUSH1(0)  # Jump destination for no limit
-        + Op.JUMPI
-        + Op.POP  # Remove num_deployed_contracts
-        + Op.GAS
-        + Op.PUSH2(cost_per_contract)
-        + Op.DIV  # Use gas-limited count
-        + Op.JUMPDEST
-        # Main attack loop - stack has [num_contracts_to_access]
+        # Main attack loop - iterate through all deployed contracts
         + While(
             body=(
                 # Generate CREATE2 address
