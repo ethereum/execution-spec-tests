@@ -1,8 +1,9 @@
 """
 abstract: BloatNet bench cases extracted from https://hackmd.io/9icZeLN7R0Sk5mIjKlZAHQ.
 
-   The idea of all these tests is to stress client implementations to find out where the limits of
-   processing are focusing specifically on state-related operations.
+   The idea of all these tests is to stress client implementations to find out
+   where the limits of processing are focusing specifically on state-related
+   operations.
 """
 
 import pytest
@@ -42,9 +43,9 @@ REFERENCE_SPEC_VERSION = "1.0"
 #                 3. EXTCODESIZE(addr) → 100 gas (warm access)
 #
 # HOW IT WORKS:
-#   1. Factory uses EXTCODECOPY to load initcode, avoiding PC-relative jump issues
-#   2. Each CREATE2 deployment produces unique 24KB bytecode (via ADDRESS opcode)
-#   3. All contracts share same initcode hash for deterministic address calculation
+#   1. Factory uses EXTCODECOPY to load initcode, avoiding PC-relative jumps
+#   2. Each CREATE2 deployment produces unique 24KB bytecode (via ADDRESS)
+#   3. All contracts share same initcode hash for deterministic addresses
 #   4. Attack rapidly accesses all contracts, stressing client's state handling
 
 
@@ -56,7 +57,8 @@ def test_bloatnet_balance_extcodesize(
     gas_benchmark_value: int,
 ):
     """
-    BloatNet test using BALANCE + EXTCODESIZE with "on-the-fly" CREATE2 address generation.
+    BloatNet test using BALANCE + EXTCODESIZE with "on-the-fly" CREATE2
+    address generation.
 
     This test:
     1. Assumes contracts are already deployed via the factory (salt 0 to N-1)
@@ -99,7 +101,7 @@ def test_bloatnet_balance_extcodesize(
         stub="bloatnet_factory",
     )
 
-    # Log test requirements - actual deployed count will be read from factory storage
+    # Log test requirements - deployed count read from factory storage
     print(
         f"Test needs {contracts_needed} contracts for "
         f"{gas_benchmark_value / 1_000_000:.1f}M gas. "
@@ -108,7 +110,7 @@ def test_bloatnet_balance_extcodesize(
 
     # Build attack contract that reads config from factory and performs attack
     attack_code = (
-        # Call getConfig() on factory to get num_deployed_contracts and init_code_hash
+        # Call getConfig() on factory to get num_deployed and init_code_hash
         # STATICCALL(gas, addr, argsOffset, argsSize, retOffset, retSize)
         Op.PUSH1(64)  # retSize (64 bytes = 2 * 32)
         + Op.PUSH1(96)  # retOffset (store result at memory position 96)
@@ -129,7 +131,7 @@ def test_bloatnet_balance_extcodesize(
         + Op.PUSH1(128)  # Memory position for init_code_hash
         + Op.MLOAD  # Load init_code_hash
         # Setup memory for CREATE2 address generation
-        # Memory layout at position 0: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
+        # Memory layout at 0: 0xFF + factory_addr(20) + salt(32) + hash(32)
         + Op.PUSH20(factory_address)
         + Op.PUSH1(0)
         + Op.MSTORE  # Store factory address at memory position 0
@@ -146,7 +148,7 @@ def test_bloatnet_balance_extcodesize(
         # Main attack loop - iterate through all deployed contracts
         + While(
             body=(
-                # Generate CREATE2 address: keccak256(0xFF + factory + salt + init_code_hash)
+                # Generate CREATE2 addr: keccak256(0xFF+factory+salt+hash)
                 Op.PUSH1(85)  # Size to hash (1 + 20 + 32 + 32)
                 + Op.PUSH1(11)  # Start position (0xFF prefix)
                 + Op.SHA3  # Generate CREATE2 address
@@ -201,7 +203,8 @@ def test_bloatnet_balance_extcodecopy(
     gas_benchmark_value: int,
 ):
     """
-    BloatNet test using BALANCE + EXTCODECOPY with on-the-fly CREATE2 address generation.
+    BloatNet test using BALANCE + EXTCODECOPY with on-the-fly CREATE2
+    address generation.
 
     This test forces actual bytecode reads from disk by:
     1. Assumes contracts are already deployed via the factory
@@ -246,7 +249,7 @@ def test_bloatnet_balance_extcodecopy(
         stub="bloatnet_factory",
     )
 
-    # Log test requirements - actual deployed count will be read from factory storage
+    # Log test requirements - deployed count read from factory storage
     print(
         f"Test needs {contracts_needed} contracts for "
         f"{gas_benchmark_value / 1_000_000:.1f}M gas. "
@@ -255,7 +258,7 @@ def test_bloatnet_balance_extcodecopy(
 
     # Build attack contract that reads config from factory and performs attack
     attack_code = (
-        # Call getConfig() on factory to get num_deployed_contracts and init_code_hash
+        # Call getConfig() on factory to get num_deployed and init_code_hash
         # STATICCALL(gas, addr, argsOffset, argsSize, retOffset, retSize)
         Op.PUSH1(64)  # retSize (64 bytes = 2 * 32)
         + Op.PUSH1(96)  # retOffset (store result at memory position 96)
@@ -276,7 +279,7 @@ def test_bloatnet_balance_extcodecopy(
         + Op.PUSH1(128)  # Memory position for init_code_hash
         + Op.MLOAD  # Load init_code_hash
         # Setup memory for CREATE2 address generation
-        # Memory layout at position 0: 0xFF + factory_address(20) + salt(32) + init_code_hash(32)
+        # Memory layout at 0: 0xFF + factory_addr(20) + salt(32) + hash(32)
         + Op.PUSH20(factory_address)
         + Op.PUSH1(0)
         + Op.MSTORE  # Store factory address at memory position 0
