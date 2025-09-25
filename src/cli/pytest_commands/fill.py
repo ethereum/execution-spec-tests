@@ -5,7 +5,8 @@ from typing import List
 import click
 
 from .base import PytestCommand, PytestExecution, common_pytest_options
-from .processors import HelpFlagsProcessor, StdoutFlagsProcessor
+from .processors import HelpFlagsProcessor, StdoutFlagsProcessor, WatchFlagsProcessor
+from .watcher import FileWatcher
 
 
 class FillCommand(PytestCommand):
@@ -18,6 +19,7 @@ class FillCommand(PytestCommand):
             argument_processors=[
                 HelpFlagsProcessor("fill"),
                 StdoutFlagsProcessor(),
+                WatchFlagsProcessor(),
             ],
             **kwargs,
         )
@@ -173,6 +175,27 @@ class FillCommand(PytestCommand):
                 output_path = Path(args[i + 1])
                 return str(output_path).endswith(".tar.gz")
         return False
+
+    def _is_watch_mode(self, args: List[str]) -> bool:
+        """Check if any watch flag is present in arguments."""
+        return any(flag in args for flag in ["--watch", "--watcherfall"])
+
+    def _is_verbose_watch_mode(self, args: List[str]) -> bool:
+        """Check if verbose watch flag (--watcherfall) is present in arguments."""
+        return "--watcherfall" in args
+
+    def execute(self, pytest_args: List[str]) -> None:
+        """Execute the command with optional watch mode support."""
+        if self._is_watch_mode(pytest_args):
+            self._execute_with_watch(pytest_args)
+        else:
+            super().execute(pytest_args)
+
+    def _execute_with_watch(self, pytest_args: List[str]) -> None:
+        """Execute fill command in watch mode."""
+        verbose = self._is_verbose_watch_mode(pytest_args)
+        watcher = FileWatcher(console=self.runner.console, verbose=verbose)
+        watcher.run_with_watch(pytest_args)
 
 
 class PhilCommand(FillCommand):

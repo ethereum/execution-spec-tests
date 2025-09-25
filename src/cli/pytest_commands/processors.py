@@ -118,6 +118,14 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
         return "-n" in args
 
 
+class WatchFlagsProcessor(ArgumentProcessor):
+    """Processes --watch and --watcherfall flags for file watching functionality."""
+
+    def process_args(self, args: List[str]) -> List[str]:
+        """Remove --watch and --watcherfall flags from args passed to pytest."""
+        return [arg for arg in args if arg not in ["--watch", "--watcherfall"]]
+
+
 class ConsumeCommandProcessor(ArgumentProcessor):
     """Processes consume-specific command arguments."""
 
