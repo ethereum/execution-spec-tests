@@ -86,6 +86,7 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
     - Use `PascalCase` for classes.
     - Use `UPPER_CASE` for constants.
 - **File Paths**: Strongly prefer `pathlib` over `os.path` for file system operations.
+- **Retry Logic**: Use [`tenacity`](https://github.com/jd/tenacity) library for handling flaky network connections and transient failures.
 
 ## Editor Setup
 
