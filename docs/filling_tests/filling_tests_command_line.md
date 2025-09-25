@@ -148,7 +148,7 @@ Watching for changes...
 ### Watcherfall Watch Mode (`--watcherfall`)
 
 !!! info "Watcherfall mode"
-    Like watch but it just keeps the logs keep flowing - perfect when you want to see the full history of runs without clearing the terminal.
+    A verbose mode; like watch but the logs keep flowing - perfect when you want to see the full history of runs without clearing the terminal.
 
 Same as `--watch` but without clearing the terminal between runs, so you can see the full output history:
 
