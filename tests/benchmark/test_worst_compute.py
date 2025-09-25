@@ -1667,6 +1667,9 @@ def test_worst_blobhash(
     if blobs_present > 0:
         tx.ty = HexNumber(TransactionType.BLOB_TRANSACTION)
         tx.max_fee_per_blob_gas = HexNumber(fork.min_base_fee_per_blob_gas())
+        tx.max_fee_per_gas = HexNumber(1000)
+        tx.max_priority_fee_per_gas = HexNumber(0)
+        tx.access_list = []
         tx.blob_versioned_hashes = add_kzg_version(
             [i.to_bytes() * 32 for i in range(blobs_present)],
             BlobsSpec.BLOB_COMMITMENT_VERSION_KZG,
