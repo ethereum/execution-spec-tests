@@ -34,7 +34,10 @@ class FixtureConsumer(ABC):
         fixture_name: str | None = None,
         debug_output_path: Path | None = None,
     ):
-        """Test the client with the specified fixture using its direct consumer interface."""
+        """
+        Test the client with the specified fixture using its direct consumer
+        interface.
+        """
         raise NotImplementedError(
             "The `consume_fixture()` function is not supported by this tool."
         )
@@ -59,7 +62,9 @@ class TestCaseStream(TestCaseBase):
 
 
 class TestCaseIndexFile(TestCaseBase):
-    """The test case model used to save/load test cases to/from an index file."""
+    """
+    The test case model used to save/load test cases to/from an index file.
+    """
 
     json_path: Path
     __test__ = False  # stop pytest from collecting this class as a test

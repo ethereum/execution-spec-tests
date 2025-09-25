@@ -27,14 +27,15 @@ def check_json(json_file_path: Path):
     """
     Check all fixtures in the specified json file:
     1. Load the json file into a pydantic model. This checks there are no
-        Validation errors when loading fixtures into EEST models.
+       Validation errors when loading fixtures into EEST models.
     2. Serialize the loaded pydantic model to "json" (actually python data
-        structures, ready to written as json).
+       structures, ready to written as json).
     3. Load the serialized data back into a pydantic model (to get an updated
-        hash) from step 2.
+       hash) from step 2.
     4. Compare hashes:
         a. Compare the newly calculated hashes from step 2. and 3. and
-        b. If present, compare info["hash"] with the calculated hash from step 2.
+        b. If present, compare info["hash"] with the calculated hash from
+           step 2.
     """
     fixtures: Fixtures = Fixtures.model_validate_json(json_file_path.read_text())
     fixtures_json = to_json(fixtures)
@@ -86,7 +87,9 @@ def check_json(json_file_path: Path):
     help="Stop and raise any exceptions encountered while checking fixtures.",
 )
 def check_fixtures(input_str: str, quiet_mode: bool, stop_on_error: bool):
-    """Perform some checks on the fixtures contained in the specified directory."""
+    """
+    Perform some checks on the fixtures contained in the specified directory.
+    """
     input_path = Path(input_str)
     success = True
     file_count = 0

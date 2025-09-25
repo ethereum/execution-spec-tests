@@ -1,25 +1,29 @@
 """
-abstract: Tests `excessBlobGas` and `blobGasUsed` block fields for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test `excessBlobGas` and `blobGasUsed` block fields for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+Tests `excessBlobGas` and `blobGasUsed` block fields for EIP-4844.
 
-note: Adding a new test
-    Add a function that is named `test_<test_name>` and takes at least the following arguments:
+Tests `excessBlobGas` and `blobGasUsed` block fields for
+[EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
+Note: Adding a new test Add a function that is named `test_<test_name>` and
+takes at least the following arguments.
 
-    - blockchain_test
-    - env
-    - pre
-    - blocks
-    - post
-    - correct_excess_blob_gas
+Required arguments:
+- `blockchain_test`
+- `env`
+- `pre`
+- `blocks`
+- `post`
+- `correct_excess_blob_gas`
 
-    The following arguments can be parametrized to generate new combinations and test cases:
+The following arguments can be parametrized to generate new combinations
+and
+test cases:
 
-    - new_blobs: Number of blobs in the block (automatically split across transactions as needed)
+- new_blobs: Number of blobs in the block (automatically split across
+transactions as needed)
 
-    All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
-    cases.
-
-"""  # noqa: E501
+All other `pytest.fixture` fixtures can be parametrized to generate new
+combinations and test cases.
+"""
 
 import itertools
 from typing import Callable, Dict, Iterator, List, Mapping, Optional, Tuple
@@ -55,7 +59,9 @@ pytestmark = pytest.mark.valid_from("Cancun")
 
 @pytest.fixture
 def parent_excess_blobs(fork: Fork) -> int:  # noqa: D103
-    """By default we start with an intermediate value between the target and max."""
+    """
+    By default we start with an intermediate value between the target and max.
+    """
     return (fork.max_blobs_per_block() + fork.target_blobs_per_block()) // 2 + 1
 
 
@@ -304,12 +310,14 @@ def test_correct_excess_blob_gas_calculation(
     correct_excess_blob_gas: int,
 ):
     """
-    Test calculation of the `excessBlobGas` increase/decrease across
-    multiple blocks with and without blobs.
+    Test calculation of the `excessBlobGas` increase/decrease across multiple
+    blocks with and without blobs.
 
     - With parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs
-    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent value of excess blob gas
-    """  # noqa: E501
+
+    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent
+    value of excess blob gas
+    """
     blockchain_test(
         pre=pre,
         post=post,
@@ -321,8 +329,8 @@ def test_correct_excess_blob_gas_calculation(
 
 def generate_blob_gas_cost_increases_tests(delta: int) -> Callable[[Fork], List[int]]:
     """
-    Generate a list of block excess blob gas values where the blob gas price increases
-    based on fork properties.
+    Generate a list of block excess blob gas values where the blob gas price
+    increases based on fork properties.
     """
 
     def generator_function(fork: Fork) -> List[int]:
@@ -365,8 +373,8 @@ def test_correct_increasing_blob_gas_costs(
     correct_excess_blob_gas: int,
 ):
     """
-    Test calculation of the `excessBlobGas` and blob gas tx costs at
-    value points where the cost increases to interesting amounts.
+    Test calculation of the `excessBlobGas` and blob gas tx costs at value
+    points where the cost increases to interesting amounts.
 
     - At the first blob gas cost increase (1 to 2)
     - At total transaction data cost increase to `> 2^32`
@@ -402,8 +410,8 @@ def test_correct_decreasing_blob_gas_costs(
     correct_excess_blob_gas: int,
 ):
     """
-    Test calculation of the `excessBlobGas` and blob gas tx costs at
-    value points where the cost decreases to interesting amounts.
+    Test calculation of the `excessBlobGas` and blob gas tx costs at value
+    points where the cost decreases to interesting amounts.
 
     See test_correct_increasing_blob_gas_costs.
     """
@@ -433,8 +441,8 @@ def test_invalid_zero_excess_blob_gas_in_header(
 ):
     """
     Test rejection of blocks where the `excessBlobGas` in the header drops to
-    zero in a block with or without data blobs, but the excess blobs in the parent are
-    greater than target.
+    zero in a block with or without data blobs, but the excess blobs in the
+    parent are greater than target.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -529,8 +537,10 @@ def test_invalid_excess_blob_gas_above_target_change(
     """
     Test rejection of blocks where the `excessBlobGas`.
 
-    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with zero blobs
-    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with max blobs
+    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block
+        with zero blobs.
+    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block
+        with max blobs.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -572,8 +582,8 @@ def test_invalid_static_excess_blob_gas(
     parent_excess_blob_gas: int,
 ):
     """
-    Test rejection of blocks where the `excessBlobGas` remains unchanged
-    but the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.
+    Test rejection of blocks where the `excessBlobGas` remains unchanged but
+    the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.
 
     Test is parametrized to `MAX_BLOBS_PER_BLOCK` and `TARGET_BLOBS_PER_BLOCK`.
     """
@@ -659,7 +669,8 @@ def test_invalid_static_excess_blob_gas_from_zero_on_blobs_above_target(
     Test rejection of blocks where the `excessBlobGas` does not increase from
     zero, even when the included blobs is above target.
 
-    Test is parametrized to `[TARGET_BLOBS_PER_BLOCK+1, MAX_BLOBS_PER_BLOCK]` new blobs.
+    Test is parametrized to `[TARGET_BLOBS_PER_BLOCK+1, MAX_BLOBS_PER_BLOCK]`
+    new blobs.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -708,9 +719,9 @@ def test_invalid_excess_blob_gas_change(
     Test rejection of blocks where the `excessBlobGas` changes to an invalid
     value.
 
-    Given a parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs, test an invalid
-    `excessBlobGas` value by changing it by `[-TARGET_BLOBS_PER_BLOCK, TARGET_BLOBS_PER_BLOCK]`
-    from the correct value.
+    Given a parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs, test an
+    invalid `excessBlobGas` value by changing it by `[-TARGET_BLOBS_PER_BLOCK,
+    TARGET_BLOBS_PER_BLOCK]` from the correct value.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -760,8 +771,8 @@ def test_invalid_negative_excess_blob_gas(
     Test rejection of blocks where the `excessBlobGas` changes to the two's
     complement equivalent of the negative value after subtracting target blobs.
 
-    Reasoning is that the `excessBlobGas` is a `uint64`, so it cannot be negative, and
-    we test for a potential underflow here.
+    Reasoning is that the `excessBlobGas` is a `uint64`, so it cannot be
+    negative, and we test for a potential underflow here.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -810,8 +821,10 @@ def test_invalid_non_multiple_excess_blob_gas(
     Test rejection of blocks where the `excessBlobGas` changes to a value that
     is not a multiple of Spec.GAS_PER_BLOB`.
 
-    - Parent block contains `TARGET_BLOBS_PER_BLOCK + 1` blobs, but `excessBlobGas` is off by +/-1
-    - Parent block contains `TARGET_BLOBS_PER_BLOCK - 1` blobs, but `excessBlobGas` is off by +/-1
+    - Parent block contains `TARGET_BLOBS_PER_BLOCK + 1` blobs, but
+       `excessBlobGas` is off by +/-1
+    - Parent block contains `TARGET_BLOBS_PER_BLOCK - 1` blobs, but
+       `excessBlobGas` is off by +/-1
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")

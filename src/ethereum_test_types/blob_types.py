@@ -50,7 +50,8 @@ class Blob(CamelModel):
     data: Bytes
     commitment: Bytes
     proof: List[Bytes] | Bytes  # Bytes < Osaka, List[Bytes] >= Osaka
-    cells: List[Bytes] | None  # None (in json: null) < Osaka, List[Bytes] >= Osaka
+    # None (in json: null) < Osaka, List[Bytes] >= Osaka
+    cells: List[Bytes] | None
 
     versioned_hash: Hash
     name: str
@@ -72,13 +73,18 @@ class Blob(CamelModel):
 
     @staticmethod
     def get_filename(fork: Fork, seed: int) -> str:
-        """Return filename this blob would have as string (with .json extension)."""
+        """
+        Return filename this blob would have as string (with .json extension).
+        """
         amount_cell_proofs: int = cast(int, fork.get_blob_constant("AMOUNT_CELL_PROOFS"))
         return "blob_" + str(seed) + "_cell_proofs_" + str(amount_cell_proofs) + ".json"
 
     @staticmethod
     def get_filepath(fork: Fork, seed: int):
-        """Return the Path to the blob that would be created with these parameters."""
+        """
+        Return the Path to the blob that would be created with these
+        parameters.
+        """
         # determine amount of cell proofs for this fork (0 or 128)
         would_be_filename: str = Blob.get_filename(fork, seed)
 
@@ -87,7 +93,10 @@ class Blob(CamelModel):
 
     @staticmethod
     def from_fork(fork: Fork, seed: int = 0, timestamp: int = 0) -> "Blob":
-        """Construct Blob instances. Fork logic is encapsulated within nested functions."""
+        """
+        Construct Blob instances. Fork logic is encapsulated within nested
+        functions.
+        """
 
         def generate_blob_data(rng_seed: int = 0) -> Bytes:
             """Calculate blob data deterministically via provided seed."""
@@ -139,12 +148,16 @@ class Blob(CamelModel):
             return commitment
 
         def get_proof(fork: Fork, data: Bytes) -> List[Bytes] | Bytes:
-            # determine whether this fork is <osaka or >= osaka by looking at amount of cell_proofs
+            # determine whether this fork is <osaka or >= osaka by looking at
+            # amount of cell_proofs
             amount_cell_proofs = fork.get_blob_constant("AMOUNT_CELL_PROOFS")
 
             # cancun, prague
             if amount_cell_proofs == 0:
-                z = 2  # 2 is one of many possible valid field elements z (https://github.com/ethereum/consensus-specs/blob/ad884507f7a1d5962cd3dfb5f7b3e41aab728c55/tests/core/pyspec/eth2spec/test/utils/kzg_tests.py#L58-L66)
+                z = 2  # 2 is one of many possible valid field elements z
+                # https://github.com/ethereum/consensus-specs/blob/ad884507f
+                #  7a1d5962cd3dfb5f7b3e41aab728c55/tests/core/pyspec/eth2spec/
+                #  test/utils/kzg_tests.py#L58-L66)
                 z_valid_size: bytes = z.to_bytes(
                     cast(int, fork.get_blob_constant("BYTES_PER_FIELD_ELEMENT")), byteorder="big"
                 )
@@ -164,7 +177,8 @@ class Blob(CamelModel):
             )
 
         def get_cells(fork: Fork, data: Bytes) -> List[Bytes] | None:
-            # determine whether this fork is <osaka or >= osaka by looking at amount of cell_proofs
+            # determine whether this fork is <osaka or >= osaka by looking at
+            # amount of cell_proofs
             amount_cell_proofs = fork.get_blob_constant("AMOUNT_CELL_PROOFS")
 
             # cancun, prague
@@ -189,8 +203,8 @@ class Blob(CamelModel):
                 parents=True, exist_ok=True
             )  # create all necessary dirs on the way
 
-        # handle transition forks
-        # (blob related constants are needed and only available for normal forks)
+        # handle transition forks (blob related constants are needed and only
+        # available for normal forks)
         fork = fork.fork_at(timestamp=timestamp)
 
         # if this blob already exists then load from file. use lock
@@ -224,7 +238,8 @@ class Blob(CamelModel):
             seed=seed,
             timestamp=timestamp,
         )
-        # for most effective caching temporarily persist every blob that is created in cache
+        # for most effective caching temporarily persist every blob that is
+        # created in cache
         blob.write_to_file()
 
         return blob
@@ -234,7 +249,8 @@ class Blob(CamelModel):
         """
         Read a .json file and reconstruct object it represents.
 
-        You can load a blob only via its filename (with or without .json extension).
+        You can load a blob only via its filename (with or without .json
+        extension).
         """
         # ensure filename was passed
         assert file_name.startswith("blob_"), (
@@ -272,11 +288,15 @@ class Blob(CamelModel):
             if output_location.exists():
                 logger.debug(f"Blob {output_location} already exists. It will be overwritten.")
 
-            with open(output_location, "w", encoding="utf-8") as f:  # overwrite existing
+            # overwrite existing
+            with open(output_location, "w", encoding="utf-8") as f:
                 f.write(json_str)
 
     def verify_cell_kzg_proof_batch(self, cell_indices: list) -> bool:
-        """Check whether all cell proofs are valid and returns True only if that is the case."""
+        """
+        Check whether all cell proofs are valid and returns True only if that
+        is the case.
+        """
         amount_cell_proofs: int = cast(int, self.fork.get_blob_constant("AMOUNT_CELL_PROOFS"))
 
         assert amount_cell_proofs > 0, (
@@ -303,12 +323,14 @@ class Blob(CamelModel):
         """
         Simulate the cell recovery process in user-specified scenario.
 
-        Note: Requirement for successful reconstruction is having at least N of the 2N cells.
+        Note: Requirement for successful reconstruction is having at least N of
+        the 2N cells.
 
-        Theoretical Usage: You pass a cell list with to 128 elements to this function
-        along with a list of deletion indices. These cells will be deleted and then
-        the ckzg recovery mechanism is used to repair the missing cells.
-        If no assertion is triggered the reconstruction was successful.
+        Theoretical Usage: You pass a cell list with to 128 elements to this
+        function along with a list of deletion indices. These cells will be
+        deleted and then the ckzg recovery mechanism is used to repair the
+        missing cells. If no assertion is triggered the reconstruction was
+        successful.
         """
         amount_cell_proofs: int = cast(int, self.fork.get_blob_constant("AMOUNT_CELL_PROOFS"))
 
@@ -370,7 +392,8 @@ class Blob(CamelModel):
         """
         Define what the proof corruption modes do.
 
-        For Osaka and later each Bytes object in the list is manipulated this way.
+        For Osaka and later each Bytes object in the list is manipulated this
+        way.
         """
 
         CORRUPT_FIRST_BYTE = 1  # corrupts a single byte (index 0)
@@ -382,7 +405,9 @@ class Blob(CamelModel):
         """Corrupt the proof field, supports different corruption modes."""
 
         def corrupt_byte(b: bytes) -> Bytes:
-            """Bit-flip all bits of provided byte using XOR to guarantee change."""
+            """
+            Bit-flip all bits of provided byte using XOR to guarantee change.
+            """
             if len(b) != 1:
                 raise ValueError("Input must be a single byte")
             return Bytes(bytes([b[0] ^ 0xFF]))

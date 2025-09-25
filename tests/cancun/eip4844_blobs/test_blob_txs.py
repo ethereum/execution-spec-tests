@@ -1,19 +1,18 @@
 """
-abstract: Tests blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+Tests blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
+Note: To add a new test, add a function that is named `test_<test_name>`.
 
-note: Adding a new test
-    Add a function that is named `test_<test_name>` and takes at least the following arguments:
+It must at least use the following arguments:
 
-    - blockchain_test or state_test
-    - pre
-    - env
-    - block or txs
+- `blockchain_test` or `state_test`
+- `pre`
+- `env`
+- `block` or `txs`.
 
-    All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test cases.
-
-"""  # noqa: E501
+All other `pytest.fixture` fixtures can be parametrized to generate new
+combinations and test cases.
+"""
 
 from typing import List, Optional, Tuple
 
@@ -126,8 +125,8 @@ def total_account_minimum_balance(  # noqa: D103
     blob_hashes_per_tx: List[List[bytes]],
 ) -> int:
     """
-    Calculate minimum balance required for the account to be able to send
-    the transactions in the block of the test.
+    Calculate minimum balance required for the account to be able to send the
+    transactions in the block of the test.
     """
     minimum_cost = 0
     for tx_blob_count in [len(x) for x in blob_hashes_per_tx]:
@@ -147,7 +146,9 @@ def total_account_transactions_fee(  # noqa: D103
     tx_max_priority_fee_per_gas: int,
     blob_hashes_per_tx: List[List[bytes]],
 ) -> int:
-    """Calculate actual fee for the blob transactions in the block of the test."""
+    """
+    Calculate actual fee for the blob transactions in the block of the test.
+    """
     total_cost = 0
     for tx_blob_count in [len(x) for x in blob_hashes_per_tx]:
         blob_cost = blob_gas_price * blob_gas_per_blob * tx_blob_count
@@ -175,8 +176,8 @@ def tx_error() -> Optional[TransactionException]:
     """
     Error produced by the block transactions (no error).
 
-    Can be overloaded on test cases where the transactions are expected
-    to fail.
+    Can be overloaded on test cases where the transactions are expected to
+    fail.
     """
     return None
 
@@ -230,8 +231,8 @@ def txs(  # noqa: D103
 @pytest.fixture
 def account_balance_modifier() -> int:
     """
-    Account balance modifier for the source account of all tests.
-    See `pre` fixture.
+    Account balance modifier for the source account of all tests. See `pre`
+    fixture.
     """
     return 0
 
@@ -243,9 +244,9 @@ def state_env(
     """
     Prepare the environment for all state test cases.
 
-    Main difference is that the excess blob gas is not increased by the target, as
-    there is no genesis block -> block 1 transition, and therefore the excess blob gas
-    is not decreased by the target.
+    Main difference is that the excess blob gas is not increased by the target,
+    as there is no genesis block -> block 1 transition, and therefore the
+    excess blob gas is not decreased by the target.
     """
     return Environment(
         excess_blob_gas=excess_blob_gas if excess_blob_gas else 0,
@@ -255,8 +256,8 @@ def state_env(
 @pytest.fixture
 def engine_api_error_code() -> Optional[EngineAPIError]:
     """
-    Engine API error code to be returned by the client on consumption
-    of the erroneous block in hive.
+    Engine API error code to be returned by the client on consumption of the
+    erroneous block in hive.
     """
     return None
 
@@ -268,8 +269,8 @@ def block_error(
     """
     Error produced by the block transactions (no error).
 
-    Can be overloaded on test cases where the transactions are expected
-    to fail.
+    Can be overloaded on test cases where the transactions are expected to
+    fail.
     """
     return tx_error
 
@@ -385,15 +386,16 @@ def test_valid_blob_tx_combinations(
     block: Block,
 ):
     """
-    Test all valid blob combinations in a single block, assuming a given value of
-    `MAX_BLOBS_PER_BLOCK`.
+    Test all valid blob combinations in a single block, assuming a given value
+    of `MAX_BLOBS_PER_BLOCK`.
 
-    This assumes a block can include from 1 and up to `MAX_BLOBS_PER_BLOCK` transactions where all
-    transactions contain at least 1 blob, and the sum of all blobs in a block is at
-    most `MAX_BLOBS_PER_BLOCK`.
+    This assumes a block can include from 1 and up to `MAX_BLOBS_PER_BLOCK`
+    transactions where all transactions contain at least 1 blob, and the sum of
+    all blobs in a block is at most `MAX_BLOBS_PER_BLOCK`.
 
-    This test is parametrized with all valid blob transaction combinations for a given block, and
-    therefore if value of `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.
+    This test is parametrized with all valid blob transaction combinations for
+    a given block, and therefore if value of `MAX_BLOBS_PER_BLOCK` changes,
+    this test is automatically updated.
     """
     blockchain_test(
         pre=pre,
@@ -407,8 +409,8 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
     fork: Fork,
 ) -> List:
     """
-    Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
-    parametrized for each different fork.
+    Return a list of tests for invalid blob transactions due to insufficient
+    max fee per blob gas parametrized for each different fork.
     """
     min_base_fee_per_blob_gas = fork.min_base_fee_per_blob_gas()
     minimum_excess_blobs_for_first_increment = SpecHelpers.get_min_excess_blobs_for_blob_gas_price(
@@ -422,9 +424,12 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
     tests = []
     tests.append(
         pytest.param(
-            minimum_excess_blobs_for_first_increment - 1,  # blob gas price is 1
-            fork.target_blobs_per_block() + 1,  # blob gas cost increases to above the minimum
-            min_base_fee_per_blob_gas,  # tx max_blob_gas_cost is the minimum
+            # blob gas price is 1
+            minimum_excess_blobs_for_first_increment - 1,
+            # blob gas cost increases to above the minimum
+            fork.target_blobs_per_block() + 1,
+            # tx max_blob_gas_cost is the minimum
+            min_base_fee_per_blob_gas,
             TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
             id="insufficient_max_fee_per_blob_gas",
             marks=pytest.mark.exception_test,
@@ -433,11 +438,12 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
     if (next_base_fee_per_blob_gas - min_base_fee_per_blob_gas) > 1:
         tests.append(
             pytest.param(
-                minimum_excess_blobs_for_first_increment
-                - 1,  # blob gas price is one less than the minimum
-                fork.target_blobs_per_block() + 1,  # blob gas cost increases to above the minimum
-                next_base_fee_per_blob_gas
-                - 1,  # tx max_blob_gas_cost is one less than the minimum
+                # blob gas price is one less than the minimum
+                minimum_excess_blobs_for_first_increment - 1,
+                # blob gas cost increases to above the minimum
+                fork.target_blobs_per_block() + 1,
+                # tx max_blob_gas_cost is one less than the minimum
+                next_base_fee_per_blob_gas - 1,
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
                 id="insufficient_max_fee_per_blob_gas_one_less_than_next",
                 marks=pytest.mark.exception_test,
@@ -448,7 +454,8 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
             pytest.param(
                 0,  # blob gas price is the minimum
                 0,  # blob gas cost stays put at 1
-                min_base_fee_per_blob_gas - 1,  # tx max_blob_gas_cost is one less than the minimum
+                # tx max_blob_gas_cost is one less than the minimum
+                min_base_fee_per_blob_gas - 1,
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
                 id="insufficient_max_fee_per_blob_gas_one_less_than_min",
                 marks=pytest.mark.exception_test,
@@ -589,12 +596,12 @@ def test_invalid_block_blob_count(
     block: Block,
 ):
     """
-    Test all invalid blob combinations in a single block, where the sum of all blobs in a block is
-    at `MAX_BLOBS_PER_BLOCK + 1`.
+    Test all invalid blob combinations in a single block, where the sum of all
+    blobs in a block is at `MAX_BLOBS_PER_BLOCK + 1`.
 
     This test is parametrized with all blob transaction combinations exceeding
-    `MAX_BLOBS_PER_BLOCK` by one for a given block, and
-    therefore if value of `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.
+    `MAX_BLOBS_PER_BLOCK` by one for a given block, and therefore if value of
+    `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.
     """
     blockchain_test(
         pre=pre,
@@ -636,7 +643,8 @@ def test_insufficient_balance_blob_tx(
     - Transactions with and without priority fee
     - Transactions with and without value
     - Transactions with and without calldata
-    - Transactions with max fee per blob gas lower or higher than the priority fee
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
     """
     assert len(txs) == 1
     state_test(
@@ -677,14 +685,15 @@ def test_sufficient_balance_blob_tx(
     txs: List[Transaction],
 ):
     """
-    Check that transaction is accepted when user can exactly afford the blob gas specified (and
-    max_fee_per_gas would be enough for current block).
+    Check that transaction is accepted when user can exactly afford the blob
+    gas specified (and max_fee_per_gas would be enough for current block).
 
     - Transactions with max fee equal or higher than current block base fee
     - Transactions with and without priority fee
     - Transactions with and without value
     - Transactions with and without calldata
-    - Transactions with max fee per blob gas lower or higher than the priority fee
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
     """
     assert len(txs) == 1
     state_test(
@@ -728,15 +737,16 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     header_verify: Optional[Header],
 ):
     """
-    Check that transaction is accepted when user can exactly afford the blob gas specified (and
-    max_fee_per_gas would be enough for current block) because a funding transaction is
-    prepended in the same block.
+    Check that transaction is accepted when user can exactly afford the blob
+    gas specified (and max_fee_per_gas would be enough for current block)
+    because a funding transaction is prepended in the same block.
 
     - Transactions with max fee equal or higher than current block base fee
     - Transactions with and without priority fee
     - Transactions with and without value
     - Transactions with and without calldata
-    - Transactions with max fee per blob gas lower or higher than the priority fee
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
     """
     pre_funding_sender = pre.fund_eoa(amount=(21_000 * 100) + total_account_minimum_balance)
     txs = [
@@ -808,14 +818,16 @@ def test_blob_gas_subtraction_tx(
     total_account_transactions_fee: int,
 ):
     """
-    Check that the blob gas fee for a transaction is subtracted from the sender balance before the
-    transaction is executed.
+    Check that the blob gas fee for a transaction is subtracted from the sender
+    balance before the transaction is executed.
 
     - Transactions with max fee equal or higher than current block base fee
     - Transactions with and without value
     - Transactions with and without calldata
-    - Transactions with max fee per blob gas lower or higher than the priority fee
-    - Transactions where an externally owned account sends funds to the sender mid execution
+    - Transactions with max fee per blob gas lower or higher than the priority
+        fee
+    - Transactions where an externally owned account sends funds to the sender
+        mid execution
     """
     assert len(txs) == 1
     post = {
@@ -851,10 +863,11 @@ def test_insufficient_balance_blob_tx_combinations(
     block: Block,
 ):
     """
-    Reject all valid blob transaction combinations in a block, but block is invalid.
+    Reject all valid blob transaction combinations in a block, but block is
+    invalid.
 
-    - The amount of blobs is correct but the user cannot afford the
-            transaction total cost
+    - The amount of blobs is correct but the user cannot afford the transaction
+       total cost
     """
     blockchain_test(
         pre=pre,
@@ -867,7 +880,10 @@ def test_insufficient_balance_blob_tx_combinations(
 def generate_invalid_tx_blob_count_tests(
     fork: Fork,
 ) -> List:
-    """Return a list of tests for invalid blob transactions due to invalid blob counts."""
+    """
+    Return a list of tests for invalid blob transactions due to invalid blob
+    counts.
+    """
     return [
         pytest.param(
             [0],
@@ -1007,7 +1023,8 @@ def test_invalid_blob_hash_versioning_multiple_txs(
 
     - Multiple blob transactions with single blob all with invalid version
     - Multiple blob transactions with multiple blobs all with invalid version
-    - Multiple blob transactions with multiple blobs only one with invalid version
+    - Multiple blob transactions with multiple blobs only one with invalid
+        version
     """
     blockchain_test(
         pre=pre,
@@ -1029,10 +1046,14 @@ def test_invalid_blob_tx_contract_creation(
     txs: List[Transaction],
     header_verify: Optional[Header],
 ):
-    """Reject blocks that include blob transactions that have nil to value (contract creating)."""
+    """
+    Reject blocks that include blob transactions that have nil to value
+    (contract creating).
+    """
     assert len(txs) == 1
     assert txs[0].blob_versioned_hashes is not None and len(txs[0].blob_versioned_hashes) == 1
-    # Replace the transaction with a contract creating one, only in the RLP version
+    # Replace the transaction with a contract creating one, only in the RLP
+    # version
     contract_creating_tx = txs[0].copy(to=None).with_signature_and_sender()
     txs[0].rlp_override = contract_creating_tx.rlp()
     blockchain_test(
@@ -1047,8 +1068,8 @@ def test_invalid_blob_tx_contract_creation(
                 ],
                 header_verify=header_verify,
                 # Skipped due to the T8N not receiving the invalid transaction,
-                # instead we are passing a valid transaction to T8N and then the transaction
-                # is replaced directly in the block RLP.
+                # instead we are passing a valid transaction to T8N and then
+                # the transaction is replaced directly in the block RLP.
                 skip_exception_verification=True,
             )
         ],
@@ -1071,7 +1092,10 @@ def opcode(
     tx_max_priority_fee_per_gas: int,
     tx_value: int,
 ) -> Tuple[Bytecode, Storage.StorageDictType]:
-    """Build bytecode and post to test each opcode that accesses transaction information."""
+    """
+    Build bytecode and post to test each opcode that accesses transaction
+    information.
+    """
     if request.param == Op.ORIGIN:
         return (
             Op.SSTORE(0, Op.ORIGIN),
@@ -1137,7 +1161,8 @@ def test_blob_tx_attribute_opcodes(
     state_env: Environment,
 ):
     """
-    Test opcodes that read transaction attributes work properly for blob type transactions.
+    Test opcodes that read transaction attributes work properly for blob type
+    transactions.
 
     - ORIGIN
     - CALLER
@@ -1189,7 +1214,9 @@ def test_blob_tx_attribute_value_opcode(
     opcode: Tuple[Bytecode, Storage.StorageDictType],
     state_env: Environment,
 ):
-    """Test the VALUE opcode with different blob type transaction value amounts."""
+    """
+    Test the VALUE opcode with different blob type transaction value amounts.
+    """
     code, storage = opcode
     destination_account = pre.deploy_contract(code=code)
     tx = Transaction(
@@ -1255,7 +1282,8 @@ def test_blob_tx_attribute_calldata_opcodes(
     state_env: Environment,
 ):
     """
-    Test calldata related opcodes to verify their behavior is not affected by blobs.
+    Test calldata related opcodes to verify their behavior is not affected by
+    blobs.
 
     - CALLDATALOAD
     - CALLDATASIZE
@@ -1289,9 +1317,12 @@ def test_blob_tx_attribute_calldata_opcodes(
     )
 
 
-@pytest.mark.parametrize("tx_max_priority_fee_per_gas", [0, 2])  # always below data fee
-@pytest.mark.parametrize("tx_max_fee_per_blob_gas_delta", [0, 1])  # normal and above priority fee
-@pytest.mark.parametrize("tx_max_fee_per_gas", [100])  # always above priority fee (FOR CANCUN)
+# always below data fee:
+@pytest.mark.parametrize("tx_max_priority_fee_per_gas", [0, 2])
+# normal and above priority fee:
+@pytest.mark.parametrize("tx_max_fee_per_blob_gas_delta", [0, 1])
+# always above priority fee (FOR CANCUN)
+@pytest.mark.parametrize("tx_max_fee_per_gas", [100])
 @pytest.mark.parametrize("opcode", [Op.GASPRICE], indirect=True)
 @pytest.mark.parametrize("tx_gas", [500_000])
 @pytest.mark.valid_from("Cancun")
@@ -1311,7 +1342,8 @@ def test_blob_tx_attribute_gasprice_opcode(
     state_env: Environment,
 ):
     """
-    Test GASPRICE opcode to sanity check that the blob gas fee does not affect its calculation.
+    Test GASPRICE opcode to sanity check that the blob gas fee does not affect
+    its calculation.
 
     - No priority fee
     - Priority fee below data fee
@@ -1382,8 +1414,9 @@ def test_blob_type_tx_pre_fork(
     """
     Reject blocks with blob type transactions before Cancun fork.
 
-    Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions, furthermore blobs
-    field within NewPayloadV2 method must be computed as INVALID, due to an invalid block hash.
+    Blocks sent by NewPayloadV2 (Shanghai) that contain blob type transactions,
+    furthermore blobs field within NewPayloadV2 method must be computed as
+    INVALID, due to an invalid block hash.
     """
     assert len(txs) == 1
     state_test(

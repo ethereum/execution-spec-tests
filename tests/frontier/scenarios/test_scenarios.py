@@ -1,6 +1,6 @@
 """
-Call every possible opcode and test that the subcall is successful
-if the opcode is supported by the fork and fails otherwise.
+Call every possible opcode and test that the subcall is successful if the
+opcode is supported by the fork and fails otherwise.
 """
 
 from typing import List
@@ -76,7 +76,10 @@ REFERENCE_SPEC_VERSION = "N/A"
 
 @pytest.fixture
 def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List[Scenario]:
-    """Define fixture vectors of all possible scenarios, given the current pre state input."""
+    """
+    Define fixture vectors of all possible scenarios, given the current pre
+    state input.
+    """
     scenarios_list: List[Scenario] = []
 
     scenario_input = ScenarioGeneratorInput(
@@ -118,9 +121,13 @@ def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.parametrize(
     # select program to debug ("program_id","scenario_name")
-    # program="" select all programs
-    # scenario_name="" select all scenarios
-    # Example: [ScenarioDebug(program_id=ProgramSstoreSload().id, scenario_name="scenario_CALL_CALL")],  # noqa: E501
+    # program=""
+    # select all programs scenario_name=""
+    # select all scenarios
+    #
+    # Example:
+    # [ScenarioDebug(program_id=ProgramSstoreSload().id,
+    # scenario_name="scenario_CALL_CALL")]
     "debug",
     [
         ScenarioDebug(
@@ -178,13 +185,13 @@ def test_scenarios(
     scenarios,
 ):
     """
-    Test given operation in different scenarios
-    Verify that it's return value equal to expected result on every scenario,
-    that is valid for the given fork.
+    Test given operation in different scenarios Verify that it's return value
+    equal to expected result on every scenario, that is valid for the given
+    fork.
 
-    Note: Don't use pytest parametrize for scenario production, because scenarios will be complex
-    Generate one test file for [each operation] * [each scenario] to save space
-    As well as operations will be complex too
+    Note: Don't use pytest parametrize for scenario production, because
+    scenarios will be complex Generate one test file for [each operation] *
+    [each scenario] to save space As well as operations will be complex too
     """
     tx_env = Environment()
     tx_origin: Address = pre.fund_eoa()
@@ -213,7 +220,8 @@ def test_scenarios(
             fork=fork,
             origin=tx_origin,
             gasprice=tx_gasprice,
-            timestamp=tx_env.timestamp,  # we can't know timestamp before head, use gas hash
+            timestamp=tx_env.timestamp,  # we can't know timestamp before head,
+            # use gas hash
             number=len(blocks) + 1,
             gaslimit=tx_env.gas_limit,
             coinbase=tx_env.fee_recipient,

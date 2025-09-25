@@ -1,7 +1,6 @@
 """
-abstract: Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
-    Test system contract deployment for [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
-"""  # noqa: E501
+Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
+"""
 
 from os.path import realpath
 from pathlib import Path

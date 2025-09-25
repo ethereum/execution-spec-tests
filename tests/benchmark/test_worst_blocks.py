@@ -1,8 +1,5 @@
 """
-abstract: Tests that benchmark EVMs in worst-case block scenarios.
-    Tests that benchmark EVMs in worst-case block scenarios.
-
-Tests running worst-case block scenarios for EVMs.
+Tests that benchmark EVMs in worst-case block scenarios.
 """
 
 import random
@@ -26,7 +23,10 @@ from ethereum_test_tools import (
 
 @pytest.fixture
 def iteration_count(intrinsic_cost: int, gas_benchmark_value: int):
-    """Calculate the number of iterations based on the gas limit and intrinsic cost."""
+    """
+    Calculate the number of iterations based on the gas limit and intrinsic
+    cost.
+    """
     return gas_benchmark_value // intrinsic_cost
 
 
@@ -186,12 +186,14 @@ def test_block_full_data(
     gas_benchmark_value: int,
 ):
     """Test a block with empty payload."""
-    # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
+    # Gas cost calculation based on EIP-7683:
+    # (https://eips.ethereum.org/EIPS/eip-7683)
     #
     #   tx.gasUsed = 21000 + max(
     #       STANDARD_TOKEN_COST * tokens_in_calldata
     #       + execution_gas_used
-    #       + isContractCreation * (32000 + INITCODE_WORD_COST * words(calldata)),
+    #       + isContractCreation * (32000 +
+    #                                 INITCODE_WORD_COST * words(calldata)),
     #       TOTAL_COST_FLOOR_PER_TOKEN * tokens_in_calldata)
     #
     # Simplified in this test case:
@@ -208,7 +210,8 @@ def test_block_full_data(
     # Token accounting:
     #   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
     #
-    # So we calculate how many bytes we can fit into calldata based on available gas.
+    # So we calculate how many bytes we can fit into calldata based on
+    # available gas.
 
     gas_available = gas_benchmark_value - intrinsic_cost
 
@@ -240,7 +243,10 @@ def test_block_full_access_list_and_data(
     fork: Fork,
     gas_benchmark_value: int,
 ):
-    """Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes."""
+    """
+    Test a block with access lists (60% gas) and calldata (40% gas) using
+    random mixed bytes.
+    """
     attack_gas_limit = gas_benchmark_value
     gas_available = attack_gas_limit - intrinsic_cost
 
@@ -271,7 +277,8 @@ def test_block_full_access_list_and_data(
         )
     ]
 
-    # Calculate calldata with 29% of gas for zero bytes and 71% for non-zero bytes
+    # Calculate calldata with 29% of gas for zero bytes and 71% for non-zero
+    # bytes
     # Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
     # We want to split the gas budget:
     # - 29% of gas_for_calldata for zero bytes
@@ -287,7 +294,8 @@ def test_block_full_access_list_and_data(
     # Zero bytes: 1 token per byte
     # Non-zero bytes: 4 tokens per byte
     num_zero_bytes = tokens_for_zero_bytes  # 1 token = 1 zero byte
-    num_non_zero_bytes = tokens_for_non_zero_bytes // 4  # 4 tokens = 1 non-zero byte
+    # 4 tokens = 1 non-zero byte
+    num_non_zero_bytes = tokens_for_non_zero_bytes // 4
 
     # Create calldata with mixed bytes
     calldata = bytearray()

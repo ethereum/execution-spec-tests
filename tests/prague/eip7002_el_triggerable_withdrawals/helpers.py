@@ -17,22 +17,17 @@ class WithdrawalRequest(WithdrawalRequestBase):
 
     fee: int = 0
     """
-    Fee to be paid to the system contract for the withdrawal request.
-    This is different from `amount` which is the amount of gwei to be withdrawn on the beacon
-    chain.
+    Fee to be paid to the system contract for the withdrawal request. This is
+    different from `amount` which is the amount of gwei to be withdrawn on the
+    beacon chain.
+
     """
     valid: bool = True
-    """
-    Whether the withdrawal request is valid or not.
-    """
+    """Whether the withdrawal request is valid or not."""
     gas_limit: int = 1_000_000
-    """
-    Gas limit for the call.
-    """
+    """Gas limit for the call."""
     calldata_modifier: Callable[[bytes], bytes] = lambda x: x
-    """
-    Calldata modifier function.
-    """
+    """Calldata modifier function."""
 
     interaction_contract_address: ClassVar[Address] = Address(
         Spec.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS
@@ -41,23 +36,26 @@ class WithdrawalRequest(WithdrawalRequestBase):
     @property
     def value(self) -> int:
         """
-        Return the value of the call to the withdrawal request contract, equal to the fee
-        to be paid.
+        Return the value of the call to the withdrawal request contract, equal
+        to the fee to be paid.
         """
         return self.fee
 
     @cached_property
     def calldata(self) -> bytes:
         """
-        Return the calldata needed to call the withdrawal request contract and make the
-        withdrawal.
+        Return the calldata needed to call the withdrawal request contract and
+        make the withdrawal.
         """
         return self.calldata_modifier(
             self.validator_pubkey + self.amount.to_bytes(8, byteorder="big")
         )
 
     def with_source_address(self, source_address: Address) -> "WithdrawalRequest":
-        """Return a new instance of the withdrawal request with the source address set."""
+        """
+        Return a new instance of the withdrawal request with the source address
+        set.
+        """
         return self.copy(source_address=source_address)
 
 
@@ -66,17 +64,11 @@ class WithdrawalRequestInteractionBase:
     """Base class for all types of withdrawal transactions we want to test."""
 
     sender_balance: int = 1_000_000_000_000_000_000
-    """
-    Balance of the account that sends the transaction.
-    """
+    """Balance of the account that sends the transaction."""
     sender_account: EOA | None = None
-    """
-    Account that will send the transaction.
-    """
+    """Account that will send the transaction."""
     requests: List[WithdrawalRequest]
-    """
-    Withdrawal request to be included in the block.
-    """
+    """Withdrawal request to be included in the block."""
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the withdrawal request."""
@@ -87,13 +79,19 @@ class WithdrawalRequestInteractionBase:
         raise NotImplementedError
 
     def valid_requests(self, current_minimum_fee: int) -> List[WithdrawalRequest]:
-        """Return the list of withdrawal requests that should be valid in the block."""
+        """
+        Return the list of withdrawal requests that should be valid in the
+        block.
+        """
         raise NotImplementedError
 
 
 @dataclass(kw_only=True)
 class WithdrawalRequestTransaction(WithdrawalRequestInteractionBase):
-    """Class used to describe a withdrawal request originated from an externally owned account."""
+    """
+    Class used to describe a withdrawal request originated from an externally
+    owned account.
+    """
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the withdrawal request."""
@@ -129,9 +127,7 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
     """Class used to describe a withdrawal originated from a contract."""
 
     tx_gas_limit: int = 1_000_000
-    """
-    Gas limit for the transaction.
-    """
+    """Gas limit for the transaction."""
 
     contract_balance: int = 1_000_000_000_000_000_000
     """
@@ -142,22 +138,14 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
     Address of the contract that will make the call to the pre-deploy contract.
     """
     entry_address: Address | None = None
-    """
-    Address to send the transaction to.
-    """
+    """Address to send the transaction to."""
 
     call_type: Op = field(default_factory=lambda: Op.CALL)
-    """
-    Type of call to be used to make the withdrawal request.
-    """
+    """Type of call to be used to make the withdrawal request."""
     call_depth: int = 2
-    """
-    Frame depth of the pre-deploy contract when it executes the call.
-    """
+    """Frame depth of the pre-deploy contract when it executes the call."""
     extra_code: Bytecode = field(default_factory=Bytecode)
-    """
-    Extra code to be added to the contract code.
-    """
+    """Extra code to be added to the contract code."""
 
     @property
     def contract_code(self) -> Bytecode:
@@ -243,12 +231,12 @@ def get_n_fee_increments(n: int) -> List[int]:
 
 def get_n_fee_increment_blocks(n: int) -> List[List[WithdrawalRequestContract]]:
     """
-    Return N blocks that should be included in the test such that each subsequent block has an
-    increasing fee for the withdrawal requests.
+    Return N blocks that should be included in the test such that each
+    subsequent block has an increasing fee for the withdrawal requests.
 
-    This is done by calculating the number of withdrawals required to reach the next fee increment
-    and creating a block with that number of withdrawal requests plus the number of withdrawals
-    required to reach the target.
+    This is done by calculating the number of withdrawals required to reach the
+    next fee increment and creating a block with that number of withdrawal
+    requests plus the number of withdrawals required to reach the target.
     """
     blocks = []
     previous_excess = 0

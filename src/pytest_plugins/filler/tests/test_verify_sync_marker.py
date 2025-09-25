@@ -72,9 +72,12 @@ def test_verify_sync_marker(
     Test blockchain sync fixture generation with verify_sync marker.
 
     The test module has 3 test functions (4 test cases with parametrization):
-    - test_verify_sync_default: generates all formats except sync (no verify_sync marker)
-    - test_verify_sync_with_marker: generates all formats including sync (has verify_sync marker)
-    - test_verify_sync_with_param_marks: tests parametrized marks with verify_sync (2 cases)
+      - test_verify_sync_default: generates all formats except sync
+                                  (no verify_sync marker)
+      - test_verify_sync_with_marker: generates all formats including sync
+                                      (has verify_sync marker)
+      - test_verify_sync_with_param_marks: tests parametrized marks with
+                                           verify_sync (2 cases)
 
     Each test generates fixture formats:
     - BlockchainFixture (always)
@@ -83,13 +86,15 @@ def test_verify_sync_marker(
 
     Expected outcomes:
     - 4 test cases total
-    - Each generates BlockchainFixture (4) and BlockchainEngineFixture (4) = 8 fixtures
+    - Each generates BlockchainFixture (4) and BlockchainEngineFixture (4) =
+      8 fixtures
+
     - Sync fixtures:
-        - test_verify_sync_with_marker: 1 sync fixture ✓
-        - test_verify_sync_with_param_marks[no_exception]: 1 sync fixture ✓
-        - Total sync fixtures: 2
-    - Not generated (due to exception_test marker):
-        - test_verify_sync_with_param_marks[with_exception]: sync fixture not generated
+      - test_verify_sync_with_marker: 1 sync fixture ✓
+      - test_verify_sync_with_param_marks[no_exception]: 1 sync fixture ✓
+      - Total sync fixtures: 2 - Not generated (due to exception_test marker):
+      - test_verify_sync_with_param_marks[with_exception]:  sync fixture
+                                                            not generated
 
     Final counts:
     - Passed: 8 (base fixtures) + 2 (sync fixtures) = 10 passed

@@ -1,4 +1,7 @@
-"""Import the logging module content to make it available from pytest_plugins.logging."""
+"""
+Import the logging module content to make it available from
+pytest_plugins.logging.
+"""
 
 from .plugin_logging import (
     FAIL_LEVEL,

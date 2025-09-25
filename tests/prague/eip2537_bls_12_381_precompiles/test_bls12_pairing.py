@@ -1,7 +1,9 @@
 """
-abstract: Tests BLS12_PAIRING precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_PAIRING precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Tests BLS12_PAIRING precompile.
+
+Tests the BLS12_PAIRING precompile implementation from
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -147,8 +149,8 @@ def test_valid_multi_inf(
     post: dict,
 ):
     """
-    Test maximum input given the current environment gas limit for the BLS12_PAIRING
-    precompile.
+    Test maximum input given the current environment gas limit for the
+    BLS12_PAIRING precompile.
     """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
@@ -347,8 +349,8 @@ def test_invalid_multi_inf(
     post: dict,
 ):
     """
-    Test maximum input given the current environment gas limit for the BLS12_PAIRING
-    precompile and an invalid tail.
+    Test maximum input given the current environment gas limit for the
+    BLS12_PAIRING precompile and an invalid tail.
     """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()

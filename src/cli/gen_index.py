@@ -1,4 +1,6 @@
-"""Generate an index file of all the json fixtures in the specified directory."""
+"""
+Generate an index file of all the json fixtures in the specified directory.
+"""
 
 import datetime
 import json
@@ -72,7 +74,9 @@ def count_json_files_exclude_index(start_path: Path) -> int:
     help="Force re-generation of the index file, even if it already exists.",
 )
 def generate_fixtures_index_cli(input_dir: str, quiet_mode: bool, force_flag: bool):
-    """CLI wrapper to an index of all the fixtures in the specified directory."""
+    """
+    CLI wrapper to an index of all the fixtures in the specified directory.
+    """
     generate_fixtures_index(
         Path(input_dir),
         quiet_mode=quiet_mode,

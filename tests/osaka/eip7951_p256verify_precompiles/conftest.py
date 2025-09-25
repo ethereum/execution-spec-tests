@@ -16,9 +16,11 @@ def vector_gas_value() -> int | None:
     """
     Gas value from the test vector if any.
 
-    If `None` it means that the test scenario did not come from a file, so no comparison is needed.
+    If `None` it means that the test scenario did not come from a file, so no
+    comparison is needed.
 
-    The `vectors_from_file` function reads the gas value from the file and overwrites this fixture.
+    The `vectors_from_file` function reads the gas value from the file and
+    overwrites this fixture.
     """
     return None
 
@@ -38,9 +40,10 @@ def precompile_gas_modifier() -> int:
     """
     Modify the gas passed to the precompile, for testing purposes.
 
-    By default the call is made with the exact gas amount required for the given opcode,
-    but when this fixture is overridden, the gas amount can be modified to, e.g., test
-    a lower amount and test if the precompile call fails.
+    By default the call is made with the exact gas amount required for the
+    given opcode, but when this fixture is overridden, the gas amount can be
+    modified to, e.g., test a lower amount and test if the precompile call
+    fails.
     """
     return 0
 
@@ -59,7 +62,10 @@ def call_opcode() -> Op:
 def call_contract_post_storage() -> Storage:
     """
     Storage of the test contract after the transaction is executed.
-    Note: Fixture `call_contract_code` fills the actual expected storage values.
+
+    Note:
+    Fixture `call_contract_code` fills the actual expected storage values.
+
     """
     return Storage()
 
@@ -67,8 +73,8 @@ def call_contract_post_storage() -> Storage:
 @pytest.fixture
 def call_succeeds() -> bool:
     """
-    By default, depending on the expected output, we can deduce if the call is expected to succeed
-    or fail.
+    By default, depending on the expected output, we can deduce if the call is
+    expected to succeed or fail.
     """
     return True
 
@@ -130,7 +136,9 @@ def post(call_contract_address: Address, call_contract_post_storage: Storage):
 
 @pytest.fixture
 def tx_gas_limit(fork: Fork, input_data: bytes, precompile_gas: int) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 100_000

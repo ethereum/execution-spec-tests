@@ -43,10 +43,12 @@ def get_blob_schedule_entries(fork: Fork) -> Dict[str, int]:
     """
     Generate blob schedule entries for each fork (and respective parent forks).
 
-    Adds the following entries to the ruleset for the given fork (and parent forks):
-        HIVE_{FORK}_BLOB_TARGET: target_blobs_per_block()
-        HIVE_{FORK}_BLOB_MAX: max_blobs_per_block()
-        HIVE_{FORK}_BLOB_BASE_FEE_UPDATE_FRACTION: blob_base_fee_update_fraction()
+    Adds the following entries to the ruleset for the given fork (and parent
+    forks):
+      HIVE_{FORK}_BLOB_TARGET: target_blobs_per_block()
+      HIVE_{FORK}_BLOB_MAX: max_blobs_per_block()
+      HIVE_{FORK}_BLOB_BASE_FEE_UPDATE_FRACTION: blob_base_fee_update_
+                                                 fraction()
     """
     entries: Dict = {}
     forks_with_blobs: List[Fork] = []

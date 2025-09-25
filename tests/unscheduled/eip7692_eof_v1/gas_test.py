@@ -43,9 +43,9 @@ def gas_test(
     """
     Create State Test to check the gas cost of a sequence of EOF code.
 
-    `setup_code` and `tear_down_code` are called multiple times during the test, and MUST NOT have
-    any side-effects which persist across message calls, and in particular, any effects on the gas
-    usage of `subject_code`.
+    `setup_code` and `tear_down_code` are called multiple times during the
+    test, and MUST NOT have any side-effects which persist across message
+    calls, and in particular, any effects on the gas usage of `subject_code`.
     """
     if cold_gas <= 0:
         raise ValueError(f"Target gas allocations (cold_gas) must be > 0, got {cold_gas}")
@@ -68,7 +68,8 @@ def gas_test(
         balance=subject_balance,
         address=subject_address,
     )
-    # 2 times GAS, POP, CALL, 6 times PUSH1 - instructions charged for at every gas run
+    # 2 times GAS, POP, CALL, 6 times PUSH1 - instructions charged for at every
+    # gas run
     gas_single_gas_run = 2 * 2 + 2 + WARM_ACCOUNT_ACCESS_GAS + 6 * 3
     address_legacy_harness = pre.deploy_contract(
         code=(
@@ -109,11 +110,15 @@ def gas_test(
             + (Op.DUP2 + Op.SWAP1 + Op.SUB + Op.PUSH2(slot_cold_gas) + Op.SSTORE)
             + (
                 (
-                    # do an oog gas run, unless skipped with `out_of_gas_testing=False`:
-                    # - DUP7 is the gas of the baseline gas run, after other CALL args were pushed
+                    # do an oog gas run, unless skipped with
+                    # `out_of_gas_testing=False`:
+                    #
+                    # - DUP7 is the gas of the baseline gas run, after other
+                    #   CALL args were pushed
                     # - subtract the gas charged by the harness
                     # - add warm gas charged by the subject
-                    # - subtract `oog_difference` to cause OOG exception (1 by default)
+                    # - subtract `oog_difference` to cause OOG exception
+                    #   (1 by default)
                     Op.SSTORE(
                         slot_oog_call_result,
                         Op.CALL(
@@ -121,7 +126,8 @@ def gas_test(
                             address=address_subject,
                         ),
                     )
-                    # sanity gas run: not subtracting 1 to see if enough gas makes the call succeed
+                    # sanity gas run: not subtracting 1 to see if enough gas
+                    # makes the call succeed
                     + Op.SSTORE(
                         slot_sanity_call_result,
                         Op.CALL(
@@ -135,7 +141,8 @@ def gas_test(
                 else Op.STOP
             )
         ),
-        evm_code_type=EVMCodeType.LEGACY,  # Needs to be legacy to use GAS opcode
+        evm_code_type=EVMCodeType.LEGACY,  # Needs to be legacy to use GAS
+        # opcode
     )
 
     post = {

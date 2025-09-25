@@ -1,7 +1,11 @@
 """
-abstract: Tests minimum gas and input length for BLS12_G1MSM, BLS12_G2MSM, BLS12_PAIRING precompiles of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests minimum gas and input length for BLS12_G1MSM, BLS12_G2MSM, BLS12_PAIRING precompiles of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Tests minimum gas and input length for BLS12 precompiles.
+
+Tests minimum gas and input length requirements for BLS12_G1MSM,
+BLS12_G2MSM, and BLS12_PAIRING precompiles from [EIP-2537: Precompile
+for BLS12-381 curve operations]
+(https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 from typing import Callable, List, SupportsBytes
 
@@ -29,7 +33,10 @@ PAIRINGS_TO_TEST = 20
 
 @pytest.fixture
 def input_data() -> bytes:
-    """Calldata of the transaction is empty because all input in these tests is zero."""
+    """
+    Calldata of the transaction is empty because all input in these tests is
+    zero.
+    """
     return b""
 
 
@@ -41,7 +48,9 @@ def gas_modifier() -> int:
 
 @pytest.fixture
 def input_length_modifier() -> int:
-    """Input length modifier to apply to each element of the precompile_gas_list."""
+    """
+    Input length modifier to apply to each element of the precompile_gas_list.
+    """
     return 0
 
 
@@ -71,38 +80,36 @@ def call_contract_code(
     call_contract_post_storage: Storage,
 ) -> Bytecode:
     """
-    Code of the test contract to validate minimum expected gas in precompiles, as well as
-    expected input lengths on all variable-length input precompiles.
+    Code of the test contract to validate minimum expected gas in precompiles,
+    as well as expected input lengths on all variable-length input precompiles.
 
-    Code differs from the one used in all other tests in this file, because it accepts a list of
-    precompile gas values and a list of precompile data lengths, and for each pair of values, it
-    calls the precompile with the given gas and data length, data being passed to the precompile
-    is all zeros.
+    Code differs from the one used in all other tests in this file, because it
+    accepts a list of precompile gas values and a list of precompile data
+    lengths, and for each pair of values, it calls the precompile with the
+    given gas and data length, data being passed to the precompile is all
+    zeros.
 
     Args:
-        precompile_address:
-            Address of the precompile to call.
-        precompile_gas_list:
-            List of gas values to be used to call the precompile, one for each call.
-        precompile_data_length_list:
-            List of data lengths to be used to call the precompile, one for each call.
-        gas_modifier:
-            Integer to add to the gas passed to the precompile.
-        input_length_modifier:
-            Integer to add to the length of the input passed to the precompile.
-        expected_output:
-            Expected output of the contract, it is only used to determine if the call is expected
-            to succeed or fail.
-        call_opcode:
-            Type of call used to call the precompile (Op.CALL, Op.CALLCODE, Op.DELEGATECALL,
-            Op.STATICCALL).
-        call_contract_post_storage:
-            Storage of the test contract after the transaction is executed.
+      precompile_address: Address of the precompile to call.
+      precompile_gas_list: List of gas values to be used to call the
+                           precompile, one for each call.
+      precompile_data_length_list: List of data lengths to be used to call
+                                   the precompile, one for each call.
+      gas_modifier: Integer to add to the gas passed to the precompile.
+      input_length_modifier: Integer to add to the length of the input
+                             passed to the precompile.
+      expected_output: Expected output of the contract, it is only used to
+                       determine if the call is expected to succeed or fail.
+      call_opcode: Type of call used to call the precompile (Op.CALL,
+                   Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL).
+      call_contract_post_storage: Storage of the test contract after the
+                                  transaction is executed.
 
     """
     expected_output = bytes(expected_output)
 
-    # Depending on the expected output, we can deduce if the call is expected to succeed or fail.
+    # Depending on the expected output, we can deduce if the call is expected
+    # to succeed or fail.
     call_succeeds = len(expected_output) > 0
 
     assert len(precompile_gas_list) == len(precompile_data_length_list)
@@ -114,8 +121,9 @@ def call_contract_code(
     for precompile_gas, precompile_args_length in zip(
         precompile_gas_list, precompile_data_length_list, strict=False
     ):
-        # For each given precompile gas value, and given arguments length, call the precompile
-        # with the given gas and call data (all zeros) and compare the result.
+        # For each given precompile gas value, and given arguments length, call
+        # the precompile with the given gas and call data (all zeros) and
+        # compare the result.
         code += Op.SSTORE(
             call_contract_post_storage.store_next(1 if call_succeeds else 0),
             Op.CALL(
@@ -135,7 +143,10 @@ def call_contract_code(
 def tx_gas_limit_calculator(
     fork: Fork, precompile_gas_list: List[int], max_precompile_input_length: int
 ) -> int:
-    """Calculate the gas used to execute the transaction with the given precompile gas list."""
+    """
+    Calculate the gas used to execute the transaction with the given precompile
+    gas list.
+    """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 22_500 * len(precompile_gas_list)
@@ -154,7 +165,9 @@ def tx_gas_limit(
     precompile_gas_list: List[int],
     precompile_data_length_list: List[int],
 ) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     assert len(input_data) == 0, "Expected empty data in the transaction."
     return tx_gas_limit_calculator(fork, precompile_gas_list, max(precompile_data_length_list))
 
@@ -163,12 +176,13 @@ def get_split_discount_table_by_fork(
     gas_fn: Callable, discount_table_length: int, element_length: int
 ) -> Callable[[Fork], List[ParameterSet]]:
     """
-    Get the number of test cases needed to cover the given discount table adjusted for the
-    fork transaction gas limit cap.
+    Get the number of test cases needed to cover the given discount table
+    adjusted for the fork transaction gas limit cap.
 
-    The function will return the full discount table as a single test case if the
-    fork has no transaction gas limit cap, otherwise it will iterate to determine the
-    splits required to fit the full discount table across multiple test cases.
+    The function will return the full discount table as a single test case if
+    the fork has no transaction gas limit cap, otherwise it will iterate to
+    determine the splits required to fit the full discount table across
+    multiple test cases.
     """
 
     def parametrize_by_fork(fork: Fork) -> List[ParameterSet]:
@@ -249,8 +263,9 @@ def test_valid_gas_g1msm(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G1MSM discount gas table in full, by expecting the call to succeed for
-    all possible input lengths because the appropriate amount of gas is provided.
+    Test the BLS12_G1MSM discount gas table in full, by expecting the call to
+    succeed for all possible input lengths because the appropriate amount of
+    gas is provided.
 
     If any of the calls fail, the test will fail.
     """
@@ -307,8 +322,9 @@ def test_invalid_gas_g1msm(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G1MSM discount gas table in full, by expecting the call to fail for
-    all possible input lengths because the appropriate amount of gas is not provided.
+    Test the BLS12_G1MSM discount gas table in full, by expecting the call to
+    fail for all possible input lengths because the appropriate amount of gas
+    is not provided.
 
     If any of the calls succeeds, the test will fail.
     """
@@ -371,8 +387,9 @@ def test_invalid_length_g1msm(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G1MSM discount gas table in full, by expecting the call to fail for
-    all possible input lengths provided because they are too long or short, or zero length.
+    Test the BLS12_G1MSM discount gas table in full, by expecting the call to
+    fail for all possible input lengths provided because they are too long or
+    short, or zero length.
 
     If any of the calls succeeds, the test will fail.
     """
@@ -402,8 +419,9 @@ def test_valid_gas_g2msm(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G2MSM discount gas table in full, by expecting the call to succeed for
-    all possible input lengths because the appropriate amount of gas is provided.
+    Test the BLS12_G2MSM discount gas table in full, by expecting the call to
+    succeed for all possible input lengths because the appropriate amount of
+    gas is provided.
 
     If any of the calls fail, the test will fail.
     """
@@ -460,8 +478,9 @@ def test_invalid_gas_g2msm(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G2MSM discount gas table in full, by expecting the call to fail for
-    all possible input lengths because the appropriate amount of gas is not provided.
+    Test the BLS12_G2MSM discount gas table in full, by expecting the call to
+    fail for all possible input lengths because the appropriate amount of gas
+    is not provided.
 
     If any of the calls succeeds, the test will fail.
     """
@@ -524,8 +543,9 @@ def test_invalid_length_g2msm(
     tx: Transaction,
 ):
     """
-    Test the BLS12_G2MSM discount gas table in full, by expecting the call to fail for
-    all possible input lengths provided because they are too long or short, or zero length.
+    Test the BLS12_G2MSM discount gas table in full, by expecting the call to
+    fail for all possible input lengths provided because they are too long or
+    short, or zero length.
 
     If any of the calls succeeds, the test will fail.
     """
@@ -552,8 +572,8 @@ def test_valid_gas_pairing(
     tx: Transaction,
 ):
     """
-    Test the BLS12_PAIRING precompile, by expecting the call to succeed for all possible input
-    lengths (up to k == PAIRINGS_TO_TEST).
+    Test the BLS12_PAIRING precompile, by expecting the call to succeed for all
+    possible input lengths (up to k == PAIRINGS_TO_TEST).
 
     If any of the calls fails, the test will fail.
     """
@@ -608,8 +628,9 @@ def test_invalid_gas_pairing(
     tx: Transaction,
 ):
     """
-    Test the BLS12_PAIRING precompile, by expecting the call to fail for all possible input
-    lengths (up to k == PAIRINGS_TO_TEST) because the appropriate amount of gas is not provided.
+    Test the BLS12_PAIRING precompile, by expecting the call to fail for all
+    possible input lengths (up to k == PAIRINGS_TO_TEST) because the
+    appropriate amount of gas is not provided.
 
     If any of the calls succeeds, the test will fail.
     """
@@ -640,7 +661,9 @@ def test_invalid_zero_length_pairing(
     post: dict,
     tx: Transaction,
 ):
-    """Test the BLS12_PAIRING precompile by passing an input with zero length."""
+    """
+    Test the BLS12_PAIRING precompile by passing an input with zero length.
+    """
     state_test(
         env=env,
         pre=pre,
@@ -670,8 +693,9 @@ def test_invalid_length_pairing(
     tx: Transaction,
 ):
     """
-    Test the BLS12_PAIRING precompile, by expecting the call to fail for all possible input
-    lengths (up to k == PAIRINGS_TO_TEST) because the incorrect input length was used.
+    Test the BLS12_PAIRING precompile, by expecting the call to fail for all
+    possible input lengths (up to k == PAIRINGS_TO_TEST) because the incorrect
+    input length was used.
 
     If any of the calls succeeds, the test will fail.
     """

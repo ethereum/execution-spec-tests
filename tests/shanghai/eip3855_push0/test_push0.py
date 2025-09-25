@@ -1,9 +1,8 @@
 """
-abstract: Tests [EIP-3855: PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855)
-    Tests for [EIP-3855: PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855).
+Tests [EIP-3855: PUSH0 Instruction](https://eips.ethereum.org/EIPS/eip-3855).
 
-note: Tests ported from:
-    - [ethereum/tests/pull/1033](https://github.com/ethereum/tests/pull/1033).
+Tests ported from:
+[ethereum/tests/pull/1033](https://github.com/ethereum/tests/pull/1033).
 """
 
 import pytest
@@ -92,16 +91,21 @@ def test_push0_contracts(
 
 class TestPush0CallContext:
     """
-    Tests the PUSH0 operation during various call contexts including:
-    - CALL
-    - CALLCODE
-    - DELEGATECALL
+    Test the PUSH0 operation in various contract call contexts.
+
+    Test PUSH0 in the following contract call contexts:
+
+    - CALL,
+    - CALLCODE,
+    - DELEGATECALL,
     - STATICCALL.
     """
 
     @pytest.fixture
     def push0_contract_callee(self, pre: Alloc) -> Address:
-        """Deploys a PUSH0 contract callee to the pre alloc returning its address."""
+        """
+        Deploys a PUSH0 contract callee to the pre alloc returning its address.
+        """
         push0_contract = pre.deploy_contract(Op.MSTORE8(Op.PUSH0, 0xFF) + Op.RETURN(Op.PUSH0, 1))
         return push0_contract
 
@@ -110,8 +114,9 @@ class TestPush0CallContext:
         self, pre: Alloc, call_opcode: Op, push0_contract_callee: Address
     ) -> Address:
         """
-        Deploy contract responsible for calling the callee PUSH0 contract
-        returning its address.
+        Deploy the contract that calls the callee PUSH0 contract into `pre`.
+
+        This fixture returns its address.
         """
         call_code = (
             Op.SSTORE(0, call_opcode(gas=100_000, address=push0_contract_callee))

@@ -1,6 +1,6 @@
 """
-Fixture collector class used to collect, sort and combine the different types of generated
-fixtures.
+Fixture collector class used to collect, sort and combine the different types
+of generated fixtures.
 """
 
 import json
@@ -23,9 +23,11 @@ class TestInfo:
     """Contains test information from the current node."""
 
     name: str  # pytest: Item.name, e.g. test_paris_one[fork_Paris-state_test]
-    id: str  # pytest: Item.nodeid, e.g. tests/paris/test_module_paris.py::test_paris_one[...]
+    id: str  # pytest: Item.nodeid, e.g.
+    # tests/paris/test_module_paris.py::test_paris_one[...]
     original_name: str  # pytest: Item.originalname, e.g. test_paris_one
-    module_path: Path  # pytest: Item.path, e.g. .../tests/paris/test_module_paris.py
+    module_path: Path  # pytest: Item.path, e.g.
+    # .../tests/paris/test_module_paris.py
 
     test_prefix: ClassVar[str] = "test_"  # Python test prefix
     filler_suffix: ClassVar[str] = "Filler"  # Static test suffix
@@ -41,11 +43,11 @@ class TestInfo:
 
     def get_name_and_parameters(self) -> Tuple[str, str]:
         """
-        Convert test name to a tuple containing the test name and test parameters.
+        Convert test name to a tuple containing the test name and test
+        parameters.
 
-        Example:
-        test_push0_key_sstore[fork_Shanghai] -> test_push0_key_sstore, fork_Shanghai
-
+        Example: test_push0_key_sstore[fork_Shanghai] -> test_push0_key_sstore,
+        fork_Shanghai
         """
         test_name, parameters = self.name.split("[")
         return test_name, re.sub(r"[\[\-]", "_", parameters).replace("]", "")
@@ -91,9 +93,8 @@ class TestInfo:
         base ./tests directory) that can be used for output (within the
         configured fixtures output path or the base_dump_dir directory).
 
-        Example:
-        tests/shanghai/eip3855_push0/test_push0.py -> shanghai/eip3855_push0/test_push0
-
+        Example: tests/shanghai/eip3855_push0/test_push0.py ->
+        shanghai/eip3855_push0/test_push0
         """
         basename = self.module_path.with_suffix("").absolute()
         basename_relative = basename.relative_to(
@@ -122,8 +123,9 @@ class FixtureCollector:
         """Return basename of the fixture file for a given test case."""
         module_relative_output_dir = info.get_module_relative_output_dir(self.filler_path)
 
-        # Each legacy test filler has only 1 test per file if it's a !state test!
-        # So no need to create directory Add11/add11.json it can be plain add11.json
+        # Each legacy test filler has only 1 test per file if it's a !state
+        # test! So no need to create directory Add11/add11.json it can be plain
+        # add11.json
         if self.fill_static_tests:
             return module_relative_output_dir.parent / info.original_name
 
@@ -140,7 +142,8 @@ class FixtureCollector:
             / fixture.output_base_dir_name()
             / fixture_basename.with_suffix(fixture.output_file_extension)
         )
-        if fixture_path not in self.all_fixtures.keys():  # relevant when we group by test function
+        # relevant when we group by test function
+        if fixture_path not in self.all_fixtures.keys():
             self.all_fixtures[fixture_path] = Fixtures(root={})
             self.json_path_to_test_item[fixture_path] = info
 

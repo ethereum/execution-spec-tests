@@ -11,8 +11,8 @@ from .spec import Spec
 @pytest.fixture
 def blake2b_contract_bytecode(call_opcode: Op) -> Bytecode:
     """
-    Contract code that performs the provided opcode (CALL or CALLCODE) to the BLAKE2b precompile
-    and stores the result.
+    Contract code that performs the provided opcode (CALL or CALLCODE) to the
+    BLAKE2b precompile and stores the result.
     """
     return (
         Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())

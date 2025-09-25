@@ -96,8 +96,9 @@ class Nethtest(EthereumCLI):
         """
         Return True if the `nethtest` binary supports the `--eofTest` flag.
 
-        Currently, nethtest EOF support is only available in nethermind's feature/evm/eof
-        branch https://github.com/NethermindEth/nethermind/tree/feature/evm/eof
+        Currently, nethtest EOF support is only available in nethermind's
+        feature/evm/eof branch
+        https://github.com/NethermindEth/nethermind/tree/feature/evm/eof
         """
         return "--eofTest" in self.help()
 
@@ -121,7 +122,8 @@ class NethtestFixtureConsumer(
         if fixture_format is BlockchainFixture:
             command += ["--blockTest", "--filter", f"{re.escape(fixture_name)}"]
         elif fixture_format is StateFixture:
-            # TODO: consider using `--filter` here to readily access traces from the output
+            # TODO: consider using `--filter` here to readily access traces
+            # from the output
             pass  # no additional options needed
         elif fixture_format is EOFFixture:
             command += ["--eofTest"]
@@ -144,10 +146,10 @@ class NethtestFixtureConsumer(
         """
         Consume an entire state test file.
 
-        The `evm statetest` will always execute all the tests contained in a file without the
-        possibility of selecting a single test, so this function is cached in order to only call
-        the command once and `consume_state_test` can simply select the result that
-        was requested.
+        The `evm statetest` will always execute all the tests contained in a
+        file without the possibility of selecting a single test, so this
+        function is cached in order to only call the command once and
+        `consume_state_test` can simply select the result that was requested.
         """
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -180,8 +182,8 @@ class NethtestFixtureConsumer(
         """
         Consume a single state test.
 
-        Uses the cached result from `consume_state_test_file` in order to not call the command
-        every time an select a single result from there.
+        Uses the cached result from `consume_state_test_file` in order to not
+        call the command every time an select a single result from there.
         """
         file_results, stderr = self.consume_state_test_file(
             fixture_path=fixture_path,
@@ -203,9 +205,6 @@ class NethtestFixtureConsumer(
                 for test_result in file_results
                 if test_result["name"].removesuffix(nethtest_suffix)
                 == f"{fixture_name.split('/')[-1]}"
-                # TODO: the following was required for nethermind's feature/evm/eof branch
-                # nethtest version: 1.32.0-unstable+025871675bd2e0839f93d2b70416ebae9dbae012
-                # == f"{fixture_name.split('.py::')[-1]}"
             ]
             assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
             assert len(test_result) == 1, f"Test result for {fixture_name} missing"
@@ -254,7 +253,8 @@ class NethtestFixtureConsumer(
 
         pattern = re.compile(r"^(test_.+?)\s+(PASS|FAIL)$", re.MULTILINE)
         test_results = {
-            match.group(1): match.group(2) == "PASS"  # Convert "PASS" to True and "FAIL" to False
+            match.group(1): match.group(2) == "PASS"  # Convert "PASS" to True
+            # and "FAIL" to False
             for match in pattern.finditer(result.stdout)
         }
 
@@ -297,7 +297,10 @@ class NethtestFixtureConsumer(
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
     ):
-        """Execute the appropriate geth fixture consumer for the fixture at `fixture_path`."""
+        """
+        Execute the appropriate geth fixture consumer for the fixture at
+        `fixture_path`.
+        """
         command = self._build_command_with_options(
             fixture_format, fixture_path, fixture_name, debug_output_path
         )

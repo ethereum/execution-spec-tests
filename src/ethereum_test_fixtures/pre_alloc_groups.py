@@ -22,7 +22,8 @@ class PreAllocGroup(CamelModel):
     pre-allocation group optimization.
     """
 
-    model_config = {"populate_by_name": True}  # Allow both field names and aliases
+    # Allow both field names and aliases
+    model_config = {"populate_by_name": True}
 
     test_ids: List[str] = Field(default_factory=list)
     environment: Environment = Field(..., description="Grouping environment for this test group")
@@ -65,9 +66,10 @@ class PreAllocGroup(CamelModel):
                     else:
                         new_account = self.pre[account]
                         if new_account != existing_account:
-                            # This procedure fails during xdist worker's pytest_sessionfinish
-                            # and is not reported to the master thread.
-                            # We signal here that the groups created contain a collision.
+                            # This procedure fails during xdist worker's
+                            # pytest_sessionfinish and is not reported to the
+                            # master thread. We signal here that the groups
+                            # created contain a collision.
                             collision_file_path = file.with_suffix(".fail")
                             collision_exception = Alloc.CollisionError(
                                 address=account,
@@ -87,7 +89,8 @@ class PreAllocGroups(EthereumTestRootModel):
     """
     Root model mapping pre-allocation group hashes to test groups.
 
-    If lazy_load is True, the groups are not loaded from the folder until they are accessed.
+    If lazy_load is True, the groups are not loaded from the folder until they
+    are accessed.
 
     Iterating will fail if lazy_load is True.
     """

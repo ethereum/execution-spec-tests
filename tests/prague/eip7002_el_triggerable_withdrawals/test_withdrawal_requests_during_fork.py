@@ -1,8 +1,6 @@
 """
-abstract: Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002)
-    Test execution layer triggered exits [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
-
-"""  # noqa: E501
+Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
+"""
 
 from os.path import realpath
 from pathlib import Path
@@ -57,8 +55,9 @@ BLOCKS_BEFORE_FORK = 2
                                 validator_pubkey=0x02,
                                 amount=0,
                                 fee=Spec.get_fee(10),
-                                # First post-fork withdrawal request, will not be included
-                                # because the inhibitor is cleared at the end of the block
+                                # First post-fork withdrawal request, will not
+                                # be included because the inhibitor is cleared
+                                # at the end of the block
                                 valid=False,
                             )
                         ],
@@ -91,8 +90,12 @@ def test_withdrawal_requests_during_fork(
     blocks: List[Block],
     pre: Alloc,
 ):
-    """Test making a withdrawal request to the beacon chain at the time of the fork."""
-    # We need to delete the deployed contract that comes by default in the pre state.
+    """
+    Test making a withdrawal request to the beacon chain at the time of the
+    fork.
+    """
+    # We need to delete the deployed contract that comes by default in the pre
+    # state.
     pre[Spec.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS] = Account(
         balance=0,
         code=bytes(),

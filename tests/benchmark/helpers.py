@@ -9,7 +9,8 @@ def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode, fork: 
     """Create a code loop that calls a precompile with the given calldata."""
     max_code_size = fork.max_code_size()
 
-    # The attack contract is: CALLDATA_PREP + #JUMPDEST + [attack_block]* + JUMP(#)
+    # The attack contract is: CALLDATA_PREP + #JUMPDEST + [attack_block]* +
+    # JUMP(#)
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(calldata))
     max_iters_loop = (max_code_size - len(calldata) - len(jumpdest) - len(jump_back)) // len(

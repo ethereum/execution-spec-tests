@@ -1,8 +1,5 @@
 """
-abstract: Tests that benchmark EVMs in worst-case compute scenarios.
-    Tests that benchmark EVMs in worst-case compute scenarios.
-
-Tests that benchmark EVMs when running worst-case compute opcodes and precompile scenarios.
+Tests that benchmark EVMs in worst-case compute scenarios.
 """
 
 import math
@@ -57,8 +54,8 @@ def neg(x: int) -> int:
 
 def make_dup(index: int) -> Opcode:
     """
-    Create a DUP instruction which duplicates the index-th (counting from 0) element
-    from the top of the stack. E.g. make_dup(0) → DUP1.
+    Create a DUP instruction which duplicates the index-th (counting from 0)
+    element from the top of the stack. E.g. make_dup(0) → DUP1.
     """
     assert 0 <= index < 16
     return Opcode(0x80 + index, pushed_stack_items=1, min_stack_height=index + 1)
@@ -158,9 +155,9 @@ def test_worst_callvalue(
     """
     Test running a block with as many CALLVALUE opcodes as possible.
 
-    The `non_zero_value` parameter controls whether opcode must return non-zero value.
-    The `from_origin` parameter controls whether the call frame is the immediate from the
-    transaction or a previous CALL.
+    The `non_zero_value` parameter controls whether opcode must return non-zero
+    value. The `from_origin` parameter controls whether the call frame is the
+    immediate from the transaction or a previous CALL.
     """
     max_code_size = fork.max_code_size()
 
@@ -222,11 +219,12 @@ def test_worst_returndatasize_nonzero(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block which execute as many RETURNDATASIZE opcodes which return a non-zero
-    buffer as possible.
+    Test running a block which execute as many RETURNDATASIZE opcodes which
+    return a non-zero buffer as possible.
 
-    The `returned_size` parameter indicates the size of the returned data buffer.
-    The `return_data_style` indicates how returned data is produced for the opcode caller.
+    The `returned_size` parameter indicates the size of the returned data
+    buffer. The `return_data_style` indicates how returned data is produced for
+    the opcode caller.
     """
     max_code_size = fork.max_code_size()
 
@@ -271,7 +269,10 @@ def test_worst_returndatasize_zero(
     fork: Fork,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
+    """
+    Test running a block with as many RETURNDATASIZE opcodes as possible with a
+    zero buffer.
+    """
     max_code_size = fork.max_code_size()
 
     dummy_contract_call = Bytecode()
@@ -351,40 +352,44 @@ def test_worst_keccak(
 
     max_code_size = fork.max_code_size()
 
-    # Discover the optimal input size to maximize keccak-permutations, not keccak calls.
-    # The complication of the discovery arises from the non-linear gas cost of memory expansion.
+    # Discover the optimal input size to maximize keccak-permutations, not
+    # keccak calls. The complication of the discovery arises from the non-
+    # linear gas cost of memory expansion.
     max_keccak_perm_per_block = 0
     optimal_input_length = 0
     for i in range(1, 1_000_000, 32):
         iteration_gas_cost = (
             2 * gsc.G_VERY_LOW  # PUSHN + PUSH1
             + gsc.G_KECCAK_256  # KECCAK256 static cost
-            + math.ceil(i / 32) * gsc.G_KECCAK_256_WORD  # KECCAK256 dynamic cost
+            + math.ceil(i / 32) * gsc.G_KECCAK_256_WORD  # KECCAK256 dynamic
+            # cost
             + gsc.G_BASE  # POP
         )
-        # From the available gas, we subtract the mem expansion costs considering we know the
-        # current input size length i.
+        # From the available gas, we subtract the mem expansion costs
+        # considering we know the current input size length i.
         available_gas_after_expansion = max(0, available_gas - mem_exp_gas_calculator(new_bytes=i))
         # Calculate how many calls we can do.
         num_keccak_calls = available_gas_after_expansion // iteration_gas_cost
         # KECCAK does 1 permutation every 136 bytes.
         num_keccak_permutations = num_keccak_calls * math.ceil(i / KECCAK_RATE)
 
-        # If we found an input size that is better (reg permutations/gas), then save it.
+        # If we found an input size that is better (reg permutations/gas), then
+        # save it.
         if num_keccak_permutations > max_keccak_perm_per_block:
             max_keccak_perm_per_block = num_keccak_permutations
             optimal_input_length = i
 
-    # max_iters_loop contains how many keccak calls can be done per loop.
-    # The loop is as big as possible bounded by the maximum code size.
+    # max_iters_loop contains how many keccak calls can be done per loop. The
+    # loop is as big as possible bounded by the maximum code size.
     #
     # The loop structure is: JUMPDEST + [attack iteration] + PUSH0 + JUMP
     #
     # Now calculate available gas for [attack iteration]:
-    #   Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.
-    #   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
-    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the
-    # attack, whenever this is fixed adjust accordingly.
+    # Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP
+    # Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
+    #
+    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is
+    # suboptimal for the attack, whenever this is fixed adjust accordingly.
     start_code = Op.JUMPDEST + Op.PUSH20[optimal_input_length]
     loop_code = Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1))
     end_code = Op.POP + Op.JUMP(Op.PUSH0)
@@ -427,7 +432,10 @@ def test_worst_precompile_only_data_input(
     bytes_per_unit_of_work: int,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many precompile calls which have a single `data` input."""
+    """
+    Test running a block with as many precompile calls which have a single
+    `data` input.
+    """
     # Intrinsic gas cost is paid once.
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
     available_gas = gas_benchmark_value - intrinsic_gas_calculator()
@@ -435,7 +443,8 @@ def test_worst_precompile_only_data_input(
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
 
-    # Discover the optimal input size to maximize precompile work, not precompile calls.
+    # Discover the optimal input size to maximize precompile work, not
+    # precompile calls.
     max_work = 0
     optimal_input_length = 0
     for input_length in range(1, 1_000_000, 32):
@@ -450,11 +459,12 @@ def test_worst_precompile_only_data_input(
         iteration_gas_cost = (
             parameters_gas
             + +static_cost  # Precompile static cost
-            + math.ceil(input_length / 32) * per_word_dynamic_cost  # Precompile dynamic cost
+            + math.ceil(input_length / 32) * per_word_dynamic_cost
+            # Precompile dynamic cost
             + gsc.G_BASE  # POP
         )
-        # From the available gas, we subtract the mem expansion costs considering we know the
-        # current input size length.
+        # From the available gas, we subtract the mem expansion costs
+        # considering we know the current input size length.
         available_gas_after_expansion = max(
             0, available_gas - mem_exp_gas_calculator(new_bytes=input_length)
         )
@@ -462,7 +472,8 @@ def test_worst_precompile_only_data_input(
         num_calls = available_gas_after_expansion // iteration_gas_cost
         total_work = num_calls * math.ceil(input_length / bytes_per_unit_of_work)
 
-        # If we found an input size that is better (reg permutations/gas), then save it.
+        # If we found an input size that is better (reg permutations/gas), then
+        # save it.
         if total_work > max_work:
             max_work = total_work
             optimal_input_length = input_length
@@ -641,7 +652,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_odd_32b_exp_cover_windows",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L38
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L38
         pytest.param(
             ModExpInput(
                 base=192 * "FF",
@@ -650,7 +662,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_min_gas_base_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L40
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L40
         pytest.param(
             ModExpInput(
                 base=8 * "FF",
@@ -659,7 +672,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_min_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L42
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L42
         pytest.param(
             ModExpInput(
                 base=40 * "FF",
@@ -668,7 +682,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_min_gas_balanced",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L44
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L44
         pytest.param(
             ModExpInput(
                 base=32 * "FF",
@@ -677,7 +692,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_exp_208_gas_balanced",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L46
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L46
         pytest.param(
             ModExpInput(
                 base=8 * "FF",
@@ -686,7 +702,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_exp_215_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L48
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L48
         pytest.param(
             ModExpInput(
                 base=8 * "FF",
@@ -695,7 +712,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_exp_298_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L50
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L50
         pytest.param(
             ModExpInput(
                 base=16 * "FF",
@@ -704,7 +722,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_pawel_2",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L52
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L52
         pytest.param(
             ModExpInput(
                 base=24 * "FF",
@@ -713,7 +732,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_pawel_3",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L54
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L54
         pytest.param(
             ModExpInput(
                 base=32 * "FF",
@@ -722,7 +742,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_pawel_4",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L56
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L56
         pytest.param(
             ModExpInput(
                 base=280 * "FF",
@@ -731,7 +752,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_408_gas_base_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L58
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L58
         pytest.param(
             ModExpInput(
                 base=16 * "FF",
@@ -740,7 +762,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_400_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L60
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L60
         pytest.param(
             ModExpInput(
                 base=48 * "FF",
@@ -749,7 +772,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_408_gas_balanced",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L62
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L62
         pytest.param(
             ModExpInput(
                 base=344 * "FF",
@@ -758,7 +782,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_616_gas_base_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L64
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L64
         pytest.param(
             ModExpInput(
                 base=16 * "FF",
@@ -767,7 +792,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_600_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L66
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L66
         pytest.param(
             ModExpInput(
                 base=48 * "FF",
@@ -776,7 +802,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_600_gas_balanced",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L68
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L68
         pytest.param(
             ModExpInput(
                 base=392 * "FF",
@@ -785,7 +812,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_800_gas_base_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L70
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L70
         pytest.param(
             ModExpInput(
                 base=16 * "FF",
@@ -794,7 +822,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_800_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L72
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L72
         pytest.param(
             ModExpInput(
                 base=56 * "FF",
@@ -803,7 +832,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_767_gas_balanced",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L74
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L74
         pytest.param(
             ModExpInput(
                 base=16 * "FF",
@@ -812,7 +842,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_852_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L76
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L76
         pytest.param(
             ModExpInput(
                 base=408 * "FF",
@@ -821,7 +852,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_867_gas_base_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L78
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L78
         pytest.param(
             ModExpInput(
                 base=56 * "FF",
@@ -830,7 +862,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_996_gas_balanced",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L80
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L80
         pytest.param(
             ModExpInput(
                 base=448 * "FF",
@@ -839,7 +872,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_1045_gas_base_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L82
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L82
         pytest.param(
             ModExpInput(
                 base=32 * "FF",
@@ -848,7 +882,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_677_gas_base_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L84
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L84
         pytest.param(
             ModExpInput(
                 base=24 * "FF",
@@ -857,7 +892,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_765_gas_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L86
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L86
         pytest.param(
             ModExpInput(
                 base=32 * "FF",
@@ -954,7 +990,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_1024_exp_2",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L122
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L122
         pytest.param(
             ModExpInput(
                 base="03",
@@ -963,7 +1000,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_example_1",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L124
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L124
         pytest.param(
             ModExpInput(
                 base="",
@@ -972,7 +1010,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_example_2",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L126
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L126
         pytest.param(
             ModExpInput(
                 base="e09ad9675465c53a109fac66a445c91b292d2bb2c5268addb30cd82f80fcb0033ff97c80a5fc6f39193ae969c6ede6710a6b7ac27078a06d90ef1c72e5c85fb5",
@@ -981,7 +1020,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_1_square",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L128
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L128
         pytest.param(
             ModExpInput(
                 base="e09ad9675465c53a109fac66a445c91b292d2bb2c5268addb30cd82f80fcb0033ff97c80a5fc6f39193ae969c6ede6710a6b7ac27078a06d90ef1c72e5c85fb5",
@@ -990,7 +1030,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_1_qube",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L130
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L130
         pytest.param(
             ModExpInput(
                 base="e09ad9675465c53a109fac66a445c91b292d2bb2c5268addb30cd82f80fcb0033ff97c80a5fc6f39193ae969c6ede6710a6b7ac27078a06d90ef1c72e5c85fb5",
@@ -999,7 +1040,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_1_pow_0x10001",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L132
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L132
         pytest.param(
             ModExpInput(
                 base="cad7d991a00047dd54d3399b6b0b937c718abddef7917c75b6681f40cc15e2be0003657d8d4c34167b2f0bbbca0ccaa407c2a6a07d50f1517a8f22979ce12a81dcaf707cc0cebfc0ce2ee84ee7f77c38b9281b9822a8d3de62784c089c9b18dcb9a2a5eecbede90ea788a862a9ddd9d609c2c52972d63e289e28f6a590ffbf51",
@@ -1008,7 +1050,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_2_square",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L134
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L134
         pytest.param(
             ModExpInput(
                 base="cad7d991a00047dd54d3399b6b0b937c718abddef7917c75b6681f40cc15e2be0003657d8d4c34167b2f0bbbca0ccaa407c2a6a07d50f1517a8f22979ce12a81dcaf707cc0cebfc0ce2ee84ee7f77c38b9281b9822a8d3de62784c089c9b18dcb9a2a5eecbede90ea788a862a9ddd9d609c2c52972d63e289e28f6a590ffbf51",
@@ -1017,7 +1060,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_2_qube",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L136
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L136
         pytest.param(
             ModExpInput(
                 base="cad7d991a00047dd54d3399b6b0b937c718abddef7917c75b6681f40cc15e2be0003657d8d4c34167b2f0bbbca0ccaa407c2a6a07d50f1517a8f22979ce12a81dcaf707cc0cebfc0ce2ee84ee7f77c38b9281b9822a8d3de62784c089c9b18dcb9a2a5eecbede90ea788a862a9ddd9d609c2c52972d63e289e28f6a590ffbf51",
@@ -1026,7 +1070,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_2_pow_0x10001",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L138
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L138
         pytest.param(
             ModExpInput(
                 base="c9130579f243e12451760976261416413742bd7c91d39ae087f46794062b8c239f2a74abf3918605a0e046a7890e049475ba7fbb78f5de6490bd22a710cc04d30088179a919d86c2da62cf37f59d8f258d2310d94c24891be2d7eeafaa32a8cb4b0cfe5f475ed778f45907dc8916a73f03635f233f7a77a00a3ec9ca6761a5bbd558a2318ecd0caa1c5016691523e7e1fa267dd35e70c66e84380bdcf7c0582f540174e572c41f81e93da0b757dff0b0fe23eb03aa19af0bdec3afb474216febaacb8d0381e631802683182b0fe72c28392539850650b70509f54980241dc175191a35d967288b532a7a8223ce2440d010615f70df269501944d4ec16fe4a3cb",
@@ -1035,7 +1080,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_3_square",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L140
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L140
         pytest.param(
             ModExpInput(
                 base="c9130579f243e12451760976261416413742bd7c91d39ae087f46794062b8c239f2a74abf3918605a0e046a7890e049475ba7fbb78f5de6490bd22a710cc04d30088179a919d86c2da62cf37f59d8f258d2310d94c24891be2d7eeafaa32a8cb4b0cfe5f475ed778f45907dc8916a73f03635f233f7a77a00a3ec9ca6761a5bbd558a2318ecd0caa1c5016691523e7e1fa267dd35e70c66e84380bdcf7c0582f540174e572c41f81e93da0b757dff0b0fe23eb03aa19af0bdec3afb474216febaacb8d0381e631802683182b0fe72c28392539850650b70509f54980241dc175191a35d967288b532a7a8223ce2440d010615f70df269501944d4ec16fe4a3cb",
@@ -1044,7 +1090,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_3_qube",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L142
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L142
         pytest.param(
             ModExpInput(
                 base="c9130579f243e12451760976261416413742bd7c91d39ae087f46794062b8c239f2a74abf3918605a0e046a7890e049475ba7fbb78f5de6490bd22a710cc04d30088179a919d86c2da62cf37f59d8f258d2310d94c24891be2d7eeafaa32a8cb4b0cfe5f475ed778f45907dc8916a73f03635f233f7a77a00a3ec9ca6761a5bbd558a2318ecd0caa1c5016691523e7e1fa267dd35e70c66e84380bdcf7c0582f540174e572c41f81e93da0b757dff0b0fe23eb03aa19af0bdec3afb474216febaacb8d0381e631802683182b0fe72c28392539850650b70509f54980241dc175191a35d967288b532a7a8223ce2440d010615f70df269501944d4ec16fe4a3cb",
@@ -1053,7 +1100,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_3_pow_0x10001",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L144
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L144
         pytest.param(
             ModExpInput(
                 base="db34d0e438249c0ed685c949cc28776a05094e1c48691dc3f2dca5fc3356d2a0663bd376e4712839917eb9a19c670407e2c377a2de385a3ff3b52104f7f1f4e0c7bf7717fb913896693dc5edbb65b760ef1b00e42e9d8f9af17352385e1cd742c9b006c0f669995cb0bb21d28c0aced2892267637b6470d8cee0ab27fc5d42658f6e88240c31d6774aa60a7ebd25cd48b56d0da11209f1928e61005c6eb709f3e8e0aaf8d9b10f7d7e296d772264dc76897ccdddadc91efa91c1903b7232a9e4c3b941917b99a3bc0c26497dedc897c25750af60237aa67934a26a2bc491db3dcc677491944bc1f51d3e5d76b8d846a62db03dedd61ff508f91a56d71028125035c3a44cbb041497c83bf3e4ae2a9613a401cc721c547a2afa3b16a2969933d3626ed6d8a7428648f74122fd3f2a02a20758f7f693892c8fd798b39abac01d18506c45e71432639e9f9505719ee822f62ccbf47f6850f096ff77b5afaf4be7d772025791717dbe5abf9b3f40cff7d7aab6f67e38f62faf510747276e20a42127e7500c444f9ed92baf65ade9e836845e39c4316d9dce5f8e2c8083e2c0acbb95296e05e51aab13b6b8f53f06c9c4276e12b0671133218cc3ea907da3bd9a367096d9202128d14846cc2e20d56fc8473ecb07cecbfb8086919f3971926e7045b853d85a69d026195c70f9f7a823536e2a8f4b3e12e94d9b53a934353451094b81",
@@ -1062,7 +1110,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_4_square",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L146
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L146
         pytest.param(
             ModExpInput(
                 base="db34d0e438249c0ed685c949cc28776a05094e1c48691dc3f2dca5fc3356d2a0663bd376e4712839917eb9a19c670407e2c377a2de385a3ff3b52104f7f1f4e0c7bf7717fb913896693dc5edbb65b760ef1b00e42e9d8f9af17352385e1cd742c9b006c0f669995cb0bb21d28c0aced2892267637b6470d8cee0ab27fc5d42658f6e88240c31d6774aa60a7ebd25cd48b56d0da11209f1928e61005c6eb709f3e8e0aaf8d9b10f7d7e296d772264dc76897ccdddadc91efa91c1903b7232a9e4c3b941917b99a3bc0c26497dedc897c25750af60237aa67934a26a2bc491db3dcc677491944bc1f51d3e5d76b8d846a62db03dedd61ff508f91a56d71028125035c3a44cbb041497c83bf3e4ae2a9613a401cc721c547a2afa3b16a2969933d3626ed6d8a7428648f74122fd3f2a02a20758f7f693892c8fd798b39abac01d18506c45e71432639e9f9505719ee822f62ccbf47f6850f096ff77b5afaf4be7d772025791717dbe5abf9b3f40cff7d7aab6f67e38f62faf510747276e20a42127e7500c444f9ed92baf65ade9e836845e39c4316d9dce5f8e2c8083e2c0acbb95296e05e51aab13b6b8f53f06c9c4276e12b0671133218cc3ea907da3bd9a367096d9202128d14846cc2e20d56fc8473ecb07cecbfb8086919f3971926e7045b853d85a69d026195c70f9f7a823536e2a8f4b3e12e94d9b53a934353451094b81",
@@ -1071,7 +1120,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_4_qube",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L148
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L148
         pytest.param(
             ModExpInput(
                 base="db34d0e438249c0ed685c949cc28776a05094e1c48691dc3f2dca5fc3356d2a0663bd376e4712839917eb9a19c670407e2c377a2de385a3ff3b52104f7f1f4e0c7bf7717fb913896693dc5edbb65b760ef1b00e42e9d8f9af17352385e1cd742c9b006c0f669995cb0bb21d28c0aced2892267637b6470d8cee0ab27fc5d42658f6e88240c31d6774aa60a7ebd25cd48b56d0da11209f1928e61005c6eb709f3e8e0aaf8d9b10f7d7e296d772264dc76897ccdddadc91efa91c1903b7232a9e4c3b941917b99a3bc0c26497dedc897c25750af60237aa67934a26a2bc491db3dcc677491944bc1f51d3e5d76b8d846a62db03dedd61ff508f91a56d71028125035c3a44cbb041497c83bf3e4ae2a9613a401cc721c547a2afa3b16a2969933d3626ed6d8a7428648f74122fd3f2a02a20758f7f693892c8fd798b39abac01d18506c45e71432639e9f9505719ee822f62ccbf47f6850f096ff77b5afaf4be7d772025791717dbe5abf9b3f40cff7d7aab6f67e38f62faf510747276e20a42127e7500c444f9ed92baf65ade9e836845e39c4316d9dce5f8e2c8083e2c0acbb95296e05e51aab13b6b8f53f06c9c4276e12b0671133218cc3ea907da3bd9a367096d9202128d14846cc2e20d56fc8473ecb07cecbfb8086919f3971926e7045b853d85a69d026195c70f9f7a823536e2a8f4b3e12e94d9b53a934353451094b81",
@@ -1080,7 +1130,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_4_pow_0x10001",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L150
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L150
         pytest.param(
             ModExpInput(
                 base="c5a1611f8be90071a43db23cc2fe01871cc4c0e8ab5743f6378e4fef77f7f6db0095c0727e20225beb665645403453e325ad5f9aeb9ba99bf3c148f63f9c07cf4fe8847ad5242d6b7d4499f93bd47056ddab8f7dee878fc2314f344dbee2a7c41a5d3db91eff372c730c2fdd3a141a4b61999e36d549b9870cf2f4e632c4d5df5f024f81c028000073a0ed8847cfb0593d36a47142f578f05ccbe28c0c06aeb1b1da027794c48db880278f79ba78ae64eedfea3c07d10e0562668d839749dc95f40467d15cf65b9cfc52c7c4bcef1cda3596dd52631aac942f146c7cebd46065131699ce8385b0db1874336747ee020a5698a3d1a1082665721e769567f579830f9d259cec1a836845109c21cf6b25da572512bf3c42fd4b96e43895589042ab60dd41f497db96aec102087fe784165bb45f942859268fd2ff6c012d9d00c02ba83eace047cc5f7b2c392c2955c58a49f0338d6fc58749c9db2155522ac17914ec216ad87f12e0ee95574613942fa615898c4d9e8a3be68cd6afa4e7a003dedbdf8edfee31162b174f965b20ae752ad89c967b3068b6f722c16b354456ba8e280f987c08e0a52d40a2e8f3a59b94d590aeef01879eb7a90b3ee7d772c839c85519cbeaddc0c193ec4874a463b53fcaea3271d80ebfb39b33489365fc039ae549a17a9ff898eea2f4cb27b8dbee4c17b998438575b2b8d107e4a0d66ba7fca85b41a58a8d51f191a35c856dfbe8aef2b00048a694bbccff832d23c8ca7a7ff0b6c0b3011d00b97c86c0628444d267c951d9e4fb8f83e154b8f74fb51aa16535e498235c5597dac9606ed0be3173a3836baa4e7d756ffe1e2879b415d3846bccd538c05b847785699aefde3e305decb600cd8fb0e7d8de5efc26971a6ad4e6d7a2d91474f1023a0ac4b78dc937da0ce607a45974d2cac1c33a2631ff7fe6144a3b2e5cf98b531a9627dea92c1dc82204d09db0439b6a11dd64b484e1263aa45fd9539b6020b55e3baece3986a8bffc1003406348f5c61265099ed43a766ee4f93f5f9c5abbc32a0fd3ac2b35b87f9ec26037d88275bd7dd0a54474995ee34ed3727f3f97c48db544b1980193a4b76a8a3ddab3591ce527f16d91882e67f0103b5cda53f7da54d489fc4ac08b6ab358a5a04aa9daa16219d50bd672a7cb804ed769d218807544e5993f1c27427104b349906a0b654df0bf69328afd3013fbe430155339c39f236df5557bf92f1ded7ff609a8502f49064ec3d1dbfb6c15d3a4c11a4f8acd12278cbf68acd5709463d12e3338a6eddb8c112f199645e23154a8e60879d2a654e3ed9296aa28f134168619691cd2c6b9e2eba4438381676173fc63c2588a3c5910dc149cf3760f0aa9fa9c3f5faa9162b0bf1aac9dd32b706a60ef53cbdb394b6b40222b5bc80eea82ba8958386672564cae3794f977871ab62337cf",
@@ -1089,7 +1140,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_5_square",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L152
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L152
         pytest.param(
             ModExpInput(
                 base="c5a1611f8be90071a43db23cc2fe01871cc4c0e8ab5743f6378e4fef77f7f6db0095c0727e20225beb665645403453e325ad5f9aeb9ba99bf3c148f63f9c07cf4fe8847ad5242d6b7d4499f93bd47056ddab8f7dee878fc2314f344dbee2a7c41a5d3db91eff372c730c2fdd3a141a4b61999e36d549b9870cf2f4e632c4d5df5f024f81c028000073a0ed8847cfb0593d36a47142f578f05ccbe28c0c06aeb1b1da027794c48db880278f79ba78ae64eedfea3c07d10e0562668d839749dc95f40467d15cf65b9cfc52c7c4bcef1cda3596dd52631aac942f146c7cebd46065131699ce8385b0db1874336747ee020a5698a3d1a1082665721e769567f579830f9d259cec1a836845109c21cf6b25da572512bf3c42fd4b96e43895589042ab60dd41f497db96aec102087fe784165bb45f942859268fd2ff6c012d9d00c02ba83eace047cc5f7b2c392c2955c58a49f0338d6fc58749c9db2155522ac17914ec216ad87f12e0ee95574613942fa615898c4d9e8a3be68cd6afa4e7a003dedbdf8edfee31162b174f965b20ae752ad89c967b3068b6f722c16b354456ba8e280f987c08e0a52d40a2e8f3a59b94d590aeef01879eb7a90b3ee7d772c839c85519cbeaddc0c193ec4874a463b53fcaea3271d80ebfb39b33489365fc039ae549a17a9ff898eea2f4cb27b8dbee4c17b998438575b2b8d107e4a0d66ba7fca85b41a58a8d51f191a35c856dfbe8aef2b00048a694bbccff832d23c8ca7a7ff0b6c0b3011d00b97c86c0628444d267c951d9e4fb8f83e154b8f74fb51aa16535e498235c5597dac9606ed0be3173a3836baa4e7d756ffe1e2879b415d3846bccd538c05b847785699aefde3e305decb600cd8fb0e7d8de5efc26971a6ad4e6d7a2d91474f1023a0ac4b78dc937da0ce607a45974d2cac1c33a2631ff7fe6144a3b2e5cf98b531a9627dea92c1dc82204d09db0439b6a11dd64b484e1263aa45fd9539b6020b55e3baece3986a8bffc1003406348f5c61265099ed43a766ee4f93f5f9c5abbc32a0fd3ac2b35b87f9ec26037d88275bd7dd0a54474995ee34ed3727f3f97c48db544b1980193a4b76a8a3ddab3591ce527f16d91882e67f0103b5cda53f7da54d489fc4ac08b6ab358a5a04aa9daa16219d50bd672a7cb804ed769d218807544e5993f1c27427104b349906a0b654df0bf69328afd3013fbe430155339c39f236df5557bf92f1ded7ff609a8502f49064ec3d1dbfb6c15d3a4c11a4f8acd12278cbf68acd5709463d12e3338a6eddb8c112f199645e23154a8e60879d2a654e3ed9296aa28f134168619691cd2c6b9e2eba4438381676173fc63c2588a3c5910dc149cf3760f0aa9fa9c3f5faa9162b0bf1aac9dd32b706a60ef53cbdb394b6b40222b5bc80eea82ba8958386672564cae3794f977871ab62337cf",
@@ -1098,7 +1150,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_5_qube",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L154
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L154
         pytest.param(
             ModExpInput(
                 base="c5a1611f8be90071a43db23cc2fe01871cc4c0e8ab5743f6378e4fef77f7f6db0095c0727e20225beb665645403453e325ad5f9aeb9ba99bf3c148f63f9c07cf4fe8847ad5242d6b7d4499f93bd47056ddab8f7dee878fc2314f344dbee2a7c41a5d3db91eff372c730c2fdd3a141a4b61999e36d549b9870cf2f4e632c4d5df5f024f81c028000073a0ed8847cfb0593d36a47142f578f05ccbe28c0c06aeb1b1da027794c48db880278f79ba78ae64eedfea3c07d10e0562668d839749dc95f40467d15cf65b9cfc52c7c4bcef1cda3596dd52631aac942f146c7cebd46065131699ce8385b0db1874336747ee020a5698a3d1a1082665721e769567f579830f9d259cec1a836845109c21cf6b25da572512bf3c42fd4b96e43895589042ab60dd41f497db96aec102087fe784165bb45f942859268fd2ff6c012d9d00c02ba83eace047cc5f7b2c392c2955c58a49f0338d6fc58749c9db2155522ac17914ec216ad87f12e0ee95574613942fa615898c4d9e8a3be68cd6afa4e7a003dedbdf8edfee31162b174f965b20ae752ad89c967b3068b6f722c16b354456ba8e280f987c08e0a52d40a2e8f3a59b94d590aeef01879eb7a90b3ee7d772c839c85519cbeaddc0c193ec4874a463b53fcaea3271d80ebfb39b33489365fc039ae549a17a9ff898eea2f4cb27b8dbee4c17b998438575b2b8d107e4a0d66ba7fca85b41a58a8d51f191a35c856dfbe8aef2b00048a694bbccff832d23c8ca7a7ff0b6c0b3011d00b97c86c0628444d267c951d9e4fb8f83e154b8f74fb51aa16535e498235c5597dac9606ed0be3173a3836baa4e7d756ffe1e2879b415d3846bccd538c05b847785699aefde3e305decb600cd8fb0e7d8de5efc26971a6ad4e6d7a2d91474f1023a0ac4b78dc937da0ce607a45974d2cac1c33a2631ff7fe6144a3b2e5cf98b531a9627dea92c1dc82204d09db0439b6a11dd64b484e1263aa45fd9539b6020b55e3baece3986a8bffc1003406348f5c61265099ed43a766ee4f93f5f9c5abbc32a0fd3ac2b35b87f9ec26037d88275bd7dd0a54474995ee34ed3727f3f97c48db544b1980193a4b76a8a3ddab3591ce527f16d91882e67f0103b5cda53f7da54d489fc4ac08b6ab358a5a04aa9daa16219d50bd672a7cb804ed769d218807544e5993f1c27427104b349906a0b654df0bf69328afd3013fbe430155339c39f236df5557bf92f1ded7ff609a8502f49064ec3d1dbfb6c15d3a4c11a4f8acd12278cbf68acd5709463d12e3338a6eddb8c112f199645e23154a8e60879d2a654e3ed9296aa28f134168619691cd2c6b9e2eba4438381676173fc63c2588a3c5910dc149cf3760f0aa9fa9c3f5faa9162b0bf1aac9dd32b706a60ef53cbdb394b6b40222b5bc80eea82ba8958386672564cae3794f977871ab62337cf",
@@ -1107,7 +1160,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_nagydani_5_pow_0x10001",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L156
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L156
         pytest.param(
             ModExpInput(
                 base="ffffff",
@@ -1116,7 +1170,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_marius_1_even",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L158
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L158
         pytest.param(
             ModExpInput(
                 base="ffffffffffffffff76ffffffffffffff",
@@ -1125,7 +1180,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_guido_1_even",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L160
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L160
         pytest.param(
             ModExpInput(
                 base="e0060000a921212121212121ff000021",
@@ -1134,7 +1190,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_guido_2_even",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L162
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L162
         pytest.param(
             ModExpInput(
                 base="0193585a48e18aad777e9c1b54221a0f58140392e4f091cd5f42b2e8644a9384fbd58ae1edec2477ebf7edbf7c0a3f8bd21d1890ee87646feab3c47be716f842cc3da9b940af312dc54450a960e3fc0b86e56abddd154068e10571a96fff6259431632bc15695c6c8679057e66c2c25c127e97e64ee5de6ea1fc0a4a0e431343fed1daafa072c238a45841da86a9806680bc9f298411173210790359209cd454b5af7b4d5688b4403924e5f863d97e2c5349e1a04b54fcf385b1e9d7714bab8fbf5835f6ff9ed575e77dff7af5cbb641db5d537933bae1fa6555d6c12d6fb31ca27b57771f4aebfbe0bf95e8990c0108ffe7cbdaf370be52cf3ade594543af75ad9329d2d11a402270b5b9a6bf4b83307506e118fca4862749d04e916fc7a039f0d13f2a02e0eedb800199ec95df15b4ccd8669b52586879624d51219e72102fad810b5909b1e372ddf33888fb9beb09b416e4164966edbabd89e4a286be36277fc576ed519a15643dac602e92b63d0b9121f0491da5b16ef793a967f096d80b6c81ecaaffad7e3f06a4a5ac2796f1ed9f68e6a0fd5cf191f0c5c2eec338952ff8d31abc68bf760febeb57e088995ba1d7726a2fdd6d8ca28a181378b8b4ab699bfd4b696739bbf17a9eb2df6251143046137fdbbfacac312ebf67a67da9741b59600000000000",
@@ -1143,7 +1200,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_guido_3_even",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L166
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L166
         pytest.param(
             ModExpInput(
                 base="ffffffffffffffff",
@@ -1152,7 +1210,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_pawel_1_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L168
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L168
         pytest.param(
             ModExpInput(
                 base="ffffffffffffffffffffffffffffffff",
@@ -1161,7 +1220,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_pawel_2_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L170
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L170
         pytest.param(
             ModExpInput(
                 base="ffffffffffffffffffffffffffffffffffffffffffffffff",
@@ -1176,7 +1236,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_pawel_3_exp_8",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L172
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L172
         pytest.param(
             ModExpInput(
                 base="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
@@ -1185,7 +1246,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_pawel_4_exp_heavy",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L174
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L174
         pytest.param(
             ModExpInput(
                 base="29356abadad68ad986c416de6f620bda0e1818b589e84f853a97391694d35496",
@@ -1194,7 +1256,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_common_1360n1",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L176
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L176
         pytest.param(
             ModExpInput(
                 base="d41afaeaea32f7409827761b68c41b6e535da4ede1f0800bfb4a6aed18394f6b",
@@ -1203,7 +1266,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_common_1360n2",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L178
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L178
         pytest.param(
             ModExpInput(
                 base="1a5be8fae3b3fda9ea329494ae8689c04fae4978ecccfa6a6bfb9f04b25846c0",
@@ -1212,7 +1276,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_common_1349n1",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L182
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L182
         pytest.param(
             ModExpInput(
                 base="0000000000000000000000000000000000000000000000000000000000000003",
@@ -1221,7 +1286,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_common_1152n1",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L184
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L184
         pytest.param(
             ModExpInput(
                 base="1fb473dd1171cf88116aa77ab3612c2c7d2cf466cc2386cc456130e2727c70b4",
@@ -1230,7 +1296,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_common_200n1",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L186
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L186
         pytest.param(
             ModExpInput(
                 base="1951441010b2b95a6e47a6075066a50a036f5ba978c050f2821df86636c0facb",
@@ -1239,7 +1306,8 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_vul_common_200n2",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L188
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L188
         pytest.param(
             ModExpInput(
                 base="288254ba43e713afbe36c9f03b54c00fae4c0a82df1cf165eb46a21c20a48ca2",
@@ -1266,14 +1334,15 @@ def test_worst_modexp(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many calls to the MODEXP (5) precompile as possible.
-    All the calls have the same parametrized input.
+    Test running a block with as many calls to the MODEXP (5) precompile as
+    possible. All the calls have the same parametrized input.
     """
     # Skip the trailing zeros from the input to make EVM work even harder.
     calldata = bytes(mod_exp_input).rstrip(b"\x00")
 
     code = code_loop_precompile_call(
-        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE),  # Copy the input to the memory.
+        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE),  # Copy the input to the
+        # memory.
         Op.POP(Op.STATICCALL(Op.GAS, 0x5, Op.PUSH0, Op.CALLDATASIZE, Op.PUSH0, Op.PUSH0)),
         fork,
     )
@@ -1298,8 +1367,8 @@ def test_worst_modexp(
         pytest.param(
             0x01,
             [
-                # The inputs below are a valid signature, thus ECRECOVER call won't
-                # be short-circuited by validations and do actual work.
+                # The inputs below are a valid signature, thus ECRECOVER call
+                # won't be short-circuited by validations and do actual work.
                 "38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E",
                 "000000000000000000000000000000000000000000000000000000000000001B",
                 "38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E",
@@ -1317,7 +1386,8 @@ def test_worst_modexp(
             ],
             id="bn128_add",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L326
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L326
         pytest.param(
             0x06,
             [
@@ -1328,7 +1398,8 @@ def test_worst_modexp(
             ],
             id="bn128_add_infinities",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L329
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L329
         pytest.param(
             0x06,
             [
@@ -1348,7 +1419,8 @@ def test_worst_modexp(
             ],
             id="bn128_mul",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L335
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L335
         pytest.param(
             0x07,
             [
@@ -1358,7 +1430,8 @@ def test_worst_modexp(
             ],
             id="bn128_mul_infinities_2_scalar",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L338
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L338
         pytest.param(
             0x07,
             [
@@ -1368,7 +1441,8 @@ def test_worst_modexp(
             ],
             id="bn128_mul_infinities_32_byte_scalar",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L341
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L341
         pytest.param(
             0x07,
             [
@@ -1378,7 +1452,8 @@ def test_worst_modexp(
             ],
             id="bn128_mul_1_2_2_scalar",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L344
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L344
         pytest.param(
             0x07,
             [
@@ -1388,7 +1463,8 @@ def test_worst_modexp(
             ],
             id="bn128_mul_1_2_32_byte_scalar",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L347
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L347
         pytest.param(
             0x07,
             [
@@ -1398,7 +1474,8 @@ def test_worst_modexp(
             ],
             id="bn128_mul_32_byte_coord_and_2_scalar",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L350
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L350
         pytest.param(
             0x07,
             [
@@ -1441,7 +1518,8 @@ def test_worst_modexp(
             ],
             id="bn128_one_pairing",
         ),
-        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L353
+        # Ported from
+        # https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L353
         pytest.param(0x08, [], id="ec_pairing_zero_input"),
         pytest.param(
             0x08,
@@ -1640,9 +1718,10 @@ def test_worst_modexp(
         pytest.param(
             bls12381_spec.Spec.G2MSM,
             [
-                # TODO: the //2 is required due to a limitation of the max contract size limit.
-                # In a further iteration we can insert the inputs as calldata or storage and avoid
-                # having to do PUSHes which has this limitation. This also applies to G1MSM.
+                # TODO: the //2 is required due to a limitation of the max
+                # contract size limit. In a further iteration we can insert the
+                # inputs as calldata or storage and avoid having to do PUSHes
+                # which has this limitation. This also applies to G1MSM.
                 (bls12381_spec.Spec.P2 + bls12381_spec.Scalar(bls12381_spec.Spec.Q))
                 * (len(bls12381_spec.Spec.G2MSM_DISCOUNT_TABLE) // 2),
             ],
@@ -1873,7 +1952,8 @@ DEFAULT_BINOP_ARGS = (
             DEFAULT_BINOP_ARGS,
         ),
         (
-            # This has the cycle of 2, after two SUBs values are back to initials.
+            # This has the cycle of 2, after two SUBs values are back to
+            # initials.
             Op.SUB,
             DEFAULT_BINOP_ARGS,
         ),
@@ -1886,8 +1966,8 @@ DEFAULT_BINOP_ARGS = (
             (
                 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
                 # We want the first divisor to be slightly bigger than 2**128:
-                # this is the worst case for the division algorithm with optimized paths
-                # for division by 1 and 2 words.
+                # this is the worst case for the division algorithm with
+                # optimized paths for division by 1 and 2 words.
                 0x100000000000000000000000000000033,
             ),
         ),
@@ -1897,13 +1977,14 @@ DEFAULT_BINOP_ARGS = (
             (
                 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
                 # We want the first divisor to be slightly bigger than 2**64:
-                # this is the worst case for the division algorithm with an optimized path
-                # for division by 1 word.
+                # this is the worst case for the division algorithm with an
+                # optimized path for division by 1 word.
                 0x10000000000000033,
             ),
         ),
         (
-            # Same as DIV-0, but the numerator made positive, and the divisor made negative.
+            # Same as DIV-0, but the numerator made positive, and the divisor
+            # made negative.
             Op.SDIV,
             (
                 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
@@ -1911,7 +1992,8 @@ DEFAULT_BINOP_ARGS = (
             ),
         ),
         (
-            # Same as DIV-1, but the numerator made positive, and the divisor made negative.
+            # Same as DIV-1, but the numerator made positive, and the divisor
+            # made negative.
             Op.SDIV,
             (
                 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
@@ -1919,17 +2001,20 @@ DEFAULT_BINOP_ARGS = (
             ),
         ),
         (
-            # This scenario is not suitable for MOD because the values quickly become 0.
+            # This scenario is not suitable for MOD because the values quickly
+            # become 0.
             Op.MOD,
             DEFAULT_BINOP_ARGS,
         ),
         (
-            # This scenario is not suitable for SMOD because the values quickly become 0.
+            # This scenario is not suitable for SMOD because the values quickly
+            # become 0.
             Op.SMOD,
             DEFAULT_BINOP_ARGS,
         ),
         (
-            # This keeps the values unchanged, pow(2**256-1, 2**256-1, 2**256) == 2**256-1.
+            # This keeps the values unchanged, pow(2**256-1, 2**256-1, 2**256)
+            # == 2**256-1.
             Op.EXP,
             (
                 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
@@ -2006,9 +2091,9 @@ def test_worst_binop_simple(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many binary instructions (takes two args, produces one value)
-    as possible. The execution starts with two initial values on the stack, and the stack is
-    balanced by the DUP2 instruction.
+    Test running a block with as many binary instructions (takes two args,
+    produces one value) as possible. The execution starts with two initial
+    values on the stack, and the stack is balanced by the DUP2 instruction.
     """
     max_code_size = fork.max_code_size()
 
@@ -2044,8 +2129,8 @@ def test_worst_unop(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many unary instructions (takes one arg, produces one value)
-    as possible.
+    Test running a block with as many unary instructions (takes one arg,
+    produces one value) as possible.
     """
     max_code_size = fork.max_code_size()
 
@@ -2071,7 +2156,8 @@ def test_worst_unop(
 
 # `key_mut` indicates the key isn't fixed.
 @pytest.mark.parametrize("key_mut", [True, False])
-# `val_mut` indicates that at the end of each big-loop, the value of the target key changes.
+# `val_mut` indicates that at the end of each big-loop, the value of the target
+# key changes.
 @pytest.mark.parametrize("val_mut", [True, False])
 def test_worst_tload(
     state_test: StateTestFiller,
@@ -2098,7 +2184,8 @@ def test_worst_tload(
     if not key_mut and val_mut:
         code_prefix = Op.JUMPDEST
         loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
-        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured in the tx
+        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured
+        # in the tx
     if not key_mut and not val_mut:
         code_prefix = Op.JUMPDEST
         loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
@@ -2140,12 +2227,13 @@ def test_worst_tstore(
     init_key = 42
     code_prefix = Op.PUSH1(init_key) + Op.JUMPDEST
 
-    # If `key_mut` is True, we mutate the key on every iteration of the big loop.
+    # If `key_mut` is True, we mutate the key on every iteration of the big
+    # loop.
     code_key_mut = Op.POP + Op.GAS if key_mut else Bytecode()
     code_suffix = code_key_mut + Op.JUMP(len(code_prefix) - 1)
 
-    # If `dense_val_mut` is set, we use GAS as a cheap way of always storing a different value than
-    # the previous one.
+    # If `dense_val_mut` is set, we use GAS as a cheap way of always storing a
+    # different value than the previous one.
     loop_iter = Op.TSTORE(Op.DUP2, Op.GAS if dense_val_mut else Op.DUP1)
 
     code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
@@ -2175,9 +2263,10 @@ def test_worst_shifts(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many shift instructions with non-trivial arguments.
-    This test generates left-right pairs of shifts to avoid zeroing the argument.
-    The shift amounts are randomly pre-selected from the constant pool of 15 values on the stack.
+    Test running a block with as many shift instructions with non-trivial
+    arguments. This test generates left-right pairs of shifts to avoid zeroing
+    the argument. The shift amounts are randomly pre-selected from the constant
+    pool of 15 values on the stack.
     """
     max_code_size = fork.max_code_size()
 
@@ -2205,10 +2294,12 @@ def test_worst_shifts(
             raise ValueError(f"Unexpected shift op: {shift_right}")
 
     rng = random.Random(1)  # Use random with a fixed seed.
-    initial_value = 2**256 - 1  # The initial value to be shifted; should be negative for SAR.
+    initial_value = 2**256 - 1  # The initial value to be shifted; should be
+    # negative for SAR.
 
-    # Create the list of shift amounts with 15 elements (max reachable by DUPs instructions).
-    # For the worst case keep the values small and omit values divisible by 8.
+    # Create the list of shift amounts with 15 elements (max reachable by DUPs
+    # instructions). For the worst case keep the values small and omit values
+    # divisible by 8.
     shift_amounts = [x + (x >= 8) + (x >= 15) for x in range(1, 16)]
 
     code_prefix = sum(Op.PUSH1[sh] for sh in shift_amounts) + Op.JUMPDEST + Op.CALLDATALOAD(0)
@@ -2323,20 +2414,25 @@ def test_worst_mod(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many MOD instructions with arguments of the parametrized range.
+    Test running a block with as many MOD instructions with arguments of the
+    parametrized range.
+
     The test program consists of code segments evaluating the "MOD chain":
     mod[0] = calldataload(0)
     mod[1] = numerators[indexes[0]] % mod[0]
     mod[2] = numerators[indexes[1]] % mod[1] ...
-    The "numerators" is a pool of 15 constants pushed to the EVM stack at the program start.
-    The order of accessing the numerators is selected in a way the mod value remains in the range
-    as long as possible.
+
+    The "numerators" is a pool of 15 constants pushed to the EVM stack at the
+    program start.
+
+    The order of accessing the numerators is selected in a way the mod value
+    remains in the range as long as possible.
     """
     max_code_size = fork.max_code_size()
 
-    # For SMOD we negate both numerator and modulus. The underlying computation is the same,
-    # just the SMOD implementation will have to additionally handle the sign bits.
-    # The result stays negative.
+    # For SMOD we negate both numerator and modulus. The underlying computation
+    # is the same, just the SMOD implementation will have to additionally
+    # handle the sign bits. The result stays negative.
     should_negate = op == Op.SMOD
 
     num_numerators = 15
@@ -2344,12 +2440,13 @@ def test_worst_mod(
     numerator_max = 2**numerator_bits - 1
     numerator_min = 2 ** (numerator_bits - 1)
 
-    # Pick the modulus min value so that it is _unlikely_ to drop to the lower word count.
+    # Pick the modulus min value so that it is _unlikely_ to drop to the lower
+    # word count.
     assert mod_bits >= 63
     mod_min = 2 ** (mod_bits - 63)
 
-    # Select the random seed giving the longest found MOD chain.
-    # You can look for a longer one by increasing the numerators_min_len. This will activate
+    # Select the random seed giving the longest found MOD chain. You can look
+    # for a longer one by increasing the numerators_min_len. This will activate
     # the while loop below.
     match op, mod_bits:
         case Op.MOD, 255:
@@ -2392,18 +2489,22 @@ def test_worst_mod(
         mod = initial_mod
         indexes = []
         while mod >= mod_min:
-            results = [n % mod for n in numerators]  # Compute results for each numerator.
-            i = max(range(len(results)), key=results.__getitem__)  # And pick the best one.
+            # Compute results for each numerator.
+            results = [n % mod for n in numerators]
+            # And pick the best one.
+            i = max(range(len(results)), key=results.__getitem__)
             mod = results[i]
             indexes.append(i)
 
-        assert len(indexes) > numerators_min_len  # Disable if you want to find longer MOD chains.
+        # Disable if you want to find longer MOD chains.
+        assert len(indexes) > numerators_min_len
         if len(indexes) > numerators_min_len:
             break
         seed += 1
         print(f"{seed=}")
 
-    # TODO: Don't use fixed PUSH32. Let Bytecode helpers to select optimal push opcode.
+    # TODO: Don't use fixed PUSH32. Let Bytecode helpers to select optimal push
+    # opcode.
     code_constant_pool = sum((Op.PUSH32[n] for n in numerators), Bytecode())
     code_prefix = code_constant_pool + Op.JUMPDEST
     code_suffix = Op.JUMP(len(code_constant_pool))
@@ -2448,7 +2549,9 @@ def test_worst_memory_access(
     big_memory_expansion: bool,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many memory access instructions as possible."""
+    """
+    Test running a block with as many memory access instructions as possible.
+    """
     max_code_size = fork.max_code_size()
 
     mem_exp_code = Op.MSTORE8(10 * 1024, 1) if big_memory_expansion else Bytecode()
@@ -2488,29 +2591,32 @@ def test_worst_modarith(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many "op" instructions with arguments of the parametrized range.
+    Test running a block with as many "op" instructions with arguments of the
+    parametrized range.
     The test program consists of code segments evaluating the "op chain":
     mod[0] = calldataload(0)
     mod[1] = (fixed_arg op args[indexes[0]]) % mod[0]
     mod[2] = (fixed_arg op args[indexes[1]]) % mod[1]
-    The "args" is a pool of 15 constants pushed to the EVM stack at the program start.
+    The "args" is a pool of 15 constants pushed to the EVM stack at the program
+    start.
     The "fixed_arg" is the 0xFF...FF constant added to the EVM stack by PUSH32
     just before executing the "op".
-    The order of accessing the numerators is selected in a way the mod value remains in the range
-    as long as possible.
+    The order of accessing the numerators is selected in a way the mod value
+    remains in the range as long as possible.
     """
     fixed_arg = 2**256 - 1
     num_args = 15
 
     max_code_size = fork.max_code_size()
 
-    # Pick the modulus min value so that it is _unlikely_ to drop to the lower word count.
+    # Pick the modulus min value so that it is _unlikely_ to drop to the lower
+    # word count.
     assert mod_bits >= 63
     mod_min = 2 ** (mod_bits - 63)
 
-    # Select the random seed giving the longest found op chain.
-    # You can look for a longer one by increasing the op_chain_len. This will activate
-    # the while loop below.
+    # Select the random seed giving the longest found op chain. You can look
+    # for a longer one by increasing the op_chain_len. This will activate the
+    # while loop below.
     op_chain_len = 666
     match op, mod_bits:
         case Op.ADDMOD, 255:
@@ -2528,7 +2634,8 @@ def test_worst_modarith(
         case Op.MULMOD, 127:
             seed = 5
         case Op.MULMOD, 63:
-            # For this setup we were not able to find an op-chain longer than 600.
+            # For this setup we were not able to find an op-chain longer than
+            # 600.
             seed = 4193
             op_chain_len = 600
         case _:
@@ -2545,11 +2652,13 @@ def test_worst_modarith(
         indexes: list[int] = []
         while mod >= mod_min and len(indexes) < op_chain_len:
             results = [op_fn(a, fixed_arg) % mod for a in args]
-            i = max(range(len(results)), key=results.__getitem__)  # And pick the best one.
+            # And pick the best one.
+            i = max(range(len(results)), key=results.__getitem__)
             mod = results[i]
             indexes.append(i)
 
-        assert len(indexes) == op_chain_len  # Disable if you want to find longer op chains.
+        # Disable if you want to find longer op chains.
+        assert len(indexes) == op_chain_len
         if len(indexes) == op_chain_len:
             break
         seed += 1
@@ -2561,8 +2670,8 @@ def test_worst_modarith(
         + sum(make_dup(len(args) - i) + Op.PUSH32[fixed_arg] + op for i in indexes)
         + Op.POP
     )
-    # Construct the final code. Because of the usage of PUSH32 the code segment is very long,
-    # so don't try to include multiple of these.
+    # Construct the final code. Because of the usage of PUSH32 the code segment
+    # is very long, so don't try to include multiple of these.
     code = code_constant_pool + Op.JUMPDEST + code_segment + Op.JUMP(len(code_constant_pool))
     assert (max_code_size - len(code_segment)) < len(code) <= max_code_size
 
@@ -2608,8 +2717,9 @@ def test_amortized_bn128_pairings(
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
 
-    # This is a theoretical maximum number of pairings that can be done in a block.
-    # It is only used for an upper bound for calculating the optimal number of pairings below.
+    # This is a theoretical maximum number of pairings that can be done in a
+    # block. It is only used for an upper bound for calculating the optimal
+    # number of pairings below.
     maximum_number_of_pairings = (gas_benchmark_value - base_cost) // pairing_cost
 
     # Discover the optimal number of pairings balancing two dimensions:
@@ -2620,19 +2730,21 @@ def test_amortized_bn128_pairings(
     for i in range(1, maximum_number_of_pairings + 1):
         # We'll pass all pairing arguments via calldata.
         available_gas_after_intrinsic = gas_benchmark_value - intrinsic_gas_calculator(
-            calldata=[0xFF] * size_per_pairing * i  # 0xFF is to indicate non-zero bytes.
+            calldata=[0xFF] * size_per_pairing * i  # 0xFF is to indicate non-
+            # zero bytes.
         )
         available_gas_after_expansion = max(
             0,
             available_gas_after_intrinsic - mem_exp_gas_calculator(new_bytes=i * size_per_pairing),
         )
 
-        # This is ignoring "glue" opcodes, but helps to have a rough idea of the right
-        # cutting point.
+        # This is ignoring "glue" opcodes, but helps to have a rough idea of
+        # the right cutting point.
         approx_gas_cost_per_call = gsc.G_WARM_ACCOUNT_ACCESS + base_cost + i * pairing_cost
 
         num_precompile_calls = available_gas_after_expansion // approx_gas_cost_per_call
-        num_pairings_done = num_precompile_calls * i  # Each precompile call does i pairings.
+        num_pairings_done = num_precompile_calls * i  # Each precompile call
+        # does i pairings.
 
         if num_pairings_done > max_pairings:
             max_pairings = num_pairings_done
@@ -2921,8 +3033,9 @@ def test_worst_return_revert(
     # opcode(returned_size)
     # <Fill with INVALID opcodes up to the max contract size>
     # ```
-    # Filling the contract up to the max size is a cheap way of leveraging CODECOPY to return
-    # non-zero bytes if requested. Note that since this is a pre-deploy this cost isn't
+    # Filling the contract up to the max size is a cheap way of leveraging
+    # CODECOPY to return non-zero bytes if requested. Note that since this
+    # is a pre-deploy this cost isn't
     # relevant for the benchmark.
     mem_preparation = Op.CODECOPY(size=return_size) if return_non_zero_data else Bytecode()
     executable_code = mem_preparation + opcode(size=return_size)
@@ -2999,7 +3112,9 @@ def test_worst_clz_diff_input(
     gas_benchmark_value: int,
     env: Environment,
 ):
-    """Test running a block with as many CLZ with different input as possible."""
+    """
+    Test running a block with as many CLZ with different input as possible.
+    """
     tx_gas_limit = fork.transaction_gas_limit_cap() or env.gas_limit
     max_code_size = fork.max_code_size()
 

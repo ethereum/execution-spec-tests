@@ -6,7 +6,10 @@ from ethereum_clis import TransitionTool
 
 
 def test_slow_marker_gets_pre_alloc_group(pytester, default_t8n: TransitionTool):
-    """Test that slow tests without benchmark marker get pre_alloc_group automatically."""
+    """
+    Test that slow tests without benchmark marker get pre_alloc_group
+    automatically.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest
@@ -49,7 +52,9 @@ def test_slow_marker_gets_pre_alloc_group(pytester, default_t8n: TransitionTool)
 
 
 def test_slow_with_benchmark_no_pre_alloc(pytester, default_t8n: TransitionTool):
-    """Test that slow tests WITH benchmark marker do NOT get pre_alloc_group."""
+    """
+    Test that slow tests WITH benchmark marker do NOT get pre_alloc_group.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest
@@ -92,7 +97,9 @@ def test_slow_with_benchmark_no_pre_alloc(pytester, default_t8n: TransitionTool)
 
 
 def test_slow_with_existing_pre_alloc_unchanged(pytester, default_t8n: TransitionTool):
-    """Test that slow tests with existing pre_alloc_group marker are unchanged."""
+    """
+    Test that slow tests with existing pre_alloc_group marker are unchanged.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest
@@ -176,7 +183,9 @@ def test_non_slow_no_pre_alloc(pytester, default_t8n: TransitionTool):
 
 
 def test_integration_with_fill(pytester, default_t8n: TransitionTool):
-    """Integration test using actual fill command to verify marker application."""
+    """
+    Integration test using actual fill command to verify marker application.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest
@@ -221,10 +230,15 @@ def test_integration_with_fill(pytester, default_t8n: TransitionTool):
         "tests/cancun/slow_test_module/",
     ]
 
-    # The test generates 3 formats (state_test, blockchain_test, blockchain_test_engine)
-    # But it also runs on multiple forks (Cancun and Prague), so expect more tests
-    # This is fine - the important thing is that they all pass
+    # The test generates 3 formats (state_test, blockchain_test,
+    # blockchain_test_engine).
+
+    # But it also runs on multiple forks (Cancun and
+    # Prague), so expect more tests.
+
+    # This is fine - the important thing is that they all pass.
     result = pytester.runpytest(*args)
 
-    # Verify that tests passed (don't care about exact count due to fork variations)
+    # Verify that tests passed (don't care about exact count due to fork
+    # variations)
     assert result.ret == 0, "Fill command should succeed"

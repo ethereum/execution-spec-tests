@@ -1,8 +1,9 @@
 """
-abstract:  [EIP-7918: Blob base fee bounded by execution cost](https://eips.ethereum.org/EIPS/eip-7918)
-    Test the blob base fee reserve price mechanism for [EIP-7918: Blob base fee bounded by execution cost](https://eips.ethereum.org/EIPS/eip-7918).
+ [EIP-7918: Blob base fee bounded by execution cost](https://eips.ethereum.org/EIPS/eip-7918).
 
-"""  # noqa: E501
+Test the blob base fee reserve price mechanism for
+[EIP-7918: Blob base fee bounded by execution cost](https://eips.ethereum.org/EIPS/eip-7918).
+"""
 
 from typing import Dict, List
 
@@ -145,7 +146,10 @@ def test_reserve_price_various_base_fee_scenarios(
     block: Block,
     post: Dict[Address, Account],
 ):
-    """Test reserve price mechanism across various block base fee and excess blob gas scenarios."""
+    """
+    Test reserve price mechanism across various block base fee and excess blob
+    gas scenarios.
+    """
     blockchain_test(
         pre=pre,
         post=post,
@@ -156,7 +160,8 @@ def test_reserve_price_various_base_fee_scenarios(
 
 @pytest.mark.parametrize_by_fork(
     "parent_excess_blobs",
-    # Keep max assuming this will be greater than 20 in the future, to test a blob fee of > 1 :)
+    # Keep max assuming this will be greater than 20 in the future, to test a
+    # blob fee of > 1 :)
     lambda fork: [0, 3, fork.target_blobs_per_block(), fork.max_blobs_per_block()],
 )
 @pytest.mark.parametrize("block_base_fee_per_gas_delta", [-2, -1, 0, 1, 10, 100])
@@ -168,17 +173,30 @@ def test_reserve_price_boundary(
     post: Dict[Address, Account],
 ):
     """
-    Tests the reserve price boundary mechanism. Note the default block base fee per gas is 7 (delta is 0).
-    With a non zero delta the block base fee per gas is set to (boundary * blob base fee) + delta.
+    Tests the reserve price boundary mechanism. Note the default block base fee
+    per gas is 7 (delta is 0). With a non zero delta the block base fee per gas
+    is set to (boundary * blob base fee) + delta.
 
-    Example scenarios from parametrization, assume parent_excess_blobs = 3:
-        delta=-2: blob_base_fee=1, boundary=8, block_base_fee_per_gas=8+(-2)=6, 6 < 8, reserve inactive, effective_fee=1
-        delta=0: blob_base_fee=1, boundary=8, block_base_fee_per_gas=7, 7 < 8, reserve inactive, effective_fee=1
-        delta=100: blob_base_fee=1, boundary=8, block_base_fee_per_gas=8+100=108, 108 > 8, reserve active, effective_fee=max(108/8, 1)=13
+    Example scenarios from parametrization:
+    Assume
+      parent_excess_blobs = 3:
+      delta=-2:
+      blob_base_fee=1,
+      boundary=8,
+      block_base_fee_per_gas=8+(-2)=6, 6 < 8,
+      reserve inactive,
+      effective_fee=1 delta=0:
+      blob_base_fee=1, boundary=8,
+      block_base_fee_per_gas=7, 7 < 8,
+      reserve inactive, effective_fee=1
+      delta=100: blob_base_fee=1,
+      boundary=8, block_base_fee_per_gas=8+100=108, 108 > 8,
+      reserve active, effective_fee=max(108/8, 1)=13
 
-    All values give a blob base_ fee of 1 because we need a much higher excess blob gas
-    to increase the blob fee. This only increases to 2 at 20 excess blobs.
-    """  # noqa: E501
+    All values give a blob base_ fee of 1 because we need a much higher excess
+    blob gas to increase the blob fee. This only increases to 2 at 20 excess
+    blobs.
+    """
     blockchain_test(
         genesis_environment=env,
         pre=pre,

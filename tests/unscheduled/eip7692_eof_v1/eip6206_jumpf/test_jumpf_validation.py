@@ -111,7 +111,9 @@ def test_invalid_code_section_index(
     eof_test: EOFTestFiller,
     container: Container,
 ):
-    """Test cases for JUMPF instructions with invalid target code section index."""
+    """
+    Test cases for JUMPF instructions with invalid target code section index.
+    """
     eof_test(container=container, expect_exception=EOFException.INVALID_CODE_SECTION_INDEX)
 
 
@@ -119,8 +121,8 @@ def test_returning_section_aborts_jumpf(
     eof_test: EOFTestFiller,
 ):
     """
-    Test EOF container validation where in the same code section we have returning
-    and nonreturning terminating instructions.
+    Test EOF container validation where in the same code section we have
+    returning and nonreturning terminating instructions.
     """
     container = Container(
         sections=[
@@ -141,7 +143,10 @@ def test_returning_section_aborts_jumpf(
 
 @pytest.mark.parametrize("stack_height", [512, 513, 1023])
 def test_jumpf_self_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
-    """Test JUMPF instruction jumping to itself causing validation time stack overflow."""
+    """
+    Test JUMPF instruction jumping to itself causing validation time stack
+    overflow.
+    """
     container = Container(
         sections=[
             Section.Code(
@@ -162,7 +167,10 @@ def test_jumpf_self_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
 def test_jumpf_other_stack_overflow(
     eof_test: EOFTestFiller, stack_height: int, stack_height_other: int
 ):
-    """Test JUMPF instruction jumping to other section causing validation time stack overflow."""
+    """
+    Test JUMPF instruction jumping to other section causing validation time
+    stack overflow.
+    """
     container = Container(
         sections=[
             Section.Code(
@@ -202,7 +210,10 @@ def test_jumpf_to_non_returning(eof_test: EOFTestFiller, stack_height: int, code
 
 @pytest.mark.parametrize("code_inputs", [0, 1, 3, 5])
 def test_jumpf_to_non_returning_variable_stack(eof_test: EOFTestFiller, code_inputs: int):
-    """Test JUMPF jumping to a non-returning function with stack depending on RJUMPI."""
+    """
+    Test JUMPF jumping to a non-returning function with stack depending on
+    RJUMPI.
+    """
     container = Container(
         sections=[
             Section.Code(
@@ -266,7 +277,10 @@ def test_jumpf_to_returning_variable_stack_1(
     code_outputs: int,
     stack_increase: int,
 ):
-    """Test JUMPF with variable stack jumping to a returning function increasing the stack."""
+    """
+    Test JUMPF with variable stack jumping to a returning function increasing
+    the stack.
+    """
     exception = None
     if code_inputs >= 3 or code_outputs + 1 < 3:  # 3 = Section 1's max stack
         exception = EOFException.STACK_UNDERFLOW
@@ -305,7 +319,10 @@ def test_jumpf_to_returning_variable_stack_2(
     code_outputs: int,
     stack_decrease: int,
 ):
-    """Test JUMPF with variable stack jumping to a returning function decreasing the stack."""
+    """
+    Test JUMPF with variable stack jumping to a returning function decreasing
+    the stack.
+    """
     exceptions = []
     if code_inputs >= 3 or code_outputs + 1 < 3:  # 3 = Section 1's max stack
         exceptions.append(EOFException.STACK_UNDERFLOW)
@@ -336,7 +353,10 @@ def test_jumpf_to_returning_variable_stack_2(
 
 
 def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
-    """Test JUMPF with variable stack jumping to a returning function increasing the stack."""
+    """
+    Test JUMPF with variable stack jumping to a returning function increasing
+    the stack.
+    """
     container = Container(
         sections=[
             Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=2),

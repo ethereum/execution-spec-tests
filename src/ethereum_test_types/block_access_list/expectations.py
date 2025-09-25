@@ -1,7 +1,8 @@
 """
 Block Access List expectation classes for test validation.
 
-This module contains classes for defining and validating expected BAL values in tests.
+This module contains classes for defining and validating expected
+BAL values in tests.
 """
 
 from typing import Any, Callable, Dict, List, Optional
@@ -27,7 +28,8 @@ class BalAccountExpectation(CamelModel):
     """
     Represents expected changes to a specific account in a block.
 
-    Same as BalAccountChange but without the address field, used for expectations.
+    Same as BalAccountChange but without the address field,
+    used for expectations.
     """
 
     nonce_changes: List[BalNonceChange] = Field(
@@ -102,13 +104,16 @@ class BlockAccessListExpectation(CamelModel):
         Create a new expectation with a modifier for invalid test cases.
 
         Args:
-            modifiers: One or more functions that take and return a BlockAccessList
+            modifiers: One or more functions that take and return
+                       a BlockAccessList
 
         Returns:
-            A new BlockAccessListExpectation instance with the modifiers applied
+            A new BlockAccessListExpectation instance with
+            the modifiers applied
 
         Example:
-            from ethereum_test_types.block_access_list.modifiers import remove_nonces
+            from ethereum_test_types.block_access_list.
+            modifiers import remove_nonces
 
             expectation = BlockAccessListExpectation(
                 account_expectations={...}
@@ -247,7 +252,8 @@ class BlockAccessListExpectation(CamelModel):
         expected: BalAccountExpectation, actual: BalAccountChange
     ) -> None:
         """
-        Compare expected and actual account changes using subsequence validation.
+        Compare expected and actual account changes using
+        subsequence validation.
 
         Args:
             expected: The expected account changes
@@ -305,7 +311,8 @@ class BlockAccessListExpectation(CamelModel):
                             expected_slot_changes = expected_slot.slot_changes
 
                             if not expected_slot_changes:
-                                # Empty expected means any slot_changes are acceptable
+                                # Empty expected means any
+                                # slot_changes are acceptable
                                 pass
                             else:
                                 # Validate slot_changes as subsequence

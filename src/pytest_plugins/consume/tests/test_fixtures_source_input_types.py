@@ -10,7 +10,9 @@ class TestSimplifiedConsumeBehavior:
     """Test suite for the simplified consume behavior."""
 
     def test_fixtures_source_from_release_url_no_api_calls(self):
-        """Test that direct release URLs do not make API calls for release page."""
+        """
+        Test that direct release URLs do not make API calls for release page.
+        """
         test_url = "https://github.com/ethereum/execution-spec-tests/releases/download/v3.0.0/fixtures_develop.tar.gz"
 
         with patch("pytest_plugins.consume.consume.FixtureDownloader") as mock_downloader:
@@ -26,7 +28,9 @@ class TestSimplifiedConsumeBehavior:
             assert source.input_option == test_url
 
     def test_fixtures_source_from_release_spec_makes_api_calls(self):
-        """Test that release specs still make API calls and get release page."""
+        """
+        Test that release specs still make API calls and get release page.
+        """
         test_spec = "stable@latest"
 
         with patch("pytest_plugins.consume.consume.get_release_url") as mock_get_url:
@@ -68,7 +72,9 @@ class TestSimplifiedConsumeBehavior:
             assert source.url == test_url
 
     def test_output_formatting_without_release_page_for_direct_urls(self):
-        """Test output formatting when release page is empty for direct URLs."""
+        """
+        Test output formatting when release page is empty for direct URLs.
+        """
         from unittest.mock import MagicMock
 
         from pytest import Config
@@ -97,7 +103,9 @@ class TestSimplifiedConsumeBehavior:
         assert "Input:" in reason
 
     def test_output_formatting_with_release_page_for_specs(self):
-        """Test output formatting when release page is present for release specs."""
+        """
+        Test output formatting when release page is present for release specs.
+        """
         from unittest.mock import MagicMock
 
         from pytest import Config

@@ -1,8 +1,4 @@
-"""
-abstract: Test DUP
-    Test the DUP opcodes.
-
-"""
+"""Test DUP Test the DUP opcodes."""
 
 import pytest
 
@@ -43,9 +39,13 @@ def test_dup(
     """
     Test the DUP1-DUP16 opcodes.
 
-    Note: Test case ported from [ethereum/tests](https://github.com/ethereum/tests)
-        Test ported from [ethereum/tests/GeneralStateTests/VMTests/vmTests/dup.json](https://github.com/ethereum/tests/blob/v14.0/GeneralStateTests/VMTests/vmTests/dup.json) by Ori Pomerantz.
-    """  # noqa: E501
+    Note: Test case ported from
+    [ethereum/tests](https://github.com/ethereum/tests).
+
+    Test ported from [ethereum/tests/GeneralStateTests/VMTests/
+    vmTests/dup.json](https://github.com/ethereum/tests/blob/
+    v14.0/GeneralStateTests/VMTests/vmTests/dup.json) by Ori Pomerantz.
+    """
     env = Environment()
     sender = pre.fund_eoa()
     post = {}

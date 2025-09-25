@@ -1,7 +1,8 @@
 """
-abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663)
-    Tests for the DUPN instruction.
-"""  # noqa: E501
+DUPN instruction tests
+    Tests for DUPN instruction in
+    [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663).
+"""
 
 import pytest
 

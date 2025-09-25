@@ -81,7 +81,8 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar], Signabl
 
     def get_rlp_signing_prefix(self) -> bytes:
         """
-        Return a prefix that has to be appended to the serialized signing object.
+        Return a prefix that has to be appended to the serialized signing
+        object.
 
         By default, an empty string is returned.
         """
@@ -107,7 +108,10 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
     secret_key: Hash | None = None
 
     def model_post_init(self, __context: Any) -> None:
-        """Automatically signs the authorization tuple if a secret key or sender are provided."""
+        """
+        Automatically signs the authorization tuple if a secret key or sender
+        are provided.
+        """
         super().model_post_init(__context)
         self.sign()
 
@@ -198,7 +202,9 @@ class TransactionValidateToAsEmptyString(CamelModel):
     @model_validator(mode="before")
     @classmethod
     def validate_to_as_empty_string(cls, data: Any) -> Any:
-        """If the `to` field is an empty string, set the model value to None."""
+        """
+        If the `to` field is an empty string, set the model value to None.
+        """
         if (
             isinstance(data, dict)
             and "to" in data
@@ -210,11 +216,16 @@ class TransactionValidateToAsEmptyString(CamelModel):
 
 
 class TransactionFixtureConverter(TransactionValidateToAsEmptyString):
-    """Handler for serializing and validating the `to` field as an empty string."""
+    """
+    Handler for serializing and validating the `to` field as an empty string.
+    """
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_empty_string(self, serializer):
-        """Serialize the `to` field as the empty string if the model value is None."""
+        """
+        Serialize the `to` field as the empty string if the model value is
+        None.
+        """
         default = serializer(self)
         if default is not None and "to" not in default:
             default["to"] = ""
@@ -222,16 +233,18 @@ class TransactionFixtureConverter(TransactionValidateToAsEmptyString):
 
 
 class TransactionTransitionToolConverter(TransactionValidateToAsEmptyString):
-    """Handler for serializing and validating the `to` field as an empty string."""
+    """
+    Handler for serializing and validating the `to` field as an empty string.
+    """
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_none(self, serializer):
         """
         Serialize the `to` field as `None` if the model value is None.
 
-        This is required as we use `exclude_none=True` when serializing, but the
-        t8n tool explicitly requires a value of `None` (respectively null), for
-        if the `to` field should be unset (contract creation).
+        This is required as we use `exclude_none=True` when serializing, but
+        the t8n tool explicitly requires a value of `None` (respectively null),
+        for if the `to` field should be unset (contract creation).
         """
         default = serializer(self)
         if default is not None and "to" not in default:
@@ -250,8 +263,8 @@ class TransactionTestMetadata(CamelModel):
 
     def to_json(self) -> str:
         """
-        Convert the transaction metadata into json string for it to be embedded in the
-        request id.
+        Convert the transaction metadata into json string for it to be embedded
+        in the request id.
         """
         return self.model_dump_json(exclude_none=True, by_alias=True)
 
@@ -291,8 +304,8 @@ class Transaction(
 
     class InvalidSignaturePrivateKeyError(Exception):
         """
-        Transaction describes both the signature and private key of
-        source account.
+        Transaction describes both the signature and private key of source
+        account.
         """
 
         def __str__(self):
@@ -522,8 +535,8 @@ class Transaction(
 
     def get_rlp_signing_fields(self) -> List[str]:
         """
-        Return the list of values included in the envelope used for signing depending on
-        the transaction type.
+        Return the list of values included in the envelope used for signing
+        depending on the transaction type.
         """
         field_list: List[str]
         if self.ty == 6:
@@ -611,8 +624,8 @@ class Transaction(
 
     def get_rlp_fields(self) -> List[str]:
         """
-        Return the list of values included in the list used for rlp encoding depending on
-        the transaction type.
+        Return the list of values included in the list used for rlp encoding
+        depending on the transaction type.
         """
         fields = self.get_rlp_signing_fields()
         if self.ty == 0 and self.protected:
@@ -621,8 +634,8 @@ class Transaction(
 
     def get_rlp_prefix(self) -> bytes:
         """
-        Return the transaction type as bytes to be appended at the beginning of the
-        serialized transaction if type is not 0.
+        Return the transaction type as bytes to be appended at the beginning of
+        the serialized transaction if type is not 0.
         """
         if self.ty > 0:
             return bytes([self.ty])
@@ -630,8 +643,8 @@ class Transaction(
 
     def get_rlp_signing_prefix(self) -> bytes:
         """
-        Return the transaction type as bytes to be appended at the beginning of the
-        serialized transaction signing envelope if type is not 0.
+        Return the transaction type as bytes to be appended at the beginning of
+        the serialized transaction signing envelope if type is not 0.
         """
         if self.ty > 0:
             return bytes([self.ty])
@@ -650,7 +663,10 @@ class Transaction(
 
     @cached_property
     def serializable_list(self) -> Any:
-        """Return list of values included in the transaction as a serializable object."""
+        """
+        Return list of values included in the transaction as a serializable
+        object.
+        """
         return self.rlp() if self.ty > 0 else self.to_list(signing=False)
 
     @staticmethod
@@ -663,7 +679,9 @@ class Transaction(
 
     @staticmethod
     def list_blob_versioned_hashes(input_txs: List["Transaction"]) -> List[Hash]:
-        """Get list of ordered blob versioned hashes from a list of transactions."""
+        """
+        Get list of ordered blob versioned hashes from a list of transactions.
+        """
         return [
             blob_versioned_hash
             for tx in input_txs
@@ -687,11 +705,10 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     Network wrapped transaction as defined in
     [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844#networking).
 
-    < Osaka:
-        rlp([tx_payload_body,                   blobs, commitments, proofs])
+    < Osaka: rlp([tx_payload_body, blobs, commitments, proofs])
 
-    >= Osaka:
-        rlp([tx_payload_body, wrapper_version,  blobs, commitments, cell_proofs])
+    >= Osaka: rlp([tx_payload_body, wrapper_version,  blobs, commitments,
+                   cell_proofs])
     """
 
     tx: Transaction
@@ -740,15 +757,18 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
     def get_rlp_fields(self) -> List[str]:
         """
-        Return an ordered list of field names to be included in RLP serialization.
+        Return an ordered list of field names to be included in RLP
+        serialization.
 
         Function can be overridden to customize the logic to return the fields.
 
         By default, rlp_fields class variable is used.
 
-        The list can be nested list up to one extra level to represent nested fields.
+        The list can be nested list up to one extra level to represent nested
+        fields.
         """
-        # only put a wrapper_version field for >=osaka (value 1), otherwise omit field
+        # only put a wrapper_version field for >=osaka (value 1), otherwise
+        # omit field
         wrapper = []
         if self.wrapper_version is not None:
             wrapper = ["wrapper_version"]
@@ -761,11 +781,11 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         if self.cell_proofs is not None:
             rlp_cell_proofs = ["cell_proofs"]
 
-        rlp_fields: List[
-            str
-        ] = [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
+        rlp_fields: List[str] = [  # structure explained in
+            # https://eips.ethereum.org/EIPS/eip-7594#Networking
             "tx",  # tx_payload_body
-            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before)
+            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-
+            # existing before)
             "blobs",  # Blob.data
             "commitments",
             *rlp_proofs,
@@ -782,8 +802,8 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
     def get_rlp_prefix(self) -> bytes:
         """
-        Return the transaction type as bytes to be appended at the beginning of the
-        serialized transaction if type is not 0.
+        Return the transaction type as bytes to be appended at the beginning of
+        the serialized transaction if type is not 0.
         """
         if self.tx.ty > 0:
             return bytes([self.tx.ty])

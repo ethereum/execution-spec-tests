@@ -77,11 +77,14 @@ class TestFormatSelector:
             },
         )
 
-        # Should not generate because it needs pre-alloc but we're in single phase
+        # Should not generate because it needs pre-alloc but we're in single
+        # phase
         assert not format_selector.should_generate(format_with_pre_alloc)
 
     def test_should_generate_phase2_with_pre_alloc_format(self):
-        """Test phase 2 (after pre-alloc) with format that supports pre-alloc."""
+        """
+        Test phase 2 (after pre-alloc) with format that supports pre-alloc.
+        """
         phase_manager = PhaseManager(
             current_phase=FixtureFillingPhase.FILL,
             previous_phases={FixtureFillingPhase.PRE_ALLOC_GENERATION},
@@ -166,8 +169,12 @@ class TestFormatSelector:
         assert format_selector.should_generate(labeled_format)
 
     def test_comprehensive_scenarios(self):
-        """Test comprehensive scenarios covering all phase and format combinations."""
-        # Test matrix: (current_phase, previous_phases, format_phases, generate_all) -> expected
+        """
+        Test comprehensive scenarios covering all phase and format
+        combinations.
+        """
+        # Test matrix: (current_phase, previous_phases, format_phases,
+        # generate_all) -> expected
         test_cases: List[  # type: ignore[annotation-unchecked]
             Tuple[
                 FixtureFillingPhase, Set[FixtureFillingPhase], Set[FixtureFillingPhase], bool, bool

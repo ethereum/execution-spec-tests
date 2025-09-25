@@ -1,7 +1,10 @@
 """
-abstract: Tests BLS12_G1MUL precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_G1MUL precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Tests BLS12_G1MUL precompile.
+
+Tests the BLS12_G1MUL precompile implementation from [EIP-2537:
+Precompile for BLS12-381 curve operations]
+(https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -84,8 +87,8 @@ pytestmark = [
         pytest.param(
             Spec.P1 + Scalar(2**256 - 1),
             PointG1(
-                0x3DA1F13DDEF2B8B5A46CD543CE56C0A90B8B3B0D6D43DEC95836A5FD2BACD6AA8F692601F870CF22E05DDA5E83F460B,  # noqa: E501
-                0x18D64F3C0E9785365CBDB375795454A8A4FA26F30B9C4F6E33CA078EB5C29B7AEA478B076C619BC1ED22B14C95569B2D,  # noqa: E501
+                0x3DA1F13DDEF2B8B5A46CD543CE56C0A90B8B3B0D6D43DEC95836A5FD2BACD6AA8F692601F870CF22E05DDA5E83F460B,
+                0x18D64F3C0E9785365CBDB375795454A8A4FA26F30B9C4F6E33CA078EB5C29B7AEA478B076C619BC1ED22B14C95569B2D,
             ),
             None,
             id="max_scalar_times_point",
@@ -182,7 +185,8 @@ def test_valid(
             id="swapped_coordinates_times_0",
         ),
         pytest.param(
-            PointG1(0x01, 0x07) + Scalar(0),  # Point on wrong curve y^2 = x^3 + 5
+            # Point on wrong curve y^2 = x^3 + 5
+            PointG1(0x01, 0x07) + Scalar(0),
             id="point_on_wrong_curve_times_0",
         ),
         pytest.param(
@@ -294,7 +298,8 @@ def test_valid(
             Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q + 1),
             id="not_in_subgroup_times_q_plus_1",
         ),
-        # More not in the r-order subgroup test cases, but using random generated points.
+        # More not in the r-order subgroup test cases, but using random
+        # generated points.
         pytest.param(
             G1_POINTS_NOT_IN_SUBGROUP[0] + Scalar(1),
             id="rand_not_in_subgroup_0_times_1",

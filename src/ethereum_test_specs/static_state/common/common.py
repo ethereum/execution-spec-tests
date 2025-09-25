@@ -69,7 +69,8 @@ class CodeInFiller(BaseModel, TagDependentData):
         """Validate from string, separating label from code source."""
         if isinstance(code, str):
             label_marker = ":label"
-            # Only look for label at the beginning of the string (possibly after whitespace)
+            # Only look for label at the beginning of the string (possibly
+            # after whitespace)
             stripped_code = code.lstrip()
 
             # Parse :label into code options
@@ -123,7 +124,8 @@ class CodeInFiller(BaseModel, TagDependentData):
                 substitution_address = f"{tag.resolve(tags)}"
                 if not keep_prefix and substitution_address.startswith("0x"):
                     substitution_address = substitution_address[2:]
-                # Use the original string if available, otherwise construct a pattern
+                # Use the original string if available, otherwise construct a
+                # pattern
                 if hasattr(tag, "original_string") and tag.original_string:
                     raw_code = raw_code.replace(tag.original_string, substitution_address)
                 else:
@@ -192,9 +194,11 @@ class CodeInFiller(BaseModel, TagDependentData):
                         [parameter_str],
                         [
                             [
-                                int(t.lower(), 0) & ((1 << 256) - 1)  # treat big ints as 256bits
+                                # treat big ints as 256bits
+                                int(t.lower(), 0) & ((1 << 256) - 1)
                                 if parameter_types[t_index] == "uint"
-                                else int(t.lower(), 0) > 0  # treat positive values as True
+                                # treat positive values as True
+                                else int(t.lower(), 0) > 0
                                 if parameter_types[t_index] == "bool"
                                 else False and ValueError("unhandled parameter_types")
                                 for t_index, t in enumerate(tokens[1:])
@@ -217,15 +221,18 @@ class CodeInFiller(BaseModel, TagDependentData):
                 # - using lllc
                 result = subprocess.run(["lllc", tmp_path], capture_output=True, text=True)
 
-                # - using docker:
-                #   If the running machine does not have lllc installed, we can use docker to
-                #   run lllc, but we need to start a container first, and the process is generally
-                #   slower.
+                # - using docker: If the running machine does not have lllc
+                # installed, we can use docker to run lllc, but we need to
+                # start a container first, and the process is generally slower.
+                #
                 # from .docker import get_lllc_container_id
-                # result = subprocess.run(
-                #     ["docker", "exec", get_lllc_container_id(), "lllc", tmp_path[5:]],
+                # result = subprocess.run( ["docker",
+                #     "exec",
+                #     get_lllc_container_id(),
+                #     "lllc",
+                #     tmp_path[5:]],
                 #     capture_output=True,
-                #     text=True,
+                #     text=True
                 # )
                 compiled_code = "".join(result.stdout.splitlines())
 
@@ -245,15 +252,16 @@ class CodeInFiller(BaseModel, TagDependentData):
 class AddressTag:
     """
     Represents an address tag like:
-        - <eoa:sender:0x...>.
-        - <contract:target:0x...>.
-        - <coinbase:0x...>.
+    - <eoa:sender:0x...>.
+    - <contract:target:0x...>.
+    - <coinbase:0x...>.
     """
 
     def __init__(self, tag_type: str, tag_name: str, original_string: str):
         """Initialize address tag."""
         self.tag_type = tag_type  # "eoa", "contract", or "coinbase"
-        self.tag_name = tag_name  # e.g., "sender", "target", or address for 2-part tags
+        # e.g., "sender", "target", or address for 2-part tags
+        self.tag_name = tag_name
         self.original_string = original_string
 
     def __str__(self) -> str:
@@ -317,8 +325,8 @@ def parse_address_or_tag(value: Any) -> Union[Address, AddressTag]:
 
 def parse_address_or_tag_for_access_list(value: Any) -> Union[Address, str]:
     """
-    Parse either a regular address or an address tag, keeping tags as strings for later
-    resolution.
+    Parse either a regular address or an address tag, keeping tags as strings
+    for later resolution.
     """
     if not isinstance(value, str):
         # Non-string values should be converted to Address normally
@@ -344,7 +352,9 @@ HashOrTagInFiller = SenderKeyTag | Hash
 
 
 class AccessListInFiller(CamelModel, TagDependentData):
-    """Access List for transactions in fillers that can contain address tags."""
+    """
+    Access List for transactions in fillers that can contain address tags.
+    """
 
     address: AddressOrTagInFiller
     storage_keys: List[Hash] = Field(default_factory=list)

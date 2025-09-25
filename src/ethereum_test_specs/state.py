@@ -46,7 +46,9 @@ logger = get_logger(__name__)
 
 
 class StateTest(BaseTest):
-    """Filler type that tests transactions over the period of a single block."""
+    """
+    Filler type that tests transactions over the period of a single block.
+    """
 
     env: Environment = Field(default_factory=Environment)
     pre: Alloc
@@ -70,7 +72,8 @@ class StateTest(BaseTest):
             f"A {fixture_format.format_name} generated from a state_test",
         )
         for fixture_format in BlockchainTest.supported_fixture_formats
-        # Exclude sync fixtures from state tests - they don't make sense for state tests
+        # Exclude sync fixtures from state tests - they don't make sense for
+        # state tests
         if not (
             (hasattr(fixture_format, "__name__") and "Sync" in fixture_format.__name__)
             or (hasattr(fixture_format, "format") and "Sync" in fixture_format.format.__name__)
@@ -173,26 +176,33 @@ class StateTest(BaseTest):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard a fixture format from filling if the appropriate marker is used."""
+        """
+        Discard a fixture format from filling if the appropriate marker is
+        used.
+        """
         if "state_test_only" in [m.name for m in markers]:
             return fixture_format != StateFixture
         return False
 
     def _generate_blockchain_genesis_environment(self, *, fork: Fork) -> Environment:
-        """Generate the genesis environment for the BlockchainTest formatted test."""
+        """
+        Generate the genesis environment for the BlockchainTest formatted test.
+        """
         assert self.env.number >= 1, (
             "genesis block number cannot be negative, set state test env.number to at least 1"
         )
         assert self.env.timestamp >= 1, (
             "genesis timestamp cannot be negative, set state test env.timestamp to at least 1"
         )
-        # There's only a handful of values that we need to set in the genesis for the
-        # environment values at block 1 to make sense:
+        # There's only a handful of values that we need to set in the genesis
+        # for the environment values at block 1 to make sense:
         # - Number: Needs to be N minus 1
-        # - Timestamp: Needs to be zero, because the subsequent block can come at any time.
+        # - Timestamp: Needs to be zero, because the subsequent
+        #              block can come at any time.
         # - Gas Limit: Changes from parent to child, needs to be set in genesis
         # - Base Fee Per Gas: Block's base fee depends on the parent's value
-        # - Excess Blob Gas: Block's excess blob gas value depends on the parent's value
+        # - Excess Blob Gas: Block's excess blob gas value depends on
+        #                    the parent's value
         kwargs: Dict[str, Any] = {
             "number": self.env.number - 1,
             "timestamp": 0,
@@ -208,11 +218,13 @@ class StateTest(BaseTest):
             )
 
         if self.env.excess_blob_gas:
-            # The excess blob gas environment value means the value of the context (block header)
-            # where the transaction is executed. In a blockchain test, we need to indirectly
-            # set the excess blob gas by setting the excess blob gas of the genesis block
-            # to the expected value plus the TARGET_BLOB_GAS_PER_BLOCK, which is the value
-            # that will be subtracted from the excess blob gas when the first block is mined.
+            # The excess blob gas environment value means the value of the
+            # context (block header) where the transaction is executed. In a
+            # blockchain test, we need to indirectly set the excess blob gas by
+            # setting the excess blob gas of the genesis block to the expected
+            # value plus the TARGET_BLOB_GAS_PER_BLOCK, which is the value that
+            # will be subtracted from the excess blob gas when the first block
+            # is mined.
             kwargs["excess_blob_gas"] = self.env.excess_blob_gas + (
                 fork.target_blobs_per_block() * fork.blob_gas_per_blob()
             )
@@ -220,7 +232,10 @@ class StateTest(BaseTest):
         return Environment(**kwargs)
 
     def _generate_blockchain_blocks(self, *, fork: Fork) -> List[Block]:
-        """Generate the single block that represents this state test in a BlockchainTest format."""
+        """
+        Generate the single block that represents this state test in a
+        BlockchainTest format.
+        """
         kwargs = {
             "number": self.env.number,
             "timestamp": self.env.timestamp,
@@ -261,7 +276,8 @@ class StateTest(BaseTest):
     ) -> StateFixture:
         """Create a fixture from the state test definition."""
         # We can't generate a state test fixture that names a transition fork,
-        # so we get the fork at the block number and timestamp of the state test
+        # so we get the fork at the block number and timestamp of the state
+        # test
         fork = fork.fork_at(self.env.number, self.env.timestamp)
 
         env = self.env.set_fork_requirements(fork)
@@ -315,8 +331,9 @@ class StateTest(BaseTest):
 
             assert base_tool_output.result.traces is not None, "Traces not found."
 
-            # First try reducing the gas limit only by one, if the validation fails, it means
-            # that the traces change even with the slightest modification to the gas.
+            # First try reducing the gas limit only by one, if the validation
+            # fails, it means that the traces change even with the slightest
+            # modification to the gas.
             if self.verify_modified_gas_limit(
                 t8n=t8n,
                 base_tool_output=base_tool_output,

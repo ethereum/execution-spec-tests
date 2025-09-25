@@ -39,13 +39,16 @@ class EthereumJSTransitionTool(TransitionTool):
     def is_fork_supported(self, fork: Fork) -> bool:
         """
         Return True if the fork is supported by the tool.
+
         Currently, EthereumJS-t8n provides no way to determine supported forks.
         """
         return True
 
 
 class EthereumJSExceptionMapper(ExceptionMapper):
-    """Translate between EEST exceptions and error strings returned by EthereumJS."""
+    """
+    Translate between EEST exceptions and error strings returned by EthereumJS.
+    """
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (

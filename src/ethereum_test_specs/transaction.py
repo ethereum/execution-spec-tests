@@ -23,7 +23,9 @@ from .base import BaseTest
 
 
 class TransactionTest(BaseTest):
-    """Filler type that tests the transaction over the period of a single block."""
+    """
+    Filler type that tests the transaction over the period of a single block.
+    """
 
     tx: Transaction
     pre: Alloc | None = None

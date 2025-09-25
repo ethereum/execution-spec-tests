@@ -56,7 +56,10 @@ def test_cross_version_creates_fail_light(
     legacy_create_opcode: Opcodes,
     initcode: Bytes | Container,
 ):
-    """Verifies that CREATE and CREATE2 cannot run EOF initcodes and fail early on attempt."""
+    """
+    Verifies that CREATE and CREATE2 cannot run EOF initcodes and fail early on
+    attempt.
+    """
     env = Environment()
 
     sender = pre.fund_eoa()
@@ -66,7 +69,8 @@ def test_cross_version_creates_fail_light(
     contract_address = pre.deploy_contract(
         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         + Op.SSTORE(slot_create_address, legacy_create_opcode(size=Op.CALLDATASIZE))
-        # Approximates whether code until here consumed the 63/64th gas given to subcall
+        # Approximates whether code until here consumed the 63/64th gas given
+        # to subcall
         + Op.SSTORE(slot_all_subcall_gas_gone, Op.LT(Op.GAS, tx_gas_limit // 64))
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP
@@ -126,8 +130,8 @@ def test_cross_version_creates_fail_hard(
     initcode: Bytes,
 ):
     """
-    Verifies that CREATE and CREATE2 fail hard on attempt to run initcode starting with `EF` but
-    not `EF00`.
+    Verifies that CREATE and CREATE2 fail hard on attempt to run initcode
+    starting with `EF` but not `EF00`.
     """
     env = Environment()
 
@@ -138,7 +142,8 @@ def test_cross_version_creates_fail_hard(
     contract_address = pre.deploy_contract(
         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         + Op.SSTORE(slot_create_address, legacy_create_opcode(size=Op.CALLDATASIZE))
-        # Approximates whether code until here consumed the 63/64th gas given to subcall
+        # Approximates whether code until here consumed the 63/64th gas given
+        # to subcall
         + Op.SSTORE(slot_all_subcall_gas_gone, Op.LT(Op.GAS, tx_gas_limit // 64))
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP

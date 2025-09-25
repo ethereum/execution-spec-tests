@@ -55,15 +55,17 @@ class ScenariosCallCombinations:
 
     def generate(self) -> List[Scenario]:
         """
-        Generate Scenarios for call combinations
-        We take code that we want to test at scenario_input.operation_contract
-        and put it in the context of call combinations.
+        Generate Scenarios for call combinations We take code that we want to
+        test at scenario_input.operation_contract and put it in the context of
+        call combinations.
 
         Example:
-        root_contract -> call -> scenario_contract -> first_call -> sub_contract
-        sub_contact -> second_call -> code
-        We assume that code always returns it's result
-        That we pass as return value in scenario_contract for the post state verification
+        root_contract -> call -> scenario_contract -> first_call ->
+        sub_contract sub_contact -> second_call -> code
+
+        We assume that code always returns its result.
+        That we pass as return value in scenario_contract for the
+        post state verification.
 
         """
         scenarios_list: List[Scenario] = []
@@ -80,8 +82,8 @@ class ScenariosCallCombinations:
 
     def _generate_one_call_scenario(self, first_call: Opcode) -> Scenario:
         """
-        Generate scenario for only one call
-        root_contract -(CALL)-> scenario_contract -(first_call)-> operation_contract.
+        Generate scenario for only one call root_contract -(CALL)->
+        scenario_contract -(first_call)-> operation_contract.
         """
         scenario_input: ScenarioGeneratorInput = self.scenario_input
         pre: Alloc = scenario_input.pre
@@ -162,15 +164,16 @@ class ScenariosCallCombinations:
 
     def _generate_two_call_scenario(self, first_call: Opcode, second_call: Opcode) -> Scenario:
         """
-        Generate scenario for two types of calls combination
-        root_contract -(CALL)-> scenario_contract -(first_call)-> sub_contract
-        sub_contract -(second_call) -> operation_contract.
+        Generate scenario for two types of calls combination root_contract
+        -(CALL)-> scenario_contract -(first_call)-> sub_contract sub_contract
+        -(second_call) -> operation_contract.
         """
 
         def _compute_code_caller() -> Address:
             """
-            Calculate who is the code caller in program_contract's code in given sequence
-            root -CALL-> scenario_contract -(first_call)-> sub_contract -(second_call)-> program.
+            Calculate who is the code caller in program_contract's code in
+            given sequence root -CALL-> scenario_contract -(first_call)
+            -> sub_contract -(second_call)-> program.
             """
             code_caller: Address = root_contract
             if first_call == Op.DELEGATECALL:
@@ -188,8 +191,9 @@ class ScenariosCallCombinations:
 
         def _compute_selfbalance() -> int:
             """
-            Calculate the result of Op.SELFBALANCE in program scope in given sequence
-            root -CALL-> scenario_contract -(first_call)-> sub_contract -(second_call)-> program.
+            Calculate the result of Op.SELFBALANCE in program scope in given
+            sequence root -CALL-> scenario_contract -(first_call)->
+            sub_contract -(second_call)-> program.
             """
             selfbalance: int = 0
             if second_call in [Op.CALL]:
@@ -214,7 +218,8 @@ class ScenariosCallCombinations:
         def _compute_callvalue() -> int:
             """
             Calculate the expected callvalue in program scope given sequence:
-            root -CALL-> scenario_contract -(first_call)-> sub_contract -(second_call)-> program.
+            root -CALL-> scenario_contract -(first_call)-> sub_contract
+            -(second_call)-> program.
             """
             if second_call == Op.STATICCALL:
                 return 0

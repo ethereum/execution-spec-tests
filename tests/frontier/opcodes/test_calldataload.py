@@ -53,10 +53,15 @@ def test_calldataload(
     Test `CALLDATALOAD` opcode.
 
     Tests two scenarios:
-    - calldata_source is "contract": CALLDATALOAD reads from calldata passed by another contract
-    - calldata_source is "tx": CALLDATALOAD reads directly from transaction calldata
+    - calldata_source is "contract": CALLDATALOAD reads from calldata
+                                     passed by another contract
+    - calldata_source is "tx": CALLDATALOAD reads directly from
+                               transaction calldata
 
-    Based on https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml
+    Based on
+    https://github.com/ethereum/tests/blob/
+    ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/
+    GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml
     """
     contract_address = pre.deploy_contract(
         Op.SSTORE(0, Op.CALLDATALOAD(offset=calldata_offset)) + Op.STOP,

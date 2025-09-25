@@ -33,8 +33,8 @@ from ethereum_test_types import Alloc, Environment
 class AddressOverrideDict(EthereumTestRootModel):
     """
     Dictionary with overrides to the default addresses specified for each fork.
-    Required for testnets or devnets which have a different location of precompiles or system
-    contracts.
+    Required for testnets or devnets which have a different location of
+    precompiles or system contracts.
     """
 
     root: Dict[Address, Address]
@@ -73,8 +73,8 @@ class ForkConfigBuilder(BaseModel):
 
     def get_config(self, fork_id: ForkHash) -> ForkConfig:
         """
-        Get the current and next fork configurations given the current time and the network
-        configuration.
+        Get the current and next fork configurations given the current time and
+        the network configuration.
         """
         return ForkConfig(
             activation_time=self.activation_time,
@@ -87,7 +87,10 @@ class ForkConfigBuilder(BaseModel):
 
 
 def calculate_fork_id(genesis_hash: Hash, activation_times: Set[int]) -> ForkHash:
-    """Calculate the fork Id given the genesis hash and each fork activation times."""
+    """
+    Calculate the fork Id given the genesis hash and each fork activation
+    times.
+    """
     buffer = bytes(genesis_hash)
     for activation_time in sorted(activation_times):
         if activation_time == 0:
@@ -275,9 +278,11 @@ class GenesisConfig(CamelModel):
     @classmethod
     def preprocess_fork_times_blocks(cls, data: Any):
         """
-        Pre-process the dictionary to put fork block numbers and times in the correct format.
+        Pre-process the dictionary to put fork block numbers and times in the
+        correct format.
 
-        Fork times and block numbers have the following format in the root of the object:
+        Fork times and block numbers have the following format in the root of
+        the object:
 
         ```
         "berlinBlock": 0,
@@ -287,8 +292,8 @@ class GenesisConfig(CamelModel):
         "osakaTime": 1753379304,
         ```
 
-        This function strips the "*Block" and "*Time" part and moves the values.
-
+        This function strips the "*Block" and "*Time" part and moves the
+        values.
         """
         if isinstance(data, dict):
             fork_activation_times: Dict[str, int] = {}

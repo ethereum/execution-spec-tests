@@ -1,7 +1,9 @@
 """
-abstract: Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Tests BLS12_MAP_FP_TO_G1 precompile.
+
+Tests the BLS12_MAP_FP_TO_G1 precompile implementation from
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -21,8 +23,8 @@ pytestmark = [
 ]
 
 G1_POINT_ZERO_FP = PointG1(
-    0x11A9A0372B8F332D5C30DE9AD14E50372A73FA4C45D5F2FA5097F2D6FB93BCAC592F2E1711AC43DB0519870C7D0EA415,  # noqa: E501
-    0x92C0F994164A0719F51C24BA3788DE240FF926B55F58C445116E8BC6A47CD63392FD4E8E22BDF9FEAA96EE773222133,  # noqa: E501
+    0x11A9A0372B8F332D5C30DE9AD14E50372A73FA4C45D5F2FA5097F2D6FB93BCAC592F2E1711AC43DB0519870C7D0EA415,
+    0x92C0F994164A0719F51C24BA3788DE240FF926B55F58C445116E8BC6A47CD63392FD4E8E22BDF9FEAA96EE773222133,
 )
 
 
@@ -40,15 +42,15 @@ G1_POINT_ZERO_FP = PointG1(
         pytest.param(
             FP(Spec.P - 1),
             PointG1(
-                0x1073311196F8EF19477219CCEE3A48035FF432295AA9419EED45D186027D88B90832E14C4F0E2AA4D15F54D1C3ED0F93,  # noqa: E501
-                0x16B3A3B2E3DDDF6A11459DDAF657FDE21C4F10282A56029D9B55AB3CE1F41E1CF39AD27E0EA35823C7D3250E81FF3D66,  # noqa: E501
+                0x1073311196F8EF19477219CCEE3A48035FF432295AA9419EED45D186027D88B90832E14C4F0E2AA4D15F54D1C3ED0F93,
+                0x16B3A3B2E3DDDF6A11459DDAF657FDE21C4F10282A56029D9B55AB3CE1F41E1CF39AD27E0EA35823C7D3250E81FF3D66,
             ),
             None,
             id="fp_p_minus_1",
         ),
         pytest.param(
             FP(
-                799950832265136997107648781861994410980648980263584507133499364313075404851459407870655748616451882783569609925573  # noqa: E501
+                799950832265136997107648781861994410980648980263584507133499364313075404851459407870655748616451882783569609925573
             ),
             Spec.INF_G1,
             None,
@@ -88,12 +90,12 @@ def test_isogeny_kernel_values(
     """
     Test the BLS12_MAP_FP_TO_G1 precompile with isogeny kernel inputs.
 
-    The isogeny kernel is simply the set of special field values, that after the two step mapping
-    (first SWU onto an auxiliary curve, then an 11-degree isogeny back to G1), collapse exactly
-    to the identity point.
+    The isogeny kernel is simply the set of special field values, that after
+    the two step mapping (first SWU onto an auxiliary curve, then an 11-degree
+    isogeny back to G1), collapse exactly to the identity point.
 
-    Please proceed to the generator in `helpers.py` to see how the isogeny kernel values are
-    generated.
+    Please proceed to the generator in `helpers.py` to see how the isogeny
+    kernel values are generated.
     """
     state_test(
         env=Environment(),

@@ -15,7 +15,9 @@ from ethereum_test_fixtures import PreAllocGroups
 
 def extract_test_module(test_id: str) -> str:
     """Extract test module path from test ID."""
-    # Example: tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls[fork_Cancun]  # noqa: E501
+    # Example:
+    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::
+    #     test_beacon_root_contract_calls[fork_Cancun]
     if "::" in test_id:
         return test_id.split("::")[0]
     return "unknown"
@@ -23,8 +25,12 @@ def extract_test_module(test_id: str) -> str:
 
 def extract_test_function(test_id: str) -> str:
     """Extract test function name from test ID (without parameters)."""
-    # Example: tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls[fork_Cancun]  # noqa: E501
-    # Returns: tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls  # noqa: E501
+    # Example:
+    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::
+    #     test_beacon_root_contract_calls[fork_Cancun]
+    #  Returns:
+    # tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::
+    #     test_beacon_root_contract_calls
     if "::" in test_id:
         parts = test_id.split("::")
         if len(parts) >= 2:
@@ -43,9 +49,10 @@ def calculate_size_distribution(
     Calculate frequency distribution of group sizes with appropriate binning.
 
     Returns:
-        - Group count distribution: [(range_label, group_count), ...]
-        - Test count distribution: [(range_label, test_count, cumulative_remaining, group_count),
-            ...]
+      Group count distribution: [(range_label, group_count), ...]
+      Test count distribution:  [(range_label, test_count,
+                                  cumulative_remaining,
+                                  group_count), ...]
 
     """
     if not test_counts:
@@ -80,12 +87,15 @@ def calculate_size_distribution(
 
             # Test count distribution with group count
             tests_in_bin = sum(groups_in_bin)
-            test_distribution.append((label, tests_in_bin, 0, group_count))  # Added group_count
+            # Added group_count
+            test_distribution.append((label, tests_in_bin, 0, group_count))
 
-    # Calculate cumulative values
-    # For the table sorted from largest to smallest:
-    # - Row N shows: if we exclude groups of size N and smaller, what % of tests remain?
-    # - Row N shows: if we include groups of size N and larger, how many groups is that?
+    # Calculate cumulative values For the table sorted from largest to
+    # smallest:
+    #   Row N shows: if we exclude groups of size N and smaller, what
+    #                percent of tests remain?
+    #   Row N shows: if we include groups of size N and
+    #                larger, how many groups is that?
 
     cumulative_remaining_tests = 0
     cumulative_groups = 0
@@ -167,7 +177,8 @@ def analyze_pre_alloc_folder(folder: Path) -> Dict:
             split_test_functions[test_function].groups += 1
             split_test_functions[test_function].forks.add(fork)
 
-    # Filter to only test functions with multiple size-1 groups and calculate ratios
+    # Filter to only test functions with multiple size-1 groups and calculate
+    # ratios
     split_functions = {}
     for func, split_test_function in split_test_functions.items():
         if split_test_function.groups > 1:
@@ -355,7 +366,8 @@ def display_stats(stats: Dict, console: Console, verbose: int = 0):
         # Sort modules by group count (descending) - shows execution complexity
         sorted_modules = sorted(
             stats["module_stats"].items(),
-            key=lambda x: (-x[1]["groups"], -x[1]["tests"]),  # Secondary sort by tests
+            # Secondary sort by tests
+            key=lambda x: (-x[1]["groups"], -x[1]["tests"]),
         )
 
         # Show all modules if -vv, otherwise top 15
@@ -412,7 +424,8 @@ def display_stats(stats: Dict, console: Console, verbose: int = 0):
             # Shorten function path for display
             display_function = test_function
             if display_function.startswith("tests/"):
-                display_function = display_function[6:]  # Remove "tests/" prefix
+                display_function = display_function[6:]  # Remove "tests/"
+                # prefix
 
             split_table.add_row(
                 display_function,
@@ -475,7 +488,6 @@ def main(pre_alloc_folder: Path, verbose: int):
     The pre_alloc file is generated when running tests with the
     --generate-pre-alloc-groups and --use-pre-alloc-groups flags to optimize
     test execution by grouping tests with identical pre-allocation state.
-
     """
     console = Console()
 

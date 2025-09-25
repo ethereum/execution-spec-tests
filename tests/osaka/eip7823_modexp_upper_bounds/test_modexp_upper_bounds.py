@@ -1,6 +1,5 @@
 """
-abstract: Test [EIP-7823: Set upper bounds for MODEXP](https://eips.ethereum.org/EIPS/eip-7823)
-    Tests upper bounds of the MODEXP precompile.
+Test [EIP-7823: Set upper bounds for MODEXP](https://eips.ethereum.org/EIPS/eip-7823).
 """
 
 from typing import Dict
@@ -76,7 +75,8 @@ REFERENCE_SPEC_VERSION = ref_spec_7823.version
         pytest.param(
             ModExpInput(
                 base=b"",
-                # Non-zero exponent is cancelled with zero multiplication complexity pre EIP-7823.
+                # Non-zero exponent is cancelled with zero multiplication
+                # complexity pre EIP-7823.
                 exponent=b"\xff" * (Spec.MAX_LENGTH_BYTES + 1),
                 modulus=b"",
             ),
@@ -293,7 +293,10 @@ def test_modexp_upper_bounds_fork_transition(
     modexp_input: ModExpInput,
     modexp_expected: bytes,
 ):
-    """Test MODEXP upper bounds enforcement transition from before to after Osaka hard fork."""
+    """
+    Test MODEXP upper bounds enforcement transition from before to after Osaka
+    hard fork.
+    """
     call_code = Op.CALL(
         address=Spec.MODEXP_ADDRESS,
         args_size=Op.CALLDATASIZE,

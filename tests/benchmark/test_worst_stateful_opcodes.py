@@ -1,7 +1,4 @@
 """
-abstract: Tests that benchmark EVMs for worst-case stateful opcodes.
-    Tests that benchmark EVMs for worst-case stateful opcodes.
-
 Tests that benchmark EVMs for worst-case stateful opcodes.
 """
 
@@ -55,14 +52,17 @@ def test_worst_address_state_cold(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many stateful opcodes accessing cold accounts."""
+    """
+    Test running a block with as many stateful opcodes accessing cold accounts.
+    """
     attack_gas_limit = gas_benchmark_value
 
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    # For calculation robustness, the calculation below ignores "glue" opcodes like  PUSH and POP.
-    # It should be considered a worst-case number of accounts, and a few of them might not be
-    # targeted before the attacking transaction runs out of gas.
+    # For calculation robustness, the calculation below ignores "glue" opcodes
+    # like  PUSH and POP. It should be considered a worst-case number of
+    # accounts, and a few of them might not be targeted before the attacking
+    # transaction runs out of gas.
     num_target_accounts = (
         attack_gas_limit - intrinsic_gas_cost_calc()
     ) // gas_costs.G_COLD_ACCOUNT_ACCESS
@@ -70,10 +70,10 @@ def test_worst_address_state_cold(
     blocks = []
     post = {}
 
-    # Setup
-    # The target addresses are going to be constructed (in the case of absent=False) and called
-    # as addr_offset + i, where i is the index of the account. This is to avoid
-    # collisions with the addresses indirectly created by the testing framework.
+    # Setup The target addresses are going to be constructed (in the case of
+    # absent=False) and called as addr_offset + i, where i is the index of the
+    # account. This is to avoid collisions with the addresses indirectly
+    # created by the testing framework.
     addr_offset = int.from_bytes(pre.fund_eoa(amount=0))
 
     if not absent_accounts:
@@ -142,7 +142,10 @@ def test_worst_address_state_warm(
     absent_target: bool,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many stateful opcodes doing warm access for an account."""
+    """
+    Test running a block with as many stateful opcodes doing warm access for an
+    account.
+    """
     max_code_size = fork.max_code_size()
     attack_gas_limit = gas_benchmark_value
 
@@ -253,7 +256,9 @@ def test_worst_storage_access_cold(
     gas_benchmark_value: int,
     tx_result: TransactionResult,
 ):
-    """Test running a block with as many cold storage slot accesses as possible."""
+    """
+    Test running a block with as many cold storage slot accesses as possible.
+    """
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
     attack_gas_limit = gas_benchmark_value
@@ -280,7 +285,8 @@ def test_worst_storage_access_cold(
         execution_code_body = Op.SSTORE(Op.DUP1, Op.DUP1)
         loop_cost += gas_costs.G_VERY_LOW * 2
     elif storage_action == StorageAction.WRITE_NEW_VALUE:
-        # The new value 2^256-1 is guaranteed to be different from the initial value.
+        # The new value 2^256-1 is guaranteed to be different from the initial
+        # value.
         execution_code_body = Op.SSTORE(Op.DUP2, Op.NOT(0))
         loop_cost += gas_costs.G_VERY_LOW * 3
     elif storage_action == StorageAction.READ:
@@ -336,8 +342,9 @@ def test_worst_storage_access_cold(
             condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
         )
 
-    # To create the contract, we apply the slots_init code to initialize the storage slots
-    # (int the case of absent_slots=False) and then copy the execution code to the contract.
+    # To create the contract, we apply the slots_init code to initialize the
+    # storage slots (int the case of absent_slots=False) and then copy the
+    # execution code to the contract.
     creation_code = (
         slots_init
         + Op.EXTCODECOPY(
@@ -393,7 +400,9 @@ def test_worst_storage_access_warm(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many warm storage slot accesses as possible."""
+    """
+    Test running a block with as many warm storage slot accesses as possible.
+    """
     attack_gas_limit = gas_benchmark_value
 
     blocks = []
@@ -455,7 +464,10 @@ def test_worst_blockhash(
     pre: Alloc,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many blockhash accessing oldest allowed block as possible."""
+    """
+    Test running a block with as many blockhash accessing oldest allowed block
+    as possible.
+    """
     # Create 256 dummy blocks to fill the blockhash window.
     blocks = [Block()] * 256
 
@@ -560,7 +572,10 @@ def test_worst_selfdestruct_existing(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many SELFDESTRUCTs as possible for existing contracts."""
+    """
+    Test running a block with as many SELFDESTRUCTs as possible for existing
+    contracts.
+    """
     attack_gas_limit = gas_benchmark_value
     fee_recipient = pre.fund_eoa(amount=1)
 
@@ -574,12 +589,14 @@ def test_worst_selfdestruct_existing(
     ) + Op.RETURN(0, Op.EXTCODESIZE(selfdestructable_contract_addr))
     initcode_address = pre.deploy_contract(code=initcode)
 
-    # Calculate the number of contracts that can be deployed with the available gas.
+    # Calculate the number of contracts that can be deployed with the available
+    # gas.
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
     loop_cost = (
         gas_costs.G_KECCAK_256  # KECCAK static cost
-        + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic cost for CREATE2
+        + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic
+        # cost for CREATE2
         + gas_costs.G_VERY_LOW * 3  # ~MSTOREs+ADDs
         + gas_costs.G_COLD_ACCOUNT_ACCESS  # CALL to self-destructing contract
         + gas_costs.G_SELF_DESTRUCT
@@ -598,9 +615,9 @@ def test_worst_selfdestruct_existing(
     num_contracts = (attack_gas_limit - base_costs) // loop_cost
     expected_benchmark_gas_used = num_contracts * loop_cost + base_costs
 
-    # Create a factory that deployes a new SELFDESTRUCT contract instance pre-funded depending on
-    # the value_bearing parameter. We use CREATE2 so the caller contract can easily reproduce
-    # the addresses in a loop for CALLs.
+    # Create a factory that deployes a new SELFDESTRUCT contract instance pre-
+    # funded depending on the value_bearing parameter. We use CREATE2 so the
+    # caller contract can easily reproduce the addresses in a loop for CALLs.
     factory_code = (
         Op.EXTCODECOPY(
             address=initcode_address,
@@ -621,7 +638,8 @@ def test_worst_selfdestruct_existing(
         + Op.RETURN(0, 32)
     )
 
-    required_balance = num_contracts if value_bearing else 0  # 1 wei per contract
+    required_balance = num_contracts if value_bearing else 0  # 1 wei per
+    # contract
     factory_address = pre.deploy_contract(code=factory_code, balance=required_balance)
 
     factory_caller_code = Op.CALLDATALOAD(0) + While(
@@ -648,8 +666,8 @@ def test_worst_selfdestruct_existing(
         + While(
             body=Op.POP(Op.CALL(address=Op.SHA3(32 - 20 - 1, 85)))
             + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
-            # Only loop if we have enough gas to cover another iteration plus the
-            # final storage gas.
+            # Only loop if we have enough gas to cover another iteration plus
+            # the final storage gas.
             condition=Op.GT(Op.GAS, final_storage_gas + loop_cost),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
@@ -700,8 +718,8 @@ def test_worst_selfdestruct_created(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in
-    the same transaction.
+    Test running a block with as many SELFDESTRUCTs as possible for deployed
+    contracts in the same transaction.
     """
     fee_recipient = pre.fund_eoa(amount=1)
     env.fee_recipient = fee_recipient
@@ -779,7 +797,8 @@ def test_worst_selfdestruct_created(
         sender=pre.fund_eoa(),
     )
 
-    post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
+    post = {code_addr: Account(storage={0: 42})}  # Check for successful
+    # execution.
     state_test(
         env=env,
         pre=pre,
@@ -798,7 +817,10 @@ def test_worst_selfdestruct_initcode(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many SELFDESTRUCTs as possible executed in initcode."""
+    """
+    Test running a block with as many SELFDESTRUCTs as possible executed in
+    initcode.
+    """
     fee_recipient = pre.fund_eoa(amount=1)
     env.fee_recipient = fee_recipient
 
@@ -861,7 +883,8 @@ def test_worst_selfdestruct_initcode(
         sender=pre.fund_eoa(),
     )
 
-    post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
+    post = {code_addr: Account(storage={0: 42})}  # Check for successful
+    # execution.
     state_test(
         env=env,
         pre=pre,

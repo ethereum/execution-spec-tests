@@ -1,6 +1,8 @@
 """
-abstract: Tests [EIP-7825 Transaction Gas Limit Cap](https://eips.ethereum.org/EIPS/eip-7825)
-    Test cases for [EIP-7825 Transaction Gas Limit Cap](https://eips.ethereum.org/EIPS/eip-7825)].
+Transaction gas limit cap fork transition tests.
+
+Tests for fork transition behavior in [EIP-7825: Transaction Gas Limit
+Cap](https://eips.ethereum.org/EIPS/eip-7825).
 """
 
 import pytest
@@ -44,8 +46,8 @@ def test_transaction_gas_limit_cap_at_transition(
     """
     Test transaction gas limit cap behavior at the Osaka transition.
 
-    Before timestamp 15000: No gas limit cap (transactions with gas > 2^24 are valid)
-    At/after timestamp 15000: Gas limit cap of 2^24 is enforced
+    Before timestamp 15000: No gas limit cap (transactions with gas > 2^24 are
+    valid) At/after timestamp 15000: Gas limit cap of 2^24 is enforced
     """
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(Op.TIMESTAMP, Op.ADD(Op.SLOAD(Op.TIMESTAMP), 1)) + Op.STOP,
@@ -58,7 +60,8 @@ def test_transaction_gas_limit_cap_at_transition(
     # Test boundary: cap + 1 should fail after fork activation
     above_cap = tx_gas_cap + 1
 
-    # Before fork activation: both cap and above_cap transactions should succeed
+    # Before fork activation: both cap and above_cap transactions should
+    # succeed
     at_cap_tx_before_fork = Transaction(
         ty=0,  # Legacy transaction
         to=contract_address,
@@ -86,7 +89,8 @@ def test_transaction_gas_limit_cap_at_transition(
 
     blocks = []
 
-    # Before transition (timestamp < 15000): both cap and above_cap transactions should succeed
+    # Before transition (timestamp < 15000): both cap and above_cap
+    # transactions should succeed
     blocks.append(
         Block(
             timestamp=14_999,

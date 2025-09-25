@@ -51,19 +51,21 @@ def safe_solc_command(
 
 def compile_yul(source_file: str, evm_version: str | None = None, optimize: str | None = None):
     """
-    Compiles a Yul source file using solc and returns the binary representation.
+    Compiles a Yul source file using solc and returns the binary
+    representation.
 
-    Parameters_:
-        source_file (str): Path to the Yul source file.
-        evm_version (str, optional): The EVM version to use (e.g., 'istanbul'). Defaults to None.
-        optimize (any, optional): If provided (non-None), optimization flags are not added.
-                              If None, additional optimization flags will be included.
+    Arguments:
+      source_file (str): Path to the Yul source file.
+      evm_version(str, optional): The EVM version to use (e.g., 'istanbul').
+                                  Defaults to None.
+      optimize (any, optional): If provided (non-None), optimization flags
+                                are not added. If None, additional
+                                optimization flags will be included.
 
-    Returns_:
-        str: The binary representation prefixed with "0x".
+    Returns: str: The binary representation prefixed with "0x".
 
-    Raises_:
-        Exception: If the solc output contains an error message.
+    Raises: Exception: If the solc output contains an error message.
+
     """
     cmd = safe_solc_command(source_file, evm_version, optimize)
 
@@ -77,7 +79,8 @@ def compile_yul(source_file: str, evm_version: str | None = None, optimize: str 
     if "Error" in out:
         raise Exception(f"Yul compilation error:\n{out}")
 
-    # Search for the "Binary representation:" line and get the following line as the binary
+    # Search for the "Binary representation:" line and get the following line
+    # as the binary
     lines = out.splitlines()
     binary_line = ""
     for i, line in enumerate(lines):

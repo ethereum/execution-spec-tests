@@ -30,11 +30,11 @@ def labeled_format_parameter_set(
     | FixtureFormat,
 ) -> ParameterSet:
     """
-    Return a parameter set from a fixture/execute format and parses a label if there's
-    any.
+    Return a parameter set from a fixture/execute format and parses a label if
+    there's any.
 
-    The label will be used in the test id and also will be added as a marker to the
-    generated test case when filling/executing the test.
+    The label will be used in the test id and also will be added as a marker to
+    the generated test case when filling/executing the test.
     """
     if isinstance(format_with_or_without_label, LabeledExecuteFormat) or isinstance(
         format_with_or_without_label, LabeledFixtureFormat

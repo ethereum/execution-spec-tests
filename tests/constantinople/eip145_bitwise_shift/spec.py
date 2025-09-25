@@ -21,8 +21,8 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-145.
     """
 
-    # Below are GPT o4-mini-high implementation of shift functions
-    # It can contain bugs, treat it with caution and refer to EVM implementations
+    # Below are GPT o4-mini-high implementation of shift functions It can
+    # contain bugs, treat it with caution and refer to EVM implementations
     @staticmethod
     def sar(shift: int, value: int) -> int:
         """

@@ -1,4 +1,7 @@
-"""Tests for the BenchmarkTest class and its transaction splitting functionality."""
+"""
+Tests for the BenchmarkTest class and its
+transaction splitting functionality.
+"""
 
 import pytest
 
@@ -20,7 +23,10 @@ from ethereum_test_types import Alloc, Environment, Transaction
     ],
 )
 def test_split_transaction(gas_benchmark_value_millions: int, expected_splits: int):
-    """Test that transaction splitting works correctly for Osaka fork gas cap."""
+    """
+    Test that transaction splitting works
+    correctly for Osaka fork gas cap.
+    """
     gas_benchmark_value = gas_benchmark_value_millions * 1_000_000
     gas_limit_cap = 16_000_000  # Osaka's transaction gas limit cap
 
@@ -100,6 +106,7 @@ def test_split_transaction_edge_cases(gas_benchmark_value: int, gas_limit_cap: i
         # When no cap, gas_limit should be benchmark value
         assert split_txs[0].gas_limit == gas_benchmark_value
     else:
-        # When cap > benchmark, gas_limit should be min of tx.gas_limit and benchmark
+        # When cap > benchmark, gas_limit should be
+        # min of tx.gas_limit and benchmark
         assert benchmark_test.tx is not None, "Transaction should not be None"
         assert split_txs[0].gas_limit == min(benchmark_test.tx.gas_limit, gas_benchmark_value)

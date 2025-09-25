@@ -1,7 +1,9 @@
 """
-abstract: Tests related to gas of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702)
-    Tests related to gas of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
-"""  # noqa: E501
+Tests related to gas of set-code transactions from EIP-7702.
+
+Tests related to gas of set-code transactions from
+[EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
+"""
 
 from dataclasses import dataclass
 from enum import Enum, auto
@@ -43,7 +45,10 @@ pytestmark = pytest.mark.valid_from("Prague")
 
 
 class SignerType(Enum):
-    """Different cases of authorization lists for testing gas cost of set-code transactions."""
+    """
+    Different cases of authorization lists for testing gas cost of set-code
+    transactions.
+    """
 
     SINGLE_SIGNER = auto()
     MULTIPLE_SIGNERS = auto()
@@ -59,7 +64,10 @@ class AuthorizationInvalidityType(Enum):
 
 
 class AccessListType(Enum):
-    """Different cases of access lists for testing gas cost of set-code transactions."""
+    """
+    Different cases of access lists for testing gas cost of set-code
+    transactions.
+    """
 
     EMPTY = auto()
     CONTAINS_AUTHORITY = auto()
@@ -75,8 +83,8 @@ class AccessListType(Enum):
 
     def contains_set_code_address(self) -> bool:
         """
-        Return True if the access list contains the address to which the authority authorizes to
-        set the code to.
+        Return True if the access list contains the address to which the
+        authority authorizes to set the code to.
         """
         return self in {
             AccessListType.CONTAINS_SET_CODE_ADDRESS,
@@ -92,21 +100,21 @@ class AuthorityWithProperties:
     """Dataclass to hold the properties of the authority address."""
 
     authority: EOA
-    """
-    The address of the authority to be used in the transaction.
-    """
+    """The address of the authority to be used in the transaction."""
     address_type: AddressType
-    """
-    The type of the address the authority was before the authorization.
-    """
+    """The type of the address the authority was before the authorization."""
     invalidity_type: AuthorizationInvalidityType | None
     """
-    Whether the authorization will be invalid and if so, which type of invalidity it is.
+    Whether the authorization will be invalid and if so, which type of
+    invalidity it is.
     """
 
     @property
     def empty(self) -> bool:
-        """Return True if the authority address is an empty account before the authorization."""
+        """
+        Return True if the authority address is an empty account before the
+        authorization.
+        """
         return self.address_type == AddressType.EMPTY_ACCOUNT
 
 
@@ -189,28 +197,29 @@ class AuthorizationWithProperties:
     """Dataclass to hold the properties of the authorization list."""
 
     tuple: AuthorizationTuple
-    """
-    The authorization tuple to be used in the transaction.
-    """
+    """The authorization tuple to be used in the transaction."""
     invalidity_type: AuthorizationInvalidityType | None
     """
-    Whether the authorization is invalid and if so, which type of invalidity it is.
+    Whether the authorization is invalid and if so, which type of invalidity it
+    is.
     """
     authority_type: AddressType
-    """
-    The type of the address the authority was before the authorization.
-    """
+    """The type of the address the authority was before the authorization."""
     skip: bool
     """
-    Whether the authorization should be skipped and therefore not included in the transaction.
+    Whether the authorization should be skipped and therefore not included in
+    the transaction.
 
-    Used for tests where the authorization was already in the state before the transaction was
-    created.
+    Used for tests where the authorization was already in the state before the
+    transaction was created.
     """
 
     @property
     def empty(self) -> bool:
-        """Return True if the authority address is an empty account before the authorization."""
+        """
+        Return True if the authority address is an empty account before the
+        authorization.
+        """
         return self.authority_type == AddressType.EMPTY_ACCOUNT
 
 
@@ -227,14 +236,17 @@ def authorization_list_with_properties(
     self_sponsored: bool,
     re_authorize: bool,
 ) -> List[AuthorizationWithProperties]:
-    """Fixture to return the authorization-list-with-properties for the given case."""
+    """
+    Fixture to return the authorization-list-with-properties for the given
+    case.
+    """
     authorization_list: List[AuthorizationWithProperties] = []
     environment_chain_id = chain_config.chain_id
     match signer_type:
         case SignerType.SINGLE_SIGNER:
             authority_with_properties = next(authority_iterator)
-            # We have to take into account the cases where the nonce has already been increased
-            # before the authorization is processed.
+            # We have to take into account the cases where the nonce has
+            # already been increased before the authorization is processed.
             increased_nonce = (
                 self_sponsored
                 or authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
@@ -360,7 +372,10 @@ def authorization_list(
 
 @pytest.fixture()
 def authorize_to_address(request: pytest.FixtureRequest, pre: Alloc) -> Address:
-    """Fixture to return the address to which the authority authorizes to set the code to."""
+    """
+    Fixture to return the address to which the authority authorizes to set the
+    code to.
+    """
     match request.param:
         case AddressType.EMPTY_ACCOUNT:
             return pre.fund_eoa(0)
@@ -421,14 +436,18 @@ def gas_test_parameter_args(
     include_pre_authorized: bool = True,
     execution_gas_allowance: bool = False,
 ):
-    """Return the parametrize decorator that can be used in all gas test functions."""
+    """
+    Return the parametrize decorator that can be used in all gas test
+    functions.
+    """
     multiple_authorizations_count = 2
 
     defaults = {
         "signer_type": SignerType.SINGLE_SIGNER,
         "authorization_invalidity_type": None,
         "authorizations_count": 1,
-        "invalid_authorization_index": -1,  # All authorizations are equally invalid
+        "invalid_authorization_index": -1,  # All authorizations are equally
+        # invalid
         "chain_id_type": ChainIDType.GENERIC,
         "authorize_to_address": AddressType.EMPTY_ACCOUNT,
         "access_list_case": AccessListType.EMPTY,
@@ -694,7 +713,8 @@ def gas_test_parameter_args(
         ]
 
     if include_many:
-        # Fit as many authorizations as possible within the transaction gas limit.
+        # Fit as many authorizations as possible within the transaction gas
+        # limit.
         max_gas = 16_777_216 - 21_000
         if execution_gas_allowance:
             # Leave some gas for the execution of the test code.
@@ -743,7 +763,10 @@ def test_gas_cost(
     access_list: List[AccessList],
     sender: EOA,
 ):
-    """Test gas at the execution start of a set-code transaction in multiple scenarios."""
+    """
+    Test gas at the execution start of a set-code transaction in multiple
+    scenarios.
+    """
     # Calculate the intrinsic gas cost of the authorizations, by default the
     # full empty account cost is charged for each authorization.
     intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(
@@ -768,9 +791,10 @@ def test_gas_cost(
         Spec.PER_EMPTY_ACCOUNT_COST - Spec.PER_AUTH_BASE_COST
     ) * discounted_authorizations
 
-    # We calculate the exact gas required to execute the test code.
-    # We add SSTORE opcodes in order to make sure that the refund is less than one fifth (EIP-3529)
-    # of the total gas used, so we can see the full discount being reflected in most of the tests.
+    # We calculate the exact gas required to execute the test code. We add
+    # SSTORE opcodes in order to make sure that the refund is less than one
+    # fifth (EIP-3529) of the total gas used, so we can see the full discount
+    # being reflected in most of the tests.
     gas_costs = fork.gas_costs()
     gas_opcode_cost = gas_costs.G_BASE
     sstore_opcode_count = 10
@@ -781,8 +805,8 @@ def test_gas_cost(
 
     execution_gas = gas_opcode_cost + push_opcode_cost + sstore_opcode_cost + cold_storage_cost
 
-    # The first opcode that executes in the code is the GAS opcode, which costs 2 gas, so we
-    # subtract that from the expected gas measure.
+    # The first opcode that executes in the code is the GAS opcode, which costs
+    # 2 gas, so we subtract that from the expected gas measure.
     expected_gas_measure = execution_gas - gas_opcode_cost
 
     test_code_storage = Storage()
@@ -801,7 +825,8 @@ def test_gas_cost(
     max_discount = tx_gas_limit // 5
 
     if discount_gas > max_discount:
-        # Only one test hits this condition, but it's ok to also test this case.
+        # Only one test hits this condition, but it's ok to also test this
+        # case.
         discount_gas = max_discount
 
     gas_used = tx_gas_limit - discount_gas
@@ -841,8 +866,12 @@ def test_account_warming(
     sender: EOA,
     check_delegated_account_first: bool,
 ):
-    """Test warming of the authority and authorized accounts for set-code transactions."""
-    # Overhead cost is the single push operation required for the address to check.
+    """
+    Test warming of the authority and authorized accounts for set-code
+    transactions.
+    """
+    # Overhead cost is the single push operation required for the address to
+    # check.
     overhead_cost = 3 * len(Op.CALL.kwargs)  # type: ignore
 
     cold_account_cost = 2600
@@ -850,8 +879,8 @@ def test_account_warming(
 
     access_list_addresses = {access_list.address for access_list in access_list}
 
-    # Dictionary to keep track of the addresses to check for warming, and the expected cost of
-    # accessing such account.
+    # Dictionary to keep track of the addresses to check for warming, and the
+    # expected cost of accessing such account.
     addresses_to_check: Dict[Address, int] = {}
 
     for authorization_with_properties in authorization_list_with_properties:
@@ -861,9 +890,9 @@ def test_account_warming(
 
         authority_contains_delegation_after_authorization = (
             authorization_with_properties.invalidity_type is None
-            # If the authority already contained a delegation prior to the transaction,
-            # even if the authorization is invalid, there will be a delegation when we
-            # check the address.
+            # If the authority already contained a delegation prior to the
+            # transaction, even if the authorization is invalid, there will be
+            # a delegation when we check the address.
             or authorization_with_properties.authority_type == AddressType.EOA_WITH_SET_CODE
         )
 
@@ -896,8 +925,9 @@ def test_account_warming(
                     )
 
                 if authority_contains_delegation_after_authorization:
-                    # The double charge for accessing the delegated account, only if the
-                    # account ends up with a delegation in its code.
+                    # The double charge for accessing the delegated account,
+                    # only if the account ends up with a delegation in its
+                    # code.
                     access_cost += warm_account_cost
 
                 addresses_to_check[authority] = access_cost
@@ -920,8 +950,8 @@ def test_account_warming(
                     access_cost = warm_account_cost
 
                 if (
-                    # We can only charge the delegated account access cost if the authorization
-                    # went through
+                    # We can only charge the delegated account access cost if
+                    # the authorization went through
                     authority_contains_delegation_after_authorization
                 ):
                     if (
@@ -999,8 +1029,8 @@ def test_intrinsic_gas_cost(
     valid: bool,
 ):
     """
-    Test sending a transaction with the exact intrinsic gas required and also insufficient
-    gas.
+    Test sending a transaction with the exact intrinsic gas required and also
+    insufficient gas.
     """
     # Calculate the intrinsic gas cost of the authorizations, by default the
     # full empty account cost is charged for each authorization.
@@ -1097,7 +1127,9 @@ def test_call_to_pre_authorized_oog(
     fork: Fork,
     call_opcode: Op,
 ):
-    """Test additional cost of delegation contract access in call instructions."""
+    """
+    Test additional cost of delegation contract access in call instructions.
+    """
     # Delegation contract. It should never be reached by a call.
     delegation_code = Op.SSTORE(0, 1)
     delegation = pre.deploy_contract(delegation_code)

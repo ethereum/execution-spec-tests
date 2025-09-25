@@ -1,8 +1,9 @@
 """
-abstract: Tests gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test gas usage on point evaluation precompile for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+Tests gas usage on point evaluation precompile for EIP-4844.
 
-"""  # noqa: E501
+Tests gas usage on point evaluation precompile for
+[EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+"""
 
 from typing import Dict, Literal
 
@@ -103,7 +104,8 @@ def precompile_caller_code(
         + copy_opcode_cost(fork, len(precompile_input))
     )
     if call_type == Op.CALL or call_type == Op.CALLCODE:
-        precompile_caller_code += call_type(  # type: ignore # https://github.com/ethereum/execution-spec-tests/issues/348 # noqa: E501
+        # https://github.com/ethereum/execution-spec-tests/issues/348
+        precompile_caller_code += call_type(  # type: ignore
             call_gas,
             Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS,
             0x00,
@@ -115,7 +117,8 @@ def precompile_caller_code(
         overhead_cost += (push_operations_cost * 6) + (calldatasize_cost * 1)
     elif call_type == Op.DELEGATECALL or call_type == Op.STATICCALL:
         # Delegatecall and staticcall use one less argument
-        precompile_caller_code += call_type(  # type: ignore # https://github.com/ethereum/execution-spec-tests/issues/348 # noqa: E501
+        # https://github.com/ethereum/execution-spec-tests/issues/348
+        precompile_caller_code += call_type(  # type: ignore
             call_gas,
             Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS,
             0x00,
@@ -163,8 +166,8 @@ def post(
     call_gas: int,
 ) -> Dict:
     """
-    Prepare expected post for each test, depending on the success or
-    failure of the precompile call and the gas usage.
+    Prepare expected post for each test, depending on the success or failure of
+    the precompile call and the gas usage.
     """
     if proof == "correct":
         expected_gas_usage = (
@@ -205,11 +208,12 @@ def test_point_evaluation_precompile_gas_usage(
     post: Dict,
 ):
     """
-    Test point evaluation precompile gas usage under different call contexts and gas limits.
+    Test point evaluation precompile gas usage under different call contexts
+    and gas limits.
 
-    - Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL)
-    - Test using different gas limits (exact gas, insufficient gas, extra gas)
-    - Test using correct and incorrect proofs
+    - Test using all call types (CALL, DELEGATECALL, CALLCODE, STATICCALL) -
+    Test using different gas limits (exact gas, insufficient gas, extra gas) -
+    Test using correct and incorrect proofs
     """
     state_test(
         env=Environment(),

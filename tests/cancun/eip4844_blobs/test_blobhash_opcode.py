@@ -1,21 +1,21 @@
 """
-abstract: Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test cases for the `BLOBHASH` opcode in
-    [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+Tests `BLOBHASH` opcode in [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
 
-note: Adding a new test
-    Add a function that is named `test_<test_name>` and takes at least the following arguments:
+Note: Adding a new test Add a function that is named `test_<test_name>` and
+takes at least the following arguments.
 
-    - blockchain_test
-    - pre
-    - tx
-    - post
+Required arguments:
+- `blockchain_test`
+- `pre`
+- `tx`
+- `post`
 
-    Additional custom `pytest.fixture` fixtures can be added and parametrized for new test cases.
+Additional custom `pytest.fixture` fixtures can be added and parametrized
+for
+new test cases.
 
-    There is no specific structure to follow within this test module.
-
-"""  # noqa: E501
+There is no specific structure to follow within this test module.
+"""
 
 from typing import List
 
@@ -81,11 +81,10 @@ class BlobhashScenario:
     @staticmethod
     def create_blob_hashes_list(length: int, max_blobs_per_tx: int) -> List[List[Hash]]:
         """
-        Create list of MAX_BLOBS_PER_TX blob hashes
-        using `random_blob_hashes`.
+        Create list of MAX_BLOBS_PER_TX blob hashes using `random_blob_hashes`.
 
-        Cycle over random_blob_hashes to get a large list of
-        length: MAX_BLOBS_PER_TX * length
+        Cycle over random_blob_hashes to get a large list of length:
+        MAX_BLOBS_PER_TX * length
         -> [0x01, 0x02, 0x03, 0x04, ..., 0x0A, 0x0B, 0x0C, 0x0D]
 
         Then split list into smaller chunks of MAX_BLOBS_PER_TX
@@ -104,9 +103,8 @@ class BlobhashScenario:
         """
         Return BLOBHASH sstore to the given index.
 
-        If the index is out of the valid bounds, 0x01 is written
-        in storage, as we later check it is overwritten by
-        the BLOBHASH sstore.
+        If the index is out of the valid bounds, 0x01 is written in storage, as
+        we later check it is overwritten by the BLOBHASH sstore.
         """
         invalidity_check = Op.SSTORE(index, 0x01)
         if index < 0 or index >= max_blobs_per_tx:
@@ -158,9 +156,9 @@ def test_blobhash_gas_cost(
     """
     Tests `BLOBHASH` opcode gas cost using a variety of indexes.
 
-    Asserts that the gas consumption of the `BLOBHASH` opcode is correct by ensuring
-    it matches `HASH_OPCODE_GAS = 3`. Includes both valid and invalid random
-    index sizes from the range `[0, 2**256-1]`, for tx types 2 and 3.
+    Asserts that the gas consumption of the `BLOBHASH` opcode is correct by
+    ensuring it matches `HASH_OPCODE_GAS = 3`. Includes both valid and invalid
+    random index sizes from the range `[0, 2**256-1]`, for tx types 2 and 3.
     """
     gas_measure_code = CodeGasMeasure(
         code=Op.BLOBHASH(blobhash_index),
@@ -279,11 +277,11 @@ def test_blobhash_invalid_blob_index(
     max_blobs_per_tx: int,
 ):
     """
-    Tests that the `BLOBHASH` opcode returns a zeroed `bytes32` value for invalid
-    indexes.
+    Tests that the `BLOBHASH` opcode returns a zeroed `bytes32` value for
+    invalid indexes.
 
-    Includes cases where the index is negative (`index < 0`) or
-    exceeds the maximum number of `blob_versioned_hash` values stored:
+    Includes cases where the index is negative (`index < 0`) or exceeds the
+    maximum number of `blob_versioned_hash` values stored:
     (`index >= len(tx.message.blob_versioned_hashes)`).
 
     It confirms that the returned value is a zeroed `bytes32` for each case.

@@ -15,13 +15,14 @@ from .base import BaseFixture
 class Fixtures(EthereumTestRootModel):
     """
     A base class for defining top-level models that encapsulate multiple test
-    fixtures. Each fixture is stored in a dictionary, where each key is a string
-    (typically the fixture name) and its corresponding value is a fixture object.
-    This is the structure used for blockchain and state JSON fixture files.
+    fixtures. Each fixture is stored in a dictionary, where each key is a
+    string (typically the fixture name) and its corresponding value is a
+    fixture object. This is the structure used for blockchain and state JSON
+    fixture files.
 
-    This class implements dunder methods and other common functionality to allow
-    interaction with the model's fixtures as if they were being accessed directly
-    from a dictionary.
+    This class implements dunder methods and other common functionality to
+    allow interaction with the model's fixtures as if they were being accessed
+    directly from a dictionary.
     """
 
     root: Dict[str, SerializeAsAny[BaseFixture]]
@@ -54,8 +55,8 @@ class Fixtures(EthereumTestRootModel):
         """
         For all formats, we join the fixtures as json into a single file.
 
-        Note: We don't use pydantic model_dump_json() on the Fixtures object as we
-        add the hash to the info field on per-fixture basis.
+        Note: We don't use pydantic model_dump_json() on the Fixtures object as
+        we add the hash to the info field on per-fixture basis.
         """
         json_fixtures: Dict[str, Dict[str, Any]] = {}
         lock_file_path = file_path.with_suffix(".lock")

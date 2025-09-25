@@ -74,7 +74,7 @@ class TestPhaseManager:
         assert not phase_manager.is_single_phase_fill
 
     def test_from_config_generate_all_formats(self):
-        """Test that generate_all_formats triggers PRE_ALLOC_GENERATION phase."""
+        """Generate_all_formats should trigger PRE_ALLOC_GENERATION phase."""
         config = MockConfig(generate_all_formats=True)
         phase_manager = PhaseManager.from_config(config)
 
@@ -94,7 +94,7 @@ class TestPhaseManager:
         assert phase_manager.is_pre_alloc_generation
 
     def test_from_config_use_pre_alloc_with_generate_all(self):
-        """Test phase 2 with generate_all_formats (passed by CLI to phase 2)."""
+        """Test phase 2 with generate_all_formats (passed by CLI)."""
         config = MockConfig(use_pre_alloc_groups=True, generate_all_formats=True)
         phase_manager = PhaseManager.from_config(config)
 
@@ -104,19 +104,27 @@ class TestPhaseManager:
         assert phase_manager.is_fill_after_pre_alloc
 
     def test_all_flag_combinations(self):
-        """Test all 8 possible flag combinations to ensure correct phase determination."""
+        """
+        Test all 8 possible flag combinations to ensure correct phase
+        determination.
+        """
         test_cases = [
-            # (generate_pre_alloc, use_pre_alloc, generate_all) -> (current_phase, has_previous)
-            (False, False, False, FixtureFillingPhase.FILL, False),  # Normal fill
+            # (generate_pre_alloc, use_pre_alloc, generate_all) ->
+            # (current_phase, has_previous)
+            # Normal fill
+            (False, False, False, FixtureFillingPhase.FILL, False),
             # Generate all triggers phase 1
             (False, False, True, FixtureFillingPhase.PRE_ALLOC_GENERATION, False),
             (False, True, False, FixtureFillingPhase.FILL, True),  # Phase 2
-            (False, True, True, FixtureFillingPhase.FILL, True),  # Phase 2 with generate all
+            # Phase 2 with generate all
+            (False, True, True, FixtureFillingPhase.FILL, True),
             (True, False, False, FixtureFillingPhase.PRE_ALLOC_GENERATION, False),  # Phase 1
             # Phase 1 with generate all
             (True, False, True, FixtureFillingPhase.PRE_ALLOC_GENERATION, False),
-            (True, True, False, FixtureFillingPhase.FILL, True),  # Invalid but use_pre_alloc wins
-            (True, True, True, FixtureFillingPhase.FILL, True),  # Invalid but use_pre_alloc wins
+            # Invalid but use_pre_alloc wins
+            (True, True, False, FixtureFillingPhase.FILL, True),
+            # Invalid but use_pre_alloc wins
+            (True, True, True, FixtureFillingPhase.FILL, True),
         ]
 
         for gen_pre, use_pre, gen_all, expected_phase, has_previous in test_cases:

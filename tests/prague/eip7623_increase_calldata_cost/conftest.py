@@ -48,8 +48,8 @@ def to(
 @pytest.fixture
 def protected() -> bool:
     """
-    Return whether the transaction is protected or not.
-    Only valid for type-0 transactions.
+    Return whether the transaction is protected or not. Only valid for type-0
+    transactions.
     """
     return True
 
@@ -62,7 +62,10 @@ def access_list() -> List[AccessList] | None:
 
 @pytest.fixture
 def authorization_refund() -> bool:
-    """Return whether the transaction has an existing authority in the authorization list."""
+    """
+    Return whether the transaction has an existing authority in the
+    authorization list.
+    """
     return False
 
 
@@ -75,9 +78,9 @@ def authorization_list(
     """
     Authorization-list for the transaction.
 
-    This fixture needs to be parametrized indirectly in order to generate the authorizations with
-    valid signers using `pre` in this function, and the parametrized value should be a list of
-    addresses.
+    This fixture needs to be parametrized indirectly in order to generate the
+    authorizations with valid signers using `pre` in this function, and the
+    parametrized value should be a list of addresses.
     """
     if not hasattr(request, "param"):
         return None
@@ -127,20 +130,24 @@ def tx_data(
     intrinsic_gas_data_floor_minimum_delta: int,
 ) -> Bytes:
     """
-    All tests in this file use data that is generated dynamically depending on the case and the
-    attributes of the transaction in order to reach the edge cases where the floor gas cost is
-    equal or barely greater than the intrinsic gas cost.
+    All tests in this file use data that is generated dynamically depending on
+    the case and the attributes of the transaction in order to reach the edge
+    cases where the floor gas cost is equal or barely greater than the
+    intrinsic gas cost.
 
     We have two different types of tests:
-    - FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS: The floor gas cost is less than or equal
-        to the intrinsic gas cost, which means that the size of the tokens in the data are not
-        enough to trigger the floor gas cost.
-    - FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS: The floor gas cost is greater than the intrinsic
-        gas cost, which means that the size of the tokens in the data are enough to trigger the
-        floor gas cost.
 
-    E.g. Given a transaction with a single access list and a single storage key, its intrinsic gas
-    cost (as of Prague fork) can be calculated as:
+    - FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS: The floor gas cost is
+        less than or equal to the intrinsic gas cost, which means that the size
+        of the tokens in the data are not enough to trigger the floor gas cost.
+
+    - FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS: The floor gas cost is greater
+        than the intrinsic gas cost, which means that the size of the tokens in
+        the data are enough to trigger the floor gas cost.
+
+    E.g. Given a transaction with a single access list and a single storage
+    key, its intrinsic gas cost (as of Prague fork) can be calculated as:
+
     - 21,000 gas for the transaction
     - 2,400 gas for the access list
     - 1,900 gas for the storage key
@@ -152,18 +159,19 @@ def tx_data(
     - 40 gas for each non-zero byte in the data
     - 10 gas for each zero byte in the data
 
-    Notice that the data included in the transaction affects both the intrinsic gas cost and the
-    floor data cost, but at different rates.
+    Notice that the data included in the transaction affects both the intrinsic
+    gas cost and the floor data cost, but at different rates.
 
-    The purpose of this function is to find the exact amount of data where the floor data gas
-    cost starts exceeding the intrinsic gas cost.
+    The purpose of this function is to find the exact amount of data where the
+    floor data gas cost starts exceeding the intrinsic gas cost.
 
-    After a binary search we find that adding 717 tokens of data (179 non-zero bytes +
-    1 zero byte) triggers the floor gas cost.
+    After a binary search we find that adding 717 tokens of data (179 non-zero
+    bytes + 1 zero byte) triggers the floor gas cost.
 
-    Therefore, this function will return a Bytes object with 179 non-zero bytes and 1 zero byte
-    for `FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS` and a Bytes object with 179 non-zero bytes
-    and no zero bytes for `FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS`
+    Therefore, this function will return a Bytes object with 179 non-zero bytes
+    and 1 zero byte for `FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS` and a Bytes
+    object with 179 non-zero bytes and no zero bytes for
+    `FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS`
     """
 
     def tokens_to_data(tokens: int) -> Bytes:
@@ -188,11 +196,11 @@ def tx_data(
     def transaction_data_floor_cost_calculator(tokens: int) -> int:
         return fork_data_floor_cost_calculator(data=tokens_to_data(tokens))
 
-    # Start with zero data and check the difference in the gas calculator between the
-    # intrinsic gas cost and the floor gas cost.
+    # Start with zero data and check the difference in the gas calculator
+    # between the intrinsic gas cost and the floor gas cost.
     if transaction_data_floor_cost_calculator(0) >= transaction_intrinsic_cost_calculator(0):
-        # Special case which is a transaction with no extra intrinsic gas costs other than the
-        # data cost, any data will trigger the floor gas cost.
+        # Special case which is a transaction with no extra intrinsic gas costs
+        # other than the data cost, any data will trigger the floor gas cost.
         if data_test_type == DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS:
             return Bytes(b"")
         else:
@@ -213,13 +221,15 @@ def tx_gas_delta() -> int:
     """
     Gas delta to modify the gas amount included with the transaction.
 
-    If negative, the transaction will be invalid because the intrinsic gas cost is greater than the
-    gas limit.
+    If negative, the transaction will be invalid because the intrinsic gas cost
+    is greater than the gas limit.
 
-    This value operates regardless of whether the floor data gas cost is reached or not.
+    This value operates regardless of whether the floor data gas cost is
+    reached or not.
 
-    If the value is greater than zero, the transaction will also be valid and the test will check
-    that transaction processing does not consume more gas than it should.
+    If the value is greater than zero, the transaction will also be valid and
+    the test will check that transaction processing does not consume more gas
+    than it should.
     """
     return 0
 
@@ -258,10 +268,11 @@ def tx_intrinsic_gas_cost_including_floor_data_cost(
     """
     Transaction intrinsic gas cost.
 
-    The calculated value takes into account the normal intrinsic gas cost and the floor data gas
-    cost if it is greater than the intrinsic gas cost.
+    The calculated value takes into account the normal intrinsic gas cost and
+    the floor data gas cost if it is greater than the intrinsic gas cost.
 
-    In other words, this is the value that is required for the transaction to be valid.
+    In other words, this is the value that is required for the transaction to
+    be valid.
     """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     return intrinsic_gas_cost_calculator(
@@ -290,7 +301,8 @@ def tx_gas_limit(
     """
     Gas limit for the transaction.
 
-    The gas delta is added to the intrinsic gas cost to generate different test scenarios.
+    The gas delta is added to the intrinsic gas cost to generate different test
+    scenarios.
     """
     return tx_intrinsic_gas_cost_including_floor_data_cost + tx_gas_delta
 

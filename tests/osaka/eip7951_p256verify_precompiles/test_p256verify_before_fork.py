@@ -1,7 +1,11 @@
 """
-abstract: Tests P256VERIFY precompiles of [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7951)
-    Tests P256VERIFY precompiles of [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7951)
-    before the Osaka hard fork is active.
+Tests P256VERIFY precompiles of [EIP-7951: Precompile for secp256r1
+Curve Support](https://eips.ethereum.org/EIPS/eip-7951).
+
+Tests P256VERIFY
+precompiles of [EIP-7951: Precompile for secp256r1 Curve
+Support](https://eips.ethereum.org/EIPS/eip-7951) before the Osaka hard fork is
+active.
 """
 
 import pytest

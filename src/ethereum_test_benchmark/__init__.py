@@ -1,4 +1,7 @@
-"""Benchmark code generator classes for creating optimized bytecode patterns."""
+"""
+Benchmark code generator classes for
+creating optimized bytecode patterns.
+"""
 
 from .benchmark_code_generator import (
     BenchmarkCodeGenerator,

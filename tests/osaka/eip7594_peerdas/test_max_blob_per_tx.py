@@ -1,7 +1,9 @@
 """
-abstract: Tests `MAX_BLOBS_PER_TX` limit for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
-    Tests `MAX_BLOBS_PER_TX` limit for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
-"""  # noqa: E501
+MAX_BLOBS_PER_TX limit tests.
+
+Tests for `MAX_BLOBS_PER_TX` limit in [EIP-7594: PeerDAS - Peer Data
+Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
+"""
 
 import pytest
 
@@ -88,9 +90,9 @@ def test_valid_max_blobs_per_tx(
     tx: Transaction,
 ):
     """
-    Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are accepted.
-    Verifies that individual transactions can contain up to the maximum allowed
-    number of blobs per transaction.
+    Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are
+    accepted. Verifies that individual transactions can contain up to the
+    maximum allowed number of blobs per transaction.
     """
     state_test(
         env=env,
@@ -120,10 +122,10 @@ def test_invalid_max_blobs_per_tx(
     blob_count: int,
 ):
     """
-    Test that transactions exceeding MAX_BLOBS_PER_TX are rejected.
-    Verifies that individual transactions cannot contain more than the maximum
-    allowed number of blobs per transaction, even if the total would be within
-    the block limit.
+    Test that transactions exceeding MAX_BLOBS_PER_TX are rejected. Verifies
+    that individual transactions cannot contain more than the maximum allowed
+    number of blobs per transaction, even if the total would be within the
+    block limit.
     """
     state_test(
         env=env,

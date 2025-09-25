@@ -1,4 +1,6 @@
-"""Pytest test to verify a client's configuration using `eth_config` RPC endpoint."""
+"""
+Pytest test to verify a client's configuration using `eth_config` RPC endpoint.
+"""
 
 import json
 import time
@@ -17,7 +19,9 @@ logger = get_logger(__name__)
 
 @pytest.fixture(scope="function")
 def eth_config_response(eth_rpc: List[EthRPC]) -> EthConfigResponse | None:
-    """Get the `eth_config` response from the client to be verified by all tests."""
+    """
+    Get the `eth_config` response from the client to be verified by all tests.
+    """
     for rpc in eth_rpc:
         try:
             response = rpc.config()
@@ -37,13 +41,17 @@ def network(request) -> NetworkConfig:
 
 @pytest.fixture(scope="function")
 def current_time() -> int:
-    """Get the `eth_config` response from the client to be verified by all tests."""
+    """
+    Get the `eth_config` response from the client to be verified by all tests.
+    """
     return int(time.time())
 
 
 @pytest.fixture(scope="function")
 def expected_eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
-    """Calculate the current fork value to verify against the client's response."""
+    """
+    Calculate the current fork value to verify against the client's response.
+    """
     return network.get_eth_config(current_time)
 
 
@@ -190,12 +198,15 @@ def test_eth_config_last_fork_id(
 def test_eth_config_majority(
     all_rpc_endpoints: Dict[str, List[EthRPC]],
 ) -> None:
-    """Queries devnet exec clients for their eth_config and fails if not all have the same response."""  # noqa: E501
+    """
+    Queries devnet exec clients for their eth_config and fails if not all have
+    the same response.
+    """
     responses = dict()  # Dict[exec_client_name : response] # noqa: C408
     client_to_url_used_dict = dict()  # noqa: C408
     for exec_client in all_rpc_endpoints.keys():
-        # try only as many consensus+exec client combinations until you receive a response
-        # if all combinations for a given exec client fail we panic
+        # try only as many consensus+exec client combinations until you receive
+        # a response if all combinations for a given exec client fail we panic
         for eth_rpc_target in all_rpc_endpoints[exec_client]:
             try:
                 response = eth_rpc_target.config(timeout=5)
@@ -212,7 +223,7 @@ def test_eth_config_majority(
             responses[exec_client] = response_str
             client_to_url_used_dict[exec_client] = (
                 eth_rpc_target.url
-            )  # remember which cl+el combination was used  # noqa: E501
+            )  # remember which cl+el combination was used
             logger.info(f"Response of {exec_client}: {response_str}\n\n")
 
             break  # no need to gather more responses for this client
@@ -226,14 +237,15 @@ def test_eth_config_majority(
         "this execution client"
     )
     # determine hashes of client responses
-    client_to_hash_dict = dict()  # Dict[exec_client : response hash] # noqa: C408
+    client_to_hash_dict = {}  # Dict[exec_client : response hash] # noqa: C408
     for client in responses.keys():
         response_bytes = responses[client].encode("utf-8")
         response_hash = sha256(response_bytes).digest().hex()
         logger.info(f"Response hash of client {client}: {response_hash}")
         client_to_hash_dict[client] = response_hash
 
-    # if not all responses have the same hash there is a critical consensus issue
+    # if not all responses have the same hash there is a critical consensus
+    # issue
     expected_hash = ""
     for h in client_to_hash_dict.keys():
         if expected_hash == "":
@@ -241,15 +253,17 @@ def test_eth_config_majority(
             continue
 
         assert client_to_hash_dict[h] == expected_hash, (
-            "Critical consensus issue: Not all eth_config responses are the same!\n"
+            "Critical consensus issue: Not all eth_config responses are the "
+            " same!\n"
             "Here is an overview of client response hashes:\n"
             + "\n\t".join(f"{k}: {v}" for k, v in client_to_hash_dict.items())
-            + "\n\n"  # noqa: E501
+            + "\n\n"
             "Here is an overview of which URLs were contacted:\n\t"
             + "\n\t".join(f"{k}: @{v.split('@')[1]}" for k, v in client_to_url_used_dict.items())
-            + "\n\n"  # log which cl+el combinations were used without leaking full url # noqa: E501
+            + "\n\n"
+            # log which cl+el combinations were used without leaking full url
             "Here is a dump of all client responses:\n"
-            + "\n\n".join(f"{k}: {v}" for k, v in responses.items())  # noqa: E501
+            + "\n\n".join(f"{k}: {v}" for k, v in responses.items())
         )
     assert expected_hash != ""
 

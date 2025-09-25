@@ -1,18 +1,17 @@
 """
 Functions and CLI interface for recursively ordering and sorting .json files.
 
-example: Usage
+Usage Example:
 
-    ```
-    order_fixtures -i input_dir -o output_dir
-    ```
-
+```console
+   order_fixtures -i input_dir -o output_dir
+```
 
 The CLI interface takes the paths of an input directory and an output
 directory. It recursively processes each .json file in the input directory and
-its subdirectories, and sorts lists and dictionaries alphabetically and
-writes the sorted output to .json files to the corresponding locations in the
-output directory.
+its subdirectories, and sorts lists and dictionaries alphabetically and writes
+the sorted output to .json files to the corresponding locations in the output
+directory.
 """
 
 import json
@@ -27,16 +26,15 @@ def recursive_sort(item: Dict[str, Any] | List[Any]) -> Dict[str, Any] | List[An
     Recursively sorts an item.
 
     If the item is a dictionary, it returns a new dictionary that is a sorted
-    version of the input dictionary.
-    If the item is a list, it returns a new list that is a sorted version of the
-    input list. The elements of the list are also sorted if they are lists or
-    dictionaries.
+    version of the input dictionary. If the item is a list, it returns a new
+    list that is a sorted version of the input list. The elements of the list
+    are also sorted if they are lists or dictionaries.
 
     Args:
-        item: The item to be sorted. This can be a list or a dictionary.
+      item: The item to be sorted. This can be a list or a dictionary.
 
     Returns:
-        The sorted item.
+      The sorted item.
 
     """
     if isinstance(item, dict):
@@ -45,8 +43,8 @@ def recursive_sort(item: Dict[str, Any] | List[Any]) -> Dict[str, Any] | List[An
         try:
             return sorted(cast(List[Any], [recursive_sort(x) for x in item]))
         except TypeError:
-            # If a TypeError is raised, we might be dealing with a list of dictionaries
-            # Sort them based on their string representation
+            # If a TypeError is raised, we might be dealing with a list of
+            # dictionaries Sort them based on their string representation
             return sorted((recursive_sort(x) for x in item), key=str)
     else:
         return item
@@ -60,8 +58,8 @@ def order_fixture(input_path: Path, output_path: Path) -> None:
     to the output path.
 
     Args:
-        input_path: The Path object of the input .json file.
-        output_path: The Path object of the output .json file.
+      input_path: The Path object of the input .json file.
+      output_path: The Path object of the output .json file.
 
     Returns:
         None.
@@ -78,9 +76,9 @@ def process_directory(input_dir: Path, output_dir: Path):
     """
     Process a directory.
 
-    Processes each .json file in the input directory and its subdirectories, and
-    writes the sorted .json files to the corresponding locations in the output
-    directory.
+    Processes each .json file in the input directory and its subdirectories,
+    and writes the sorted .json files to the corresponding locations in the
+    output directory.
 
     Args:
         input_dir: The Path object of the input directory.
@@ -106,7 +104,7 @@ def process_directory(input_dir: Path, output_dir: Path):
     "input_dir",
     type=click.Path(exists=True, file_okay=False, dir_okay=True, readable=True),
     required=True,
-    help="The input directory",
+    help="input directory",
 )
 @click.option(
     "--output",

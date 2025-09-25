@@ -1,8 +1,9 @@
 """
-A hive based simulator that executes RLP-encoded blocks against clients. The simulator uses the
-`BlockchainFixtures` to test this against clients.
+A hive based simulator that executes RLP-encoded blocks against clients. The
+simulator uses the `BlockchainFixtures` to test this against clients.
 
-Clients consume the genesis and RLP-encoded blocks from input files upon start-up.
+Clients consume the genesis and RLP-encoded blocks from input files upon
+start-up.
 """
 
 import logging
@@ -23,7 +24,8 @@ def test_via_rlp(
     fixture: BlockchainFixture,
 ):
     """
-    1. Check the client genesis block hash matches `fixture.genesis.block_hash`.
+    1. Check the client genesis block hash matches
+       `fixture.genesis.block_hash`.
     2. Check the client last block hash matches `fixture.last_block_hash`.
     """
     with timing_data.time("Get genesis block"):

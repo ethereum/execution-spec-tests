@@ -365,8 +365,8 @@ def test_eof_calls_eof_mstore(
 
 
 identity = Address(0x04)
-# `blake2f`` is chosen for the test because it fails unless args_size == 213, which is what we are
-# interested in.
+# `blake2f`` is chosen for the test because it fails unless args_size == 213,
+# which is what we are interested in.
 blake2f = Address(0x09)
 # `p256verify` / RIP-7212 has been in and out of prague and osaka.
 # Hence we need to test explicitly
@@ -843,7 +843,9 @@ def test_eof_calls_static_flag_with_value(
     sender: EOA,
     opcode: Op,
 ):
-    """Test EOF contracts calls handle static flag and sending value correctly."""
+    """
+    Test EOF contracts calls handle static flag and sending value correctly.
+    """
     env = Environment()
 
     noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
@@ -922,13 +924,16 @@ def test_eof_calls_min_callee_gas(
     reverts: bool,
 ):
     """
-    Test EOF contracts calls do light failure when retained/callee gas is not enough.
+    Test EOF contracts calls do light failure when retained/callee gas is not
+    enough.
 
-    Premise of the test is that there exists a range of `gas_limit` values, which are enough
-    for all instructions to execute, but call's returned value is 1, meaning not enough for gas
-    allowances (MIN_RETAINED_GAS and MIN_CALLEE_GAS) - ones marked with `reverts==False`.
+    Premise of the test is that there exists a range of `gas_limit` values,
+    which are enough for all instructions to execute, but call's returned value
+    is 1, meaning not enough for gas allowances (MIN_RETAINED_GAS and
+    MIN_CALLEE_GAS) - ones marked with `reverts==False`.
 
-    Once we provide both allowances, the RJUMPI condition is no longer met and `reverts==True`.
+    Once we provide both allowances, the RJUMPI condition is no longer met and
+    `reverts==True`.
     """
     env = Environment()
 
@@ -939,7 +944,8 @@ def test_eof_calls_min_callee_gas(
         Container.Code(
             Op.SSTORE(slot_code_worked, value_code_worked)
             + Op.EQ(opcode(address=noop_callee_address, value=value), EXTCALL_REVERT)
-            # If the return code isn't 1, it means gas was enough to cover the allowances.
+            # If the return code isn't 1, it means gas was enough to cover the
+            # allowances.
             + Op.RJUMPI[len(revert_block)]
             + revert_block
             + Op.STOP
@@ -947,7 +953,8 @@ def test_eof_calls_min_callee_gas(
         balance=value,
     )
 
-    # `no_oog_gas` is minimum amount of gas_limit which makes the transaction not go oog.
+    # `no_oog_gas` is minimum amount of gas_limit which makes the transaction
+    # not go oog.
     push_operations = 3 + len(opcode.kwargs)  # type: ignore
     no_oog_gas = (
         21_000
@@ -994,7 +1001,10 @@ def test_eof_calls_with_value(
     balance: int,
     value: int,
 ):
-    """Test EOF contracts calls handle value calls with and without enough balance."""
+    """
+    Test EOF contracts calls handle value calls with and without enough
+    balance.
+    """
     env = Environment()
 
     noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
@@ -1047,24 +1057,30 @@ def test_eof_calls_msg_depth(
 ):
     """
     Test EOF contracts calls handle msg depth limit correctly (1024).
-    NOTE: due to block gas limit and the 63/64th rule this limit is unlikely to be hit
-          on mainnet.
+
+    Note:
+    due to block gas limit and the 63/64th rule this limit is unlikely
+    to be hit on mainnet.
+
     """
-    # Not a precise gas_limit formula, but enough to exclude risk of gas causing the failure.
+    # Not a precise gas_limit formula, but enough to exclude risk of gas
+    # causing the failure.
     gas_limit = int(200000 * (64 / 63) ** 1024)
     env = Environment(gas_limit=gas_limit)
 
     # Flow of the test:
-    # `callee_code` is recursively calling itself, passing msg depth as calldata
-    # (kept with the `MSTORE(0, ADD(...))`). When maximum msg depth is reached
-    # the call fails and starts returning. The deep-most frame returns:
+    # `callee_code` is recursively calling itself, passing msg depth as
+    # calldata (kept with the `MSTORE(0, ADD(...))`). When maximum msg depth is
+    # reached the call fails and starts returning. The deep-most frame returns:
     #   - current reached msg depth (expected to be the maximum 1024), with the
     #     `MSTORE(32, ADD(...))`
-    #   - the respective return code of the EXT*CALL (expected to be 1 - light failure), with the
-    #     `MSTORE(64, NOOP)`. Note the `NOOP` is just to appease the `Op.MSTORE` call, the return
-    #     code value is actually coming from the `Op.DUP1`
-    # When unwinding the msg call stack, the intermediate frames return whatever the deeper callee
-    # returned with the `RETURNDATACOPY` instruction.
+    #   - the respective return code of the EXT*CALL (expected to be 1 - light
+    #      failure), with the `MSTORE(64, NOOP)`. Note the `NOOP` is just to
+    #      appease the `Op.MSTORE` call, the return code value is actually
+    #      coming from the `Op.DUP1`
+    # When unwinding the msg call stack, the intermediate frames return
+    # whatever the deeper callee returned with the `RETURNDATACOPY`
+    # instruction.
 
     # Memory offsets layout:
     # - 0  - input - msg depth
@@ -1084,8 +1100,10 @@ def test_eof_calls_msg_depth(
         # duplicate return code for the `returndatacopy_block` below
         + Op.DUP1
         # if return code was:
-        #  - 1, we're in the deep-most frame, `deep_most_result_block` returns the actual result
-        #  - 0, we're in an intermediate frame, `returndatacopy_block` only passes on the result
+        #  - 1, we're in the deep-most frame, `deep_most_result_block` returns
+        #       the actual result
+        #  - 0, we're in an intermediate frame, `returndatacopy_block` only
+        #       passes on the result
         + Op.RJUMPI[rjump_offset]
         + returndatacopy_block
         + deep_most_result_block
@@ -1139,8 +1157,8 @@ def test_extdelegate_call_targets(
     call_from_initcode: bool,
 ):
     """
-    Test EOF contracts extdelegatecalling various targets, especially resolved via 7702
-    delegation.
+    Test EOF contracts extdelegatecalling various targets, especially resolved
+    via 7702 delegation.
     """
     env = Environment()
 

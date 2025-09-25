@@ -1,7 +1,8 @@
 """
-abstract: Test [EIP-198: MODEXP Precompile](https://eips.ethereum.org/EIPS/eip-198)
-    Tests the MODEXP precompile, located at address 0x0000..0005. Test cases from the EIP are
-    labelled with `EIP-198-caseX` in the test id.
+Test [EIP-198: MODEXP Precompile](https://eips.ethereum.org/EIPS/eip-198).
+
+Tests the MODEXP precompile, located at address 0x0000..0005. Test cases
+from the EIP are labelled with `EIP-198-caseX` in the test id.
 """
 
 import pytest
@@ -94,7 +95,8 @@ REFERENCE_SPEC_VERSION = "5c8f066acb210c704ef80c1033a941aa5374aac5"
             ),
             id="EIP-198-case2",
         ),
-        pytest.param(  # Note: This is the only test case which goes out-of-gas.
+        pytest.param(  # Note: This is the only test case which goes out-of-
+            # gas.
             Bytes(
                 "0000000000000000000000000000000000000000000000000000000000000000"
                 "0000000000000000000000000000000000000000000000000000000000000020"
@@ -135,7 +137,8 @@ REFERENCE_SPEC_VERSION = "5c8f066acb210c704ef80c1033a941aa5374aac5"
             id="EIP-198-case5-raw-input",
         ),
     ],
-    ids=lambda param: param.__repr__(),  # only required to remove parameter names (input/output)
+    ids=lambda param: param.__repr__(),  # only required to remove parameter
+    # names (input/output)
 )
 def test_modexp(
     state_test: StateTestFiller,
@@ -153,17 +156,18 @@ def test_modexp(
         # Store the returned CALL status (success = 1, fail = 0) into slot 0:
         + Op.SSTORE(
             0,
-            # Setup stack to CALL into ModExp with the CALLDATA and CALL into it (+ pop value)
+            # Setup stack to CALL into ModExp with the CALLDATA and CALL into
+            # it (+ pop value)
             Op.CALL(Op.GAS(), 0x05, 0, 0, Op.CALLDATASIZE(), 0, 0),
         )
-        # Store contract deployment code to deploy the returned data from ModExp as
-        # contract code (16 bytes)
+        # Store contract deployment code to deploy the returned data from
+        # ModExp as contract code (16 bytes)
         + Op.MSTORE(
             0,
             (
-                # Need to `ljust` this PUSH32 in order to ensure the code starts
-                # in memory at offset 0 (memory right-aligns stack items which are not
-                # 32 bytes)
+                # Need to `ljust` this PUSH32 in order to ensure the code
+                # starts in memory at offset 0 (memory right-aligns stack items
+                # which are not 32 bytes)
                 Op.PUSH32(
                     bytes(
                         Op.CODECOPY(0, 16, Op.SUB(Op.CODESIZE(), 16))
@@ -172,9 +176,11 @@ def test_modexp(
                 )
             ),
         )
-        # RETURNDATACOPY the returned data from ModExp into memory (offset 16 bytes)
+        # RETURNDATACOPY the returned data from ModExp into memory (offset 16
+        # bytes)
         + Op.RETURNDATACOPY(16, 0, Op.RETURNDATASIZE())
-        # CREATE contract with the deployment code + the returned data from ModExp
+        # CREATE contract with the deployment code + the returned data from
+        # ModExp
         + Op.CREATE(0, 0, Op.ADD(16, Op.RETURNDATASIZE()))
         # STOP (handy for tracing)
         + Op.STOP(),

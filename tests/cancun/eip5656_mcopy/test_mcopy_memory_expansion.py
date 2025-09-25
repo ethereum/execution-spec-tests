@@ -1,9 +1,10 @@
 """
-abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
-    Test copy operations of [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
-    that produce a memory expansion, and potentially an out-of-gas error.
+Test MCOPY with memory expansion and potential OOG errors.
 
-"""  # noqa: E501
+Test copy operations of [EIP-5656: MCOPY - Memory copying
+instruction](https://eips.ethereum.org/EIPS/eip-5656) that produce
+a memory expansion, and potentially an out-of-gas error.
+"""
 
 import itertools
 from typing import List, Mapping
@@ -74,11 +75,11 @@ def call_exact_cost(
     tx_access_list: List[AccessList],
 ) -> int:
     """
-    Return the exact cost of the subcall, based on the initial memory and the length of the
-    copy.
+    Return the exact cost of the subcall, based on the initial memory and the
+    length of the copy.
     """
-    # Starting from EIP-7623, we need to use an access list to raise the intrinsic gas cost to be
-    # above the floor data cost.
+    # Starting from EIP-7623, we need to use an access list to raise the
+    # intrinsic gas cost to be above the floor data cost.
     cost_memory_bytes = fork.memory_expansion_gas_calculator()
     gas_costs = fork.gas_costs()
     tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
@@ -218,7 +219,10 @@ def test_mcopy_memory_expansion(
     post: Mapping[str, Account],
     tx: Transaction,
 ):
-    """Perform MCOPY operations that expand the memory, and verify the gas it costs to do so."""
+    """
+    Perform MCOPY operations that expand the memory, and verify the gas it
+    costs to do so.
+    """
     state_test(
         env=env,
         pre=pre,
@@ -279,8 +283,8 @@ def test_mcopy_huge_memory_expansion(
     tx: Transaction,
 ):
     """
-    Perform MCOPY operations that expand the memory by huge amounts, and verify that it correctly
-    runs out of gas.
+    Perform MCOPY operations that expand the memory by huge amounts, and verify
+    that it correctly runs out of gas.
     """
     state_test(
         env=env,

@@ -1,7 +1,8 @@
 """
-abstract: Tests [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069)
-    Tests gas consumption.
-"""  # noqa: E501
+Gas consumption tests for EXT*CALL instructions
+    Tests for gas consumption in
+    [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069).
+"""
 
 import pytest
 
@@ -32,9 +33,9 @@ def state_env() -> Environment:
     """
     Prepare the environment for all state test cases.
 
-    Main difference is that the excess blob gas is not increased by the target, as
-    there is no genesis block -> block 1 transition, and therefore the excess blob gas
-    is not decreased by the target.
+    Main difference is that the excess blob gas is not increased by the target,
+    as there is no genesis block -> block 1 transition, and therefore the
+    excess blob gas is not decreased by the target.
     """
     return Environment()
 
@@ -124,7 +125,10 @@ def test_ext_calls_gas(
     new_account: bool,
     mem_expansion_bytes: int,
 ):
-    """Tests variations of EXT*CALL gas, both warm and cold, without and with mem expansions."""
+    """
+    Tests variations of EXT*CALL gas, both warm and cold, without and with mem
+    expansions.
+    """
     address_target = (
         pre.fund_eoa(0) if new_account else pre.deploy_contract(Container.Code(Op.STOP))
     )
@@ -154,11 +158,12 @@ def test_transfer_gas_is_cleared(
     value: int,
 ):
     """
-    Test that EXT*CALL call doesn't charge for value transfer, even if the outer call
-    transferred value.
+    Test that EXT*CALL call doesn't charge for value transfer, even if the
+    outer call transferred value.
 
-    NOTE: This is particularly possible for EXTDELEGATECALL, which carries over the value sent
-    in the outer call, however, we extend the test to all 3 EXT*CALL opcodes for good measure.
+    NOTE: This is particularly possible for EXTDELEGATECALL, which carries over
+    the value sent in the outer call, however, we extend the test to all 3
+    EXT*CALL opcodes for good measure.
     """
     noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
 
@@ -176,8 +181,8 @@ def test_transfer_gas_is_cleared(
         subject_code=Op.EXTCALL,
         subject_balance=5 * value,
         tear_down_code=Op.STOP,
-        # NOTE: CALL_WITH_VALUE_GAS is charged only once on the outer EXTCALL, while the base
-        # call gas - twice.
+        # NOTE: CALL_WITH_VALUE_GAS is charged only once on the outer EXTCALL,
+        # while the base call gas - twice.
         cold_gas=2 * COLD_ACCOUNT_ACCESS_GAS
         + (CALL_WITH_VALUE_GAS if value > 0 else 0)
         + push_gas,
@@ -196,8 +201,8 @@ def test_late_account_create(
     opcode: Op,
 ):
     """
-    Test EXTCALL to a non-existent account after another EXT*CALL has called it and not
-    created it.
+    Test EXTCALL to a non-existent account after another EXT*CALL has called it
+    and not created it.
     """
     empty_address = Address(0xDECAFC0DE)
 

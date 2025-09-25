@@ -70,18 +70,17 @@ def get_ref_spec_from_module(
     Return the reference spec object defined in a module.
 
     Args:
-        module: The module to extract reference spec from
-        github_token: Optional GitHub token for API authentication
+      module: The module to extract reference spec from
+      github_token: Optional GitHub token for API authentication
 
     Raises:
-        Exception: If the module path contains "eip" and the module
-            does not define a reference spec.
+      Exception: If the module path contains "eip" and the module does
+                 not define a reference spec.
 
     Returns:
-        spec_obj: Return None if the module path does not contain "eip",
-            i.e., the module is not required to define a reference spec,
-            otherwise, return the ReferenceSpec object as defined by the
-            module.
+      spec_obj: Return None if the module path does not contain "eip",
+      i.e., the module is not required to define a reference spec, otherwise,
+      return the ReferenceSpec object as defined by the module.
 
     """
     if not is_test_for_an_eip(str(module.__file__)):
@@ -115,13 +114,12 @@ def is_test_for_an_eip(input_string: str) -> bool:
 
 def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None):
     """
-    Test that the ReferenceSpec object as defined in the test module
-    is not outdated when compared to the remote hash from
-    ethereum/EIPs.
+    Test that the ReferenceSpec object as defined in the test module is not
+    outdated when compared to the remote hash from ethereum/EIPs.
 
     Args:
-        module: Module to test
-        github_token: Optional GitHub token for API authentication
+      module: Module to test
+      github_token: Optional GitHub token for API authentication
 
     """
     ref_spec = get_ref_spec_from_module(module, github_token=github_token)
@@ -157,9 +155,9 @@ class EIPSpecTestItem(Item):
         Initialize the test item.
 
         Args:
-            name: Name of the test
-            parent: Parent node
-            **kwargs: Additional keyword arguments
+          name: Name of the test
+          parent: Parent node
+          **kwargs: Additional keyword arguments
 
         """
         super().__init__(name, parent)
@@ -202,12 +200,11 @@ class EIPSpecTestItem(Item):
         return "spec_version_checker", 0, f"{self.name}"
 
 
-def pytest_collection_modifyitems(
-    session: pytest.Session, config: pytest.Config, items: List[Item]
-):
-    """Insert a new test EIPSpecTestItem for every test module with 'eip' in its path."""
-    del session
-
+def pytest_collection_modifyitems(config: pytest.Config, items: List[Item]):
+    """
+    Insert a new test EIPSpecTestItem for every test module with 'eip' in its
+    path.
+    """
     github_token = config.github_token if hasattr(config, "github_token") else None
 
     modules: Set[Module] = {item.parent for item in items if isinstance(item.parent, Module)}

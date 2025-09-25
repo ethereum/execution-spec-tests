@@ -15,7 +15,9 @@ from ..common import (
 
 
 class ProgramAddress(ScenarioTestProgram):
-    """Check that ADDRESS is really the code execution address in all scenarios."""
+    """
+    Check that ADDRESS is really the code execution address in all scenarios.
+    """
 
     def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
         """Test code."""

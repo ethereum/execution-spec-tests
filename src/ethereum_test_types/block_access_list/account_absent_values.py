@@ -1,10 +1,11 @@
 """
 BalAccountAbsentValues class for BAL testing.
 
-This module provides a unified class for specifying explicit absent values in Block Access Lists.
-This class uses the same change classes as BalAccountChanges to specify specific values that
-should NOT exist in the BAL. For checking complete absence, use BalAccountExpectation
-with empty lists instead.
+This module provides a unified class for specifying explicit absent values
+in Block Access Lists. This class uses the same change classes as
+BalAccountChanges to specify specific values that should NOT exist in the BAL.
+For checking complete absence, use BalAccountExpectation with empty lists
+instead.
 """
 
 from typing import List
@@ -31,18 +32,19 @@ EMPTY_LIST_ERROR_MSG = (
 
 class BalAccountAbsentValues(CamelModel):
     """
-    Represents explicit absent value expectations for a specific account in a block.
+    Represents explicit absent value expectations for a specific account
+    in a block.
 
-    This class specifies specific changes that should NOT exist in the BAL for a
-    given account.
+    This class specifies specific changes that should NOT exist in the BAL
+    for a given account.
 
-    IMPORTANT: This class is for checking that specific values are absent, NOT for
-    checking that entire categories are empty. For complete absence checks
-    (e.g., "no nonce changes at all"), use BalAccountExpectation with empty lists
-    instead.
+    IMPORTANT: This class is for checking that specific values are absent,
+    NOT for checking that entire categories are empty. For complete
+    absence checks (e.g., "no nonce changes at all"), use
+    BalAccountExpectation with empty lists instead.
 
-    The validation works by checking that none of the specified explicit changes
-    exist in the actual BAL.
+    The validation works by checking that none of the specified
+    explicit changes exist in the actual BAL.
 
     Example:
         # Forbid specific nonce change at tx 1 with post_nonce=5, and specific
@@ -156,8 +158,8 @@ class BalAccountAbsentValues(CamelModel):
 
     def validate_against(self, account: BalAccountChange) -> None:
         """
-        Validate that the account does not contain the forbidden changes specified in
-        this object.
+        Validate that the account does not contain the forbidden changes
+        specified in this object.
 
         Args:
             account: The BalAccountChange to validate against

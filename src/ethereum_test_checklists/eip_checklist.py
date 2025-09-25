@@ -1,12 +1,12 @@
 """
 EIP Testing Checklist Enum definitions.
 
-Note: This module includes a companion .pyi stub file that provides mypy type hints
-for making EIPChecklist classes callable. The stub file is auto-generated using:
-    uv run generate_checklist_stubs
+Note: This module includes a companion .pyi stub file that provides mypy type
+hints for making EIPChecklist classes callable. The stub file is auto-generated
+using: uv run generate_checklist_stubs
 
-If you modify the EIPChecklist class structure, regenerate the stub file to maintain
-proper type checking support.
+If you modify the EIPChecklist class structure, regenerate the stub file to
+maintain proper type checking support.
 """
 
 import re
@@ -16,9 +16,11 @@ import pytest
 
 def camel_to_snake(name: str) -> str:
     """Convert CamelCase to snake_case."""
-    # Insert an underscore before any uppercase letter that follows a lowercase letter
+    # Insert an underscore before any uppercase letter that follows a lowercase
+    # letter
     s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
-    # Insert an underscore before any uppercase letter that follows a lowercase letter or number
+    # Insert an underscore before any uppercase letter that follows a lowercase
+    # letter or number
     return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
 
 
@@ -73,8 +75,8 @@ class ChecklistItemMeta(type):
 
     def __call__(cls, *args, **kwargs):
         """Return a pytest mark decorator for the checklist item."""
-        # If called with a function as the first argument (direct decorator usage)
-        # and no other arguments, apply the decorator to the function
+        # If called with a function as the first argument (direct decorator
+        # usage) and no other arguments, apply the decorator to the function
         if len(args) == 1 and len(kwargs) == 0 and callable(args[0]):
             func = args[0]
             marker = pytest.mark.eip_checklist(cls._path)
@@ -93,20 +95,21 @@ class EIPChecklist:
     """
     Main namespace for EIP testing checklist items.
 
-    This class provides a structured way to reference checklist items for EIP testing.
-    The class structure is automatically converted to callable pytest markers.
+    This class provides a structured way to reference checklist items for EIP
+    testing. The class structure is automatically converted to callable pytest
+    markers.
 
-    Note: If you modify this class structure, regenerate the type stub file using:
-        uv run generate_checklist_stubs
+    Note: If you modify this class structure, regenerate the type stub file
+    using: uv run generate_checklist_stubs
 
     Examples:
-        @EIPChecklist.Opcode.Test.GasUsage.Normal()
-        def test_normal_gas():
-            pass
+      @EIPChecklist.Opcode.Test.GasUsage.Normal()
+      def test_normal_gas():
+          pass
 
-        @EIPChecklist.Opcode.Test.StackOverflow
-        def test_stack_overflow():
-            pass
+      @EIPChecklist.Opcode.Test.StackOverflow
+      def test_stack_overflow():
+          pass
 
     """
 
@@ -239,8 +242,9 @@ class EIPChecklist:
 
                 class DataPortionVariables(ChecklistItem, override_name="data_portion_variables"):
                     """
-                    If the opcode contains variables in its data portion, for each variable `n`
-                    of the opcode that accesses the nth stack item, test `n` being.
+                    If the opcode contains variables in its data portion, for
+                    each variable `n` of the opcode that accesses the nth stack
+                    item, test `n` being.
                     """
 
                     class Top(ChecklistItem):
@@ -1688,28 +1692,31 @@ class EIPChecklist:
             """Test vectors for the new validity constraint."""
 
             class ForkTransition(ChecklistItem):
-                """Tests for the new transaction validity constraint on fork boundary."""
+                """
+                Tests for the new transaction validity constraint on fork
+                boundary.
+                """
 
                 class AcceptedBeforeFork(ChecklistItem):
                     """
-                    Verify that a block before the activation fork is accepted even when the new
-                    constraint is not met.
+                    Verify that a block before the activation fork is accepted
+                    even when the new constraint is not met.
                     """
 
                     pass
 
                 class AcceptedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is accepted when the new
-                    validity constraint is met.
+                    Verify that a block after the activation fork is accepted
+                    when the new validity constraint is met.
                     """
 
                     pass
 
                 class RejectedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is rejected when the new
-                    validity constraint is not met.
+                    Verify that a block after the activation fork is rejected
+                    when the new validity constraint is not met.
                     """
 
                     pass
@@ -1721,36 +1728,41 @@ class EIPChecklist:
             """Test vectors for the modified validity constraint."""
 
             class ForkTransition(ChecklistItem):
-                """Tests for the modified transaction validity constraint on fork boundary."""
+                """
+                Tests for the modified transaction validity constraint on fork
+                boundary.
+                """
 
                 class AcceptedBeforeFork(ChecklistItem):
                     """
-                    Verify that a block before the activation fork is accepted when the existing
-                    constraint is met and, ideally, the new constraint is not met.
+                    Verify that a block before the activation fork is accepted
+                    when the existing constraint is met and, ideally, the new
+                    constraint is not met.
                     """
 
                     pass
 
                 class RejectedBeforeFork(ChecklistItem):
                     """
-                    Verify that a block before the activation fork is rejected when the existing
-                    constraint is not met and, ideally, the new constraint is met.
+                    Verify that a block before the activation fork is rejected
+                    when the existing constraint is not met and, ideally, the
+                    new constraint is met.
                     """
 
                     pass
 
                 class AcceptedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is accepted when the new
-                    validity constraint is met.
+                    Verify that a block after the activation fork is accepted
+                    when the new validity constraint is met.
                     """
 
                     pass
 
                 class RejectedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is rejected when the new
-                    validity constraint is not met.
+                    Verify that a block after the activation fork is rejected
+                    when the new validity constraint is not met.
                     """
 
                     pass

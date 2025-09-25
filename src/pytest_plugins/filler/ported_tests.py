@@ -1,20 +1,21 @@
 """
 A pytest plugin that shows `ported_from` marker information.
 
-This plugin extracts and displays information from @pytest.mark.ported_from markers,
-showing either the static filler file paths or associated PR URLs.
+This plugin extracts and displays information from @pytest.mark.ported_from
+markers, showing either the static filler file paths or associated PR URLs.
 
 Usage:
 ------
-# Show static filler file paths
-uv run fill --show-ported-from tests/
+# Show static filler file paths:
+# uv run fill --show-ported-from tests/
 
-# Show PR URLs instead
-uv run fill --show-ported-from=prs tests/
+# Show PR URLs instead:
+# uv run fill --show-ported-from=prs tests/
 
 The plugin will:
 1. Collect all test items with @pytest.mark.ported_from markers
-2. Extract either the file paths (first positional argument) or PR URLs (pr keyword argument)
+2. Extract either the file paths (first positional argument) or PR URLs (pr
+   keyword argument)
 3. Output a deduplicated, sorted list, one per line
 4. Skip test execution (collection only)
 5. Exclude tests with coverage_missed_reason from output
@@ -22,7 +23,8 @@ The plugin will:
 Marker Format:
 --------------
 @pytest.mark.ported_from(
-    ["path/to/static_filler1.json", "path/to/static_filler2.json"],
+    ["path/to/static_filler1.json",
+    "path/to/static_filler2.json"],
     pr=[
         "https://github.com/ethereum/execution-spec-tests/pull/1234",
         "https://github.com/ethereum/execution-spec-tests/pull/5678",

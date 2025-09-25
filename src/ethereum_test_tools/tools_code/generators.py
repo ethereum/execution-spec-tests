@@ -18,12 +18,11 @@ class Initcode(Bytecode):
     The execution gas cost of the initcode is calculated, and also the
     deployment gas costs for the deployed code.
 
-    The initcode can be padded to a certain length if necessary, which
-    does not affect the deployed code.
+    The initcode can be padded to a certain length if necessary, which does not
+    affect the deployed code.
 
-    Other costs such as the CREATE2 hashing costs or the initcode_word_cost
-    of EIP-3860 are *not* taken into account by any of these calculated
-    costs.
+    Other costs such as the CREATE2 hashing costs or the initcode_word_cost of
+    EIP-3860 are *not* taken into account by any of these calculated costs.
     """
 
     deploy_code: SupportsBytes | Bytes
@@ -131,8 +130,8 @@ class CodeGasMeasure(Bytecode):
     """
     Helper class used to generate bytecode that measures gas usage of a
     bytecode, taking into account and subtracting any extra overhead gas costs
-    required to execute.
-    By default, the result gas calculation is saved to storage key 0.
+    required to execute. By default, the result gas calculation is saved to
+    storage key 0.
     """
 
     code: Bytecode
@@ -199,8 +198,8 @@ class Conditional(Bytecode):
     ):
         """
         Assemble the conditional bytecode by generating the necessary jump and
-        jumpdest opcodes surrounding the condition and the two possible execution
-        paths.
+        jumpdest opcodes surrounding the condition and the two possible
+        execution paths.
 
         In the future, PC usage should be replaced by using RJUMP and RJUMPI
         """
@@ -213,15 +212,16 @@ class Conditional(Bytecode):
             # First we append a jumpdest to the start of the true branch
             if_true = Op.JUMPDEST + if_true
 
-            # Then we append the unconditional jump to the end of the false branch, used to skip
-            # the true branch
+            # Then we append the unconditional jump to the end of the false
+            # branch, used to skip the true branch
             if_false += Op.JUMP(Op.ADD(Op.PC, len(if_true) + 3))
 
-            # Then we need to do the conditional jump by skipping the false branch
+            # Then we need to do the conditional jump by skipping the false
+            # branch
             condition = Op.JUMPI(Op.ADD(Op.PC, len(if_false) + 3), condition)
 
-            # Finally we append the condition, false and true branches, plus the jumpdest at the
-            # very end
+            # Finally we append the condition, false and true branches, plus
+            # the jumpdest at the very end
             bytecode = condition + if_false + if_true + Op.JUMPDEST
 
         elif evm_code_type == EVMCodeType.EOF_V1:
@@ -284,8 +284,8 @@ class Case:
 
 class CalldataCase(Case):
     """
-    Small helper class to represent a single case whose condition depends
-    on the value of the contract's calldata in a Switch case statement.
+    Small helper class to represent a single case whose condition depends on
+    the value of the contract's calldata in a Switch case statement.
 
     By default the calldata is read from position zero, but this can be
     overridden using `position`.
@@ -305,12 +305,14 @@ class Switch(Bytecode):
     Helper class used to generate switch-case expressions in EVM bytecode.
 
     Switch-case behavior:
-        - If no condition is met in the list of BytecodeCases conditions,
-            the `default_action` bytecode is executed.
-        - If multiple conditions are met, the action from the first valid
-            condition is the only one executed.
-        - There is no fall through; it is not possible to execute multiple
-            actions.
+      - If no condition is met in the list of BytecodeCases
+        conditions, the `default_action` bytecode is executed.
+
+      - If multiple conditions are met, the action from the first valid
+        condition is the only one executed.
+
+      - There is no fall through; it is not possible to execute
+        multiple actions.
     """
 
     default_action: Bytecode | Op | None
@@ -338,55 +340,57 @@ class Switch(Bytecode):
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
     ):
         """
-        Assemble the bytecode by looping over the list of cases and adding
-        the necessary [R]JUMPI and JUMPDEST opcodes in order to replicate
+        Assemble the bytecode by looping over the list of cases and adding the
+        necessary [R]JUMPI and JUMPDEST opcodes in order to replicate
         switch-case behavior.
         """
-        # The length required to jump over subsequent actions to the final JUMPDEST at the end
-        # of the switch-case block:
-        # - add 6 per case for the length of the JUMPDEST and JUMP(ADD(PC, action_jump_length))
-        #   bytecode
-        # - add 3 to the total to account for this action's JUMP; the PC within the call
-        #   requires a "correction" of 3.
+        # The length required to jump over subsequent actions to the final
+        # JUMPDEST at the end of the switch-case block:
+        #   - add 6 per case for the length of the JUMPDEST and
+        #     JUMP(ADD(PC, action_jump_length)) bytecode
+        #
+        #   - add 3 to the total to account for this action's JUMP;
+        #     the PC within the call requires a "correction" of 3.
 
         bytecode = Bytecode()
 
-        # All conditions get prepended to this bytecode; if none are met, we reach the default
+        # All conditions get prepended to this bytecode; if none are met, we
+        # reach the default
         if evm_code_type == EVMCodeType.LEGACY:
             action_jump_length = sum(len(case.action) + 6 for case in cases) + 3
             bytecode = default_action + Op.JUMP(Op.ADD(Op.PC, action_jump_length))
-            # The length required to jump over the default action and its JUMP bytecode
+            # The length required to jump over the default action and its JUMP
+            # bytecode
             condition_jump_length = len(bytecode) + 3
         elif evm_code_type == EVMCodeType.EOF_V1:
             action_jump_length = sum(
                 len(case.action) + (len(Op.RJUMP[0]) if not case.is_terminating else 0)
                 for case in cases
-                # On not terminating cases, we need to add 3 bytes for the RJUMP
+                # On not terminating cases, we need to add 3 bytes for the
+                # RJUMP
             )
             bytecode = default_action + Op.RJUMP[action_jump_length]
-            # The length required to jump over the default action and its JUMP bytecode
+            # The length required to jump over the default action and its JUMP
+            # bytecode
             condition_jump_length = len(bytecode)
 
-        # Reversed: first case in the list has priority; it will become the outer-most onion layer.
-        # We build up layers around the default_action, after 1 iteration of the loop, a simplified
-        # representation of the bytecode is:
+        # Reversed: first case in the list has priority; it will become the
+        # outer-most onion layer. We build up layers around the default_action,
+        # after 1 iteration of the loop, a simplified representation of the
+        # bytecode is:
         #
-        #  JUMPI(case[n-1].condition)
-        #  + default_action + JUMP()
-        #  + JUMPDEST + case[n-1].action + JUMP()
+        # JUMPI(case[n-1].condition)
+        # + default_action + JUMP()
+        # + JUMPDEST + case[n-1].action + JUMP()
         #
         # and after n=len(cases) iterations:
         #
-        #  JUMPI(case[0].condition)
-        #  + JUMPI(case[1].condition)
-        #    ...
-        #  + JUMPI(case[n-1].condition)
-        #  + default_action + JUMP()
-        #  + JUMPDEST + case[n-1].action + JUMP()
-        #  + ...
-        #  + JUMPDEST + case[1].action + JUMP()
-        #  + JUMPDEST + case[0].action + JUMP()
-        #
+        # JUMPI(case[0].condition)
+        # + JUMPI(case[1].condition)
+        # ...
+        # + JUMPI(case[n-1].condition) + default_action + JUMP() + JUMPDEST +
+        # case[n-1].action + JUMP() + ... + JUMPDEST + case[1].action + JUMP()
+        # + JUMPDEST + case[0].action + JUMP()
         for case in reversed(cases):
             action = case.action
             if evm_code_type == EVMCodeType.LEGACY:

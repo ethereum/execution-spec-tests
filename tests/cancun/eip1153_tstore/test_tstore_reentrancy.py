@@ -1,7 +1,4 @@
-"""
-Ethereum Transient Storage EIP Tests
-https://eips.ethereum.org/EIPS/eip-1153.
-"""
+"""EIP-1153 Transient Storage tests."""
 
 from enum import Enum
 
@@ -69,10 +66,12 @@ def test_tstore_reentrancy(
     Revert undoes the transient storage writes from a call.
 
     (09_revertUndoesAllFiller.yml)
-    Revert undoes all the transient storage writes to the same key from the failed call.
+    Revert undoes all the transient storage writes to the same key
+    from the failed call.
 
     (11_tstoreDelegateCallFiller.yml)
-    delegatecall manipulates transient storage in the context of the current address.
+    delegatecall manipulates transient storage in the context of
+    the current address.
 
     (13_tloadStaticCallFiller.yml)
     Transient storage cannot be manipulated in a static context, tstore reverts
@@ -200,7 +199,8 @@ def test_tstore_reentrancy(
                         if call_type == Op.STATICCALL or call_return == Om.OOG
                         else tload_value_set_in_call
                     ),
-                    # external tstore overrides value in upper level only in delegate and callcode
+                    # external tstore overrides value in upper level only in
+                    # delegate and callcode
                     slot_tload_after_call: (
                         tload_value_set_in_call
                         if on_successful_delegate_or_callcode
@@ -208,7 +208,8 @@ def test_tstore_reentrancy(
                     ),
                     slot_tload_1_after_call: 12 if on_successful_delegate_or_callcode else 0,
                     slot_tstore_overwrite: 50,
-                    # tstore in static call not allowed, reentrancy means external call here
+                    # tstore in static call not allowed, reentrancy means
+                    # external call here
                     slot_subcall_worked: 0 if on_failing_calls else 1,
                 }
             )

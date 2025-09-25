@@ -20,7 +20,8 @@ class Tag(BaseModel, Generic[T]):
     name: str
     type: ClassVar[str] = ""
     regex_pattern: ClassVar[re.Pattern] = re.compile(r"<\w+:(\w+)(:[^>]+)?")
-    original_string: str | None = None  # Store the original tag string for replacement
+    # Store the original tag string for replacement
+    original_string: str | None = None
 
     def __hash__(self) -> int:
         """Hash based on original string for use as dict key."""
@@ -64,12 +65,18 @@ class ContractTag(AddressTag):
 
     type: ClassVar[str] = "contract"
     regex_pattern: ClassVar[re.Pattern] = re.compile(r"<contract:([^:>]+)(?::(0x[a-fA-F0-9]+))?>")
-    debug_address: Address | None = None  # Optional hard-coded address for debugging
+    # Optional hard-coded address for debugging
+    debug_address: Address | None = None
 
     @model_validator(mode="before")
     @classmethod
     def validate_from_string(cls, data: Any) -> Any:
-        """Validate the contract tag from string: <contract:name:0x...> or <contract:0x...>."""
+        """
+        Validate the contract tag from string:
+        <contract:name:0x...>
+        or
+        <contract:0x...>.
+        """
         if isinstance(data, str):
             if m := cls.regex_pattern.match(data):
                 name_or_addr = m.group(1)
@@ -77,8 +84,9 @@ class ContractTag(AddressTag):
 
                 # Check if it's a 2-part format with an address
                 if name_or_addr.startswith("0x") and len(name_or_addr) == 42:
-                    # For 2-part format, use the full address as the name
-                    # This ensures all references to the same address get the same tag name
+                    # For 2-part format, use the full address as the name This
+                    # ensures all references to the same address get the same
+                    # tag name
                     return {
                         "name": name_or_addr,
                         "debug_address": Address(name_or_addr),
@@ -146,7 +154,8 @@ class SenderTag(AddressTag):
 
     type: ClassVar[str] = "eoa"
     regex_pattern: ClassVar[re.Pattern] = re.compile(r"<eoa:(\w+)(?::(0x[a-fA-F0-9]+))?>")
-    debug_address: Address | None = None  # Optional hard-coded address for debugging
+    # Optional hard-coded address for debugging
+    debug_address: Address | None = None
 
     @model_validator(mode="before")
     @classmethod

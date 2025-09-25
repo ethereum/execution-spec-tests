@@ -33,7 +33,9 @@ def extract_markdown_ids(markdown_content: str) -> Set[str]:
 
 
 def get_all_checklist_ids(obj) -> Set[str]:
-    """Recursively extract all checklist IDs from EIPChecklist and its children."""
+    """
+    Recursively extract all checklist IDs from EIPChecklist and its children.
+    """
     ids = set()
 
     # Iterate through all attributes of the object
@@ -59,7 +61,9 @@ def get_all_checklist_ids(obj) -> Set[str]:
 
 
 def test_checklist_template_consistency():
-    """Test that all IDs in markdown template match EIPChecklist class exactly."""
+    """
+    Test that all IDs in markdown template match EIPChecklist class exactly.
+    """
     # Read the markdown template
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         markdown_content = f.read()
@@ -135,7 +139,10 @@ def test_id_extraction_functions():
 
 
 def test_eip_checklist_decorator_usage():
-    """Test EIPChecklist items work correctly as decorators both with and without parentheses."""
+    """
+    Test EIPChecklist items work correctly as decorators both with and without
+    parentheses.
+    """
 
     # Test decorator with parentheses
     @EIPChecklist.Opcode.Test.StackComplexOperations()
@@ -149,7 +156,8 @@ def test_eip_checklist_decorator_usage():
     assert len(eip_markers) == 1
     assert eip_markers[0].args == ("opcode/test/stack_complex_operations",)
 
-    # Test decorator without parentheses (direct usage - this is the key fix for issue #1)
+    # Test decorator without parentheses (direct usage - this is the key fix
+    # for issue #1)
     @EIPChecklist.Opcode.Test.StackOverflow
     def test_function_no_parens():
         pass
@@ -192,6 +200,7 @@ def test_eip_checklist_pytest_param_usage():
     with pytest.raises((TypeError, AssertionError)):
         pytest.param(
             "test_value",
-            marks=EIPChecklist.Opcode.Test.StackOverflow,  # Without () should fail
+            # Without () should fail
+            marks=EIPChecklist.Opcode.Test.StackOverflow,
             id="should_fail",
         )

@@ -1,13 +1,15 @@
 """
-bug: Tests the Consensus Flaw During Block Processing related to SELFDESTRUCT
-    Tests the consensus-vulnerability reported in
-    [go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4](https://github.com/ethereum/go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4).
+Tests the Consensus Flaw During Block Processing related to SELFDESTRUCT.
+
+Tests the consensus-vulnerability reported in
+[go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4](https://github.com/ethere
+um/go-ethereum/security/advisories/GHSA-xw37-57qp-9mm4).
 
 To reproduce the issue with this test case:
 
 1. Fill the test with the most recent geth evm version.
-2. Run the fixture output within a vulnerable geth version: v1.9.20 > geth >=
-    v1.9.4.
+2. Run the fixture output within a vulnerable geth version:
+    v1.9.20 > geth >= v1.9.4.
 """
 
 import pytest
@@ -33,18 +35,18 @@ def test_tx_selfdestruct_balance_bug(blockchain_test: BlockchainTestFiller, pre:
     `0xaa` contract after executing specific transactions.
 
     1. Start with contract `0xaa` which has initial balance of 3 wei.
-        `0xaa` contract code simply performs a self-destruct to itself.
+    `0xaa` contract code simply performs a self-destruct to itself.
 
-    2. Send a transaction (tx 1) to invoke caller contract `0xcc` (which
-        has a balance of 1 wei), which in turn invokes `0xaa` with a 1 wei call.
+    2. Send a transaction (tx 1) to invoke caller contract `0xcc` (which has a
+    balance of 1 wei), which in turn invokes `0xaa` with a 1 wei call.
 
-    3. Store the balance of `0xaa` after the first transaction
-        is processed. `0xaa` self-destructed. Expected outcome: 0 wei.
+    3. Store the balance of `0xaa` after the first transaction is processed.
+    `0xaa` self-destructed. Expected outcome: 0 wei.
 
     4. Send another transaction (tx 2) to call 0xaa with 5 wei.
 
-    5. Store the balance of `0xaa` after the second transaction
-        is processed. No self-destruct. Expected outcome: 5 wei.
+    5. Store the balance of `0xaa` after the second transaction is processed.
+    No self-destruct. Expected outcome: 5 wei.
 
     6. Verify that:
         - Call within tx 1 is successful, i.e `0xaa` self-destructed.

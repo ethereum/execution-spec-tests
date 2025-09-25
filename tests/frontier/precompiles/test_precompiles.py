@@ -18,14 +18,16 @@ from ethereum_test_vm import Opcodes as Op
 
 def precompile_addresses(fork: Fork) -> Iterator[Tuple[Address, bool]]:
     """
-    Yield the addresses of precompiled contracts and their support status for a given fork.
+    Yield the addresses of precompiled contracts and their support status for a
+    given fork.
 
     Args:
-        fork (Fork): The fork instance containing precompiled contract information.
+      fork (Fork): The fork instance containing precompiled
+                   contract information.
 
-    Yields:
-        Iterator[Tuple[str, bool]]: A tuple containing the address in hexadecimal format and a
-            boolean indicating whether the address is a supported precompile.
+    Yields: Iterator[Tuple[str, bool]]: A tuple containing the address in
+    hexadecimal format and a boolean indicating whether the address is a
+    supported precompile.
 
     """
     supported_precompiles = fork.precompiles()
@@ -60,17 +62,19 @@ def test_precompiles(
     Tests the behavior of precompiled contracts in the Ethereum state test.
 
     Args:
-        state_test (StateTestFiller): The state test filler object used to run the test.
-        address (str): The address of the precompiled contract to test.
-        precompile_exists (bool): A flag indicating whether the precompiled contract exists at the
-            given address.
-        pre (Alloc): The allocation object used to deploy the contract and set up the initial
-            state.
+      state_test (StateTestFiller): The state test filler object used to
+                                    run the test.
+      address (str): The address of the precompiled contract to test.
+      precompile_exists (bool): A flag indicating whether the precompiled
+                                contract exists at the given address.
+      pre (Alloc): The allocation object used to deploy the contract and
+                   set up the initial state.
 
-    This test deploys a contract that performs two CALL operations to the specified address and a
-    fixed address (0x10000), measuring the gas used for each call. It then stores the difference
-    in gas usage in storage slot 0. The test verifies the expected storage value based on
-    whether the precompiled contract exists at the given address.
+    This test deploys a contract that performs two CALL operations to the
+    specified address and a fixed address (0x10000), measuring the gas used for
+    each call. It then stores the difference in gas usage in storage slot 0.
+    The test verifies the expected storage value based on whether the
+    precompiled contract exists at the given address.
 
     """
     env = Environment()

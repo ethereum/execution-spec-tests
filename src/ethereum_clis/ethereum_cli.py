@@ -20,7 +20,9 @@ class UnknownCLIError(Exception):
 
 
 class CLINotFoundInPathError(Exception):
-    """Exception raised if the specified CLI binary is not found in the path."""
+    """
+    Exception raised if the specified CLI binary is not found in the path.
+    """
 
     def __init__(self, message="The CLI binary was not found in the path", binary=None):
         """Initialize the exception."""
@@ -49,11 +51,14 @@ class EthereumCLI:
     cached_version: Optional[str] = None
 
     def __init__(self, *, binary: Optional[Path] = None):
-        """Abstract initialization method that all subclasses must implement."""
+        """
+        Abstract initialization method that all subclasses must implement.
+        """
         if binary is None:
             binary = self.default_binary
         else:
-            # improve behavior of which by resolving the path: ~/relative paths don't work
+            # improve behavior of which by resolving the path: ~/relative paths
+            # don't work
             resolved_path = Path(os.path.expanduser(binary)).resolve()
             if resolved_path.exists():
                 binary = resolved_path
@@ -75,10 +80,12 @@ class EthereumCLI:
     @classmethod
     def from_binary_path(cls, *, binary_path: Optional[Path], **kwargs) -> Any:
         """
-        Instantiate the appropriate CLI subclass derived from the CLI's `binary_path`.
+        Instantiate the appropriate CLI subclass derived from the CLI's
+        `binary_path`.
 
-        This method will attempt to detect the CLI version and instantiate the appropriate
-        subclass based on the version output by running the CLI with the version flag.
+        This method will attempt to detect the CLI version and instantiate the
+        appropriate subclass based on the version output by running the CLI
+        with the version flag.
         """
         assert cls.default_tool is not None, "default CLI implementation was never set"
 
@@ -114,8 +121,8 @@ class EthereumCLI:
             logger.debug(f"Successfully located the path of the t8n binary: {binary}")
             binary = Path(binary)
 
-        # Group the tools by version flag, so we only have to call the tool once for all the
-        # classes that share the same version flag
+        # Group the tools by version flag, so we only have to call the tool
+        # once for all the classes that share the same version flag
         for version_flag, subclasses in groupby(
             cls.registered_tools, key=lambda x: x.version_flag
         ):
@@ -134,7 +141,9 @@ class EthereumCLI:
 
                 if result.returncode != 0:
                     logger.debug(f"Subprocess returncode is not 0! It is: {result.returncode}")
-                    continue  # don't raise exception, you are supposed to keep trying different version flags  # noqa: E501
+                    continue
+                    # don't raise exception, you are supposed to keep
+                    # trying different version flags
 
                 if result.stderr:
                     logger.debug(f"Stderr detected: {result.stderr}")  # type: ignore
@@ -143,10 +152,6 @@ class EthereumCLI:
                 binary_output = ""
                 if result.stdout:
                     binary_output = result.stdout.decode().strip()
-                    # e.g. 1.31.10+f62cfede9b4abfb5cd62d6f138240668620a2b0d should be treated as 1.31.10  # noqa: E501
-                    # if "+" in binary_output:
-                    #     binary_output = binary_output.split("+")[0]
-
                     logger.debug(f"Stripped subprocess stdout: {binary_output}")
 
                 for subclass in subclasses:
@@ -169,7 +174,10 @@ class EthereumCLI:
 
     @classmethod
     def detect_binary(cls, binary_output: str) -> bool:
-        """Return True if a CLI's `binary_output` matches the class's expected output."""
+        """
+        Return True if a CLI's `binary_output` matches the class's expected
+        output.
+        """
         assert cls.detect_binary_pattern is not None
 
         return cls.detect_binary_pattern.match(binary_output) is not None
@@ -187,7 +195,10 @@ class EthereumCLI:
         return binary is not None
 
     def version(self) -> str:
-        """Return the name and version of the CLI as reported by the CLI's version flag."""
+        """
+        Return the name and version of the CLI as reported by the CLI's version
+        flag.
+        """
         if self.cached_version is None:
             result = subprocess.run(
                 [str(self.binary), self.version_flag],

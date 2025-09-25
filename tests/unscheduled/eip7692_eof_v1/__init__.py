@@ -1,6 +1,6 @@
 """
-abstract: Test cases for [EIP-7692: EVM Object Format (EOFv1) Meta](https://eips.ethereum.org/EIPS/eip-7692)
-    Test cases for the EIPs included in [EIP-7692 EOFv1 Meta](https://eips.ethereum.org/EIPS/eip-7692).
+Test cases for [EIP-7692: EVM Object Format (EOFv1) Meta](https://eips.ethereum.org/EIPS/eip-7692).
+    Test cases for the EIPs included in EIP-7692 EOFv1 Meta.
 
     * [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663).
     * [EIP-3540: EOF - EVM Object Format v1](https://eips.ethereum.org/EIPS/eip-3540).
@@ -16,7 +16,7 @@ abstract: Test cases for [EIP-7692: EVM Object Format (EOFv1) Meta](https://eips
 
 ## Devnet Specifications
 
-- [ethpandaops/eof-devnet-0](https://notes.ethereum.org/@ethpandaops/eof-devnet-0).
-"""  # noqa: E501
+    - [ethpandaops/eof-devnet-0](https://notes.ethereum.org/@ethpandaops/eof-devnet-0).
+"""
 
 EOF_FORK_NAME = "EOFv1"

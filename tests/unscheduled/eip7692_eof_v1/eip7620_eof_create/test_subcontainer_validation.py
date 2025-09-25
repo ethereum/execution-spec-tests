@@ -264,7 +264,10 @@ def test_container_combos_deeply_nested_valid(
     code_section: Section,
     first_sub_container: Container,
 ):
-    """Test valid subcontainer reference / opcode combos on a deep container nesting level."""
+    """
+    Test valid subcontainer reference / opcode combos on a deep container
+    nesting level.
+    """
     valid_container = Container(
         sections=[
             code_section,
@@ -314,7 +317,10 @@ def test_container_combos_deeply_nested_invalid(
     code_section: Section,
     first_sub_container: Container,
 ):
-    """Test invalid subcontainer reference / opcode combos on a deep container nesting level."""
+    """
+    Test invalid subcontainer reference / opcode combos on a deep container
+    nesting level.
+    """
     invalid_container = Container(
         sections=[
             code_section,
@@ -380,7 +386,10 @@ def test_container_combos_non_first_code_sections_valid(
     first_sub_container: Container,
     container_kind: ContainerKind,
 ):
-    """Test valid subcontainer reference / opcode combos in a non-first code section."""
+    """
+    Test valid subcontainer reference / opcode combos in a non-first code
+    section.
+    """
     eof_test(
         container=Container(
             sections=[Section.Code(Op.JUMPF[i]) for i in range(1, 1024)]
@@ -419,7 +428,10 @@ def test_container_combos_non_first_code_sections_invalid(
     first_sub_container: Container,
     container_kind: ContainerKind,
 ):
-    """Test invalid subcontainer reference / opcode combos in a non-first code section."""
+    """
+    Test invalid subcontainer reference / opcode combos in a non-first code
+    section.
+    """
     eof_test(
         container=Container(
             sections=[Section.Code(Op.JUMPF[i]) for i in range(1, 1024)]
@@ -431,7 +443,9 @@ def test_container_combos_non_first_code_sections_invalid(
 
 
 def test_container_both_kinds_same_sub(eof_test: EOFTestFiller):
-    """Test subcontainer conflicts (both EOFCREATE and RETURNCODE Reference)."""
+    """
+    Test subcontainer conflicts (both EOFCREATE and RETURNCODE Reference).
+    """
     eof_test(
         container=Container(
             sections=[
@@ -460,8 +474,8 @@ def test_container_ambiguous_kind(
     eof_test: EOFTestFiller, container_idx: int, sub_container: Section
 ):
     """
-    Test ambiguous container kind:
-    a single subcontainer reference by both EOFCREATE and RETURNCODE.
+    Test ambiguous container kind: a single subcontainer reference by both
+    EOFCREATE and RETURNCODE.
     """
     sections = [
         Section.Code(
@@ -504,7 +518,10 @@ def test_container_both_kinds_different_sub(eof_test: EOFTestFiller):
 
 
 def test_container_multiple_eofcreate_references(eof_test: EOFTestFiller):
-    """Test multiple references to the same subcontainer from an EOFCREATE operation."""
+    """
+    Test multiple references to the same subcontainer from an EOFCREATE
+    operation.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -518,7 +535,10 @@ def test_container_multiple_eofcreate_references(eof_test: EOFTestFiller):
 
 
 def test_container_multiple_returncode_references(eof_test: EOFTestFiller):
-    """Test multiple references to the same subcontainer from a RETURNCONTACT operation."""
+    """
+    Test multiple references to the same subcontainer from a RETURNCONTACT
+    operation.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -611,7 +631,8 @@ def test_deep_container(
     """
     Test a very deeply nested container.
 
-    This test skips generating a state test because the initcode size is too large.
+    This test skips generating a state test because the initcode size is too
+    large.
     """
     container = deepest_container
     last_container = deepest_container
@@ -785,7 +806,8 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                 ef0001010004020001000603000100000014ff000200008000016000e0000000ef000101000402000100
                 01ff00000000800000fe""",
                 # Originally this test was "valid" but against the current spec
-                # it contains two errors: data section truncated and orphan subcontainer.
+                # it contains two errors: data section truncated and orphan
+                # subcontainer.
                 validity_error=EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
             ),
             id="orphan_subcontainer_0_and_truncated_data",
@@ -812,7 +834,8 @@ def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFExcep
                     Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
                     Section.Container("aabbccddeeff"),
                 ],
-                # The original test has been modified to reference the subcontainer by EOFCREATE.
+                # The original test has been modified to reference the
+                # subcontainer by EOFCREATE.
                 validity_error=EOFException.INVALID_MAGIC,
             ),
             id="subcontainer_0_with_invalid_prefix",
@@ -896,7 +919,10 @@ def test_migrated_eofcreate(eof_test: EOFTestFiller, container: Container):
 def test_dangling_initcode_subcontainer_bytes(
     eof_test: EOFTestFiller,
 ):
-    """Initcode mode EOF Subcontainer test with subcontainer containing dangling bytes."""
+    """
+    Initcode mode EOF Subcontainer test with subcontainer containing dangling
+    bytes.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -916,7 +942,10 @@ def test_dangling_initcode_subcontainer_bytes(
 def test_dangling_runtime_subcontainer_bytes(
     eof_test: EOFTestFiller,
 ):
-    """Runtime mode EOF Subcontainer test with subcontainer containing dangling bytes."""
+    """
+    Runtime mode EOF Subcontainer test with subcontainer containing dangling
+    bytes.
+    """
     eof_test(
         container=Container(
             sections=[

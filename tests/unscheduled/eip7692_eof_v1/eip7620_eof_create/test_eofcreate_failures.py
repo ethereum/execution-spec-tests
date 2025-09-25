@@ -142,8 +142,8 @@ def test_initcode_aborts(
 
 
 """
-Size of the factory portion of test_eofcreate_deploy_sizes, but as the runtime code is dynamic, we
-have to use a pre-calculated size
+Size of the factory portion of test_eofcreate_deploy_sizes, but as the runtime
+code is dynamic, we have to use a pre-calculated size
 """
 factory_size = 78
 
@@ -172,7 +172,10 @@ def test_eofcreate_deploy_sizes(
     pre: Alloc,
     target_deploy_size: int,
 ):
-    """Verifies a mix of runtime contract sizes mixing success and multiple size failure modes."""
+    """
+    Verifies a mix of runtime contract sizes mixing success and multiple size
+    failure modes.
+    """
     env = Environment()
 
     runtime_container = Container(
@@ -215,9 +218,9 @@ def test_eofcreate_deploy_sizes(
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(code=factory_container)
-    # Storage in 0 should have the address,
-    # Storage 1 is a canary of 1 to make sure it tried to execute, which also covers cases of
-    #   data+code being greater than initcode_size_max, which is allowed.
+    # Storage in 0 should have the address, Storage 1 is a canary of 1 to make
+    # sure it tried to execute, which also covers cases of data+code being
+    # greater than initcode_size_max, which is allowed.
     success = target_deploy_size <= MAX_BYTECODE_SIZE
     post = {
         contract_address: Account(
@@ -260,8 +263,8 @@ def test_eofcreate_deploy_sizes_tx(
     target_deploy_size: int,
 ):
     """
-    Verifies a mix of runtime contract sizes mixing success and multiple size failure modes
-    where the initcontainer is included in a transaction.
+    Verifies a mix of runtime contract sizes mixing success and multiple size
+    failure modes where the initcontainer is included in a transaction.
     """
     raise NotImplementedError("Not implemented")
 
@@ -278,7 +281,9 @@ def test_eofcreate_deploy_sizes_tx(
     ],
 )
 def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_size: int):
-    """Exercises a number of auxdata size violations, and one maxcode success."""
+    """
+    Exercises a number of auxdata size violations, and one maxcode success.
+    """
     env = Environment()
     auxdata_bytes = b"a" * auxdata_size
 
@@ -309,8 +314,11 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
 
     deployed_container_size = len(smallest_runtime_subcontainer) + auxdata_size
 
-    # Storage in 0 will have address in first test, 0 in all other cases indicating failure
-    # Storage 1 in 1 is a canary to see if EOFCREATE opcode halted
+    # Storage in 0 will have address in first test, 0 in all other cases
+    # indicating failure
+    #
+    # Storage 1 in 1 is a canary to see if EOFCREATE opcode
+    # halted
     success = deployed_container_size <= MAX_BYTECODE_SIZE
     post = {
         contract_address: Account(
@@ -351,8 +359,8 @@ def test_eofcreate_insufficient_stipend(
     value: int,
 ):
     """
-    Exercises an EOFCREATE that fails because the calling account does not have enough ether to
-    pay the stipend.
+    Exercises an EOFCREATE that fails because the calling account does not have
+    enough ether to pay the stipend.
     """
     env = Environment()
     initcode_container = Container(
@@ -370,7 +378,9 @@ def test_eofcreate_insufficient_stipend(
         code=initcode_container,
         balance=value - 1,
     )
-    # create will fail but not trigger a halt, so canary at storage 1 should be set
+    # create will fail but not trigger a halt, so canary at storage 1 should be
+    # set
+    #
     # also validate target created contract fails
     post = {
         contract_address: Account(
@@ -395,7 +405,10 @@ def test_insufficient_initcode_gas(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Exercises an EOFCREATE when there is not enough gas for the initcode charge."""
+    """
+    Exercises an EOFCREATE when there is not enough gas for the initcode
+    charge.
+    """
     env = Environment()
 
     initcode_data = b"a" * 0x5000
@@ -455,7 +468,10 @@ def test_insufficient_gas_memory_expansion(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Exercises EOFCREATE when the memory for auxdata has not been expanded but is requested."""
+    """
+    Exercises EOFCREATE when the memory for auxdata has not been expanded but
+    is requested.
+    """
     env = Environment()
 
     auxdata_size = 0x5000
@@ -513,7 +529,10 @@ def test_insufficient_returncode_auxdata_gas(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Exercises a RETURNCODE when there is not enough gas for the initcode charge."""
+    """
+    Exercises a RETURNCODE when there is not enough gas for the initcode
+    charge.
+    """
     env = Environment()
 
     auxdata_size = 0x5000
@@ -583,7 +602,8 @@ def test_insufficient_returncode_auxdata_gas(
         Op.EXTSTATICCALL,
     ],
 )
-@pytest.mark.parametrize("endowment", [0, 1])  # included to verify static flag check comes first
+@pytest.mark.parametrize("endowment", [0, 1])  # included to verify static flag
+# check comes first
 @pytest.mark.parametrize(
     "initcode",
     [smallest_initcode_subcontainer, aborting_container],
@@ -664,14 +684,18 @@ def test_eof_eofcreate_msg_depth(
 ):
     """
     Test EOFCREATE handles msg depth limit correctly (1024).
-    NOTE: due to block gas limit and the 63/64th rule this limit is unlikely to be hit
-          on mainnet.
-    NOTE: See `tests/unscheduled/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_msg_depth`
-          for more explanations and comments. Most notable deviation from that test is that here
-          calls and `EOFCREATE`s alternate in order to reach the max depth. `who_fails` decides
-          whether the failing depth 1024 will be on a call or on an `EOFCREATE` to happen.
-    """  # noqa: E501
-    # Not a precise gas_limit formula, but enough to exclude risk of gas causing the failure.
+
+    NOTE: due to block gas limit and the 63/64th rule this limit is
+          unlikely to be hit on mainnet.
+    NOTE: See `tests/unscheduled/eip7692_eof_v1/eip7069_extcall/
+          test_calls.py::test_eof_calls_msg_depth` for more explanations and
+          comments. Most notable deviation from that test is that here calls
+          and `EOFCREATE`s alternate in order to reach the max depth.
+          `who_fails` decides whether the failing depth 1024 will be on a call
+          or on an `EOFCREATE` to happen.
+    """
+    # Not a precise gas_limit formula, but enough to exclude risk of gas
+    # causing the failure.
     gas_limit = int(20000000 * (64 / 63) ** 1024)
     env = Environment(gas_limit=gas_limit)
     sender = pre.fund_eoa()
@@ -730,8 +754,9 @@ def test_eof_eofcreate_msg_depth(
         )
     )
 
-    # Only bumps the msg call depth "register" and forwards to the `calling_contract_address`.
-    # If it is used it makes the "failing" depth of 1024 to happen on EOFCREATE, instead of CALL.
+    # Only bumps the msg call depth "register" and forwards to the
+    # `calling_contract_address`. If it is used it makes the "failing" depth of
+    # 1024 to happen on EOFCREATE, instead of CALL.
     passthrough_address = pre.deploy_contract(
         Container.Code(
             Op.MSTORE(0, 1) + Op.EXTCALL(address=calling_contract_address, args_size=32) + Op.STOP
@@ -768,12 +793,15 @@ def test_reentrant_eofcreate(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies a reentrant EOFCREATE case, where EIP-161 prevents conflict via nonce bump."""
+    """
+    Verifies a reentrant EOFCREATE case, where EIP-161 prevents conflict via
+    nonce bump.
+    """
     env = Environment()
     # Calls into the factory contract with 1 as input.
     reenter_code = Op.MSTORE(0, 1) + Op.EXTCALL(address=Op.CALLDATALOAD(32), args_size=32)
-    # Initcode: if given 0 as 1st word of input will call into the factory again.
-    #           2nd word of input is the address of the factory.
+    # Initcode: if given 0 as 1st word of input will call into the factory
+    # again. 2nd word of input is the address of the factory.
     initcontainer = Container(
         sections=[
             Section.Code(
@@ -786,15 +814,19 @@ def test_reentrant_eofcreate(
             Section.Container(smallest_runtime_subcontainer),
         ]
     )
-    # Factory: Passes on its input into the initcode. It's 0 first time, 1 the second time.
-    #          Saves the result of deployment in slot 0 first time, 1 the second time.
+    # Factory:
+    #     Passes on its input into the initcode.
+    #     It's 0 first time, 1 the second time.
+    #     Saves the result of deployment in slot 0 first time, 1 the
+    #     second time.
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
                 Section.Code(
                     Op.CALLDATACOPY(0, 0, 32)
                     + Op.MSTORE(32, Op.ADDRESS)
-                    # 1st word - copied from input (reenter flag), 2nd word - `this.address`.
+                    # 1st word - copied from input (reenter flag)
+                    # 2nd word - `this.address`
                     + Op.SSTORE(Op.CALLDATALOAD(0), Op.EOFCREATE[0](input_size=64))
                     + Op.STOP,
                 ),
@@ -803,13 +835,18 @@ def test_reentrant_eofcreate(
         ),
         storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
     )
-    # Flow is: reenter flag 0 -> factory -> reenter flag 0 -> initcode -> reenter ->
-    #          reenter flag 1 -> factory -> reenter flag 1 -> (!) initcode -> stop,
-    # if the EIP-161 nonce bump is not implemented. If it is, it fails before second
-    # inicode marked (!).
+    # Flow is:
+    #   reenter flag 0 -> factory -> reenter flag 0 -> initcode ->
+    #   reenter -> reenter flag 1 -> factory -> reenter flag 1 -> (!) initcode
+    #   -> stop
+    # if the EIP-161 nonce bump is not implemented.
+    #
+    # If it is, it fails before second inicode marked (!).
+    #
     # Storage in 0 should have the address from the outer EOFCREATE.
-    # Storage in 1 should have 0 from the inner EOFCREATE.
-    # For the created contract storage in `slot_counter` should be 1 as initcode executes only once
+    # Storage in 1 should have 0 from the inner EOFCREATE. For the created
+    # contract storage in `slot_counter` should be 1 as initcode
+    # executes only once.
     post = {
         contract_address: Account(
             storage={

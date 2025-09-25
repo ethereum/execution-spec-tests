@@ -1,6 +1,8 @@
 """
-abstract: Tests [EIP-7825 Transaction Gas Limit Cap](https://eips.ethereum.org/EIPS/eip-7825)
-    Test cases for [EIP-7825 Transaction Gas Limit Cap](https://eips.ethereum.org/EIPS/eip-7825)].
+Transaction gas limit cap tests.
+
+Tests for transaction gas limit cap in [EIP-7825: Transaction Gas Limit
+Cap](https://eips.ethereum.org/EIPS/eip-7825).
 """
 
 from typing import List
@@ -37,12 +39,13 @@ REFERENCE_SPEC_VERSION = ref_spec_7825.version
 
 def tx_gas_limit_cap_tests(fork: Fork) -> List[ParameterSet]:
     """
-    Return a list of tests for transaction gas limit cap parametrized for each different
-    fork.
+    Return a list of tests for transaction gas limit cap parametrized for each
+    different fork.
     """
     fork_tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     if fork_tx_gas_limit_cap is None:
-        # Use a default value for forks that don't have a transaction gas limit cap
+        # Use a default value for forks that don't have a transaction gas limit
+        # cap
         return [
             pytest.param(Spec.tx_gas_limit_cap + 1, None, id="tx_gas_limit_cap_none"),
         ]
@@ -69,7 +72,9 @@ def test_transaction_gas_limit_cap(
     error: TransactionException | None,
     tx_type: int,
 ):
-    """Test the transaction gas limit cap behavior for all transaction types."""
+    """
+    Test the transaction gas limit cap behavior for all transaction types.
+    """
     env = Environment()
 
     sender = pre.fund_eoa()
@@ -179,7 +184,9 @@ def test_tx_gas_larger_than_block_gas_limit(
     fork: Fork,
     exceed_block_gas_limit: bool,
 ):
-    """Test multiple transactions with total gas larger than the block gas limit."""
+    """
+    Test multiple transactions with total gas larger than the block gas limit.
+    """
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
 
@@ -302,7 +309,8 @@ def test_tx_gas_limit_cap_full_calldata(
 
     num_of_bytes += int(exceed_tx_gas_limit)
 
-    # Gas cost calculation based on EIP-7623: (https://eips.ethereum.org/EIPS/eip-7623)
+    # Gas cost calculation based on EIP-7623:
+    # (https://eips.ethereum.org/EIPS/eip-7623)
     #
     # Simplified in this test case:
     # - No execution gas used (no opcodes are executed)
@@ -377,12 +385,12 @@ def test_tx_gas_limit_cap_contract_creation(
 
     code = Op.JUMPDEST * num_of_bytes
 
-    # Craft a contract creation transaction that exceeds the transaction gas limit cap
+    # Craft a contract creation transaction that exceeds the transaction gas
+    # limit cap
     #
     # Total cost =
     # intrinsic cost (base tx cost + contract creation cost)
-    # + calldata cost
-    # + init code execution cost
+    # + calldata cost + init code execution cost
     #
     # The contract body is filled with JUMPDEST instructions, so:
     # total cost = intrinsic cost + calldata cost + (num_of_jumpdest * 1 gas)
@@ -424,7 +432,10 @@ def test_tx_gas_limit_cap_access_list_with_diff_keys(
     pre: Alloc,
     fork: Fork,
 ):
-    """Test the transaction gas limit cap behavior for access list with different storage keys."""
+    """
+    Test the transaction gas limit cap behavior for access list with different
+    storage keys.
+    """
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
@@ -500,7 +511,10 @@ def test_tx_gas_limit_cap_access_list_with_diff_addr(
     exceed_tx_gas_limit: bool,
     correct_intrinsic_cost_in_transaction_gas_limit: bool,
 ):
-    """Test the transaction gas limit cap behavior for access list with different addresses."""
+    """
+    Test the transaction gas limit cap behavior for access list with different
+    addresses.
+    """
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
@@ -588,14 +602,13 @@ def test_tx_gas_limit_cap_authorized_tx(
     )
 
     # EIP-7702 authorization transaction cost:
+    # 21000 + 16 * non-zero calldata bytes + 4 * zero calldata bytes + 1900 *
+    # access list storage key count + 2400 * access list address count +
+    # PER_EMPTY_ACCOUNT_COST * authorization list length
     #
-    # 21000 + 16 * non-zero calldata bytes + 4 * zero calldata bytes
-    # + 1900 * access list storage key count
-    # + 2400 * access list address count
-    # + PER_EMPTY_ACCOUNT_COST * authorization list length
+    # There is no calldata and no storage keys in this test case and the access
+    # address list count is equal to the authorization list length
     #
-    # There is no calldata and no storage keys in this test case
-    # and the access address list count is equal to the authorization list length
     # total cost = 21000 + (2400 + 25_000) * auth_list_length
 
     auth_address = pre.deploy_contract(code=Op.STOP)

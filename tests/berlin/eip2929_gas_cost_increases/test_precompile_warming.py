@@ -1,7 +1,10 @@
 """
-abstract: Tests [EIP-2929: Gas cost increases for state access opcodes](https://eips.ethereum.org/EIPS/eip-2929)
-    Test cases for [EIP-2929: Gas cost increases for state access opcodes](https://eips.ethereum.org/EIPS/eip-2929).
-"""  # noqa: E501
+Tests EIP-2929 precompile warming behavior.
+
+Tests precompile warming behavior across fork transitions from
+[EIP-2929: Gas cost increases for state access opcodes]
+    (https://eips.ethereum.org/EIPS/eip-2929).
+"""
 
 from typing import Iterator, Tuple
 
@@ -31,14 +34,17 @@ def precompile_addresses_in_predecessor_successor(
     fork: Fork,
 ) -> Iterator[Tuple[Address, bool, bool]]:
     """
-    Yield the addresses of precompiled contracts and whether they existed in the parent fork.
+    Yield the addresses of precompiled contracts and whether they existed in
+    the parent fork.
 
     Args:
-        fork (Fork): The transition fork instance containing precompiled contract information.
+        fork (Fork): The transition fork instance containing precompiled
+            contract information.
 
     Yields:
-        Iterator[Tuple[str, bool]]: A tuple containing the address in hexadecimal format and a
-            boolean indicating whether the address has existed in the predecessor.
+        Iterator[Tuple[str, bool]]: A tuple containing the address in
+            hexadecimal format and a boolean indicating whether the address
+            has existed in the predecessor.
 
     """
     precompile_range = range(0x01, 0x100)
@@ -84,14 +90,16 @@ def test_precompile_warming(
     """
     Call BALANCE of a precompile addresses before and after a fork.
 
-    According to EIP-2929, when a transaction begins, accessed_addresses is initialized to include:
+    According to EIP-2929, when a transaction begins, accessed_addresses is
+    initialized to include:
     - tx.sender, tx.to
     - and the set of all precompiles
 
     This test verifies that:
-    1. Precompiles that exist in the predecessor fork are always "warm" (lower gas cost)
-    2. New precompiles added in a fork are "cold" before the fork and become "warm" after
-
+    1. Precompiles that exist in the predecessor fork are always "warm" (lower
+        gas cost).
+    2. New precompiles added in a fork are "cold" before the fork and become
+        "warm" after.
     """
     sender = pre.fund_eoa()
     call_cost_slot = 0

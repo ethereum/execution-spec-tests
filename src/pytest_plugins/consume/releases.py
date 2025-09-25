@@ -48,7 +48,8 @@ class ReleaseTag:
         """
         Create a release descriptor from a string.
 
-        The release source can be in the format `tag_name@version` or just `tag_name`.
+        The release source can be in the format `tag_name@version` or just
+        `tag_name`.
         """
         version: str | None
         if "@" in release_string:
@@ -69,7 +70,8 @@ class ReleaseTag:
         """
         Check if the release descriptor matches the string value.
 
-        Returns True if the value is the same as the tag name or the tag name and version.
+        Returns True if the value is the same as the tag name or the tag name
+        and version.
         """
         assert isinstance(value, str), f"Expected a string, but got: {value}"
         if self.version is not None:
@@ -141,7 +143,9 @@ class Releases(RootModel[List[ReleaseInformation]]):
 
 
 def is_docker_or_ci() -> bool:
-    """Check if the code is running inside a Docker container or a CI environment."""
+    """
+    Check if the code is running inside a Docker container or a CI environment.
+    """
     return "GITHUB_ACTIONS" in os.environ or Path("/.dockerenv").exists()
 
 
@@ -221,14 +225,16 @@ def get_release_page_url(release_string: str) -> str:
     Return the GitHub Release page URL for a specific release descriptor.
 
     This function can handle:
-    - A standard release string (e.g., "eip7692@latest") - from execution-spec-tests only.
+    - A standard release string (e.g., "eip7692@latest") from
+      execution-spec-tests only.
     - A direct asset download link (e.g.,
-        "https://github.com/ethereum/execution-spec-tests/releases/download/v4.0.0/fixtures_eip7692.tar.gz").
+      "https://github.com/ethereum/execution-spec-tests/releases/
+      download/v4.0.0/fixtures_eip7692.tar.gz").
     """
     release_information = get_release_information()
 
-    # Case 1: If it's a direct GitHub Releases download link,
-    #         find which release in `release_information` has an asset with this exact URL.
+    # Case 1: If it's a direct GitHub Releases download link, find which
+    # release in `release_information` has an asset with this exact URL.
     repo_pattern = "|".join(re.escape(repo) for repo in SUPPORTED_REPOS)
     regex_pattern = rf"https://github\.com/({repo_pattern})/releases/download/"
     if re.match(regex_pattern, release_string):
@@ -238,7 +244,8 @@ def get_release_page_url(release_string: str) -> str:
                     return release.url  # The HTML page for this release
         raise NoSuchReleaseError(f"No release found for asset URL: {release_string}")
 
-    # Case 2: Otherwise, treat it as a release descriptor (e.g., "eip7692@latest")
+    # Case 2: Otherwise, treat it as a release descriptor (e.g.,
+    # "eip7692@latest")
     release_descriptor = ReleaseTag.from_string(release_string)
     for release in release_information:
         if release_descriptor in release:
@@ -252,9 +259,10 @@ def get_release_information() -> List[ReleaseInformation]:
     """
     Get the release information.
 
-    First check if the cached release information file exists. If it does, but it is older than 4
-    hours, delete the file, unless running inside a CI environment or a Docker container.
-    Then download the release information from the Github API and save it to the cache file.
+    First check if the cached release information file exists. If it does, but
+    it is older than 4 hours, delete the file, unless running inside a CI
+    environment or a Docker container. Then download the release information
+    from the Github API and save it to the cache file.
     """
     if CACHED_RELEASE_INFORMATION_FILE.exists():
         last_modified = CACHED_RELEASE_INFORMATION_FILE.stat().st_mtime

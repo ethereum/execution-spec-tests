@@ -1,7 +1,11 @@
 """
 A State test for the set of `PUSH*` opcodes.
-Ported from: https://github.com/ethereum/tests/blob/4f65a0a7cbecf4442415c226c65e089acaaf6a8b/src/GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml.
-"""  # noqa: E501
+
+Ported from:
+https://github.com/ethereum/tests/blob/
+4f65a0a7cbecf4442415c226c65e089acaaf6a8b/src/
+GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml.
+"""
 
 import pytest
 
@@ -30,7 +34,8 @@ def get_input_for_push_opcode(opcode: Op) -> bytes:
 )
 @pytest.mark.parametrize(
     "push_opcode",
-    [getattr(Op, f"PUSH{i}") for i in range(1, 33)],  # Dynamically parametrize PUSH opcodes
+    # Dynamically parametrize PUSH opcodes
+    [getattr(Op, f"PUSH{i}") for i in range(1, 33)],
     ids=lambda op: str(op),
 )
 @pytest.mark.valid_from("Frontier")
@@ -38,9 +43,8 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
     """
     The set of `PUSH*` opcodes pushes data onto the stack.
 
-    In this test, we ensure that the set of `PUSH*` opcodes writes
-    a portion of an excerpt from the Ethereum yellow paper to
-    storage.
+    In this test, we ensure that the set of `PUSH*` opcodes writes a portion of
+    an excerpt from the Ethereum yellow paper to storage.
     """
     # Input used to test the `PUSH*` opcode.
     excerpt = get_input_for_push_opcode(push_opcode)
@@ -90,19 +94,24 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
 def test_stack_overflow(
     state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: Op, stack_height: int
 ):
-    """A test to ensure that the stack overflows when the stack limit of 1024 is exceeded."""
+    """
+    A test the stack overflows when the stack limit of 1024 is exceeded.
+    """
     env = Environment()
 
     # Input used to test the `PUSH*` opcode.
     excerpt = get_input_for_push_opcode(push_opcode)
 
     """
-    Essentially write a n-byte message to storage by pushing [1024,1025] times to stack. This
-    simulates a "jump" over the stack limit of 1024.
 
-    The message is UTF-8 encoding of excerpt (say 0x45 for PUSH1). Within the stack limit,
-    the message is written to the to the storage at the same offset (0x45 for PUSH1).
-    The last iteration will overflow the stack and the storage slot will be empty.
+
+    Essentially write a n-byte message to storage by pushing [1024,1025] times
+    to stack. This simulates a "jump" over the stack limit of 1024.
+
+    The message is UTF-8 encoding of excerpt (say 0x45 for PUSH1). Within the
+    stack limit, the message is written to the to the storage at the same
+    offset (0x45 for PUSH1). The last iteration will overflow the stack and the
+    storage slot will be empty.
 
      **               Bytecode explanation              **
      +---------------------------------------------------+
@@ -115,7 +124,8 @@ def test_stack_overflow(
     """
     contract_code: Bytecode = Bytecode()
     for _ in range(stack_height - 2):
-        contract_code += Op.PUSH1(0)  # mostly push 0 to avoid contract size limit exceeded
+        # mostly push 0 to avoid contract size limit exceeded
+        contract_code += Op.PUSH1(0)
     contract_code += push_opcode(excerpt) * 2 + Op.SSTORE
 
     contract = pre.deploy_contract(contract_code)

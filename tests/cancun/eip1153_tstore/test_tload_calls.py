@@ -1,6 +1,5 @@
 """
-Ethereum Transient Storage EIP Tests
-https://eips.ethereum.org/EIPS/eip-1153.
+[EIP-1153](https://eips.ethereum.org/EIPS/eip-1153) Transient Storage tests.
 """
 
 import pytest
@@ -26,11 +25,11 @@ def test_tload_calls(state_test: StateTestFiller, pre: Alloc, call_type: Op):
     """
     Ported .json vectors.
 
-    (04_tloadAfterCallFiller.yml)
-    Loading a slot after a call to another contract is 0.
+    (04_tloadAfterCallFiller.yml) Loading a slot after a call to another
+    contract is 0.
 
-    (12_tloadDelegateCallFiller.yml)
-    delegatecall reads transient storage in the context of the current address
+    (12_tloadDelegateCallFiller.yml) delegatecall reads transient storage in
+    the context of the current address
     """
     # Storage variables
     slot_a_tload_after_subcall_result = 0
@@ -71,10 +70,12 @@ def test_tload_calls(state_test: StateTestFiller, pre: Alloc, call_type: Op):
     post = {
         address_to: Account(
             storage={
-                # other calls don't change context, there for tload updated in this account
+                # other calls don't change context, there for tload updated in
+                # this account
                 slot_a_tload_after_subcall_result: 10 if call_type == Op.CALL else 20,
                 slot_a_subcall_result: 1,
-                # since context unchanged the subcall works as if continued execution
+                # since context unchanged the subcall works as if continued
+                # execution
                 slot_b_subcall_tload_result: 0 if call_type == Op.CALL else 10,
                 slot_b_subcall_updated_tload_result: 0 if call_type == Op.CALL else 20,
             }

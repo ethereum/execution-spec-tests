@@ -1,6 +1,6 @@
 """
-Pytest plugin to create a temporary folder for the session where
-multi-process tests can store data that is shared between processes.
+Pytest plugin to create a temporary folder for the session where multi-process
+tests can store data that is shared between processes.
 
 The provided `session_temp_folder` fixture is used, for example, by `consume`
 when running hive simulators to ensure that only one `test_suite` is created
@@ -24,8 +24,8 @@ def session_temp_folder_name(testrun_uid: str) -> str:
     Define the name of the temporary folder that will be shared among all the
     xdist workers to coordinate the tests.
 
-    "testrun_uid" is a fixture provided by the xdist plugin, and is unique for each test run,
-    so it is used to create the unique folder name.
+    "testrun_uid" is a fixture provided by the xdist plugin, and is unique for
+    each test run, so it is used to create the unique folder name.
     """
     return f"pytest-{testrun_uid}"
 
@@ -35,11 +35,11 @@ def session_temp_folder(
     session_temp_folder_name: str,
 ) -> Generator[Path, None, None]:
     """
-    Create a global temporary folder that will be shared among all the
-    xdist workers to coordinate the tests.
+    Create a global temporary folder that will be shared among all the xdist
+    workers to coordinate the tests.
 
-    We also create a file to keep track of how many workers are still using the folder, so we can
-    delete it when the last worker is done.
+    We also create a file to keep track of how many workers are still using the
+    folder, so we can delete it when the last worker is done.
     """
     session_temp_folder = Path(get_temp_dir()) / session_temp_folder_name
     session_temp_folder.mkdir(exist_ok=True)

@@ -16,8 +16,8 @@ from ..eip7883_modexp_gas_increase.spec import Spec, Spec7883
 @pytest.fixture
 def call_contract_post_storage() -> Storage:
     """
-    Storage of the test contract after the transaction is executed.
-    Note: Fixture `call_contract_code` fills the actual expected storage values.
+    Storage of the test contract after the transaction is executed. Note:
+    Fixture `call_contract_code` fills the actual expected storage values.
     """
     return Storage()
 
@@ -27,8 +27,8 @@ def call_succeeds(
     total_gas_used: int, fork: Fork, env: Environment, modexp_input: ModExpInput
 ) -> bool:
     """
-    By default, depending on the expected output, we can deduce if the call is expected to succeed
-    or fail.
+    By default, depending on the expected output, we can deduce if the call is
+    expected to succeed or fail.
     """
     # Transaction gas limit exceeded
     tx_gas_limit_cap = fork.transaction_gas_limit_cap() or env.gas_limit
@@ -57,14 +57,15 @@ def gas_measure_contract(
     call_succeeds: bool,
 ) -> Address:
     """
-    Deploys a contract that measures ModExp gas consumption and execution result.
+    Deploys a contract that measures ModExp gas consumption and execution
+    result.
 
     Always stored:
-        storage[0]: precompile call success
-        storage[1]: return data length from precompile
+      storage[0]: precompile call success
+      storage[1]: return data length from precompile
     Only if the precompile call succeeds:
-        storage[2]: gas consumed by precompile
-        storage[3]: hash of return data from precompile
+      storage[2]: gas consumed by precompile
+      storage[3]: hash of return data from precompile
     """
     call_code = Op.CALL(
         precompile_gas,
@@ -122,14 +123,17 @@ def gas_measure_contract(
 
 @pytest.fixture
 def precompile_gas(fork: Fork, modexp_input: ModExpInput) -> int:
-    """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
+    """
+    Calculate gas cost for the ModExp precompile and verify it matches expected
+    gas.
+    """
     spec = Spec if fork < Osaka else Spec7883
     try:
         calculated_gas = spec.calculate_gas_cost(modexp_input)
         return calculated_gas
     except Exception:
-        # Used for `test_modexp_invalid_inputs` we expect the call to not succeed.
-        # Return is for completeness.
+        # Used for `test_modexp_invalid_inputs` we expect the call to not
+        # succeed. Return is for completeness.
         return 500 if fork >= Osaka else 200
 
 
@@ -153,7 +157,9 @@ def tx(
 def total_gas_used(
     fork: Fork, modexp_expected: bytes, modexp_input: ModExpInput, precompile_gas: int
 ) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 500_000
@@ -170,7 +176,9 @@ def total_gas_used(
 
 @pytest.fixture
 def tx_gas_limit(total_gas_used: int, fork: Fork, env: Environment) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     tx_gas_limit_cap = fork.transaction_gas_limit_cap() or env.gas_limit
     return min(tx_gas_limit_cap, total_gas_used)
 

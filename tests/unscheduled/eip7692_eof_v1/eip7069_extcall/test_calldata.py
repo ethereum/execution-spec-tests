@@ -1,7 +1,8 @@
 """
-abstract: Tests [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069)
-    Tests for the RETURNDATALOAD instruction.
-"""  # noqa: E501
+Call data tests for EXT*CALL instructions
+    Tests for call data handling in
+    [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069).
+"""
 
 import pytest
 
@@ -61,8 +62,8 @@ def test_extcalls_inputdata(
     """
     Tests call data into EXTCALL including multiple offset conditions.
 
-    Caller pushes data into memory, then calls the target.  Target writes 64 bytes of call data
-    to storage and a success byte.
+    Caller pushes data into memory, then calls the target.  Target writes 64
+    bytes of call data to storage and a success byte.
     """
     env = Environment()
 
@@ -148,8 +149,8 @@ def test_extdelegatecall_inputdata(
     """
     Tests call data into EXTDELEGATECALL including multiple offset conditions.
 
-    Caller pushes data into memory, then calls the target.  Target writes 64 bytes of call data
-    to storage and a success byte.
+    Caller pushes data into memory, then calls the target.  Target writes 64
+    bytes of call data to storage and a success byte.
     """
     env = Environment()
 
@@ -232,8 +233,8 @@ def test_extstaticcall_inputdata(
     """
     Tests call data into EXTSTATICCALL including multiple offset conditions.
 
-    Caller pushes data into memory, then calls the target.  Target writes 64 bytes of call data
-    to storage and a success byte.
+    Caller pushes data into memory, then calls the target.  Target writes 64
+    bytes of call data to storage and a success byte.
     """
     env = Environment()
 
@@ -312,8 +313,8 @@ def test_calldata_remains_after_subcall(
     """
     Tests call data remains after a call to another contract.
 
-    Caller pushes data into memory, then calls the target.  Target calls 3rd contract. 3rd contract
-    returns. Target writes calldata to storage.
+    Caller pushes data into memory, then calls the target.  Target calls 3rd
+    contract. 3rd contract returns. Target writes calldata to storage.
     """
     env = Environment()
 
@@ -494,18 +495,21 @@ def test_extcalls_input_offset(
     """
     Tests call data into EXT*CALL including multiple offset conditions.
 
-    Returner returns a success value, which caller stores. If memory expansion cost is less than
-    2 billion gas call succeeds. Else whole transaction aborts, leaving canaries in memory.
+    Returner returns a success value, which caller stores. If memory expansion
+    cost is less than 2 billion gas call succeeds. Else whole transaction
+    aborts, leaving canaries in memory.
 
-    The name id of `*-mem-cost` refers to the bit-length of the result of the calculated memory
-    expansion cost. Their length choice is designed to cause problems on shorter bit-length
-    representations with native integers.
+    The name id of `*-mem-cost` refers to the bit-length of the result of the
+    calculated memory expansion cost. Their length choice is designed to cause
+    problems on shorter bit-length representations with native integers.
 
-    The `offset_field` param indicates what part of the input data arguments are being tested,
-    either the offset of the data in memory or the size of the data in memory.
+    The `offset_field` param indicates what part of the input data arguments
+    are being tested, either the offset of the data in memory or the size of
+    the data in memory.
 
-    The `test_arg` param is the value passed into the field being tested (offset or size),
-    intending to trigger integer size bugs for that particular field.
+    The `test_arg` param is the value passed into the field being tested
+    (offset or size), intending to trigger integer size bugs for that
+    particular field.
     """
     env = Environment(gas_limit=1_000_000_000)
 

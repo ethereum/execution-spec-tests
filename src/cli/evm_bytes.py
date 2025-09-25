@@ -62,7 +62,8 @@ class OpcodeWithOperands:
     @property
     def bytecode(self) -> Bytecode:
         """Opcode as bytecode with its operands if any."""
-        # opcode.opcode[*opcode.operands] crashes `black` formatter and doesn't work.
+        # opcode.opcode[*opcode.operands] crashes `black` formatter and doesn't
+        # work.
         if self.opcode:
             return self.opcode.__getitem__(*self.operands) if self.operands else self.opcode
         else:
@@ -181,7 +182,8 @@ def hex_string(hex_string: str, assembly: bool):
 
     Output 1:
         \b
-        Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN
+        Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] +
+        Op.PUSH1[0x0] + Op.RETURN
 
     Example 2: Convert a hex string to assembly
         uv run evm_bytes hex-string --assembly 604260005260206000F3
@@ -207,14 +209,16 @@ def binary_file(binary_file, assembly: bool):
     """
     Convert the BINARY_FILE containing EVM bytes to Python Opcodes or assembly.
 
-    BINARY_FILE is a binary file containing EVM bytes, use `-` to read from stdin.
+    BINARY_FILE is a binary file containing EVM bytes, use `-` to read from
+    stdin.
 
     Returns:
         (str): The processed EVM opcodes in Python or assembly format.
 
     Example: Convert the Withdrawal Request contract to assembly
         \b
-        uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin --assembly
+        uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/
+            contracts/withdrawal_request.bin --assembly
 
     Output:
         \b
@@ -225,6 +229,6 @@ def binary_file(binary_file, assembly: bool):
         jumpi
         ...
 
-    """  # noqa: E501,D301
+    """  # noqa: D301
     processed_output = format_opcodes(process_evm_bytes(binary_file.read()), assembly=assembly)
     click.echo(processed_output)

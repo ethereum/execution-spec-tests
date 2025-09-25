@@ -1,8 +1,4 @@
-"""
-abstract: Tests full blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test full blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
-
-"""  # noqa: E501
+"""Tests full blob type transactions for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)."""
 
 from typing import List, Optional
 
@@ -135,10 +131,10 @@ def tx_max_fee_per_blob_gas(  # noqa: D103
 @pytest.fixture
 def tx_error() -> Optional[TransactionException]:
     """
-    Even though the final block we are producing in each of these tests is invalid, and some of the
-    transactions will be invalid due to the format in the final block, none of the transactions
-    should be rejected by the transition tool because they are being sent to it with the correct
-    format.
+    Even though the final block we are producing in each of these tests is
+    invalid, and some of the transactions will be invalid due to the format in
+    the final block, none of the transactions should be rejected by the
+    transition tool because they are being sent to it with the correct format.
     """
     return None
 
@@ -214,8 +210,8 @@ def blocks(
     header_blob_gas_used = 0
     block_error = None
     if any(txs_wrapped_blobs):
-        # This is a block exception because the invalid block is only created in the RLP version,
-        # not in the transition tool.
+        # This is a block exception because the invalid block is only created
+        # in the RLP version, not in the transition tool.
         block_error = [
             BlockException.RLP_STRUCTURES_ENCODING,
             TransactionException.TYPE_3_TX_WITH_FULL_BLOBS,
@@ -289,8 +285,8 @@ def test_reject_valid_full_blob_in_block_rlp(
     blocks: List[Block],
 ):
     """
-    Test valid blob combinations where one or more txs in the block
-    serialized version contain a full blob (network version) tx.
+    Test valid blob combinations where one or more txs in the block serialized
+    version contain a full blob (network version) tx.
     """
     blockchain_test(
         pre=pre,

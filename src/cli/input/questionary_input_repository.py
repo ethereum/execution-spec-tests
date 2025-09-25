@@ -9,7 +9,10 @@ from .input_repository import InputRepository
 
 
 class QuestionaryInputRepository(InputRepository):
-    """Repository for handling various types of user inputs using the Questionary library."""
+    """
+    Repository for handling various types of user inputs using the Questionary
+    library.
+    """
 
     def input_text(self, question: str) -> str:
         """Ask a text input question."""

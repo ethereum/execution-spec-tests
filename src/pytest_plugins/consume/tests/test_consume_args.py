@@ -22,7 +22,10 @@ def test_function(state_test, pre):
 
 @pytest.fixture
 def minimal_test_path(pytester: pytest.Pytester) -> Path:
-    """Minimal test file that's written to a file using pytester and ready to fill."""
+    """
+    Minimal test file that's written to a file using pytester and ready to
+    fill.
+    """
     tests_dir = pytester.mkdir("tests")
     test_file = tests_dir / MINIMAL_TEST_FILE_NAME
     test_file.write_text(MINIMAL_TEST_CONTENTS)
@@ -72,11 +75,12 @@ def fill_tests(
     """
     Run fill to generate test fixtures for use with testing consume.
 
-    We only need to do this once so ideally the scope of this fixture should be "module",
-    however the `pytester` fixture's scope is function and cannot be accessed from a higher
-    scope fixture.
+    We only need to do this once so ideally the scope of this fixture should be
+    "module", however the `pytester` fixture's scope is function and cannot be
+    accessed from a higher scope fixture.
 
-    Instead we use a file lock and only write the fixtures once to the directory.
+    Instead we use a file lock and only write the fixtures once to the
+    directory.
     """
     with FileLock(fixtures_dir.with_suffix(".lock")):
         meta_folder = fixtures_dir / ".meta"
@@ -100,9 +104,11 @@ def fill_tests(
 @pytest.fixture(autouse=True, scope="function")
 def test_fixtures(pytester: Pytester, fixtures_dir: Path, fill_tests: None) -> List[Path]:
     """
-    Copy test fixtures from the regular temp path to the pytester temporary dir.
+    Copy test fixtures from the regular temp path to the pytester temporary
+    dir.
 
-    We intentionally copy the `.meta/index.json` file to test its compatibility with consume.
+    We intentionally copy the `.meta/index.json` file to test its compatibility
+    with consume.
     """
     del fill_tests
 
@@ -131,7 +137,11 @@ def copy_consume_test_paths(pytester: Pytester):
         shutil.move("conftest.py", target_dir / "conftest.py")
 
 
-single_test_id = f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]"  # noqa: E501
+single_test_id = (
+    "src/pytest_plugins/consume/direct/"
+    "test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/"
+    f"{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]"
+)
 
 
 @pytest.mark.parametrize(

@@ -1,9 +1,10 @@
 """
 Ethereum Virtual Machine opcode definitions.
 
-Acknowledgments: The individual opcode documentation below is due to the work by
-[smlXL](https://github.com/smlxl) on [evm.codes](https://www.evm.codes/), available as open
-source [github.com/smlxl/evm.codes](https://github.com/smlxl/evm.codes) - thank you! And thanks
+Acknowledgments: The individual opcode documentation below is due to the work
+by [smlXL](https://github.com/smlxl) on [evm.codes](https://www.evm.codes/),
+available as open source [github.com/smlxl/
+evm.codes](https://github.com/smlxl/evm.codes) - thank you! And thanks
 to @ThreeHrSleep for integrating it in the docstrings.
 """
 
@@ -18,7 +19,8 @@ from .bytecode import Bytecode
 def _get_int_size(n: int) -> int:
     """Return size of an integer in bytes."""
     if n < 0:
-        # Negative numbers in the EVM are represented as two's complement of 32 bytes
+        # Negative numbers in the EVM are represented as two's complement
+        # of 32 bytes
         return 32
     byte_count = 0
     while n:
@@ -45,7 +47,8 @@ def _stack_argument_to_bytecode(
         if data_size > 32:
             raise ValueError("Opcode stack data must be less than 32 bytes")
         elif data_size == 0:
-            # Pushing 0 is done with the PUSH1 opcode for compatibility reasons.
+            # Pushing 0 is done with the PUSH1 opcode
+            # for compatibility reasons.
             data_size = 1
         arg = arg.to_bytes(
             length=data_size,
@@ -55,7 +58,8 @@ def _stack_argument_to_bytecode(
     else:
         arg = to_bytes(arg).lstrip(b"\0")  # type: ignore
         if arg == b"":
-            # Pushing 0 is done with the PUSH1 opcode for compatibility reasons.
+            # Pushing 0 is done with the PUSH1 opcode for
+            # compatibility reasons.
             arg = b"\x00"
         data_size = len(arg)
 
@@ -67,20 +71,23 @@ def _stack_argument_to_bytecode(
 
 class Opcode(Bytecode):
     """
-    Represents a single Opcode instruction in the EVM, with extra metadata useful to parametrize
-    tests.
+    Represents a single Opcode instruction in the EVM, with extra
+    metadata useful to parametrize tests.
 
     Parameters
     ----------
     - data_portion_length: number of bytes after the opcode in the bytecode
         that represent data
-    - data_portion_formatter: function to format the data portion of the opcode, if any
-    - stack_properties_modifier: function to modify the stack properties of the opcode after the
-        data portion has been processed
-    - kwargs: list of keyword arguments that can be passed to the opcode, in the order they are
-        meant to be placed in the stack
-    - kwargs_defaults: default values for the keyword arguments if any, otherwise 0
-    - unchecked_stack: whether the bytecode should ignore stack checks when being called
+    - data_portion_formatter: function to format the data portion of the
+        opcode, if any
+    - stack_properties_modifier: function to modify the stack properties of
+    the opcode after the data portion has been processed
+    - kwargs: list of keyword arguments that can be passed to the opcode,
+    in the order they are meant to be placed in the stack
+    - kwargs_defaults: default values for the keyword arguments if any,
+    otherwise 0
+    - unchecked_stack: whether the bytecode should ignore stack checks
+    when being called
 
     """
 
@@ -111,8 +118,8 @@ class Opcode(Bytecode):
         if kwargs_defaults is None:
             kwargs_defaults = {}
         if type(opcode_or_byte) is Opcode:
-            # Required because Enum class calls the base class with the instantiated object as
-            # parameter.
+            # Required because Enum class calls the base class
+            # with the instantiated object as parameter.
             return opcode_or_byte
         elif isinstance(opcode_or_byte, int) or isinstance(opcode_or_byte, bytes):
             obj_bytes = (
@@ -147,8 +154,8 @@ class Opcode(Bytecode):
 
     def __getitem__(self, *args: "int | bytes | str | Iterable[int]") -> "Opcode":
         """
-        Initialize a new instance of the opcode with the data portion set, and also clear
-        the data portion variables to avoid reusing them.
+        Initialize a new instance of the opcode with the data portion set,
+        and also clear the data portion variables to avoid reusing them.
         """
         if self.data_portion_formatter is None and self.data_portion_length == 0:
             raise ValueError("Opcode does not have a data portion or has already been set")
@@ -160,8 +167,8 @@ class Opcode(Bytecode):
             else:
                 data_portion = self.data_portion_formatter(*args)
         elif self.data_portion_length > 0:
-            # For opcodes with a data portion, the first argument is the data and the rest of the
-            # arguments form the stack.
+            # For opcodes with a data portion, the first argument is the
+            # data and the rest of the arguments form the stack.
             assert len(args) == 1, "Opcode with data portion requires exactly one argument"
             data = args[0]
             if isinstance(data, bytes) or isinstance(data, SupportsBytes) or isinstance(data, str):
@@ -222,26 +229,31 @@ class Opcode(Bytecode):
         **kwargs: "int | bytes | str | Opcode | Bytecode",
     ) -> Bytecode:
         """
-        Make all opcode instances callable to return formatted bytecode, which constitutes a data
-        portion, that is located after the opcode byte, and pre-opcode bytecode, which is normally
-        used to set up the stack.
+        Make all opcode instances callable to return formatted bytecode, which
+        constitutes a data portion, that is located after the opcode byte,
+        and pre-opcode bytecode, which is normally used to set up the stack.
 
-        This useful to automatically format, e.g., call opcodes and their stack arguments as
+        This useful to automatically format, e.g., call opcodes and their
+        stack arguments as
         `Opcodes.CALL(Opcodes.GAS, 0x1234, 0x0, 0x0, 0x0, 0x0, 0x0)`.
 
-        Data sign is automatically detected but for this reason the range of the input must be:
-        `[-2^(data_portion_bits-1), 2^(data_portion_bits)]` where: `data_portion_bits ==
-        data_portion_length * 8`
+        Data sign is automatically detected but for this reason the range
+        of the input must be:
+        `[-2^(data_portion_bits-1), 2^(data_portion_bits)]`
+        where:
+        `data_portion_bits == data_portion_length * 8`
 
-        For the stack, the arguments are set up in the opposite order they are given, so the first
-        argument is the last item pushed to the stack.
+        For the stack, the arguments are set up in the opposite order they
+        are given, so the first argument is the last item pushed to the stack.
 
-        The resulting stack arrangement does not take into account opcode stack element
-        consumption, so the stack height is not guaranteed to be correct and the user must take
-        this into consideration.
+        The resulting stack arrangement does not take into account
+        opcode stack element consumption, so the stack height is not
+        guaranteed to be correct and the user must take this into
+        consideration.
 
-        Integers can also be used as stack elements, in which case they are automatically converted
-        to PUSH operations, and negative numbers always use a PUSH32 operation.
+        Integers can also be used as stack elements, in which case they
+        are automatically converted to PUSH operations, and negative numbers
+        always use a PUSH32 operation.
 
         Hex-strings will be automatically converted to bytes.
         """
@@ -317,8 +329,8 @@ class Macro(Bytecode):
         if macro_or_bytes is None:
             macro_or_bytes = Bytecode()
         if isinstance(macro_or_bytes, Macro):
-            # Required because Enum class calls the base class with the instantiated object as
-            # parameter.
+            # Required because Enum class calls the base class
+            # with the instantiated object as parameter.
             return macro_or_bytes
         else:
             instance = super().__new__(cls, macro_or_bytes)
@@ -342,8 +354,9 @@ RJUMPV_MAX_INDEX_BYTE_LENGTH = 1
 RJUMPV_BRANCH_OFFSET_BYTE_LENGTH = 2
 
 
-# TODO: Allowing Iterable here is a hacky way to support `range`, because Python 3.11+ will allow
-# `Op.RJUMPV[*range(5)]`. This is a temporary solution until Python 3.11+ is the minimum required
+# TODO: Allowing Iterable here is a hacky way to support `range`,
+# because Python 3.11+ will allow `Op.RJUMPV[*range(5)]`.
+# This is a temporary solution until Python 3.11+ is the minimum required
 # version.
 
 
@@ -419,8 +432,9 @@ class Opcodes(Opcode, Enum):
 
     Contains deprecated and not yet implemented opcodes.
 
-    This enum is !! NOT !! meant to be iterated over by the tests. Instead, create a list with
-    cherry-picked opcodes from this Enum within the test if iteration is needed.
+    This enum is !! NOT !! meant to be iterated over by the tests.
+    Instead, create a list with cherry-picked opcodes from this Enum
+    within the test if iteration is needed.
 
     Do !! NOT !! remove or modify existing opcodes from this list.
     """
@@ -585,7 +599,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - c: signed integer result of the division. If the denominator is 0, the result will be 0
+    - c: signed integer result of the division. If the denominator is 0,
+         the result will be 0
     ----
 
     Fork
@@ -615,7 +630,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - a % b: integer result of the integer modulo. If the denominator is 0, the result will be 0
+    - a % b: integer result of the integer modulo. If the denominator is 0,
+             the result will be 0
 
     Fork
     ----
@@ -644,8 +660,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - a % b: integer result of the signed integer modulo. If the denominator is 0, the result will
-        be 0
+    - a % b: integer result of the signed integer modulo. If the denominator
+             is 0, the result will be 0
 
     Fork
     ----
@@ -675,8 +691,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - (a + b) % N: integer result of the addition followed by a modulo. If the denominator is 0,
-        the result will be 0
+    - (a + b) % N: integer result of the addition followed by a modulo.
+                   If the denominator is 0, the result will be 0
 
     Fork
     ----
@@ -706,8 +722,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - (a * b) % N: integer result of the multiplication followed by a modulo. If the denominator
-        is 0, the result will be 0
+    - (a * b) % N: integer result of the multiplication followed by a modulo.
+                   If the denominator is 0, the result will be 0
 
     Fork
     ----
@@ -1083,8 +1099,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - y: the indicated byte at the least significant position. If the byte offset is out of range,
-        the result is 0
+    - y: the indicated byte at the least significant position.
+         If the byte offset is out of range, the result is 0
 
     Fork
     ----
@@ -1286,7 +1302,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - balance: balance of the given account in wei. Returns 0 if the account doesn't exist
+    - balance: balance of the given account in wei. Returns 0 if the
+               account doesn't exist
 
     Fork
     ----
@@ -1315,8 +1332,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - address: the 20-byte address of the sender of the transaction. It can only be an account
-        without code
+    - address: the 20-byte address of the sender of the transaction.
+               It can only be an account without code
 
     Fork
     ----
@@ -1344,8 +1361,9 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - address: the 20-byte address of the caller account. This is the account that did the last
-        call (except delegate call)
+    - address: the 20-byte address of the caller account.
+               This is the account that did the last
+               call (except delegate call)
 
     Fork
     ----
@@ -1365,7 +1383,8 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get deposited value by the instruction/transaction responsible for this execution
+    Get deposited value by the instruction/transaction responsible
+    for this execution
 
     Inputs
     ----
@@ -1401,8 +1420,9 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - data[offset]: 32-byte value starting from the given offset of the calldata. All bytes after
-        the end of the calldata are set to 0
+    - data[offset]: 32-byte value starting from the given offset of
+                    the calldata. All bytes after the end of the calldata
+                    are set to 0
 
     Fork
     ----
@@ -1614,7 +1634,8 @@ class Opcodes(Opcode, Enum):
     ----
     - minimum_word_size = (size + 31) / 32
     - static_gas = 0
-    - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost + address_access_cost
+    - dynamic_gas = 3 * minimum_word_size +
+                    memory_expansion_cost + address_access_cost
 
     Source: [evm.codes/#3C](https://www.evm.codes/#3C)
     """
@@ -1655,7 +1676,8 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - dest_offset: byte offset in the memory where the result will be copied
-    - offset: byte offset in the return data from the last executed sub context to copy
+    - offset: byte offset in the return data from the last
+              executed sub context to copy
     - size: byte size to copy
 
     Fork
@@ -1686,8 +1708,9 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - hash: hash of the chosen account's code, the empty hash (0xc5d24601...) if the account has no
-        code, or 0 if the account does not exist or has been destroyed
+    - hash: hash of the chosen account's code, the empty hash (0xc5d24601...)
+            if the account has no code, or 0 if the account does not exist or
+            has been destroyed
 
     Fork
     ----
@@ -1712,12 +1735,14 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - blockNumber: block number to get the hash from. Valid range is the last 256 blocks (not
-        including the current one). Current block number can be queried with NUMBER
+    - blockNumber: block number to get the hash from. Valid range is the
+                   last 256 blocks (not including the current one). Current
+                   block number can be queried with NUMBER
 
     Outputs
     ----
-    - hash: hash of the chosen block, or 0 if the block number is not in the valid range
+    - hash: hash of the chosen block, or 0 if the block number is not
+            in the valid range
 
     Fork
     ----
@@ -1957,7 +1982,8 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Returns the versioned hash of a single blob contained in the type-3 transaction
+    Returns the versioned hash of a single blob contained in
+    the type-3 transaction
 
     Inputs
     ----
@@ -1975,7 +2001,8 @@ class Opcodes(Opcode, Enum):
     ----
     3
 
-    Source: [eips.ethereum.org/EIPS/eip-4844](https://eips.ethereum.org/EIPS/eip-4844)
+    Source: [eips.ethereum.org/EIPS/
+    eip-4844](https://eips.ethereum.org/EIPS/eip-4844)
     """
 
     BLOBBASEFEE = Opcode(0x4A, popped_stack_items=0, pushed_stack_items=1)
@@ -2003,7 +2030,8 @@ class Opcodes(Opcode, Enum):
     ----
     2
 
-    Source: [eips.ethereum.org/EIPS/eip-7516](https://eips.ethereum.org/EIPS/eip-7516)
+    Source: [eips.ethereum.org/EIPS/eip-7516](https://eips.ethereum.org/
+    EIPS/eip-7516)
     """
 
     POP = Opcode(0x50, popped_stack_items=1)
@@ -2049,8 +2077,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: the 32 bytes in memory starting at that offset. If it goes beyond its current size
-        (see MSIZE), writes 0s
+    - value: the 32 bytes in memory starting at that offset.
+    If it goes beyond its current size (see MSIZE), writes 0s
 
     Fork
     ----
@@ -2106,8 +2134,8 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - offset: offset in the memory in bytes
-    - value: 1-byte value to write in the memory (the least significant byte of the 32-byte stack
-        value)
+    - value: 1-byte value to write in the memory (the least significant
+             byte of the 32-byte stack value)
 
     Fork
     ----
@@ -2136,7 +2164,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: 32-byte value corresponding to that key. 0 if that key was never written before
+    - value: 32-byte value corresponding to that key. 0 if that
+             key was never written before
 
     Fork
     ----
@@ -2208,8 +2237,8 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - pc: byte offset in the deployed code where execution will continue from. Must be a
-        JUMPDEST instruction
+    - pc: byte offset in the deployed code where execution will continue from.
+          Must be a JUMPDEST instruction
 
     Outputs
     ----
@@ -2237,11 +2266,12 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - pc: byte offset in the deployed code where execution will continue from. Must be a
-        JUMPDEST instruction
-    - condition: the program counter will be altered with the new value only if this value is
-        different from 0. Otherwise, the program counter is simply incremented and the next
-        instruction will be executed
+    - pc: byte offset in the deployed code where execution will continue from.
+          Must be a JUMPDEST instruction
+    - condition: the program counter will be altered with the new value only
+                 if this value is different from 0. Otherwise, the program
+                 counter is simply incremented and the next instruction
+                 will be executed
 
     Fork
     ----
@@ -2261,7 +2291,8 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get the value of the program counter prior to the increment corresponding to this instruction
+    Get the value of the program counter prior to the increment corresponding
+    to this instruction
 
     Inputs
     ----
@@ -2313,8 +2344,8 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Get the amount of available gas, including the corresponding reduction for the cost of this
-    instruction
+    Get the amount of available gas, including the corresponding reduction
+    for the cost of this instruction
 
     Inputs
     ----
@@ -2406,7 +2437,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: 32-byte value corresponding to that key. 0 if that key was never written
+    - value: 32-byte value corresponding to that key. 0 if that key
+             was never written
 
     Fork
     ----
@@ -2441,7 +2473,8 @@ class Opcodes(Opcode, Enum):
     ----
     100
 
-    Source: [eips.ethereum.org/EIPS/eip-1153](https://eips.ethereum.org/EIPS/eip-1153)
+    Source: [eips.ethereum.org/EIPS/eip-1153](https://eips.ethereum.org/EIPS/
+    eip-1153)
     """
 
     MCOPY = Opcode(0x5E, popped_stack_items=3, kwargs=["dest_offset", "offset", "size"])
@@ -2473,7 +2506,8 @@ class Opcodes(Opcode, Enum):
     - static_gas = 3
     - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
-    Source: [eips.ethereum.org/EIPS/eip-5656](https://eips.ethereum.org/EIPS/eip-5656)
+    Source: [eips.ethereum.org/EIPS/eip-5656](https://eips.ethereum.org/EIPS/
+    eip-5656)
     """
 
     PUSH0 = Opcode(0x5F, pushed_stack_items=1)
@@ -2519,7 +2553,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the
+             lowest significant bytes)
 
     Fork
     ----
@@ -2547,7 +2582,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the lowest
+             significant bytes)
 
     Fork
     ----
@@ -2575,7 +2611,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the
+             lowest significant bytes)
 
     Fork
     ----
@@ -2603,7 +2640,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the lowest
+             significant bytes)
 
     Fork
     ----
@@ -2631,7 +2669,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the lowest
+             significant bytes)
 
     Fork
     ----
@@ -2659,7 +2698,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the
+             lowest significant bytes)
 
     Fork
     ----
@@ -2687,7 +2727,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the
+             lowest significant bytes)
 
     Fork
     ----
@@ -2715,7 +2756,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the
+             lowest significant bytes)
 
     Fork
     ----
@@ -2743,7 +2785,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the
+             lowest significant bytes)
 
     Fork
     ----
@@ -2771,7 +2814,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -2799,7 +2843,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -2827,7 +2872,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in the
+             lowest significant bytes)
 
     Fork
     ----
@@ -2855,7 +2901,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -2883,7 +2930,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -2912,7 +2960,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -2940,7 +2989,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -2968,7 +3018,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -2996,7 +3047,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3024,7 +3076,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3052,7 +3105,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3080,7 +3134,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3108,7 +3163,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3136,7 +3192,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3164,7 +3221,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3192,7 +3250,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3220,7 +3279,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3248,7 +3308,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3276,7 +3337,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3304,7 +3366,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3332,7 +3395,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3360,7 +3424,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -3388,7 +3453,8 @@ class Opcodes(Opcode, Enum):
 
     Outputs
     ----
-    - value: pushed value, aligned to the right (put in the lowest significant bytes)
+    - value: pushed value, aligned to the right (put in
+             the lowest significant bytes)
 
     Fork
     ----
@@ -4725,7 +4791,8 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
 
-    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
+    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/
+    eip-4200)
     """
 
     DATALOAD = Opcode(0xD0, popped_stack_items=1, pushed_stack_items=1, kwargs=["offset"])
@@ -4755,7 +4822,8 @@ class Opcodes(Opcode, Enum):
     ----
     4
 
-    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/eip-7480)
+    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/
+    eip-7480)
     """
 
     DATALOADN = Opcode(0xD1, pushed_stack_items=1, data_portion_length=2)
@@ -4789,7 +4857,8 @@ class Opcodes(Opcode, Enum):
     ----
     3
 
-    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/eip-7480)
+    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/
+    eip-7480)
     """
 
     DATASIZE = Opcode(0xD2, pushed_stack_items=1)
@@ -4818,7 +4887,8 @@ class Opcodes(Opcode, Enum):
     ----
     2
 
-    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/eip-7480)
+    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/
+    eip-7480)
     """
 
     DATACOPY = Opcode(0xD3, popped_stack_items=3, kwargs=["dest_offset", "offset", "size"])
@@ -4852,7 +4922,8 @@ class Opcodes(Opcode, Enum):
     - static_gas = 3
     - dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
-    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/eip-7480)
+    Source: [eips.ethereum.org/EIPS/eip-7480](https://eips.ethereum.org/EIPS/
+    eip-7480)
     """
 
     RJUMPI = Opcode(0xE1, popped_stack_items=1, data_portion_length=2)
@@ -4878,7 +4949,8 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
 
-    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
+    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/
+    eip-4200)
     """
 
     RJUMPV = Opcode(
@@ -4896,11 +4968,13 @@ class Opcodes(Opcode, Enum):
     ----
     Relative jump with variable offset.
 
-    When calling this opcode to generate bytecode, the first argument is used to format the data
-    portion of the opcode, and it can be either of two types:
-    - A bytes type, and in this instance the bytes are used verbatim as the data portion.
-    - An integer iterable, list or tuple or any other iterable, where each element is a
-        jump offset.
+    When calling this opcode to generate bytecode, the first argument is
+    used to format the data portion of the opcode, and it can be either
+    of two types:
+    - A bytes type, and in this instance the bytes are used verbatim
+      as the data portion.
+    - An integer iterable, list or tuple or any other iterable, where
+      each element is a jump offset.
 
     Inputs
     ----
@@ -4915,7 +4989,8 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
 
-    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/eip-4200)
+    Source: [eips.ethereum.org/EIPS/eip-4200](https://eips.ethereum.org/EIPS/
+    eip-4200)
     """
 
     CALLF = Opcode(0xE3, data_portion_length=2, unchecked_stack=True)
@@ -4930,21 +5005,21 @@ class Opcodes(Opcode, Enum):
 
     - deduct 5 gas
     - read uint16 operand idx
-    - if 1024 < len(stack) + types[idx].max_stack_height - types[idx].inputs, execution results in
-        an exceptional halt
+    - if 1024 < len(stack) + types[idx].max_stack_height - types[idx].inputs,
+      execution results in an exceptional halt
     - if 1024 <= len(return_stack), execution results in an exceptional halt
     - push new element to return_stack (current_code_idx, pc+3)
     - update current_code_idx to idx and set pc to 0
 
     Inputs
     ----
-    Any: The inputs are not checked because we cannot know how many inputs the callee
-    function/section requires
+    Any: The inputs are not checked because we cannot know how many inputs
+    the callee function/section requires
 
     Outputs
     ----
-    Any: The outputs are variable because we cannot know how many outputs the callee
-    function/section produces
+    Any: The outputs are variable because we cannot know how many outputs the
+    callee function/section produces
 
     Fork
     ----
@@ -4955,7 +5030,8 @@ class Opcodes(Opcode, Enum):
     5
 
     Source:
-    [ipsilon/eof/blob/main/spec/eof.md](https://github.com/ipsilon/eof/blob/main/spec/eof.md)
+    [ipsilon/eof/blob/main/spec/eof.md](https://github.com/ipsilon/eof/blob/
+    main/spec/eof.md)
     """
 
     RETF = Opcode(0xE4, terminating=True)
@@ -4995,8 +5071,8 @@ class Opcodes(Opcode, Enum):
 
     - deduct 5 gas
     - read uint16 operand idx
-    - if 1024 < len(stack) + types[idx].max_stack_height - types[idx].inputs, execution results in
-        an exceptional halt
+    - if 1024 < len(stack) + types[idx].max_stack_height - types[idx].inputs,
+    execution results in an exceptional halt
     - set current_code_idx to idx
     - set pc = 0
 
@@ -5102,7 +5178,8 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Exchanges two stack positions.  Two nybbles, n is high 4 bits + 1, then  m is 4 low bits + 1.
+    Exchanges two stack positions.  Two nybbles, n is high 4 bits + 1,
+    then  m is 4 low bits + 1.
     Exchanges the n+1'th item with the n + m + 1 item.
 
     Inputs x and y when the opcode is used as `EXCHANGE[x, y]`, are equal to:
@@ -5231,7 +5308,8 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - value: value in wei to send to the new account
-    - offset: byte offset in the memory in bytes, the initialization code for the new account
+    - offset: byte offset in the memory in bytes, the initialization code
+              for the new account
     - size: byte size to copy (size of the initialization code)
 
     Outputs
@@ -5250,8 +5328,9 @@ class Opcodes(Opcode, Enum):
     code_deposit_cost = 200 * deployed_code_size
 
     static_gas = 32000
-    dynamic_gas = init_code_cost + memory_expansion_cost + deployment_code_execution_cost
-        + code_deposit_cost
+    dynamic_gas = init_code_cost + memory_expansion_cost +
+                  deployment_code_execution_cost +
+                  code_deposit_cost
     ```
 
     Source: [evm.codes/#F0](https://www.evm.codes/#F0)
@@ -5265,7 +5344,8 @@ class Opcodes(Opcode, Enum):
         kwargs_defaults={"gas": GAS},
     )
     """
-    CALL(gas, address, value, args_offset, args_size, ret_offset, ret_size) = success
+    CALL(gas, address, value, args_offset, args_size, ret_offset, ret_size)
+    = success
     ----
 
     Description
@@ -5274,14 +5354,15 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-        context is returned to this one
+    - gas: amount of gas to send to the sub context to execute. The gas that
+           is not used by the sub context is returned to this one
     - address: the account which context to execute
     - value: value in wei to send to the account
-    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_offset: byte offset in the memory in bytes, the calldata of
+                   the sub context
     - args_size: byte size to copy (size of the calldata)
-    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
-        context
+    - ret_offset: byte offset in the memory in bytes, where to store the
+                  return data of the sub context
     - ret_size: byte size to copy (size of the return data)
 
     Outputs
@@ -5296,8 +5377,9 @@ class Opcodes(Opcode, Enum):
     ----
     ```
     static_gas = 0
-    dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
-        + positive_value_cost + value_to_empty_account_cost
+    dynamic_gas = memory_expansion_cost + code_execution_cost +
+                  address_access_cost + positive_value_cost +
+                  value_to_empty_account_cost
     ```
 
     Source: [evm.codes/#F1](https://www.evm.codes/#F1)
@@ -5311,24 +5393,26 @@ class Opcodes(Opcode, Enum):
         kwargs_defaults={"gas": GAS},
     )
     """
-    CALLCODE(gas, address, value, args_offset, args_size, ret_offset, ret_size) = success
+    CALLCODE(gas, address, value, args_offset, args_size, ret_offset, ret_size)
+    = success
     ----
 
     Description
     ----
-    Message-call into this account with an alternative account's code. Executes code starting at
-    the address to which the call is made.
+    Message-call into this account with an alternative account's code.
+    Executes code starting at the address to which the call is made.
 
     Inputs
     ----
-    - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-        context is returned to this one
+    - gas: amount of gas to send to the sub context to execute. The gas that
+    is not used by the sub context is returned to this one
     - address: the account which code to execute
     - value: value in wei to send to the account
-    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_offset: byte offset in the memory in bytes, the calldata of
+                   the sub context
     - args_size: byte size to copy (size of the calldata)
-    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
-        context
+    - ret_offset: byte offset in the memory in bytes, where to store the
+                  return data of the sub context
     - ret_size: byte size to copy (size of the return data)
 
     Outputs
@@ -5343,8 +5427,8 @@ class Opcodes(Opcode, Enum):
     ----
     ```
     static_gas = 0
-    dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
-        + positive_value_cost
+    dynamic_gas = memory_expansion_cost + code_execution_cost +
+                  address_access_cost + positive_value_cost
     ```
 
     Source: [evm.codes/#F2](https://www.evm.codes/#F2)
@@ -5361,8 +5445,8 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - offset: byte offset in the memory in bytes, to copy what will be the return data of this
-        context
+    - offset: byte offset in the memory in bytes, to copy what will be
+              the return data of this context
     - size: byte size to copy (size of the return data)
 
     Outputs
@@ -5389,23 +5473,25 @@ class Opcodes(Opcode, Enum):
         kwargs_defaults={"gas": GAS},
     )
     """
-    DELEGATECALL(gas, address, args_offset, args_size, ret_offset, ret_size) = success
+    DELEGATECALL(gas, address, args_offset, args_size, ret_offset, ret_size)
+    = success
     ----
 
     Description
     ----
-    Message-call into this account with an alternative account's code, but persisting the current
-    values for sender and value
+    Message-call into this account with an alternative account's code, but
+    persisting the current values for sender and value
 
     Inputs
     ----
-    - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-        context is returned to this one
+    - gas: amount of gas to send to the sub context to execute. The gas that
+    is not used by the sub context is returned to this one
     - address: the account which code to execute
-    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_offset: byte offset in the memory in bytes, the calldata of
+                   the sub context
     - args_size: byte size to copy (size of the calldata)
-    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
-        context
+    - ret_offset: byte offset in the memory in bytes, where to store
+                  the return data of the sub context
     - ret_size: byte size to copy (size of the return data)
 
     Outputs
@@ -5419,7 +5505,8 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
     - static_gas = 0
-    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
+    - dynamic_gas = memory_expansion_cost + code_execution_cost +
+                    address_access_cost
 
     Source: [evm.codes/#F4](https://www.evm.codes/#F4)
     """
@@ -5441,9 +5528,11 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - value: value in wei to send to the new account
-    - offset: byte offset in the memory in bytes, the initialization code of the new account
+    - offset: byte offset in the memory in bytes, the initialization code
+              of the new account
     - size: byte size to copy (size of the initialization code)
-    - salt: 32-byte value used to create the new account at a deterministic address
+    - salt: 32-byte value used to create the new account at a
+            deterministic address
 
     Outputs
     ----
@@ -5486,7 +5575,8 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - address: the account which context to execute
-    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_offset: byte offset in the memory in bytes, the calldata of
+                   the sub context
     - args_size: byte size to copy (size of the calldata)
     - value: value in wei to send to the account
 
@@ -5494,7 +5584,8 @@ class Opcodes(Opcode, Enum):
     ----
     - success:
         - `0` if the call was successful.
-        - `1` if the call has reverted (also can be pushed earlier in a light failure scenario).
+        - `1` if the call has reverted (also can be pushed earlier in a
+          light failure scenario).
         - `2` if the call has failed.
 
     Fork
@@ -5505,8 +5596,9 @@ class Opcodes(Opcode, Enum):
     ----
     ```
     static_gas = 0
-    dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
-        + positive_value_cost + value_to_empty_account_cost
+    dynamic_gas = memory_expansion_cost + code_execution_cost +
+                  address_access_cost + positive_value_cost +
+                  value_to_empty_account_cost
     ```
 
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
@@ -5524,20 +5616,22 @@ class Opcodes(Opcode, Enum):
 
     Description
     ----
-    Message-call into this account with an alternative account's code, but persisting the current
-    values for sender and value
+    Message-call into this account with an alternative account's code,
+    but persisting the current values for sender and value
 
     Inputs
     ----
     - address: the account which context to execute
-    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_offset: byte offset in the memory in bytes, the calldata of
+                   the sub context
     - args_size: byte size to copy (size of the calldata)
 
     Outputs
     ----
     - success:
         - `0` if the call was successful.
-        - `1` if the call has reverted (also can be pushed earlier in a light failure scenario).
+        - `1` if the call has reverted (also can be pushed earlier in a
+          light failure scenario).
         - `2` if the call has failed.
 
     Fork
@@ -5547,7 +5641,8 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
     - static_gas = 0
-    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
+    - dynamic_gas = memory_expansion_cost + code_execution_cost +
+                    address_access_cost
 
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
@@ -5560,7 +5655,8 @@ class Opcodes(Opcode, Enum):
         kwargs_defaults={"gas": GAS},
     )
     """
-    STATICCALL(gas, address, args_offset, args_size, ret_offset, ret_size) = success
+    STATICCALL(gas, address, args_offset, args_size, ret_offset, ret_size)
+    = success
     ----
 
     Description
@@ -5569,13 +5665,14 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - gas: amount of gas to send to the sub context to execute. The gas that is not used by the sub
-        context is returned to this one
+    - gas: amount of gas to send to the sub context to execute. The gas
+    that is not used by the sub context is returned to this one
     - address: the account which context to execute
-    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_offset: byte offset in the memory in bytes, the calldata of the
+                   sub context
     - args_size: byte size to copy (size of the calldata)
-    - ret_offset: byte offset in the memory in bytes, where to store the return data of the sub
-        context
+    - ret_offset: byte offset in the memory in bytes, where to store the
+                  return data of the sub context
     - ret_size: byte size to copy (size of the return data)
 
     Outputs
@@ -5589,7 +5686,8 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
     - static_gas = 0
-    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
+    - dynamic_gas = memory_expansion_cost + code_execution_cost +
+                    address_access_cost
 
     Source: [evm.codes/#FA](https://www.evm.codes/#FA)
     """
@@ -5611,14 +5709,16 @@ class Opcodes(Opcode, Enum):
     Inputs
     ----
     - address: the account which context to execute
-    - args_offset: byte offset in the memory in bytes, the calldata of the sub context
+    - args_offset: byte offset in the memory in bytes, the calldata
+                   of the sub context
     - args_size: byte size to copy (size of the calldata)
 
     Outputs
     ----
     - success:
         - `0` if the call was successful.
-        - `1` if the call has reverted (also can be pushed earlier in a light failure scenario).
+        - `1` if the call has reverted (also can be pushed earlier in a
+          light failure scenario).
         - `2` if the call has failed.
 
     Fork
@@ -5628,7 +5728,8 @@ class Opcodes(Opcode, Enum):
     Gas
     ----
     - static_gas = 0
-    - dynamic_gas = memory_expansion_cost + code_execution_cost + address_access_cost
+    - dynamic_gas = memory_expansion_cost + code_execution_cost +
+                    address_access_cost
 
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
@@ -5644,7 +5745,8 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - offset: byte offset in the return data from the last executed sub context to copy
+    - offset: byte offset in the return data from the last executed
+              sub context to copy
 
     Fork
     ----
@@ -5666,7 +5768,8 @@ class Opcodes(Opcode, Enum):
 
     Inputs
     ----
-    - offset: byte offset in the memory in bytes. The return data of the calling context
+    - offset: byte offset in the memory in bytes. The return data of
+              the calling context
     - size: byte size to copy (size of the return data)
 
     Fork
@@ -5771,7 +5874,10 @@ _push_opcodes_byte_list: List[Opcode] = [
 
 
 def _mstore_operation(data: OpcodeCallArg = b"", offset: OpcodeCallArg = 0) -> Bytecode:
-    """Generate the bytecode that stores an arbitrary amount of data in memory."""
+    """
+    Generate the bytecode that stores an arbitrary
+    amount of data in memory.
+    """
     assert isinstance(offset, int)
     if isinstance(data, int):
         data = data.to_bytes(32, "big")
@@ -5782,10 +5888,11 @@ def _mstore_operation(data: OpcodeCallArg = b"", offset: OpcodeCallArg = 0) -> B
         if len(chunk) == 32:
             bytecode += Opcodes.MSTORE(offset, chunk)
         else:
-            # We need to MLOAD the existing data at the offset and then do a bitwise OR with the
-            # new data to store it in memory.
+            # We need to MLOAD the existing data at the offset and then
+            # do a bitwise OR with the new data to store it in memory.
             bytecode += Opcodes.MLOAD(offset)
-            # Create a mask to zero out the leftmost bytes of the existing data.
+            # Create a mask to zero out the leftmost bytes of
+            # the existing data.
             mask_size = 32 - len(chunk)
             bytecode += _push_opcodes_byte_list[mask_size - 1][-1]
             bytecode += Opcodes.AND

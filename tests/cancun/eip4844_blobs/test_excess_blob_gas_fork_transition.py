@@ -1,8 +1,8 @@
 """
-abstract: Tests `excessBlobGas` and `blobGasUsed` block fields for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844) at fork transition.
-    Test `excessBlobGas` and `blobGasUsed` block fields for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844) at fork
-    transition.
-"""  # noqa: E501
+Test `excessBlobGas` & `blobGasUsed` block fields at fork transition.
+
+Tests for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+"""
 
 from typing import List, Mapping
 
@@ -49,8 +49,8 @@ def block_gas_limit(fork: Fork) -> int:  # noqa: D103
 @pytest.fixture
 def genesis_environment(block_gas_limit: int, block_base_fee_per_gas: int) -> Environment:
     """
-    Genesis environment that enables existing transition tests to be used of BPO forks.
-    Compatible with all fork transitions.
+    Genesis environment that enables existing transition tests to be used of
+    BPO forks. Compatible with all fork transitions.
     """
     return Environment(
         base_fee_per_gas=(block_base_fee_per_gas * BASE_FEE_MAX_CHANGE_DENOMINATOR) // 7,
@@ -158,8 +158,8 @@ def pre_fork_excess_blobs(
     pre_fork_blocks: List[Block],
 ) -> int:
     """
-    Return the cumulative excess blobs up until the fork given the pre_fork_blobs_per_block
-    and the target blobs in the fork prior.
+    Return the cumulative excess blobs up until the fork given the
+    pre_fork_blobs_per_block and the target blobs in the fork prior.
     """
     if not fork.supports_blobs(timestamp=0):
         return 0
@@ -331,11 +331,12 @@ def test_invalid_pre_fork_block_with_blob_fields(
     blob_gas_used_present: bool,
 ):
     """
-    Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are present on a pre-fork
-    block.
+    Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are
+    present on a pre-fork block.
 
-    Blocks sent by NewPayloadV2 (Shanghai) that contain `excessBlobGas` and `blobGasUsed` fields
-    must be rejected with the appropriate `EngineAPIError.InvalidParams` error error.
+    Blocks sent by NewPayloadV2 (Shanghai) that contain `excessBlobGas` and
+    `blobGasUsed` fields must be rejected with the appropriate
+    `EngineAPIError.InvalidParams` error error.
     """
     header_modifier = Header(
         excess_blob_gas=0 if excess_blob_gas_present else None,
@@ -376,11 +377,12 @@ def test_invalid_post_fork_block_without_blob_fields(
     blob_gas_used_missing: bool,
 ):
     """
-    Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are missing on a
-    post-fork block.
+    Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are
+    missing on a post-fork block.
 
-    Blocks sent by NewPayloadV3 (Cancun) without `excessBlobGas` and `blobGasUsed` fields must be
-    rejected with the appropriate `EngineAPIError.InvalidParams` error.
+    Blocks sent by NewPayloadV3 (Cancun) without `excessBlobGas` and
+    `blobGasUsed` fields must be rejected with the appropriate
+    `EngineAPIError.InvalidParams` error.
     """
     header_modifier = Header()
     if excess_blob_gas_missing:
@@ -432,8 +434,8 @@ def test_fork_transition_excess_blob_gas_at_blob_genesis(
     """
     Test `excessBlobGas` calculation in the header when the fork is activated.
 
-    Also produce enough blocks to test the blob gas price increase when the block is full with
-    `SpecHelpers.max_blobs_per_block()` blobs.
+    Also produce enough blocks to test the blob gas price increase when the
+    block is full with `SpecHelpers.max_blobs_per_block()` blobs.
     """
     blockchain_test(
         pre=pre,
@@ -499,7 +501,9 @@ def test_fork_transition_excess_blob_gas_post_blob_genesis(
     post_fork_blocks: List[Block],
     post: Mapping[Address, Account],
 ):
-    """Test `excessBlobGas` calculation in the header when the fork is activated."""
+    """
+    Test `excessBlobGas` calculation in the header when the fork is activated.
+    """
     blockchain_test(
         pre=pre,
         post=post,

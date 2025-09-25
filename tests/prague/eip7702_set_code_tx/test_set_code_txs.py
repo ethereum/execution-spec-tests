@@ -1,7 +1,9 @@
 """
-abstract: Tests use of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702)
-    Tests use of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
-"""  # noqa: E501
+Tests use of set-code transactions from EIP-7702.
+
+Tests use of set-code transactions from
+[EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
+"""
 
 from enum import StrEnum
 from hashlib import sha256
@@ -88,11 +90,11 @@ def test_self_sponsored_set_code(
     """
     Test the executing a self-sponsored set-code transaction.
 
-    The transaction is sent to the sender, and the sender is the signer of the only authorization
-    tuple in the authorization list.
+    The transaction is sent to the sender, and the sender is the signer of the
+    only authorization tuple in the authorization list.
 
-    The authorization tuple has a nonce of 1 because the self-sponsored transaction increases the
-    nonce of the sender from zero to one first.
+    The authorization tuple has a nonce of 1 because the self-sponsored
+    transaction increases the nonce of the sender from zero to one first.
 
     The expected nonce at the end of the transaction is 2.
     """
@@ -268,7 +270,10 @@ def test_set_code_to_sstore_then_sload(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
 ):
-    """Test the executing a simple SSTORE then SLOAD in two separate set-code transactions."""
+    """
+    Test the executing a simple SSTORE then SLOAD in two separate set-code
+    transactions.
+    """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
     sender = pre.fund_eoa()
 
@@ -346,8 +351,8 @@ def test_set_code_to_tstore_reentry(
     evm_code_type: EVMCodeType,
 ):
     """
-    Test the executing a simple TSTORE in a set-code transaction, which also performs a
-    re-entry to TLOAD the value.
+    Test the executing a simple TSTORE in a set-code transaction, which also
+    performs a re-entry to TLOAD the value.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -403,9 +408,10 @@ def test_set_code_to_tstore_available_at_correct_address(
     call_eoa_first: bool,
 ):
     """
-    Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in slot 2.
-    This is done both from the EOA which is delegated to account A, and then A is called.
-    The storage should stay empty on both the EOA and the delegated account.
+    Test TLOADing from slot 2 and then SSTORE this in slot 1, then TSTORE 3 in
+    slot 2. This is done both from the EOA which is delegated to account A, and
+    then A is called. The storage should stay empty on both the EOA and the
+    delegated account.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -522,7 +528,9 @@ def test_set_code_to_contract_creator(
     create_opcode: Op,
     evm_code_type: EVMCodeType,
 ):
-    """Test the executing a contract-creating opcode in a set-code transaction."""
+    """
+    Test the executing a contract-creating opcode in a set-code transaction.
+    """
     storage = Storage()
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -677,8 +685,8 @@ def test_set_code_max_depth_call_stack(
     fork: Fork,
 ):
     """
-    Test re-entry to delegated account until the max call stack depth possible in a
-    transaction is reached.
+    Test re-entry to delegated account until the max call stack depth possible
+    in a transaction is reached.
     """
     storage = Storage()
     auth_signer = pre.fund_eoa(auth_account_start_balance)
@@ -867,7 +875,10 @@ def test_tx_into_self_delegating_set_code(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Test a transaction that has entry-point into a set-code account that delegates to itself."""
+    """
+    Test a transaction that has entry-point into a set-code account that
+    delegates to itself.
+    """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
     tx = Transaction(
@@ -902,8 +913,8 @@ def test_tx_into_chain_delegating_set_code(
     pre: Alloc,
 ):
     """
-    Test a transaction that has entry-point into a set-code account that delegates to another
-    set-code account.
+    Test a transaction that has entry-point into a set-code account that
+    delegates to another set-code account.
     """
     auth_signer_1 = pre.fund_eoa(auth_account_start_balance)
     auth_signer_2 = pre.fund_eoa(auth_account_start_balance)
@@ -994,7 +1005,10 @@ def test_call_into_chain_delegating_set_code(
     pre: Alloc,
     call_opcode: Op,
 ):
-    """Test call into a set-code account that delegates to another set-code account."""
+    """
+    Test call into a set-code account that delegates to another set-code
+    account.
+    """
     auth_signer_1 = pre.fund_eoa(auth_account_start_balance)
     auth_signer_2 = pre.fund_eoa(auth_account_start_balance)
 
@@ -1310,8 +1324,8 @@ def test_set_code_address_and_authority_warm_state_call_types(
 ):
     """
     Test set to code address and authority warm status after a call to
-    authority address, or vice-versa, using all available call opcodes
-    without using `GAS` opcode (unavailable in EOF).
+    authority address, or vice-versa, using all available call opcodes without
+    using `GAS` opcode (unavailable in EOF).
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -1376,7 +1390,10 @@ def test_ext_code_on_self_delegating_set_code(
     pre: Alloc,
     balance: int,
 ):
-    """Test different ext*code operations on a set-code address that delegates to itself."""
+    """
+    Test different ext*code operations on a set-code address that delegates to
+    itself.
+    """
     auth_signer = pre.fund_eoa(balance)
 
     slot = count(1)
@@ -1438,8 +1455,8 @@ def test_ext_code_on_chain_delegating_set_code(
     pre: Alloc,
 ):
     """
-    Test different ext*code operations on a set-code address that references another delegated
-    address.
+    Test different ext*code operations on a set-code address that references
+    another delegated address.
     """
     auth_signer_1_balance = 1
     auth_signer_2_balance = 0
@@ -1601,8 +1618,9 @@ def test_set_code_to_account_deployed_in_same_tx(
     evm_code_type: EVMCodeType,
 ):
     """
-    Test setting the code of an account to an address that is deployed in the same transaction,
-    and test calling the set-code address and the deployed contract.
+    Test setting the code of an account to an address that is deployed in the
+    same transaction, and test calling the set-code address and the deployed
+    contract.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -1720,9 +1738,9 @@ def test_set_code_to_self_destructing_account_deployed_in_same_tx(
     balance: int,
 ):
     """
-    Test setting the code of an account to an account that contains the SELFDESTRUCT opcode and
-    was deployed in the same transaction, and test calling the set-code address and the deployed
-    in both sequence orders.
+    Test setting the code of an account to an account that contains the
+    SELFDESTRUCT opcode and was deployed in the same transaction, and test
+    calling the set-code address and the deployed in both sequence orders.
     """
     auth_signer = pre.fund_eoa(balance)
     if external_sendall_recipient:
@@ -1818,8 +1836,8 @@ def test_set_code_multiple_first_valid_authorization_tuples_same_signer(
     pre: Alloc,
 ):
     """
-    Test setting the code of an account with multiple authorization tuples
-    from the same signer.
+    Test setting the code of an account with multiple authorization tuples from
+    the same signer.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -1866,8 +1884,9 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_non
     pre: Alloc,
 ):
     """
-    Test setting the code of an account with multiple authorization tuples from the same signer
-    and each authorization tuple has an increasing nonce, therefore the last tuple is executed.
+    Test setting the code of an account with multiple authorization tuples from
+    the same signer and each authorization tuple has an increasing nonce,
+    therefore the last tuple is executed.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -1914,9 +1933,10 @@ def test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_non
     pre: Alloc,
 ):
     """
-    Test setting the code of an account with multiple authorization tuples from the same signer
-    and each authorization tuple has an increasing nonce, therefore the last tuple is executed,
-    and the transaction is self-sponsored.
+    Test setting the code of an account with multiple authorization tuples from
+    the same signer and each authorization tuple has an increasing nonce,
+    therefore the last tuple is executed, and the transaction is
+    self-sponsored.
     """
     auth_signer = pre.fund_eoa()
 
@@ -1962,8 +1982,8 @@ def test_set_code_multiple_valid_authorization_tuples_first_invalid_same_signer(
     pre: Alloc,
 ):
     """
-    Test setting the code of an account with multiple authorization tuples from the same signer
-    but the first tuple is invalid.
+    Test setting the code of an account with multiple authorization tuples from
+    the same signer but the first tuple is invalid.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -2010,8 +2030,8 @@ def test_set_code_all_invalid_authorization_tuples(
     pre: Alloc,
 ):
     """
-    Test setting the code of an account with multiple authorization tuples from the same signer
-    and all of them are invalid.
+    Test setting the code of an account with multiple authorization tuples from
+    the same signer and all of them are invalid.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -2050,7 +2070,10 @@ def test_set_code_using_chain_specific_id(
     pre: Alloc,
     chain_config: ChainConfig,
 ):
-    """Test sending a transaction to set the code of an account using a chain-specific ID."""
+    """
+    Test sending a transaction to set the code of an account using a
+    chain-specific ID.
+    """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
     success_slot = 1
@@ -2113,7 +2136,10 @@ def test_set_code_using_valid_synthetic_signatures(
     r: int,
     s: int,
 ):
-    """Test sending a transaction to set the code of an account using synthetic signatures."""
+    """
+    Test sending a transaction to set the code of an account using synthetic
+    signatures.
+    """
     success_slot = 1
 
     set_code = Op.SSTORE(success_slot, 1) + Op.STOP
@@ -2162,8 +2188,10 @@ def test_set_code_using_valid_synthetic_signatures(
         pytest.param(2, 1, 1, id="v=2"),
         pytest.param(27, 1, 1, id="v=27"),  # Type-0 transaction valid value
         pytest.param(28, 1, 1, id="v=28"),  # Type-0 transaction valid value
-        pytest.param(35, 1, 1, id="v=35"),  # Type-0 replay-protected transaction valid value
-        pytest.param(36, 1, 1, id="v=36"),  # Type-0 replay-protected transaction valid value
+        pytest.param(35, 1, 1, id="v=35"),  # Type-0 replay-protected
+        # transaction valid value
+        pytest.param(36, 1, 1, id="v=36"),  # Type-0 replay-protected
+        # transaction valid value
         pytest.param(2**8 - 1, 1, 1, id="v=2**8-1"),
         # R
         pytest.param(1, 0, 1, id="r=0"),
@@ -2194,8 +2222,9 @@ def test_valid_tx_invalid_auth_signature(
     s: int,
 ):
     """
-    Test sending a transaction to set the code of an account using synthetic signatures,
-    the transaction is valid but the authorization should not go through.
+    Test sending a transaction to set the code of an account using synthetic
+    signatures, the transaction is valid but the authorization should not go
+    through.
     """
     success_slot = 1
 
@@ -2237,8 +2266,9 @@ def test_signature_s_out_of_range(
     chain_config: ChainConfig,
 ):
     """
-    Test sending a transaction with an authorization tuple where the signature s value is out of
-    range by modifying its value to be `SECP256K1N - S` and flipping the v value.
+    Test sending a transaction with an authorization tuple where the signature
+    s value is out of range by modifying its value to be `SECP256K1N - S` and
+    flipping the v value.
     """
     auth_signer = pre.fund_eoa(0)
 
@@ -2309,8 +2339,8 @@ def test_valid_tx_invalid_chain_id(
     invalid_chain_id_case: InvalidChainID,
 ):
     """
-    Test sending a transaction where the chain id field does not match
-    the current chain's id.
+    Test sending a transaction where the chain id field does not match the
+    current chain's id.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -2405,11 +2435,11 @@ def test_nonce_validity(
     authorization_nonce: int,
 ):
     """
-    Test sending a transaction where the nonce field of an authorization almost overflows the
-    maximum value.
+    Test sending a transaction where the nonce field of an authorization almost
+    overflows the maximum value.
 
-    Also test calling the account of the authorization signer in order to verify that the account
-    is not warm.
+    Also test calling the account of the authorization signer in order to
+    verify that the account is not warm.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance, nonce=account_nonce)
 
@@ -2470,8 +2500,8 @@ def test_nonce_overflow_after_first_authorization(
     pre: Alloc,
 ):
     """
-    Test sending a transaction with two authorization where the first one bumps the nonce
-    to 2**64-1 and the second would result in overflow.
+    Test sending a transaction with two authorization where the first one bumps
+    the nonce to 2**64-1 and the second would result in overflow.
     """
     nonce = 2**64 - 2
     auth_signer = pre.fund_eoa(auth_account_start_balance, nonce=nonce)
@@ -2547,7 +2577,10 @@ def test_set_code_to_log(
     pre: Alloc,
     log_opcode: Op,
 ):
-    """Test setting the code of an account to a contract that performs the log operation."""
+    """
+    Test setting the code of an account to a contract that performs the log
+    operation.
+    """
     sender = pre.fund_eoa()
 
     log_kwargs = {}
@@ -2604,8 +2637,8 @@ def test_set_code_to_precompile(
     call_opcode: Op,
 ):
     """
-    Test setting the code of an account to a pre-compile address and executing all call
-    opcodes.
+    Test setting the code of an account to a pre-compile address and executing
+    all call opcodes.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -2663,8 +2696,8 @@ def test_set_code_to_precompile_not_enough_gas_for_precompile_execution(
     precompile: int,
 ):
     """
-    Test set code to precompile and making direct call in same transaction with intrinsic gas
-    only, no extra gas for precompile execution.
+    Test set code to precompile and making direct call in same transaction with
+    intrinsic gas only, no extra gas for precompile execution.
     """
     auth_signer = pre.fund_eoa(amount=1)
     auth = AuthorizationTuple(address=Address(precompile), nonce=0, signer=auth_signer)
@@ -2738,10 +2771,12 @@ def test_set_code_to_system_contract(
 
     call_value = 0
 
-    # Setup the initial storage of the account to mimic the system contract if required
+    # Setup the initial storage of the account to mimic the system contract if
+    # required
     match system_contract:
         case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
-            # Deposit contract needs specific storage values, so we set them on the account
+            # Deposit contract needs specific storage values, so we set them on
+            # the account
             auth_signer = pre.fund_eoa(
                 auth_account_start_balance, storage=deposit_contract_initial_storage()
             )
@@ -2788,8 +2823,8 @@ def test_set_code_to_system_contract(
             caller_payload = consolidation_request.calldata
             call_value = consolidation_request.value
         case Address(0x0000F90827F1C53A10CB7A02335B175320002935):  # EIP-2935
-            # This payload is used to identify the number of blocks to be subtracted from the
-            # latest block number
+            # This payload is used to identify the number of blocks to be
+            # subtracted from the latest block number
             caller_payload = Hash(1)
             caller_code_storage[call_return_data_size_slot] = 32
         case _:
@@ -2798,8 +2833,8 @@ def test_set_code_to_system_contract(
     # Setup the code to call the system contract
     match system_contract:
         case Address(0x0000F90827F1C53A10CB7A02335B175320002935):  # EIP-2935
-            # Do a trick here to get the block number of the penultimate block to ensure it is
-            # saved in the history contract
+            # Do a trick here to get the block number of the penultimate block
+            # to ensure it is saved in the history contract
             check_block_number = Op.SUB(Op.NUMBER, Op.CALLDATALOAD(0))
             call_system_contract_code = Op.MSTORE(0, check_block_number) + Op.SSTORE(
                 call_return_code_slot,
@@ -2844,7 +2879,8 @@ def test_set_code_to_system_contract(
         blocks=[
             Block(
                 txs=txs,
-                requests_hash=Requests(),  # Verify nothing slipped into the requests trie
+                requests_hash=Requests(),  # Verify nothing slipped into the
+                # requests trie
             )
         ],
         post={
@@ -2885,7 +2921,10 @@ def test_eoa_tx_after_set_code(
     evm_code_type: EVMCodeType,
     same_block: bool,
 ):
-    """Test sending a transaction from an EOA after code has been set to the account."""
+    """
+    Test sending a transaction from an EOA after code has been set to the
+    account.
+    """
     auth_signer = pre.fund_eoa()
 
     set_code = Op.SSTORE(1, Op.ADD(Op.SLOAD(1), 1)) + Op.STOP
@@ -3145,12 +3184,14 @@ def test_delegation_clearing(
     self_sponsored: bool,
 ):
     """
-    Test clearing the delegation of an account under a variety of circumstances.
+    Test clearing the delegation of an account under a variety of
+    circumstances.
 
-    - pre_set_delegation_code: The code to set on the account before clearing delegation, or None
-        if the account should not have any code set.
-    - self_sponsored: Whether the delegation clearing transaction is self-sponsored.
-
+    - pre_set_delegation_code: The code to set on the account before clearing
+                               delegation, or None if the account should not
+                               have any code set.
+    - self_sponsored: Whether the delegation clearing transaction is
+                      self-sponsored.
     """  # noqa: D417
     pre_set_delegation_address: Address | None = None
     if pre_set_delegation_code is not None:
@@ -3238,10 +3279,11 @@ def test_delegation_clearing_tx_to(
     """
     Tests directly calling the account which delegation is being cleared.
 
-    - pre_set_delegation_code: The code to set on the account before clearing delegation, or None
-        if the account should not have any code set.
-    - self_sponsored: Whether the delegation clearing transaction is self-sponsored.
-
+    - pre_set_delegation_code: The code to set on the account before clearing
+                               delegation, or None if the account should not
+                               have any code set.
+    - self_sponsored: Whether the delegation clearing transaction is
+                      self-sponsored.
     """  # noqa: D417
     pre_set_delegation_address: Address | None = None
     if pre_set_delegation_code is not None:
@@ -3295,11 +3337,11 @@ def test_delegation_clearing_and_set(
     pre_set_delegation_code: Bytecode | None,
 ):
     """
-    Tests clearing and setting the delegation again in the same authorization list.
+    Tests clearing and setting the delegation again in the same authorization
+    list.
 
-    - pre_set_delegation_code: The code to set on the account before clearing delegation, or None
-        if the account should not have any code set.
-
+    - pre_set_delegation_code: The code to set on the account before clearing
+    delegation, or None if the account should not have any code set.
     """  # noqa: D417
     pre_set_delegation_address: Address | None = None
     if pre_set_delegation_code is not None:
@@ -3361,7 +3403,10 @@ def test_delegation_clearing_failing_tx(
     pre: Alloc,
     entry_code: Bytecode,
 ):
-    """Test clearing the delegation of an account in a transaction that fails, OOGs or reverts."""  # noqa: D417
+    """
+    Test clearing the delegation of an account in a transaction that fails,
+    OOGs or reverts.
+    """  # noqa: D417
     pre_set_delegation_code = Op.RETURN(0, 1)
     pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
 
@@ -3459,8 +3504,10 @@ def test_creating_delegation_designation_contract(
     initcode_is_delegation_designation: bool,
 ):
     """
-    Tx -> create -> pointer bytecode
-    Attempt to deploy contract with magic bytes result in no contract being created.
+    Tx -> create -> pointer bytecode.
+
+    Attempt to deploy contract with magic bytes result in no
+    contract being created.
     """
     env = Environment()
 
@@ -3522,14 +3569,16 @@ def test_many_delegations(
     signer_balance: int,
 ):
     """
-    Perform as many delegations as possible in a transaction using the entire block gas limit.
+    Perform as many delegations as possible in a transaction using the entire
+    block gas limit.
 
     Every delegation comes from a different signer.
 
-    The account of can be empty or not depending on the `signer_balance` parameter.
+    The account of can be empty or not depending on the `signer_balance`
+    parameter.
 
-    The transaction is expected to succeed and the state after the transaction is expected to have
-    the code of the entry contract set to 1.
+    The transaction is expected to succeed and the state after the transaction
+    is expected to have the code of the entry contract set to 1.
     """
     env = Environment()
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
@@ -3587,8 +3636,8 @@ def test_invalid_transaction_after_authorization(
     pre: Alloc,
 ):
     """
-    Test an invalid block due to a transaction reusing the same nonce as an authorization
-    included in a prior transaction.
+    Test an invalid block due to a transaction reusing the same nonce as an
+    authorization included in a prior transaction.
     """
     auth_signer = pre.fund_eoa()
     recipient = pre.fund_eoa(amount=0)
@@ -3636,8 +3685,8 @@ def test_authorization_reusing_nonce(
     pre: Alloc,
 ):
     """
-    Test an authorization reusing the same nonce as a prior transaction included in the same
-    block.
+    Test an authorization reusing the same nonce as a prior transaction
+    included in the same block.
     """
     auth_signer = pre.fund_eoa()
     sender = pre.fund_eoa()
@@ -3694,12 +3743,12 @@ def test_set_code_from_account_with_non_delegating_code(
     self_sponsored: bool,
 ):
     """
-    Test that a transaction is correctly rejected,
-    if the sender account has a non-delegating code set.
+    Test that a transaction is correctly rejected, if the sender account has a
+    non-delegating code set.
 
-    The auth transaction is sent from sender which has contract code (not delegating)
-    But at the same time it has auth tuple that will point this sender account
-    To be eoa, delegation, contract .. etc
+    The auth transaction is sent from sender which has contract code (not
+    delegating) But at the same time it has auth tuple that will point this
+    sender account To be eoa, delegation, contract .. etc
     """
     sender = pre.fund_eoa(nonce=1)
     random_address = pre.fund_eoa(0)
@@ -3719,7 +3768,8 @@ def test_set_code_from_account_with_non_delegating_code(
             raise ValueError(f"Unsupported set code type: {set_code_type}")
     callee_address = pre.deploy_contract(Op.SSTORE(0, 1) + Op.STOP)
 
-    # Set the sender account to have some code, that is specifically not a delegation.
+    # Set the sender account to have some code, that is specifically not a
+    # delegation.
     sender_account = pre[sender]
     assert sender_account is not None
     sender_account.code = Bytes(Op.STOP)
@@ -3781,7 +3831,9 @@ def test_set_code_transaction_fee_validations(
     max_priority_fee_per_gas: int,
     expected_error: TransactionException,
 ):
-    """Test that a transaction with an insufficient max fee per gas is rejected."""
+    """
+    Test that a transaction with an insufficient max fee per gas is rejected.
+    """
     set_to_code = pre.deploy_contract(Op.STOP)
     auth_signer = pre.fund_eoa(amount=0)
     tx = Transaction(

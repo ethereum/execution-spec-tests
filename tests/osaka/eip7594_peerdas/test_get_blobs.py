@@ -1,7 +1,9 @@
 """
-abstract: Tests get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
-    Test get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
-"""  # noqa: E501
+Get blobs engine endpoint tests.
+
+Tests for get blobs engine endpoint in [EIP-7594: PeerDAS - Peer Data
+Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
+"""
 
 from hashlib import sha256
 from typing import List, Optional
@@ -92,7 +94,8 @@ def excess_blob_gas(
     block_base_fee_per_gas: int,
 ) -> int | None:
     """
-    Calculate the excess blob gas of the block under test from the parent block.
+    Calculate the excess blob gas of the block under test from the parent
+    block.
 
     Value can be overloaded by a test case to provide a custom excess blob gas.
     """
@@ -148,10 +151,10 @@ def tx_max_fee_per_blob_gas(  # noqa: D103
 @pytest.fixture
 def tx_error() -> Optional[TransactionException]:
     """
-    Even though the final block we are producing in each of these tests is invalid, and some of the
-    transactions will be invalid due to the format in the final block, none of the transactions
-    should be rejected by the transition tool because they are being sent to it with the correct
-    format.
+    Even though the final block we are producing in each of these tests is
+    invalid, and some of the transactions will be invalid due to the format in
+    the final block, none of the transactions should be rejected by the
+    transition tool because they are being sent to it with the correct format.
     """
     return None
 
@@ -319,8 +322,8 @@ def test_get_blobs(
     txs: List[NetworkWrappedTransaction | Transaction],
 ):
     """
-    Test valid blob combinations where one or more txs in the block
-    serialized version contain a full blob (network version) tx.
+    Test valid blob combinations where one or more txs in the block serialized
+    version contain a full blob (network version) tx.
     """
     blobs_test(pre=pre, txs=txs)
 
@@ -336,6 +339,9 @@ def test_get_blobs_nonexisting(
     pre: Alloc,
     txs: List[NetworkWrappedTransaction | Transaction],
 ):
-    """Test that ensures clients respond with 'null' when at least one requested blob is not available."""  # noqa: E501
+    """
+    Test that ensures clients respond with 'null' when at least one requested
+    blob is not available.
+    """
     nonexisting_blob_hashes = [Hash(sha256(str(i).encode()).digest()) for i in range(5)]
     blobs_test(pre=pre, txs=txs, nonexisting_blob_hashes=nonexisting_blob_hashes)

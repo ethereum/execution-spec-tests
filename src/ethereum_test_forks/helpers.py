@@ -20,7 +20,10 @@ from .transition_base_fork import TransitionBaseClass
 
 
 class InvalidForkError(Exception):
-    """Invalid fork error raised when the fork specified is not found or incompatible."""
+    """
+    Invalid fork error raised when the fork specified is not found or
+    incompatible.
+    """
 
     def __init__(self, message):
         """Initialize the InvalidForkError exception."""
@@ -54,8 +57,8 @@ ALL_FORKS_WITH_TRANSITIONS = frozenset(
 
 def get_forks() -> List[Type[BaseFork]]:
     """
-    Return list of all the fork classes implemented by
-    `ethereum_test_forks` ordered chronologically by deployment.
+    Return list of all the fork classes implemented by `ethereum_test_forks`
+    ordered chronologically by deployment.
     """
     return all_forks[:]
 
@@ -177,8 +180,8 @@ def get_selected_fork_set(
     transition_forks: bool = True,
 ) -> Set[Type[BaseFork]]:
     """
-    Process sets derived from `--fork`, `--until` and `--from` to return an unified fork
-    set.
+    Process sets derived from `--fork`, `--until` and `--from` to return an
+    unified fork set.
     """
     selected_fork_set = set()
     if single_fork:
@@ -200,8 +203,7 @@ def transition_fork_from_to(
     fork_from: Type[BaseFork], fork_to: Type[BaseFork]
 ) -> Type[BaseFork] | None:
     """
-    Return transition fork that transitions to and from the specified
-    forks.
+    Return transition fork that transitions to and from the specified forks.
     """
     for transition_fork in get_transition_forks():
         if not issubclass(transition_fork, TransitionBaseClass):
@@ -231,8 +233,8 @@ def forks_from_until(
     fork_from: Type[BaseFork], fork_until: Type[BaseFork]
 ) -> List[Type[BaseFork]]:
     """
-    Return specified fork and all forks after it until and including the
-    second specified fork.
+    Return specified fork and all forks after it until and including the second
+    specified fork.
     """
     prev_fork = fork_until
 
@@ -266,13 +268,13 @@ def get_relative_fork_markers(
     """
     Return a list of marker names for a given fork.
 
-    For a base fork (e.g. `Shanghai`), return [ `Shanghai` ].
-    For a transition fork (e.g. `ShanghaiToCancunAtTime15k` which transitions to `Cancun`),
+    For a base fork (e.g. `Shanghai`), return [ `Shanghai` ]. For a transition
+    fork (e.g. `ShanghaiToCancunAtTime15k` which transitions to `Cancun`),
     return [ `ShanghaiToCancunAtTime15k`, `Cancun` ].
 
-    If `strict_mode` is set to `True`, raise an `InvalidForkError` if the fork is not found,
-    otherwise, simply return the provided (str) `fork_identifier` (this is required to run
-    `consume` with forks that are unknown to EEST).
+    If `strict_mode` is set to `True`, raise an `InvalidForkError` if the fork
+    is not found, otherwise, simply return the provided (str) `fork_identifier`
+    (this is required to run `consume` with forks that are unknown to EEST).
     """
     all_forks = set(get_forks()) | set(get_transition_forks())
     if isinstance(fork_identifier, str):
@@ -302,7 +304,10 @@ def get_fork_by_name(fork_name: str) -> Type[BaseFork] | None:
 
 
 class ForkRangeDescriptor(BaseModel):
-    """Fork descriptor parsed from string normally contained in ethereum/tests fillers."""
+    """
+    Fork descriptor parsed from string normally contained in ethereum/tests
+    fillers.
+    """
 
     greater_equal: Type[BaseFork] | None = None
     less_than: Type[BaseFork] | None = None
@@ -323,8 +328,10 @@ class ForkRangeDescriptor(BaseModel):
         Validate the fork range descriptor from a string.
 
         Examples:
-        - ">=Osaka" validates to {greater_equal=Osaka, less_than=None}
-        - ">=Prague<Osaka" validates to {greater_equal=Prague, less_than=Osaka}
+          - ">=Osaka" validates to {greater_equal=Osaka, less_than=None}
+
+          - ">=Prague<Osaka" validates to {greater_equal=Prague,
+                                           less_than=Osaka}
 
         """
         if isinstance(v, str):

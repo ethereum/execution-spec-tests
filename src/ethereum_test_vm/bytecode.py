@@ -16,9 +16,9 @@ class Bytecode:
     """
     Base class to represent EVM bytecode.
 
-    Stack calculations are automatically done after an addition operation between two bytecode
-    objects. The stack height is not guaranteed to be correct, so the user must take this into
-    consideration.
+    Stack calculations are automatically done after an addition operation
+    between two bytecode objects. The stack height is not guaranteed to be
+    correct, so the user must take this into consideration.
 
     Parameters
     ----------
@@ -63,8 +63,8 @@ class Bytecode:
             return instance
 
         if isinstance(bytes_or_byte_code_base, Bytecode):
-            # Required because Enum class calls the base class with the instantiated object as
-            # parameter.
+            # Required because Enum class calls the base class with the
+            # instantiated object as parameter.
             obj = super().__new__(cls)
             obj._bytes_ = bytes_or_byte_code_base._bytes_
             obj.popped_stack_items = bytes_or_byte_code_base.popped_stack_items
@@ -113,8 +113,8 @@ class Bytecode:
         Allow comparison between Bytecode instances and bytes objects.
 
         Raises:
-        - NotImplementedError: if the comparison is not between an Bytecode
-            or a bytes object.
+          - NotImplementedError: if the comparison is not between an
+                                 Bytecode or a bytes object.
 
         """
         if isinstance(other, Bytecode):
@@ -142,7 +142,9 @@ class Bytecode:
         )
 
     def __add__(self, other: "Bytecode | bytes | int | None") -> "Bytecode":
-        """Concatenate the bytecode representation with another bytecode object."""
+        """
+        Concatenate the bytecode representation with another bytecode object.
+        """
         if other is None or (isinstance(other, int) and other == 0):
             # Edge case for sum() function
             return self
@@ -160,33 +162,40 @@ class Bytecode:
         b_pop, b_push = other.popped_stack_items, other.pushed_stack_items
         b_min, b_max = other.min_stack_height, other.max_stack_height
 
-        # NOTE: "_pop" is understood as the number of elements required by an instruction or
-        # bytecode to be popped off the stack before it starts returning (pushing).
+        # NOTE: "_pop" is understood as the number of elements required by an
+        # instruction or bytecode to be popped off the stack before it starts
+        # returning (pushing).
 
-        # Auxiliary variables representing "stages" of the execution of `c = a + b` bytecode:
-        # Assume starting point 0 as reference:
+        # Auxiliary variables representing "stages" of the execution of
+        # `c = a + b` bytecode: Assume starting point 0 as reference:
         a_start = 0
-        # A (potentially) pops some elements and reaches its "bottom", might be negative:
+        # A (potentially) pops some elements and reaches its "bottom", might be
+        # negative:
         a_bottom = a_start - a_pop
-        # After this A pushes some elements, then B pops and reaches its "bottom":
+        # After this A pushes some elements, then B pops and reaches its
+        # "bottom":
         b_bottom = a_bottom + a_push - b_pop
 
         # C's bottom is either at the bottom of A or B:
         c_bottom = min(a_bottom, b_bottom)
         if c_bottom == a_bottom:
-            # C pops the same as A to reach its bottom, then the rest of A and B are C's "push"
+            # C pops the same as A to reach its bottom, then the rest of A and
+            # B are C's "push"
             c_pop = a_pop
             c_push = a_push - b_pop + b_push
         else:
-            # A and B are C's "pop" to reach its bottom, then pushes the same as B
+            # A and B are C's "pop" to reach its bottom, then pushes the same
+            # as B
             c_pop = a_pop - a_push + b_pop
             c_push = b_push
 
-        # C's minimum required stack is either A's or B's shifted by the net stack balance of A
+        # C's minimum required stack is either A's or B's shifted by the net
+        # stack balance of A
         c_min = max(a_min, b_min + a_pop - a_push)
 
-        # C starts from c_min, then reaches max either in the spot where A reached a_max or in the
-        # spot where B reached b_max, after A had completed.
+        # C starts from c_min, then reaches max either in the spot where A
+        # reached a_max or in the spot where B reached b_max, after A had
+        # completed.
         c_max = max(c_min + a_max - a_min, c_min - a_pop + a_push + b_max - b_min)
 
         return Bytecode(
@@ -199,7 +208,9 @@ class Bytecode:
         )
 
     def __radd__(self, other: "Bytecode | int | None") -> "Bytecode":
-        """Concatenate the opcode byte representation with another bytes object."""
+        """
+        Concatenate the opcode byte representation with another bytes object.
+        """
         if other is None or (isinstance(other, int) and other == 0):
             # Edge case for sum() function
             return self
@@ -207,7 +218,9 @@ class Bytecode:
         return other.__add__(self)
 
     def __mul__(self, other: int) -> "Bytecode":
-        """Concatenate another bytes object with the opcode byte representation."""
+        """
+        Concatenate another bytes object with the opcode byte representation.
+        """
         if other < 0:
             raise ValueError("Cannot multiply by a negative number")
         if other == 0:
@@ -218,7 +231,10 @@ class Bytecode:
         return output
 
     def hex(self) -> str:
-        """Return the hexadecimal representation of the opcode byte representation."""
+        """
+        Return the hexadecimal representation of the opcode byte
+        representation.
+        """
         return bytes(self).hex()
 
     def keccak256(self) -> Hash:
@@ -229,7 +245,10 @@ class Bytecode:
     def __get_pydantic_core_schema__(
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Provide Pydantic core schema for Bytecode serialization and validation."""
+        """
+        Provide Pydantic core schema for Bytecode
+        serialization and validation.
+        """
         return no_info_plain_validator_function(
             cls,
             serialization=plain_serializer_function_ser_schema(

@@ -1,9 +1,9 @@
 """
 BAL modifier functions for invalid test cases.
 
-This module provides modifier functions that can be used to modify Block Access Lists
-in various ways for testing invalid block scenarios. They are composable and can be
-combined to create complex modifications.
+This module provides modifier functions that can be used to modify Block Access
+Lists in various ways for testing invalid block scenarios. They are composable
+and can be combined to create complex modifications.
 """
 
 from typing import Any, Callable, List, Optional
@@ -60,7 +60,10 @@ def _modify_field_value(
     nested: bool = False,
     slot: Optional[int] = None,
 ) -> Callable[[BlockAccessList], BlockAccessList]:
-    """Abstracted helper to modify a field value for a specific account and transaction."""
+    """
+    Abstracted helper to modify a field value for a specific account and
+    transaction.
+    """
     found_address = False
 
     def transform(bal: BlockAccessList) -> BlockAccessList:
@@ -154,7 +157,9 @@ def modify_nonce(
 def modify_balance(
     address: Address, tx_index: int, balance: int
 ) -> Callable[[BlockAccessList], BlockAccessList]:
-    """Set an incorrect balance value for a specific account and transaction."""
+    """
+    Set an incorrect balance value for a specific account and transaction.
+    """
     return _modify_field_value(
         address, tx_index, "balance_changes", BalBalanceChange, balance, "post_balance"
     )
@@ -163,7 +168,10 @@ def modify_balance(
 def modify_storage(
     address: Address, tx_index: int, slot: int, value: int
 ) -> Callable[[BlockAccessList], BlockAccessList]:
-    """Set an incorrect storage value for a specific account, transaction, and slot."""
+    """
+    Set an incorrect storage value for a specific account, transaction, and
+    slot.
+    """
     return _modify_field_value(
         address,
         tx_index,
@@ -227,7 +235,8 @@ def swap_tx_indices(tx1: int, tx2: int) -> Callable[[BlockAccessList], BlockAcce
                             balance_indices[tx2] = True
                             storage_change.tx_index = HexNumber(tx1)
 
-            # Note: storage_reads is just a list of StorageKey, no tx_index to swap
+            # Note: storage_reads is just a list of StorageKey, no tx_index to
+            # swap
 
             # Swap in code changes
             if new_account.code_changes:

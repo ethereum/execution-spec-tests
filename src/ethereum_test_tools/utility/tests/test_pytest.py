@@ -6,7 +6,8 @@ from ethereum_test_tools import extend_with_defaults
 from ethereum_test_tools.utility.pytest import UnknownParameterInCasesError
 
 
-# TODO: This is from the docstring in extend_with_defaults; should be tested automatically
+# TODO: This is from the docstring in extend_with_defaults; should be tested
+# automatically
 @pytest.mark.parametrize(
     **extend_with_defaults(
         defaults={
@@ -28,13 +29,13 @@ from ethereum_test_tools.utility.pytest import UnknownParameterInCasesError
                 id="max_value_200",
             ),
             pytest.param(
-                {"min_value": -10, "max_value": 50},  # override both min_value
-                # and max_value
+                # override both min_value and max_value
+                {"min_value": -10, "max_value": 50},
                 id="min_-10_max_50",
             ),
             pytest.param(
-                {"min_value": 20, "max_value": 80, "average": 50},  # all defaults
-                # are overridden
+                # all defaults are overridden
+                {"min_value": 20, "max_value": 80, "average": 50},
                 id="min_20_max_80_avg_50",
             ),
             pytest.param(

@@ -53,7 +53,9 @@ class EOFBaseExceptionError(Exception):
 
     @staticmethod
     def format_code(code: Bytes, max_length=60) -> str:
-        """Avoid printing long bytecode strings in the terminal upon test failure."""
+        """
+        Avoid printing long bytecode strings in the terminal upon test failure.
+        """
         if len(code) > max_length:
             half_length = max_length // 2 - 5  # Floor; adjust for ellipsis
             return f"{code[:half_length].hex()}...{code[-half_length:].hex()}"
@@ -84,7 +86,10 @@ class ExpectedEOFExceptionError(EOFBaseExceptionError):
     """
 
     def __init__(self, *, code: Bytes, expected: str):
-        """Initialize the exception with the code and the expected exception message."""
+        """
+        Initialize the exception with the code and the expected exception
+        message.
+        """
         message = (
             "Expected EOF code to be invalid, but no exception was raised:\n"
             f"    Code: {self.format_code(code)}\n"
@@ -95,10 +100,15 @@ class ExpectedEOFExceptionError(EOFBaseExceptionError):
 
 
 class EOFExceptionMismatchError(EOFBaseExceptionError):
-    """Exception used when the actual EOF exception differs from the expected one."""
+    """
+    Exception used when the actual EOF exception differs from the expected one.
+    """
 
     def __init__(self, code: Bytes, expected: str, got: str):
-        """Initialize the exception with the code, the expected/actual exception message."""
+        """
+        Initialize the exception with the code, the expected/actual exception
+        message.
+        """
         message = (
             "EOF code raised a different exception than expected:\n"
             f"    Code: {self.format_code(code)}\n"
@@ -166,88 +176,92 @@ class EOFTest(BaseTest):
     """
     Filler type that generates a test for EOF container validation.
 
-    A state test is also automatically generated where the container is wrapped in a
-    contract-creating transaction to test deployment/validation on the instantiated blockchain.
+    A state test is also automatically generated where the container is wrapped
+    in a contract-creating transaction to test deployment/validation on the
+    instantiated blockchain.
     """
 
     container: Container
     """
     EOF container that will be tested for validity.
 
-    The only supported type at the moment is `ethereum_test_types.eof.v1.Container`.
+    The only supported type at the moment is
+    `ethereum_test_types.eof.v1.Container`.
 
-    If an invalid container needs to be tested, and it cannot be generated using the
-    Container class features, the `raw_bytes` field can be used to provide the raw
-    container bytes.
+    If an invalid container needs to be tested, and it cannot be generated
+    using the Container class features, the `raw_bytes` field can be used to
+    provide the raw container bytes.
     """
     expect_exception: EOFExceptionInstanceOrList | None = None
     """
-    Expected exception that the container should raise when parsed by an EOF parser.
+    Expected exception that the container should raise when parsed by an EOF
+    parser.
 
-    Can be a single exception or a list of exceptions that the container is expected to raise,
-    in which case the test will pass if any of the exceptions are raised.
+    Can be a single exception or a list of exceptions that the container is
+    expected to raise, in which case the test will pass if any of the
+    exceptions are raised.
 
-    The list of supported exceptions can be found in the `ethereum_test_exceptions.EOFException`
-    class.
+    The list of supported exceptions can be found in the
+    `ethereum_test_exceptions.EOFException` class.
     """
     container_kind: ContainerKind = ContainerKind.RUNTIME
     """
     Container kind type that the container should be treated as.
 
-    The container kind can be one of the following:
-    - `ContainerKind.INITCODE`: The container is an initcode container.
-    - `ContainerKind.RUNTIME`: The container is a runtime container.
+    The container kind can be one of the following: - `ContainerKind.INITCODE`:
+    The container is an initcode container. - `ContainerKind.RUNTIME`: The
+    container is a runtime container.
 
     The default value is `ContainerKind.RUNTIME`.
     """
     deployed_container: Container | None = None
     """
-    To be used when the container is an initcode container and the expected deployed container is
-    known.
+    To be used when the container is an initcode container and the expected
+    deployed container is known.
 
-    The value is only used when a State Test is generated from this EOF test to set the expected
-    deployed container that should be found in the post state.
+    The value is only used when a State Test is generated from this EOF test to
+    set the expected deployed container that should be found in the post state.
 
-    If this field is not set, and the container is valid:
-      - If the container kind is `ContainerKind.RUNTIME`, the deployed container is assumed to be
-        the container itself, and an initcode container that wraps the container is generated
-        automatically.
-      - If the container kind is `ContainerKind.INITCODE`, `model_post_init` will attempt to infer
-        the deployed container from the sections of the init-container, and the first
-        container-type section will be used. An error will be raised if the deployed container
-        cannot be inferred.
+    If this field is not set, and the container is valid: - If the container
+    kind is `ContainerKind.RUNTIME`, the deployed container is assumed to be
+    the container itself, and an initcode container that wraps the container is
+    generated automatically. - If the container kind is
+    `ContainerKind.INITCODE`, `model_post_init` will attempt to infer the
+    deployed container from the sections of the init-container, and the first
+    container-type section will be used. An error will be raised if the
+    deployed container cannot be inferred.
 
-    If the value is set to `None`, it is assumed that the container is invalid and the test will
-    expect that no contract is created.
+    If the value is set to `None`, it is assumed that the container is invalid
+    and the test will expect that no contract is created.
 
-    It is considered an error if:
-      - The `deployed_container` field is set and the `container_kind` field is not set to
-        `ContainerKind.INITCODE`.
-      - The `deployed_container` field is set and the `expect_exception` is not `None`.
+    It is considered an error if: - The `deployed_container` field is set and
+    the `container_kind` field is not set to `ContainerKind.INITCODE`. - The
+    `deployed_container` field is set and the `expect_exception` is not `None`.
 
-    The deployed container is **not** executed at any point during the EOF validation test nor
-    the generated State Test. For container runtime testing use the `EOFStateTest` class.
+    The deployed container is **not** executed at any point during the EOF
+    validation test nor the generated State Test. For container runtime testing
+    use the `EOFStateTest` class.
     """
     pre: Alloc | None = None
     """
     Pre alloc object that is used during State Test generation.
 
-    This field is automatically set by the test filler when generating a State Test from this EOF
-    test and should otherwise be left unset.
+    This field is automatically set by the test filler when generating a State
+    Test from this EOF test and should otherwise be left unset.
     """
     post: Alloc | None = None
     """
     Post alloc object that is used during State Test generation.
 
-    This field is automatically set by the test filler when generating a State Test from this EOF
-    test and is normally not set by the user.
+    This field is automatically set by the test filler when generating a State
+    Test from this EOF test and is normally not set by the user.
     """
     sender: EOA | None = None
     """
     Sender EOA object that is used during State Test generation.
 
-    This field is automatically set by the `model_post_init` method and should otherwise be left
-    unset.
+    This field is automatically set by the `model_post_init` method and should
+    otherwise be left unset.
     """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -281,7 +295,10 @@ class EOFTest(BaseTest):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard a fixture format from filling if the appropriate marker is used."""
+        """
+        Discard a fixture format from filling if the appropriate marker is
+        used.
+        """
         if "eof_test_only" in [m.name for m in markers]:
             return fixture_format != EOFFixture
         return False
@@ -369,7 +386,9 @@ class EOFTest(BaseTest):
         return fixture
 
     def verify_result(self, result: CompletedProcess, expected_result: Result, code: Bytes):
-        """Check that the reported exception string matches the expected error."""
+        """
+        Check that the reported exception string matches the expected error.
+        """
         evmone_exception_mapper = EvmoneExceptionMapper()
         actual_exception_str = result.stdout.strip()
         actual_exception: EOFExceptionWithMessage | UndefinedException | None = None
@@ -409,12 +428,13 @@ class EOFTest(BaseTest):
         if self.container_kind == ContainerKind.INITCODE:
             initcode = self.container
             if "deployed_container" in self.model_fields_set:
-                # In the case of an initcontainer where we know the deployed container,
-                # we can use the initcontainer as-is.
+                # In the case of an initcontainer where we know the deployed
+                # container, we can use the initcontainer as-is.
                 deployed_container = self.deployed_container
             elif self.expect_exception is None:
-                # We have a valid init-container, but we don't know the deployed container.
-                # Try to infer the deployed container from the sections of the init-container.
+                # We have a valid init-container, but we don't know the
+                # deployed container. Try to infer the deployed container from
+                # the sections of the init-container.
                 assert self.container.raw_bytes is None, (
                     "deployed_container must be set for initcode containers with raw_bytes."
                 )
@@ -505,34 +525,28 @@ EOFTestFiller = Type[EOFTest]
 
 class EOFStateTest(EOFTest, Transaction):
     """
-    Filler type that generates an EOF test for container validation, and also tests the container
-    during runtime using a state test (and blockchain test).
+    Filler type that generates an EOF test for container validation, and also
+    tests the container during runtime using a state test (and blockchain
+    test).
 
-    In the state or blockchain test, the container is first deployed to the pre-allocation and
-    then a transaction is sent to the deployed container.
+    In the state or blockchain test, the container is first deployed to the
+    pre-allocation and then a transaction is sent to the deployed container.
 
-    Container deployment/validation is **not** tested like in the `EOFTest` unless the container
-    under test is an initcode container.
+    Container deployment/validation is **not** tested like in the `EOFTest`
+    unless the container under test is an initcode container.
 
-    All fields from `ethereum_test_types.Transaction` are available for use in the test.
+    All fields from `ethereum_test_types.Transaction` are available for use in
+    the test.
     """
 
     gas_limit: HexNumber = Field(HexNumber(10_000_000), serialization_alias="gas")
-    """
-    Gas limit for the transaction that deploys the container.
-    """
+    """Gas limit for the transaction that deploys the container."""
     tx_sender_funding_amount: int = 1_000_000_000_000_000_000_000
-    """
-    Amount of funds to send to the sender EOA before the transaction.
-    """
+    """Amount of funds to send to the sender EOA before the transaction."""
     env: Environment = Field(default_factory=Environment)
-    """
-    Environment object that is used during State Test generation.
-    """
+    """Environment object that is used during State Test generation."""
     container_post: Account = Field(default_factory=Account)
-    """
-    Account object used to verify the container post state.
-    """
+    """Account object used to verify the container post state."""
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         EOFFixture
@@ -580,7 +594,8 @@ class EOFStateTest(EOFTest, Transaction):
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
 
-            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect failure.
+            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect
+        # failure.
         elif self.expect_exception is not None and self.container_kind == ContainerKind.INITCODE:
             # Invalid EOF initcode
             self.to = self.pre.deploy_contract(
@@ -591,7 +606,8 @@ class EOFStateTest(EOFTest, Transaction):
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
 
-            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect failure.
+            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect
+            # failure.
         elif self.container_kind == ContainerKind.INITCODE:
             self.to = self.pre.deploy_contract(
                 Op.TXCREATE(tx_initcode_hash=self.container.hash) + Op.STOP
@@ -634,8 +650,8 @@ class EOFStateTest(EOFTest, Transaction):
         """Generate the BlockchainTest fixture."""
         if fixture_format == EOFFixture:
             if Bytes(self.container) in existing_tests:
-                # Gracefully skip duplicate tests because one EOFStateTest can generate multiple
-                # state fixtures with the same data.
+                # Gracefully skip duplicate tests because one EOFStateTest can
+                # generate multiple state fixtures with the same data.
                 pytest.skip(f"Duplicate EOF container on EOFStateTest: {self.node_id()}")
             return self.make_eof_test_fixture(fork=fork)
         elif fixture_format in StateTest.supported_fixture_formats:

@@ -1,7 +1,9 @@
 """
-abstract: Tests BLS12_MAP_FP2_TO_G2 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_MAP_FP2_TO_G2 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Test the BLS12_MAP_FP2_TO_G2 precompile.
+
+Test the BLS12_MAP_FP2_TO_G2 precompile introduced in
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -22,12 +24,12 @@ pytestmark = [
 
 G2_POINT_ZERO_FP = PointG2(
     (
-        0x18320896EC9EEF9D5E619848DC29CE266F413D02DD31D9B9D44EC0C79CD61F18B075DDBA6D7BD20B7FF27A4B324BFCE,  # noqa: E501
-        0xA67D12118B5A35BB02D2E86B3EBFA7E23410DB93DE39FB06D7025FA95E96FFA428A7A27C3AE4DD4B40BD251AC658892,  # noqa: E501
+        0x18320896EC9EEF9D5E619848DC29CE266F413D02DD31D9B9D44EC0C79CD61F18B075DDBA6D7BD20B7FF27A4B324BFCE,
+        0xA67D12118B5A35BB02D2E86B3EBFA7E23410DB93DE39FB06D7025FA95E96FFA428A7A27C3AE4DD4B40BD251AC658892,
     ),
     (
-        0x260E03644D1A2C321256B3246BAD2B895CAD13890CBE6F85DF55106A0D334604FB143C7A042D878006271865BC35941,  # noqa: E501
-        0x4C69777A43F0BDA07679D5805E63F18CF4E0E7C6112AC7F70266D199B4F76AE27C6269A3CEEBDAE30806E9A76AADF5C,  # noqa: E501
+        0x260E03644D1A2C321256B3246BAD2B895CAD13890CBE6F85DF55106A0D334604FB143C7A042D878006271865BC35941,
+        0x4C69777A43F0BDA07679D5805E63F18CF4E0E7C6112AC7F70266D199B4F76AE27C6269A3CEEBDAE30806E9A76AADF5C,
     ),
 )
 
@@ -47,12 +49,12 @@ G2_POINT_ZERO_FP = PointG2(
             FP2((Spec.P - 1, Spec.P - 1)),
             PointG2(
                 (
-                    0x9BF1B857D8C15F317F649ACCFA7023EF21CFC03059936B83B487DB476FF9D2FE64C6147140A5F0A436B875F51FFDF07,  # noqa: E501
-                    0xBB10E09BDF236CB2951BD7BCC044E1B9A6BB5FD4B2019DCC20FFDE851D52D4F0D1A32382AF9D7DA2C5BA27E0F1C69E6,  # noqa: E501
+                    0x9BF1B857D8C15F317F649ACCFA7023EF21CFC03059936B83B487DB476FF9D2FE64C6147140A5F0A436B875F51FFDF07,
+                    0xBB10E09BDF236CB2951BD7BCC044E1B9A6BB5FD4B2019DCC20FFDE851D52D4F0D1A32382AF9D7DA2C5BA27E0F1C69E6,
                 ),
                 (
-                    0xDD416A927AB1C15490AB753C973FD377387B12EFCBE6BED2BF768B9DC95A0CA04D1A8F0F30DBC078A2350A1F823CFD3,  # noqa: E501
-                    0x171565CE4FCD047B35EA6BCEE4EF6FDBFEC8CC73B7ACDB3A1EC97A776E13ACDFEFFC21ED6648E3F0EEC53DDB6C20FB61,  # noqa: E501
+                    0xDD416A927AB1C15490AB753C973FD377387B12EFCBE6BED2BF768B9DC95A0CA04D1A8F0F30DBC078A2350A1F823CFD3,
+                    0x171565CE4FCD047B35EA6BCEE4EF6FDBFEC8CC73B7ACDB3A1EC97A776E13ACDFEFFC21ED6648E3F0EEC53DDB6C20FB61,
                 ),
             ),
             None,
@@ -61,8 +63,8 @@ G2_POINT_ZERO_FP = PointG2(
         pytest.param(
             FP2(
                 (
-                    3510328712861478240121438855244276237335901234329585006107499559909114695366216070652508985150831181717984778988906,  # noqa: E501
-                    2924545590598115509050131525615277284817672420174395176262156166974132393611647670391999011900253695923948997972401,  # noqa: E501
+                    3510328712861478240121438855244276237335901234329585006107499559909114695366216070652508985150831181717984778988906,
+                    2924545590598115509050131525615277284817672420174395176262156166974132393611647670391999011900253695923948997972401,
                 )
             ),
             Spec.INF_G2,
@@ -101,16 +103,18 @@ def test_isogeny_kernel_values(
     tx: Transaction,
 ):
     """
-    Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note this test only exists
-    to align with the G1 test. `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty so there are no cases.
+    Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note
+    this test only exists to align with the G1 test.
+    `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty so there are no cases.
 
-    The isogeny kernel is simply the set of special field values, that after the two step mapping
-    (first SWU onto an auxiliary curve, then a 3-degree isogeny back to G2), collapse exactly
-    to the identity point.
+    The isogeny kernel is simply the set of special field values, that after
+    the two step mapping (first SWU onto an auxiliary curve, then a 3-degree
+    isogeny back to G2), collapse exactly to the identity point.
 
-    For the G2 case the only kernel element is the point at infinity, and SWU never produces the
-    identity point from a finite input t. Hence `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty. Please
-    proceed to the generator in `helpers.py` for more details.
+    For the G2 case the only kernel element is the point at infinity, and SWU
+    never produces the identity point from a finite input t. Hence
+    `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty. Please proceed to the generator
+    in `helpers.py` for more details.
     """
     state_test(
         env=Environment(),

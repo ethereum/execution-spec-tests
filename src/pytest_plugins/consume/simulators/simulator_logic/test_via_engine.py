@@ -1,8 +1,10 @@
 """
-A hive based simulator that executes blocks against clients using the `engine_newPayloadVX` method
-from the Engine API. The simulator uses the `BlockchainEngineFixtures` to test against clients.
+A hive based simulator that executes blocks against clients using the
+`engine_newPayloadVX` method from the Engine API. The simulator uses the
+`BlockchainEngineFixtures` to test against clients.
 
-Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID responses.
+Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID
+responses.
 """
 
 import time
@@ -39,10 +41,12 @@ def test_blockchain_via_engine(
     strict_exception_matching: bool,
 ):
     """
-    1. Check the client genesis block hash matches `fixture.genesis.block_hash`.
-    2. Execute the test case fixture blocks against the client under test using the
-    `engine_newPayloadVX` method from the Engine API.
-    3. For valid payloads a forkchoice update is performed to finalize the chain.
+    1. Check the client genesis block hash matches
+       `fixture.genesis.block_hash`.
+    2. Execute the test case fixture blocks against the client under test using
+       the `engine_newPayloadVX` method from the Engine API.
+    3. For valid payloads a forkchoice update is performed to finalize the
+       chain.
     """
     # Send a initial forkchoice update
     with timing_data.time("Initial forkchoice update"):

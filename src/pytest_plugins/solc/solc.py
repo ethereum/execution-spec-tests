@@ -85,7 +85,8 @@ def pytest_configure(config: pytest.Config):
 
     # Extract version number
     try:
-        # --version format is typically something like "0.8.24+commit.e11b9ed9.Linux.g++"
+        # --version format is typically something like
+        # "0.8.24+commit.e11b9ed9.Linux.g++"
         version_str = version_line.split()[1].split("+")[0]
         solc_version_semver = Version.parse(version_str)
     except (IndexError, ValueError) as e:

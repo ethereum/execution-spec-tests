@@ -1,4 +1,6 @@
-"""Helper functions for the EIP-198 ModExp precompile tests."""
+"""
+Helper functions for the EIP-198 ModExp precompile tests.
+"""
 
 from typing import Tuple
 
@@ -9,15 +11,16 @@ from ethereum_test_tools import Bytes, TestParameterGroup
 
 class ModExpInput(TestParameterGroup):
     """
-    Helper class that defines the MODEXP precompile inputs and creates the
-    call data from them.
+    Helper class that defines the MODEXP precompile inputs and creates the call
+    data from them.
 
     Attributes:
         base (str): The base value for the MODEXP precompile.
         exponent (str): The exponent value for the MODEXP precompile.
         modulus (str): The modulus value for the MODEXP precompile.
-        extra_data (str): Defines extra padded data to be added at the end of the calldata
-            to the precompile. Defaults to an empty string.
+        extra_data (str): Defines extra padded data to be added at the end of
+                          the calldata to the precompile.
+                          Defaults to an empty string.
 
     """
 
@@ -134,9 +137,11 @@ class ModExpOutput(TestParameterGroup):
     Expected test result.
 
     Attributes:
-        call_success (bool): The return_code from CALL, 0 indicates unsuccessful call
-            (out-of-gas), 1 indicates call succeeded.
-        returned_data (str): The output returnData is the expected output of the call
+      call_success (bool): The return_code from CALL, 0 indicates
+                           unsuccessful call (out-of-gas), 1 indicates call
+                           succeeded.
+      returned_data(str): The output returnData is the expected
+                          output of the call.
 
     """
 

@@ -1,7 +1,6 @@
 """
-abstract: Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935)
-    Test [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
-"""  # noqa: E501
+Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
+"""
 
 from typing import Dict, List
 
@@ -33,14 +32,17 @@ def generate_block_check_code(
     check_contract_first: bool = False,
 ) -> Bytecode:
     """
-    Generate EVM code to check that the block hashes are correctly stored in the state.
+    Generate EVM code to check that the block hashes are correctly stored in
+    the state.
 
     Args:
-        check_block_number (int): The block number to check.
-        current_block_number (int): The current block number where the check is taking place.
-        fork_block_number (int): The block number of the fork transition.
-        storage (Storage): The storage object to use.
-        check_contract_first (bool): Whether to check the contract first, for slot warming checks.
+      check_block_number (int): The block number to check.
+      current_block_number (int): The current block number where the check is
+                                  taking place.
+      fork_block_number (int): The block number of the fork transition.
+      storage (Storage): The storage object to use.
+      check_contract_first (bool): Whether to check the contract first,
+                                   for slot warming checks.
 
     """
     contract_ret_offset = 32
@@ -108,13 +110,13 @@ def test_block_hashes_history_at_transition(
     blocks_after_fork: int,
 ):
     """
-    Tests that block hashes are stored correctly at the system contract address after the fork
-    transition. Block hashes are stored incrementally at the transition until the
-    `HISTORY_SERVE_WINDOW` ring buffer is full. Afterwards the oldest block hash is replaced by the
-    new one.
+    Tests that block hashes are stored correctly at the system contract address
+    after the fork transition. Block hashes are stored incrementally at the
+    transition until the `HISTORY_SERVE_WINDOW` ring buffer is full. Afterwards
+    the oldest block hash is replaced by the new one.
 
-    Note: The block hashes before the fork are no longer stored in the contract at the moment of
-    the transition.
+    Note: The block hashes before the fork are no longer stored in the contract
+    at the moment of the transition.
     """
     blocks: List[Block] = []
     assert blocks_before_fork >= 1 and blocks_before_fork < Spec.FORK_TIMESTAMP
@@ -127,9 +129,9 @@ def test_block_hashes_history_at_transition(
     for i in range(blocks_before_fork):
         txs: List[Transaction] = []
         if i == blocks_before_fork - 1:
-            # On the last block before the fork, `BLOCKHASH` must return values for the last 256
-            # blocks but not for the blocks before that.
-            # And `HISTORY_STORAGE_ADDRESS` should be empty.
+            # On the last block before the fork, `BLOCKHASH` must return values
+            # for the last 256 blocks but not for the blocks before that. And
+            # `HISTORY_STORAGE_ADDRESS` should be empty.
             code = Bytecode()
             storage = Storage()
 
@@ -165,17 +167,18 @@ def test_block_hashes_history_at_transition(
         blocks.append(Block(timestamp=current_block_number, txs=txs))
         current_block_number += 1
 
-    # Add blocks after the fork transition to gradually fill up the `HISTORY_SERVE_WINDOW`
+    # Add blocks after the fork transition to gradually fill up the
+    # `HISTORY_SERVE_WINDOW`
     for i in range(blocks_after_fork):
         txs = []
-        # On these blocks, `BLOCKHASH` will still return values for the last 256 blocks, and
-        # `HISTORY_STORAGE_ADDRESS` should now serve values for the previous blocks in the new
-        # fork.
+        # On these blocks, `BLOCKHASH` will still return values for the last
+        # 256 blocks, and `HISTORY_STORAGE_ADDRESS` should now serve values for
+        # the previous blocks in the new fork.
         code = Bytecode()
         storage = Storage()
 
-        # Check that each block can return previous blockhashes if `BLOCKHASH_OLD_WINDOW` and or
-        # `HISTORY_SERVE_WINDOW`.
+        # Check that each block can return previous blockhashes if
+        # `BLOCKHASH_OLD_WINDOW` and or `HISTORY_SERVE_WINDOW`.
         for j in range(current_block_number):
             code += generate_block_check_code(
                 check_block_number=j,
@@ -227,10 +230,10 @@ def test_block_hashes_history(
     check_contract_first: bool,
 ):
     """
-    Tests that block hashes are stored correctly at the system contract address after the fork
-    transition. Block hashes are stored incrementally at the transition until the
-    `HISTORY_SERVE_WINDOW` ring buffer is full. Afterwards the oldest block hash is replaced by the
-    new one.
+    Tests that block hashes are stored correctly at the system contract address
+    after the fork transition. Block hashes are stored incrementally at the
+    transition until the `HISTORY_SERVE_WINDOW` ring buffer is full. Afterwards
+    the oldest block hash is replaced by the new one.
     """
     blocks: List[Block] = []
 
@@ -245,9 +248,9 @@ def test_block_hashes_history(
         current_block_number += 1
 
     txs = []
-    # On these blocks, `BLOCKHASH` will still return values for the last 256 blocks, and
-    # `HISTORY_STORAGE_ADDRESS` should now serve values for the previous blocks in the new
-    # fork.
+    # On these blocks, `BLOCKHASH` will still return values for the last 256
+    # blocks, and `HISTORY_STORAGE_ADDRESS` should now serve values for the
+    # previous blocks in the new fork.
     code = Bytecode()
     storage = Storage()
 
@@ -321,7 +324,10 @@ def test_block_hashes_history(
 def test_block_hashes_call_opcodes(
     blockchain_test: BlockchainTestFiller, pre: Alloc, call_opcode: Op
 ):
-    """Test that the call opcodes can be used to call the history contract and get the block hashes."""  # noqa: E501
+    """
+    Test that the call opcodes can be used to call the history contract and get
+    the block hashes.
+    """
     blocks = []
     blocks.append(Block())
 
@@ -382,11 +388,11 @@ def test_invalid_history_contract_calls(
     reverts: bool,
 ):
     """
-    Test calling the history contract with invalid block numbers, such as blocks from the future
-    or overflowing block numbers.
+    Test calling the history contract with invalid block numbers, such as
+    blocks from the future or overflowing block numbers.
 
-    Also test the BLOCKHASH opcode with the same block numbers, which should not affect the
-    behavior of the opcode, even after verkle.
+    Also test the BLOCKHASH opcode with the same block numbers, which should
+    not affect the behavior of the opcode, even after verkle.
     """
     storage = Storage()
 

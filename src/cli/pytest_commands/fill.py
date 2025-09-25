@@ -26,10 +26,12 @@ class FillCommand(PytestCommand):
 
     def create_executions(self, pytest_args: List[str]) -> List[PytestExecution]:
         """
-        Create execution plan that supports two-phase pre-allocation group generation.
+        Create execution plan that supports two-phase pre-allocation group
+        generation.
 
         Returns single execution for normal filling, or two-phase execution
-        when --generate-pre-alloc-groups or --generate-all-formats is specified.
+        when --generate-pre-alloc-groups or --generate-all-formats is
+        specified.
         """
         processed_args = self.process_arguments(pytest_args)
 
@@ -50,7 +52,10 @@ class FillCommand(PytestCommand):
             ]
 
     def _create_two_phase_executions(self, args: List[str]) -> List[PytestExecution]:
-        """Create two-phase execution: pre-allocation group generation + fixture filling."""
+        """
+        Create two-phase execution: pre-allocation group generation + fixture
+        filling.
+        """
         # Phase 1: Pre-allocation group generation (clean and minimal output)
         phase1_args = self._create_phase1_args(args)
 
@@ -87,14 +92,16 @@ class FillCommand(PytestCommand):
         # Add required phase 1 flags (with quiet output by default)
         phase1_args = [
             "--generate-pre-alloc-groups",
-            "-qq",  # Quiet pytest output by default (user -v/-vv/-vvv can override)
+            "-qq",  # Quiet pytest output by default (user -v/-vv/-vvv can
+            # override)
         ] + filtered_args
 
         return phase1_args
 
     def _create_phase2_args(self, args: List[str]) -> List[str]:
         """Create arguments for phase 2 (fixture filling)."""
-        # Remove --generate-pre-alloc-groups and --clean, then add --use-pre-alloc-groups
+        # Remove --generate-pre-alloc-groups and --clean, then add --use-pre-
+        # alloc-groups
         phase2_args = self._remove_generate_pre_alloc_groups_flag(args)
         phase2_args = self._remove_clean_flag(phase2_args)
         phase2_args = self._add_use_pre_alloc_groups_flag(phase2_args)
@@ -138,7 +145,10 @@ class FillCommand(PytestCommand):
         return filtered_args
 
     def _remove_generate_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
-        """Remove --generate-pre-alloc-groups flag but keep --generate-all-formats for phase 2."""
+        """
+        Remove --generate-pre-alloc-groups flag but keep --generate-all-formats
+        for phase 2.
+        """
         return [arg for arg in args if arg != "--generate-pre-alloc-groups"]
 
     def _remove_clean_flag(self, args: List[str]) -> List[str]:
@@ -181,7 +191,10 @@ class FillCommand(PytestCommand):
         return any(flag in args for flag in ["--watch", "--watcherfall"])
 
     def _is_verbose_watch_mode(self, args: List[str]) -> bool:
-        """Check if verbose watch flag (--watcherfall) is present in arguments."""
+        """
+        Check if verbose watch flag (--watcherfall)
+        is present in arguments.
+        """
         return "--watcherfall" in args
 
     def execute(self, pytest_args: List[str]) -> None:
@@ -257,5 +270,6 @@ def phil(pytest_args: List[str], **kwargs) -> None:
 
 
 if __name__ == "__main__":
-    # to allow debugging in vscode: in launch config, set "module": "cli.pytest_commands.fill"
+    # to allow debugging in vscode: in launch config, set "module":
+    # "cli.pytest_commands.fill"
     fill(prog_name="fill")

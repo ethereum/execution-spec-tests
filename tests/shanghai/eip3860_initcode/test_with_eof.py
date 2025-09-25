@@ -1,4 +1,6 @@
-"""Tests interaction between edge case size CREATE / CREATE2 and EOF, including EIP-3860 limits."""
+"""
+Test CREATE / CREATE2 and EOF interaction for EIP-3860 initcode limits.
+"""
 
 import itertools
 
@@ -54,9 +56,12 @@ def test_legacy_create_edge_code_size(
     init_code: Bytecode,
 ):
     """
-    Verifies that legacy initcode/deploycode having 0 or max size continues to work in the fork
-    where EOF is enabled. Handling of EOF magic prefix and version interferes with the handling
-    of legacy creation, so a specific test was proposed to test behavior doesn't change.
+    Test legacy initcode and deployed code edge cases with EOF enabled.
+
+    Verify that legacy initcode/deploycode having 0 or max size continues to
+    work in the fork where EOF is enabled. Handling of EOF magic prefix and
+    version interferes with the handling of legacy creation, so a specific test
+    was proposed to test behavior doesn't change.
     """
     env = Environment()
 

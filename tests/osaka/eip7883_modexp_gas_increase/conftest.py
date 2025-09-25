@@ -42,8 +42,8 @@ def call_opcode() -> Op:
 @pytest.fixture
 def call_contract_post_storage() -> Storage:
     """
-    Storage of the test contract after the transaction is executed.
-    Note: Fixture `call_contract_code` fills the actual expected storage values.
+    Storage of the test contract after the transaction is executed. Note:
+    Fixture `call_contract_code` fills the actual expected storage values.
     """
     return Storage()
 
@@ -83,9 +83,10 @@ def expected_tx_cap_fail() -> bool:
 @pytest.fixture
 def call_succeeds(exceeds_tx_gas_cap: bool, expected_tx_cap_fail: bool) -> bool:
     """
-    Determine whether the ModExp precompile call should succeed or fail.
-    By default, depending on the expected output, we assume it succeeds.
-    Under EIP-7825, transactions requiring more gas than the cap should fail only if unexpected.
+    Determine whether the ModExp precompile call should succeed or fail. By
+    default, depending on the expected output, we assume it succeeds. Under
+    EIP-7825, transactions requiring more gas than the cap should fail only if
+    unexpected.
     """
     if exceeds_tx_gas_cap and not expected_tx_cap_fail:
         pytest.fail(
@@ -107,14 +108,16 @@ def gas_measure_contract(
     call_succeeds: bool,
 ) -> Address:
     """
-    Deploys a contract that measures ModExp gas consumption and execution result.
+    Deploys a contract that measures ModExp gas consumption and execution
+    result.
 
     Always stored:
-        storage[0]: precompile call success
-        storage[1]: return data length from precompile
+      storage[0]: precompile call success
+      storage[1]: return data length from precompile
+
     Only if the precompile call succeeds:
-        storage[2]: gas consumed by precompile
-        storage[3]: hash of return data from precompile
+      storage[2]: gas consumed by precompile
+      storage[3]: hash of return data from precompile
     """
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
@@ -183,7 +186,10 @@ def gas_measure_contract(
 def precompile_gas(
     fork: Fork, modexp_input: ModExpInput, gas_old: int | None, gas_new: int | None
 ) -> int:
-    """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
+    """
+    Calculate gas cost for the ModExp precompile and verify it matches expected
+    gas.
+    """
     spec = Spec if fork < Osaka else Spec7883
     try:
         calculated_gas = spec.calculate_gas_cost(modexp_input)
@@ -199,8 +205,8 @@ def precompile_gas(
             )
         return calculated_gas
     except Exception:
-        # Used for `test_modexp_invalid_inputs` we expect the call to not succeed.
-        # Return is for completeness.
+        # Used for `test_modexp_invalid_inputs` we expect the call to not
+        # succeed. Return is for completeness.
         return 500 if fork >= Osaka else 200
 
 
@@ -228,7 +234,9 @@ def tx(
 
 @pytest.fixture
 def tx_gas_limit(total_tx_gas_needed: int, fork: Fork, env: Environment) -> int:
-    """Transaction gas limit used for the test (Can be overridden in the test)."""
+    """
+    Transaction gas limit used for the test (Can be overridden in the test).
+    """
     tx_gas_limit_cap = fork.transaction_gas_limit_cap() or env.gas_limit
     return min(tx_gas_limit_cap, total_tx_gas_needed)
 

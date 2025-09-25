@@ -95,8 +95,8 @@ def pytest_addoption(parser):
 
 def pytest_configure(config: pytest.Config) -> None:
     """
-    Load the network configuration file and load the specific network to be used for
-    the test.
+    Load the network configuration file and load the specific network to be
+    used for the test.
     """
     genesis_config_file = config.getoption("genesis_config_file")
     genesis_config_url = config.getoption("genesis_config_url")
@@ -183,14 +183,20 @@ def pytest_configure(config: pytest.Config) -> None:
 
 @pytest.fixture(autouse=True, scope="session")
 def rpc_endpoint(request) -> str:
-    """Return remote RPC endpoint to be used to make requests to the execution client."""
+    """
+    Return remote RPC endpoint to be used to make requests to the execution
+    client.
+    """
     return request.config.getoption("rpc_endpoint")
 
 
 def all_rpc_endpoints(config) -> Dict[str, List[EthRPC]]:
-    """Derive a mapping of exec clients to the RPC URLs they are reachable at."""
+    """
+    Derive a mapping of exec clients to the RPC URLs they are reachable at.
+    """
     rpc_endpoint = config.getoption("rpc_endpoint")
-    el_clients: List[str] = config.getoption("majority_clients")  # besu, erigon, ..
+    # besu, erigon, ..
+    el_clients: List[str] = config.getoption("majority_clients")
     if len(el_clients) == 0:
         endpoint_name = rpc_endpoint
         try:
@@ -215,23 +221,23 @@ def all_rpc_endpoints(config) -> Dict[str, List[EthRPC]]:
         for exec_client in el_clients
     }
     # url_dict looks like this:
-    # {
-    #     'besu': [<EthRPC that holds url for grandine+besu>, <EthRPC that holds url for lighthouse+besu>, ..],  # noqa: E501
-    #     'erigon':  ...
-    #     ...
-    # }
+    # { 'besu': [<EthRPC that holds url for grandine+besu>,
+    #            <EthRPC that holds url for lighthouse+besu>, ..],
+    #   'erigon':  ... ... }
     return url_dict
 
 
 def pytest_generate_tests(metafunc: pytest.Metafunc):
     """Generate tests for all clients under test."""
     # all_rpc_endpoints is a dictionary with the name of the exec client as key
-    # and the possible URLs to contact it (different cl combinations) as value list
+    # and the possible URLs to contact it (different cl combinations) as value
+    # list
     all_rpc_endpoints_dict = all_rpc_endpoints(metafunc.config)
 
     if metafunc.definition.name == "test_eth_config_majority":
         if len(all_rpc_endpoints_dict) < 2:
-            # The test function is not run because we only have a single client, so no majority comparison  # noqa: E501
+            # The test function is not run because we only have a single
+            # client, so no majority comparison
             logger.info(
                 "Skipping eth_config majority because less than 2 exec clients were passed"
             )

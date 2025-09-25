@@ -1,4 +1,6 @@
-"""Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
+"""
+Shared pytest fixtures and hooks for EEST generation modes (fill and execute).
+"""
 
 from typing import List
 
@@ -18,11 +20,12 @@ ALL_FIXTURE_PARAMETERS = {
     "env",
 }
 """
-List of test parameters that have a default fixture value which can be retrieved and used
-for the test instance if it was not explicitly specified when calling from the test
-function.
+List of test parameters that have a default fixture value which can be
+retrieved and used for the test instance if it was not explicitly specified
+when calling from the test function.
 
-All parameter names included in this list must define a fixture in one of the plugins.
+All parameter names included in this list must define a fixture in one of the
+plugins.
 """
 
 
@@ -35,12 +38,12 @@ def pytest_configure(config: pytest.Config):
     Couple of notes:
     1. Register the plugin's custom markers and process command-line options.
 
-        Custom marker registration:
-        https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
+       Custom marker registration:
+       https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
 
     2. `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
-        called before the pytest-html plugin's pytest_configure to ensure that
-        it uses the modified `htmlpath` option.
+       called before the pytest-html plugin's pytest_configure to ensure that
+       it uses the modified `htmlpath` option.
     """
     if config.pluginmanager.has_plugin("pytest_plugins.filler.filler"):
         for fixture_format in BaseFixture.formats.values():
@@ -154,7 +157,10 @@ def pytest_configure(config: pytest.Config):
 
 @pytest.fixture(scope="function")
 def test_case_description(request: pytest.FixtureRequest) -> str:
-    """Fixture to extract and combine docstrings from the test class and the test function."""
+    """
+    Fixture to extract and combine docstrings from the test class and the test
+    function.
+    """
     description_unavailable = (
         "No description available - add a docstring to the python test class or function."
     )
@@ -172,8 +178,8 @@ def test_case_description(request: pytest.FixtureRequest) -> str:
 
 def pytest_make_parametrize_id(config: pytest.Config, val: str, argname: str):
     """
-    Pytest hook called when generating test ids. We use this to generate
-    more readable test ids for the generated tests.
+    Pytest hook called when generating test ids. We use this to generate more
+    readable test ids for the generated tests.
     """
     del config
     return f"{argname}_{val}"

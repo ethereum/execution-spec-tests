@@ -99,8 +99,8 @@ class TransactionTraces(CamelModel):
     @staticmethod
     def remove_gas(traces: List[TraceLine]):
         """
-        Remove the GAS operation opcode result from the stack to make comparison possible
-        even if the gas has been pushed to the stack.
+        Remove the GAS operation opcode result from the stack to make
+        comparison possible even if the gas has been pushed to the stack.
         """
         for i in range(1, len(traces)):
             trace = traces[i]
@@ -143,7 +143,9 @@ class TransactionTraces(CamelModel):
 
 
 class Traces(EthereumTestRootModel):
-    """Traces returned from the transition tool for all transactions executed."""
+    """
+    Traces returned from the transition tool for all transactions executed.
+    """
 
     root: List[TransactionTraces]
 

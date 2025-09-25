@@ -51,20 +51,26 @@ def test_dynamic_create2_selfdestruct_collision(
     """
     Dynamic Create2->Suicide->Create2 collision scenario.
 
-    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-    then on a different call, in the same tx, perform a self-destruct.
+    Perform a CREATE2, make sure that the initcode sets at least a couple of
+    storage keys, then on a different call, in the same tx, perform a
+    self-destruct.
     Then:
-        a) on the same tx, attempt to recreate the contract   <=== Covered in this test
-            1) and create2 contract already in the state
-            2) and create2 contract is not in the state
-        b) on a different tx, attempt to recreate the contract
-    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-    then in a different tx, perform a self-destruct.
+      a) on the same tx, attempt to recreate the contract
+         -> Covered in this test
+           1) and create2 contract already in the state
+           2) and create2 contract is not in the state
+      b) on a different tx, attempt to recreate the contract
+
+    Perform a CREATE2, make sure that the initcode sets at least a couple
+    of storage keys, then in a different tx, perform a self-destruct.
+
     Then:
-        a) on the same tx, attempt to recreate the contract
-        b) on a different tx, attempt to recreate the contract
-    Verify that the test case described in
-    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event
+      a) on the same tx, attempt to recreate the contract
+      b) on a different tx, attempt to recreate the contract
+
+    Check the test case described in
+    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/
+    22156575/2024-01-06+Mainnet+Halting+Event
     """
     assert call_create2_contract_in_between or call_create2_contract_at_the_end, "invalid test"
 
@@ -79,7 +85,8 @@ def test_dynamic_create2_selfdestruct_collision(
     create2_salt = 1
 
     # Create EOA for sendall destination (receives selfdestruct funds)
-    sendall_destination = pre.fund_eoa(0)  # Will be funded by selfdestruct calls
+    sendall_destination = pre.fund_eoa(0)  # Will be funded by selfdestruct
+    # calls
 
     # Create storage contract that will be called during initialization
     address_create2_storage = pre.deploy_contract(
@@ -131,7 +138,8 @@ def test_dynamic_create2_selfdestruct_collision(
         + Op.CALL(100000, address_code, 0, 0, 0, 0, 0)
         # Call to the created account to trigger selfdestruct
         + Op.CALL(100000, call_address_in_between, first_call_value, 0, 0, 0, 0)
-        # Make a subcall that do CREATE2 collision and returns its address as the result
+        # Make a subcall that do CREATE2 collision and returns its address as
+        # the result
         + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
         + Op.CALL(100000, address_code, second_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
         + Op.SSTORE(
@@ -149,7 +157,8 @@ def test_dynamic_create2_selfdestruct_collision(
     sender = pre.fund_eoa(7000000000000000000)
 
     if create2_dest_already_in_state:
-        # Create2 address already in the state, e.g. deployed in a previous block
+        # Create2 address already in the state, e.g. deployed in a previous
+        # block
         pre[create2_address] = Account(
             balance=pre_existing_create2_balance,
             nonce=1,
@@ -182,7 +191,8 @@ def test_dynamic_create2_selfdestruct_collision(
         }
     )
 
-    # Calculate the destination account expected balance for the selfdestruct/sendall calls
+    # Calculate the destination account expected balance for the
+    # selfdestruct/sendall calls
     sendall_destination_balance = (
         pre_existing_create2_balance if create2_dest_already_in_state else first_create2_value
     )
@@ -224,20 +234,28 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
     """
     Dynamic Create2->Suicide->Create2 collision scenario.
 
-    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-    then on a different call, in the same tx, perform a self-destruct.
+    Perform a CREATE2, make sure that the initcode sets at least a couple of
+    storage keys, then on a different call, in the same tx, perform a
+    self-destruct.
+
     Then:
-        a) on the same tx, attempt to recreate the contract
-            1) and create2 contract already in the state
-            2) and create2 contract is not in the state
-        b) on a different tx, attempt to recreate the contract <=== Covered in this test
-    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-    then in a different tx, perform a self-destruct.
+      a) on the same tx, attempt to recreate the contract
+        1) and create2 contract already in the state
+        2) and create2 contract is not in the state
+      b) on a different tx, attempt to recreate the contract
+         -> Covered in this test
+
+    Perform a CREATE2, make sure that the initcode sets at
+    least a couple of storage keys, then in a different tx, perform a
+    self-destruct.
+
     Then:
-        a) on the same tx, attempt to recreate the contract
-        b) on a different tx, attempt to recreate the contract
-    Verify that the test case described in
-    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event
+      a) on the same tx, attempt to recreate the contract
+      b) on a different tx, attempt to recreate the contract
+
+    Check the test case described in
+    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06
+    +Mainnet+Halting+Event
     """
     # assert call_create2_contract_at_the_end, "invalid test"
 
@@ -252,7 +270,8 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
     create2_salt = 1
 
     # Create EOA for sendall destination (receives selfdestruct funds)
-    sendall_destination = pre.fund_eoa(0)  # Will be funded by selfdestruct calls
+    sendall_destination = pre.fund_eoa(0)  # Will be funded by selfdestruct
+    # calls
 
     # Create storage contract that will be called during initialization
     address_create2_storage = pre.deploy_contract(
@@ -311,7 +330,8 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
     # Create the second contract that performs the second transaction
     address_to_second = pre.deploy_contract(
         code=Op.JUMPDEST()
-        # Make a subcall that do CREATE2 collision and returns its address as the result
+        # Make a subcall that do CREATE2 collision and returns its address as
+        # the result
         + Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
         + Op.CALL(100000, address_code, second_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
         + Op.SSTORE(
@@ -329,7 +349,8 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
     sender = pre.fund_eoa(7000000000000000000)
 
     if create2_dest_already_in_state:
-        # Create2 address already in the state, e.g. deployed in a previous block
+        # Create2 address already in the state, e.g. deployed in a previous
+        # block
         pre[create2_address] = Account(
             balance=pre_existing_create2_balance,
             nonce=1,
@@ -350,8 +371,9 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
         )
     )
 
-    # after Cancun Create2 initcode is only executed if the contract did not already exist
-    # and before it will always be executed as the first tx deletes the account
+    # after Cancun Create2 initcode is only executed if the contract did not
+    # already exist and before it will always be executed as the first tx
+    # deletes the account
     post[address_create2_storage] = Account(
         storage={
             create2_constructor_worked: int(fork < Cancun or not create2_dest_already_in_state)
@@ -369,9 +391,12 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
     post[address_to_second] = Account(
         storage={
             code_worked: 0x01,
-            # Second create2 will not collide before Cancun as the first tx calls selfdestruct
-            # After cancun it will collide only if create2_dest_already_in_state otherwise the
-            # first tx creates and deletes it
+            # Second create2 will not collide before Cancun as the first tx
+            # calls selfdestruct
+            #
+            # After cancun it will collide only if
+            # create2_dest_already_in_state otherwise the first tx creates and
+            # deletes it
             second_create2_result: (
                 (0x00 if create2_dest_already_in_state else create2_address)
                 if fork >= Cancun
@@ -380,14 +405,16 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
         }
     )
 
-    # Calculate the destination account expected balance for the selfdestruct/sendall calls
+    # Calculate the destination account expected balance for the
+    # selfdestruct/sendall calls
     sendall_destination_balance = 0
 
     if create2_dest_already_in_state:
         sendall_destination_balance += pre_existing_create2_balance
         if fork >= Cancun:
-            # first create2 fails, but first calls ok. the account is not removed on cancun
-            # therefore with the second create2 it is not successful
+            # first create2 fails, but first calls ok. the account is not
+            # removed on cancun therefore with the second create2 it is not
+            # successful
             sendall_destination_balance += first_call_value
         else:
             # first create2 fails, first calls totally removes the account
@@ -396,8 +423,9 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
             if call_create2_contract_at_the_end:
                 sendall_destination_balance += second_create2_value
     else:
-        # if no account in the state, first create2 successful, first call successful and removes
-        # because it is removed in the next transaction second create2 successful
+        # if no account in the state, first create2 successful, first call
+        # successful and removes because it is removed in the next transaction
+        # second create2 successful
         sendall_destination_balance = first_create2_value + first_call_value
         if call_create2_contract_at_the_end:
             sendall_destination_balance += second_create2_value
@@ -448,20 +476,28 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     blockchain_test: BlockchainTestFiller,
 ):
     """
-    Dynamic Create2->Suicide->Create2 collision scenario over multiple transactions.
+    Dynamic Create2->Suicide->Create2 collision scenario over multiple
+    transactions.
 
-    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-    then on a different call, in the same or different tx but same block, perform a self-destruct.
+    Perform a CREATE2, make sure that the initcode sets at least a couple of
+    storage keys, then on a different call, in the same or different tx but
+    same block, perform a self-destruct.
     Then:
-        a) on the same tx, attempt to recreate the contract
-        b) on a different tx, attempt to recreate the contract
-    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
-    then in a different tx, perform a self-destruct.
+      a) on the same tx, attempt to recreate the contract
+      b) on a different tx, attempt to recreate the contract
+
+    Perform a CREATE2, make sure that the initcode sets at least a
+    couple of storage keys, then in a different tx, perform a self-destruct.
+
     Then:
-        a) on the same tx, attempt to recreate the contract       <=== Covered in this test
-        b) on a different tx, attempt to recreate the contract    <=== Covered in this test
-    Verify that the test case described in
-    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event
+      a) on the same tx, attempt to recreate the contract
+         -> Covered in this test
+      b) on a different tx, attempt to recreate the contract
+         -> Covered in this test
+
+    Check the test case described in
+    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06
+    +Mainnet+Halting+Event
     """
     if recreate_on_first_tx:
         assert selfdestruct_on_first_tx, "invalid test"
@@ -477,7 +513,8 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     create2_salt = 1
 
     # Create EOA for sendall destination (receives selfdestruct funds)
-    sendall_destination = pre.fund_eoa(0)  # Will be funded by selfdestruct calls
+    sendall_destination = pre.fund_eoa(0)  # Will be funded by selfdestruct
+    # calls
 
     # Create storage contract that will be called during initialization
     address_create2_storage = pre.deploy_contract(
@@ -540,7 +577,8 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     if recreate_on_first_tx:
         first_tx_code += (
-            # Make a subcall that do CREATE2 collision and returns its address as the result
+            # Make a subcall that do CREATE2 collision and returns its address
+            # as the result
             Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
             + Op.CALL(100000, address_code, second_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
             + Op.SSTORE(
@@ -551,7 +589,8 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     else:
         second_tx_code += (
-            # Make a subcall that do CREATE2 collision and returns its address as the result
+            # Make a subcall that do CREATE2 collision and returns its address
+            # as the result
             Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
             + Op.CALL(100000, address_code, second_create2_value, 0, Op.CALLDATASIZE(), 0, 32)
             + Op.SSTORE(
@@ -566,7 +605,8 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     first_tx_code += Op.SSTORE(part_1_worked, 1)
     second_tx_code += Op.SSTORE(part_2_worked, 1)
 
-    # Create the main contract that uses conditional logic to handle both transactions
+    # Create the main contract that uses conditional logic to handle both
+    # transactions
     address_to = pre.deploy_contract(
         code=Conditional(
             # Depending on the tx, execute the first or second tx code
@@ -585,8 +625,9 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     # Create2 address only exists if it was pre-existing and after cancun
     account_will_exist_with_code = not selfdestruct_on_first_tx and fork >= Cancun
-    # If the contract is self-destructed and we also attempt to recreate it on the first tx,
-    # the second call on the second tx will only place balance in the account
+    # If the contract is self-destructed and we also attempt to recreate it on
+    # the first tx, the second call on the second tx will only place balance in
+    # the account
     account_will_exist_with_balance = selfdestruct_on_first_tx and recreate_on_first_tx
 
     post[create2_address] = (
@@ -609,14 +650,16 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
             part_2_worked: 0x01,
             # First create2 always works
             first_create2_result: create2_address,
-            # Second create2 only works if we successfully self-destructed on the first tx
+            # Second create2 only works if we successfully self-destructed on
+            # the first tx
             second_create2_result: (
                 create2_address if selfdestruct_on_first_tx and not recreate_on_first_tx else 0x00
             ),
         }
     )
 
-    # Calculate the destination account expected balance for the selfdestruct/sendall calls
+    # Calculate the destination account expected balance for the
+    # selfdestruct/sendall calls
     sendall_destination_balance = first_create2_value + first_call_value
 
     if not account_will_exist_with_balance:

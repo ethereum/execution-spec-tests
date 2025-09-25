@@ -129,7 +129,9 @@ def test_rjumpi_condition_zero(
     pre: Alloc,
     calldata: bytes,
 ):
-    """Test RJUMPI contract switching based on external input (condition zero)."""
+    """
+    Test RJUMPI contract switching based on external input (condition zero).
+    """
     env = Environment()
     sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
@@ -221,7 +223,10 @@ def test_rjumpi_zero(
 def test_rjumpi_max_forward(
     eof_state_test: EOFStateTestFiller,
 ):
-    """EOF1V4200_0007 (Valid) EOF with RJUMPI containing the maximum offset (32767)."""
+    """
+    EOF1V4200_0007 (Valid) EOF with RJUMPI containing the maximum offset
+    (32767).
+    """
     eof_state_test(
         container=Container(
             sections=[
@@ -730,8 +735,8 @@ def test_rjumpi_valid_forward(
     container: Container,
 ):
     """
-    Validate a valid code section containing at least one forward RJUMPI.
-    These tests exercise the stack height validation.
+    Validate a valid code section containing at least one forward RJUMPI. These
+    tests exercise the stack height validation.
     """
     eof_test(container=container)
 
@@ -909,8 +914,8 @@ def test_rjumpi_max_bytecode_size(
     eof_test: EOFTestFiller,
 ):
     """
-    EOF1V4200_0003 EOF with RJUMPI containing the maximum offset that does not exceed the maximum
-    bytecode size.
+    EOF1V4200_0003 EOF with RJUMPI containing the maximum offset that does not
+    exceed the maximum bytecode size.
     """
     noop_count = MAX_BYTECODE_SIZE - 24
     code = Op.RJUMPI[len(Op.NOOP) * noop_count](Op.ORIGIN) + (Op.NOOP * noop_count) + Op.STOP
@@ -957,8 +962,8 @@ def test_rjumpi_into_header(
     offset: int,
 ):
     """
-    EOF1I4200_0016 (Invalid) EOF code containing RJUMPI with target outside code bounds
-    (Jumping into header).
+    EOF1I4200_0016 (Invalid) EOF code containing RJUMPI with target outside
+    code bounds (Jumping into header).
     """
     eof_test(
         container=Container(
@@ -976,8 +981,8 @@ def test_rjumpi_jump_before_header(
     eof_test: EOFTestFiller,
 ):
     """
-    EOF1I4200_0017 (Invalid) EOF code containing RJUMPI with target outside code bounds
-    (Jumping to before code begin).
+    EOF1I4200_0017 (Invalid) EOF code containing RJUMPI with target outside
+    code bounds (Jumping to before code begin).
     """
     eof_test(
         container=Container(
@@ -995,8 +1000,8 @@ def test_rjumpi_into_data(
     eof_test: EOFTestFiller,
 ):
     """
-    EOF1I4200_0018 (Invalid) EOF code containing RJUMPI with target outside code bounds
-    (Jumping into data section).
+    EOF1I4200_0018 (Invalid) EOF code containing RJUMPI with target outside
+    code bounds (Jumping into data section).
     """
     eof_test(
         container=Container(
@@ -1015,8 +1020,8 @@ def test_rjumpi_after_container(
     eof_test: EOFTestFiller,
 ):
     """
-    EOF1I4200_0019 (Invalid) EOF code containing RJUMPI with target outside code bounds
-    (Jumping to after code end).
+    EOF1I4200_0019 (Invalid) EOF code containing RJUMPI with target outside
+    code bounds (Jumping to after code end).
     """
     eof_test(
         container=Container(
@@ -1034,8 +1039,8 @@ def test_rjumpi_to_code_end(
     eof_test: EOFTestFiller,
 ):
     """
-    EOF1I4200_0020 (Invalid) EOF code containing RJUMPI with target outside code bounds
-    (Jumping to code end).
+    EOF1I4200_0020 (Invalid) EOF code containing RJUMPI with target outside
+    code bounds (Jumping to code end).
     """
     eof_test(
         container=Container(
@@ -1055,8 +1060,8 @@ def test_rjumpi_into_self_data_portion(
     offset: int,
 ):
     """
-    EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate
-    (with offset).
+    EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI
+    immediate (with offset).
     """
     eof_test(
         container=Container(
@@ -1076,8 +1081,8 @@ def test_rjumpi_into_self(
     stack_height_spread: int,
 ):
     """
-    EOF code containing RJUMPI targeting itself (-3).
-    This can never be valid because this is backward jump and RJUMPI consumes one stack item.
+    EOF code containing RJUMPI targeting itself (-3). This can never be valid
+    because this is backward jump and RJUMPI consumes one stack item.
     """
     # Create variadic stack height by the parametrized spread.
     stack_spread_code = Bytecode()
@@ -1099,7 +1104,10 @@ def test_rjumpi_into_self(
 def test_rjumpi_into_stack_height_diff(
     eof_test: EOFTestFiller,
 ):
-    """EOF code containing RJUMPI with target instruction that causes stack height difference."""
+    """
+    EOF code containing RJUMPI with target instruction that causes stack height
+    difference.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -1118,7 +1126,10 @@ def test_rjumpi_into_stack_height_diff(
 def test_rjumpi_into_stack_underflow(
     eof_test: EOFTestFiller,
 ):
-    """EOF code containing RJUMPI with target instruction that cause stack underflow."""
+    """
+    EOF code containing RJUMPI with target instruction that cause stack
+    underflow.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -1134,7 +1145,10 @@ def test_rjumpi_into_stack_underflow(
 def test_rjumpi_skips_stack_underflow(
     eof_test: EOFTestFiller,
 ):
-    """EOF code containing RJUMPI where the default path produces a stack underflow."""
+    """
+    EOF code containing RJUMPI where the default path produces a stack
+    underflow.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -1148,7 +1162,10 @@ def test_rjumpi_skips_stack_underflow(
 def test_rjumpi_into_rjump(
     eof_test: EOFTestFiller,
 ):
-    """EOF1I4200_0023 (Invalid) EOF code containing RJUMPI with target RJUMP immediate."""
+    """
+    EOF1I4200_0023 (Invalid) EOF code containing RJUMPI with target RJUMP
+    immediate.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -1164,7 +1181,10 @@ def test_rjumpi_into_rjump(
 def test_rjumpi_into_rjumpi(
     eof_test: EOFTestFiller,
 ):
-    """EOF1I4200_0022 (Invalid) EOF code containing RJUMPI with target other RJUMPI immediate."""
+    """
+    EOF1I4200_0022 (Invalid) EOF code containing RJUMPI with target other
+    RJUMPI immediate.
+    """
     eof_test(
         container=Container(
             sections=[
@@ -1187,7 +1207,10 @@ def test_rjumpi_into_push_1(
     eof_test: EOFTestFiller,
     jump: JumpDirection,
 ):
-    """EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH1 immediate."""
+    """
+    EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH1
+    immediate.
+    """
     code = (
         Op.PUSH1[1] + Op.RJUMPI[-4]
         if jump == JumpDirection.BACKWARD
@@ -1251,7 +1274,10 @@ def test_rjumpi_into_push_n(
     jump: JumpDirection,
     data_portion_end: bool,
 ):
-    """EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate."""
+    """
+    EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+
+    immediate.
+    """
     data_portion_length = int.from_bytes(opcode, byteorder="big") - 0x5F
     if jump == JumpDirection.FORWARD:
         offset = data_portion_length if data_portion_end else 1
@@ -1280,7 +1306,10 @@ def test_rjumpi_into_rjumpv(
     target_rjumpv_table_size: int,
     data_portion_end: bool,
 ):
-    """EOF1I4200_0025 (Invalid) EOF code containing RJUMPI with target RJUMPV immediate."""
+    """
+    EOF1I4200_0025 (Invalid) EOF code containing RJUMPI with target RJUMPV
+    immediate.
+    """
     invalid_destination = 4 + (2 * target_rjumpv_table_size) if data_portion_end else 4
     target_jump_table = [0 for _ in range(target_rjumpv_table_size)]
     eof_test(
@@ -1309,7 +1338,10 @@ def test_rjumpi_into_callf(
     eof_test: EOFTestFiller,
     data_portion_end: bool,
 ):
-    """EOF1I4200_0026 (Invalid) EOF code containing RJUMPI with target CALLF immediate."""
+    """
+    EOF1I4200_0026 (Invalid) EOF code containing RJUMPI with target CALLF
+    immediate.
+    """
     invalid_destination = 2 if data_portion_end else 1
     eof_test(
         container=Container(
@@ -1474,8 +1506,8 @@ def test_rjumpi_stack_validation(
 ):
     """
     Check that you can get to the same opcode with two different stack heights
-    Spec now allows this:
-    4.b in https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation.
+    Spec now allows this: 4.b in
+    https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation.
     """
     container = Container.Code(code=Op.RJUMPI[1](1) + Op.ADDRESS + Op.NOOP + Op.STOP)
     eof_test(
@@ -1490,7 +1522,8 @@ def test_rjumpi_at_the_end(
     """
     Test invalid RJUMPI as the end of a code section.
     https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation 4.i:
-    This implies that the last instruction must be a terminating instruction or RJUMP.
+    This implies that the last instruction must be a terminating instruction or
+    RJUMP.
     """
     eof_test(
         container=Container(
@@ -1611,8 +1644,8 @@ def test_double_rjumpi_stack_height_mismatch(
     eof_test: EOFTestFiller,
 ):
     """
-    Test stack height check of the backward RJUMP
-    targeted by two RJUMPIs with the non-uniform stack height range.
+    Test stack height check of the backward RJUMP targeted by two RJUMPIs with
+    the non-uniform stack height range.
     """
     eof_test(
         container=Container(
@@ -1635,8 +1668,8 @@ def test_double_rjumpi_invalid_max_stack_height(
     eof_test: EOFTestFiller,
 ):
     """
-    Test max stack height of the final block
-    targeted by two RJUMPIs with the non-uniform stack height range.
+    Test max stack height of the final block targeted by two RJUMPIs with the
+    non-uniform stack height range.
     """
     eof_test(
         container=Container(
@@ -1848,7 +1881,7 @@ def test_rjumpi_backward_invalid_max_stack_height(
     container: Container,
 ):
     """
-    Validate a code section containing at least one backward RJUMPI
-    invalid because of the incorrect max stack height.
+    Validate a code section containing at least one backward RJUMPI invalid
+    because of the incorrect max stack height.
     """
     eof_test(container=container, expect_exception=EOFException.STACK_HEIGHT_MISMATCH)
