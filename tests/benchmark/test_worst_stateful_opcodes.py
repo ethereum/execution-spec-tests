@@ -9,7 +9,7 @@ import pytest
 
 from ethereum_test_benchmark.benchmark_code_generator import ExtCallGenerator, JumpLoopGenerator
 from ethereum_test_forks import Fork
-from ethereum_test_specs import BlockchainTestFiller, StateTestFiller
+from ethereum_test_specs import StateTestFiller
 from ethereum_test_specs.benchmark import BenchmarkTestFiller
 from ethereum_test_tools import (
     Account,
@@ -429,9 +429,11 @@ def test_worst_storage_access_warm(
 
 
 def test_worst_blockhash(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
+    fork: Fork,
     gas_benchmark_value: int,
+    tx_gas_limit_cap: int,
 ):
     """
     Test running a block with as many blockhash accessing oldest allowed block
@@ -440,19 +442,32 @@ def test_worst_blockhash(
     # Create 256 dummy blocks to fill the blockhash window.
     blocks = [Block()] * 256
 
-    # Always ask for the oldest allowed BLOCKHASH block.
-    execution_code = Op.PUSH1(1) + While(
-        body=Op.POP(Op.BLOCKHASH(Op.DUP1)),
+    code = ExtCallGenerator(setup=Bytecode(), attack_block=Op.BLOCKHASH(0)).generate_repeated_code(
+        repeated_code=Op.BLOCKHASH(1),
+        setup=Bytecode(),
+        cleanup=Bytecode(),
+        fork=fork,
     )
-    execution_code_address = pre.deploy_contract(code=execution_code)
-    op_tx = Transaction(
-        to=execution_code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-    blocks.append(Block(txs=[op_tx]))
 
-    blockchain_test(
+    iteration_count = math.ceil(gas_benchmark_value / tx_gas_limit_cap)
+    code_address = pre.deploy_contract(code=code)
+
+    txs = []
+    for i in range(iteration_count):
+        tx_gas_limit = (
+            tx_gas_limit_cap
+            if i != iteration_count - 1
+            else gas_benchmark_value % tx_gas_limit_cap
+        )
+        tx = Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            sender=pre.fund_eoa(),
+        )
+        txs.append(tx)
+    blocks.append(Block(txs=txs))
+
+    benchmark_test(
         pre=pre,
         post={},
         blocks=blocks,
