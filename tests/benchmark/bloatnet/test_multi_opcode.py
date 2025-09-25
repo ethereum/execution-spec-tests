@@ -23,16 +23,29 @@ REFERENCE_SPEC_GIT_PATH = "DUMMY/bloatnet.md"
 REFERENCE_SPEC_VERSION = "1.0"
 
 
-# CREATE2 FACTORY:
-#   - Pre-deployed contract that creates 24KB contracts via CREATE2
-#   - Uses counter (slot 0) as salt for deterministic addresses
-#   - Stores init code hash (slot 1) for CREATE2 address calculation
-#   - Each call to factory deploys one contract and increments counter
-#   - Address calculation: keccak256(0xFF + factory_addr + salt + init_code_hash)[12:]
-#   - Storage layout:
-#     - Slot 0: Number of deployed contracts (counter)
-#     - Slot 1: Init code hash (32 bytes) - hash of the initcode used for CREATE2
-#     - The factory MUST store the correct init code hash that was used to deploy contracts\
+# BLOATNET ARCHITECTURE:
+#
+#   [Initcode Contract]        [Factory Contract]              [24KB Contracts]
+#         (9.5KB)                    (116B)                     (N x 24KB each)
+#           │                          │                              │
+#           │  EXTCODECOPY             │   CREATE2(salt++)            │
+#           └──────────────►           ├──────────────────►     Contract_0
+#                                      ├──────────────────►     Contract_1
+#                                      ├──────────────────►     Contract_2
+#                                      └──────────────────►     Contract_N
+#
+#   [Attack Contract] ──STATICCALL──► [Factory.getConfig()]
+#           │                              returns: (N, hash)
+#           └─► Loop(i=0 to N):
+#                 1. Generate CREATE2 addr: keccak256(0xFF|factory|i|hash)[12:]
+#                 2. BALANCE(addr)    → 2600 gas (cold access)
+#                 3. EXTCODESIZE(addr) → 100 gas (warm access)
+#
+# HOW IT WORKS:
+#   1. Factory uses EXTCODECOPY to load initcode, avoiding PC-relative jump issues
+#   2. Each CREATE2 deployment produces unique 24KB bytecode (via ADDRESS opcode)
+#   3. All contracts share same initcode hash for deterministic address calculation
+#   4. Attack rapidly accesses all contracts, stressing client's state handling
 
 
 @pytest.mark.valid_from("Prague")
@@ -58,13 +71,18 @@ def test_bloatnet_balance_extcodesize(
 
     # Cost per contract access with CREATE2 address generation
     cost_per_contract = (
-        gas_costs.G_KECCAK_256  # SHA3 static cost for address generation
-        + gas_costs.G_KECCAK_256_WORD * 3  # SHA3 dynamic cost (85 bytes)
+        gas_costs.G_KECCAK_256  # SHA3 static cost for address generation (30)
+        + gas_costs.G_KECCAK_256_WORD * 3  # SHA3 dynamic cost (85 bytes = 3 words * 6)
         + gas_costs.G_COLD_ACCOUNT_ACCESS  # Cold BALANCE (2600)
-        + gas_costs.G_BASE  # POP balance
+        + gas_costs.G_BASE  # POP balance (2)
         + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm EXTCODESIZE (100)
-        + gas_costs.G_BASE  # POP code size
-        + 20  # Overhead for memory operations and loop control
+        + gas_costs.G_BASE  # POP code size (2)
+        + gas_costs.G_BASE  # DUP1 before BALANCE (3)
+        + gas_costs.G_VERYLOW * 4  # PUSH1 operations (4 * 3)
+        + gas_costs.G_LOW  # MLOAD for salt (3)
+        + gas_costs.G_VERYLOW  # ADD for increment (3)
+        + gas_costs.G_LOW  # MSTORE salt back (3)
+        + 10  # While loop overhead
     )
 
     # Calculate how many contracts to access based on available gas
@@ -199,14 +217,19 @@ def test_bloatnet_balance_extcodecopy(
 
     # Cost per contract with EXTCODECOPY and CREATE2 address generation
     cost_per_contract = (
-        gas_costs.G_KECCAK_256  # SHA3 static cost for address generation
-        + gas_costs.G_KECCAK_256_WORD * 3  # SHA3 dynamic cost (85 bytes)
+        gas_costs.G_KECCAK_256  # SHA3 static cost for address generation (30)
+        + gas_costs.G_KECCAK_256_WORD * 3  # SHA3 dynamic cost (85 bytes = 3 words * 6)
         + gas_costs.G_COLD_ACCOUNT_ACCESS  # Cold BALANCE (2600)
-        + gas_costs.G_BASE  # POP balance
+        + gas_costs.G_BASE  # POP balance (2)
         + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm EXTCODECOPY base (100)
         + gas_costs.G_COPY * 1  # Copy cost for 1 byte (3)
-        + gas_costs.G_BASE * 4  # PUSH operations and POP
-        + 20  # Overhead
+        + gas_costs.G_BASE * 2  # DUP1 before BALANCE, DUP4 for address (6)
+        + gas_costs.G_VERYLOW * 8  # PUSH operations (8 * 3 = 24)
+        + gas_costs.G_LOW * 2  # MLOAD for salt twice (6)
+        + gas_costs.G_VERYLOW * 2  # ADD operations (6)
+        + gas_costs.G_LOW  # MSTORE salt back (3)
+        + gas_costs.G_BASE  # POP after EXTCODECOPY (2)
+        + 10  # While loop overhead
     )
 
     # Calculate how many contracts to access
