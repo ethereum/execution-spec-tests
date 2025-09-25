@@ -78,7 +78,7 @@ docs = [
     "mkdocstrings-python>=1.0.0,<2",
     "pillow>=10.0.1,<11",
     "pyspelling>=2.8.2,<3",
-    "lxml>=6.0.0,<7",                       # needs to be >= 6.0 for pypy
+    "lxml>=6.0.0,<7",  # needs to be >= 6.0 for pypy
     "setuptools==78.0.2",
 ]
 
@@ -157,9 +157,15 @@ ignore-words-list = "ingenuous"
 [tool.pytest.ini_options]
 console_output_style = "count"
 minversion = "7.0"
-python_files = ["test_*.py"]
-testpaths = ["src"]
+python_files = [
+    "test_*.py"
+]
+testpaths = [
+    "src"
+]
 addopts = [
+    "-p", "pytester",
+    "-p", "pytest_plugins.eels_resolver",
     "--ignore=src/pytest_plugins/consume/test_cache.py",
     "--ignore=src/pytest_plugins/consume/direct/",
     "--ignore=src/pytest_plugins/consume/simulators/",

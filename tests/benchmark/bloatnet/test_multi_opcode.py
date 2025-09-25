@@ -78,9 +78,9 @@ def test_bloatnet_balance_extcodesize(
         + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm EXTCODESIZE (100)
         + gas_costs.G_BASE  # POP code size (2)
         + gas_costs.G_BASE  # DUP1 before BALANCE (3)
-        + gas_costs.G_VERYLOW * 4  # PUSH1 operations (4 * 3)
+        + gas_costs.G_VERY_LOW * 4  # PUSH1 operations (4 * 3)
         + gas_costs.G_LOW  # MLOAD for salt (3)
-        + gas_costs.G_VERYLOW  # ADD for increment (3)
+        + gas_costs.G_VERY_LOW  # ADD for increment (3)
         + gas_costs.G_LOW  # MSTORE salt back (3)
         + 10  # While loop overhead
     )
@@ -224,9 +224,9 @@ def test_bloatnet_balance_extcodecopy(
         + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm EXTCODECOPY base (100)
         + gas_costs.G_COPY * 1  # Copy cost for 1 byte (3)
         + gas_costs.G_BASE * 2  # DUP1 before BALANCE, DUP4 for address (6)
-        + gas_costs.G_VERYLOW * 8  # PUSH operations (8 * 3 = 24)
+        + gas_costs.G_VERY_LOW * 8  # PUSH operations (8 * 3 = 24)
         + gas_costs.G_LOW * 2  # MLOAD for salt twice (6)
-        + gas_costs.G_VERYLOW * 2  # ADD operations (6)
+        + gas_costs.G_VERY_LOW * 2  # ADD operations (6)
         + gas_costs.G_LOW  # MSTORE salt back (3)
         + gas_costs.G_BASE  # POP after EXTCODECOPY (2)
         + 10  # While loop overhead
