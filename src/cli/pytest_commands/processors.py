@@ -120,10 +120,16 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
 
 
 class WatchFlagsProcessor(ArgumentProcessor):
-    """Processes --watch and --watcherfall flags for file watching functionality."""
+    """
+    Processes --watch and --watcherfall flags
+    for file watching functionality.
+    """
 
     def process_args(self, args: List[str]) -> List[str]:
-        """Remove --watch and --watcherfall flags from args passed to pytest."""
+        """
+        Remove --watch and --watcherfall
+        flags from args passed to pytest.
+        """
         return [arg for arg in args if arg not in ["--watch", "--watcherfall"]]
 
 

@@ -191,7 +191,10 @@ class FillCommand(PytestCommand):
         return any(flag in args for flag in ["--watch", "--watcherfall"])
 
     def _is_verbose_watch_mode(self, args: List[str]) -> bool:
-        """Check if verbose watch flag (--watcherfall) is present in arguments."""
+        """
+        Check if verbose watch flag (--watcherfall)
+        is present in arguments.
+        """
         return "--watcherfall" in args
 
     def execute(self, pytest_args: List[str]) -> None:
