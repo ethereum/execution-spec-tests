@@ -2,6 +2,7 @@
 Tests that benchmark EVMs in worst-case block scenarios.
 """
 
+import math
 import random
 
 import pytest
@@ -12,11 +13,10 @@ from ethereum_test_tools import (
     AccessList,
     Address,
     Alloc,
+    BenchmarkTestFiller,
     Block,
-    BlockchainTestFiller,
     Environment,
     Hash,
-    StateTestFiller,
     Transaction,
 )
 
@@ -111,7 +111,7 @@ def ether_transfer_case(
     ["a_to_a", "a_to_b", "diff_acc_to_b", "a_to_diff_acc", "diff_acc_to_diff_acc"],
 )
 def test_block_full_of_ether_transfers(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     env: Environment,
     case_id: str,
@@ -155,8 +155,7 @@ def test_block_full_of_ether_transfers(
         else {receiver: Account(balance=balance) for receiver, balance in balances.items()}
     )
 
-    blockchain_test(
-        genesis_environment=env,
+    benchmark_test(
         pre=pre,
         post=post_state,
         blocks=[Block(txs=txs)],
@@ -176,18 +175,14 @@ def total_cost_standard_per_token():
     return 4
 
 
-@pytest.mark.parametrize("zero_byte", [True, False])
-def test_block_full_data(
-    state_test: StateTestFiller,
-    pre: Alloc,
-    zero_byte: bool,
-    intrinsic_cost: int,
+def calldata_generator(
+    gas_amount: int,
+    zero_byte: int,
     total_cost_floor_per_token: int,
-    gas_benchmark_value: int,
+    total_cost_standard_per_token: int,
 ):
-    """Test a block with empty payload."""
-    # Gas cost calculation based on EIP-7683:
-    # (https://eips.ethereum.org/EIPS/eip-7683)
+    """Calculate the calldata based on the gas amount and zero byte."""
+    # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
     #
     #   tx.gasUsed = 21000 + max(
     #       STANDARD_TOKEN_COST * tokens_in_calldata
@@ -210,123 +205,159 @@ def test_block_full_data(
     # Token accounting:
     #   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
     #
-    # So we calculate how many bytes we can fit into calldata based on
-    # available gas.
-
-    gas_available = gas_benchmark_value - intrinsic_cost
-
-    # Calculate the token_in_calldata
-    max_tokens_in_calldata = gas_available // total_cost_floor_per_token
-    # Calculate the number of bytes that can be stored in the calldata
+    # So we calculate how many bytes we can fit into calldata based on available gas.
+    max_tokens_in_calldata = gas_amount // total_cost_floor_per_token
     num_of_bytes = max_tokens_in_calldata if zero_byte else max_tokens_in_calldata // 4
     byte_data = b"\x00" if zero_byte else b"\xff"
+    return byte_data * num_of_bytes
 
-    tx = Transaction(
-        to=pre.fund_eoa(),
-        data=byte_data * num_of_bytes,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
 
-    state_test(
+@pytest.mark.parametrize("zero_byte", [True, False])
+def test_block_full_data(
+    benchmark_test: BenchmarkTestFiller,
+    pre: Alloc,
+    zero_byte: bool,
+    intrinsic_cost: int,
+    total_cost_floor_per_token: int,
+    gas_benchmark_value: int,
+    tx_gas_limit_cap: int,
+    total_cost_standard_per_token: int,
+    fork: Fork,
+):
+    """Test a block with empty payload."""
+    iteration_count = math.ceil(gas_benchmark_value / tx_gas_limit_cap)
+
+    gas_remaining = gas_benchmark_value
+    total_gas_used = 0
+    txs = []
+    for _ in range(iteration_count):
+        gas_available = min(tx_gas_limit_cap, gas_remaining) - intrinsic_cost
+        data = calldata_generator(
+            gas_available,
+            zero_byte,
+            total_cost_floor_per_token,
+            total_cost_standard_per_token,
+        )
+
+        total_gas_used += fork.transaction_intrinsic_cost_calculator()(calldata=data)
+        gas_remaining -= gas_available + intrinsic_cost
+
+        txs.append(
+            Transaction(
+                to=pre.fund_eoa(),
+                data=data,
+                gas_limit=gas_available + intrinsic_cost,
+                sender=pre.fund_eoa(),
+            )
+        )
+
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=txs)],
+        expected_benchmark_gas_used=total_gas_used,
     )
 
 
 def test_block_full_access_list_and_data(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     intrinsic_cost: int,
     total_cost_standard_per_token: int,
     fork: Fork,
     gas_benchmark_value: int,
+    tx_gas_limit_cap: int,
 ):
-    """
-    Test a block with access lists (60% gas) and calldata (40% gas) using
-    random mixed bytes.
-    """
-    attack_gas_limit = gas_benchmark_value
-    gas_available = attack_gas_limit - intrinsic_cost
+    """Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes."""
+    iteration_count = math.ceil(gas_benchmark_value / tx_gas_limit_cap)
 
-    # Split available gas: 60% for access lists, 40% for calldata
-    gas_for_access_list = int(gas_available * 0.6)
-    gas_for_calldata = int(gas_available * 0.4)
+    gas_remaining = gas_benchmark_value
+    total_gas_used = 0
 
-    # Access list gas costs from fork's gas_costs
-    gas_costs = fork.gas_costs()
-    gas_per_address = gas_costs.G_ACCESS_LIST_ADDRESS
-    gas_per_storage_key = gas_costs.G_ACCESS_LIST_STORAGE
+    txs = []
+    for _ in range(iteration_count):
+        gas_available = min(tx_gas_limit_cap, gas_remaining) - intrinsic_cost
 
-    # Calculate number of storage keys we can fit
-    gas_after_address = gas_for_access_list - gas_per_address
-    num_storage_keys = gas_after_address // gas_per_storage_key
+        # Split available gas: 60% for access lists, 40% for calldata
+        gas_for_access_list = int(gas_available * 0.6)
+        gas_for_calldata = int(gas_available * 0.4)
 
-    # Create access list with 1 address and many storage keys
-    access_address = Address("0x1234567890123456789012345678901234567890")
-    storage_keys = []
-    for i in range(num_storage_keys):
-        # Generate random-looking storage keys
-        storage_keys.append(Hash(i))
+        # Access list gas costs from fork's gas_costs
+        gas_costs = fork.gas_costs()
+        gas_per_address = gas_costs.G_ACCESS_LIST_ADDRESS
+        gas_per_storage_key = gas_costs.G_ACCESS_LIST_STORAGE
 
-    access_list = [
-        AccessList(
-            address=access_address,
-            storage_keys=storage_keys,
+        # Calculate number of storage keys we can fit
+        gas_after_address = gas_for_access_list - gas_per_address
+        num_storage_keys = gas_after_address // gas_per_storage_key
+
+        # Create access list with 1 address and many storage keys
+        access_address = Address("0x1234567890123456789012345678901234567890")
+        storage_keys = []
+        for i in range(num_storage_keys):
+            # Generate random-looking storage keys
+            storage_keys.append(Hash(i))
+
+        access_list = [
+            AccessList(
+                address=access_address,
+                storage_keys=storage_keys,
+            )
+        ]
+
+        # Calculate calldata with 29% of gas for zero bytes and 71% for non-zero bytes
+        # Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
+        # We want to split the gas budget:
+        # - 29% of gas_for_calldata for zero bytes
+        # - 71% of gas_for_calldata for non-zero bytes
+
+        max_tokens_in_calldata = gas_for_calldata // total_cost_standard_per_token
+
+        # Calculate how many tokens to allocate to each type
+        tokens_for_zero_bytes = int(max_tokens_in_calldata * 0.29)
+        tokens_for_non_zero_bytes = max_tokens_in_calldata - tokens_for_zero_bytes
+
+        # Convert tokens to actual byte counts
+        # Zero bytes: 1 token per byte
+        # Non-zero bytes: 4 tokens per byte
+        num_zero_bytes = tokens_for_zero_bytes  # 1 token = 1 zero byte
+        num_non_zero_bytes = tokens_for_non_zero_bytes // 4  # 4 tokens = 1 non-zero byte
+
+        # Create calldata with mixed bytes
+        calldata = bytearray()
+
+        # Add zero bytes
+        calldata.extend(b"\x00" * num_zero_bytes)
+
+        # Add non-zero bytes (random values from 0x01 to 0xff)
+        rng = random.Random(42)  # For reproducibility
+        for _ in range(num_non_zero_bytes):
+            calldata.append(rng.randint(1, 255))
+
+        # Shuffle the bytes to mix zero and non-zero bytes
+        calldata_list = list(calldata)
+        rng.shuffle(calldata_list)
+        shuffled_calldata = bytes(calldata_list)
+
+        txs.append(
+            Transaction(
+                to=pre.fund_eoa(amount=0),
+                data=shuffled_calldata,
+                gas_limit=gas_available + intrinsic_cost,
+                sender=pre.fund_eoa(),
+                access_list=access_list,
+            )
         )
-    ]
 
-    # Calculate calldata with 29% of gas for zero bytes and 71% for non-zero
-    # bytes
-    # Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
-    # We want to split the gas budget:
-    # - 29% of gas_for_calldata for zero bytes
-    # - 71% of gas_for_calldata for non-zero bytes
-
-    max_tokens_in_calldata = gas_for_calldata // total_cost_standard_per_token
-
-    # Calculate how many tokens to allocate to each type
-    tokens_for_zero_bytes = int(max_tokens_in_calldata * 0.29)
-    tokens_for_non_zero_bytes = max_tokens_in_calldata - tokens_for_zero_bytes
-
-    # Convert tokens to actual byte counts
-    # Zero bytes: 1 token per byte
-    # Non-zero bytes: 4 tokens per byte
-    num_zero_bytes = tokens_for_zero_bytes  # 1 token = 1 zero byte
-    # 4 tokens = 1 non-zero byte
-    num_non_zero_bytes = tokens_for_non_zero_bytes // 4
-
-    # Create calldata with mixed bytes
-    calldata = bytearray()
-
-    # Add zero bytes
-    calldata.extend(b"\x00" * num_zero_bytes)
-
-    # Add non-zero bytes (random values from 0x01 to 0xff)
-    rng = random.Random(42)  # For reproducibility
-    for _ in range(num_non_zero_bytes):
-        calldata.append(rng.randint(1, 255))
-
-    # Shuffle the bytes to mix zero and non-zero bytes
-    calldata_list = list(calldata)
-    rng.shuffle(calldata_list)
-    shuffled_calldata = bytes(calldata_list)
-
-    tx = Transaction(
-        to=pre.fund_eoa(amount=0),
-        data=shuffled_calldata,
-        gas_limit=attack_gas_limit,
-        sender=pre.fund_eoa(),
-        access_list=access_list,
-    )
-
-    state_test(
-        pre=pre,
-        post={},
-        tx=tx,
-        expected_benchmark_gas_used=fork.transaction_intrinsic_cost_calculator()(
+        gas_remaining -= gas_for_access_list + intrinsic_cost
+        total_gas_used += fork.transaction_intrinsic_cost_calculator()(
             calldata=shuffled_calldata,
             access_list=access_list,
-        ),
+        )
+
+    benchmark_test(
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
+        expected_benchmark_gas_used=total_gas_used,
     )
