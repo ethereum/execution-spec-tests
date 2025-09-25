@@ -289,14 +289,19 @@ def test_bal_code_changes(
 
 @pytest.mark.valid_from("Amsterdam")
 @pytest.mark.parametrize(
-    "self_destruct_in_same_tx",
-    [True, False],
-    ids=["self_destruct_in_same_tx", "self_destruct_in_a_new_tx"],
+    "self_destruct_in_same_tx,pre_funded",
+    [[True, True], [True, False], [False, False]],
+    ids=[
+        "self_destruct_in_same_tx_pre_funded",
+        "self_destruct_in_same_tx_not_pre_funded",
+        "self_destruct_in_a_new_tx",
+    ],
 )
 def test_bal_self_destruct(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     self_destruct_in_same_tx: bool,
+    pre_funded: bool,
 ):
     """Ensure BAL captures balance changes caused by `SELFDESTRUCT`."""
     alice = pre.fund_eoa()
@@ -310,18 +315,24 @@ def test_bal_self_destruct(
     self_destruct_init_code = Initcode(deploy_code=selfdestruct_code)
     template = pre.deploy_contract(code=self_destruct_init_code)
 
+    funds_to_expend = 100
+
     if self_destruct_in_same_tx:
         # The goal is to create a self-destructing contract in the same
         # transaction to trigger deletion of code as per EIP-6780.
         # The factory contract below creates a new self-destructing
         # contract and calls it in this transaction.
 
+        if pre_funded:
+            pre_fund_amount = 1
+            funds_to_expend -= pre_fund_amount
+
         bytecode_size = len(self_destruct_init_code)
         factory_bytecode = (
             # Clone template memory
             Op.EXTCODECOPY(template, 0, 0, bytecode_size)
             # Fund 100 wei and deploy the clone
-            + Op.CREATE(100, 0, bytecode_size)
+            + Op.CREATE(funds_to_expend, 0, bytecode_size)
             # Call the clone, which self-destructs
             + Op.CALL(50_000, Op.DUP6, 0, 0, 0, 0, 0)
             + Op.STOP
@@ -330,10 +341,14 @@ def test_bal_self_destruct(
         factory = pre.deploy_contract(code=factory_bytecode)
         kaboom_same_tx = compute_create_address(address=factory, nonce=1)
 
+        if pre_funded:
+            # pre-fund `1`
+            pre.fund_address(address=kaboom_same_tx, amount=pre_fund_amount)
+
     tx = Transaction(
         sender=alice,
         to=factory if self_destruct_in_same_tx else kaboom,
-        value=100,
+        value=funds_to_expend,
         gas_limit=1_000_000,
     )
 
@@ -351,16 +366,11 @@ def test_bal_self_destruct(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)]
                 ),
                 self_destructed_account: BalAccountExpectation(
-                    # When an account is deleted its post nonce is set to 0
-                    # as per EIP-7928.
-                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=0)]
-                    if self_destruct_in_same_tx
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)]
+                    if pre_funded
                     else [],
-                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)],
-                    # Expect code to be cleared if self-destructed in same transaction.
-                    code_changes=[BalCodeChange(tx_index=1, new_code="")]
-                    if self_destruct_in_same_tx
-                    else [],
+                    code_changes=[],  # should not be present
+                    nonce_changes=[],  # should not be present
                 ),
             }
         ),
