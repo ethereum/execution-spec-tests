@@ -140,7 +140,10 @@ def test_worst_address_state_warm(
     opcode: Op,
     absent_target: bool,
 ):
-    """Test running a block with as many stateful opcodes doing warm access for an account."""
+    """
+    Test running a block with as many stateful opcodes doing warm access
+    for an account.
+    """
     # Setup
     target_addr = Address(100_000)
     post = {}
@@ -374,7 +377,10 @@ def test_worst_storage_access_warm(
     gas_benchmark_value: int,
     env: Environment,
 ):
-    """Test running a block with as many warm storage slot accesses as possible."""
+    """
+    Test running a block with as many warm storage slot accesses as
+    possible.
+    """
     blocks = []
 
     # The target storage slot for the warm access is storage slot 0.
