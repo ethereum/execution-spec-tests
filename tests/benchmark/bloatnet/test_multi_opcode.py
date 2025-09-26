@@ -197,7 +197,7 @@ def test_bloatnet_balance_extcodesize(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
-        # Gas validation is now handled by expected_receipt
+        skip_gas_used_validation=True,
     )
 
 
@@ -360,5 +360,5 @@ def test_bloatnet_balance_extcodecopy(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
-        # Gas validation is now handled by expected_receipt
+        skip_gas_used_validation=True,
     )
