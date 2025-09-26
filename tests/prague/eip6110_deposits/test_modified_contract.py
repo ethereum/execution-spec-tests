@@ -213,7 +213,29 @@ def test_invalid_layout(
     blockchain_test(
         pre=pre,
         blocks=[
-            Block(txs=[tx], exception=BlockException.INVALID_DEPOSIT_EVENT_LAYOUT),
+            Block(
+                txs=[tx],
+                exception=[
+                    BlockException.INVALID_DEPOSIT_EVENT_LAYOUT,
+                    BlockException.INVALID_REQUESTS,
+                    # INVALID_REQUESTS is an alternative workaround for
+                    # Geth/Reth only.
+                    #
+                    # Geth/Reth do not validate the sizes or offsets of the
+                    # deposit contract logs.
+                    #
+                    # Although this is out of spec, it is understood that this
+                    # will not cause an issue so long as the mainnet/testnet
+                    # deposit contracts don't change.
+                    #
+                    # This offsets are checked second and the sizes are checked
+                    # third within the `is_valid_deposit_event_data` function:
+                    # https://eips.ethereum.org/EIPS/eip-6110#block-validity
+                    #
+                    # EELS definition for `is_valid_deposit_event_data`:
+                    # https://github.com/ethereum/execution-specs/blob/5ddb904fa7ba27daeff423e78466744c51e8cb6a/src/ethereum/forks/prague/requests.py#L51
+                ],
+            ),
         ],
         post={},
     )
@@ -267,7 +289,29 @@ def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, s
     blockchain_test(
         pre=pre,
         blocks=[
-            Block(txs=[tx], exception=BlockException.INVALID_DEPOSIT_EVENT_LAYOUT),
+            Block(
+                txs=[tx],
+                exception=[
+                    BlockException.INVALID_DEPOSIT_EVENT_LAYOUT,
+                    BlockException.INVALID_REQUESTS,
+                    # INVALID_REQUESTS is an alternative workaround for
+                    # Geth/Reth only.
+                    #
+                    # Geth/Reth do not validate the sizes or offsets of the
+                    # deposit contract logs.
+                    #
+                    # Although this is out of spec, it is understood that this
+                    # will not cause an issue so long as the mainnet/testnet
+                    # deposit contracts don't change.
+                    #
+                    # This offsets are checked second and the sizes are checked
+                    # third within the `is_valid_deposit_event_data` function:
+                    # https://eips.ethereum.org/EIPS/eip-6110#block-validity
+                    #
+                    # EELS definition for `is_valid_deposit_event_data`:
+                    # https://github.com/ethereum/execution-specs/blob/5ddb904fa7ba27daeff423e78466744c51e8cb6a/src/ethereum/forks/prague/requests.py#L51
+                ],
+            ),
         ],
         post={},
     )
