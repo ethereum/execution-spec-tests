@@ -1,0 +1,1020 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_invalid()</title>
+    <link rel="icon" href="/execution-spec-tests/v5.2.0/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/v5.2.0/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_invalid()</code></h1>
+        <p>Negative tests for the P256VERIFY precompile.</p>
+    <p><a href="./test_invalid/">Back to <code>test_invalid()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="Osaka" selected>Osaka</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>precompile_address</th>
+                        <th>expected_output</th>
+                        <th>input_data</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---zero_length_input]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---zero_length_input]">
+                    ...fork_Osaka-state_test---zero_length_input
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---input_too_long]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---input_too_long]">
+                    ...fork_Osaka-state_test---input_too_long
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00bb5a52f42f9c9261ed4361f59422a1</code> <code>e30036e7c32b270c8807a419feca6050</code> <code>232ba3a8be6b94d5ec80a6d9d1190a43</code> <code>6effe50d85a1eee859b8cc6af9bd5c2e</code> <code>184cd60b855d442f5b3c7b11eb6c4e0a</code> <code>e7525fe710fab9aa7c77a67f79e6fadd</code> <code>762927b10512bae3eddcfe467828128b</code> <code>ad2903269919f7086069c8c4df6c7328</code> <code>38c7787964eaac00e5921fb1498a60f4</code> <code>606766b3d9685001558d1a974e734151</code> <code>3e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---input_too_short]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---input_too_short]">
+                    ...fork_Osaka-state_test---input_too_short
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e734151</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---input_all_zeros]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---input_all_zeros]">
+                    ...fork_Osaka-state_test---input_all_zeros
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_0]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_0]">
+                    ...fork_Osaka-state_test---hash_0
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_N_minus_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_N_minus_1]">
+                    ...fork_Osaka-state_test---hash_N_minus_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632550</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_N]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_N]">
+                    ...fork_Osaka-state_test---hash_N
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632551</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_P_minus_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_P_minus_1]">
+                    ...fork_Osaka-state_test---hash_P_minus_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff000000010000000000000000</code> <code>00000000fffffffffffffffffffffffe</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_P]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_P]">
+                    ...fork_Osaka-state_test---hash_P
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff000000010000000000000000</code> <code>00000000ffffffffffffffffffffffff</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_max]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---hash_max]">
+                    ...fork_Osaka-state_test---hash_max
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---r_eq_to_zero]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---r_eq_to_zero]">
+                    ...fork_Osaka-state_test---r_eq_to_zero
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---r_eq_to_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---r_eq_to_n]">
+                    ...fork_Osaka-state_test---r_eq_to_n
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632551</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---s_eq_to_zero]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---s_eq_to_zero]">
+                    ...fork_Osaka-state_test---s_eq_to_zero
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---s_eq_to_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---s_eq_to_n]">
+                    ...fork_Osaka-state_test---s_eq_to_n
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632551</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_eq_to_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_eq_to_p]">
+                    ...fork_Osaka-state_test---x_eq_to_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>ffffffff000000010000000000000000</code> <code>00000000ffffffffffffffffffffffff</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---y_eq_to_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---y_eq_to_p]">
+                    ...fork_Osaka-state_test---y_eq_to_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>ffffffff000000010000000000000000</code> <code>00000000ffffffffffffffffffffffff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_on_infinity]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_on_infinity]">
+                    ...fork_Osaka-state_test---point_on_infinity
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_not_on_curve_x]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_not_on_curve_x]">
+                    ...fork_Osaka-state_test---point_not_on_curve_x
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732839</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_not_on_curve_y]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_not_on_curve_y]">
+                    ...fork_Osaka-state_test---point_not_on_curve_y
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513f</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_and_y_reversed]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_and_y_reversed]">
+                    ...fork_Osaka-state_test---x_and_y_reversed
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---y_greater_than_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---y_greater_than_p]">
+                    ...fork_Osaka-state_test---y_greater_than_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>ffffffff000000010000000000000000</code> <code>00000001000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_greater_than_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_greater_than_p]">
+                    ...fork_Osaka-state_test---x_greater_than_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>ffffffff000000010000000000000000</code> <code>00000001000000000000000000000000</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---valid_secp256k1_inputs]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---valid_secp256k1_inputs]">
+                    ...fork_Osaka-state_test---valid_secp256k1_inputs
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>813ef79ccefa9a56f7ba805f0e478584</code> <code>fe5f0dd5f567bc09b5123ccbc9832365</code> <code>900e75ad233fcc908509dbff5922647d</code> <code>b37c21f4afd3203ae8dc4ae7794b0f87</code> <code>b838ff44e5bc177bf21189d0766082fc</code> <code>9d843226887fc9760371100b7ee20a6f</code> <code>f0c9d75bfba7b31a6bca1974496eeb56</code> <code>de357071955d83c4b1badaa0b21832e9</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---wrong_endianness]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---wrong_endianness]">
+                    ...fork_Osaka-state_test---wrong_endianness
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>235060cafe19a407880c272bc3e73600</code> <code>e3a12294f56143ed61929c2ff4525abb</code> <code>182e5cbdf96accb859e8eea1850de5ff</code> <code>6e430a19d1d9a680ecd5946bbea8a32b</code> <code>76ddfae6797fa6777caab9fa10e75f52</code> <code>e70a4e6ceb117b3c5b2f445d850bd64c</code> <code>3828736cdfc4c8696008f71999260329</code> <code>ad8b12287846fedcede3ba1205b12729</code> <code>3e5141734e971a8d55015068d9b36667</code> <code>60f4608a49b11f92e500acea647978c7</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---near_field_boundary_p_minus_3]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---near_field_boundary_p_minus_3]">
+                    ...fork_Osaka-state_test---near_field_boundary_p_minus_3
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff000000010000000000000000</code> <code>00000000fffffffffffffffffffffffe</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc63254f</code> <code>7fffffff800000007fffffffffffffff</code> <code>de737d56d38bcf4279dce5617e3192a8</code> <code>ffffffff000000010000000000000000</code> <code>00000000fffffffffffffffffffffffc</code> <code>19719bebf6aea13f25c96dfd7c71f522</code> <code>5d4c8fc09eb5a0ab9f39e9178e55c121</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_b_equals_one]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_b_equals_one]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_b_equals_one
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000004</code> <code>872a856d521eed42d28a60ccc2eae42e</code> <code>1572f33be2bf616dc9a762d51c459e2a</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_singular_b_zero]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_singular_b_zero]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_singular_b_zero
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code> <code>507442007322aa895340cba4abc2d730</code> <code>bfd0b16c2c79a46815f8780d2c55a2dd</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_b_equals_p_minus_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_b_equals_p_minus_1]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_b_equals_p_minus_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>6522aed9ea48f2623b8eeae3e213b99d</code> <code>a32e74c9421835804d374ce28fcca662</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_small_discriminant]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_small_discriminant]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_small_discriminant
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_composite_order]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_composite_order]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_composite_order
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>085ec5a4af40176b63189069aeffcb22</code> <code>9c96d3e046e0283ed2f9dac21b15ad3c</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_1]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_bneg_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>c223e1538c4d7b5bbd3ef932736826fd</code> <code>64f4e8b5c80250d9e07a728689d13c38</code> <code>0c7cb59ef6be7539397cc979ad9a87a3</code> <code>b73a0dd268bba4990a3378c6391512d5</code> <code>f8c943685bcfe7864c0f8485cacd732d</code> <code>3a9f167531caf26b67a3cb10b641f92c</code> <code>f1f2ade681db5699741b1f9ff080e9a0</code> <code>8dcff48f48a5048c4d90ec89440c3efb</code> <code>bffe372e7bbdbd60e4df885e17a37878</code> <code>461ae13b6491e7863020305962f2c6b6</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_bneg_2]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_bneg_2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>982d25bf8e0e81ff41ac3c8033604c78</code> <code>ed5ef17c6edda977072eab6821a7ad0a</code> <code>7c1996fa0ec911e4739ae7340b534582</code> <code>3272f494dfa32034a4fe5642c3db91f2</code> <code>1e4d6ccf1afb675d18bd27274770c8b8</code> <code>4028d272d1d2641e70b30e1df17af3dc</code> <code>c9124b6ab12f08790a2712aec74a1b71</code> <code>fa997ca7de1e9117bc18d07dcbfe7c91</code> <code>add1e9df40a47add6b2191c05d0c1b4a</code> <code>f1baeeaa0c0a97e7b3d06ffae543d096</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random1]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>d21697149f598feae9a750dca86ae6d5</code> <code>efa654680ba748d2df7053115101c129</code> <code>ef3fd943ad1f126b3eba1a5900d79886</code> <code>755db6dafcb6b0117d86364340ce36cc</code> <code>687216395bd2f58e5a6d91964ae67e76</code> <code>6df2a2fb8e623795a5852507927c70c2</code> <code>f40e19b93beb5c0678ede25ab3654e08</code> <code>c0c6ef6a143cec9865f3a447c6eb84e3</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random2]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>52e47c5d6aab66ab6a18a694359eb86f</code> <code>dd40f10e79ef5493c5469ec88ba03334</code> <code>7584c5bf3ca2869c7e383b1603a935ee</code> <code>b79d990b7f7152e055ec562e87fd715e</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random3]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random3]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random3
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>81333b13b13f362253bd536d17563a72</code> <code>eb575f1993f55ed40e633e503f60b864</code> <code>e2208c4045f5241eccf08f825399224c</code> <code>4b78595a10433ec33799dcad7b0e1f4a</code> <code>ce9c1088b4bcc71223a187410bb05819</code> <code>a6d32d2f1a1024b83557e51833ab23dc</code> <code>00fb64209538d1143a88e8b91d2da460</code> <code>95af852d7dd494be6af26c29d545f856</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random4]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random4]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random4
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random5]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_h0_random5]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_h0_random5
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>425cffca652791cabfc81b1e4b7712db</code> <code>a196599fabce16978e06e6af486b1fec</code> <code>58b864b5a41cd17524e4773ec353c959</code> <code>0d792f601da075ad9b3f40e8e7070e8a</code> <code>00000000000000000000000000000000</code> <code>000000000000000000007fffffffffff</code> <code>ffff0000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random6]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random6]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random6
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>2da0a74be3122aeaef5704d0eb27881f</code> <code>bfb918b4a5252b660935263d0569ba92</code> <code>5543729cbcfd99ee6c3b422d7f245903</code> <code>e7177b3a6a4e3c20c0dc5f5e109795ae</code> <code>96403d5bb253ebd7def44bcbc062fcd4</code> <code>ea5e358b19b67c13e625efdf6b977597</code> <code>996cadc001622fb5e363b421a0885409</code> <code>6569397b3bdcb8c3dec907392f7cc59b</code> <code>d34a4e0f08c6fc549f7faffbcaf610d7</code> <code>f6c467b7b27072720e81079fb6595b52</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random7]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random7]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random7
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>1f9d9b26db42380c85f075174ddaf158</code> <code>f9de4cd10c3104190d7af96938dd8ecd</code> <code>159946dbc4f1de68cd4096862a5b10e5</code> <code>986acb32229d6e68884dc83dab70a307</code> <code>63d80724a4074421f7dd255630794e3a</code> <code>ebe635b756d72b24652aac07d01b289c</code> <code>9ca2f39cc35368610000000000000000</code> <code>00000000000000000000000000000000</code> <code>000000000000b1000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random8]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random8]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random8
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>d380da9251f1fb809ed48c70dc8f81e9</code> <code>1c471f0e81bc95e7611c653278a5b6b4</code> <code>ff197eb72a9e531b17b872525247e656</code> <code>4b786cc014ed28b6849ce7d8c976bdf2</code> <code>7b0b2eff9bb5409052b35fd3ff81dce7</code> <code>7d95a1f75c46989817045120da5c3c9c</code> <code>ba7695481956a6269dd646addd4afe6d</code> <code>9763637d76ad780299e51201384a8403</code> <code>a62443dd4afe6d9763637d76ad780299</code> <code>e51201384ae4fedd3cdac9f461600d53</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random9]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random9]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random9
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>4b082b60497ed87ffe570612d521e73a</code> <code>2cd6c832744ef8e4e2e329e30d3d5879</code> <code>6665a88cb3ff30d339a1975fd46cf5ef</code> <code>480a68a093ab778550073d3528c3b609</code> <code>aeaaddb235e4ac6097356db96161e278</code> <code>49ea8edf1e971f74eb51e19a1cc950a1</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random10]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random10]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random10
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>6cc2b605cfbdb22b9e7b55efe8c1da0f</code> <code>1c5a0ec1aa8d82eedfb5ea70e9846e88</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random_11]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---invalid_curve_attack_random_11]">
+                    ...fork_Osaka-state_test---invalid_curve_attack_random_11
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>810c1d53ea96a700c93f6af1c183197b</code> <code>040ea6feae10564877a1c78ec6074ff1</code> <code>34d0f0c8e14d39002b5dea0080895796</code> <code>3e849503ddfd626323433047d696c7c4</code> <code>6a7fe39c046304317f799fb900877073</code> <code>f2ae3c798dd4414795551a833abcba85</code> <code>0000000000f90000000067923073c067</code> <code>015b601d94f262f0e82b9da2d33a6a32</code> <code>fc3d71cb490cf346ed31dc37405fb006</code> <code>9f4a7ed188381dc049abab66e9f80080</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---zero_length_input]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---zero_length_input]">
+                    ...fork_Osaka-blockchain_test_from_state_test---zero_length_input
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---input_too_long]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---input_too_long]">
+                    ...fork_Osaka-blockchain_test_from_state_test---input_too_long
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00bb5a52f42f9c9261ed4361f59422a1</code> <code>e30036e7c32b270c8807a419feca6050</code> <code>232ba3a8be6b94d5ec80a6d9d1190a43</code> <code>6effe50d85a1eee859b8cc6af9bd5c2e</code> <code>184cd60b855d442f5b3c7b11eb6c4e0a</code> <code>e7525fe710fab9aa7c77a67f79e6fadd</code> <code>762927b10512bae3eddcfe467828128b</code> <code>ad2903269919f7086069c8c4df6c7328</code> <code>38c7787964eaac00e5921fb1498a60f4</code> <code>606766b3d9685001558d1a974e734151</code> <code>3e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---input_too_short]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---input_too_short]">
+                    ...fork_Osaka-blockchain_test_from_state_test---input_too_short
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e734151</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---input_all_zeros]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---input_all_zeros]">
+                    ...fork_Osaka-blockchain_test_from_state_test---input_all_zeros
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_0]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_0]">
+                    ...fork_Osaka-blockchain_test_from_state_test---hash_0
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_N_minus_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_N_minus_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test---hash_N_minus_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632550</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_N]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_N]">
+                    ...fork_Osaka-blockchain_test_from_state_test---hash_N
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632551</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_P_minus_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_P_minus_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test---hash_P_minus_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff000000010000000000000000</code> <code>00000000fffffffffffffffffffffffe</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_P]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_P]">
+                    ...fork_Osaka-blockchain_test_from_state_test---hash_P
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff000000010000000000000000</code> <code>00000000ffffffffffffffffffffffff</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_max]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---hash_max]">
+                    ...fork_Osaka-blockchain_test_from_state_test---hash_max
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---r_eq_to_zero]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---r_eq_to_zero]">
+                    ...fork_Osaka-blockchain_test_from_state_test---r_eq_to_zero
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---r_eq_to_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---r_eq_to_n]">
+                    ...fork_Osaka-blockchain_test_from_state_test---r_eq_to_n
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632551</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---s_eq_to_zero]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---s_eq_to_zero]">
+                    ...fork_Osaka-blockchain_test_from_state_test---s_eq_to_zero
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---s_eq_to_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---s_eq_to_n]">
+                    ...fork_Osaka-blockchain_test_from_state_test---s_eq_to_n
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632551</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---x_eq_to_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---x_eq_to_p]">
+                    ...fork_Osaka-blockchain_test_from_state_test---x_eq_to_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>ffffffff000000010000000000000000</code> <code>00000000ffffffffffffffffffffffff</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---y_eq_to_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---y_eq_to_p]">
+                    ...fork_Osaka-blockchain_test_from_state_test---y_eq_to_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>ffffffff000000010000000000000000</code> <code>00000000ffffffffffffffffffffffff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_on_infinity]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_on_infinity]">
+                    ...fork_Osaka-blockchain_test_from_state_test---point_on_infinity
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_not_on_curve_x]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_not_on_curve_x]">
+                    ...fork_Osaka-blockchain_test_from_state_test---point_not_on_curve_x
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732839</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_not_on_curve_y]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_not_on_curve_y]">
+                    ...fork_Osaka-blockchain_test_from_state_test---point_not_on_curve_y
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513f</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---x_and_y_reversed]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---x_and_y_reversed]">
+                    ...fork_Osaka-blockchain_test_from_state_test---x_and_y_reversed
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---y_greater_than_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---y_greater_than_p]">
+                    ...fork_Osaka-blockchain_test_from_state_test---y_greater_than_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>ffffffff000000010000000000000000</code> <code>00000001000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---x_greater_than_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---x_greater_than_p]">
+                    ...fork_Osaka-blockchain_test_from_state_test---x_greater_than_p
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>ffffffff000000010000000000000000</code> <code>00000001000000000000000000000000</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---valid_secp256k1_inputs]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---valid_secp256k1_inputs]">
+                    ...fork_Osaka-blockchain_test_from_state_test---valid_secp256k1_inputs
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>813ef79ccefa9a56f7ba805f0e478584</code> <code>fe5f0dd5f567bc09b5123ccbc9832365</code> <code>900e75ad233fcc908509dbff5922647d</code> <code>b37c21f4afd3203ae8dc4ae7794b0f87</code> <code>b838ff44e5bc177bf21189d0766082fc</code> <code>9d843226887fc9760371100b7ee20a6f</code> <code>f0c9d75bfba7b31a6bca1974496eeb56</code> <code>de357071955d83c4b1badaa0b21832e9</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---wrong_endianness]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---wrong_endianness]">
+                    ...fork_Osaka-blockchain_test_from_state_test---wrong_endianness
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>235060cafe19a407880c272bc3e73600</code> <code>e3a12294f56143ed61929c2ff4525abb</code> <code>182e5cbdf96accb859e8eea1850de5ff</code> <code>6e430a19d1d9a680ecd5946bbea8a32b</code> <code>76ddfae6797fa6777caab9fa10e75f52</code> <code>e70a4e6ceb117b3c5b2f445d850bd64c</code> <code>3828736cdfc4c8696008f71999260329</code> <code>ad8b12287846fedcede3ba1205b12729</code> <code>3e5141734e971a8d55015068d9b36667</code> <code>60f4608a49b11f92e500acea647978c7</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---near_field_boundary_p_minus_3]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---near_field_boundary_p_minus_3]">
+                    ...fork_Osaka-blockchain_test_from_state_test---near_field_boundary_p_minus_3
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>ffffffff000000010000000000000000</code> <code>00000000fffffffffffffffffffffffe</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc63254f</code> <code>7fffffff800000007fffffffffffffff</code> <code>de737d56d38bcf4279dce5617e3192a8</code> <code>ffffffff000000010000000000000000</code> <code>00000000fffffffffffffffffffffffc</code> <code>19719bebf6aea13f25c96dfd7c71f522</code> <code>5d4c8fc09eb5a0ab9f39e9178e55c121</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_b_equals_one]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_b_equals_one]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_b_equals_one
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000004</code> <code>872a856d521eed42d28a60ccc2eae42e</code> <code>1572f33be2bf616dc9a762d51c459e2a</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_singular_b_zero]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_singular_b_zero]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_singular_b_zero
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code> <code>507442007322aa895340cba4abc2d730</code> <code>bfd0b16c2c79a46815f8780d2c55a2dd</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_b_equals_p_minus_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_b_equals_p_minus_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_b_equals_p_minus_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>6522aed9ea48f2623b8eeae3e213b99d</code> <code>a32e74c9421835804d374ce28fcca662</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_small_discriminant]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_small_discriminant]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_small_discriminant
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_composite_order]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_composite_order]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_composite_order
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code> <code>085ec5a4af40176b63189069aeffcb22</code> <code>9c96d3e046e0283ed2f9dac21b15ad3c</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>c223e1538c4d7b5bbd3ef932736826fd</code> <code>64f4e8b5c80250d9e07a728689d13c38</code> <code>0c7cb59ef6be7539397cc979ad9a87a3</code> <code>b73a0dd268bba4990a3378c6391512d5</code> <code>f8c943685bcfe7864c0f8485cacd732d</code> <code>3a9f167531caf26b67a3cb10b641f92c</code> <code>f1f2ade681db5699741b1f9ff080e9a0</code> <code>8dcff48f48a5048c4d90ec89440c3efb</code> <code>bffe372e7bbdbd60e4df885e17a37878</code> <code>461ae13b6491e7863020305962f2c6b6</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_2]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_bneg_2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>982d25bf8e0e81ff41ac3c8033604c78</code> <code>ed5ef17c6edda977072eab6821a7ad0a</code> <code>7c1996fa0ec911e4739ae7340b534582</code> <code>3272f494dfa32034a4fe5642c3db91f2</code> <code>1e4d6ccf1afb675d18bd27274770c8b8</code> <code>4028d272d1d2641e70b30e1df17af3dc</code> <code>c9124b6ab12f08790a2712aec74a1b71</code> <code>fa997ca7de1e9117bc18d07dcbfe7c91</code> <code>add1e9df40a47add6b2191c05d0c1b4a</code> <code>f1baeeaa0c0a97e7b3d06ffae543d096</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random1]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random1]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random1
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>d21697149f598feae9a750dca86ae6d5</code> <code>efa654680ba748d2df7053115101c129</code> <code>ef3fd943ad1f126b3eba1a5900d79886</code> <code>755db6dafcb6b0117d86364340ce36cc</code> <code>687216395bd2f58e5a6d91964ae67e76</code> <code>6df2a2fb8e623795a5852507927c70c2</code> <code>f40e19b93beb5c0678ede25ab3654e08</code> <code>c0c6ef6a143cec9865f3a447c6eb84e3</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random2]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>52e47c5d6aab66ab6a18a694359eb86f</code> <code>dd40f10e79ef5493c5469ec88ba03334</code> <code>7584c5bf3ca2869c7e383b1603a935ee</code> <code>b79d990b7f7152e055ec562e87fd715e</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random3]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random3]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random3
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>81333b13b13f362253bd536d17563a72</code> <code>eb575f1993f55ed40e633e503f60b864</code> <code>e2208c4045f5241eccf08f825399224c</code> <code>4b78595a10433ec33799dcad7b0e1f4a</code> <code>ce9c1088b4bcc71223a187410bb05819</code> <code>a6d32d2f1a1024b83557e51833ab23dc</code> <code>00fb64209538d1143a88e8b91d2da460</code> <code>95af852d7dd494be6af26c29d545f856</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random4]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random4]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random4
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random5]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random5]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_h0_random5
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>425cffca652791cabfc81b1e4b7712db</code> <code>a196599fabce16978e06e6af486b1fec</code> <code>58b864b5a41cd17524e4773ec353c959</code> <code>0d792f601da075ad9b3f40e8e7070e8a</code> <code>00000000000000000000000000000000</code> <code>000000000000000000007fffffffffff</code> <code>ffff0000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random6]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random6]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random6
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>2da0a74be3122aeaef5704d0eb27881f</code> <code>bfb918b4a5252b660935263d0569ba92</code> <code>5543729cbcfd99ee6c3b422d7f245903</code> <code>e7177b3a6a4e3c20c0dc5f5e109795ae</code> <code>96403d5bb253ebd7def44bcbc062fcd4</code> <code>ea5e358b19b67c13e625efdf6b977597</code> <code>996cadc001622fb5e363b421a0885409</code> <code>6569397b3bdcb8c3dec907392f7cc59b</code> <code>d34a4e0f08c6fc549f7faffbcaf610d7</code> <code>f6c467b7b27072720e81079fb6595b52</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random7]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random7]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random7
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>1f9d9b26db42380c85f075174ddaf158</code> <code>f9de4cd10c3104190d7af96938dd8ecd</code> <code>159946dbc4f1de68cd4096862a5b10e5</code> <code>986acb32229d6e68884dc83dab70a307</code> <code>63d80724a4074421f7dd255630794e3a</code> <code>ebe635b756d72b24652aac07d01b289c</code> <code>9ca2f39cc35368610000000000000000</code> <code>00000000000000000000000000000000</code> <code>000000000000b1000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random8]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random8]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random8
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>d380da9251f1fb809ed48c70dc8f81e9</code> <code>1c471f0e81bc95e7611c653278a5b6b4</code> <code>ff197eb72a9e531b17b872525247e656</code> <code>4b786cc014ed28b6849ce7d8c976bdf2</code> <code>7b0b2eff9bb5409052b35fd3ff81dce7</code> <code>7d95a1f75c46989817045120da5c3c9c</code> <code>ba7695481956a6269dd646addd4afe6d</code> <code>9763637d76ad780299e51201384a8403</code> <code>a62443dd4afe6d9763637d76ad780299</code> <code>e51201384ae4fedd3cdac9f461600d53</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random9]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random9]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random9
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>4b082b60497ed87ffe570612d521e73a</code> <code>2cd6c832744ef8e4e2e329e30d3d5879</code> <code>6665a88cb3ff30d339a1975fd46cf5ef</code> <code>480a68a093ab778550073d3528c3b609</code> <code>aeaaddb235e4ac6097356db96161e278</code> <code>49ea8edf1e971f74eb51e19a1cc950a1</code> <code>00000000000000020000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>0000000000000000fe00000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random10]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random10]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random10
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>6cc2b605cfbdb22b9e7b55efe8c1da0f</code> <code>1c5a0ec1aa8d82eedfb5ea70e9846e88</code> <code>3c593b5857d1d0eb83923d73e76a7a53</code> <code>ef191bb210267d8c0be17a4e34ab2e73</code> <code>d022359310067882f713afbecece71cb</code> <code>80e4857368f46ab0346362db033ed298</code> <code>358df65c0d732ccab431d4cab7f98e9f</code> <code>9279bd71d64635fab21ea87ef254c5d1</code> <code>82909ff2e230433d0000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random_11]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random_11]">
+                    ...fork_Osaka-blockchain_test_from_state_test---invalid_curve_attack_random_11
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>810c1d53ea96a700c93f6af1c183197b</code> <code>040ea6feae10564877a1c78ec6074ff1</code> <code>34d0f0c8e14d39002b5dea0080895796</code> <code>3e849503ddfd626323433047d696c7c4</code> <code>6a7fe39c046304317f799fb900877073</code> <code>f2ae3c798dd4414795551a833abcba85</code> <code>0000000000f90000000067923073c067</code> <code>015b601d94f262f0e82b9da2d33a6a32</code> <code>fc3d71cb490cf346ed31dc37405fb006</code> <code>9f4a7ed188381dc049abab66e9f80080</code></td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/v5.2.0/javascripts/site.js"></script>
