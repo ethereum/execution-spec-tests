@@ -164,7 +164,7 @@ def test_bloatnet_balance_extcodesize(
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
         # Validate that all gas is consumed (benchmark runs to exhaustion)
-        # If STATICCALL fails and hits invalid jump, only ~50K gas used -> test fails
+        # If STATICCALL fails, only ~50K gas used -> test fails
         expected_receipt=TransactionReceipt(
             gas_used=gas_benchmark_value,  # Must consume all gas
         ),
@@ -308,7 +308,7 @@ def test_bloatnet_balance_extcodecopy(
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
         # Validate that all gas is consumed (benchmark runs to exhaustion)
-        # If STATICCALL fails and hits invalid jump, only ~50K gas used -> test fails
+        # If STATICCALL fails, only ~50K gas used -> test fails
         expected_receipt=TransactionReceipt(
             gas_used=gas_benchmark_value,  # Must consume all gas
         ),
