@@ -1,8 +1,11 @@
 """Command-line interface for the fuzzer bridge."""
 
 import json
+import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from functools import partial
 from pathlib import Path
-from typing import Any, Dict, Generator, Optional
+from typing import Any, Dict, Generator, Optional, Tuple
 
 import click
 from rich.progress import BarColumn, Progress, TaskProgressColumn, TextColumn, TimeElapsedColumn
@@ -64,6 +67,152 @@ def process_single_file(
         click.echo(f"Generated: {output_file}", err=True)
 
     return fixtures
+
+
+def process_file_batch(
+    file_batch: list[Tuple[Path, Path]],
+    fork: Optional[str],
+    pretty: bool,
+    merge: bool,
+    evm_bin: Optional[Path],
+) -> Tuple[list[Tuple[Path, Dict[str, Any]]], list[Tuple[Path, Exception]]]:
+    """Process a batch of files in a worker process."""
+    # Create transition tool per worker
+    t8n = GethTransitionTool(binary=evm_bin) if evm_bin else GethTransitionTool()
+    builder = BlocktestBuilder(t8n)
+
+    results = []
+    errors = []
+
+    for json_file_path, rel_path in file_batch:
+        try:
+            with open(json_file_path) as f:
+                fuzzer_data = json.load(f)
+
+            # Override fork if specified
+            if fork:
+                fuzzer_data["fork"] = fork
+
+            # Build blocktest
+            blocktest = builder.build_blocktest(fuzzer_data)
+            test_name = generate_test_name(json_file_path)
+            fixtures = {test_name: blocktest}
+
+            if not merge:
+                # Write individual file preserving structure
+                output_file = rel_path.with_suffix(".json")
+                output_file.parent.mkdir(parents=True, exist_ok=True)
+                json_kwargs = {"indent": 2} if pretty else {}
+                with open(output_file, "w") as f:
+                    json.dump(fixtures, f, **json_kwargs)
+
+            results.append((json_file_path, fixtures))
+        except Exception as e:
+            errors.append((json_file_path, e))
+
+    return results, errors
+
+
+def process_directory_parallel(
+    input_dir: Path,
+    output_dir: Path,
+    fork: Optional[str],
+    pretty: bool,
+    merge: bool,
+    quiet: bool,
+    evm_bin: Optional[Path],
+    num_workers: Optional[int] = None,
+):
+    """Process directory of fuzzer output files with parallel processing."""
+    all_fixtures = {}
+
+    # Collect all files to process
+    files_to_process = []
+    for json_file_path in get_input_files(input_dir):
+        rel_path = json_file_path.relative_to(input_dir)
+        output_file = output_dir / rel_path
+        files_to_process.append((json_file_path, output_file))
+
+    file_count = len(files_to_process)
+    if file_count == 0:
+        if not quiet:
+            click.echo("No JSON files found to process.", err=True)
+        return
+
+    # Determine optimal number of workers
+    if num_workers is None:
+        num_workers = min(mp.cpu_count(), max(1, file_count // 10))
+
+    # Batch files for workers (balanced batches)
+    # More smaller batches for better load balancing
+    batch_size = max(1, file_count // (num_workers * 4))
+    file_batches = []
+    for i in range(0, file_count, batch_size):
+        batch = files_to_process[i:i + batch_size]
+        file_batches.append(batch)
+
+    success_count = 0
+    error_count = 0
+
+    with Progress(
+        TextColumn("[bold cyan]Processing with {task.fields[workers]} workers", justify="left"),
+        BarColumn(bar_width=None, complete_style="green3", finished_style="bold green3"),
+        TaskProgressColumn(),
+        TimeElapsedColumn(),
+        expand=True,
+        disable=quiet,
+    ) as progress:
+        task_id = progress.add_task(
+            "Processing", total=file_count, workers=num_workers
+        )
+
+        # Process batches in parallel
+        process_batch_func = partial(
+            process_file_batch,
+            fork=fork,
+            pretty=pretty,
+            merge=merge,
+            evm_bin=evm_bin,
+        )
+
+        with ProcessPoolExecutor(max_workers=num_workers) as executor:
+            futures = {executor.submit(process_batch_func, batch): batch for batch in file_batches}
+
+            for future in as_completed(futures):
+                results, errors = future.result()
+
+                # Update progress and collect results
+                progress.update(task_id, advance=len(results) + len(errors))
+                success_count += len(results)
+                error_count += len(errors)
+
+                # Collect fixtures for merging
+                if merge:
+                    for _, fixtures in results:
+                        all_fixtures.update(fixtures)
+
+                # Report errors
+                if not quiet:
+                    for file_path, error in errors:
+                        progress.console.print(f"[red]Error processing {file_path}: {error}[/red]")
+
+        # Write merged file if requested
+        if merge and all_fixtures:
+            merged_file = output_dir / "merged_fixtures.json"
+            json_kwargs = {"indent": 2} if pretty else {}
+            with open(merged_file, "w") as f:
+                json.dump(all_fixtures, f, **json_kwargs)
+            if not quiet:
+                progress.console.print(f"[green]Merged fixtures written to: {merged_file}[/green]")
+
+        # Final status
+        if not quiet:
+            emoji = "✅" if error_count == 0 else "⚠️"
+            progress.update(
+                task_id,
+                completed=file_count,
+                workers=f"Done! {success_count} succeeded, {error_count} failed {emoji}",
+            )
 
 
 def process_directory(
@@ -184,6 +333,18 @@ def process_directory(
     is_flag=True,
     help="Suppress progress output",
 )
+@click.option(
+    "--parallel/--no-parallel",
+    default=True,
+    help="Enable/disable parallel processing (default: enabled)",
+)
+@click.option(
+    "-n",
+    "--workers",
+    type=int,
+    default=None,
+    help="Number of parallel workers (default: auto-detect based on CPU count)",
+)
 def main(
     input_path: Path,
     output_path: Path,
@@ -192,6 +353,8 @@ def main(
     pretty: bool,
     merge: bool,
     quiet: bool,
+    parallel: bool,
+    workers: Optional[int],
 ):
     """
     Convert fuzzer output to valid blocktest fixtures.
@@ -217,8 +380,13 @@ def main(
         # Single file processing
         process_single_file(input_path, output_path, builder, fork, pretty, quiet)
     else:
-        # Directory processing
-        process_directory(input_path, output_path, builder, fork, pretty, merge, quiet)
+        # Directory processing with optional parallel mode
+        if parallel:
+            process_directory_parallel(
+                input_path, output_path, fork, pretty, merge, quiet, evm_bin, workers
+            )
+        else:
+            process_directory(input_path, output_path, builder, fork, pretty, merge, quiet)
 
 
 if __name__ == "__main__":
