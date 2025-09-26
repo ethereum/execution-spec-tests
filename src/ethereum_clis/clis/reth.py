@@ -58,7 +58,7 @@ class RethExceptionMapper(ExceptionMapper):
             r"transaction gas limit \w+ is more than blocks available gas \w+"
         ),
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
-            r"transaction 0x[a-fA-F0-9]+ gas limit \d+ exceeds maximum \d+"
+            r"transaction gas limit.*is greater than the cap"
         ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: r"failed to apply .* requests contract call",
         BlockException.INCORRECT_BLOB_GAS_USED: (
