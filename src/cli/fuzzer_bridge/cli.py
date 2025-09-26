@@ -69,6 +69,49 @@ def process_single_file(
     return fixtures
 
 
+def process_single_file_worker(
+    file_info: Tuple[Path, Path],
+    fork: Optional[str],
+    pretty: bool,
+    merge: bool,
+    evm_bin: Optional[Path],
+) -> Tuple[Optional[Tuple[Path, Dict[str, Any]]], Optional[Tuple[Path, Exception]]]:
+    """Process a single file in a worker process."""
+    json_file_path, output_file = file_info
+
+    # Create transition tool per worker (cached per process)
+    if not hasattr(process_single_file_worker, '_t8n'):
+        t8n = GethTransitionTool(binary=evm_bin) if evm_bin else GethTransitionTool()
+        process_single_file_worker._t8n = t8n
+        process_single_file_worker._builder = BlocktestBuilder(t8n)
+
+    builder = process_single_file_worker._builder
+
+    try:
+        with open(json_file_path) as f:
+            fuzzer_data = json.load(f)
+
+        # Override fork if specified
+        if fork:
+            fuzzer_data["fork"] = fork
+
+        # Build blocktest
+        blocktest = builder.build_blocktest(fuzzer_data)
+        test_name = generate_test_name(json_file_path)
+        fixtures = {test_name: blocktest}
+
+        if not merge:
+            # Write individual file preserving structure
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            json_kwargs = {"indent": 2} if pretty else {}
+            with open(output_file, "w") as f:
+                json.dump(fixtures, f, **json_kwargs)
+
+        return (json_file_path, fixtures), None
+    except Exception as e:
+        return None, (json_file_path, e)
+
+
 def process_file_batch(
     file_batch: list[Tuple[Path, Path]],
     fork: Optional[str],
@@ -143,32 +186,25 @@ def process_directory_parallel(
     if num_workers is None:
         num_workers = min(mp.cpu_count(), max(1, file_count // 10))
 
-    # Batch files for workers (balanced batches)
-    # More smaller batches for better load balancing
-    batch_size = max(1, file_count // (num_workers * 4))
-    file_batches = []
-    for i in range(0, file_count, batch_size):
-        batch = files_to_process[i:i + batch_size]
-        file_batches.append(batch)
-
     success_count = 0
     error_count = 0
 
     with Progress(
-        TextColumn("[bold cyan]Processing with {task.fields[workers]} workers", justify="left"),
+        TextColumn("[bold cyan]{task.fields[filename]}", justify="left"),
         BarColumn(bar_width=None, complete_style="green3", finished_style="bold green3"),
         TaskProgressColumn(),
+        TextColumn("[dim]({task.fields[workers]} workers)[/dim]"),
         TimeElapsedColumn(),
         expand=True,
         disable=quiet,
     ) as progress:
         task_id = progress.add_task(
-            "Processing", total=file_count, workers=num_workers
+            "Processing", total=file_count, filename="Starting...", workers=num_workers
         )
 
-        # Process batches in parallel
-        process_batch_func = partial(
-            process_file_batch,
+        # Process files individually in parallel (better progress tracking)
+        process_func = partial(
+            process_single_file_worker,
             fork=fork,
             pretty=pretty,
             merge=merge,
@@ -176,25 +212,51 @@ def process_directory_parallel(
         )
 
         with ProcessPoolExecutor(max_workers=num_workers) as executor:
-            futures = {executor.submit(process_batch_func, batch): batch for batch in file_batches}
+            # Submit all files to the pool
+            futures_to_files = {
+                executor.submit(process_func, file_info): file_info[0]
+                for file_info in files_to_process
+            }
 
-            for future in as_completed(futures):
-                results, errors = future.result()
+            # Process completions as they happen for real-time progress
+            for future in as_completed(futures_to_files):
+                file_path = futures_to_files[future]
 
-                # Update progress and collect results
-                progress.update(task_id, advance=len(results) + len(errors))
-                success_count += len(results)
-                error_count += len(errors)
+                # Update progress with current file
+                rel_path = file_path.relative_to(input_dir)
+                display_name = str(rel_path)
+                if len(display_name) > 40:
+                    display_name = "..." + display_name[-37:]
 
-                # Collect fixtures for merging
-                if merge:
-                    for _, fixtures in results:
-                        all_fixtures.update(fixtures)
+                try:
+                    result, error = future.result()
 
-                # Report errors
-                if not quiet:
-                    for file_path, error in errors:
-                        progress.console.print(f"[red]Error processing {file_path}: {error}[/red]")
+                    if result:
+                        success_count += 1
+                        _, fixtures = result
+                        if merge:
+                            all_fixtures.update(fixtures)
+                    elif error:
+                        error_count += 1
+                        error_file, exception = error
+                        if not quiet:
+                            progress.console.print(
+                                f"[red]Error processing {error_file}: {exception}[/red]"
+                            )
+
+                    # Update progress bar
+                    progress.update(
+                        task_id,
+                        advance=1,
+                        filename=display_name,
+                        workers=num_workers
+                    )
+
+                except Exception as e:
+                    error_count += 1
+                    if not quiet:
+                        progress.console.print(f"[red]Worker error for {file_path}: {e}[/red]")
+                    progress.update(task_id, advance=1, filename=display_name)
 
         # Write merged file if requested
         if merge and all_fixtures:
@@ -211,7 +273,8 @@ def process_directory_parallel(
             progress.update(
                 task_id,
                 completed=file_count,
-                workers=f"Done! {success_count} succeeded, {error_count} failed {emoji}",
+                filename=f"Done! {success_count} succeeded, {error_count} failed {emoji}",
+                workers=num_workers
             )
 
 
