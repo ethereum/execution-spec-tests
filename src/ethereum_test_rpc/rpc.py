@@ -2,6 +2,7 @@
 JSON-RPC methods and helper functions for EEST consume based hive simulators.
 """
 
+import logging
 import time
 from itertools import count
 from pprint import pprint
@@ -10,6 +11,13 @@ from typing import Any, ClassVar, Dict, List, Literal
 import requests
 from jwt import encode
 from pydantic import ValidationError
+from tenacity import (
+    before_sleep_log,
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from ethereum_test_base_types import Address, Bytes, Hash, to_json
 from ethereum_test_types import Transaction
@@ -88,6 +96,34 @@ class BaseRPC:
             namespace = namespace.lower()
         cls.namespace = namespace
 
+    @retry(
+        retry=retry_if_exception_type((requests.ConnectionError, ConnectionRefusedError)),
+        stop=stop_after_attempt(5),
+        wait=wait_exponential(multiplier=0.5, min=0.5, max=4.0),
+        before_sleep=before_sleep_log(logger, logging.WARNING),
+        reraise=True,
+    )
+    def _make_request(
+        self,
+        url: str,
+        json_payload: dict,
+        headers: dict,
+        timeout: int | None,
+    ) -> requests.Response:
+        """
+        Make HTTP POST request with retry logic for connection errors only.
+
+        This method only retries network-level connection failures
+        (ConnectionError, ConnectionRefusedError). HTTP status errors (4xx/5xx)
+        are handled by the caller using response.raise_for_status() WITHOUT
+        retries because:
+        - 4xx errors are client errors (permanent failures, no point retrying)
+        - 5xx errors are server errors that typically indicate
+          application-level issues rather than transient network problems
+        """
+        logger.debug(f"Making HTTP request to {url}, timeout={timeout}")
+        return requests.post(url, json=json_payload, headers=headers, timeout=timeout)
+
     def post_request(
         self,
         *,
@@ -123,8 +159,12 @@ class BaseRPC:
         }
         headers = base_header | extra_headers
 
-        logger.debug(f"Sending RPC request, timeout is set to {timeout}...")
-        response = requests.post(self.url, json=payload, headers=headers, timeout=timeout)
+        logger.debug(
+            f"Sending RPC request to {self.url}, method={self.namespace}_{method}, "
+            f"timeout={timeout}..."
+        )
+
+        response = self._make_request(self.url, payload, headers, timeout)
         response.raise_for_status()
         response_json = response.json()
 
