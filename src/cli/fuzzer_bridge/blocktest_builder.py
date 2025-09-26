@@ -9,7 +9,7 @@ from ethereum_clis import GethTransitionTool, TransitionTool
 from ethereum_test_base_types import Address, Hash, HexNumber
 from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_specs import BlockchainTest
-from ethereum_test_tools import Account, Alloc, Block, Environment, Transaction
+from ethereum_test_tools import Account, Alloc, AuthorizationTuple, Block, Environment, Transaction
 from ethereum_test_types import Withdrawal
 
 
@@ -38,6 +38,33 @@ class BlocktestBuilder:
 
         return Alloc(pre_dict), private_keys
 
+    def _parse_authorization_list(
+        self, auth_list_data: List[Dict[str, Any]]
+    ) -> List[AuthorizationTuple]:
+        """Parse authorization list from fuzzer data."""
+        auth_tuples = []
+        for auth_data in auth_list_data:
+            # Handle numeric fields which might be in scientific notation
+            chain_id = HexNumber(int(auth_data.get("chainId", 0)))
+            nonce = HexNumber(int(auth_data.get("nonce", 0)))
+
+            # Handle v, r, s which might be in scientific notation (floating point)
+            v = HexNumber(int(float(auth_data.get("v", 0))))
+            r = HexNumber(int(float(auth_data.get("r", 0))))
+            s = HexNumber(int(float(auth_data.get("s", 0))))
+
+            auth_tuples.append(
+                AuthorizationTuple(
+                    chain_id=chain_id,
+                    address=Address(auth_data["address"]),
+                    nonce=nonce,
+                    v=v,
+                    r=r,
+                    s=s,
+                )
+            )
+        return auth_tuples
+
     def _parse_transactions(
         self, tx_list: List[Dict[str, Any]], private_keys: Dict[Address, str]
     ) -> List[Transaction]:
@@ -45,26 +72,44 @@ class BlocktestBuilder:
         transactions = []
         for tx_data in tx_list:
             sender = Address(tx_data.get("from", tx_data.get("sender")))
-            transactions.append(
-                Transaction(
-                    sender=sender,
-                    secret_key=private_keys.get(sender),
-                    to=Address(tx_data["to"]) if tx_data.get("to") else None,
-                    value=HexNumber(tx_data.get("value", "0x0")),
-                    gas_limit=HexNumber(tx_data.get("gas", tx_data.get("gasLimit", "0x5208"))),
-                    gas_price=HexNumber(tx_data["gasPrice"]) if "gasPrice" in tx_data else None,
-                    nonce=HexNumber(tx_data.get("nonce", "0x0")),
-                    data=tx_data.get("data", tx_data.get("input", "")),
-                    max_fee_per_gas=HexNumber(tx_data["maxFeePerGas"])
-                    if "maxFeePerGas" in tx_data
-                    else None,
-                    max_priority_fee_per_gas=HexNumber(tx_data["maxPriorityFeePerGas"])
-                    if "maxPriorityFeePerGas" in tx_data
-                    else None,
-                    access_list=tx_data.get("accessList"),
-                    blob_versioned_hashes=tx_data.get("blobVersionedHashes"),
+
+            # Build transaction parameters
+            tx_params = {
+                "sender": sender,
+                "secret_key": private_keys.get(sender),
+                "to": Address(tx_data["to"]) if tx_data.get("to") else None,
+                "value": HexNumber(tx_data.get("value", "0x0")),
+                "gas_limit": HexNumber(tx_data.get("gas", tx_data.get("gasLimit", "0x5208"))),
+                "nonce": HexNumber(tx_data.get("nonce", "0x0")),
+                "data": tx_data.get("data", tx_data.get("input", "")),
+                "access_list": tx_data.get("accessList"),
+                "blob_versioned_hashes": tx_data.get("blobVersionedHashes"),
+            }
+
+            # Handle transaction type
+            if "type" in tx_data:
+                tx_type = (
+                    int(tx_data["type"], 16)
+                    if isinstance(tx_data["type"], str)
+                    else tx_data["type"]
                 )
-            )
+                tx_params["ty"] = tx_type
+
+            # Handle gas pricing
+            if "gasPrice" in tx_data:
+                tx_params["gas_price"] = HexNumber(tx_data["gasPrice"])
+            if "maxFeePerGas" in tx_data:
+                tx_params["max_fee_per_gas"] = HexNumber(tx_data["maxFeePerGas"])
+            if "maxPriorityFeePerGas" in tx_data:
+                tx_params["max_priority_fee_per_gas"] = HexNumber(tx_data["maxPriorityFeePerGas"])
+
+            # Handle authorization list for setcode transactions
+            if "authorizationList" in tx_data:
+                tx_params["authorization_list"] = self._parse_authorization_list(
+                    tx_data["authorizationList"]
+                )
+
+            transactions.append(Transaction(**tx_params))
         return transactions
 
     def _parse_environment(self, env_data: Dict[str, Any]) -> Environment:
