@@ -111,14 +111,14 @@ def test_bloatnet_balance_extcodesize(
     # Build attack contract that reads config from factory and performs attack
     attack_code = (
         # Call getConfig() on factory to get num_deployed and init_code_hash
-        # STATICCALL(gas, addr, argsOffset, argsSize, retOffset, retSize)
-        Op.PUSH1(64)  # retSize (64 bytes = 2 * 32)
-        + Op.PUSH1(96)  # retOffset (store result at memory position 96)
-        + Op.PUSH1(0)  # argsSize (no calldata for getConfig)
-        + Op.PUSH1(0)  # argsOffset
-        + Op.PUSH20(factory_address)  # factory address
-        + Op.GAS  # Use all available gas
-        + Op.STATICCALL  # Call getConfig()
+        Op.STATICCALL(
+            gas=Op.GAS,
+            address=factory_address,
+            args_offset=0,
+            args_size=0,
+            ret_offset=96,
+            ret_size=64,
+        )
         # Check if call succeeded
         + Op.ISZERO
         + Op.PUSH2(0x1000)  # Jump to error handler if failed (far jump)
@@ -259,14 +259,14 @@ def test_bloatnet_balance_extcodecopy(
     # Build attack contract that reads config from factory and performs attack
     attack_code = (
         # Call getConfig() on factory to get num_deployed and init_code_hash
-        # STATICCALL(gas, addr, argsOffset, argsSize, retOffset, retSize)
-        Op.PUSH1(64)  # retSize (64 bytes = 2 * 32)
-        + Op.PUSH1(96)  # retOffset (store result at memory position 96)
-        + Op.PUSH1(0)  # argsSize (no calldata for getConfig)
-        + Op.PUSH1(0)  # argsOffset
-        + Op.PUSH20(factory_address)  # factory address
-        + Op.GAS  # Use all available gas
-        + Op.STATICCALL  # Call getConfig()
+        Op.STATICCALL(
+            gas=Op.GAS,
+            address=factory_address,
+            args_offset=0,
+            args_size=0,
+            ret_offset=96,
+            ret_size=64,
+        )
         # Check if call succeeded
         + Op.ISZERO
         + Op.PUSH2(0x1000)  # Jump to error handler if failed (far jump)
