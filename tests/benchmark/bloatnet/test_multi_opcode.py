@@ -15,6 +15,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Transaction,
+    TransactionReceipt,
     While,
 )
 from ethereum_test_vm import Bytecode
@@ -180,6 +181,11 @@ def test_bloatnet_balance_extcodesize(
         to=attack_address,
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
+        # Validate that all gas is consumed (benchmark runs to exhaustion)
+        # If STATICCALL fails and hits invalid jump, only ~50K gas used -> test fails
+        expected_receipt=TransactionReceipt(
+            gas_used=gas_benchmark_value,  # Must consume all gas
+        ),
     )
 
     # Post-state: just verify attack contract exists
@@ -191,7 +197,7 @@ def test_bloatnet_balance_extcodesize(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
-        skip_gas_used_validation=True,
+        # Gas validation is now handled by expected_receipt
     )
 
 
@@ -338,6 +344,11 @@ def test_bloatnet_balance_extcodecopy(
         to=attack_address,
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
+        # Validate that all gas is consumed (benchmark runs to exhaustion)
+        # If STATICCALL fails and hits invalid jump, only ~50K gas used -> test fails
+        expected_receipt=TransactionReceipt(
+            gas_used=gas_benchmark_value,  # Must consume all gas
+        ),
     )
 
     # Post-state
@@ -349,5 +360,5 @@ def test_bloatnet_balance_extcodecopy(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
-        skip_gas_used_validation=True,
+        # Gas validation is now handled by expected_receipt
     )
