@@ -82,10 +82,13 @@ def test_worst_calldatacopy(
     if min_gas > gas_benchmark_value:
         pytest.skip("Minimum gas required for calldata ({min_gas}) is greater than the gas limit")
 
-    # We create the contract that will be doing the CALLDATACOPY multiple times.
+    # We create the contract that will be doing the CALLDATACOPY multiple
+    # times.
     #
-    # If `non_zero_data` is True, we leverage CALLDATASIZE for the copy length. Otherwise, since we
-    # don't send zero data explicitly via calldata, PUSH the target size and use DUP1 to copy it.
+    # If `non_zero_data` is True, we leverage CALLDATASIZE for the copy
+    # length. Otherwise, since we
+    # don't send zero data explicitly via calldata, PUSH the target size and
+    # use DUP1 to copy it.
     setup = Bytecode() if non_zero_data or size == 0 else Op.PUSH3(size)
     src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
     attack_block = Op.CALLDATACOPY(
@@ -101,8 +104,8 @@ def test_worst_calldatacopy(
     # If the origin is CALL, we need to create a contract that will call the
     # target contract with the calldata.
     if origin == CallDataOrigin.CALL:
-        # If `non_zero_data` is False we leverage just using zeroed memory. Otherwise, we
-        # copy the calldata received from the transaction.
+        # If `non_zero_data` is False we leverage just using zeroed memory.
+        # Otherwise, we copy the calldata received from the transaction.
         setup = (
             Op.CALLDATACOPY(Op.PUSH0, Op.PUSH0, Op.CALLDATASIZE) if non_zero_data else Bytecode()
         ) + Op.JUMPDEST
@@ -166,8 +169,10 @@ def test_worst_codecopy(
         attack_block, Bytecode(), Bytecode(), fork
     )
 
-    # The code generated above is not guaranteed to be of max_code_size, so we pad it since
-    # a test parameter targets CODECOPYing a contract with max code size. Padded bytecode values
+    # The code generated above is not guaranteed to be of max_code_size, so
+    # we pad it since
+    # a test parameter targets CODECOPYing a contract with max code size.
+    # Padded bytecode values
     # are not relevant.
     code += Op.INVALID * (max_code_size - len(code))
     assert len(code) == max_code_size, (
@@ -209,8 +214,10 @@ def test_worst_returndatacopy(
     fixed_dst: bool,
 ):
     """Test running a block filled with RETURNDATACOPY executions."""
-    # Create the contract that will RETURN the data that will be used for RETURNDATACOPY.
-    # Random-ish data is injected at different points in memory to avoid making the content
+    # Create the contract that will RETURN the data that will be used for
+    # RETURNDATACOPY.
+    # Random-ish data is injected at different points in memory to avoid
+    # making the content
     # predictable. If `size` is 0, this helper contract won't be used.
     code = (
         Op.MSTORE8(0, Op.GAS)
@@ -223,7 +230,8 @@ def test_worst_returndatacopy(
     returndata_gen = Op.STATICCALL(address=helper_contract) if size > 0 else Bytecode()
     dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
 
-    # We create the contract that will be doing the RETURNDATACOPY multiple times.
+    # We create the contract that will be doing the RETURNDATACOPY multiple
+    # times.
     returndata_gen = Op.STATICCALL(address=helper_contract) if size > 0 else Bytecode()
     attack_block = Op.RETURNDATACOPY(dst, Op.PUSH0, Op.RETURNDATASIZE)
 
@@ -236,7 +244,8 @@ def test_worst_returndatacopy(
     # STATICCALL(address=helper_contract)
     # JUMP(#)
     # ```
-    # The goal is that once per (big) loop iteration, the helper contract is called to
+    # The goal is that once per (big) loop iteration, the helper contract is
+    # called to
     # generate fresh returndata to continue calling RETURNDATACOPY.
 
     benchmark_test(

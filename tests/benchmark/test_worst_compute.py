@@ -212,7 +212,10 @@ def test_worst_returndatasize_zero(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
 ):
-    """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
+    """
+    Test running a block with as many RETURNDATASIZE opcodes as possible with
+    a zero buffer.
+    """
     benchmark_test(
         pre=pre,
         post={},
@@ -262,8 +265,10 @@ def test_worst_keccak(
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
 
-    # Discover the optimal input size to maximize keccak-permutations, not keccak calls.
-    # The complication of the discovery arises from the non-linear gas cost of memory expansion.
+    # Discover the optimal input size to maximize keccak-permutations,
+    # not to maximize keccak calls.
+    # The complication of the discovery arises from
+    # the non-linear gas cost of memory expansion.
     max_keccak_perm_per_block = 0
     optimal_input_length = 0
     for i in range(1, 1_000_000, 32):
@@ -294,9 +299,11 @@ def test_worst_keccak(
     # The loop structure is: JUMPDEST + [attack iteration] + PUSH0 + JUMP
     #
     # Now calculate available gas for [attack iteration]:
-    #   Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.
-    #   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
-    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the
+    #   Numerator = max_code_size-3. (JUMPDEST, PUSH0 and JUMP)
+    #   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA +
+    #   PUSHN_DATA
+    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is
+    # suboptimal for the
     # attack, whenever this is fixed adjust accordingly.
     benchmark_test(
         pre=pre,
@@ -1542,11 +1549,13 @@ def test_worst_tstore(
     init_key = 42
     setup = Op.PUSH1(init_key)
 
-    # If `dense_val_mut` is set, we use GAS as a cheap way of always storing a different value than
+    # If `dense_val_mut` is set, we use GAS as a cheap way of always
+    # storing a different value than
     # the previous one.
     attack_block = Op.TSTORE(Op.DUP2, Op.GAS if dense_val_mut else Op.DUP1)
 
-    # If `key_mut` is True, we mutate the key on every iteration of the big loop.
+    # If `key_mut` is True, we mutate the key on every iteration of the
+    # big loop.
     cleanup = Op.POP + Op.GAS if key_mut else Bytecode()
 
     benchmark_test(
@@ -1707,8 +1716,10 @@ def test_worst_mod(
     The order of accessing the numerators is selected in a way the mod value
     remains in the range as long as possible.
     """
-    # For SMOD we negate both numerator and modulus. The underlying computation is the same,
-    # just the SMOD implementation will have to additionally handle the sign bits.
+    # For SMOD we negate both numerator and modulus. The underlying
+    # computation is the same,
+    # just the SMOD implementation will have to additionally handle the
+    # sign bits.
     # The result stays negative.
     should_negate = op == Op.SMOD
 
@@ -1780,7 +1791,8 @@ def test_worst_mod(
         seed += 1
         print(f"{seed=}")
 
-    # TODO: Don't use fixed PUSH32. Let Bytecode helpers to select optimal push opcode.
+    # TODO: Don't use fixed PUSH32. Let Bytecode helpers to select optimal
+    # push opcode.
     setup = sum((Op.PUSH32[n] for n in numerators), Bytecode())
     attack_block = (
         Op.CALLDATALOAD(0) + sum(make_dup(len(numerators) - i) + op for i in indexes) + Op.POP
@@ -1812,7 +1824,10 @@ def test_worst_memory_access(
     offset_initialized: bool,
     big_memory_expansion: bool,
 ):
-    """Test running a block with as many memory access instructions as possible."""
+    """
+    Test running a block with as many memory access instructions as
+    possible.
+    """
     mem_exp_code = Op.MSTORE8(10 * 1024, 1) if big_memory_expansion else Bytecode()
     offset_set_code = Op.MSTORE(offset, 43) if offset_initialized else Bytecode()
     setup = mem_exp_code + offset_set_code + Op.PUSH1(42) + Op.PUSH1(offset)
@@ -2273,7 +2288,10 @@ def test_worst_clz_diff_input(
     gas_benchmark_value: int,
     env: Environment,
 ):
-    """Test running a block with as many CLZ with different input as possible."""
+    """
+    Test running a block with as many CLZ with different input as
+    possible.
+    """
     max_code_size = fork.max_code_size()
 
     code_prefix = Op.JUMPDEST

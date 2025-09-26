@@ -205,7 +205,8 @@ def calldata_generator(
     # Token accounting:
     #   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
     #
-    # So we calculate how many bytes we can fit into calldata based on available gas.
+    # So we calculate how many bytes we can fit into calldata based on
+    # available gas.
     max_tokens_in_calldata = gas_amount // total_cost_floor_per_token
     num_of_bytes = max_tokens_in_calldata if zero_byte else max_tokens_in_calldata // 4
     byte_data = b"\x00" if zero_byte else b"\xff"
@@ -268,7 +269,10 @@ def test_block_full_access_list_and_data(
     gas_benchmark_value: int,
     tx_gas_limit_cap: int,
 ):
-    """Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes."""
+    """
+    Test a block with access lists (60% gas) and calldata (40% gas) using
+    random mixed bytes.
+    """
     iteration_count = math.ceil(gas_benchmark_value / tx_gas_limit_cap)
 
     gas_remaining = gas_benchmark_value
@@ -305,8 +309,10 @@ def test_block_full_access_list_and_data(
             )
         ]
 
-        # Calculate calldata with 29% of gas for zero bytes and 71% for non-zero bytes
-        # Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
+        # Calculate calldata with 29% of gas for zero bytes and 71% for
+        # non-zero bytes
+        # Token accounting: tokens_in_calldata = zero_bytes + 4 *
+        # non_zero_bytes
         # We want to split the gas budget:
         # - 29% of gas_for_calldata for zero bytes
         # - 71% of gas_for_calldata for non-zero bytes
