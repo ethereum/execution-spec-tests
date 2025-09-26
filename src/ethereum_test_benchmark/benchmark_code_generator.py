@@ -17,7 +17,9 @@ class JumpLoopGenerator(BenchmarkCodeGenerator):
     def deploy_contracts(self, pre: Alloc, fork: Fork) -> Address:
         """Deploy the looping contract."""
         # Benchmark Test Structure:
-        # setup + JUMPDEST + attack + attack + ... + cleanup + JUMP(setup_length)
+        # setup + JUMPDEST +
+        # attack + attack + ... + attack +
+        # cleanup + JUMP(setup_length)
         code = self.generate_repeated_code(self.attack_block, self.setup, self.cleanup, fork)
         self._contract_address = pre.deploy_contract(code=code)
         return self._contract_address
