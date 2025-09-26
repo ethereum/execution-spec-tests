@@ -127,45 +127,27 @@ def test_bloatnet_balance_extcodesize(
         # Load results from memory
         # Memory[96:128] = num_deployed_contracts
         # Memory[128:160] = init_code_hash
-        + Op.PUSH1(96)  # Memory position for num_deployed_contracts
-        + Op.MLOAD  # Load num_deployed_contracts
-        + Op.PUSH1(128)  # Memory position for init_code_hash
-        + Op.MLOAD  # Load init_code_hash
+        + Op.MLOAD(96)  # Load num_deployed_contracts
+        + Op.MLOAD(128)  # Load init_code_hash
         # Setup memory for CREATE2 address generation
         # Memory layout at 0: 0xFF + factory_addr(20) + salt(32) + hash(32)
-        + Op.PUSH20(factory_address)
-        + Op.PUSH1(0)
-        + Op.MSTORE  # Store factory address at memory position 0
-        + Op.PUSH1(0xFF)
-        + Op.PUSH1(11)  # Position for 0xFF prefix (32 - 20 - 1)
-        + Op.MSTORE8  # Store 0xFF prefix
-        + Op.PUSH1(0)  # Initial salt value
-        + Op.PUSH1(32)
-        + Op.MSTORE  # Store salt at position 32
+        + Op.MSTORE(0, factory_address)  # Store factory address at memory position 0
+        + Op.MSTORE8(11, 0xFF)  # Store 0xFF prefix at position (32 - 20 - 1)
+        + Op.MSTORE(32, 0)  # Store salt at position 32
         # Stack now has: [num_contracts, init_code_hash]
-        + Op.PUSH1(64)
-        + Op.MSTORE  # Store init_code_hash at position 64
+        + Op.MSTORE(64, Op.SWAP1)  # Store init_code_hash at memory[64], swap keeps count on top
         # Stack now has: [num_contracts]
         # Main attack loop - iterate through all deployed contracts
         + While(
             body=(
                 # Generate CREATE2 addr: keccak256(0xFF+factory+salt+hash)
-                Op.PUSH1(85)  # Size to hash (1 + 20 + 32 + 32)
-                + Op.PUSH1(11)  # Start position (0xFF prefix)
-                + Op.SHA3  # Generate CREATE2 address
+                Op.SHA3(11, 85)  # Generate CREATE2 address from memory[11:96]
                 # The address is now on the stack
                 + Op.DUP1  # Duplicate for EXTCODESIZE
-                + Op.BALANCE  # Cold access
-                + Op.POP
-                + Op.EXTCODESIZE  # Warm access
-                + Op.POP
+                + Op.POP(Op.BALANCE)  # Cold access
+                + Op.POP(Op.EXTCODESIZE)  # Warm access
                 # Increment salt for next iteration
-                + Op.PUSH1(32)  # Salt position
-                + Op.MLOAD  # Load current salt
-                + Op.PUSH1(1)
-                + Op.ADD  # Increment
-                + Op.PUSH1(32)
-                + Op.MSTORE  # Store back
+                + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1))  # Increment and store salt
             ),
             # Continue while we haven't reached the limit
             condition=Op.DUP1 + Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
@@ -280,55 +262,36 @@ def test_bloatnet_balance_extcodecopy(
         # Load results from memory
         # Memory[96:128] = num_deployed_contracts
         # Memory[128:160] = init_code_hash
-        + Op.PUSH1(96)  # Memory position for num_deployed_contracts
-        + Op.MLOAD  # Load num_deployed_contracts
-        + Op.PUSH1(128)  # Memory position for init_code_hash
-        + Op.MLOAD  # Load init_code_hash
+        + Op.MLOAD(96)  # Load num_deployed_contracts
+        + Op.MLOAD(128)  # Load init_code_hash
         # Setup memory for CREATE2 address generation
         # Memory layout at 0: 0xFF + factory_addr(20) + salt(32) + hash(32)
-        + Op.PUSH20(factory_address)
-        + Op.PUSH1(0)
-        + Op.MSTORE  # Store factory address at memory position 0
-        + Op.PUSH1(0xFF)
-        + Op.PUSH1(11)  # Position for 0xFF prefix (32 - 20 - 1)
-        + Op.MSTORE8  # Store 0xFF prefix
-        + Op.PUSH1(0)  # Initial salt value
-        + Op.PUSH1(32)
-        + Op.MSTORE  # Store salt at position 32
+        + Op.MSTORE(0, factory_address)  # Store factory address at memory position 0
+        + Op.MSTORE8(11, 0xFF)  # Store 0xFF prefix at position (32 - 20 - 1)
+        + Op.MSTORE(32, 0)  # Store salt at position 32
         # Stack now has: [num_contracts, init_code_hash]
-        + Op.PUSH1(64)
-        + Op.MSTORE  # Store init_code_hash at position 64
+        + Op.MSTORE(64, Op.SWAP1)  # Store init_code_hash at memory[64], swap keeps count on top
         # Stack now has: [num_contracts]
         # Main attack loop - iterate through all deployed contracts
         + While(
             body=(
                 # Generate CREATE2 address
-                Op.PUSH1(85)  # Size to hash (1 + 20 + 32 + 32)
-                + Op.PUSH1(11)  # Start position (0xFF prefix)
-                + Op.SHA3  # Generate CREATE2 address
+                Op.SHA3(11, 85)  # Generate CREATE2 address from memory[11:96]
                 # The address is now on the stack
                 + Op.DUP1  # Duplicate for later operations
-                + Op.BALANCE  # Cold access
-                + Op.POP
+                + Op.POP(Op.BALANCE)  # Cold access
                 # EXTCODECOPY(addr, mem_offset, last_byte_offset, 1)
                 # Read the LAST byte to force full contract load
                 + Op.PUSH1(1)  # size (1 byte)
                 + Op.PUSH2(max_contract_size - 1)  # code offset (last byte)
                 # Use salt as memory offset to avoid overlap
-                + Op.PUSH1(32)  # Salt position
-                + Op.MLOAD  # Get current salt
-                + Op.PUSH2(96)  # Base memory offset
-                + Op.ADD  # Unique memory position
+                + Op.MLOAD(32)  # Get current salt from position 32
+                + Op.ADD(96)  # Add base memory offset for unique position
                 + Op.DUP4  # address (duplicated earlier)
                 + Op.EXTCODECOPY
                 + Op.POP  # Clean up address
                 # Increment salt for next iteration
-                + Op.PUSH1(32)  # Salt position
-                + Op.MLOAD  # Load current salt
-                + Op.PUSH1(1)
-                + Op.ADD  # Increment
-                + Op.PUSH1(32)
-                + Op.MSTORE  # Store back
+                + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1))  # Increment and store salt
             ),
             # Continue while counter > 0
             condition=Op.DUP1 + Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
