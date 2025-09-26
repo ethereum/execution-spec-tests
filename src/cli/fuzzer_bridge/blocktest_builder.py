@@ -44,14 +44,25 @@ class BlocktestBuilder:
         """Parse authorization list from fuzzer data."""
         auth_tuples = []
         for auth_data in auth_list_data:
-            # Handle numeric fields which might be in scientific notation
-            chain_id = HexNumber(int(auth_data.get("chainId", 0)))
-            nonce = HexNumber(int(auth_data.get("nonce", 0)))
+            # Handle values that could be hex strings or numeric (including scientific notation)
+            def parse_value(val: Any, default: Any = 0) -> HexNumber:
+                if val is None:
+                    val = default
+                if isinstance(val, str) and val.startswith("0x"):
+                    # Already a hex string, HexNumber will handle it correctly
+                    return HexNumber(val)
+                elif isinstance(val, str):
+                    # Scientific notation string like "1.0e+18"
+                    return HexNumber(int(float(val)))
+                else:
+                    # Direct numeric value
+                    return HexNumber(int(val) if not isinstance(val, float) else int(val))
 
-            # Handle v, r, s which might be in scientific notation (floating point)
-            v = HexNumber(int(float(auth_data.get("v", 0))))
-            r = HexNumber(int(float(auth_data.get("r", 0))))
-            s = HexNumber(int(float(auth_data.get("s", 0))))
+            chain_id = parse_value(auth_data.get("chainId"))
+            nonce = parse_value(auth_data.get("nonce"))
+            v = parse_value(auth_data.get("v"))
+            r = parse_value(auth_data.get("r"))
+            s = parse_value(auth_data.get("s"))
 
             auth_tuples.append(
                 AuthorizationTuple(
