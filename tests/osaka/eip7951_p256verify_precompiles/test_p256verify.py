@@ -92,6 +92,50 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
 @pytest.mark.parametrize(
     "input_data",
     [
+        pytest.param(
+            H(0) + R(Spec.Gx) + S(Spec.Gx) + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_0",
+        ),
+        pytest.param(
+            H(Spec.N - 1) + R(Spec.Gx) + S(Spec.Gx - 1) + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_N_minus_1",
+        ),
+        pytest.param(
+            H(Spec.N) + R(Spec.Gx) + S(Spec.Gx) + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_N",
+        ),
+        pytest.param(
+            H(Spec.P - 1)
+            + R(Spec.Gx)
+            + S(Spec.Gx + Spec.P - 1 - Spec.N)
+            + X(Spec.Gx)
+            + Y(Spec.Gy),
+            id="hash_P_minus_1",
+        ),
+        pytest.param(
+            H(Spec.P) + R(Spec.Gx) + S(Spec.Gx + Spec.P - Spec.N) + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_P",
+        ),
+        pytest.param(
+            H(2**256 - 1)
+            + R(Spec.Gx)
+            + S(Spec.Gx + 2**256 - 1 - Spec.N)
+            + X(Spec.Gx)
+            + Y(Spec.Gy),
+            id="hash_max",
+        ),
+    ],
+)
+@pytest.mark.parametrize("expected_output", [Spec.SUCCESS_RETURN_VALUE], ids=[""])
+@pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+    """Positive tests for the P256VERIFY precompile."""
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    "input_data",
+    [
         pytest.param(b"", id="zero_length_input"),
         pytest.param(
             b"\x00" + Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
@@ -104,6 +148,30 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
         pytest.param(
             H(0) + R(0) + S(0) + X(0) + Y(0),
             id="input_all_zeros",
+        ),
+        pytest.param(
+            H(0) + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            id="hash_0",
+        ),
+        pytest.param(
+            H(Spec.N - 1) + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            id="hash_N_minus_1",
+        ),
+        pytest.param(
+            H(Spec.N) + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            id="hash_N",
+        ),
+        pytest.param(
+            H(Spec.P - 1) + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            id="hash_P_minus_1",
+        ),
+        pytest.param(
+            H(Spec.P) + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            id="hash_P",
+        ),
+        pytest.param(
+            H(2**256 - 1) + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            id="hash_max",
         ),
         pytest.param(
             Spec.H0 + R(0) + Spec.S0 + Spec.X0 + Spec.Y0,
