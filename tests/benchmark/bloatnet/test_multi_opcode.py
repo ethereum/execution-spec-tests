@@ -135,7 +135,8 @@ def test_bloatnet_balance_extcodesize(
         + Op.MSTORE8(11, 0xFF)  # Store 0xFF prefix at position (32 - 20 - 1)
         + Op.MSTORE(32, 0)  # Store salt at position 32
         # Stack now has: [num_contracts, init_code_hash]
-        + Op.MSTORE(64, Op.SWAP1)  # Store init_code_hash at memory[64], swap keeps count on top
+        + Op.PUSH1(64)  # Push memory position
+        + Op.MSTORE  # Store init_code_hash at memory[64]
         # Stack now has: [num_contracts]
         # Main attack loop - iterate through all deployed contracts
         + While(
@@ -270,7 +271,8 @@ def test_bloatnet_balance_extcodecopy(
         + Op.MSTORE8(11, 0xFF)  # Store 0xFF prefix at position (32 - 20 - 1)
         + Op.MSTORE(32, 0)  # Store salt at position 32
         # Stack now has: [num_contracts, init_code_hash]
-        + Op.MSTORE(64, Op.SWAP1)  # Store init_code_hash at memory[64], swap keeps count on top
+        + Op.PUSH1(64)  # Push memory position
+        + Op.MSTORE  # Store init_code_hash at memory[64]
         # Stack now has: [num_contracts]
         # Main attack loop - iterate through all deployed contracts
         + While(
