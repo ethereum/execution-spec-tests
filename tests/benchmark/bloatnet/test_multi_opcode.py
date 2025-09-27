@@ -15,7 +15,6 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Transaction,
-    TransactionReceipt,
     While,
 )
 from ethereum_test_vm import Bytecode
@@ -164,11 +163,6 @@ def test_bloatnet_balance_extcodesize(
         to=attack_address,
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
-        # Validate that all gas is consumed (benchmark runs to exhaustion)
-        # If STATICCALL fails, only ~50K gas used -> test fails
-        expected_receipt=TransactionReceipt(
-            gas_used=gas_benchmark_value,  # Must consume all gas
-        ),
     )
 
     # Post-state: just verify attack contract exists
@@ -180,7 +174,6 @@ def test_bloatnet_balance_extcodesize(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
-        skip_gas_used_validation=True,
     )
 
 
@@ -287,8 +280,7 @@ def test_bloatnet_balance_extcodecopy(
                 + Op.PUSH1(1)  # size (1 byte)
                 + Op.PUSH2(max_contract_size - 1)  # code offset (last byte)
                 # Use salt as memory offset to avoid overlap
-                + Op.MLOAD(32)  # Get current salt from position 32
-                + Op.ADD(96)  # Add base memory offset for unique position
+                + Op.ADD(Op.MLOAD(32), 96)  # Add base memory offset for unique position
                 + Op.DUP4  # address (duplicated earlier)
                 + Op.EXTCODECOPY
                 + Op.POP  # Clean up address
@@ -309,11 +301,6 @@ def test_bloatnet_balance_extcodecopy(
         to=attack_address,
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
-        # Validate that all gas is consumed (benchmark runs to exhaustion)
-        # If STATICCALL fails, only ~50K gas used -> test fails
-        expected_receipt=TransactionReceipt(
-            gas_used=gas_benchmark_value,  # Must consume all gas
-        ),
     )
 
     # Post-state
@@ -325,5 +312,4 @@ def test_bloatnet_balance_extcodecopy(
         pre=pre,
         blocks=[Block(txs=[attack_tx])],
         post=post,
-        skip_gas_used_validation=True,
     )
