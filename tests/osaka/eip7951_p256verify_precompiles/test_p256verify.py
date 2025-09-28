@@ -156,6 +156,25 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
             + Y(0x99B7A386F1D07C29DBCC42A27B5F9449ABE3D50DE25178E8D7407A95E8B06C0B),
             id="x_0_y_negative",
         ),
+        # Test case for u1==u2 and Q==G.
+        # This test case is important because u1*G + u2*Q is point doubling.
+        pytest.param(
+            H(0x7CF27B188D034F7E8A52380304B51AC3C08969E277F21B35A60B48FC47669978)
+            + R(0x7CF27B188D034F7E8A52380304B51AC3C08969E277F21B35A60B48FC47669978)
+            + S(0x830D84E672FCB08275ADC7FCFB4AE53BFC5D90CB2F25834F4DAE81C6B4FC8BD9)
+            + X(Spec.Gx)
+            + Y(Spec.Gy),
+            id="u1_eq_u2_and_Q_eq_G",
+        ),
+        # Test case for u1==u2 and Q!=G.
+        pytest.param(
+            H(0x65FB4407BCB2A33AE2E486366BAA79B3A8A17A83DDE0FED6F09014A8AC6F78A1)
+            + R(0x65FB4407BCB2A33AE2E486366BAA79B3A8A17A83DDE0FED6F09014A8AC6F78A1)
+            + S(0x65FB4407BCB2A33AE2E486366BAA79B3A8A17A83DDE0FED6F09014A8AC6F78A1)
+            + Spec.X0
+            + Spec.Y0,
+            id="u1_eq_u2_and_Q_ne_G",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.SUCCESS_RETURN_VALUE], ids=[""])
