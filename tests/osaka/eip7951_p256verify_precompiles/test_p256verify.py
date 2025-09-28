@@ -233,6 +233,10 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             id="r_eq_to_n",
         ),
         pytest.param(
+            Spec.H1 + R(Spec.R1.value + Spec.N) + Spec.S1 + Spec.X1 + Spec.Y1,
+            id="r_above_n",
+        ),
+        pytest.param(
             Spec.H0 + R(2**256 - 1) + Spec.S0 + Spec.X0 + Spec.Y0,
             id="r_max",
         ),
@@ -285,6 +289,18 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
         pytest.param(
             Spec.H0 + R(Spec.Gx) + S((2**256 - 1) % Spec.N) + X(Spec.Gx) + Y(Spec.Gy),
             id="s_max_mod_N",
+        ),
+        pytest.param(
+            H(Spec.N + 1 - Spec.Gx) + R(Spec.Gx) + S(Spec.N + 1) + X(Spec.Gx) + Y(Spec.Gy),
+            id="s_N_plus_1",
+        ),
+        pytest.param(
+            H(((2**256 - 1) % Spec.N) - Spec.Gx + Spec.N)
+            + R(Spec.Gx)
+            + S(2**256 - 1)
+            + X(Spec.Gx)
+            + Y(Spec.Gy),
+            id="s_max",
         ),
         pytest.param(
             Spec.H0 + Spec.R0 + Spec.S0 + X(Spec.P) + Spec.Y0,
