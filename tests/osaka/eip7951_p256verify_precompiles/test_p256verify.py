@@ -125,6 +125,22 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
             id="hash_max",
         ),
         pytest.param(
+            H(Spec.N + 1 - Spec.Gx) + R(Spec.Gx) + S(1) + X(Spec.Gx) + Y(Spec.Gy),
+            id="s_1",
+        ),
+        pytest.param(
+            H(Spec.N - 1 - Spec.Gx) + R(Spec.Gx) + S(Spec.N - 1) + X(Spec.Gx) + Y(Spec.Gy),
+            id="s_N_minus_1",
+        ),
+        pytest.param(
+            H(((2**256 - 1) % Spec.N) - Spec.Gx + Spec.N)
+            + R(Spec.Gx)
+            + S((2**256 - 1) % Spec.N)
+            + X(Spec.Gx)
+            + Y(Spec.Gy),
+            id="s_max_mod_N",
+        ),
+        pytest.param(
             H(0xC3D3BE9EB3577F217AE0AB360529A30B18ADC751AEC886328593D7D6FE042809)
             + R(0x3A4E97B44CBF88B90E6205A45BA957E520F63F3C6072B53C244653278A1819D8)
             + S(0x6A184AA037688A5EBD25081FD2C0B10BB64FA558B671BD81955CA86E09D9D722)
@@ -204,6 +220,10 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
         pytest.param(
             Spec.H0 + Spec.R0 + S(Spec.N) + Spec.X0 + Spec.Y0,
             id="s_eq_to_n",
+        ),
+        pytest.param(
+            Spec.H0 + R(Spec.Gx) + S((2**256 - 1) % Spec.N) + X(Spec.Gx) + Y(Spec.Gy),
+            id="s_max_mod_N",
         ),
         pytest.param(
             Spec.H0 + Spec.R0 + Spec.S0 + X(Spec.P) + Spec.Y0,
