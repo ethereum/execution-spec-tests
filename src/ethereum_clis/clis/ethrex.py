@@ -63,7 +63,7 @@ class EthrexExceptionMapper(ExceptionMapper):
         ),
         TransactionException.INTRINSIC_GAS_TOO_LOW: (
             r"gas floor exceeds the gas limit|call gas cost exceeds the gas limit|"
-            r"Intrinsic gas too low"
+            r"Intrinsic gas lower than the minimum gas cost for the transaction"
         ),
         TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: (
             r"Intrinsic gas lower than the cost floor for calldata tokens"
