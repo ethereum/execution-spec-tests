@@ -60,7 +60,7 @@ class EthrexExceptionMapper(ExceptionMapper):
         TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: (
             r"lack of funds \(\d+\) for max fee \(\d+\)|Insufficient account funds"
         ),
-        TransactionException.INTRINSIC_GAS_TOO_LOW: (
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: (
             r"gas floor exceeds the gas limit|call gas cost exceeds the gas limit|"
             r"Intrinsic gas too low"
         ),
