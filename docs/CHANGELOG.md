@@ -32,6 +32,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- ✨ Add an EIP-7928 test case targeting the `SELFDESTRUCT` opcode. ([#2159](https://github.com/ethereum/execution-spec-tests/pull/2159)).
+
 ## [v5.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v5.0.0) - 2025-09-05
 
 ## 🇯🇵 Summary

@@ -32,6 +32,8 @@ class BalAccountExpectation(CamelModel):
     used for expectations.
     """
 
+    model_config = CamelModel.model_config | {"extra": "forbid"}
+
     nonce_changes: List[BalNonceChange] = Field(
         default_factory=list, description="List of expected nonce changes"
     )
@@ -199,21 +201,33 @@ class BlockAccessListExpectation(CamelModel):
                     f"{bal.root[i - 1].address} >= {bal.root[i].address}"
                 )
 
-        # Check transaction index ordering within accounts
+        # Check transaction index ordering and uniqueness within accounts
         for account in bal.root:
-            change_lists: List[BlockAccessListChangeLists] = [
-                account.nonce_changes,
-                account.balance_changes,
-                account.code_changes,
+            changes_to_check: List[tuple[str, BlockAccessListChangeLists]] = [
+                ("nonce_changes", account.nonce_changes),
+                ("balance_changes", account.balance_changes),
+                ("code_changes", account.code_changes),
             ]
-            for change_list in change_lists:
-                for i in range(1, len(change_list)):
-                    if change_list[i - 1].tx_index >= change_list[i].tx_index:
-                        raise BlockAccessListValidationError(
-                            f"Transaction indices not in ascending order in account "
-                            f"{account.address}: {change_list[i - 1].tx_index} >= "
-                            f"{change_list[i].tx_index}"
-                        )
+
+            for field_name, change_list in changes_to_check:
+                if not change_list:
+                    continue
+
+                tx_indices = [c.tx_index for c in change_list]
+
+                # Check both ordering and duplicates
+                if tx_indices != sorted(tx_indices):
+                    raise BlockAccessListValidationError(
+                        f"Transaction indices not in ascending order in {field_name} of account "
+                        f"{account.address}. Got: {tx_indices}, Expected: {sorted(tx_indices)}"
+                    )
+
+                if len(tx_indices) != len(set(tx_indices)):
+                    duplicates = sorted({idx for idx in tx_indices if tx_indices.count(idx) > 1})
+                    raise BlockAccessListValidationError(
+                        f"Duplicate transaction indices in {field_name} of account "
+                        f"{account.address}. Duplicates: {duplicates}"
+                    )
 
             # Check storage slot ordering
             for i in range(1, len(account.storage_changes)):
@@ -224,19 +238,29 @@ class BlockAccessListExpectation(CamelModel):
                         f"{account.storage_changes[i].slot}"
                     )
 
-            # Check transaction index ordering within storage slots
+            # Check transaction index ordering and uniqueness within storage
+            # slots
             for storage_slot in account.storage_changes:
-                for i in range(1, len(storage_slot.slot_changes)):
-                    if (
-                        storage_slot.slot_changes[i - 1].tx_index
-                        >= storage_slot.slot_changes[i].tx_index
-                    ):
-                        raise BlockAccessListValidationError(
-                            f"Transaction indices not in ascending order in storage slot "
-                            f"{storage_slot.slot} of account {account.address}: "
-                            f"{storage_slot.slot_changes[i - 1].tx_index} >= "
-                            f"{storage_slot.slot_changes[i].tx_index}"
-                        )
+                if not storage_slot.slot_changes:
+                    continue
+
+                tx_indices = [c.tx_index for c in storage_slot.slot_changes]
+
+                # Check both ordering and duplicates
+                if tx_indices != sorted(tx_indices):
+                    raise BlockAccessListValidationError(
+                        f"Transaction indices not in ascending order in storage slot "
+                        f"{storage_slot.slot} of account {account.address}. "
+                        f"Got: {tx_indices}, Expected: {sorted(tx_indices)}"
+                    )
+
+                if len(tx_indices) != len(set(tx_indices)):
+                    duplicates = sorted({idx for idx in tx_indices if tx_indices.count(idx) > 1})
+                    raise BlockAccessListValidationError(
+                        f"Duplicate transaction indices in storage slot "
+                        f"{storage_slot.slot} of account {account.address}. "
+                        f"Duplicates: {duplicates}"
+                    )
 
             # Check storage reads ordering
             for i in range(1, len(account.storage_reads)):

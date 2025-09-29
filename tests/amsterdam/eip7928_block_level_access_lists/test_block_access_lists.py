@@ -1,12 +1,16 @@
 """Tests for EIP-7928 using the consistent data class pattern."""
 
+from typing import Dict
+
 import pytest
 
+from ethereum_test_base_types import Address
 from ethereum_test_tools import (
     Account,
     Alloc,
     Block,
     BlockchainTestFiller,
+    Initcode,
     Storage,
     Transaction,
     compute_create_address,
@@ -283,4 +287,140 @@ def test_bal_code_changes(
                 storage={},
             ),
         },
+    )
+
+
+@pytest.mark.valid_from("Amsterdam")
+@pytest.mark.parametrize("self_destruct_in_same_tx", [True, False], ids=["same_tx", "new_tx"])
+@pytest.mark.parametrize("pre_funded", [True, False], ids=["pre_funded", "not_pre_funded"])
+def test_bal_self_destruct(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    self_destruct_in_same_tx: bool,
+    pre_funded: bool,
+):
+    """Ensure BAL captures balance changes caused by `SELFDESTRUCT`."""
+    alice = pre.fund_eoa()
+    bob = pre.fund_eoa(amount=0)
+
+    selfdestruct_code = (
+        Op.SLOAD(0x01)  # Read from storage slot 0x01
+        + Op.SSTORE(0x02, 0x42)  # Write to storage slot 0x02
+        + Op.SELFDESTRUCT(bob)
+    )
+    # A pre existing self-destruct contract with initial storage
+    kaboom = pre.deploy_contract(code=selfdestruct_code, storage={0x01: 0x123})
+
+    # A template for self-destruct contract
+    self_destruct_init_code = Initcode(deploy_code=selfdestruct_code)
+    template = pre.deploy_contract(code=self_destruct_init_code)
+
+    transfer_amount = expected_recipient_balance = 100
+    pre_fund_amount = 10
+
+    if self_destruct_in_same_tx:
+        # The goal is to create a self-destructing contract in the same
+        # transaction to trigger deletion of code as per EIP-6780.
+        # The factory contract below creates a new self-destructing
+        # contract and calls it in this transaction.
+
+        bytecode_size = len(self_destruct_init_code)
+        factory_bytecode = (
+            # Clone template memory
+            Op.EXTCODECOPY(template, 0, 0, bytecode_size)
+            # Fund 100 wei and deploy the clone
+            + Op.CREATE(transfer_amount, 0, bytecode_size)
+            # Call the clone, which self-destructs
+            + Op.CALL(100_000, Op.DUP6, 0, 0, 0, 0, 0)
+            + Op.STOP
+        )
+
+        factory = pre.deploy_contract(code=factory_bytecode)
+        kaboom_same_tx = compute_create_address(address=factory, nonce=1)
+
+    # Determine which account will be self-destructed
+    self_destructed_account = kaboom_same_tx if self_destruct_in_same_tx else kaboom
+
+    if pre_funded:
+        expected_recipient_balance += pre_fund_amount
+        pre.fund_address(address=self_destructed_account, amount=pre_fund_amount)
+
+    tx = Transaction(
+        sender=alice,
+        to=factory if self_destruct_in_same_tx else kaboom,
+        value=transfer_amount,
+        gas_limit=1_000_000,
+        gas_price=0xA,
+    )
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                bob: BalAccountExpectation(
+                    balance_changes=[
+                        BalBalanceChange(tx_index=1, post_balance=expected_recipient_balance)
+                    ]
+                ),
+                self_destructed_account: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)]
+                    if pre_funded
+                    else [],
+                    # Accessed slots for same-tx are recorded as reads (0x02)
+                    storage_reads=[0x01, 0x02] if self_destruct_in_same_tx else [0x01],
+                    # Storage changes are recorded for non-same-tx
+                    # self-destructs
+                    storage_changes=[
+                        BalStorageSlot(
+                            slot=0x02, slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)]
+                        )
+                    ]
+                    if not self_destruct_in_same_tx
+                    else [],
+                    code_changes=[],  # should not be present
+                    nonce_changes=[],  # should not be present
+                ),
+            }
+        ),
+    )
+
+    post: Dict[Address, Account] = {
+        alice: Account(nonce=1),
+        bob: Account(balance=expected_recipient_balance),
+    }
+
+    # If the account was self-destructed in the same transaction,
+    # we expect the account to non-existent and its balance to be 0.
+    if self_destruct_in_same_tx:
+        post.update(
+            {
+                factory: Account(
+                    nonce=2,  # incremented after CREATE
+                    balance=0,  # spent on CREATE
+                    code=factory_bytecode,
+                ),
+                kaboom_same_tx: Account.NONEXISTENT,  # type: ignore
+                # The pre-existing contract remains unaffected
+                kaboom: Account(balance=0, code=selfdestruct_code, storage={0x01: 0x123}),
+            }
+        )
+    else:
+        post.update(
+            {
+                # This contract was self-destructed in a separate tx.
+                # From EIP 6780: `SELFDESTRUCT` does not delete any data
+                # (including storage keys, code, or the account itself).
+                kaboom: Account(
+                    balance=0, code=selfdestruct_code, storage={0x01: 0x123, 0x2: 0x42}
+                ),
+            }
+        )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post=post,
     )
