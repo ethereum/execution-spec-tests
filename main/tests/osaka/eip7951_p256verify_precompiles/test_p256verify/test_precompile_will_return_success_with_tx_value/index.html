@@ -27335,7 +27335,7 @@
 
 
 <h1 id="test_precompile_will_return_success_with_tx_value"><code>test_precompile_will_return_success_with_tx_value()</code><a class="headerlink" href="#test_precompile_will_return_success_with_tx_value" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9821d2e7c6584230ed180be0785ca7e7aafcade0/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L576"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_will_return_success_with_tx_value@9821d2e7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a5f0b21f26199f0dd00a0267ec8323baccc490b4/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L592"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_will_return_success_with_tx_value@a5f0b21f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_will_return_success_with_tx_value --fork Osaka</span>
@@ -27355,23 +27355,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span>
-<span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">592</span>
 <span class="normal">593</span>
 <span class="normal">594</span>
 <span class="normal">595</span>
@@ -27404,7 +27388,23 @@
 <span class="normal">622</span>
 <span class="normal">623</span>
 <span class="normal">624</span>
-<span class="normal">625</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,precompile_address,expected_output&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
