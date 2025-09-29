@@ -101,25 +101,17 @@ def fetch_issues(repo: str, limit: Optional[int] = None) -> List[Dict]:
         return []
 
 
-def create_issue(
-    repo: str,
-    title: str,
-    body: str,
-    labels: List[str],
-    assignees: List[str],
-    milestone: Optional[str],
-) -> Tuple[bool, str]:
-    """Create a new issue in the target repository."""
-    cmd = ["gh", "issue", "create", "--repo", repo, "--title", title, "--body", body]
-
-    if labels:
-        cmd.extend(["--label", ",".join(labels)])
-
-    if assignees:
-        cmd.extend(["--assignee", ",".join(assignees)])
-
-    if milestone:
-        cmd.extend(["--milestone", milestone])
+def transfer_issue(issue_number: int, target_repo: str, source_repo: str) -> Tuple[bool, str]:
+    """Transfer an issue to the target repository using gh issue transfer."""
+    cmd = [
+        "gh",
+        "issue",
+        "transfer",
+        str(issue_number),
+        target_repo,
+        "--repo",
+        source_repo,
+    ]
 
     exit_code, stdout, stderr = run_command(cmd)
 
@@ -129,32 +121,68 @@ def create_issue(
     return True, stdout.strip()
 
 
-def close_issue(repo: str, issue_number: int, comment: str) -> bool:
-    """Close an issue with a comment."""
-    # Add comment first
+def get_repo_labels(repo: str) -> List[str]:
+    """Fetch all available labels from a repository."""
+    cmd = [
+        "gh",
+        "label",
+        "list",
+        "--repo",
+        repo,
+        "--json",
+        "name",
+        "--limit",
+        "1000",
+    ]
+
+    exit_code, stdout, stderr = run_command(cmd)
+
+    if exit_code != 0:
+        print(f"Error fetching labels from {repo}: {stderr}")
+        return []
+
+    try:
+        label_data = json.loads(stdout)
+        return [label["name"] for label in label_data]
+    except json.JSONDecodeError as e:
+        print(f"Error parsing label JSON: {e}")
+        return []
+
+
+def validate_labels(labels: List[str], repo: str, available_labels: List[str]) -> bool:
+    """Validate that all labels exist in the target repository."""
+    if not labels:
+        return True
+
+    missing_labels = [label for label in labels if label not in available_labels]
+
+    if missing_labels:
+        print(f"  ✗ Error: The following labels do not exist in {repo}:")
+        for label in missing_labels:
+            print(f"    - {label}")
+        print(f"  Create these labels in {repo} first, or update LABEL_MAP to translate them")
+        return False
+
+    return True
+
+
+def update_issue_labels(issue_url: str, labels: List[str]) -> bool:
+    """Update labels on a transferred issue."""
+    if not labels:
+        return True
+
     cmd = [
         "gh",
         "issue",
-        "comment",
-        str(issue_number),
-        "--repo",
-        repo,
-        "--body",
-        comment,
+        "edit",
+        issue_url,
+        "--add-label",
+        ",".join(labels),
     ]
-    run_command(cmd)
 
-    # Close the issue
-    cmd = [
-        "gh",
-        "issue",
-        "close",
-        str(issue_number),
-        "--repo",
-        repo,
-    ]
-    exit_code, _, _ = run_command(cmd)
-
+    exit_code, _, stderr = run_command(cmd)
+    if exit_code != 0:
+        print(f"  Error updating labels: {stderr}")
     return exit_code == 0
 
 
@@ -228,6 +256,16 @@ def transfer_issues(dry_run: bool = False, limit: Optional[int] = None, include_
     if not check_gh_cli():
         sys.exit(1)
 
+    # Fetch available labels from target repository
+    print(f"Fetching available labels from {TARGET_REPO}...")
+    target_labels = get_repo_labels(TARGET_REPO)
+    if not target_labels:
+        print(f"Warning: Could not fetch labels from {TARGET_REPO}")
+        print("Label validation will be skipped")
+    else:
+        print(f"Found {len(target_labels)} labels in target repository")
+    print()
+
     # Fetch issues
     issues = fetch_issues(SOURCE_REPO, limit)
     print(f"Found {len(issues)} open issues")
@@ -262,7 +300,7 @@ def transfer_issues(dry_run: bool = False, limit: Optional[int] = None, include_
                                 print(f"    Added subissue #{sub_num} to transfer queue")
 
     # Sort issues so subissues are processed before their parents
-    # This ensures we have the new issue numbers before updating parent references
+    # This ensures GitHub can maintain issue reference updates automatically
     def get_issue_depth(issue_num, visited=None):
         if visited is None:
             visited = set()
@@ -284,77 +322,47 @@ def transfer_issues(dry_run: bool = False, limit: Optional[int] = None, include_
 
     transferred = 0
     failed = 0
-    issue_mapping = {}  # Map old issue numbers to new URLs
-    new_parent_child_map = {}  # Map new issue numbers to their parent issues
 
     for issue in issues_to_process:
         number = issue["number"]
         title = issue["title"]
-        body = issue.get("body", "")
 
-        # Extract labels, assignees, milestone
+        # Extract labels
         labels = [label["name"] for label in issue.get("labels", [])]
-        assignees = [assignee["login"] for assignee in issue.get("assignees", [])]
-        milestone_data = issue.get("milestone")
-        milestone = milestone_data.get("title") if milestone_data else None
 
         print("-" * 40)
         print(f"Processing Issue #{number}: {title}")
 
-        # Translate labels
+        # Translate labels if needed
+        translated_labels = []
         if labels:
             translated_labels = translate_labels(labels)
             if translated_labels != labels:
                 print(
                     f"  Translating labels: {', '.join(labels)} -> {', '.join(translated_labels)}"
                 )
-                labels = translated_labels
 
-        # Update issue references in body to point to new issues
-        updated_body = body
-        if body and issue_mapping:
-            for old_num, new_url in issue_mapping.items():
-                # Extract just the issue number from the URL
-                new_issue_num = new_url.split("/")[-1] if new_url else str(old_num)
-                # Replace #oldnum with #newnum
-                updated_body = re.sub(rf'#({old_num})\b', f'#{new_issue_num}', updated_body)
-                # Replace full URLs
-                old_url_pattern = rf'https://github\.com/{re.escape(SOURCE_REPO)}/issues/{old_num}'
-                updated_body = re.sub(old_url_pattern, new_url, updated_body)
-            if updated_body != body:
-                print(f"  Updated issue references in body")
-
-        # If this is a parent issue, add a subtasks section
-        subtasks_section = ""
-        if body:
-            subissue_refs = extract_subissue_references(body, SOURCE_REPO)
-            if subissue_refs:
-                # Check which subissues have been transferred
-                transferred_subs = []
-                for sub_num in subissue_refs:
-                    if sub_num in issue_mapping:
-                        new_sub_url = issue_mapping[sub_num]
-                        new_sub_num = new_sub_url.split("/")[-1]
-                        transferred_subs.append(f"- [ ] #{new_sub_num}")
-
-                if transferred_subs:
-                    subtasks_section = "\n\n## Subtasks\n" + "\n".join(transferred_subs)
-
-        # Add migration note to body
-        migration_note = f"\n\n---\n_Migrated from {SOURCE_REPO}#{number}_"
-        new_body = updated_body + subtasks_section + migration_note
+        # Validate labels exist in target repository
+        if target_labels and translated_labels:
+            if not validate_labels(translated_labels, TARGET_REPO, target_labels):
+                print(f"  Skipping issue #{number} due to missing labels")
+                failed += 1
+                continue
 
         if dry_run:
             print("  [DRY RUN] Would transfer issue:")
             print(f"    Title: {title}")
             if labels:
                 print(f"    Labels: {', '.join(labels)}")
-            if assignees:
-                print(f"    Assignees: {', '.join(assignees)}")
-            if milestone:
-                print(f"    Milestone: {milestone}")
+            if translated_labels != labels:
+                print(f"    Translated labels: {', '.join(translated_labels)}")
+
+            # Validate labels in dry run too
+            if target_labels and translated_labels:
+                validate_labels(translated_labels, TARGET_REPO, target_labels)
 
             # Show if this issue references other issues
+            body = issue.get("body", "")
             if body:
                 subissue_refs = extract_subissue_references(body, SOURCE_REPO)
                 if subissue_refs:
@@ -362,58 +370,32 @@ def transfer_issues(dry_run: bool = False, limit: Optional[int] = None, include_
 
             print(f"    Original: https://github.com/{SOURCE_REPO}/issues/{number}")
         else:
-            print(f"  Creating issue in {TARGET_REPO}...")
+            print(f"  Transferring issue to {TARGET_REPO}...")
 
-            success, result = create_issue(
-                TARGET_REPO, title, new_body, labels, assignees, milestone
-            )
+            success, result = transfer_issue(number, TARGET_REPO, SOURCE_REPO)
 
             if success:
                 new_issue_url = result
-                print(f"  ✓ Created: {new_issue_url}")
+                print(f"  ✓ Transferred: {new_issue_url}")
 
-                # Store mapping for updating references in other issues
-                issue_mapping[number] = new_issue_url
-                new_issue_num = new_issue_url.split("/")[-1]
+                # Update labels if translation is needed
+                if translated_labels != labels:
+                    print(f"  Updating labels...")
+                    if update_issue_labels(new_issue_url, translated_labels):
+                        print(f"  ✓ Updated labels")
+                    else:
+                        print(f"  ⚠ Failed to update labels")
 
-                # If this issue has parent issues, add a comment to establish the relationship
-                if number in parent_child_map:
-                    for parent_num in parent_child_map[number]:
-                        if parent_num in issue_mapping:
-                            parent_new_url = issue_mapping[parent_num]
-                            parent_new_num = parent_new_url.split("/")[-1]
-                            # Add comment to the new subissue linking to parent
-                            link_comment = f"This is a subtask of #{parent_new_num}"
-                            cmd = [
-                                "gh",
-                                "issue",
-                                "comment",
-                                new_issue_num,
-                                "--repo",
-                                TARGET_REPO,
-                                "--body",
-                                link_comment,
-                            ]
-                            run_command(cmd)
-                            print(f"  ✓ Linked as subtask of #{parent_new_num}")
-
-                # Close the original issue
-                close_comment = f"This issue has been migrated to {new_issue_url}"
-                if close_issue(SOURCE_REPO, number, close_comment):
-                    print(f"  ✓ Closed original issue #{number}")
-                    transferred += 1
-                else:
-                    print(f"  ⚠ Failed to close original issue #{number}")
-                    transferred += 1  # Still count as transferred
+                transferred += 1
             else:
-                print(f"  ✗ Failed to create issue: {result}")
+                print(f"  ✗ Failed to transfer issue: {result}")
                 failed += 1
 
     print()
     print("=" * 40)
     if dry_run:
         print("DRY RUN COMPLETE")
-        print(f"Would transfer {len(issues)} issues")
+        print(f"Would transfer {len(issues_to_process)} issues")
         print("Run without --dry-run to actually transfer")
     else:
         print("TRANSFER COMPLETE")
