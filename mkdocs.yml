@@ -51,6 +51,7 @@ theme:
     - navigation.indexes
     - navigation.instant
     - navigation.tabs
+    - navigation.footer
   # disabled due to https://github.com/ethereum/execution-spec-tests/issues/816
   # palette:
   #   # Palette toggle for automatic mode

@@ -1,8 +1,6 @@
 """
-abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
-    Test copy operations of [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656).
-
-"""  # noqa: E501
+Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656).
+"""
 
 from typing import Mapping
 
@@ -54,8 +52,8 @@ def code_bytecode(
     code_storage: Storage,
 ) -> Bytecode:
     """
-    Prepare bytecode and storage for the test, based on the starting memory and the final
-    memory that resulted from the copy.
+    Prepare bytecode and storage for the test, based on the starting memory and
+    the final memory that resulted from the copy.
     """
     bytecode = Bytecode()
 
@@ -90,8 +88,8 @@ def code_bytecode(
             Op.MLOAD(w * 0x20),
         )
 
-    # If the memory was extended beyond the initial range, store the last word of the resulting
-    # memory into storage too
+    # If the memory was extended beyond the initial range, store the last word
+    # of the resulting memory into storage too
     if len(final_memory) > len(initial_memory):
         last_word = ceiling_division(len(final_memory), 0x20) - 1
         bytecode += Op.SSTORE(
@@ -187,7 +185,8 @@ def test_valid_mcopy_operations(
     tx: Transaction,
 ):
     """
-    Perform MCOPY operations using different offsets and lengths:
+    Perform MCOPY operations using different offsets and lengths.
+
       - Zero inputs
       - Memory rewrites (copy from and to the same location)
       - Memory overwrites (copy from and to different locations)
@@ -214,7 +213,10 @@ def test_mcopy_on_empty_memory(
     post: Mapping[str, Account],
     tx: Transaction,
 ):
-    """Perform MCOPY operations on an empty memory, using different offsets and lengths."""
+    """
+    Perform MCOPY operations on an empty memory, using different offsets and
+    lengths.
+    """
     state_test(
         env=Environment(),
         pre=pre,

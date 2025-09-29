@@ -1,8 +1,6 @@
 """
-abstract: Tests [EIP-7251: Increase the MAX_EFFECTIVE_BALANCE](https://eips.ethereum.org/EIPS/eip-7251)
-    Test execution layer triggered consolidations [EIP-7251: Increase the MAX_EFFECTIVE_BALANCE](https://eips.ethereum.org/EIPS/eip-7251).
-
-"""  # noqa: E501
+Tests [EIP-7251: Increase the MAX_EFFECTIVE_BALANCE](https://eips.ethereum.org/EIPS/eip-7251).
+"""
 
 from os.path import realpath
 from pathlib import Path
@@ -57,8 +55,9 @@ BLOCKS_BEFORE_FORK = 2
                                 source_pubkey=0x03,
                                 target_pubkey=0x04,
                                 fee=Spec.get_fee(10),
-                                # First post-fork consolidation request, will not be included
-                                # because the inhibitor is cleared at the end of the block
+                                # First post-fork consolidation request, will
+                                # not be included because the inhibitor is
+                                # cleared at the end of the block
                                 valid=False,
                             )
                         ],
@@ -91,8 +90,12 @@ def test_consolidation_requests_during_fork(
     blocks: List[Block],
     pre: Alloc,
 ):
-    """Test making a consolidation request to the beacon chain at the time of the fork."""
-    # We need to delete the deployed contract that comes by default in the pre state.
+    """
+    Test making a consolidation request to the beacon chain at the time of the
+    fork.
+    """
+    # We need to delete the deployed contract that comes by default in the pre
+    # state.
     pre[Spec.CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS] = Account(
         balance=0,
         code=bytes(),

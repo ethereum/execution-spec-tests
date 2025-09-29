@@ -10,9 +10,9 @@ from ethereum_test_tools import Opcodes as Op
 @pytest.mark.valid_until("Homestead")
 def test_double_kill(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
-    Test that when two transactions attempt to destruct a contract,
-    the second transaction actually resurrects the contract as an empty account (prior to Spurious
-    Dragon).
+    Test that when two transactions attempt to destruct a contract, the second
+    transaction actually resurrects the contract as an empty account (prior to
+    Spurious Dragon).
     """
     sender = pre.fund_eoa()
 

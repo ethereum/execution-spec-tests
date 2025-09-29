@@ -14,7 +14,10 @@ from .spec import FP, FP2, PointG1, PointG2, Spec
 
 
 def current_python_script_directory(*args: str) -> str:
-    """Get the current Python script directory, optionally appending additional path components."""
+    """
+    Get the current Python script directory, optionally appending additional
+    path components.
+    """
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), *args)
 
 
@@ -29,7 +32,10 @@ class Vector(BaseModel):
     model_config = ConfigDict(alias_generator=to_pascal)
 
     def to_pytest_param(self):
-        """Convert the test vector to a tuple that can be used as a parameter in a pytest test."""
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a
+        pytest test.
+        """
         return pytest.param(self.input, self.expected, self.gas, id=self.name)
 
 
@@ -43,7 +49,10 @@ class FailVector(BaseModel):
     model_config = ConfigDict(alias_generator=to_pascal)
 
     def to_pytest_param(self):
-        """Convert the test vector to a tuple that can be used as a parameter in a pytest test."""
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a
+        pytest test.
+        """
         return pytest.param(self.input, id=self.name)
 
 
@@ -71,6 +80,7 @@ def vectors_from_file(filename: str) -> List:
 def add_points_g1(point_a: PointG1, point_b: PointG1) -> PointG1:
     """
     Add two points in G1 using standard formulas.
+
     For points P = (x, y) and Q = (u, v), compute R = P + Q.
     """
     if point_a.x == 0 and point_a.y == 0:
@@ -88,7 +98,9 @@ def add_points_g1(point_a: PointG1, point_b: PointG1) -> PointG1:
 def add_points_g2(point_a: PointG2, point_b: PointG2) -> PointG2:
     """
     Add two points in G2 using standard formulas.
-    For points P = ((x_0, x_1), (y_0, y_1)) and Q = ((u_0, u_1), (v_0, v_1)), compute R = P + Q.
+
+    For points P = ((x_0, x_1), (y_0, y_1)) and
+    Q = ((u_0, u_1), (v_0, v_1)), compute R = P + Q.
     """
     if point_a.x == (0, 0) and point_a.y == (0, 0):
         return point_b
@@ -112,10 +124,11 @@ class BLSPointGenerator:
         - on the standard curve
         - in the correct r-order subgroup or not
         - on the curve or not
-        - on an isomorphic curve (not standard curve) but in the correct r-order subgroup
+        - on an isomorphic curve (not standard curve) but in the correct
+            r-order subgroup
 
     Additional resource that helped the class implementation:
-        https://hackmd.io/@benjaminion/bls12-381
+    https://hackmd.io/@benjaminion/bls12-381
     """
 
     # Constants for G1 curve equations
@@ -125,7 +138,8 @@ class BLSPointGenerator:
     # This is a known parameter of the BLS12-381 curve specification
     STANDARD_B_G1 = Spec.B_COEFFICIENT
 
-    # Isomorphic G1 curve uses b=24 (can be any b value for an isomorphic curve)
+    # Isomorphic G1 curve uses b=24 (can be any b value for an isomorphic
+    # curve)
     ISOMORPHIC_B_G1 = 24  # Isomorphic curve: y^2 = x^3 + 24
 
     # Constants for G2 curve equations
@@ -192,8 +206,8 @@ class BLSPointGenerator:
     @staticmethod
     def sqrt_fq(a: FQ) -> Optional[FQ]:
         """
-        Compute smallest square root of FQ element (if it exists). Used when finding valid
-        y-coordinates for a given x-coordinate on the G1 curve.
+        Compute smallest square root of FQ element (if it exists). Used when
+        finding valid y-coordinates for a given x-coordinate on the G1 curve.
         """
         assert field_modulus % 4 == 3, "This sqrt method requires p % 4 == 3"
         candidate = a ** ((field_modulus + 1) // 4)
@@ -206,8 +220,8 @@ class BLSPointGenerator:
     @staticmethod
     def sqrt_fq2(a: FQ2) -> Optional[FQ2]:
         """
-        Compute square root of FQ2 element (if it exists). Used when finding valid
-        y-coordinates for a given x-coordinate on the G2 curve.
+        Compute square root of FQ2 element (if it exists). Used when finding
+        valid y-coordinates for a given x-coordinate on the G2 curve.
         """
         if a == FQ2([0, 0]):
             return FQ2([0, 0])
@@ -222,8 +236,9 @@ class BLSPointGenerator:
     @classmethod
     def multiply_by_cofactor(cls, point: Any, is_g2: bool = False):
         """
-        Multiply a point by the cofactor to ensure it's in the correct r-order subgroup.
-        Used for creating points in the correct r-order subgroup when using isomorphic curves.
+        Multiply a point by the cofactor to ensure it's in the correct r-order
+        subgroup. Used for creating points in the correct r-order subgroup when
+        using isomorphic curves.
         """
         cofactor = cls.G2_COFACTOR if is_g2 else cls.G1_COFACTOR
         try:
@@ -251,8 +266,8 @@ class BLSPointGenerator:
     @memory.cache
     def find_g1_point_by_x(cls, x_value: int, in_subgroup: bool, on_curve: bool = True) -> PointG1:
         """
-        Find a G1 point with x-coordinate at or near the given value,
-        with the specified subgroup membership and curve membership.
+        Find a G1 point with x-coordinate at or near the given value, with the
+        specified subgroup membership and curve membership.
         """
         max_offset = 5000
         isomorphic_b = cls.ISOMORPHIC_B_G1
@@ -267,7 +282,8 @@ class BLSPointGenerator:
                 try:
                     x = FQ(try_x)
 
-                    # Calculate y² = x³ + b (standard curve or isomorphic curve)
+                    # Calculate y² = x³ + b (standard curve or isomorphic
+                    # curve)
                     b_value = cls.STANDARD_B_G1 if on_curve else isomorphic_b
                     y_squared = x**3 + FQ(b_value)
 
@@ -280,7 +296,8 @@ class BLSPointGenerator:
                     raw_point = (int(x), int(y))
                     raw_point2 = (int(x), Spec.P - int(y))
 
-                    # For isomorphic curve points in subgroup, apply cofactor multiplication
+                    # For isomorphic curve points in subgroup, apply cofactor
+                    # multiplication
                     if not on_curve and in_subgroup:
                         try:
                             subgroup_point = cls.multiply_by_cofactor(raw_point, is_g2=False)
@@ -327,8 +344,8 @@ class BLSPointGenerator:
         cls, x_value: tuple, in_subgroup: bool, on_curve: bool = True
     ) -> PointG2:
         """
-        Find a G2 point with x-coordinate at or near the given value,
-        with the specified subgroup membership and curve membership.
+        Find a G2 point with x-coordinate at or near the given value, with the
+        specified subgroup membership and curve membership.
         """
         max_offset = 5000
         isomorphic_b = cls.ISOMORPHIC_B_G2
@@ -344,7 +361,8 @@ class BLSPointGenerator:
                 try:
                     x = FQ2(try_x)
 
-                    # Calculate y² = x³ + b (standard curve or isomorphic curve)
+                    # Calculate y² = x³ + b (standard curve or isomorphic
+                    # curve)
                     b_value = cls.STANDARD_B_G2 if on_curve else isomorphic_b
                     y_squared = x**3 + FQ2(b_value)
 
@@ -363,7 +381,8 @@ class BLSPointGenerator:
                         (Spec.P - int(y.coeffs[0]), Spec.P - int(y.coeffs[1])),
                     )
 
-                    # For isomorphic curve points in subgroup, apply cofactor multiplication
+                    # For isomorphic curve points in subgroup, apply cofactor
+                    # multiplication
                     if not on_curve and in_subgroup:
                         try:
                             subgroup_point = cls.multiply_by_cofactor(raw_point, is_g2=True)
@@ -413,26 +432,36 @@ class BLSPointGenerator:
     # G1 points by x coordinate (near or on the x value)
     @classmethod
     def generate_g1_point_in_subgroup_by_x(cls, x_value: int) -> PointG1:
-        """G1 point that is in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G1 point that is in the r-order subgroup with x-coordinate by/on the
+        given value.
+        """
         return cls.find_g1_point_by_x(x_value, in_subgroup=True, on_curve=True)
 
     @classmethod
     def generate_g1_point_not_in_subgroup_by_x(cls, x_value: int) -> PointG1:
-        """G1 point that is NOT in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G1 point that is NOT in the r-order subgroup with x-coordinate by/on
+        the given value.
+        """
         return cls.find_g1_point_by_x(x_value, in_subgroup=False, on_curve=True)
 
     @classmethod
     def generate_g1_point_not_on_curve_by_x(cls, x_value: int) -> PointG1:
-        """G1 point that is NOT on the curve with x-coordinate by/on the given value."""
+        """
+        G1 point that is NOT on the curve with x-coordinate by/on the given
+        value.
+        """
         return cls.find_g1_point_by_x(x_value, in_subgroup=False, on_curve=False)
 
     @classmethod
     def generate_g1_point_on_isomorphic_curve_by_x(cls, x_value: int) -> PointG1:
         """
-        G1 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup with x-coordinate by/on the given value.
+        G1 point that is on an isomorphic curve (not standard curve) but in the
+        r-order subgroup with x-coordinate by/on the given value.
 
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Uses cofactor multiplication to ensure the point is in the correct
+        subgroup.
         """
         return cls.find_g1_point_by_x(x_value, in_subgroup=True, on_curve=False)
 
@@ -464,10 +493,11 @@ class BLSPointGenerator:
     @classmethod
     def generate_random_g1_point_on_isomorphic_curve(cls, seed: int) -> PointG1:
         """
-        Generate a random G1 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup.
+        Generate a random G1 point that is on an isomorphic curve (not standard
+        curve) but in the r-order subgroup.
 
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Uses cofactor multiplication to ensure the point is in the correct
+        subgroup.
         """
         seed_bytes = seed.to_bytes(32, "big")
         hash_output = hashlib.sha384(seed_bytes + b"on_isomorphic_curve").digest()
@@ -477,26 +507,36 @@ class BLSPointGenerator:
     # G2 point generators - by x coordinate (near or on the x value)
     @classmethod
     def generate_g2_point_in_subgroup_by_x(cls, x_value: tuple) -> PointG2:
-        """G2 point that is in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G2 point that is in the r-order subgroup with x-coordinate by/on the
+        given value.
+        """
         return cls.find_g2_point_by_x(x_value, in_subgroup=True, on_curve=True)
 
     @classmethod
     def generate_g2_point_not_in_subgroup_by_x(cls, x_value: tuple) -> PointG2:
-        """G2 point that is NOT in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G2 point that is NOT in the r-order subgroup with x-coordinate by/on
+        the given value.
+        """
         return cls.find_g2_point_by_x(x_value, in_subgroup=False, on_curve=True)
 
     @classmethod
     def generate_g2_point_not_on_curve_by_x(cls, x_value: tuple) -> PointG2:
-        """G2 point that is NOT on the curve with x-coordinate by/on the given value."""
+        """
+        G2 point that is NOT on the curve with x-coordinate by/on the given
+        value.
+        """
         return cls.find_g2_point_by_x(x_value, in_subgroup=False, on_curve=False)
 
     @classmethod
     def generate_g2_point_on_isomorphic_curve_by_x(cls, x_value: tuple) -> PointG2:
         """
-        G2 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup with x-coordinate near the given value.
+        G2 point that is on an isomorphic curve (not standard curve) but in the
+        r-order subgroup with x-coordinate near the given value.
 
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Uses cofactor multiplication to ensure the point is in the correct
+        subgroup.
         """
         return cls.find_g2_point_by_x(x_value, in_subgroup=True, on_curve=False)
 
@@ -537,9 +577,9 @@ class BLSPointGenerator:
     @classmethod
     def generate_random_g2_point_on_isomorphic_curve(cls, seed: int) -> PointG2:
         """
-        Generate a random G2 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup.
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Generate a random G2 point that is on an isomorphic curve (not standard
+        curve) but in the r-order subgroup. Uses cofactor multiplication to
+        ensure the point is in the correct subgroup.
         """
         seed_bytes = seed.to_bytes(32, "big")
         hash_output = hashlib.sha384(seed_bytes + b"g2_on_isomorphic_curve").digest()
@@ -553,81 +593,127 @@ class BLSPointGenerator:
     @classmethod
     def generate_g1_map_isogeny_kernel_points(cls) -> List[FP]:
         """
-        Return precomputed kernel points for the BLS12-381 G1 map to curve function. These map to
-        the G1 identity point `Spec.INF_G1`. They are generated using sage math externally with the
-        following script as its significantly faster than using `py_ecc` (200-1000x faster).
+        Return precomputed kernel points for the BLS12-381 G1 map to curve
+        function. These map to the G1 identity point `Spec.INF_G1`. They are
+        generated using sage math externally with the following script as its
+        significantly faster than using `py_ecc` (200-1000x faster).
 
-        For reference we can imagine the map to curve function as a simple 2 step process, where an
-        input t value is mapped to a point on the auxiliary curve via a SWU map, and then that
-        point is mapped to the BLS curve via an 11-isogeny. For reference:
-        - https://eips.ethereum.org/assets/eip-2537/field_to_curve
+        For reference we can imagine the map to curve function as a simple 2
+        step process, where an input t value is mapped to a point on the
+        auxiliary curve via a SWU map, and then that point is mapped to the BLS
+        curve via an 11-isogeny. For reference:
+        https://eips.ethereum.org/assets/eip-2537/field_to_curve
 
-        Note we cannot use sage math directly within EEST as it is not a pure python library and
-        requires an external dependency to be installed on the system machine.
+        Note we cannot use sage math directly within EEST as it is not a pure
+        python library and requires an external dependency to be installed on
+        the system machine.
 
-        Thanks to @petertdavies (Peter Miller) for the sage math script to generate these points:
-        ```sage
-        q = 0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB
+        Thanks to @petertdavies (Peter Miller) for the sage math script to
+        generate these points: ```sage
+        q = 0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F3
+        8512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB
+
         Fq = GF(q)
         E1 = EllipticCurve(Fq, (0, 4)) # BLS12-381 curve
-        ISO_11_A = Fq(0x144698A3B8E9433D693A02C96D4982B0EA985383EE66A8D8E8981AEFD881AC98936F8DA0E0F97F5CF428082D584C1D)
-        ISO_11_B = Fq(0x12E2908D11688030018B12E8753EEE3B2016C1F0F24F4070A0B9C14FCEF35EF55A23215A316CEAA5D1CC48E98E172BE0)
+
+        ISO_11_A = Fq(0x144698A3B8E9433D693A02C96D4982B0EA985383EE66A8D8E
+        8981AEFD881AC98936F8DA0E0F97F5CF428082D584C1D)
+
+        ISO_11_B = Fq(0x12E2908D11688030018B12E8753EEE3B2016C1F0F24F4070A0B
+        9C14FCEF35EF55A23215A316CEAA5D1CC48E98E172BE0)
+
         ISO_11_Z = Fq(11)
+
         Ei = EllipticCurve(Fq, (ISO_11_A, ISO_11_B))
-        iso = EllipticCurveIsogeny(E=E1, kernel=None, codomain=Ei, degree=11).dual()
+
+        iso = EllipticCurveIsogeny(
+          E=E1,
+          kernel=None,
+          codomain=Ei,
+          degree=11).dual()
+
         for (x, _) in iso.kernel_polynomial().roots():
             discriminant = 1 - 4 / (ISO_11_A / ISO_11_B * x + 1)
             if not discriminant.is_square():
                 continue
+
             for sign in [1, -1]:
                 zt2 = (-1 + sign * discriminant.sqrt()) / 2
+
                 t2 = zt2 / ISO_11_Z
+
                 if t2.is_square():
                     t = t2.sqrt()
-                    assert x == -ISO_11_B / ISO_11_A * (1 + 1 / (ISO_11_Z**2 * t**4 + ISO_11_Z * t**2))
+                    assert x == -ISO_11_B / ISO_11_A * (1 + 1 / (ISO_11_Z**2 *
+                    t**4 + ISO_11_Z * t**2))
+
                     print(t)
         ```
 
-        To reproduce, add the script contents to a file called `points.sage`, then run `sage points.sage`!
+        To reproduce, add the script contents to a file called `points.sage`,
+        then run `sage points.sage`!
 
-        Please see the sage math installation guide to replicate:
-            - https://doc.sagemath.org/html/en/installation/index.html
+        Please see the sage math installation guide to replicate: -
+        https://doc.sagemath.org/html/en/installation/index.html
 
-        As G1 uses an 11-degree isogeny, its kernel contains exactly 11 points on the auxiliary
-        curve that maps to the point at infinity on the BLS curve. This includes the point at
-        infinity (doesn't concern us as the initial SWU map can never output infinity from any int
-        t) and 10 other unique kernel points.
+        As G1 uses an 11-degree isogeny, its kernel contains exactly 11 points
+        on the auxiliary curve that maps to the point at infinity on the BLS
+        curve. This includes the point at infinity (doesn't concern us as the
+        initial SWU map can never output infinity from any int t) and 10 other
+        unique kernel points.
 
-        These 10 other kernel points correspond to 5 x-coords on the curve (since each x-coord
-        yields two points with y and -y). However, not all of these kernel points can be reached by
-        the SWU map, which is why we only have 4 unique t values below.
+        These 10 other kernel points correspond to 5 x-coords on the curve
+        (since each x-coord yields two points with y and -y). However, not all
+        of these kernel points can be reached by the SWU map, which is why we
+        only have 4 unique t values below.
 
-        The kernel polynomial has 5 roots (x-coords), and each root can potentially yield two
-        t values that map to kernel points via the SWU function. Analysis shows that only 2 of
-        these roots yield valid t values because the other 3 roots fail either the discriminant
-        square check or the t^2 square check in the SWU inverse calculation. From these 2 valid
-        roots, we get the 4 unique t values listed below.
+        The kernel polynomial has 5 roots (x-coords), and each root can
+        potentially yield two t values that map to kernel points via the SWU
+        function. Analysis shows that only 2 of these roots yield valid t
+        values because the other 3 roots fail either the discriminant square
+        check or the t^2 square check in the SWU inverse calculation. From
+        these 2 valid roots, we get the 4 unique t values listed below.
 
         The roots and their properties are as follows:
-        - Root 1 (x=3447232547282837364692125741875673748077489238391001187748258124039623697289612052402753422028380156396811587142615):
-            Fails because its discriminant is not a square.
-        - Root 2 (x=3086251397349454634226049654186198282625136597600255705376316455943570106637401671127489553534256598630507009270951):
-            Fails because its discriminant is not a square.
-        - Root 3 (x=2512099095366387796245759085729510986367032014959769672734622752070562589059815523018960565849753051338812932816014):
-            Has a square discriminant, but both sign options yield t^2 values that are not squares.
-        - Root 4 (x=2077344747421819657086473418925078480898358265217674456436079722467637536216749299440611432676849905020722484031356):
-            Yields two valid t values:
-            - 1731081574565817469321317449275278355306982786154072576198758675751495027640363897075486577327802192163339186341827
-            - 861410691052762088300790587394810074303505896628048305535645284922135116676755956131724844456716837983264353875219
-        - Root 5 (x=162902306530757011687648381458039960905879760854007434532151803806422383239905014872915974221245198317567396330740):
-            Yields two valid t values:
-            - 1006044755431560595281793557931171729984964515682961911911398807521437683216171091013202870577238485832047490326971
-            - 1562001338336877267717400325455189014780228097985596277514975439801739125527323838522116502949589758528550231396418
+        - Root 1
+        (x=3447232547282837364692125741875673748077489238391001187748258
+        124039623697289612052402753422028380156396811587142615):
+          Fails because its discriminant is not a square.
 
-        Additionally we also have the additive inverses of these t values, which are also valid
-        kernel (non-unique) points. These are generated using the relationship:
-        `(-t) mod p === (p - t) mod p`
-        """  # noqa: E501
+        - Root 2
+        (x=3086251397349454634226049654186198282625136597600255705376316
+        455943570106637401671127489553534256598630507009270951):
+          Fails because its discriminant is not a square.
+
+        - Root 3
+        (x=2512099095366387796245759085729510986367032014959769672734622
+        752070562589059815523018960565849753051338812932816014):
+          Has a square discriminant, but both sign options yield t^2 values
+          that are not squares.
+
+        - Root 4
+        (x=2077344747421819657086473418925078480898358265217674456436079
+        722467637536216749299440611432676849905020722484031356):
+          Yields two valid t values:
+          - 173108157456581746932131744927527835530698278615407257619875
+            8675751495027640363897075486577327802192163339186341827
+          and
+          - 861410691052762088300790587394810074303505896628048305535645
+            284922135116676755956131724844456716837983264353875219
+
+        - Root 5
+        (x=1629023065307570116876483814580399609058797608540074345321518
+        03806422383239905014872915974221245198317567396330740):
+          Yields two valid t values:
+          - 100604475543156059528179355793117172998496451568296191191139
+            8807521437683216171091013202870577238485832047490326971
+          - 15620013383368772677174003254551890147802280979855962
+            77514975439801739125527323838522116502949589758528550231396418
+
+        Additionally we also have the additive inverses of these t values,
+        which are also valid kernel (non-unique) points. These are generated
+        using the relationship: `(-t) mod p === (p - t) mod p`
+        """
         unique_kernel_ts = [
             1731081574565817469321317449275278355306982786154072576198758675751495027640363897075486577327802192163339186341827,
             861410691052762088300790587394810074303505896628048305535645284922135116676755956131724844456716837983264353875219,
@@ -641,17 +727,20 @@ class BLSPointGenerator:
     @classmethod
     def generate_g2_map_isogeny_kernel_points(cls) -> List[FP2]:
         """
-        Return precomputed kernel points for the BLS12-381 G2 map to curve function. These map to
-        the G2 identity point `Spec.INF_G2`. They are generated using sage math externally with the
-        following script as its significantly faster than using `py_ecc` (200-1000x faster).
+        Return precomputed kernel points for the BLS12-381 G2 map to curve
+        function. These map to the G2 identity point `Spec.INF_G2`. They are
+        generated using sage math externally with the following script as its
+        significantly faster than using `py_ecc` (200-1000x faster).
 
-        For reference we can imagine the map to curve function as a simple 2 step process, where an
-        input t value is mapped to a point on the auxiliary curve via a SWU map, and then that
-        point is mapped to the BLS curve via a 3-isogeny. For reference:
+        For reference we can imagine the map to curve function as a simple 2
+        step process, where an input t value is mapped to a point on the
+        auxiliary curve via a SWU map, and then that point is mapped to the
+        BLS curve via a 3-isogeny. For reference:
         - https://eips.ethereum.org/assets/eip-2537/field_to_curve
 
-        Note we cannot use sage math directly within EEST as it is not a pure python library and
-        requires an external dependency to be installed on the system machine.
+        Note we cannot use sage math directly within EEST as it is not a pure
+        python library and requires an external dependency to be installed on
+        the system machine.
 
         ```sage
         q = 0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB
@@ -694,30 +783,37 @@ class BLSPointGenerator:
                     print(t)
         ```
 
-        Add the script contents to a file called `points.sage`, run `sage points.sage`!
+        Add the script contents to a file called `points.sage`, run `sage
+        points.sage`!
 
         Please see the sage math installation guide to replicate:
             - https://doc.sagemath.org/html/en/installation/index.html
 
-        As G2 uses an 3-degree isogeny, its kernel contains exactly 3 points on the auxiliary
-        curve that maps to the point at infinity on the BLS curve. This includes the point at
-        infinity (doesn't concern us as the initial SWU map can never output infinity from any int
-        t) and 2 other kernel points.
+        As G2 uses an 3-degree isogeny, its kernel contains exactly 3 points on
+        the auxiliary curve that maps to the point at infinity on the BLS
+        curve. This includes the point at infinity (doesn't concern us as the
+        initial SWU map can never output infinity from any int t) and 2 other
+        kernel points.
 
-        These 2 other kernel points correspond to 1 x-coord on the curve (since each x-coord
-        yields two points with y and -y). Note that this root yields two equal t values due
-        to specific properties of the isogeny in Fp2.
+        These 2 other kernel points correspond to 1 x-coord on the curve (since
+        each x-coord yields two points with y and -y). Note that this root
+        yields two equal t values due to specific properties of the isogeny in
+        Fp2.
 
-        However, the G2 case is different from G1 and requires additional verification for y, we
-        must check that the computed y^2 actually has a square root in Fp2. Unlike G1, the G2
-        singular isogeny kernel polynomial root does not correspond to a valid point on the
-        auxiliary curve due to the failure of the additional check.
+        However, the G2 case is different from G1 and requires additional
+        verification for y, we must check that the computed y^2 actually has a
+        square root in Fp2. Unlike G1, the G2 singular isogeny kernel
+        polynomial root does not correspond to a valid point on the auxiliary
+        curve due to the failure of the additional check.
 
-        - Root 1 (x=6*u + 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559781):
-            Fails because its y^2 is not a square in Fp2.
+        - Root 1 (x=6*u +
+        4002409555221667393417789825735904156556882819939007885332058136124031650490837
+        864442687629129015664037894272559781): Fails because its y^2 is not a
+        square in Fp2.
 
-        Due to the failure of the first root, we have no valid kernel points in G2 that map to the
-        point at infinity on the BLS curve. This is why we return an empty list here. It is kept
-        for consistency with the G1 case, and documentation purposes.
-        """  # noqa: E501
+        Due to the failure of the first root, we have no valid kernel points in
+        G2 that map to the point at infinity on the BLS curve. This is why we
+        return an empty list here. It is kept for consistency with the G1 case,
+        and documentation purposes.
+        """  # noqa: E501, W505
         return []

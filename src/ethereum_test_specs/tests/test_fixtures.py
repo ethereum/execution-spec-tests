@@ -42,8 +42,8 @@ def fixture_hash(fork: Fork) -> bytes:
 def test_check_helper_fixtures():
     """
     Test that the framework's pydantic models serialization and deserialization
-    work correctly and that they are compatible with the helper fixtures defined
-    in ./fixtures/ by using the check_fixtures.py script.
+    work correctly and that they are compatible with the helper fixtures
+    defined in ./fixtures/ by using the check_fixtures.py script.
     """
     runner = CliRunner()
     args = [
@@ -470,7 +470,7 @@ class TestFillBlockchainValidTxs:
         return Environment(
             gas_limit=100_000_000_000_000_000,
             base_fee_per_gas=1000,
-            fee_recipient="0xba5e000000000000000000000000000000000000",
+            fee_recipient="0x0000000000000000000000000000000000000000",
         )
 
     @pytest.fixture
@@ -867,7 +867,7 @@ def test_fill_blockchain_invalid_txs(
     genesis_environment = Environment(
         gas_limit=100_000_000_000_000_000,
         base_fee_per_gas=1000,
-        fee_recipient="0xba5e000000000000000000000000000000000000",
+        fee_recipient="0x0000000000000000000000000000000000000000",
     )
 
     fixture_format: FixtureFormat = (

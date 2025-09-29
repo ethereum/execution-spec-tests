@@ -1,8 +1,5 @@
 """
-abstract: Tests benchmark worst-case opcode scenarios.
-    Tests benchmark worst-case opcode scenarios.
-
-Tests running worst-case opcodes scenarios for benchmarking purposes.
+Tests benchmark worst-case opcode scenarios.
 """
 
 import pytest
@@ -11,12 +8,11 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Alloc,
     Bytecode,
-    Environment,
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_vm.opcode import Opcode
+from ethereum_test_vm import Opcode
+from ethereum_test_vm import Opcodes as Op
 
 from .helpers import code_loop_precompile_call
 
@@ -52,9 +48,9 @@ def test_worst_log_opcodes(
     size: int,
     fixed_offset: bool,
     non_zero_data: bool,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many LOG opcodes as possible."""
-    env = Environment()
     max_code_size = fork.max_code_size()
 
     calldata = Bytecode()
@@ -85,12 +81,11 @@ def test_worst_log_opcodes(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,

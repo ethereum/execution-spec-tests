@@ -1,0 +1,2 @@
+general/code_coverage/eels = Covered in EELS
+general/code_coverage/test_coverage = Run locally

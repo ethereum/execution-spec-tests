@@ -16,6 +16,11 @@ from ethereum_test_base_types import (
     TestPrivateKey2,
 )
 from ethereum_test_base_types.reference_spec import ReferenceSpec, ReferenceSpecTypes
+from ethereum_test_benchmark import (
+    BenchmarkCodeGenerator,
+    ExtCallGenerator,
+    JumpLoopGenerator,
+)
 from ethereum_test_exceptions import (
     BlockException,
     EngineAPIError,
@@ -25,6 +30,8 @@ from ethereum_test_exceptions import (
 from ethereum_test_fixtures import BaseFixture, FixtureCollector
 from ethereum_test_specs import (
     BaseTest,
+    BenchmarkTest,
+    BenchmarkTestFiller,
     BlobsTest,
     BlobsTestFiller,
     BlockchainTest,
@@ -43,7 +50,15 @@ from ethereum_test_types import (
     EOA,
     Alloc,
     AuthorizationTuple,
+    BalAccountChange,
+    BalBalanceChange,
+    BalCodeChange,
+    BalNonceChange,
+    BalStorageChange,
+    BalStorageSlot,
     Blob,
+    BlockAccessList,
+    ChainConfig,
     ConsolidationRequest,
     DepositRequest,
     Environment,
@@ -74,7 +89,7 @@ from ethereum_test_vm import (
     call_return_code,
 )
 
-from .code import (
+from .tools_code import (
     CalldataCase,
     Case,
     CodeGasMeasure,
@@ -82,8 +97,6 @@ from .code import (
     Initcode,
     Switch,
     While,
-    Yul,
-    YulCompiler,
 )
 from .utility.generators import (
     DeploymentTestType,
@@ -98,9 +111,19 @@ __all__ = (
     "Address",
     "Alloc",
     "AuthorizationTuple",
+    "BalAccountChange",
+    "BalBalanceChange",
+    "BalCodeChange",
+    "BalNonceChange",
+    "BalStorageChange",
+    "BalStorageSlot",
     "BaseFixture",
     "BaseTest",
+    "BenchmarkCodeGenerator",
+    "BenchmarkTest",
+    "BenchmarkTestFiller",
     "Blob",
+    "BlockAccessList",
     "BlobsTest",
     "BlobsTestFiller",
     "Block",
@@ -111,9 +134,11 @@ __all__ = (
     "Bytes",
     "CalldataCase",
     "Case",
+    "ChainConfig",
     "CodeGasMeasure",
     "Conditional",
     "ConsolidationRequest",
+    "ExtCallGenerator",
     "DeploymentTestType",
     "DepositRequest",
     "EngineAPIError",
@@ -129,6 +154,7 @@ __all__ = (
     "Hash",
     "Header",
     "Initcode",
+    "JumpLoopGenerator",
     "Macro",
     "Macros",
     "NetworkWrappedTransaction",
@@ -157,8 +183,6 @@ __all__ = (
     "While",
     "Withdrawal",
     "WithdrawalRequest",
-    "Yul",
-    "YulCompiler",
     "add_kzg_version",
     "call_return_code",
     "ceiling_division",

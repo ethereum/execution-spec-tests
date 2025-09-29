@@ -24,7 +24,9 @@ class TransitionBaseClass:
 
 
 def base_fork_abstract_methods() -> List[str]:
-    """Return list of all abstract methods that must be implemented by a fork."""
+    """
+    Return list of all abstract methods that must be implemented by a fork.
+    """
     return list(BaseFork.__abstractmethods__)
 
 
@@ -66,6 +68,8 @@ def transition_fork(to_fork: Type[BaseFork], at_block: int = 0, at_timestamp: in
                 block_number: int = ALWAYS_TRANSITIONED_BLOCK_NUMBER,
                 timestamp: int = ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
             ):
+                del cls
+
                 kwargs = {}
                 if "block_number" in base_method_parameters:
                     kwargs["block_number"] = block_number
@@ -82,7 +86,7 @@ def transition_fork(to_fork: Type[BaseFork], at_block: int = 0, at_timestamp: in
 
             return classmethod(transition_method)
 
-        for method_name in base_fork_abstract_methods():
+        for method_name in base_fork_abstract_methods() + ["bpo_fork"]:
             setattr(
                 NewTransitionClass,
                 method_name,

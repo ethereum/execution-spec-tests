@@ -1,6 +1,5 @@
 """
-Test that the correct error is produced if bad/invalid command-line
-arguments are used.
+Test the correct error is produced with bad/invalid command-line arguments.
 """
 
 import pytest
@@ -59,11 +58,11 @@ invalid_cli_option_test_cases = (
 def test_bad_options(pytester, options, error_string):
     """
     Test that a test with an invalid command-line options:
-        - Creates an outcome with exactly one error.
-        - Triggers the expected error string in pytest's console output.
+    - Creates an outcome with exactly one error.
+    - Triggers the expected error string in pytest's console output.
 
-    Each invalid marker/marker combination is tested with one test in its own test
-    session.
+    Each invalid marker/marker combination is tested with one test in its own
+    test session.
     """
     pytester.makepyfile(
         """
@@ -71,7 +70,7 @@ def test_bad_options(pytester, options, error_string):
             assert 0
         """
     )
-    pytester.copy_example(name="pytest.ini")
-    result = pytester.runpytest("-v", *options)
+    pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    result = pytester.runpytest("-c", "pytest-fill.ini", "-v", *options)
     assert result.ret == pytest.ExitCode.USAGE_ERROR
     assert error_string in "\n".join(result.stderr.lines)

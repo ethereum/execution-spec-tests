@@ -17,14 +17,13 @@ from ethereum_test_base_types import (
     EmptyOmmersRoot,
     Hash,
     HexNumber,
-    Number,
     NumberBoundTypeVar,
     ZeroPaddedHexNumber,
 )
 from ethereum_test_forks import Fork
 
 DEFAULT_BASE_FEE = 7
-CURRENT_MAINNET_BLOCK_GAS_LIMIT = 36_000_000
+CURRENT_MAINNET_BLOCK_GAS_LIMIT = 45_000_000
 DEFAULT_BLOCK_GAS_LIMIT = CURRENT_MAINNET_BLOCK_GAS_LIMIT * 2
 
 
@@ -39,7 +38,10 @@ class EnvironmentDefaults:
 
 
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
-    """Withdrawal generic type, used as a parent class for `Withdrawal` and `FixtureWithdrawal`."""
+    """
+    Withdrawal generic type, used as a parent class for `Withdrawal` and
+    `FixtureWithdrawal`.
+    """
 
     index: NumberBoundTypeVar
     validator_index: NumberBoundTypeVar
@@ -48,8 +50,8 @@ class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
     def to_serializable_list(self) -> List[Any]:
         """
-        Return list of the withdrawal's attributes in the order they should
-        be serialized.
+        Return list of the withdrawal's attributes in the order they should be
+        serialized.
         """
         return [
             Uint(self.index),
@@ -99,8 +101,8 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
 
 class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     """
-    Structure used to keep track of the context in which a block
-    must be executed.
+    Structure used to keep track of the context in which a block must be
+    executed.
     """
 
     blob_gas_used: ZeroPaddedHexNumber | None = Field(None, alias="currentBlobGasUsed")
@@ -109,10 +111,14 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     parent_excess_blob_gas: ZeroPaddedHexNumber | None = Field(None)
     parent_beacon_block_root: Hash | None = Field(None)
 
-    block_hashes: Dict[Number, Hash] = Field(default_factory=dict)
+    block_hashes: Dict[ZeroPaddedHexNumber, Hash] = Field(default_factory=dict)
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
+
+    # EIP-7928: Block-level access lists
+    bal_hash: Hash | None = Field(None)
+    block_access_lists: Bytes | None = Field(None)
 
     @computed_field  # type: ignore[misc]
     @cached_property

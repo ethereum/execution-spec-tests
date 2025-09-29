@@ -1,7 +1,6 @@
 """
-abstract: Test [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623)
-    Test execution gas consumption after [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623).
-"""  # noqa: E501
+Test [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623).
+"""
 
 from typing import List
 
@@ -41,7 +40,10 @@ class TestGasConsumption:
 
     @pytest.fixture
     def intrinsic_gas_data_floor_minimum_delta(self) -> int:
-        """Force a minimum delta in order to have some gas to execute the invalid opcode."""
+        """
+        Force a minimum delta in order to have some gas to execute the invalid
+        opcode.
+        """
         return 50_000
 
     @pytest.fixture
@@ -49,7 +51,10 @@ class TestGasConsumption:
         self,
         pre: Alloc,
     ) -> Address | None:
-        """Return a contract that consumes all gas when executed by calling an invalid opcode."""
+        """
+        Return a contract that consumes all gas when executed by calling an
+        invalid opcode.
+        """
         return pre.deploy_contract(Op.INVALID)
 
     @pytest.mark.parametrize(
@@ -78,7 +83,10 @@ class TestGasConsumption:
         pre: Alloc,
         tx: Transaction,
     ) -> None:
-        """Test executing a transaction that fully consumes its execution gas allocation."""
+        """
+        Test executing a transaction that fully consumes its execution gas
+        allocation.
+        """
         tx.expected_receipt = TransactionReceipt(gas_used=tx.gas_limit)
         state_test(
             pre=pre,
@@ -136,8 +144,8 @@ class TestGasConsumptionBelowDataFloor:
     @pytest.mark.parametrize(
         "tx_gas_delta",
         [
-            # Test with exact gas and extra gas, to verify that the refund is correctly applied
-            # to the full consumed execution gas.
+            # Test with exact gas and extra gas, to verify that the refund is
+            # correctly applied to the full consumed execution gas.
             pytest.param(0, id="exact_gas"),
         ],
     )
@@ -148,7 +156,9 @@ class TestGasConsumptionBelowDataFloor:
         tx: Transaction,
         tx_floor_data_cost: int,
     ) -> None:
-        """Test executing a transaction that almost consumes the floor data cost."""
+        """
+        Test executing a transaction that almost consumes the floor data cost.
+        """
         tx.expected_receipt = TransactionReceipt(gas_used=tx_floor_data_cost)
         state_test(
             pre=pre,

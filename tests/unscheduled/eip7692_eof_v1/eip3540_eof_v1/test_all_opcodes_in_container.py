@@ -1,4 +1,7 @@
-"""EOF Container: check how every opcode behaves in the middle of the valid eof container code."""
+"""
+EOF Container: check how every opcode behaves in the middle of the valid eof
+container code.
+"""
 
 import itertools
 from typing import Any, Dict, Generator, List, Tuple
@@ -22,7 +25,8 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 all_opcodes = set(Op)
 undefined_opcodes = set(UndefinedOpcodes)
 
-# Invalid Opcodes will produce EOFException.UNDEFINED_INSTRUCTION when used in EOFContainer
+# Invalid Opcodes will produce EOFException.UNDEFINED_INSTRUCTION when used in
+# EOFContainer
 invalid_eof_opcodes = {
     Op.CODESIZE,
     Op.SELFDESTRUCT,
@@ -44,7 +48,8 @@ invalid_eof_opcodes = {
 
 valid_eof_opcodes = all_opcodes - invalid_eof_opcodes
 
-# Halting the execution opcodes can be placed without STOP instruction at the end
+# Halting the execution opcodes can be placed without STOP instruction at the
+# end
 halting_opcodes = {
     Op.STOP,
     Op.RETURNCODE,
@@ -53,7 +58,8 @@ halting_opcodes = {
     Op.INVALID,
 }
 
-# Opcodes that end the code section and can be placed without STOP instruction at the end
+# Opcodes that end the code section and can be placed without STOP instruction
+# at the end
 section_terminating_opcodes = {
     Op.RETF,
     Op.JUMPF,
@@ -62,7 +68,8 @@ section_terminating_opcodes = {
 data_portion_opcodes = {op for op in all_opcodes if op.has_data_portion()}
 
 
-# NOTE: `sorted` is used to ensure that the tests are collected in a deterministic order.
+# NOTE: `sorted` is used to ensure that the tests are collected in a
+# deterministic order.
 
 
 @pytest.mark.parametrize(
@@ -74,8 +81,7 @@ def test_all_opcodes_in_container(
     opcode: Opcode,
 ):
     """
-    Test all opcodes inside valid container
-    257 because 0x5B is duplicated.
+    Test all opcodes inside valid container 257 because 0x5B is duplicated.
     """
     data_portion = 1 if opcode == Op.CALLF else 0
     opcode_with_data_portion = opcode[data_portion] if opcode.has_data_portion() else opcode
@@ -134,7 +140,10 @@ def test_invalid_opcodes_after_stop(
     opcode: Opcode,
     terminating_opcode: Opcode,
 ):
-    """Test that an invalid opcode placed after STOP (terminating instruction) invalidates EOF."""
+    """
+    Test that an invalid opcode placed after STOP (terminating instruction)
+    invalidates EOF.
+    """
     terminating_code = Bytecode(terminating_opcode)
     match terminating_opcode:  # Enhance the code for complex opcodes.
         case Op.RETURNCODE:
@@ -180,8 +189,9 @@ def test_all_invalid_terminating_opcodes(
 ):
     """Test all opcodes that are invalid as the last opcode in a container."""
     if opcode.has_data_portion():
-        # Add the appropriate data portion to the opcode by using the get_item method.
-        # On the CALLF opcode we need to reference the second code section, hence the [1] index.
+        # Add the appropriate data portion to the opcode by using the get_item
+        # method. On the CALLF opcode we need to reference the second code
+        # section, hence the [1] index.
         opcode = opcode[0] if opcode != Op.CALLF else opcode[1]
 
     bytecode = (Op.PUSH0 * opcode.min_stack_height) + opcode
@@ -322,11 +332,13 @@ def test_all_unreachable_terminating_opcodes_before_stop(
 @pytest.mark.parametrize(
     "exception",
     # We test two types of exceptions here:
-    # 1. Invalid max stack height, where we modify the `max_stack_height` field of the code section
-    #    to the maximum stack height allowed by the EIP-3540, so the code still has to be checked
-    #    for stack overflow.
-    # 2. Max stack height above limit, where we don't modify the `max_stack_height` field of the
-    #    code section, so the actual code doesn't have to be verified for the stack overflow.
+    # 1. Invalid max stack height, where we modify the `max_stack_height`
+    #    field of the code section to the maximum stack height allowed by
+    #    the EIP-3540, so the code still has to be checked for stack overflow.
+    #
+    # 2. Max stack height above limit, where we don't modify the
+    #    `max_stack_height` field of the code section, so the actual
+    #    code doesn't have to be verified for the stack overflow.
     [EOFException.INVALID_MAX_STACK_INCREASE, EOFException.MAX_STACK_INCREASE_ABOVE_LIMIT],
 )
 def test_all_opcodes_stack_overflow(
@@ -334,7 +346,9 @@ def test_all_opcodes_stack_overflow(
     opcode: Opcode,
     exception: EOFException,
 ):
-    """Test stack overflow on all opcodes that push more items than they pop."""
+    """
+    Test stack overflow on all opcodes that push more items than they pop.
+    """
     opcode = opcode[0] if opcode.has_data_portion() else opcode
 
     assert opcode.pushed_stack_items - opcode.popped_stack_items == 1
@@ -347,7 +361,8 @@ def test_all_opcodes_stack_overflow(
     kwargs: Dict[str, Any] = {"code": bytecode}
 
     if exception == EOFException.INVALID_MAX_STACK_INCREASE:
-        # Lie about the max stack height to make the code be checked for stack overflow.
+        # Lie about the max stack height to make the code be checked for stack
+        # overflow.
         kwargs["max_stack_height"] = MAX_STACK_INCREASE_LIMIT
 
     sections = [Section.Code(**kwargs)]
@@ -367,13 +382,17 @@ def valid_opcode_combinations(
     truncate_all_options: List[bool],
     opcodes: List[Opcode],
 ) -> Generator[Tuple[bool, bool, Opcode], None, None]:
-    """Create valid parameter combinations for test_truncated_data_portion_opcodes()."""
+    """
+    Create valid parameter combinations for
+    test_truncated_data_portion_opcodes().
+    """
     for opcode, truncate_all, compute_max_stack_height in itertools.product(
         opcodes, truncate_all_options, compute_max_stack_height_options
     ):
         opcode_with_data_portion: bytes = bytes(opcode[1])
 
-        # Skip invalid or redundant combinations to avoid using pytest.skip in the test
+        # Skip invalid or redundant combinations to avoid using pytest.skip in
+        # the test
         if len(opcode_with_data_portion) == 2 and truncate_all:
             continue
         if (
@@ -401,7 +420,8 @@ def test_truncated_data_portion_opcodes(
     """
     opcode_with_data_portion: bytes = bytes(opcode[1])
 
-    # Compose instruction bytes with empty imm bytes (truncate_all) or 1 byte shorter imm bytes.
+    # Compose instruction bytes with empty imm bytes (truncate_all) or 1 byte
+    # shorter imm bytes.
     opcode_bytes = opcode_with_data_portion[0:1] if truncate_all else opcode_with_data_portion[:-1]
 
     if opcode.min_stack_height > 0:

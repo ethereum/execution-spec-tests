@@ -1,7 +1,6 @@
 """
-abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-    Test cases for `TSTORE` and `TLOAD` opcode calls in different execution contexts.
-"""  # noqa: E501
+Test EIP-1153 Transient Storage in execution contexts.
+"""
 
 from enum import EnumMeta, unique
 from typing import Dict, Mapping
@@ -33,9 +32,9 @@ PUSH_OPCODE_COST = 3
 
 class DynamicCallContextTestCases(EnumMeta):
     """
-    Create dynamic transient storage test cases for contract sub-calls
-    using CALLCODE and DELEGATECALL (these opcodes share the same
-    signatures and test cases).
+    Create dynamic transient storage test cases for contract sub-calls using
+    CALLCODE and DELEGATECALL (these opcodes share the same signatures and test
+    cases).
     """
 
     def __new__(cls, name, bases, classdict):  # noqa: D102
@@ -258,14 +257,14 @@ class CallContextTestCases(PytestParameterEnum, metaclass=DynamicCallContextTest
             + Op.SSTORE(1, Op.TLOAD(0))
             + Op.STOP
         ),
-        "callee_bytecode": Op.TSTORE(0, unchecked=True)  # calling with stack underflow still fails
-        + Op.STOP,
+        # calling with stack underflow still fails
+        "callee_bytecode": Op.TSTORE(0, unchecked=True) + Op.STOP,
         "expected_caller_storage": {0: 0, 1: 420},
         "expected_callee_storage": {},
     }
     STATICCALL_CAN_CALL_TLOAD = {
-        # TODO: Not a very useful test; consider removing after implementing ethereum/tests
-        # staticcall tests
+        # TODO: Not a very useful test; consider removing after implementing
+        # ethereum/tests staticcall tests
         "pytest_id": "staticcalled_context_can_call_tload",
         "description": ("A STATICCALL callee can not use transient storage."),
         "caller_bytecode": (
@@ -274,7 +273,8 @@ class CallContextTestCases(PytestParameterEnum, metaclass=DynamicCallContextTest
             + Op.SSTORE(1, Op.TLOAD(0))
             + Op.STOP
         ),
-        "callee_bytecode": Op.TLOAD(0) + Op.STOP,  # calling tload does not cause the call to fail
+        # calling tload does not cause the call to fail
+        "callee_bytecode": Op.TLOAD(0) + Op.STOP,
         "expected_caller_storage": {0: 1, 1: 420},
         "expected_callee_storage": {},
     }

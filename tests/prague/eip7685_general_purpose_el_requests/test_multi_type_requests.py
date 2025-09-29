@@ -1,8 +1,9 @@
 """
-abstract: Tests [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685)
-    Cross testing for withdrawal and deposit request for [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685).
+Tests EIP-7685 General purpose execution layer requests.
 
-"""  # noqa: E501
+Cross testing for withdrawal and deposit request for
+[EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685).
+"""
 
 from itertools import permutations
 from typing import Callable, Dict, Generator, List, Tuple
@@ -299,7 +300,8 @@ def get_contract_permutations(n: int = 3) -> Generator[ParameterSet, None, None]
             [
                 single_consolidation_from_contract(0),
                 single_consolidation_from_contract(1),
-                # the following performs single_withdrawal_from_contract(0) to (16)
+                # the following performs single_withdrawal_from_contract(0) to
+                # (16)
                 *[
                     single_withdrawal_from_contract(i)
                     for i in range(
@@ -307,10 +309,10 @@ def get_contract_permutations(n: int = 3) -> Generator[ParameterSet, None, None]
                         16,
                     )
                 ],
-                # single_withdrawal_from_contract(16) not allowed cuz only
-                # 16 MAX WITHDRAWALS PER BLOCK (EIP-7002)
-                #
-                # the following performs single_deposit_from_contract(0) to (18)
+                # single_withdrawal_from_contract(16) not allowed cuz only 16
+                # MAX WITHDRAWALS PER BLOCK (EIP-7002)
+                # the following performs single_deposit_from_contract(0) to
+                # (18)
                 *[
                     single_deposit_from_contract(i)
                     for i in range(
@@ -354,8 +356,8 @@ def test_valid_multi_type_request_from_same_tx(
     fork: Fork,
 ):
     """
-    Test making a deposit to the beacon chain deposit contract and a withdrawal in
-    the same tx.
+    Test making a deposit to the beacon chain deposit contract and a withdrawal
+    in the same tx.
     """
     withdrawal_request_fee: int = 1
     consolidation_request_fee: int = 1
@@ -440,8 +442,9 @@ def invalid_requests_block_combinations(
     """
     Return a list of invalid request combinations for the given fork.
 
-    In the event of a new request type, the `all_request_types` dictionary should be updated
-    with the new request type and its corresponding request-generating transaction.
+    In the event of a new request type, the `all_request_types` dictionary
+    should be updated with the new request type and its corresponding
+    request-generating transaction.
 
     Returned parameters are: requests, block_body_override_requests, exception
     """
@@ -474,9 +477,10 @@ def invalid_requests_block_combinations(
 
         expected_exceptions: List[BlockException] = [BlockException.INVALID_REQUESTS]
         if correct_requests_hash_in_header:
-            # The client also might reject the block with an invalid-block-hash error because it
-            # might convert the requests in the new payload parameters to the requests hash in the
-            # header and compare it with the block hash.
+            # The client also might reject the block with an invalid-block-hash
+            # error because it might convert the requests in the new payload
+            # parameters to the requests hash in the header and compare it with
+            # the block hash.
             expected_exceptions.append(BlockException.INVALID_BLOCK_HASH)
 
         # - Empty requests list with invalid hash
@@ -485,8 +489,10 @@ def invalid_requests_block_combinations(
                 [],
                 [
                     bytes([i]) for i in range(fork.max_request_type() + 1)
-                ],  # Using empty requests, calculate the hash using an invalid calculation method:
-                # sha256(sha256(b"\0") ++ sha256(b"\1") ++ sha256(b"\2") ++ ...)
+                ],  # Using empty requests, calculate the hash using an invalid
+                # calculation method:
+                # sha256(sha256(b"\0") ++ sha256(b"\1") ++ sha256(b"\2") ++
+                # ...)
                 expected_exceptions,
                 id="no_requests_and_invalid_hash_calculation_method",
             ),
@@ -494,7 +500,8 @@ def invalid_requests_block_combinations(
                 [],
                 [
                     bytes([]) for _ in range(fork.max_request_type() + 1)
-                ],  # Using empty requests, calculate the hash using an invalid calculation method:
+                ],  # Using empty requests, calculate the hash using an invalid
+                # calculation method:
                 # sha256(sha256(b"") ++ sha256(b"") ++ sha256(b"") ++ ...)
                 expected_exceptions,
                 id="no_requests_and_invalid_hash_calculation_method_2",
@@ -507,9 +514,8 @@ def invalid_requests_block_combinations(
                 [
                     pytest.param(
                         [eoa_request],
-                        [
-                            block_request
-                        ],  # The request type byte missing because we need to use `Requests`
+                        [block_request],  # The request type byte missing because we need to
+                        # use `Requests`
                         expected_exceptions,
                         id=f"single_{request_type}_missing_type_byte",
                     ),
@@ -636,10 +642,11 @@ def test_invalid_multi_type_requests(
     """
     Negative testing for all request types in the same block.
 
-    In these tests, the requests hash in the header reflects what's received in the parameters
-    portion of the `engine_newPayloadVX` call, so the block hash calculation might pass if
-    a client copies the info received verbatim, but block validation must fail after
-    the block is executed (via RLP or Engine API).
+    In these tests, the requests hash in the header reflects what's received in
+    the parameters portion of the `engine_newPayloadVX` call, so the block hash
+    calculation might pass if a client copies the info received verbatim, but
+    block validation must fail after the block is executed (via RLP or Engine
+    API).
     """
     blockchain_test(
         genesis_environment=Environment(),
@@ -665,26 +672,26 @@ def test_invalid_multi_type_requests_engine(
     blocks: List[Block],
 ):
     """
-    Negative testing for all request types in the same block with incorrect parameters
-    in the Engine API new payload parameters, but with the correct requests hash in the header
-    so the block hash is correct.
+    Negative testing for all request types in the same block with incorrect
+    parameters in the Engine API new payload parameters, but with the correct
+    requests hash in the header so the block hash is correct.
 
-    In these tests, the requests hash in the header reflects what's actually in the executed block,
-    so the block might execute properly if the client ignores the requests in the new payload
-    parameters.
+    In these tests, the requests hash in the header reflects what's actually in
+    the executed block, so the block might execute properly if the client
+    ignores the requests in the new payload parameters.
 
-    Note that the only difference between the engine version produced by this test and
-    the ones produced by `test_invalid_multi_type_requests` is the
-    `blockHash` value in the new payloads, which is calculated using different request hashes
-    for each test, but since the request hash is not a value that is included in the payload,
-    it might not be immediately apparent.
+    Note that the only difference between the engine version produced by this
+    test and the ones produced by `test_invalid_multi_type_requests` is the
+    `blockHash` value in the new payloads, which is calculated using different
+    request hashes for each test, but since the request hash is not a value
+    that is included in the payload, it might not be immediately apparent.
 
-    Also these tests would not fail if the block is imported via RLP (syncing from a peer),
-    so we only generate the BlockchainTestEngine for them.
+    Also these tests would not fail if the block is imported via RLP (syncing
+    from a peer), so we only generate the BlockchainTestEngine for them.
 
-    The client also might reject the block with an invalid-block-hash error because it might
-    convert the requests in the new payload parameters to the requests hash in the header
-    and compare it with the block hash.
+    The client also might reject the block with an invalid-block-hash error
+    because it might convert the requests in the new payload parameters to the
+    requests hash in the header and compare it with the block hash.
     """
     blockchain_test(
         genesis_environment=Environment(),

@@ -57,7 +57,9 @@ def test_cli_invocation(input_output_dirs):
 
 
 def test_input_is_file_instead_of_directory():
-    """Test the CLI interface when the input path is a file, not a directory."""
+    """
+    Test the CLI interface when the input path is a file, not a directory.
+    """
     runner = CliRunner()
     with TemporaryDirectory() as temp_dir:
         temp_file = Path(temp_dir) / "temp_file.txt"

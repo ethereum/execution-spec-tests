@@ -1,7 +1,6 @@
 """
-abstract: Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
-    Test system contract deployment for [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
-"""  # noqa: E501
+Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
+"""
 
 from os.path import realpath
 from pathlib import Path
@@ -44,7 +43,8 @@ def test_system_contract_deployment(
     **kwargs,
 ):
     """Verify deployment of the block hashes system contract."""
-    # Deploy a contract that calls the history contract and verifies the block hashes.
+    # Deploy a contract that calls the history contract and verifies the block
+    # hashes.
     yield Block()  # Empty block just to have more history in the contract.
 
     # We are going to query blocks even before contract deployment.
@@ -77,27 +77,31 @@ def test_system_contract_deployment(
 
     storage: Dict
     if test_type == DeploymentTestType.DEPLOY_BEFORE_FORK:
-        # Fork happens at block 2, and the contract is already there, so from block number 1 and
-        # after, the block hashes should be there.
+        # Fork happens at block 2, and the contract is already there, so from
+        # block number 1 and after, the block hashes should be there.
         storage = {
             1: 1,  # Block prior to the fork, it's the first hash saved.
             2: 1,  # Fork block, hash should be there.
-            3: 1,  # Empty block added at the start of this function, hash should be there.
+            3: 1,  # Empty block added at the start of this function, hash
+            # should be there.
         }
     elif test_type == DeploymentTestType.DEPLOY_ON_FORK_BLOCK:
         # The contract should have the block hashes after contract deployment.
         storage = {
             1: 1,  # Fork and deployment block, the first hash that gets added.
             2: 1,  # Deployment block, hash should be there.
-            3: 1,  # Empty block added at the start of this function, hash should be there.
+            3: 1,  # Empty block added at the start of this function, hash
+            # should be there.
         }
     elif test_type == DeploymentTestType.DEPLOY_AFTER_FORK:
         # The contract should have the block hashes after contract deployment.
         storage = {
             1: 0,  # Fork block, but contract is not there yet.
-            2: 1,  # Deployment block, this is the first hash that gets added because it's added on
+            2: 1,  # Deployment block, this is the first hash that gets added
+            # because it's added on
             # the next block.
-            3: 1,  # Empty block added at the start of this function, hash should be there.
+            3: 1,  # Empty block added at the start of this function, hash
+            # should be there.
         }
 
     post[deployed_contract] = Account(

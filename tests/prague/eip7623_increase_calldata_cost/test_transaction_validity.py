@@ -1,7 +1,6 @@
 """
-abstract: Test [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623)
-    Test transaction validity on [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623).
-"""  # noqa: E501
+Test [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623).
+"""
 
 import pytest
 
@@ -33,8 +32,9 @@ pytestmark += [
     pytest.mark.parametrize(
         "tx_gas_delta",
         [
-            # Test the case where the included gas is greater than the intrinsic gas to verify that
-            # the data floor does not consume more gas than it should.
+            # Test the case where the included gas is greater than the
+            # intrinsic gas to verify that the data floor does not consume more
+            # gas than it should.
             pytest.param(1, id="extra_gas"),
             pytest.param(0, id="exact_gas"),
             pytest.param(-1, id="insufficient_gas", marks=pytest.mark.exception_test),
@@ -81,7 +81,10 @@ def test_transaction_validity_type_0(
     pre: Alloc,
     tx: Transaction,
 ) -> None:
-    """Test transaction validity for transactions without access lists and contract creation."""
+    """
+    Test transaction validity for transactions without access lists and
+    contract creation.
+    """
     state_test(
         pre=pre,
         post={},
@@ -143,7 +146,10 @@ def test_transaction_validity_type_1_type_2(
     pre: Alloc,
     tx: Transaction,
 ) -> None:
-    """Test transaction validity for transactions with access lists and contract creation."""
+    """
+    Test transaction validity for transactions with access lists and contract
+    creation.
+    """
     state_test(
         pre=pre,
         post={},
@@ -188,9 +194,9 @@ def test_transaction_validity_type_1_type_2(
     ],
 )
 @pytest.mark.parametrize(
-    # Blobs don't really have an effect because the blob gas does is not considered in the
-    # intrinsic gas calculation, but we still test it to make sure that the transaction is
-    # correctly processed.
+    # Blobs don't really have an effect because the blob gas does is not
+    # considered in the intrinsic gas calculation, but we still test it to make
+    # sure that the transaction is correctly processed.
     "blob_versioned_hashes",
     [
         pytest.param(
@@ -219,8 +225,8 @@ def test_transaction_validity_type_3(
     tx: Transaction,
 ) -> None:
     """
-    Test transaction validity for transactions with access lists, blobs,
-    but no contract creation.
+    Test transaction validity for transactions with access lists, blobs, but no
+    contract creation.
     """
     state_test(
         pre=pre,
@@ -289,8 +295,8 @@ def test_transaction_validity_type_4(
     tx: Transaction,
 ) -> None:
     """
-    Test transaction validity for transactions with access lists, authorization lists, but no
-    contract creation.
+    Test transaction validity for transactions with access lists, authorization
+    lists, but no contract creation.
     """
     state_test(
         pre=pre,

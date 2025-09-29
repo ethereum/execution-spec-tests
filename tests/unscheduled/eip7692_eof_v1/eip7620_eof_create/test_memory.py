@@ -4,9 +4,9 @@ import pytest
 
 from ethereum_test_base_types import Account, Storage
 from ethereum_test_tools import Alloc, Environment, StateTestFiller, compute_eofcreate_address
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import Transaction
 from ethereum_test_types.eof.v1 import Container, Section
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from .helpers import (
@@ -62,18 +62,20 @@ def test_eofcreate_memory(
     """
     Tests auxdata sizes in EOFCREATE including multiple offset conditions.
 
-    EOFCREATE either succeeds or fails based on memory access cost, resulting in new address
-    or zero in the create address slot.
+    EOFCREATE either succeeds or fails based on memory access cost, resulting
+    in new address or zero in the create address slot.
 
-    The name id of `*-mem-cost` refers to the bit-length of the result of the calculated memory
-    expansion cost. Their length choice is designed to cause problems on shorter bit-length
-    representations with native integers.
+    The name id of `*-mem-cost` refers to the bit-length of the result of the
+    calculated memory expansion cost. Their length choice is designed to cause
+    problems on shorter bit-length representations with native integers.
 
-    The `offset_field` param indicates what part of the input data arguments are being tested,
-    either the offset of the data in memory or the size of the data in memory.
+    The `offset_field` param indicates what part of the input data arguments
+    are being tested, either the offset of the data in memory or the size of
+    the data in memory.
 
-    The `test_arg` param is the value passed into the field being tested (offset or size),
-    intending to trigger integer size bugs for that particular field.
+    The `test_arg` param is the value passed into the field being tested
+    (offset or size), intending to trigger integer size bugs for that
+    particular field.
     """
     env = Environment(gas_limit=2_000_000_000)
 

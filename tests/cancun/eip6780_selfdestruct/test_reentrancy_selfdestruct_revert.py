@@ -1,7 +1,4 @@
-"""
-Suicide scenario requested test
-https://github.com/ethereum/tests/issues/1325.
-"""
+"""Suicide scenario requested test https://github.com/ethereum/tests/issues/1325."""
 
 from typing import SupportsBytes
 
@@ -18,7 +15,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
 REFERENCE_SPEC_VERSION = "1b6a0e94cc47e859b9866e570391cf37dc55059a"
@@ -163,12 +160,14 @@ def test_reentrancy_selfdestruct_revert(
 
     if first_suicide in [Op.CALLCODE, Op.DELEGATECALL]:
         if fork >= Cancun:
-            # On Cancun even callcode/delegatecall does not remove the account, so the value remain
+            # On Cancun even callcode/delegatecall does not remove the account,
+            # so the value remain
             post[executor_contract_address] = Account(
                 storage={
                     0x01: 0x01,  # First call to contract S->suicide success
                     0x02: 0x00,  # Second call to contract S->suicide reverted
-                    0x03: 16,  # Reverted value to check that revert really worked
+                    0x03: 16,  # Reverted value to check that revert really
+                    # worked
                 },
             )
         else:
@@ -184,7 +183,8 @@ def test_reentrancy_selfdestruct_revert(
             balance=executor_contract_init_balance,
         )
 
-    # On Cancun suicide no longer destroys the account from state, just cleans the balance
+    # On Cancun suicide no longer destroys the account from state, just cleans
+    # the balance
     if first_suicide in [Op.CALL]:
         post[executor_contract_address] = Account(
             storage={
@@ -194,7 +194,8 @@ def test_reentrancy_selfdestruct_revert(
             },
         )
         if fork >= Cancun:
-            # On Cancun suicide does not remove the account, just sends the balance
+            # On Cancun suicide does not remove the account, just sends the
+            # balance
             post[selfdestruct_contract_address] = Account(
                 balance=0, code=selfdestruct_contract_bytecode, storage={}
             )

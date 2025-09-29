@@ -1,7 +1,9 @@
 """
-abstract: Tests BLS12_PAIRING precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_PAIRING precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Tests BLS12_PAIRING precompile.
+
+Tests the BLS12_PAIRING precompile implementation from
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -147,14 +149,15 @@ def test_valid_multi_inf(
     post: dict,
 ):
     """
-    Test maximum input given the current environment gas limit for the BLS12_PAIRING
-    precompile.
+    Test maximum input given the current environment gas limit for the
+    BLS12_PAIRING precompile.
     """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 100_000
 
-    environment_gas_limit = Environment().gas_limit
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    max_gas_limit = Environment().gas_limit if tx_gas_limit_cap is None else tx_gas_limit_cap
 
     inf_data = Spec.INF_G1 + Spec.INF_G2
     input_data = inf_data
@@ -167,7 +170,7 @@ def test_valid_multi_inf(
             + memory_expansion_gas_calculator(new_bytes=len(input_data + inf_data))
             + precompile_gas
         )
-        if new_tx_gas_limit > environment_gas_limit:
+        if new_tx_gas_limit > max_gas_limit:
             break
         tx_gas_limit = new_tx_gas_limit
         input_data += inf_data
@@ -266,6 +269,56 @@ def test_valid_multi_inf(
             Spec.G1 + G2_POINTS_NOT_IN_SUBGROUP[1],
             id="g1_plus_rand_not_in_subgroup_g2_1",
         ),
+        # Coordinates above modulus p cases.
+        pytest.param(
+            PointG1(Spec.P1.x + Spec.P, Spec.P1.y) + Spec.INF_G2,
+            id="g1_x_above_p_with_inf_g2",
+        ),
+        pytest.param(
+            PointG1(Spec.P1.x, Spec.P1.y + Spec.P) + Spec.INF_G2,
+            id="g1_y_above_p_with_inf_g2",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2((Spec.P2.x[0] + Spec.P, Spec.P2.x[1]), Spec.P2.y),
+            id="inf_g1_with_g2_x_c0_above_p",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2((Spec.P2.x[0], Spec.P2.x[1] + Spec.P), Spec.P2.y),
+            id="inf_g1_with_g2_x_c1_above_p",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2(Spec.P2.x, (Spec.P2.y[0] + Spec.P, Spec.P2.y[1])),
+            id="inf_g1_with_g2_y_c0_above_p",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] + Spec.P)),
+            id="inf_g1_with_g2_y_c1_above_p",
+        ),
+        # Non-zero byte 16 boundary violation test cases.
+        pytest.param(
+            PointG1(Spec.G1.x | Spec.MAX_FP_BIT_SET, Spec.G1.y) + Spec.INF_G2,
+            id="non_zero_byte_16_boundary_violation_g1_x",
+        ),
+        pytest.param(
+            PointG1(Spec.G1.x, Spec.G1.y | Spec.MAX_FP_BIT_SET) + Spec.INF_G2,
+            id="non_zero_byte_16_boundary_violation_g1_y",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2((Spec.G2.x[0] | Spec.MAX_FP_BIT_SET, Spec.G2.x[1]), Spec.G2.y),
+            id="non_zero_byte_16_boundary_violation_g1_x1",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2((Spec.G2.x[0], Spec.G2.x[1] | Spec.MAX_FP_BIT_SET), Spec.G2.y),
+            id="non_zero_byte_16_boundary_violation_g1_x2",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2(Spec.G2.x, (Spec.G2.y[0] | Spec.MAX_FP_BIT_SET, Spec.G2.y[1])),
+            id="non_zero_byte_16_boundary_violation_g1_y1",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2(Spec.G2.x, (Spec.G2.y[0], Spec.G2.y[1] | Spec.MAX_FP_BIT_SET)),
+            id="non_zero_byte_16_boundary_violation_g1_y2",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
@@ -296,14 +349,15 @@ def test_invalid_multi_inf(
     post: dict,
 ):
     """
-    Test maximum input given the current environment gas limit for the BLS12_PAIRING
-    precompile and an invalid tail.
+    Test maximum input given the current environment gas limit for the
+    BLS12_PAIRING precompile and an invalid tail.
     """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 100_000
 
-    environment_gas_limit = Environment().gas_limit
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    max_gas_limit = Environment().gas_limit if tx_gas_limit_cap is None else tx_gas_limit_cap
 
     inf_data = Spec.INF_G1 + Spec.INF_G2
     input_data = PointG1(Spec.P, 0) + Spec.INF_G2
@@ -316,7 +370,7 @@ def test_invalid_multi_inf(
             + memory_expansion_gas_calculator(new_bytes=len(input_data + inf_data))
             + precompile_gas
         )
-        if new_tx_gas_limit > environment_gas_limit:
+        if new_tx_gas_limit > max_gas_limit:
             break
         tx_gas_limit = new_tx_gas_limit
         input_data = inf_data + input_data

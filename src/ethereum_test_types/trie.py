@@ -1,4 +1,6 @@
-"""The state trie is the structure responsible for storing."""
+"""
+The state trie is the structure responsible for storing.
+"""
 
 import copy
 from dataclasses import dataclass, field
@@ -58,17 +60,11 @@ def encode_account(raw_account_data: FrontierAccount, storage_root: Bytes) -> By
 
 
 # note: an empty trie (regardless of whether it is secured) has root:
-#
-#   keccak256(RLP(b''))
-#       ==
-#   56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421 # noqa: E501,SC10
-#
+# keccak256(RLP(b'')) ==
+# 56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421
 # also:
-#
-#   keccak256(RLP(()))
-#       ==
-#   1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347 # noqa: E501,SC10
-#
+# keccak256(RLP(())) ==
+# 1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347
 # which is the sha3Uncles hash in block header with no uncles
 EMPTY_TRIE_ROOT = Bytes32(
     bytes.fromhex("56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421")
@@ -137,9 +133,10 @@ InternalNode = LeafNode | ExtensionNode | BranchNode
 
 def encode_internal_node(node: Optional[InternalNode]) -> Extended:
     """
-    Encode a Merkle Trie node into its RLP form. The RLP will then be
-    serialized into a `Bytes` and hashed unless it is less that 32 bytes
-    when serialized.
+    Encode a Merkle Trie node into its RLP form.
+
+    The RLP will then be serialized into a `Bytes` and hashed unless it is less
+    that 32 bytes when serialized.
 
     This function also accepts `None`, representing the absence of a node,
     which is encoded to `b""`.
@@ -211,7 +208,6 @@ def trie_set(trie: Trie[K, V], key: K, value: V) -> None:
 
     This method deletes the key if `value == trie.default`, because the Merkle
     Trie represents the default value by omitting it from the trie.
-
     """
     if value == trie.default:
         if key in trie._data:
@@ -225,7 +221,6 @@ def trie_get(trie: Trie[K, V], key: K) -> V:
     Get an item from the Merkle Trie.
 
     This method returns `trie.default` if the key is missing.
-
     """
     return trie._data.get(key, trie.default)
 
@@ -248,11 +243,10 @@ def nibble_list_to_compact(x: Bytes, is_leaf: bool) -> Bytes:
 
     Highest nibble::
 
-        +---+---+----------+--------+
-        | _ | _ | is_leaf | parity |
-        +---+---+----------+--------+
-          3   2      1         0
-
+    +---+---+----------+--------+
+    | _ | _ | is_leaf  | parity |
+    +---+---+----------+--------+
+      3   2      1         0
 
     The lowest bit of the nibble encodes the parity of the length of the
     remaining nibbles -- `0` when even and `1` when odd. The second lowest bit
@@ -274,7 +268,9 @@ def nibble_list_to_compact(x: Bytes, is_leaf: bool) -> Bytes:
 
 
 def bytes_to_nibble_list(bytes_: Bytes) -> Bytes:
-    """Convert a `Bytes` into to a sequence of nibbles (bytes with value < 16)."""
+    """
+    Convert a `Bytes` into to a sequence of nibbles (bytes with value < 16).
+    """
     nibble_list = bytearray(2 * len(bytes_))
     for byte_index, byte in enumerate(bytes_):
         nibble_list[byte_index * 2] = (byte & 0xF0) >> 4

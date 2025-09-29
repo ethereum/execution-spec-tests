@@ -1,7 +1,7 @@
 """
-Return data management around create2
-Port call_outsize_then_create2_successful_then_returndatasizeFiller.json test
-Port call_then_create2_successful_then_returndatasizeFiller.json test.
+Return data management around create2 Port
+call_outsize_then_create2_successful_then_returndatasizeFiller.json test Port
+call_then_create2_successful_then_returndatasizeFiller.json test.
 """
 
 import pytest
@@ -36,7 +36,10 @@ def test_create2_return_data(
     pre: Alloc,
     state_test: StateTestFiller,
 ):
-    """Validate that create2 return data does not interfere with previously existing memory."""
+    """
+    Validate that create2 return data does not interfere with previously
+    existing memory.
+    """
     # Storage vars
     slot_returndatasize_before_create = 0
     slot_returndatasize_after_create = 1
@@ -104,7 +107,8 @@ def test_create2_return_data(
                 slot_returndatacopy_before_create: expected_returndatacopy,
                 slot_returndatacopy_before_create_2: 0,
                 #
-                # the actual bytes returned by returndatacopy opcode after create
+                # the actual bytes returned by returndatacopy opcode after
+                # create
                 slot_returndatacopy_after_create: (
                     return_data_in_create if return_type_in_create == Op.REVERT else 0
                 ),
@@ -122,7 +126,8 @@ def test_create2_return_data(
                     else keccak256(int.to_bytes(return_data_in_create, 32, byteorder="big"))
                 ),
                 #
-                # check that create 2 didn't mess up with initial memory space declared for return
+                # check that create 2 didn't mess up with initial memory space
+                # declared for return
                 slot_begin_memory_after_create: expected_returndatacopy,
             }  # type: ignore
         )

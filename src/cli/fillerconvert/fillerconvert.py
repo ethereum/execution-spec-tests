@@ -44,5 +44,6 @@ def main() -> None:
         # or file.endswith("vmPerformance/performanceTesterFiller.yml")
         # or file.endswith("vmPerformance/loopExpFiller.yml")
         # or file.endswith("vmPerformance/loopMulFiller.yml")
-        # or file.endswith("stRevertTest/RevertRemoteSubCallStorageOOGFiller.yml")
+        # or
+        # file.endswith("stRevertTest/RevertRemoteSubCallStorageOOGFiller.yml")
         # or file.endswith("stSolidityTest/SelfDestructFiller.yml")

@@ -9,6 +9,8 @@ Depending on the changes introduced by an EIP, the following template is the min
 | --------------------- | ----------------------- | ---------- |
 | TOTAL_CHECKLIST_ITEMS | COVERED_CHECKLIST_ITEMS | PERCENTAGE |
 
+<!-- WARNINGS LINE -->
+
 ## General
 
 #### Code coverage
@@ -106,6 +108,7 @@ Verify opcode operation in a subcall frame originated from a `STATICCALL` opcode
 
 | ID                                                                 | Description                                                                                                                                                                                                                                                                                | Status | Tests |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ----- |
+| `opcode/test/execution_context/staticcall` | `STATICCALL`.     |        |       |
 | `opcode/test/execution_context/staticcall/ban_check`           | Verify exceptional abort if the opcode attempts to modify the code, storage or balance of an account.                                                                                                                                                                                      |        |       |
 | `opcode/test/execution_context/staticcall/ban_no_modification` | If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. `PAY` with zero value, or `SSTORE` to the value it already has in the storage). |        |       |
 | `opcode/test/execution_context/staticcall/sub_calls`           | Verify sub-calls using other opcodes (e.g. `CALL`, `DELEGATECALL`, etc) also results in the same exceptional abort behavior.                                                                                                                                                               |        |       |
@@ -190,6 +193,14 @@ Verify that the memory expansion correctly follows the gas calculation.
 | ID                                           | Description       | Status | Tests |
 | -------------------------------------------- | ----------------- | ------ | ----- |
 | `opcode/test/gas_usage/memory_expansion` | Memory expansion. |        |       |
+
+##### Extra Gas
+
+Verify that attempting to execute the opcode when gas available is 1 more than the required gas results in exceptional abort.
+
+| ID                                               | Description                         | Status | Tests |
+| ------------------------------------------------ | ----------------------------------- | ------ | ----- |
+| `opcode/test/gas_usage/extra_gas` | extra gas should not fail the execution  |        |       |
 
 ##### Out-Of-Gas
 
@@ -297,9 +308,6 @@ Opcode is used to attempt to recreate a contract that is currently mid-creation 
 
 ### Framework Changes
 
-| ID  | Description | Status | Tests |
-| --- | ----------- | ------ | ----- |
-
 - Add opcode to `src/ethereum_test_vm/opcode.py`
 - Add opcode to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
@@ -401,6 +409,8 @@ If the precompile requires a minimum value (fee) to execute, either constant or 
 
 If the precompile does not require any minimum value (fee) to execute.
 
+| ID                                             | Description                                                      | Status | Tests |
+| ---------------------------------------------- | ---------------------------------------------------------------- | ------ | ----- |
 | `precompile/test/value_transfer/no_fee` | Sending non-zero value does not cause an exception (unless otherwise specified by the EIP). | | |
 
 #### Out-of-bounds checks
@@ -866,6 +876,8 @@ Verify the transaction is correctly rejected if it contains an invalid signature
 
 Verify values or variables that are persistent through the execution of the transaction (e.g. transient storage, warm/cold accounts).
 
+| ID                                                                    | Description                                   | Status | Tests |
+| --------------------------------------------------------------------- | ----------------------------------------------| ------ | ----- |
 | `transaction_type/test/tx_scoped_attributes/persistent/throughout` | Persist throughout the entire transaction. | | |
 | `transaction_type/test/tx_scoped_attributes/persistent/reset` | Reset on subsequent transactions in the same block. | | |
 
@@ -1165,3 +1177,42 @@ Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically up
 ### Framework Changes
 
 - Increment `max_request_type` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` to the new maximum request type number after the EIP is activated.
+
+## New Transaction-Validity Constraint
+
+### Test Vectors
+
+#### Fork transition
+
+| ID                                        | Description                                                                                                                               | Status | Tests |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `new_transaction_validity_constraint/test/fork_transition/accepted_before_fork` | Verify that a block before the activation fork is accepted even when the new constraint is not met. |        |       |
+| `new_transaction_validity_constraint/test/fork_transition/accepted_after_fork` | Verify that a block after the activation fork is accepted when the new validity constraint is met. |        |       |
+| `new_transaction_validity_constraint/test/fork_transition/rejected_after_fork` | Verify that a block after the activation fork is rejected when the new validity constraint is not met. |        |       |
+
+Note: All test cases must use off-by-one values to ensure proper boundary condition verification.
+
+### Framework Changes
+
+- Introduce the validity constraint as a fork method that returns:
+    - `None` for forks before its activation.
+    - A non-`None` value starting from the fork where the constraint becomes active.
+
+## Modified Transaction-Validity Constraint
+
+### Test Vectors
+
+#### Fork transition
+
+| ID                                        | Description                                                                                                                               | Status | Tests |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `modified_transaction_validity_constraint/test/fork_transition/accepted_before_fork` | Verify that a block before the activation fork is accepted when the existing constraint is met and, ideally, the new constraint is not met. |        |       |
+| `modified_transaction_validity_constraint/test/fork_transition/rejected_before_fork` | Verify that a block before the activation fork is rejected when the existing constraint is not met and, ideally, the new constraint is met. |        |       |
+| `modified_transaction_validity_constraint/test/fork_transition/accepted_after_fork` | Verify that a block after the activation fork is accepted when the new validity constraint is met. |        |       |
+| `modified_transaction_validity_constraint/test/fork_transition/rejected_after_fork` | Verify that a block after the activation fork is rejected when the new validity constraint is not met. |        |       |
+
+Note: All test cases must use off-by-one values to ensure proper boundary condition verification.
+
+### Framework Changes
+
+- Update the validity constraint as a fork method that returns the updated value starting from the fork where the constraint changes.

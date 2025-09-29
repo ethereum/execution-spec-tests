@@ -22,18 +22,22 @@ template_env = jinja2.Environment(loader=template_loader, keep_trailing_newline=
 template_env.filters["stringify"] = lambda value: repr(value)
 
 
-# generates a formatted pytest source code by writing provided data on a given template.
+# generates a formatted pytest source code by writing provided data on a given
+# template.
 def get_test_source(provider: Provider, template_path: str) -> str:
     """
-    Generate formatted pytest source code by rendering a template with provided data.
+    Generate formatted pytest source code by rendering a template with provided
+    data.
 
-    This function uses the given template path to create a pytest-compatible source
-    code string. It retrieves context data from the specified provider and applies
-    it to the template.
+    This function uses the given template path to create a pytest-compatible
+    source code string. It retrieves context data from the specified provider
+    and applies it to the template.
 
     Args:
-        provider: An object that provides the necessary context for rendering the template.
-        template_path (str): The path to the Jinja2 template file used to generate tests.
+      provider: An object that provides the necessary context for rendering
+                the template.
+      template_path (str): The path to the Jinja2 template file
+                           used to generate tests.
 
     Returns:
         str: The formatted pytest source code.
@@ -49,11 +53,11 @@ def format_code(code: str) -> str:
     """
     Format the provided Python code using the Black code formatter.
 
-    This function writes the given code to a temporary Python file, formats it using
-    the Black formatter, and returns the formatted code as a string.
+    This function writes the given code to a temporary Python file, formats it
+    using the Black formatter, and returns the formatted code as a string.
 
     Args:
-        code (str): The Python code to be formatted.
+      code (str): The Python code to be formatted.
 
     Returns:
         str: The formatted Python code.

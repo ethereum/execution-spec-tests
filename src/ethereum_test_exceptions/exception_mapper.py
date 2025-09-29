@@ -20,9 +20,11 @@ class ExceptionMapper(ABC):
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]]
     """
-    Mapping of exception to substring that should be present in the error message.
+    Mapping of exception to substring that should be present in the error
+    message.
 
-    Items in this mapping are used for substring matching (`substring in message`).
+    Items in this mapping are used for substring matching (`substring in
+    message`).
     """
 
     mapping_regex: ClassVar[Dict[ExceptionBase, str]]
@@ -34,13 +36,14 @@ class ExceptionMapper(ABC):
     """
     reliable: ClassVar[bool] = True
     """
-    Whether the exceptions returned by the tool are reliable and can be accurately
-    mapped to the exceptions in this class.
+    Whether the exceptions returned by the tool are reliable and can be
+    accurately mapped to the exceptions in this class.
     """
 
     def __init__(self) -> None:
         """Initialize the exception mapper."""
-        # Ensure that the subclass has properly defined mapping_substring before accessing it
+        # Ensure that the subclass has properly defined mapping_substring
+        # before accessing it
         assert self.mapping_substring is not None, "mapping_substring must be defined in subclass"
         assert self.mapping_regex is not None, "mapping_regex must be defined in subclass"
         self.mapper_name = self.__class__.__name__
@@ -66,8 +69,8 @@ class ExceptionMapper(ABC):
 
 class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
     """
-    Class that contains the exception along with the verbatim message from the external
-    tool/client.
+    Class that contains the exception along with the verbatim message from the
+    external tool/client.
     """
 
     exceptions: List[ExceptionBoundTypeVar]
@@ -86,8 +89,8 @@ class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
 
 def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | UndefinedException | None:
     """
-    Use the exception mapper that must be included in the context to map the exception
-    from the external tool.
+    Use the exception mapper that must be included in the context to map the
+    exception from the external tool.
     """
     if v is None:
         return v
@@ -110,17 +113,18 @@ def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | Undefined
 
 ExceptionMapperValidator = BeforeValidator(mapper_validator)
 """
-Validator that can be used to annotate a pydantic field in a model that is meant to be
-parsed from an external tool or client.
+Validator that can be used to annotate a pydantic field in a model that is
+meant to be parsed from an external tool or client.
 
-The annotated type must be an union that can include `None`, `UndefinedException` and a
-custom model as:
+The annotated type must be an union that can include `None`,
+`UndefinedException` and a custom model as:
 ```
 class BlockExceptionWithMessage(ExceptionWithMessage[BlockException]):
     pass
 ```
 where `BlockException` can be any derivation of `ExceptionBase`.
 
-The `message` attribute is the verbatim message received from the external tool or client,
-and can be used to be printed for extra context information in case of failures.
+The `message` attribute is the verbatim message received from the external tool
+or client, and can be used to be printed for extra context information in case
+of failures.
 """

@@ -1,6 +1,6 @@
 """
-Generate a JSON blockchain test from an existing JSON blockchain test by wrapping its pre-state
-code in EOF wherever possible.
+Generate a JSON blockchain test from an existing JSON blockchain test by
+wrapping its pre-state code in EOF wherever possible.
 
 Example Usage:
 
@@ -19,7 +19,6 @@ from typing import Any, Dict, no_type_check
 
 import click
 
-from cli.evm_bytes import OpcodeWithOperands, process_evm_bytes
 from ethereum_clis import CLINotFoundInPathError
 from ethereum_clis.clis.evmone import EvmOneTransitionTool
 from ethereum_test_base_types import Bytes, EthereumTestRootModel
@@ -34,7 +33,9 @@ from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types import Transaction
 from ethereum_test_types.block_types import Environment
 from ethereum_test_types.eof.v1 import Container
-from ethereum_test_vm.bytecode import Bytecode
+from ethereum_test_vm import Bytecode
+
+from .evm_bytes import OpcodeWithOperands, process_evm_bytes
 
 
 @click.command()
@@ -43,8 +44,8 @@ from ethereum_test_vm.bytecode import Bytecode
 @click.option("--traces", is_flag=True, type=bool)
 def eof_wrap(input_path: str, output_dir: str, traces: bool):
     """
-    Wrap JSON blockchain test file(s) found at `input_path` and
-    outputs them to the `output_dir`.
+    Wrap JSON blockchain test file(s) found at `input_path` and outputs them to
+    the `output_dir`.
     """
     eof_wrapper = EofWrapper()
 
@@ -115,7 +116,9 @@ class EofWrapper:
     GENERATION_ERRORS = "generation_errors"
 
     def __init__(self):
-        """Initialize the EofWrapper with metrics tracking and a unique EOF set."""
+        """
+        Initialize the EofWrapper with metrics tracking and a unique EOF set.
+        """
         self.metrics = {
             self.FILES_GENERATED: 0,
             self.FILES_SKIPPED: 0,
@@ -134,7 +137,8 @@ class EofWrapper:
 
     file_skip_list = [
         "Pyspecs",
-        # EXTCODE* opcodes return different results for EOF targets and that is tested elsewhere
+        # EXTCODE* opcodes return different results for EOF targets and that is
+        # tested elsewhere
         "stExtCodeHash",
         # bigint syntax
         "ValueOverflowParis",
@@ -167,10 +171,11 @@ class EofWrapper:
 
     def wrap_file(self, in_path: str, out_path: str, traces: bool):
         """
-        Wrap code from a blockchain test JSON file from `in_path` into EOF containers,
-        wherever possible. If not possible - skips and tracks that in metrics. Possible means
-        at least one account's code can be wrapped in a valid EOF container and the assertions
-        on post state are satisfied.
+        Wrap code from a blockchain test JSON file from `in_path` into EOF
+        containers, wherever possible. If not possible - skips and tracks that
+        in metrics. Possible means at least one account's code can be wrapped
+        in a valid EOF container and the assertions on post state are
+        satisfied.
         """
         for skip in self.file_skip_list:
             if skip in in_path:
@@ -300,9 +305,9 @@ class EofWrapper:
 
                 test.blocks.append(block)
             elif isinstance(fixture_block, InvalidFixtureBlock):
-                # Skip - invalid blocks are not supported. Reason: FixtureTransaction doesn't
-                # support expected exception. But we can continue and test the remaining
-                # blocks.
+                # Skip - invalid blocks are not supported. Reason:
+                # FixtureTransaction doesn't support expected exception. But we
+                # can continue and test the remaining blocks.
                 self.metrics[self.INVALID_BLOCKS_SKIPPED] += 1
             else:
                 raise TypeError("not a FixtureBlock")
@@ -330,13 +335,13 @@ class EofWrapper:
         return True
 
 
-# `no_type_check` required because OpcodeWithOperand.opcode can be `None` when formatting as a
-# string, but here it can never be `None`.
+# `no_type_check` required because OpcodeWithOperand.opcode can be `None` when
+# formatting as a string, but here it can never be `None`.
 @no_type_check
 def wrap_code(account_code: Bytes) -> Container:
     """
-    Wrap `account_code` into a simplest EOF container, applying some simple heuristics in
-    order to obtain a valid code section termination.
+    Wrap `account_code` into a simplest EOF container, applying some simple
+    heuristics in order to obtain a valid code section termination.
     """
     assert len(account_code) > 0
 

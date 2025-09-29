@@ -249,7 +249,6 @@ from ..transaction_types import Transaction
     ],
 )
 def test_transaction_signing(
-    request,
     tx: Transaction,
     expected_signature: Tuple[int, int, int],
     expected_sender: str,

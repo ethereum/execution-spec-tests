@@ -4,6 +4,7 @@ from abc import abstractmethod
 from typing import Annotated, Any, ClassVar, Dict, Type
 
 from pydantic import PlainSerializer, PlainValidator
+from pytest import FixtureRequest
 
 from ethereum_test_base_types import CamelModel
 from ethereum_test_forks import Fork
@@ -32,7 +33,9 @@ class BaseExecute(CamelModel):
             BaseExecute.formats[cls.format_name] = cls
 
     @abstractmethod
-    def execute(self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None):
+    def execute(
+        self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None, request: FixtureRequest
+    ):
         """Execute the format."""
         pass
 
@@ -41,8 +44,8 @@ class LabeledExecuteFormat:
     """
     Represents an execution format with a custom label.
 
-    This label will be used in the test id and also will be added as a marker to the
-    generated test case when executing the test.
+    This label will be used in the test id and also will be added as a marker
+    to the generated test case when executing the test.
     """
 
     format: Type[BaseExecute]
@@ -82,8 +85,8 @@ class LabeledExecuteFormat:
         """
         Check if two labeled execute formats are equal.
 
-        If the other object is a ExecuteFormat type, the format of the labeled execute
-        format will be compared with the format of the other object.
+        If the other object is a ExecuteFormat type, the format of the labeled
+        execute format will be compared with the format of the other object.
         """
         if isinstance(other, LabeledExecuteFormat):
             return self.format == other.format

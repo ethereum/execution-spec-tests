@@ -2,7 +2,7 @@
 
 The Blockchain Engine X Test fixture format tests are included in the fixtures subdirectory `blockchain_tests_engine_x`, and use Engine API directives with optimized pre-allocation groups for improved execution performance.
 
-These are produced by the `StateTest` and `BlockchainTest` test specs when using the `--generate-pre-alloc-groups` and `--use-pre-alloc-groups` flags.
+These are produced by the `StateTest` and `BlockchainTest` test specs when using the `--generate-pre-alloc-groups` and `--use-pre-alloc-groups` flags, or by using the `--generate-all-formats` flag which generates all fixture formats including `BlockchainEngineXFixture` in a single command.
 
 ## Description
 
@@ -14,7 +14,7 @@ The key optimization is that **clients need only be started once per group** ins
 
 Instead of including large pre-allocation state in each test fixture, this format references a pre-allocation groups folder (`pre_alloc`) which contains all different pre-allocation combinations organized by group.
 
-A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`BlockchainTestEngineXFixture`](#BlockchainTestEngineXFixture) test object, with the key string representing the test name.
+A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`BlockchainTestEngineXFixture`](#blockchaintestenginexfixture) test object, with the key string representing the test name.
 
 The JSON file path plus the test name are used as the unique test identifier.
 
@@ -48,7 +48,7 @@ Each file in the `pre_alloc` folder corresponds to a pre-allocation group identi
 
 ## Consumption
 
-For each [`BlockchainTestEngineXFixture`](#BlockchainTestEngineXFixture) test object in the JSON fixture file, perform the following steps:
+For each [`BlockchainTestEngineXFixture`](#blockchaintestenginexfixture) test object in the JSON fixture file, perform the following steps:
 
 1. **Load Pre-Allocation Group**:
    - Read the appropriate file from the `pre_alloc` folder in the same directory
@@ -138,7 +138,9 @@ Engine API payload structure identical to the one defined in [Blockchain Engine 
 
 ## Usage Notes
 
-- This format is only generated when using `--generate-pre-alloc-groups` and `--use-pre-alloc-groups` flags
+- This format is generated when using:
+    - `--generate-pre-alloc-groups` flag (automatically triggers 2-phase execution, generates only `BlockchainEngineXFixture`)
+    - `--generate-all-formats` flag (automatically triggers 2-phase execution, generates all fixture formats)
 - The `pre_alloc` folder is essential and must be distributed with the test fixtures
 - Tests are grouped by identical (fork + environment + pre-allocation) combinations
 - The format is optimized for Engine API testing (post-Paris forks)

@@ -1,4 +1,6 @@
-"""abstract: Test delegatecall to Blake2B Precompile before and after it was added."""
+"""
+Test delegatecall to Blake2B Precompile before and after added.
+"""
 
 import pytest
 
@@ -21,7 +23,10 @@ REFERENCE_SPEC_VERSION = "2762bfcff3e549ef263342e5239ef03ac2b07400"
 
 @pytest.mark.valid_from("ConstantinopleFix")
 def test_blake2_precompile_delegatecall(state_test: StateTestFiller, pre: Alloc, fork: Fork):
-    """Test delegatecall consumes specified gas for the Blake2B precompile when it exists."""
+    """
+    Test delegatecall consumes specified gas for the Blake2B precompile when it
+    exists.
+    """
     env = Environment()
 
     account = pre.deploy_contract(
@@ -43,7 +48,8 @@ def test_blake2_precompile_delegatecall(state_test: StateTestFiller, pre: Alloc,
         protected=True,
     )
 
-    # If precompile exists, DELEGATECALL will fail, otherwise DELEGATECALL will succeed
+    # If precompile exists, DELEGATECALL will fail, otherwise DELEGATECALL will
+    # succeed
     post = {
         account: Account(
             storage={

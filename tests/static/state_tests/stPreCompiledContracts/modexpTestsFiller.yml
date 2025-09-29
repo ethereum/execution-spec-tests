@@ -21,7 +21,7 @@ modexpTests:
   pre:
 
     # Test for cases where all three parameters are <2^256. 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -50,7 +50,7 @@ modexpTests:
       nonce: 1
       storage: {}
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: 0x
       nonce: 1
@@ -187,11 +187,11 @@ modexpTests:
     - :label 39936_1_55201 :abi f(uint,uint,uint) 39936 1 55201
     - :label 55190_55190_42965 :abi f(uint,uint,uint) 55190 55190 42965
     gasLimit:
-    - 80000000
+    - 16777216
     gasPrice: 10
     nonce: 1
-    to: cccccccccccccccccccccccccccccccccccccccc
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: "<eoa:sender:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -204,9 +204,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x0   # Result
             1: 0x1   # Gas cost
@@ -221,9 +221,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x1   # Result
             1: 0x1   # Gas cost
@@ -236,9 +236,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 43     # Result
             1: 0x1    # Gas cost
@@ -252,9 +252,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x6801 # Result
             1: 0x1    # Gas cost
@@ -269,9 +269,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x1B   # Result
             1: 0x1    # Gas cost
@@ -284,9 +284,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x8615 # Result
             1: 0x1    # Gas cost
@@ -299,9 +299,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x1C3B # Result
             1: 0x1    # Gas cost
@@ -313,9 +313,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x00   # Result
             1: 0x1    # Gas cost
@@ -327,9 +327,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x3e80 # Result
             1: 0x1    # Gas cost
@@ -342,9 +342,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0      # Result
             1: 0x1    # Gas cost
@@ -357,9 +357,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x1C3B # Result
             1: 0x1    # Gas cost
@@ -371,9 +371,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x50   # Result
             1: 0x1    # Gas cost
@@ -385,9 +385,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x5F   # Result
             1: 0x1    # Gas cost
@@ -399,9 +399,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x9C00 # Result
             1: 0x1    # Gas cost
@@ -413,9 +413,9 @@ modexpTests:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Cancun<Osaka'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x866A # Result
             1: 0x1    # Gas cost

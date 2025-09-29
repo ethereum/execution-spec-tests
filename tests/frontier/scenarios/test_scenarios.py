@@ -1,6 +1,6 @@
 """
-Call every possible opcode and test that the subcall is successful
-if the opcode is supported by the fork and fails otherwise.
+Call every possible opcode and test that the subcall is successful if the
+opcode is supported by the fork and fails otherwise.
 """
 
 from typing import List
@@ -18,7 +18,7 @@ from ethereum_test_tools import (
     Storage,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .common import (
     ExecutionEnvironment,
@@ -76,7 +76,10 @@ REFERENCE_SPEC_VERSION = "N/A"
 
 @pytest.fixture
 def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List[Scenario]:
-    """Define fixture vectors of all possible scenarios, given the current pre state input."""
+    """
+    Define fixture vectors of all possible scenarios, given the current pre
+    state input.
+    """
     scenarios_list: List[Scenario] = []
 
     scenario_input = ScenarioGeneratorInput(
@@ -104,44 +107,6 @@ def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List
     return scenarios_list
 
 
-program_classes = [
-    ProgramSstoreSload(),
-    ProgramTstoreTload(),
-    ProgramLogs(),
-    ProgramSuicide(),
-    ProgramInvalidOpcode(),
-    ProgramAddress(),
-    ProgramBalance(),
-    ProgramOrigin(),
-    ProgramCaller(),
-    ProgramCallValue(),
-    ProgramCallDataLoad(),
-    ProgramCallDataSize(),
-    ProgramCallDataCopy(),
-    ProgramCodeCopyCodeSize(),
-    ProgramGasPrice(),
-    ProgramExtCodeCopyExtCodeSize(),
-    ProgramReturnDataSize(),
-    ProgramReturnDataCopy(),
-    ProgramExtCodehash(),
-    ProgramBlockhash(),
-    ProgramCoinbase(),
-    ProgramTimestamp(),
-    ProgramNumber(),
-    ProgramDifficultyRandao(),
-    ProgramGasLimit(),
-    ProgramChainid(),
-    ProgramSelfbalance(),
-    ProgramBasefee(),
-    ProgramBlobhash(),
-    ProgramBlobBaseFee(),
-    ProgramTload(),
-    ProgramMcopy(),
-    ProgramPush0(),
-    ProgramAllFrontierOpcodes(),
-]
-
-
 @pytest.mark.ported_from(
     [
         "https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/templateGen.js",
@@ -151,13 +116,18 @@ program_classes = [
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stSelfBalance/diffPlacesFiller.yml",
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/808"],
+    coverage_missed_reason=("Original test pre-sets storage of some of the deployed accounts."),
 )
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.parametrize(
-    # select program to debug ("program_id", "scenario_name")
-    # program="" select all programs
-    # scenario_name="" select all scenarios
-    # Example: [ScenarioDebug(program_id=ProgramSstoreSload().id, scenario_name="scenario_CALL_CALL")],  # noqa: E501
+    # select program to debug ("program_id","scenario_name")
+    # program=""
+    # select all programs scenario_name=""
+    # select all scenarios
+    #
+    # Example:
+    # [ScenarioDebug(program_id=ProgramSstoreSload().id,
+    # scenario_name="scenario_CALL_CALL")]
     "debug",
     [
         ScenarioDebug(
@@ -169,8 +139,42 @@ program_classes = [
 )
 @pytest.mark.parametrize(
     "test_program",
-    program_classes,
-    ids=[cls.id for cls in program_classes],
+    [
+        ProgramSstoreSload(),
+        ProgramTstoreTload(),
+        ProgramLogs(),
+        ProgramSuicide(),
+        pytest.param(ProgramInvalidOpcode(), marks=[pytest.mark.slow()]),
+        ProgramAddress(),
+        ProgramBalance(),
+        ProgramOrigin(),
+        ProgramCaller(),
+        ProgramCallValue(),
+        ProgramCallDataLoad(),
+        ProgramCallDataSize(),
+        ProgramCallDataCopy(),
+        ProgramCodeCopyCodeSize(),
+        ProgramGasPrice(),
+        ProgramExtCodeCopyExtCodeSize(),
+        ProgramReturnDataSize(),
+        ProgramReturnDataCopy(),
+        ProgramExtCodehash(),
+        pytest.param(ProgramBlockhash(), marks=[pytest.mark.slow()]),
+        ProgramCoinbase(),
+        ProgramTimestamp(),
+        ProgramNumber(),
+        ProgramDifficultyRandao(),
+        ProgramGasLimit(),
+        ProgramChainid(),
+        ProgramSelfbalance(),
+        ProgramBasefee(),
+        ProgramBlobhash(),
+        ProgramBlobBaseFee(),
+        ProgramTload(),
+        ProgramMcopy(),
+        ProgramPush0(),
+        ProgramAllFrontierOpcodes(),
+    ],
 )
 def test_scenarios(
     blockchain_test: BlockchainTestFiller,
@@ -181,13 +185,13 @@ def test_scenarios(
     scenarios,
 ):
     """
-    Test given operation in different scenarios
-    Verify that it's return value equal to expected result on every scenario,
-    that is valid for the given fork.
+    Test given operation in different scenarios Verify that it's return value
+    equal to expected result on every scenario, that is valid for the given
+    fork.
 
-    Note: Don't use pytest parametrize for scenario production, because scenarios will be complex
-    Generate one test file for [each operation] * [each scenario] to save space
-    As well as operations will be complex too
+    Note: Don't use pytest parametrize for scenario production, because
+    scenarios will be complex Generate one test file for [each operation] *
+    [each scenario] to save space As well as operations will be complex too
     """
     tx_env = Environment()
     tx_origin: Address = pre.fund_eoa()
@@ -216,7 +220,8 @@ def test_scenarios(
             fork=fork,
             origin=tx_origin,
             gasprice=tx_gasprice,
-            timestamp=tx_env.timestamp,  # we can't know timestamp before head, use gas hash
+            timestamp=tx_env.timestamp,  # we can't know timestamp before head,
+            # use gas hash
             number=len(blocks) + 1,
             gaslimit=tx_env.gas_limit,
             coinbase=tx_env.fee_recipient,

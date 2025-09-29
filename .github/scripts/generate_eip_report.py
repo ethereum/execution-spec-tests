@@ -1,4 +1,7 @@
-"""Generate a markdown report of outdated EIP references from the EIP version checker output."""
+"""
+Generate a markdown report of outdated EIP references from the EIP version
+checker output.
+"""
 
 import os
 import re

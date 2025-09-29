@@ -31,8 +31,8 @@ from ethereum_test_tools import (
     Withdrawal,
     add_kzg_version,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import Alloc
+from ethereum_test_vm import Opcodes as Op
 
 BLOB_COMMITMENT_VERSION_KZG = 1
 
@@ -44,7 +44,9 @@ def test_ci_multi_t8n_support(
     installed_transition_tool_instances: Dict[str, TransitionTool | Exception],
     running_in_ci: bool,
 ):
-    """Check that the instances of t8n we expect in CI environment were found."""
+    """
+    Check that the instances of t8n we expect in CI environment were found.
+    """
     names = set(installed_transition_tool_instances.keys())
     expected_names = {"ExecutionSpecsTransitionTool"}
     if running_in_ci:

@@ -19,41 +19,50 @@ from ethereum_test_exceptions import (
     TransactionException,
 )
 from ethereum_test_forks import Fork
+from pytest_plugins.custom_logging import get_logger
 
 from ..transition_tool import TransitionTool
 
 DAEMON_STARTUP_TIMEOUT_SECONDS = 5
+logger = get_logger(__name__)
 
 
 class ExecutionSpecsTransitionTool(TransitionTool):
     """
-    Ethereum Specs EVM Resolver `ethereum-spec-evm-resolver` Transition Tool wrapper class.
+    Ethereum Specs EVM Resolver `ethereum-spec-evm-resolver` Transition Tool
+    wrapper class.
 
-    `ethereum-spec-evm-resolver` is installed by default for `execution-spec-tests`:
+    `ethereum-spec-evm-resolver` is installed by default for
+    `execution-spec-tests`:
     ```console
-    uv run fill --evm-bin=ethereum-spec-evm-resolver
+        uv run fill --evm-bin=ethereum-spec-evm-resolver
     ```
 
-    To use a specific version of the `ethereum-spec-evm-resolver` tool, update it to the
-    desired version in `pyproject.toml`.
+    To use a specific version of the `ethereum-spec-evm-resolver` tool, update
+    it to the desired version in `pyproject.toml`.
 
-    The `ethereum-spec-evm-resolver` tool essentially wraps around the EELS evm daemon. It can
-    handle requests for different EVM forks, even when those forks are implemented by different
-    versions of EELS hosted in different places.
+    The `ethereum-spec-evm-resolver` tool essentially wraps around the EELS evm
+    daemon. It can handle requests for different EVM forks, even when those
+    forks are implemented by different versions of EELS hosted in different
+    places.
     """
 
     default_binary = Path("ethereum-spec-evm-resolver")
     detect_binary_pattern = re.compile(r"^ethereum-spec-evm-resolver\b")
     t8n_use_server: bool = True
     server_dir: Optional[TemporaryDirectory] = None
+    server_url: str | None = None
 
     def __init__(
         self,
         *,
         binary: Optional[Path] = None,
         trace: bool = False,
+        server_url: str | None = None,
     ):
-        """Initialize the Ethereum Specs EVM Resolver Transition Tool interface."""
+        """
+        Initialize the Ethereum Specs EVM Resolver Transition Tool interface.
+        """
         os.environ.setdefault("NO_PROXY", "*")  # Disable proxy for local connections
         super().__init__(
             exception_mapper=ExecutionSpecsExceptionMapper(), binary=binary, trace=trace
@@ -71,6 +80,7 @@ class ExecutionSpecsTransitionTool(TransitionTool):
                 f"Unexpected exception calling ethereum-spec-evm-resolver: {e}."
             ) from e
         self.help_string = result.stdout
+        self.server_url = server_url
 
     def start_server(self):
         """
@@ -109,11 +119,15 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         """
         Return True if the fork is supported by the tool.
 
-        If the fork is a transition fork, we want to check the fork it transitions to.
+        If the fork is a transition fork, we want to check the fork it
+        transitions to.
 
         `ethereum-spec-evm` appends newlines to forks in the help string.
         """
-        return (fork.transition_tool_name() + "\n") in self.help_string
+        fork_is_supported = (fork.transition_tool_name() + "\n") in self.help_string
+        logger.debug(f"EELS supports fork {fork}: {fork_is_supported}")
+
+        return fork_is_supported
 
     def _generate_post_args(
         self, t8n_data: TransitionTool.TransitionToolData
@@ -127,41 +141,58 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 
 
 class ExecutionSpecsExceptionMapper(ExceptionMapper):
-    """Translate between EEST exceptions and error strings returned by ExecutionSpecs."""
-
-    reliable: ClassVar[bool] = False
     """
-    TODO: Exception messages returned from ExecutionSpecs are not reliable because most of the
-    exceptions consist of the same string without indication of the particular exception type.
+    Translate between EEST exceptions and error strings returned by
+    ExecutionSpecs.
     """
 
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
-        TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "Failed transaction: InvalidBlock()",
-        TransactionException.SENDER_NOT_EOA: "Failed transaction: InvalidSenderError('not EOA')",
-        TransactionException.TYPE_4_TX_CONTRACT_CREATION: "Failed transaction: ",
-        TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: "ailed transaction: ",
-        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "iled transaction: ",
-        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: "led transaction: ",
-        TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "ed transaction: ",
-        TransactionException.TYPE_3_TX_PRE_FORK: (
-            "module 'ethereum.shanghai.transactions' has no attribute 'BlobTransaction'"
+        TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "EmptyAuthorizationListError",
+        TransactionException.SENDER_NOT_EOA: "InvalidSenderError",
+        TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
+            "TransactionTypeContractCreationError("
+            "'transaction type `SetCodeTransaction` not allowed to create contracts')"
         ),
-        TransactionException.TYPE_4_TX_PRE_FORK: "Unknown transaction type: 0x4",
-        TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "d transaction: ",
+        TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: "InsufficientBalanceError",
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
+            "BlobGasLimitExceededError"
+        ),
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
+            "InsufficientMaxFeePerBlobGasError"
+        ),
+        TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: (
+            "InvalidBlobVersionedHashError"
+        ),
         # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: " transaction: ",
-        TransactionException.TYPE_3_TX_ZERO_BLOBS: "transaction: ",
-        TransactionException.INTRINSIC_GAS_TOO_LOW: "ransaction: ",
-        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "ransaction: ",
-        TransactionException.INITCODE_SIZE_EXCEEDED: "ansaction: ",
-        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: "nsaction: ",
-        TransactionException.NONCE_MISMATCH_TOO_HIGH: "saction: ",
-        TransactionException.NONCE_MISMATCH_TOO_LOW: "action: ",
-        TransactionException.TYPE_3_TX_CONTRACT_CREATION: "ction: ",
-        TransactionException.NONCE_IS_MAX: "tion: ",
-        TransactionException.GAS_ALLOWANCE_EXCEEDED: "ion: ",
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "BlobCountExceededError",
+        TransactionException.TYPE_3_TX_ZERO_BLOBS: "NoBlobDataError",
+        TransactionException.INTRINSIC_GAS_TOO_LOW: "InsufficientTransactionGasError",
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "InsufficientTransactionGasError",
+        TransactionException.INITCODE_SIZE_EXCEEDED: "InitCodeTooLargeError",
+        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
+            "PriorityFeeGreaterThanMaxFeeError"
+        ),
+        TransactionException.NONCE_MISMATCH_TOO_HIGH: "NonceMismatchError('nonce too high')",
+        TransactionException.NONCE_MISMATCH_TOO_LOW: "NonceMismatchError('nonce too low')",
+        TransactionException.TYPE_3_TX_CONTRACT_CREATION: (
+            "TransactionTypeContractCreationError("
+            "'transaction type `BlobTransaction` not allowed to create contracts')"
+        ),
+        TransactionException.NONCE_IS_MAX: "NonceOverflowError",
+        TransactionException.GAS_ALLOWANCE_EXCEEDED: "GasUsedExceedsLimitError",
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: "TransactionGasLimitExceededError",
         BlockException.SYSTEM_CONTRACT_EMPTY: "System contract address",
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: "call failed:",
         BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "deposit",
     }
-    mapping_regex: ClassVar[Dict[ExceptionBase, str]] = {}
+    mapping_regex: ClassVar[Dict[ExceptionBase, str]] = {
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: (
+            r"InsufficientMaxFeePerGasError|InvalidBlock"  # Temporary solution for issue #1981.
+        ),
+        TransactionException.TYPE_3_TX_PRE_FORK: (
+            r"module '.*transactions' has no attribute 'BlobTransaction'"
+        ),
+        TransactionException.TYPE_4_TX_PRE_FORK: (
+            r"'.*transactions' has no attribute 'SetCodeTransaction'"
+        ),
+    }

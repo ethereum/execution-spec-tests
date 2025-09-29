@@ -1,10 +1,13 @@
-"""Define a program for scenario test that executes all frontier opcodes and entangles it's result."""  # noqa: E501
+"""
+Define a program for scenario test that executes all frontier opcodes and
+entangles it's result.
+"""
 
 from functools import cached_property
 
 from ethereum_test_forks import Fork
 from ethereum_test_tools import Alloc, Bytecode, Conditional
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from ..common import ProgramResult, ScenarioTestProgram
 
@@ -15,7 +18,9 @@ from ..common import ProgramResult, ScenarioTestProgram
 
 
 def make_all_opcode_program() -> Bytecode:
-    """Make a program that call each Frontier opcode and verifies it's result."""
+    """
+    Make a program that call each Frontier opcode and verifies it's result.
+    """
     code: Bytecode = (
         # Test opcode 01 - ADD
         Conditional(

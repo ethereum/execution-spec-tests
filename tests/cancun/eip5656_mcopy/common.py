@@ -1,7 +1,7 @@
 """
-Common procedures to test
-[EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656).
-"""  # noqa: E501
+Common procedures to test [EIP-5656: MCOPY - Memory copying
+instruction](https://eips.ethereum.org/EIPS/eip-5656).
+"""
 
 from copy import copy
 
@@ -16,7 +16,8 @@ def mcopy(*, src: int, dest: int, length: int, memory: bytes) -> bytes:
 
     res = bytearray(copy(memory))
 
-    # If the destination or source are larger than the memory, we need to extend the memory
+    # If the destination or source are larger than the memory, we need to
+    # extend the memory
     max_byte_index = max(src, dest) + length
     if max_byte_index > len(memory):
         res.extend(b"\x00" * (max_byte_index - len(memory)))

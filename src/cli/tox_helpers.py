@@ -2,8 +2,8 @@
 CLI commands used by tox.ini.
 
 Contains wrappers to the external commands markdownlint-cli2 and pyspelling
-(requires aspell) that fail silently if the command is not available. The
-aim is to avoid disruption to external contributors.
+(requires aspell) that fail silently if the command is not available. The aim
+is to avoid disruption to external contributors.
 """
 
 import os
@@ -23,10 +23,11 @@ def write_github_summary(title: str, tox_env: str, error_message: str, fix_comma
     Write a summary to GitHub Actions when a check fails.
 
     Args:
-        title: The title of the check that failed
-        tox_env: The tox environment name (e.g., "spellcheck")
-        error_message: Description of what went wrong
-        fix_commands: List of commands to fix the issue locally
+      title: The title of the check that failed tox_env: The tox
+             environment name (e.g., "spellcheck")
+      tox_env: The tox environment
+      error_message: Description of what went wrong
+      fix_commands: List of commands to fix the issue locally
 
     """
     if not os.environ.get("GITHUB_ACTIONS"):
@@ -70,7 +71,8 @@ def markdownlint(args):
     """
     markdownlint = shutil.which("markdownlint-cli2")
     if not markdownlint:
-        # Note: There's an additional step in test.yaml to run markdownlint-cli2 in GitHub Actions
+        # Note: There's an additional step in test.yaml to run markdownlint-
+        # cli2 in GitHub Actions
         click.echo("********* Install 'markdownlint-cli2' to enable markdown linting *********")
         sys.exit(0)
 
@@ -194,7 +196,8 @@ def codespell():
 @click.command()
 def validate_changelog():
     """
-    Validate changelog formatting to ensure bullet points end with proper punctuation.
+    Validate changelog formatting to ensure bullet points end with proper
+    punctuation.
 
     Checks that all bullet points (including nested ones) end with either:
     - A period (.) for regular entries

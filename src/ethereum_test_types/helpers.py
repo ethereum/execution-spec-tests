@@ -19,8 +19,8 @@ Helper functions
 
 def ceiling_division(a: int, b: int) -> int:
     """
-    Calculate ceil without using floating point.
-    Used by many of the EVM's formulas.
+    Calculate ceil without using floating point. Used by many of the EVM's
+    formulas.
     """
     return -(a // -b)
 
@@ -34,8 +34,8 @@ def compute_create_address(
     opcode: Op = Op.CREATE,
 ) -> Address:
     """
-    Compute address of the resulting contract created using a transaction
-    or the `CREATE` opcode.
+    Compute address of the resulting contract created using a transaction or
+    the `CREATE` opcode.
     """
     if opcode == Op.CREATE:
         if isinstance(address, EOA):
@@ -68,7 +68,10 @@ def compute_create2_address(
 def compute_eofcreate_address(
     address: FixedSizeBytesConvertible, salt: FixedSizeBytesConvertible
 ) -> Address:
-    """Compute address of the resulting contract created using the `EOFCREATE` opcode."""
+    """
+    Compute address of the resulting contract created using the `EOFCREATE`
+    opcode.
+    """
     hash_bytes = Bytes(b"\xff" + b"\x00" * 12 + Address(address) + Hash(salt)).keccak256()
     return Address(hash_bytes[-20:])
 
@@ -106,13 +109,14 @@ class TestParameterGroup(BaseModel):
 
     def __repr__(self):
         """
-        Generate repr string, intended to be used as a test id, based on the class
-        name and the values of the non-default optional fields.
+        Generate repr string, intended to be used as a test id, based on the
+        class name and the values of the non-default optional fields.
         """
         class_name = self.__class__.__name__
         field_strings = [
             f"{field}_{value}"
-            # Include the field only if it is not optional or not set to its default value
+            # Include the field only if it is not optional or not set to its
+            # default value
             for field, value in self.model_dump(exclude_defaults=True, exclude_unset=True).items()
         ]
 

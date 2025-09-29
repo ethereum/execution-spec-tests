@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 """
-CLI tool to extract client configuration files (chainspec/genesis.json) from Ethereum clients.
+CLI tool to extract client configuration files (chainspec/genesis.json) from
+Ethereum clients.
 
-This tool spawns an Ethereum client using Hive and extracts the generated configuration
-files such as /chainspec/test.json, /configs/test.cfg, or /genesis.json from the Docker container.
+This tool spawns an Ethereum client using Hive and extracts the generated
+configuration files such as /chainspec/test.json, /configs/test.cfg, or
+/genesis.json from the Docker container.
 """
 
 import io
@@ -119,7 +121,9 @@ def create_genesis_from_fixture(fixture_path: Path) -> Tuple[FixtureHeader, Allo
 
 
 def get_client_environment_for_fixture(fork: Fork, chain_id: int) -> dict:
-    """Get the environment variables for starting a client with the given fixture."""
+    """
+    Get the environment variables for starting a client with the given fixture.
+    """
     if fork not in ruleset:
         raise ValueError(f"Fork '{fork}' not found in hive ruleset")
 
@@ -176,8 +180,8 @@ def extract_config(
     Extract client configuration files from Ethereum clients.
 
     This tool spawns an Ethereum client using Hive and extracts the generated
-    configuration files such as /chainspec/test.json, /configs/test.cfg, or /genesis.json
-    from the Docker container.
+    configuration files such as /chainspec/test.json, /configs/test.cfg, or
+    /genesis.json from the Docker container.
     """
     if not fixture:
         raise click.UsageError("No fixture provided, use --fixture to specify a fixture")

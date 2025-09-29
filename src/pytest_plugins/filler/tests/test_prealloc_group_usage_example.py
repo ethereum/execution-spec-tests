@@ -1,8 +1,8 @@
 """
 Example usage of the pre_alloc_group marker.
 
-This file demonstrates how tests would use the marker in practice.
-Note: This is just documentation, not executable tests.
+This file demonstrates how tests would use the marker in practice. Note: This
+is just documentation, not executable tests.
 """
 
 import pytest
@@ -13,9 +13,12 @@ import pytest
     "separate", reason="Deploys beacon root contract using actual hardcoded deployer address"
 )
 def test_beacon_root_contract_deployment():
-    """Test beacon root contract deployment with the official deployer address."""
-    # This test uses the actual beacon root deployer address (e.g., 0x4242...4242)
-    # which could conflict with dynamically allocated addresses in other tests
+    """
+    Test beacon root contract deployment with the official deployer address.
+    """
+    # This test uses the actual beacon root deployer address (e.g.,
+    # 0x4242...4242) which could conflict with dynamically allocated addresses
+    # in other tests
     pass
 
 
@@ -25,8 +28,9 @@ def test_beacon_root_contract_deployment():
 )
 def test_custom_consolidation_contract():
     """Test that deploys a modified consolidation contract."""
-    # This test deploys a consolidation contract with custom bytecode that differs
-    # from the standard implementation, requiring isolation from other consolidation tests
+    # This test deploys a consolidation contract with custom bytecode that
+    # differs from the standard implementation, requiring isolation from other
+    # consolidation tests
     pass
 
 
@@ -36,8 +40,9 @@ def test_custom_consolidation_contract():
 )
 def test_custom_consolidation_edge_cases():
     """Test edge cases with the custom consolidation contract."""
-    # This test can share the pre-allocation with test_custom_consolidation_contract
-    # since they both use the same custom contract setup
+    # This test can share the pre-allocation with
+    # test_custom_consolidation_contract since they both use the same custom
+    # contract setup
     pass
 
 

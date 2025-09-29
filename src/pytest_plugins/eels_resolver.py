@@ -8,10 +8,13 @@ environment variable is already set, the plugin will not override it.
 
 import os
 import shutil
+from os.path import realpath
 from pathlib import Path
 
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
+
+CURRENT_FOLDER = Path(realpath(__file__)).parent
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -45,8 +48,7 @@ def pytest_configure(config: pytest.Config) -> None:
                 f"Ensure the {env_var_name} points to an existing file."
             )
     else:
-        root_dir = config.rootpath
-        default_file_path = root_dir / "eels_resolutions.json"
+        default_file_path = CURRENT_FOLDER / "eels_resolutions.json"
         os.environ[env_var_name] = str(default_file_path)
         eels_resolutions_file = str(default_file_path)
 
@@ -71,6 +73,8 @@ def pytest_report_header(config: pytest.Config, startdir: Path) -> str:
         str: A string to add to the pytest report header.
 
     """
+    del startdir
+
     eels_resolutions_file = getattr(config, "_eels_resolutions_file", None)
     if eels_resolutions_file:
         return f"EELS resolutions file: {eels_resolutions_file}"

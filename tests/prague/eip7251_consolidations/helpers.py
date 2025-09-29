@@ -16,21 +16,13 @@ class ConsolidationRequest(ConsolidationRequestBase):
     """Class used to describe a consolidation request in a test."""
 
     fee: int = 0
-    """
-    Fee to be paid to the system contract for the consolidation request.
-    """
+    """Fee to be paid to the system contract for the consolidation request."""
     valid: bool = True
-    """
-    Whether the consolidation request is valid or not.
-    """
+    """Whether the consolidation request is valid or not."""
     gas_limit: int = 1_000_000
-    """
-    Gas limit for the call.
-    """
+    """Gas limit for the call."""
     calldata_modifier: Callable[[bytes], bytes] = lambda x: x
-    """
-    Calldata modifier function.
-    """
+    """Calldata modifier function."""
 
     interaction_contract_address: ClassVar[Address] = Address(
         Spec.CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS
@@ -39,40 +31,39 @@ class ConsolidationRequest(ConsolidationRequestBase):
     @property
     def value(self) -> int:
         """
-        Return the value of the call to the consolidation request contract, equal to the fee
-        to be paid.
+        Return the value of the call to the consolidation request contract,
+        equal to the fee to be paid.
         """
         return self.fee
 
     @cached_property
     def calldata(self) -> bytes:
         """
-        Return the calldata needed to call the consolidation request contract and make the
-        consolidation.
+        Return the calldata needed to call the consolidation request contract
+        and make the consolidation.
         """
         return self.calldata_modifier(self.source_pubkey + self.target_pubkey)
 
     def with_source_address(self, source_address: Address) -> "ConsolidationRequest":
-        """Return a new instance of the consolidation request with the source address set."""
+        """
+        Return a new instance of the consolidation request with the source
+        address set.
+        """
         return self.copy(source_address=source_address)
 
 
 @dataclass(kw_only=True)
 class ConsolidationRequestInteractionBase:
-    """Base class for all types of consolidation transactions we want to test."""
+    """
+    Base class for all types of consolidation transactions we want to test.
+    """
 
     sender_balance: int = 1_000_000_000_000_000_000
-    """
-    Balance of the account that sends the transaction.
-    """
+    """Balance of the account that sends the transaction."""
     sender_account: EOA | None = None
-    """
-    Account that will send the transaction.
-    """
+    """Account that will send the transaction."""
     requests: List[ConsolidationRequest]
-    """
-    Consolidation requests to be included in the block.
-    """
+    """Consolidation requests to be included in the block."""
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the consolidation request."""
@@ -83,13 +74,19 @@ class ConsolidationRequestInteractionBase:
         raise NotImplementedError
 
     def valid_requests(self, current_minimum_fee: int) -> List[ConsolidationRequest]:
-        """Return the list of consolidation requests that should be valid in the block."""
+        """
+        Return the list of consolidation requests that should be valid in the
+        block.
+        """
         raise NotImplementedError
 
 
 @dataclass(kw_only=True)
 class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
-    """Class to describe a consolidation request originated from an externally owned account."""
+    """
+    Class to describe a consolidation request originated from an externally
+    owned account.
+    """
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the consolidation request."""
@@ -125,9 +122,7 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     """Class used to describe a consolidation originated from a contract."""
 
     tx_gas_limit: int = 10_000_000
-    """
-    Gas limit for the transaction.
-    """
+    """Gas limit for the transaction."""
 
     contract_balance: int = 1_000_000_000_000_000_000
     """
@@ -138,22 +133,14 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     Address of the contract that will make the call to the pre-deploy contract.
     """
     entry_address: Address | None = None
-    """
-    Address to send the transaction to.
-    """
+    """Address to send the transaction to."""
 
     call_type: Op = field(default_factory=lambda: Op.CALL)
-    """
-    Type of call to be used to make the consolidation request.
-    """
+    """Type of call to be used to make the consolidation request."""
     call_depth: int = 2
-    """
-    Frame depth of the pre-deploy contract when it executes the call.
-    """
+    """Frame depth of the pre-deploy contract when it executes the call."""
     extra_code: Bytecode = field(default_factory=Bytecode)
-    """
-    Extra code to be added to the contract code.
-    """
+    """Extra code to be added to the contract code."""
 
     @property
     def contract_code(self) -> Bytecode:
@@ -239,12 +226,13 @@ def get_n_fee_increments(n: int) -> List[int]:
 
 def get_n_fee_increment_blocks(n: int) -> List[List[ConsolidationRequestContract]]:
     """
-    Return N blocks that should be included in the test such that each subsequent block has an
-    increasing fee for the consolidation requests.
+    Return N blocks that should be included in the test such that each
+    subsequent block has an increasing fee for the consolidation requests.
 
-    This is done by calculating the number of consolidations required to reach the next fee
-    increment and creating a block with that number of consolidation requests plus the number of
-    consolidations required to reach the target.
+    This is done by calculating the number of consolidations required to reach
+    the next fee increment and creating a block with that number of
+    consolidation requests plus the number of consolidations required to reach
+    the target.
     """
     blocks = []
     previous_excess = 0

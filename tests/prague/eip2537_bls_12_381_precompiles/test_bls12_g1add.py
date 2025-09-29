@@ -1,7 +1,10 @@
 """
-abstract: Tests BLS12_G1ADD precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_G1ADD precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Tests BLS12_G1ADD precompile.
+
+Tests the BLS12_G1ADD precompile implementation from [EIP-2537:
+Precompile for BLS12-381 curve operations]
+(https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -26,8 +29,8 @@ pytestmark = [
     # Test vectors from the reference spec (from the cryptography team)
     vectors_from_file("add_G1_bls.json")
     + [
-        # Identity (infinity) element test cases.
-        # Checks that any point added to the identity element (INF) equals itself.
+        # Identity (infinity) element test cases. Checks that any point added
+        # to the identity element (INF) equals itself.
         pytest.param(
             Spec.G1 + Spec.INF_G1,
             Spec.G1,
@@ -114,15 +117,16 @@ pytestmark = [
             None,
             id="point_plus_reflected_point",
         ),
-        # Not in the r-order subgroup test cases.
-        # Checks that any point on the curve but not in the subgroup is used for operations.
+        # Not in the r-order subgroup test cases. Checks that any point on the
+        # curve but not in the subgroup is used for operations.
         pytest.param(
             Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP,
             Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
             None,
             id="non_sub_plus_non_sub",
         ),
-        pytest.param(  # `P1_NOT_IN_SUBGROUP` has an small order subgroup of 3: 3P = INF.
+        pytest.param(  # `P1_NOT_IN_SUBGROUP` has an small order subgroup of 3:
+            # 3P = INF.
             Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
             Spec.INF_G1,
             None,
@@ -164,7 +168,8 @@ pytestmark = [
             None,
             id="doubled_non_sub_plus_neg",
         ),
-        # More not in the r-order subgroup test cases, but using random generated points.
+        # More not in the r-order subgroup test cases, but using random
+        # generated points.
         pytest.param(
             G1_POINTS_NOT_IN_SUBGROUP[0] + Spec.P1,
             add_points_g1(G1_POINTS_NOT_IN_SUBGROUP[0], Spec.P1),
@@ -274,6 +279,22 @@ def test_valid(
             id="b_y_equal_to_p",
         ),
         pytest.param(
+            PointG1(Spec.P1.x + Spec.P, Spec.P1.y) + Spec.G1,
+            id="a_x_above_p",
+        ),
+        pytest.param(
+            PointG1(Spec.P1.x, Spec.P1.y + Spec.P) + Spec.G1,
+            id="a_y_above_p",
+        ),
+        pytest.param(
+            Spec.P1 + PointG1(Spec.G1.x + Spec.P, Spec.G1.y),
+            id="b_x_above_p",
+        ),
+        pytest.param(
+            Spec.P1 + PointG1(Spec.G1.x, Spec.G1.y + Spec.P),
+            id="b_y_above_p",
+        ),
+        pytest.param(
             b"\x80" + bytes(Spec.INF_G1)[1:] + Spec.INF_G1,
             id="invalid_encoding_a",
         ),
@@ -324,6 +345,14 @@ def test_valid(
         pytest.param(
             b"\xc0" + b"\x00" * 47 + b"\xc0" + b"\x00" * 47,
             id="comp_instead_of_uncomp",
+        ),
+        pytest.param(
+            PointG1(Spec.P1.x | Spec.MAX_FP_BIT_SET, Spec.P1.y) + Spec.P1,
+            id="non_zero_byte_16_boundary_violation_x",
+        ),
+        pytest.param(
+            PointG1(Spec.P1.x, Spec.P1.y | Spec.MAX_FP_BIT_SET) + Spec.P1,
+            id="non_zero_byte_16_boundary_violation_y",
         ),
         # Not on the curve cases using random generated points.
         pytest.param(

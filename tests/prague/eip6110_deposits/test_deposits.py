@@ -1,7 +1,9 @@
 """
-abstract: Tests [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110)
-    Test [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110).
-"""  # noqa: E501
+Tests validator deposit functionality.
+
+Tests the validator deposit functionality implementation from
+[EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110).
+"""
 
 from typing import List
 
@@ -185,7 +187,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             amount=32_000_000_000,
                             signature=0x03,
                             index=0x0,
-                            # From traces, gas used by the first tx is 82,718 so reduce by one here
+                            # From traces, gas used by the first tx is 82,718
+                            # so reduce by one here
                             gas_limit=0x1431D,
                             valid=False,
                         ),
@@ -218,7 +221,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             amount=32_000_000_000,
                             signature=0x03,
                             index=0x0,
-                            # From traces, gas used by the second tx is 68,594, reduce by one here
+                            # From traces, gas used by the second tx is 68,594,
+                            # reduce by one here
                             gas_limit=0x10BF1,
                             valid=False,
                         ),
@@ -314,9 +318,9 @@ pytestmark = pytest.mark.valid_from("Prague")
                             signature=0x03,
                             index=i,
                         )
-                        for i in range(1000)
+                        for i in range(500)
                     ],
-                    tx_gas_limit=60_000_000,
+                    tx_gas_limit=16_777_216,
                 ),
             ],
             id="many_deposits_from_contract",
@@ -486,9 +490,9 @@ pytestmark = pytest.mark.valid_from("Prague")
                             index=i,
                             valid=False,
                         )
-                        for i in range(1000)
+                        for i in range(500)
                     ],
-                    tx_gas_limit=23_738_700,
+                    tx_gas_limit=10_000_000,
                 ),
             ],
             id="many_deposits_from_contract_oog",
@@ -707,8 +711,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             index=0x0,
                         )
                     ],
-                    call_depth=1024,
-                    tx_gas_limit=2_500_000_000_000,
+                    call_depth=271,
+                    tx_gas_limit=16_777_216,
                 ),
             ],
             id="single_deposit_from_contract_call_depth_high",
@@ -838,8 +842,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             valid=False,
                         )
                     ],
-                    # Send 32 ETH minus 1 wei to the contract, note `DepositRequest.amount` is in
-                    # gwei
+                    # Send 32 ETH minus 1 wei to the contract, note
+                    # `DepositRequest.amount` is in gwei
                     tx_value=32_000_000_000 * 10**9 - 1,
                     contract_balance=0,
                 ),
@@ -920,8 +924,12 @@ def test_deposit(
     blocks: List[Block],
 ):
     """Test making a deposit to the beacon chain deposit contract."""
+    total_gas_limit = sum(tx.gas_limit for tx in blocks[0].txs)
+    env = Environment()
+    if total_gas_limit > env.gas_limit:
+        env = Environment(gas_limit=total_gas_limit)
     blockchain_test(
-        genesis_environment=Environment(gas_limit=sum(tx.gas_limit for tx in blocks[0].txs)),
+        genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
@@ -1178,11 +1186,10 @@ def test_deposit_negative(
     blocks: List[Block],
 ):
     """
-    Test producing a block with the incorrect deposits in the body of the block,
-    and/or Engine API payload.
+    Test producing a block with the incorrect deposits in the body of the
+    block, and/or Engine API payload.
     """
     blockchain_test(
-        genesis_environment=Environment(),
         pre=pre,
         post={},
         blocks=blocks,

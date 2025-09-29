@@ -1,4 +1,6 @@
-"""Base class to parse test cases written in static formats."""
+"""
+Base class to parse test cases written in static formats.
+"""
 
 import re
 from abc import abstractmethod
@@ -25,8 +27,8 @@ class BaseStaticTest(BaseModel):
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs):
         """
-        Register all subclasses of BaseStaticTest with a static test format name set
-        as possible static test format.
+        Register all subclasses of BaseStaticTest with a static test format
+        name set as possible static test format.
         """
         if cls.format_name:
             # Register the new fixture format
@@ -55,8 +57,9 @@ class BaseStaticTest(BaseModel):
 
         This method should be implemented by the subclasses.
 
-        The function returned can be optionally decorated with the `@pytest.mark.parametrize`
-        decorator to parametrize the test with the number of sub test cases.
+        The function returned can be optionally decorated with the
+        `@pytest.mark.parametrize` decorator to parametrize the test with the
+        number of sub test cases.
 
         Example:
         ```
@@ -68,7 +71,7 @@ class BaseStaticTest(BaseModel):
             fork: Fork,
             pre: Alloc,
             n: int,
-            m: int,
+            m: int
         ):
             \"\"\"Generate a test from a static state filler.\"\"\"
             assert n == 1
@@ -85,35 +88,46 @@ class BaseStaticTest(BaseModel):
                 sender=sender,
             )
             state_test(env=env, pre=pre, post={}, tx=tx)
-
-        return test_state_filler
         ```
 
-        To aid the generation of the test, the function can be defined and then the decorator be
-        applied after defining the function:
+        To aid the generation of the test, the function can be defined and then
+        the decorator be applied after defining the function:
 
         ```
         def test_state_filler(
-            state_test: StateTestFiller,
+        state_test: StateTestFiller,
             fork: Fork,
             pre: Alloc,
             n: int,
             m: int,
         ):
-            ...
-        test_state_filler = pytest.mark.parametrize("n", [1])(test_state_filler)
-        test_state_filler = pytest.mark.parametrize("m", [1, 2])(test_state_filler)
+
+        ...
+
+        test_state_filler = pytest.mark.parametrize("n",
+            [1])(test_state_filler
+        )
+        test_state_filler = pytest.mark.parametrize("m",
+            [1, 2])(test_state_filler
+        )
+
         if self.valid_from:
-            test_state_filler = pytest.mark.valid_from(self.valid_from)(test_state_filler)
+            test_state_filler = pytest.mark.valid_from(
+                self.valid_from
+            )(test_state_filler)
+
         if self.valid_until:
-            test_state_filler = pytest.mark.valid_until(self.valid_until)(test_state_filler)
+            test_state_filler = pytest.mark.valid_until(
+                self.valid_until
+            )(test_state_filler)
+
         return test_state_filler
         ```
 
-        The function can contain the following parameters on top of the spec type parameter
-        (`state_test` in the example above):
-        - `fork`: The fork for which the test is currently being filled.
-        - `pre`: The pre-state of the test.
+        The function can contain the following parameters on top of the spec
+        type parameter (`state_test` in the example above): - `fork`: The fork
+        for which the test is currently being filled. - `pre`: The pre-state of
+        the test.
 
         """
         raise NotImplementedError
@@ -143,8 +157,8 @@ class BaseStaticTest(BaseModel):
 
 def remove_comments(v: str) -> str:
     """
-    Split by line and then remove the comments (starting with #) at the end of each line if
-    any.
+    Split by line and then remove the comments (starting with #) at the end of
+    each line if any.
     """
     return "\n".join([line.split("#")[0].strip() for line in v.splitlines()])
 

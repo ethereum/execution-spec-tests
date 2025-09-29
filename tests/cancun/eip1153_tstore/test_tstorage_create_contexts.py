@@ -1,7 +1,6 @@
 """
-abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-    Test cases for `TSTORE` and `TLOAD` opcode calls in contract initcode.
-"""  # noqa: E501
+Test transient storage in contract creation contexts.
+"""
 
 from enum import unique
 
@@ -32,8 +31,8 @@ pytestmark = [pytest.mark.valid_from("Cancun")]
 @unique
 class InitcodeTestCases(PytestParameterEnum):
     """
-    Defines test cases for transient storage opcode usage in contract constructor
-    and deployed code.
+    Defines test cases for transient storage opcode usage in contract
+    constructor and deployed code.
     """
 
     ONLY_CONSTRUCTOR_CODE = {
@@ -41,9 +40,11 @@ class InitcodeTestCases(PytestParameterEnum):
             "Test TLOAD and TSTORE behavior in contract constructor without deployed code"
         ),
         "constructor_code": (
-            # test creator's transient storage inaccessible from constructor code
+            # test creator's transient storage inaccessible from constructor
+            # code
             Op.SSTORE(0, Op.TLOAD(0))
-            # test constructor code can use its own transient storage & creator storage unaffected
+            # test constructor code can use its own transient storage & creator
+            # storage unaffected
             + Op.TSTORE(0, 1)
             + Op.SSTORE(1, Op.TLOAD(0))
         ),
@@ -53,13 +54,15 @@ class InitcodeTestCases(PytestParameterEnum):
     IN_CONSTRUCTOR_AND_DEPLOYED_CODE = {
         "description": "Test TLOAD and TSTORE behavior in contract constructor and deployed code",
         "constructor_code": (
-            # test creator's transient storage inaccessible from constructor code
+            # test creator's transient storage inaccessible from constructor
+            # code
             Op.SSTORE(0, Op.TLOAD(0))
         ),
         "deploy_code": (
             # test creator's transient storage inaccessible from deployed code
             Op.SSTORE(1, Op.TLOAD(0))
-            # test deploy code can use its own transient storage & creator storage unaffected
+            # test deploy code can use its own transient storage & creator
+            # storage unaffected
             + Op.TSTORE(1, 1)
             + Op.SSTORE(2, Op.TLOAD(1))
         ),
@@ -68,15 +71,18 @@ class InitcodeTestCases(PytestParameterEnum):
     ACROSS_CONSTRUCTOR_AND_DEPLOYED_CODE_V0 = {
         "description": ("Test TSTORE behavior across contract constructor and deploy code. "),
         "constructor_code": (
-            # constructor code should be able to store its own transient storage
+            # constructor code should be able to store its own transient
+            # storage
             Op.TSTORE(1, 1)
         ),
         "deploy_code": (
             # test creator's transient storage inaccessible from deployed code
             Op.SSTORE(0, Op.TLOAD(0))
-            # test deploy code can use its own transient storage stored from constructor code
+            # test deploy code can use its own transient storage stored from
+            # constructor code
             + Op.SSTORE(1, Op.TLOAD(1))
-            # test deploy code can use its own transient storage stored from deployed code
+            # test deploy code can use its own transient storage stored from
+            # deployed code
             + Op.TSTORE(2, 1)
             + Op.SSTORE(2, Op.TLOAD(2))
         ),
@@ -89,17 +95,19 @@ class InitcodeTestCases(PytestParameterEnum):
         "constructor_code": (
             # test creator's transient storage inaccessible from constructor
             Op.SSTORE(0, Op.TLOAD(0))
-            # constructor code should be able to use its own transient storage / creator storage
-            # unaffected
+            # constructor code should be able to use its own transient storage
+            # / creator storage unaffected
             + Op.TSTORE(1, 1)
             + Op.SSTORE(1, Op.TLOAD(1))
         ),
         "deploy_code": (
             # test creator's transient storage inaccessible from deployed code
             Op.SSTORE(2, Op.TLOAD(0))
-            # test deploy code can use its own transient storage stored from constructor code
+            # test deploy code can use its own transient storage stored from
+            # constructor code
             + Op.SSTORE(3, Op.TLOAD(1))
-            # test deploy code can use its own transient storage stored from deployed code
+            # test deploy code can use its own transient storage stored from
+            # deployed code
             + Op.TSTORE(2, 1)
             + Op.SSTORE(4, Op.TLOAD(2))
         ),
@@ -113,7 +121,8 @@ class InitcodeTestCases(PytestParameterEnum):
         "deploy_code": (
             # test creator's transient storage inaccessible from deployed code
             Op.SSTORE(0, Op.TLOAD(0))
-            # test deployed code can use its own transient storage & creator storage unaffected
+            # test deployed code can use its own transient storage & creator
+            # storage unaffected
             + Op.TSTORE(0, 1)
             + Op.SSTORE(1, Op.TLOAD(0))
         ),
@@ -126,10 +135,12 @@ class InitcodeTestCases(PytestParameterEnum):
 class TestTransientStorageInContractCreation:
     """
     Test transient storage in contract creation contexts.
-    - TSTORE/TLOAD in initcode should not be able to access the creator's transient storage.
-    - TSTORE/TLOAD in initcode should be able to access the created contract's transient
-        storage.
-    - TSTORE/TLOAD in creator contract should be able to use its own transient storage.
+    - TSTORE/TLOAD in initcode should not be able to access the creator's
+      transient storage.
+    - TSTORE/TLOAD in initcode should be able to access the created contract's
+      transient storage.
+    - TSTORE/TLOAD in creator contract should be able to use its own
+      transient storage.
     """
 
     @pytest.fixture()
@@ -165,8 +176,8 @@ class TestTransientStorageInContractCreation:
                     )
                 ),
             )
-            # Save the state of transient storage following call to storage; the transient
-            # storage should not have been overwritten
+            # Save the state of transient storage following call to storage;
+            # the transient storage should not have been overwritten
             + Op.SSTORE(0, Op.TLOAD(0))
             + Op.SSTORE(1, Op.TLOAD(1))
             + Op.SSTORE(2, Op.TLOAD(2))

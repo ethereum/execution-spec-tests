@@ -17,7 +17,9 @@ ref_spec_3860 = ReferenceSpec("EIPS/eip-3860.md", "9ee005834d488e381455cf86a56c7
 @dataclass(frozen=True)
 class Spec:
     """
-    Parameters from the EIP-3860 specifications as defined at
+    Define parameters from the EIP-3860 specifications.
+
+    These are the parameters defined at
     https://eips.ethereum.org/EIPS/eip-3860#parameters.
     """
 

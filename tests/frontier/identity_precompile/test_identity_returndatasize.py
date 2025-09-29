@@ -1,4 +1,4 @@
-"""abstract: Test identity precompile output size."""
+"""Test identity precompile output size."""
 
 import pytest
 
@@ -11,7 +11,8 @@ from ethereum_test_tools import (
     Transaction,
 )
 from ethereum_test_tools import Opcodes as Op
-from tests.frontier.identity_precompile.common import Constants
+
+from .common import Constants
 
 
 @pytest.mark.ported_from(
@@ -36,7 +37,10 @@ def test_identity_precompile_returndata(
     output_size: int,
     expected_returndatasize: int,
 ):
-    """Test identity precompile RETURNDATA is sized correctly based on the input size."""
+    """
+    Test identity precompile RETURNDATA is sized correctly based on the input
+    size.
+    """
     env = Environment()
     storage = Storage()
 

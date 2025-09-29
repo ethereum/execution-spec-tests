@@ -4,8 +4,8 @@ import pytest
 
 from ethereum_test_specs import EOFStateTestFiller
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container, Section
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 
@@ -36,7 +36,10 @@ def test_dataloadn(eof_state_test: EOFStateTestFiller, index: int, suffix_len: i
 
 
 def create_data_test(offset: int, datasize: int):
-    """Generate data load operators test cases based on load offset and data section size."""
+    """
+    Generate data load operators test cases based on load offset and data
+    section size.
+    """
     data = b"".join(i.to_bytes(length=2, byteorder="big") for i in range(1, datasize // 2 + 1))
     assert len(data) == datasize
     overhang = min(32, offset + 32 - datasize)

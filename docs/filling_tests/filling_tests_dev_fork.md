@@ -10,26 +10,26 @@ By default, execution-spec-tests only generates fixtures for forks that have bee
     === "via the `--fork` flag"
 
           ```console
-          fill -k 4844 --fork=Cancun -v
+          uv run fill -k 4844 --fork=Cancun -v
           ```
 
     === "via the `--from` flag"
 
           ```console
-          fill -k 4844 --from=Cancun -v
+          uv run fill -k 4844 --from=Cancun -v
           ```
 
     === "via the `--until` flag"
 
           ```console
-          fill -k 4844 --until=Cancun -v
+          uv run fill -k 4844 --until=Cancun -v
           ```
 
 !!! note "Specifying the `evm` binary via `evm-bin`"
      It is possible to explicitly specify the `evm` binary used to generate fixtures via the `--evm-bin` flag, for example,
 
      ```console
-     fill --fork=Cancun --evm-bin=/opt/bin/evm -v
+     uv run fill --fork=Cancun --evm-bin=/opt/bin/evm -v
      ```
 
 ## Further Help

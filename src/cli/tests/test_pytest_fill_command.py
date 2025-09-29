@@ -44,20 +44,26 @@ def test_fill_with_invalid_option(runner):
     assert "unrecognized arguments" in result.output
 
 
-@pytest.mark.run_in_serial
 class TestHtmlReportFlags:
     """Test html report generation and output options."""
 
     @pytest.fixture
-    def fill_args(self):
+    def fill_args(self, default_t8n):
         """
-        Provide default arguments for the `fill` command when testing html report
-        generation.
+        Provide default arguments for the `fill` command when testing html
+        report generation.
 
-        Specifies a single existing example test case for faster fill execution,
-        and to allow for tests to check for the fixture generation location.
+        Specifies a single existing example test case for faster fill
+        execution, and to allow for tests to check for the fixture generation
+        location.
         """
-        return ["-k", "test_dup and state_test-DUP16", "--fork", "Frontier"]
+        return [
+            "-k",
+            "test_dup and state_test-DUP16",
+            "--fork",
+            "Frontier",
+            f"--t8n-server-url={default_t8n.server_url}",
+        ]
 
     @pytest.fixture()
     def default_html_report_file_path(self):
@@ -76,8 +82,8 @@ class TestHtmlReportFlags:
         """
         Monkeypatch default output directory for the pytest commands.
 
-        This avoids using the local directory in user space for the output of pytest
-        commands and uses the a temporary directory instead.
+        This avoids using the local directory in user space for the output of
+        pytest commands and uses the a temporary directory instead.
         """
 
         def mock_default_output_directory():
@@ -96,7 +102,10 @@ class TestHtmlReportFlags:
         fill_args,
         default_html_report_file_path,
     ):
-        """Test default pytest html behavior: Neither `--html` or `--output` is specified."""
+        """
+        Test default pytest html behavior: Neither `--html` or `--output` is
+        specified.
+        """
         default_html_path = temp_dir / default_html_report_file_path
         result = runner.invoke(fill, fill_args)
         assert result.exit_code == pytest.ExitCode.OK
@@ -136,7 +145,9 @@ class TestHtmlReportFlags:
         fill_args,
         default_html_report_file_path,
     ):
-        """Tests pytest html report generation with only the `--output` flag."""
+        """
+        Tests pytest html report generation with only the `--output` flag.
+        """
         output_dir = temp_dir / "non_default_output_dir"
         non_default_html_path = output_dir / default_html_report_file_path
         fill_args += ["--output", str(output_dir)]
@@ -151,7 +162,10 @@ class TestHtmlReportFlags:
         temp_dir,
         fill_args,
     ):
-        """Tests pytest html report generation with both `--output` and `--html` flags."""
+        """
+        Tests pytest html report generation with both `--output` and `--html`
+        flags.
+        """
         output_dir = temp_dir / "non_default_output_dir_fixtures"
         html_path = temp_dir / "non_default_output_dir_html" / "non_default.html"
         fill_args += ["--output", str(output_dir), "--html", str(html_path)]

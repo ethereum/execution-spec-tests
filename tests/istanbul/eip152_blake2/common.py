@@ -14,15 +14,19 @@ class Blake2bInput(TestParameterGroup):
     call data from them. Returns all inputs encoded as bytes.
 
     Attributes:
-        rounds_length (int): An optional integer representing the bytes length
-            for the number of rounds. Defaults to the expected length of 4.
-        rounds (int | str): A hex string or integer value representing the number of rounds.
-        h (str): A hex string that represents the state vector.
-        m (str): A hex string that represents the message block vector.
-        t_0 (int | str): A hex string or integer value that represents the first offset counter.
-        t_1 (int | str): A hex string or integer value that represents the second offset counter.
-        f (bool): An optional boolean that represents the final block indicator flag.
-            Defaults to True.
+      rounds_length (int): An optional integer representing the bytes
+                           length for the number of rounds.
+                           Defaults to the expected length of 4.
+      rounds (int | str): A hex string or integer value representing the number
+                          of rounds.
+      h (str): A hex string that represents the state vector.
+      m (str): A hex string that represents the message block vector.
+      t_0 (int | str): A hex string or integer value that represents
+                       the first offset counter.
+      t_1(int | str): A hex string or integer value that represents the second
+                      offset counter.
+      f (bool): An optional boolean that represents the final block indicator
+                flag. Defaults to True.
 
     """
 
@@ -58,10 +62,10 @@ class ExpectedOutput(TestParameterGroup):
     Expected test result.
 
     Attributes:
-        call_succeeds (str | bool): A hex string or boolean to indicate whether the call was
-            successful or not.
-        data_1 (str): String value of the first updated state vector.
-        data_2 (str): String value of the second updated state vector.
+      call_succeeds (str | bool): A hex string or boolean to indicate
+                                  whether the call was successful or not.
+      data_1 (str): String value of the first updated state vector.
+      data_2 (str): String value of the second updated state vector.
 
     """
 

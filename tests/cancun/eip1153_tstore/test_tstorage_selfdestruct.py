@@ -1,8 +1,9 @@
 """
-abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-    Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy after self-destruct, taking into
-    account the changes in EIP-6780.
-"""  # noqa: E501
+EIP-1153 Transient Storage with selfdestruct tests.
+
+Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy after
+self-destruct, taking into account the changes in EIP-6780.
+"""
 
 from enum import unique
 from typing import Dict
@@ -36,7 +37,10 @@ CREATE_CODE = Op.CALLDATACOPY(size=Op.CALLDATASIZE) + Op.CREATE(size=Op.CALLDATA
 
 
 def call_option(option_number: int) -> Bytecode:
-    """Return the bytecode for a call to the callee contract with the given option number."""
+    """
+    Return the bytecode for a call to the callee contract with the given option
+    number.
+    """
     return Op.MSTORE(value=option_number) + Op.CALL(
         address=Op.SLOAD(0),
         args_offset=0,
@@ -49,8 +53,8 @@ def call_option(option_number: int) -> Bytecode:
 @unique
 class SelfDestructCases(PytestParameterEnum):
     """
-    Transient storage test cases for different reentrancy calls which involve the contract
-    self-destructing.
+    Transient storage test cases for different reentrancy calls which involve
+    the contract self-destructing.
     """
 
     TLOAD_AFTER_SELFDESTRUCT_PRE_EXISTING_CONTRACT = {
@@ -225,7 +229,10 @@ def test_reentrant_selfdestructing_call(
     callee_bytecode: Bytecode,
     expected_storage: Dict,
 ):
-    """Test transient storage in different reentrancy contexts after selfdestructing."""
+    """
+    Test transient storage in different reentrancy contexts after
+    selfdestructing.
+    """
     env = Environment()
 
     caller_address = pre.deploy_contract(code=caller_bytecode)

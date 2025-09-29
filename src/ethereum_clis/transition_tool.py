@@ -10,11 +10,12 @@ import time
 from abc import abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, LiteralString, Mapping, Optional, Type
+from typing import Any, ClassVar, Dict, List, LiteralString, Mapping, Optional, Type
 from urllib.parse import urlencode
 
 from requests import Response
 from requests.exceptions import ConnectionError as RequestsConnectionError
+from requests.exceptions import ReadTimeout
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_base_types import BlobSchedule
@@ -23,35 +24,41 @@ from ethereum_test_forks import Fork
 from ethereum_test_forks.helpers import get_development_forks, get_forks
 from ethereum_test_types import Alloc, Environment, Transaction
 
-from .ethereum_cli import EthereumCLI
-from .file_utils import dump_files_to_directory, write_json_file
-from .types import (
+from .cli_types import (
+    Traces,
     TransactionReceipt,
+    TransactionTraces,
     TransitionToolContext,
     TransitionToolInput,
     TransitionToolOutput,
     TransitionToolRequest,
 )
+from .ethereum_cli import EthereumCLI
+from .file_utils import dump_files_to_directory, write_json_file
 
 model_dump_config: Mapping = {"by_alias": True, "exclude_none": True}
 
-NORMAL_SERVER_TIMEOUT = 20
-SLOW_REQUEST_TIMEOUT = 180
+# TODO: reduce NORMAL_SERVER_TIMEOUT back down to 20 once BLS timeout issue is
+# resolved: https://github.com/ethereum/execution-spec-tests/issues/1894
+NORMAL_SERVER_TIMEOUT = 600
+SLOW_REQUEST_TIMEOUT = 600
 
 
 def get_valid_transition_tool_names() -> set[str]:
-    """Get all valid transition tool names from deployed and development forks."""
+    """
+    Get all valid transition tool names from deployed and development forks.
+    """
     all_available_forks = get_forks() + get_development_forks()
     return {fork.transition_tool_name() for fork in all_available_forks}
 
 
 class TransitionTool(EthereumCLI):
     """
-    Transition tool abstract base class which should be inherited by all transition tool
-    implementations.
+    Transition tool abstract base class which should be inherited by all
+    transition tool implementations.
     """
 
-    traces: List[List[List[Dict]]] | None = None
+    traces: List[Traces] | None = None
 
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
@@ -62,8 +69,10 @@ class TransitionTool(EthereumCLI):
     cached_version: Optional[str] = None
     t8n_use_stream: bool = False
     t8n_use_server: bool = False
-    server_url: str
+    server_url: str | None = None
     process: Optional[subprocess.Popen] = None
+
+    supports_xdist: ClassVar[bool] = True
 
     @abstractmethod
     def __init__(
@@ -73,7 +82,9 @@ class TransitionTool(EthereumCLI):
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        """Abstract initialization method that all subclasses must implement."""
+        """
+        Abstract initialization method that all subclasses must implement.
+        """
         assert exception_mapper is not None
         self.exception_mapper = exception_mapper
         super().__init__(binary=binary)
@@ -104,13 +115,15 @@ class TransitionTool(EthereumCLI):
         """Reset the internal trace storage for a new test to begin."""
         self.traces = None
 
-    def append_traces(self, new_traces: List[List[Dict]]):
-        """Append a list of traces of a state transition to the current list."""
+    def append_traces(self, new_traces: Traces):
+        """
+        Append a list of traces of a state transition to the current list.
+        """
         if self.traces is None:
             self.traces = []
         self.traces.append(new_traces)
 
-    def get_traces(self) -> List[List[List[Dict]]] | None:
+    def get_traces(self) -> List[Traces] | None:
         """Return the accumulated traces."""
         return self.traces
 
@@ -119,22 +132,24 @@ class TransitionTool(EthereumCLI):
         receipts: List[TransactionReceipt],
         temp_dir: tempfile.TemporaryDirectory,
         debug_output_path: str = "",
-    ) -> None:
-        """Collect the traces from the t8n tool output and store them in the traces list."""
-        traces: List[List[Dict]] = []
+    ) -> Traces:
+        """
+        Collect the traces from the t8n tool output and store them in the
+        traces list.
+        """
+        traces: Traces = Traces(root=[])
+        temp_dir_path = Path(temp_dir.name)
         for i, r in enumerate(receipts):
             trace_file_name = f"trace-{i}-{r.transaction_hash}.jsonl"
+            trace_file_path = temp_dir_path / trace_file_name
             if debug_output_path:
                 shutil.copy(
-                    os.path.join(temp_dir.name, trace_file_name),
-                    os.path.join(debug_output_path, trace_file_name),
+                    trace_file_path,
+                    Path(debug_output_path) / trace_file_name,
                 )
-            with open(os.path.join(temp_dir.name, trace_file_name), "r") as trace_file:
-                tx_traces: List[Dict] = []
-                for trace_line in trace_file.readlines():
-                    tx_traces.append(json.loads(trace_line))
-                traces.append(tx_traces)
+            traces.append(TransactionTraces.from_file(trace_file_path))
         self.append_traces(traces)
+        return traces
 
     @dataclass
     class TransitionToolData:
@@ -188,7 +203,10 @@ class TransitionTool(EthereumCLI):
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:
-        """Execute a transition tool using the filesystem for its inputs and outputs."""
+        """
+        Execute a transition tool using the filesystem for its inputs and
+        outputs.
+        """
         temp_dir = tempfile.TemporaryDirectory()
         os.mkdir(os.path.join(temp_dir.name, "input"))
         os.mkdir(os.path.join(temp_dir.name, "output"))
@@ -250,14 +268,16 @@ class TransitionTool(EthereumCLI):
                 t8n_call = t8n_call.replace(
                     os.path.dirname(file_path), os.path.join(debug_output_path, "input")
                 )
-            t8n_call = t8n_call.replace(  # use a new output path for basedir and outputs
+            # use a new output path for basedir and outputs
+            t8n_call = t8n_call.replace(
                 temp_dir.name,
                 t8n_output_base_dir,
             )
             t8n_script = textwrap.dedent(
                 f"""\
                 #!/bin/bash
-                rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
+                # hard-coded to avoid surprises
+                rm -rf {debug_output_path}/t8n.sh.out
                 mkdir -p {debug_output_path}/t8n.sh.out/output
                 {t8n_call}
                 """
@@ -289,11 +309,19 @@ class TransitionTool(EthereumCLI):
             output_contents, context={"exception_mapper": self.exception_mapper}
         )
         if self.trace:
-            self.collect_traces(output.result.receipts, temp_dir, debug_output_path)
+            output.result.traces = self.collect_traces(
+                output.result.receipts, temp_dir, debug_output_path
+            )
 
         temp_dir.cleanup()
 
         return output
+
+    def _restart_server(self):
+        """Check if the server is still responsive and restart if needed."""
+        self.shutdown()
+        time.sleep(0.1)
+        self.start_server()
 
     def _server_post(
         self,
@@ -306,6 +334,7 @@ class TransitionTool(EthereumCLI):
         if url_args is None:
             url_args = {}
         post_delay = 0.1
+
         while True:
             try:
                 response = Session().post(
@@ -314,7 +343,8 @@ class TransitionTool(EthereumCLI):
                     timeout=timeout,
                 )
                 break
-            except RequestsConnectionError as e:
+            except (RequestsConnectionError, ReadTimeout) as e:
+                self._restart_server()
                 retries -= 1
                 if retries == 0:
                     raise e
@@ -339,7 +369,9 @@ class TransitionTool(EthereumCLI):
         debug_output_path: str = "",
         timeout: int,
     ) -> TransitionToolOutput:
-        """Execute the transition tool sending inputs and outputs via a server."""
+        """
+        Execute the transition tool sending inputs and outputs via a server.
+        """
         request_data = t8n_data.get_request_data()
         request_data_json = request_data.model_dump(mode="json", **model_dump_config)
 
@@ -379,7 +411,9 @@ class TransitionTool(EthereumCLI):
         )
 
         if self.trace:
-            self.collect_traces(output.result.receipts, temp_dir, debug_output_path)
+            output.result.traces = self.collect_traces(
+                output.result.receipts, temp_dir, debug_output_path
+            )
         temp_dir.cleanup()
 
         if debug_output_path:
@@ -406,7 +440,10 @@ class TransitionTool(EthereumCLI):
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:
-        """Execute a transition tool using stdin and stdout for its inputs and outputs."""
+        """
+        Execute a transition tool using stdin and stdout for its inputs and
+        outputs.
+        """
         temp_dir = tempfile.TemporaryDirectory()
         args = self.construct_args_stream(t8n_data, temp_dir)
 
@@ -439,7 +476,9 @@ class TransitionTool(EthereumCLI):
             )
 
         if self.trace:
-            self.collect_traces(output.result.receipts, temp_dir, debug_output_path)
+            output.result.traces = self.collect_traces(
+                output.result.receipts, temp_dir, debug_output_path
+            )
             temp_dir.cleanup()
 
         return output
@@ -448,7 +487,8 @@ class TransitionTool(EthereumCLI):
         self, fork_name: str, chain_id: int, reward: int, temp_dir=None
     ) -> List[str]:
         """Safely construct t8n arguments with validated inputs."""
-        # Validate fork name against actual transition tool names from all available forks
+        # Validate fork name against actual transition tool names from all
+        # available forks
         valid_forks = get_valid_transition_tool_names()
         if fork_name not in valid_forks:
             raise ValueError(f"Invalid fork name: {fork_name}")
@@ -508,7 +548,9 @@ class TransitionTool(EthereumCLI):
         args: List[str],
         result: subprocess.CompletedProcess,
     ):
-        """Export debug files if requested when interacting with t8n via streams."""
+        """
+        Export debug files if requested when interacting with t8n via streams.
+        """
         if not debug_output_path:
             return
 
@@ -519,8 +561,11 @@ class TransitionTool(EthereumCLI):
         t8n_script = textwrap.dedent(
             f"""\
             #!/bin/bash
-            rm -rf {debug_output_path}/t8n.sh.out  # hard-coded to avoid surprises
-            mkdir {debug_output_path}/t8n.sh.out  # unused if tracing is not enabled
+            # hard-coded to avoid surprises
+            rm -rf {debug_output_path}/t8n.sh.out
+
+            # unused if tracing is not enabled
+            mkdir {debug_output_path}/t8n.sh.out
             {t8n_call} < {debug_output_path}/stdin.txt
             """
         )
@@ -555,7 +600,7 @@ class TransitionTool(EthereumCLI):
         can be overridden.
         """
         if self.t8n_use_server:
-            if not self.process:
+            if not self.server_url:
                 self.start_server()
             return self._evaluate_server(
                 t8n_data=transition_tool_data,

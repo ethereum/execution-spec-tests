@@ -12,7 +12,7 @@ from pydantic import TypeAdapter
 
 from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
 from ethereum_test_base_types import to_json
-from ethereum_test_forks import Berlin, Fork, Istanbul, London
+from ethereum_test_forks import Berlin
 from ethereum_test_types import Alloc, Environment, Transaction
 
 FIXTURES_ROOT = Path(os.path.join("src", "ethereum_clis", "tests", "fixtures"))
@@ -22,10 +22,11 @@ DEFAULT_EVM_T8N_BINARY_NAME = "ethereum-spec-evm-resolver"
 @pytest.fixture(autouse=True)
 def monkeypatch_path_for_entry_points(monkeypatch):
     """
-    Monkeypatch the PATH to add the "bin" directory where entrypoints are installed.
+    Monkeypatch the PATH to add the "bin" directory where entrypoints are
+    installed.
 
-    This would typically be in the venv in which pytest is running these tests and fill,
-    which, with uv, is `./.venv/bin`.
+    This would typically be in the venv in which pytest is running these tests
+    and fill, which, with uv, is `./.venv/bin`.
 
     This is required in order for fill to locate the ethereum-spec-evm-resolver
     "binary" (entrypoint) when being executed using pytester.
@@ -34,9 +35,8 @@ def monkeypatch_path_for_entry_points(monkeypatch):
     monkeypatch.setenv("PATH", f"{bin_dir}:{os.environ['PATH']}")
 
 
-@pytest.mark.parametrize("fork", [London, Istanbul])
 @pytest.mark.parametrize(
-    "alloc,base_fee,expected_hash",
+    "alloc,expected_hash",
     [
         (
             {
@@ -47,7 +47,6 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     "storage": {},
                 },
             },
-            7,
             bytes.fromhex("51e7c7508e76dca0"),
         ),
         (
@@ -56,7 +55,6 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     "balance": "0x0BA1A9CE0BA1A9CE",
                 },
             },
-            None,
             bytes.fromhex("51e7c7508e76dca0"),
         ),
         (
@@ -68,7 +66,6 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     "storage": {},
                 },
             },
-            None,
             bytes.fromhex("37c2dedbdea6b3af"),
         ),
         (
@@ -80,25 +77,15 @@ def monkeypatch_path_for_entry_points(monkeypatch):
                     },
                 },
             },
-            None,
             bytes.fromhex("096122e88929baec"),
         ),
     ],
 )
 def test_calc_state_root(
-    default_t8n: TransitionTool,
-    fork: Fork,
     alloc: Dict,
-    base_fee: int | None,
     expected_hash: bytes,
 ) -> None:
     """Test calculation of the state root against expected hash."""
-
-    class TestEnv:
-        base_fee: int | None
-
-    env = TestEnv()
-    env.base_fee = base_fee
     assert Alloc(alloc).state_root().startswith(expected_hash)
 
 
@@ -112,7 +99,8 @@ def test_evm_tool_binary_arg(evm_tool, binary_arg):
     elif binary_arg == "path_type":
         evm_bin = which(DEFAULT_EVM_T8N_BINARY_NAME)
         if not evm_bin:
-            # typing: Path can not take None; but if it is None, we may as well fail explicitly.
+            # typing: Path can not take None; but if it is None, we may as well
+            # fail explicitly.
             raise Exception("Failed to find `{DEFAULT_EVM_T8N_BINARY_NAME}` in the PATH via which")
         evm_tool(binary=Path(evm_bin)).version()
         return
@@ -157,7 +145,9 @@ def test_evm_t8n(
     env: Environment,
     test_dir: str,
 ) -> None:
-    """Test the `evaluate` method of the `ExecutionSpecsTransitionTool` class."""
+    """
+    Test the `evaluate` method of the `ExecutionSpecsTransitionTool` class.
+    """
     expected_path = Path(FIXTURES_ROOT, test_dir, "exp.json")
 
     with open(expected_path, "r") as exp:
@@ -176,8 +166,9 @@ def test_evm_t8n(
         )
         assert to_json(t8n_output.alloc) == expected.get("alloc")
         if isinstance(default_t8n, ExecutionSpecsTransitionTool):
-            # The expected output was generated with geth, instead of deleting any info from
-            # this expected output, the fields not returned by eels are handled here.
+            # The expected output was generated with geth, instead of deleting
+            # any info from this expected output, the fields not returned by
+            # eels are handled here.
             missing_receipt_fields = [
                 "root",
                 "status",

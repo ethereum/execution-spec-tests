@@ -20,7 +20,10 @@ class HashableItemType(IntEnum):
 
 @dataclass(kw_only=True)
 class HashableItem:
-    """Represents an item that can be hashed containing other items that can be hashed as well."""
+    """
+    Represents an item that can be hashed containing other items that can be
+    hashed as well.
+    """
 
     type: HashableItemType
     parents: List[str] = field(default_factory=list)

@@ -1,7 +1,9 @@
 """
-abstract: Tests BLS12_G2MSM precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_G2MSM precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Test the BLS12_G2MSM precompile.
+
+Test the BLS12_G2MSM precompile introduced in
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -9,7 +11,7 @@ from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools import Opcodes as Op
 
 from .conftest import G2_POINTS_NOT_IN_SUBGROUP, G2_POINTS_NOT_ON_CURVE
-from .helpers import vectors_from_file
+from .helpers import PointG2, vectors_from_file
 from .spec import Scalar, Spec, ref_spec_2537
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
@@ -69,7 +71,8 @@ pytestmark = [
             None,
             id="multiple_points_zero_scalar",
         ),
-        # Cases with maximum discount table (test vector for gas cost calculation)
+        # Cases with maximum discount table (test vector for gas cost
+        # calculation)
         pytest.param(
             (Spec.P2 + Scalar(Spec.Q)) * (len(Spec.G2MSM_DISCOUNT_TABLE) - 1),
             Spec.INF_G2,
@@ -171,15 +174,62 @@ def test_valid(
             id="scalar_too_large",
         ),
         pytest.param(
-            Spec.G2 + Scalar(1).x.to_bytes(16, byteorder="big"),  # Invalid scalar length
+            # Invalid scalar length
+            Spec.G2 + Scalar(1).x.to_bytes(16, byteorder="big"),
             id="scalar_too_short",
         ),
         pytest.param(
             bytes([0]) * 287,  # Just under minimum valid length
             id="input_too_short_by_1",
         ),
+        # Coordinates above modulus p cases.
+        pytest.param(
+            PointG2((Spec.P2.x[0] + Spec.P, Spec.P2.x[1]), Spec.P2.y) + Scalar(1),
+            id="x_c0_above_p_pos_0",
+        ),
+        pytest.param(
+            PointG2((Spec.P2.x[0], Spec.P2.x[1] + Spec.P), Spec.P2.y) + Scalar(1),
+            id="x_c1_above_p_pos_0",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0] + Spec.P, Spec.P2.y[1])) + Scalar(1),
+            id="y_c0_above_p_pos_0",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] + Spec.P)) + Scalar(1),
+            id="y_c1_above_p_pos_0",
+        ),
+        pytest.param(
+            Spec.G2
+            + Scalar(1)
+            + PointG2((Spec.P2.x[0] + Spec.P, Spec.P2.x[1]), Spec.P2.y)
+            + Scalar(0),
+            id="x_c0_above_p_pos_1",
+        ),
+        pytest.param(
+            Spec.G2
+            + Scalar(1)
+            + PointG2((Spec.P2.x[0], Spec.P2.x[1] + Spec.P), Spec.P2.y)
+            + Scalar(0),
+            id="x_c1_above_p_pos_1",
+        ),
+        pytest.param(
+            Spec.G2
+            + Scalar(1)
+            + PointG2(Spec.P2.x, (Spec.P2.y[0] + Spec.P, Spec.P2.y[1]))
+            + Scalar(0),
+            id="y_c0_above_p_pos_1",
+        ),
+        pytest.param(
+            Spec.G2
+            + Scalar(1)
+            + PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] + Spec.P))
+            + Scalar(0),
+            id="y_c1_above_p_pos_1",
+        ),
     ],
-    # Input length tests can be found in ./test_bls12_variable_length_input_contracts.py
+    # Input length tests can be found in
+    # ./test_bls12_variable_length_input_contracts.py
 )
 @pytest.mark.parametrize(
     "precompile_gas_modifier", [100_000], ids=[""]

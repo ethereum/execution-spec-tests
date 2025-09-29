@@ -6,7 +6,6 @@ from enum import Enum, auto, unique
 import pytest
 
 from ethereum_test_tools import (
-    EOA,
     Account,
     Address,
     Alloc,
@@ -14,7 +13,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 pytestmark = pytest.mark.valid_from("Prague")
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7702.md"
@@ -51,12 +50,6 @@ class TargetAccountType(Enum):
     def __str__(self) -> str:
         """Return string representation of the enum."""
         return f"{self.name}"
-
-
-@pytest.fixture
-def sender(pre: Alloc) -> EOA:
-    """Sender of the transaction."""
-    return pre.fund_eoa()
 
 
 @pytest.fixture

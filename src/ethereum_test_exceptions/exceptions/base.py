@@ -25,7 +25,10 @@ class ExceptionBase(Enum):
     def __get_pydantic_core_schema__(
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call class constructor without info and appends the serialization schema."""
+        """
+        Call class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             cls.from_str,
             serialization=to_string_ser_schema(),
@@ -82,7 +85,10 @@ class UndefinedException(str):
     def __get_pydantic_core_schema__(
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call class constructor without info and appends the serialization schema."""
+        """
+        Call class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             cls,
             serialization=to_string_ser_schema(),

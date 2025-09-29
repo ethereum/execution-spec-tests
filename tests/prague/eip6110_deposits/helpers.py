@@ -77,22 +77,16 @@ class DepositRequest(DepositRequestBase):
     """Deposit request descriptor."""
 
     valid: bool = True
-    """
-    Whether the deposit request is valid or not.
-    """
+    """Whether the deposit request is valid or not."""
     gas_limit: int = 1_000_000
-    """
-    Gas limit for the call.
-    """
+    """Gas limit for the call."""
     calldata_modifier: Callable[[bytes], bytes] = lambda x: x
-    """
-    Calldata modifier function.
-    """
+    """Calldata modifier function."""
     extra_wei: int = 0
     """
-    Extra amount in wei to be sent with the deposit.
-    If this value modulo 10**9 is not zero, the deposit will be invalid.
-    The value can be negative but if the total value is negative, an exception will be raised.
+    Extra amount in wei to be sent with the deposit. If this value modulo 10**9
+    is not zero, the deposit will be invalid. The value can be negative but if
+    the total value is negative, an exception will be raised.
     """
 
     interaction_contract_address: ClassVar[Address] = Address(Spec.DEPOSIT_CONTRACT_ADDRESS)
@@ -100,8 +94,8 @@ class DepositRequest(DepositRequestBase):
     @cached_property
     def value(self) -> int:
         """
-        Return the value of the deposit transaction, equal to the amount in gwei plus the
-        extra amount in wei.
+        Return the value of the deposit transaction, equal to the amount in
+        gwei plus the extra amount in wei.
         """
         value = (self.amount * 10**9) + self.extra_wei
         if value < 0:
@@ -123,13 +117,14 @@ class DepositRequest(DepositRequestBase):
     @cached_property
     def calldata(self) -> bytes:
         """
-        Return the calldata needed to call the beacon chain deposit contract and make the deposit.
+        Return the calldata needed to call the beacon chain deposit contract
+        and make the deposit.
 
         deposit(
-            bytes calldata pubkey,
-            bytes calldata withdrawal_credentials,
-            bytes calldata signature,
-            bytes32 deposit_data_root
+          bytes calldata pubkey,
+          bytes calldata withdrawal_credentials,
+          bytes calldata signature,
+          bytes32 deposit_data_root
         )
         """
         offset_length = 32
@@ -155,11 +150,11 @@ class DepositRequest(DepositRequestBase):
         Return the log data for the deposit event.
 
         event DepositEvent(
-            bytes pubkey,
-            bytes withdrawal_credentials,
-            bytes amount,
-            bytes signature,
-            bytes index
+          bytes pubkey,
+          bytes withdrawal_credentials,
+          bytes amount,
+          bytes signature,
+          bytes index
         );
         """
         data = bytearray(576)
@@ -199,17 +194,11 @@ class DepositInteractionBase:
     """Base class for all types of deposit transactions we want to test."""
 
     sender_balance: int = 32_000_000_000_000_000_000 * 100
-    """
-    Balance of the account that sends the transaction.
-    """
+    """Balance of the account that sends the transaction."""
     sender_account: EOA | None = None
-    """
-    Account that sends the transaction.
-    """
+    """Account that sends the transaction."""
     requests: List[DepositRequest]
-    """
-    Deposit request to be included in the block.
-    """
+    """Deposit request to be included in the block."""
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the deposit request."""
@@ -220,13 +209,19 @@ class DepositInteractionBase:
         raise NotImplementedError
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
-        """Return the list of deposit requests that should be included in the block."""
+        """
+        Return the list of deposit requests that should be included in the
+        block.
+        """
         raise NotImplementedError
 
 
 @dataclass(kw_only=True)
 class DepositTransaction(DepositInteractionBase):
-    """Class used to describe a deposit originated from an externally owned account."""
+    """
+    Class used to describe a deposit originated from an externally owned
+    account.
+    """
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the deposit request."""
@@ -248,7 +243,10 @@ class DepositTransaction(DepositInteractionBase):
         self.sender_account = pre.fund_eoa(self.sender_balance)
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
-        """Return the list of deposit requests that should be included in the block."""
+        """
+        Return the list of deposit requests that should be included in the
+        block.
+        """
         return [
             request
             for request in self.requests
@@ -261,34 +259,23 @@ class DepositContract(DepositInteractionBase):
     """Class used to describe a deposit originated from a contract."""
 
     tx_gas_limit: int = 1_000_000
-    """
-    Gas limit for the transaction.
-    """
+    """Gas limit for the transaction."""
     tx_value: int = 0
-    """
-    Value to send with the transaction.
-    """
+    """Value to send with the transaction."""
 
     contract_balance: int = 32_000_000_000_000_000_000 * 100
-    """
-    Balance of the contract that sends the deposit requests.
-    """
+    """Balance of the contract that sends the deposit requests."""
     contract_address: Address | None = None
-    """
-    Address of the contract that sends the deposit requests.
-    """
+    """Address of the contract that sends the deposit requests."""
     entry_address: Address | None = None
-    """
-    Address to send the transaction to.
-    """
+    """Address to send the transaction to."""
 
     call_type: Op = field(default_factory=lambda: Op.CALL)
-    """
-    Type of call to be made to the deposit contract.
-    """
+    """Type of call to be made to the deposit contract."""
     call_depth: int = 2
     """
-    Frame depth of the beacon chain deposit contract when it executes the deposit requests.
+    Frame depth of the beacon chain deposit contract when it executes the
+    deposit requests.
     """
     extra_code: Bytecode = field(default_factory=Bytecode)
     """
@@ -357,5 +344,8 @@ class DepositContract(DepositInteractionBase):
                 )
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
-        """Return the list of deposit requests that should be included in the block."""
+        """
+        Return the list of deposit requests that should be included in the
+        block.
+        """
         return [d for d in self.requests if d.valid and d.value >= current_minimum_fee]

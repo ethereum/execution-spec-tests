@@ -8,6 +8,10 @@ from pathlib import Path
 from re import Pattern
 from typing import Any, List, Optional, Type
 
+from pytest_plugins.custom_logging import get_logger
+
+logger = get_logger(__name__)
+
 
 class UnknownCLIError(Exception):
     """Exception raised if an unknown CLI is encountered."""
@@ -16,7 +20,9 @@ class UnknownCLIError(Exception):
 
 
 class CLINotFoundInPathError(Exception):
-    """Exception raised if the specified CLI binary is not found in the path."""
+    """
+    Exception raised if the specified CLI binary is not found in the path.
+    """
 
     def __init__(self, message="The CLI binary was not found in the path", binary=None):
         """Initialize the exception."""
@@ -45,11 +51,14 @@ class EthereumCLI:
     cached_version: Optional[str] = None
 
     def __init__(self, *, binary: Optional[Path] = None):
-        """Abstract initialization method that all subclasses must implement."""
+        """
+        Abstract initialization method that all subclasses must implement.
+        """
         if binary is None:
             binary = self.default_binary
         else:
-            # improve behavior of which by resolving the path: ~/relative paths don't work
+            # improve behavior of which by resolving the path: ~/relative paths
+            # don't work
             resolved_path = Path(os.path.expanduser(binary)).resolve()
             if resolved_path.exists():
                 binary = resolved_path
@@ -71,57 +80,104 @@ class EthereumCLI:
     @classmethod
     def from_binary_path(cls, *, binary_path: Optional[Path], **kwargs) -> Any:
         """
-        Instantiate the appropriate CLI subclass derived from the CLI's `binary_path`.
+        Instantiate the appropriate CLI subclass derived from the CLI's
+        `binary_path`.
 
-        This method will attempt to detect the CLI version and instantiate the appropriate
-        subclass based on the version output by running the CLI with the version flag.
+        This method will attempt to detect the CLI version and instantiate the
+        appropriate subclass based on the version output by running the CLI
+        with the version flag.
         """
         assert cls.default_tool is not None, "default CLI implementation was never set"
 
+        # ensure provided t8n binary can be found and used
         if binary_path is None:
+            logger.debug("Binary path of provided t8n is None!")
             return cls.default_tool(binary=binary_path, **kwargs)
 
-        resolved_path = Path(os.path.expanduser(binary_path)).resolve()
+        expanded_path = Path(os.path.expanduser(binary_path))
+        logger.debug(f"Expanded path of provided t8n: {expanded_path}")
+
+        resolved_path = expanded_path.resolve()
+        logger.debug(f"Resolved path of provided t8n: {resolved_path}")
+
         if resolved_path.exists():
-            binary_path = resolved_path
-        binary = shutil.which(binary_path)  # type: ignore
+            logger.debug("Resolved path exists")
+            binary = Path(resolved_path)
+        else:
+            logger.debug(
+                f"Resolved path does not exist: {resolved_path}\nTrying to find it via `which`"
+            )
 
-        if not binary:
-            raise CLINotFoundInPathError(binary=binary)
+            # it might be that the provided binary exists in path
+            filename = os.path.basename(resolved_path)
+            binary = shutil.which(filename)  # type: ignore
+            logger.debug(f"Output of 'which {binary_path}': {binary}")
 
-        binary = Path(binary)
+            if binary is None:
+                logger.error(f"Resolved t8n binary path does not exist: {resolved_path}")
+                raise CLINotFoundInPathError(binary=resolved_path)
 
-        # Group the tools by version flag, so we only have to call the tool once for all the
-        # classes that share the same version flag
+            assert binary is not None
+            logger.debug(f"Successfully located the path of the t8n binary: {binary}")
+            binary = Path(binary)
+
+        # Group the tools by version flag, so we only have to call the tool
+        # once for all the classes that share the same version flag
         for version_flag, subclasses in groupby(
             cls.registered_tools, key=lambda x: x.version_flag
         ):
+            logger.debug(
+                f"Trying this `version` flag to determine if t8n supported: {version_flag}"
+            )
+            # adding more logging reveals we check for `-v` twice..
+
             try:
                 result = subprocess.run(
                     [binary, version_flag], stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
+                logger.debug(
+                    f"Subprocess:\n\tstdout: {result.stdout}\n\n\n\tstderr: {result.stderr}\n\n\n"  # type: ignore
+                )
+
                 if result.returncode != 0:
-                    raise Exception(f"Non-zero return code: {result.returncode}")
+                    logger.debug(f"Subprocess returncode is not 0! It is: {result.returncode}")
+                    continue
+                    # don't raise exception, you are supposed to keep
+                    # trying different version flags
 
                 if result.stderr:
-                    raise Exception(f"Tool wrote to stderr: {result.stderr.decode()}")
+                    logger.debug(f"Stderr detected: {result.stderr}")  # type: ignore
+                    continue
 
                 binary_output = ""
                 if result.stdout:
                     binary_output = result.stdout.decode().strip()
-            except Exception:
-                # If the tool doesn't support the version flag,
-                # we'll get an non-zero exit code.
-                continue
-            for subclass in subclasses:
-                if subclass.detect_binary(binary_output):
-                    return subclass(binary=binary, **kwargs)
+                    logger.debug(f"Stripped subprocess stdout: {binary_output}")
 
-        raise UnknownCLIError(f"Unknown CLI: {binary_path}")
+                for subclass in subclasses:
+                    logger.debug(f"Trying subclass {subclass}")
+
+                    if subclass.detect_binary(binary_output):
+                        return subclass(binary=binary, **kwargs)
+
+                    logger.debug(
+                        f"T8n with version {binary_output} does not belong to subclass {subclass}"
+                    )
+
+            except Exception as e:
+                logger.debug(
+                    f"Trying to determine t8n version with flag `{version_flag}` failed: {e}"
+                )
+                continue
+
+        raise UnknownCLIError(f"Unknown CLI: {binary}")
 
     @classmethod
     def detect_binary(cls, binary_output: str) -> bool:
-        """Return True if a CLI's `binary_output` matches the class's expected output."""
+        """
+        Return True if a CLI's `binary_output` matches the class's expected
+        output.
+        """
         assert cls.detect_binary_pattern is not None
 
         return cls.detect_binary_pattern.match(binary_output) is not None
@@ -139,7 +195,10 @@ class EthereumCLI:
         return binary is not None
 
     def version(self) -> str:
-        """Return the name and version of the CLI as reported by the CLI's version flag."""
+        """
+        Return the name and version of the CLI as reported by the CLI's version
+        flag.
+        """
         if self.cached_version is None:
             result = subprocess.run(
                 [str(self.binary), self.version_flag],

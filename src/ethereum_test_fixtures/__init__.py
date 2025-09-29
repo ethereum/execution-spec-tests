@@ -1,9 +1,10 @@
 """Ethereum test fixture format definitions."""
 
-from .base import BaseFixture, FixtureFormat, LabeledFixtureFormat
+from .base import BaseFixture, FixtureFillingPhase, FixtureFormat, LabeledFixtureFormat
 from .blockchain import (
     BlockchainEngineFixture,
     BlockchainEngineFixtureCommon,
+    BlockchainEngineSyncFixture,
     BlockchainEngineXFixture,
     BlockchainFixture,
     BlockchainFixtureCommon,
@@ -19,12 +20,14 @@ __all__ = [
     "BaseFixture",
     "BlockchainEngineFixture",
     "BlockchainEngineFixtureCommon",
+    "BlockchainEngineSyncFixture",
     "BlockchainEngineXFixture",
     "BlockchainFixture",
     "BlockchainFixtureCommon",
     "EOFFixture",
     "FixtureCollector",
     "FixtureConsumer",
+    "FixtureFillingPhase",
     "FixtureFormat",
     "LabeledFixtureFormat",
     "PreAllocGroups",

@@ -2,33 +2,35 @@
 Top-level pytest configuration file providing:
 - Command-line options,
 - Test-fixtures that can be used by all test cases,
-and that modifies pytest hooks in order to fill test specs for all tests and
-writes the generated fixtures to file.
+and that modifies pytest hooks in order to fill test specs for all tests
+and writes the generated fixtures to file.
 """
 
 import configparser
 import datetime
+import json
 import os
 import warnings
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Type
+from typing import Any, Dict, Generator, List, Self, Set, Type
 
 import pytest
 import xdist
 from _pytest.compat import NotSetType
 from _pytest.terminal import TerminalReporter
+from filelock import FileLock
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
-from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Account, Address, Alloc, ReferenceSpec
 from ethereum_test_fixtures import (
     BaseFixture,
-    BlockchainEngineXFixture,
     FixtureCollector,
     FixtureConsumer,
+    FixtureFillingPhase,
     LabeledFixtureFormat,
     PreAllocGroup,
     PreAllocGroups,
@@ -36,12 +38,14 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import BaseTest
+from ethereum_test_specs.base import OpMode
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
 )
 from ethereum_test_types import EnvironmentDefaults
 
+from ..shared.execute_fill import ALL_FIXTURE_PARAMETERS
 from ..shared.helpers import (
     get_spec_format_for_item,
     is_help_or_collectonly_mode,
@@ -51,13 +55,303 @@ from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
 from .fixture_output import FixtureOutput
 
 
+@dataclass(kw_only=True)
+class PhaseManager:
+    """
+    Manages the execution phase for fixture generation.
+
+    The filler plugin supports two-phase execution for pre-allocation group
+    generation:
+    - Phase 1: Generate pre-allocation groups (pytest run with
+        --generate-pre-alloc-groups).
+
+    - Phase 2: Fill fixtures using pre-allocation
+        groups (pytest run with --use-pre-alloc-groups).
+
+    Note: These are separate pytest runs orchestrated by the CLI wrapper. Each
+    run gets a fresh PhaseManager instance (no persistence between phases).
+    """
+
+    current_phase: FixtureFillingPhase
+    previous_phases: Set[FixtureFillingPhase] = field(default_factory=set)
+
+    @classmethod
+    def from_config(cls, config: pytest.Config) -> "Self":
+        """
+        Create a PhaseManager from pytest configuration.
+
+        Flag logic:
+        - use_pre_alloc_groups: We're in phase 2 (FILL) after phase
+                                1 (PRE_ALLOC_GENERATION).
+        - generate_pre_alloc_groups or generate_all_formats:
+                                We're in phase 1 (PRE_ALLOC_GENERATION). -
+        Otherwise: Normal single-phase filling (FILL).
+
+        Note: generate_all_formats triggers PRE_ALLOC_GENERATION because the
+        CLI passes it to phase 1 to ensure all formats are considered for
+        grouping.
+        """
+        generate_pre_alloc = config.getoption("generate_pre_alloc_groups", False)
+        use_pre_alloc = config.getoption("use_pre_alloc_groups", False)
+        generate_all = config.getoption("generate_all_formats", False)
+
+        if use_pre_alloc:
+            # Phase 2: Using pre-generated groups
+            return cls(
+                current_phase=FixtureFillingPhase.FILL,
+                previous_phases={FixtureFillingPhase.PRE_ALLOC_GENERATION},
+            )
+        elif generate_pre_alloc or generate_all:
+            # Phase 1: Generating pre-allocation groups
+            return cls(current_phase=FixtureFillingPhase.PRE_ALLOC_GENERATION)
+        else:
+            # Normal single-phase filling
+            return cls(current_phase=FixtureFillingPhase.FILL)
+
+    @property
+    def is_pre_alloc_generation(self) -> bool:
+        """Check if we're in the pre-allocation generation phase."""
+        return self.current_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION
+
+    @property
+    def is_fill_after_pre_alloc(self) -> bool:
+        """Check if we're filling after pre-allocation generation."""
+        return (
+            self.current_phase == FixtureFillingPhase.FILL
+            and FixtureFillingPhase.PRE_ALLOC_GENERATION in self.previous_phases
+        )
+
+    @property
+    def is_single_phase_fill(self) -> bool:
+        """Check if we're in single-phase fill mode (no pre-allocation)."""
+        return (
+            self.current_phase == FixtureFillingPhase.FILL
+            and FixtureFillingPhase.PRE_ALLOC_GENERATION not in self.previous_phases
+        )
+
+
+@dataclass(kw_only=True)
+class FormatSelector:
+    """
+    Handles fixture format selection based on the current phase and format
+    capabilities.
+
+    This class encapsulates the complex logic for determining which fixture
+    formats should be generated in each phase of the two-phase execution model.
+    """
+
+    phase_manager: PhaseManager
+    generate_all_formats: bool
+
+    def should_generate(self, fixture_format: Type[BaseFixture] | LabeledFixtureFormat) -> bool:
+        """
+        Determine if a fixture format should be generated in the current phase.
+
+        Args:
+            fixture_format: The fixture format to check (may be wrapped in
+                LabeledFixtureFormat).
+
+        Returns:
+            True if the format should be generated in the current phase.
+
+        """
+        format_phases = fixture_format.format_phases
+
+        if self.phase_manager.is_pre_alloc_generation:
+            return self._should_generate_pre_alloc(format_phases)
+        else:  # FILL phase
+            return self._should_generate_fill(format_phases)
+
+    def _should_generate_pre_alloc(self, format_phases: Set[FixtureFillingPhase]) -> bool:
+        """
+        Determine if format should be generated during pre-alloc generation
+        phase.
+        """
+        # Only generate formats that need pre-allocation groups
+        return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
+
+    def _should_generate_fill(self, format_phases: Set[FixtureFillingPhase]) -> bool:
+        """Determine if format should be generated during fill phase."""
+        if FixtureFillingPhase.PRE_ALLOC_GENERATION in self.phase_manager.previous_phases:
+            # Phase 2: After pre-alloc generation
+            if self.generate_all_formats:
+                # Generate all formats, including those that don't need pre-
+                # alloc
+                return True
+            else:
+                # Only generate formats that needed pre-alloc groups
+                return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
+        else:
+            # Single phase: Only generate fill-only formats
+            return format_phases == {FixtureFillingPhase.FILL}
+
+
+@dataclass(kw_only=True)
+class FillingSession:
+    """
+    Manages all state for a single pytest fill session.
+
+    This class serves as the single source of truth for all filler state
+    management, including phase management, format selection, and
+    pre-allocation groups.
+
+    Important: Each pytest run gets a fresh FillingSession instance. There is
+    no persistence between phase 1 (generate pre-alloc) and phase 2 (use
+    pre-alloc) except through file I/O.
+    """
+
+    fixture_output: FixtureOutput
+    phase_manager: PhaseManager
+    format_selector: FormatSelector
+    pre_alloc_groups: PreAllocGroups | None
+
+    @classmethod
+    def from_config(cls, config: pytest.Config) -> "Self":
+        """
+        Initialize a filling session from pytest configuration.
+
+        Args:
+            config: The pytest configuration object.
+
+        """
+        phase_manager = PhaseManager.from_config(config)
+        instance = cls(
+            fixture_output=FixtureOutput.from_config(config),
+            phase_manager=phase_manager,
+            format_selector=FormatSelector(
+                phase_manager=phase_manager,
+                generate_all_formats=config.getoption("generate_all_formats", False),
+            ),
+            pre_alloc_groups=None,
+        )
+
+        # Initialize pre-alloc groups based on phase
+        instance._initialize_pre_alloc_groups()
+        return instance
+
+    def _initialize_pre_alloc_groups(self) -> None:
+        """Initialize pre-allocation groups based on the current phase."""
+        if self.phase_manager.is_pre_alloc_generation:
+            # Phase 1: Create empty container for collecting groups
+            self.pre_alloc_groups = PreAllocGroups(root={})
+        elif self.phase_manager.is_fill_after_pre_alloc:
+            # Phase 2: Load pre-alloc groups from disk
+            self._load_pre_alloc_groups_from_folder()
+
+    def _load_pre_alloc_groups_from_folder(self) -> None:
+        """Load pre-allocation groups from the output folder."""
+        pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
+        if pre_alloc_folder.exists():
+            self.pre_alloc_groups = PreAllocGroups.from_folder(pre_alloc_folder, lazy_load=True)
+        else:
+            raise FileNotFoundError(
+                f"Pre-allocation groups folder not found: {pre_alloc_folder}. "
+                "Run phase 1 with --generate-pre-alloc-groups first."
+            )
+
+    def should_generate_format(
+        self, fixture_format: Type[BaseFixture] | LabeledFixtureFormat
+    ) -> bool:
+        """
+        Determine if a fixture format should be generated in the current
+        session.
+
+        Args:
+            fixture_format: The fixture format to check.
+
+        Returns:
+            True if the format should be generated.
+
+        """
+        return self.format_selector.should_generate(fixture_format)
+
+    def get_pre_alloc_group(self, hash_key: str) -> PreAllocGroup:
+        """
+        Get a pre-allocation group by hash.
+
+        Args:
+            hash_key: The hash of the pre-alloc group.
+
+        Returns:
+            The pre-allocation group.
+
+        Raises:
+            ValueError: If pre-alloc groups not initialized or hash not found.
+
+        """
+        if self.pre_alloc_groups is None:
+            raise ValueError("Pre-allocation groups not initialized")
+
+        if hash_key not in self.pre_alloc_groups:
+            pre_alloc_path = self.fixture_output.pre_alloc_groups_folder_path / hash_key
+            raise ValueError(
+                f"Pre-allocation hash {hash_key} not found in pre-allocation groups. "
+                f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
+                "Make sure phase 1 (--generate-pre-alloc-groups) was run before phase 2."
+            )
+
+        return self.pre_alloc_groups[hash_key]
+
+    def update_pre_alloc_group(self, hash_key: str, group: PreAllocGroup) -> None:
+        """
+        Update or add a pre-allocation group.
+
+        Args:
+            hash_key: The hash of the pre-alloc group.
+            group: The pre-allocation group.
+
+        Raises:
+            ValueError: If not in pre-alloc generation phase.
+
+        """
+        if not self.phase_manager.is_pre_alloc_generation:
+            raise ValueError("Can only update pre-alloc groups in generation phase")
+
+        if self.pre_alloc_groups is None:
+            self.pre_alloc_groups = PreAllocGroups(root={})
+
+        self.pre_alloc_groups[hash_key] = group
+
+    def save_pre_alloc_groups(self) -> None:
+        """Save pre-allocation groups to disk."""
+        if self.pre_alloc_groups is None:
+            return
+
+        pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
+        pre_alloc_folder.mkdir(parents=True, exist_ok=True)
+        self.pre_alloc_groups.to_folder(pre_alloc_folder)
+
+    def aggregate_pre_alloc_groups(self, worker_groups: PreAllocGroups) -> None:
+        """
+        Aggregate pre-alloc groups from a worker process (xdist support).
+
+        Args:
+            worker_groups: Pre-alloc groups from a worker process.
+
+        """
+        if self.pre_alloc_groups is None:
+            self.pre_alloc_groups = PreAllocGroups(root={})
+
+        for hash_key, group in worker_groups.items():
+            if hash_key in self.pre_alloc_groups:
+                # Merge if exists (should not happen in practice)
+                existing = self.pre_alloc_groups[hash_key]
+                if existing.pre != group.pre:
+                    raise ValueError(
+                        f"Conflicting pre-alloc groups for hash {hash_key}: "
+                        f"existing={self.pre_alloc_groups[hash_key].pre}, new={group.pre}"
+                    )
+            else:
+                self.pre_alloc_groups[hash_key] = group
+
+
 def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
     """
     Calculate the state difference between post_state and genesis_state.
 
-    This function enables significant space savings in Engine X fixtures by storing
-    only the accounts that changed during test execution, rather than the full
-    post-state which may contain thousands of unchanged accounts.
+    This function enables significant space savings in Engine X fixtures by
+    storing only the accounts that changed during test execution, rather than
+    the full post-state which may contain thousands of unchanged accounts.
 
     Returns an Alloc containing only the accounts that:
     - Changed between genesis and post state (balance, nonce, storage, code)
@@ -129,6 +423,17 @@ def pytest_addoption(parser: pytest.Parser):
         ),
     )
     evm_group.addoption(
+        "--t8n-server-url",
+        action="store",
+        dest="t8n_server_url",
+        type=str,
+        default=None,
+        help=(
+            "[INTERNAL USE ONLY] URL of the t8n server to use. Used by framework tests/ci; not "
+            "intended for regular CLI use."
+        ),
+    )
+    evm_group.addoption(
         "--traces",
         action="store_true",
         dest="evm_collect_traces",
@@ -178,7 +483,8 @@ def pytest_addoption(parser: pytest.Parser):
             "Directory path to store the generated test fixtures. Must be empty if it exists. "
             "If the specified path ends in '.tar.gz', then the specified tarball is additionally "
             "created (the fixtures are still written to the specified path without the '.tar.gz' "
-            f"suffix). Can be deleted. Default: '{default_output_directory()}'."
+            f"suffix). Tarball output automatically enables --generate-all-formats. "
+            f"Can be deleted. Default: '{default_output_directory()}'."
         ),
     )
     test_group.addoption(
@@ -187,13 +493,6 @@ def pytest_addoption(parser: pytest.Parser):
         dest="clean",
         default=False,
         help="Clean (remove) the output directory before filling fixtures.",
-    )
-    test_group.addoption(
-        "--flat-output",
-        action="store_true",
-        dest="flat_output",
-        default=False,
-        help="Output each test case in the directory without the folder structure.",
     )
     test_group.addoption(
         "--single-fixture-per-file",
@@ -255,6 +554,66 @@ def pytest_addoption(parser: pytest.Parser):
         default=False,
         help="Fill tests using existing pre-allocation groups (phase 2 only).",
     )
+    test_group.addoption(
+        "--generate-all-formats",
+        action="store_true",
+        dest="generate_all_formats",
+        default=False,
+        help=(
+            "Generate all fixture formats including BlockchainEngineXFixture. "
+            "This enables two-phase execution: Phase 1 generates pre-allocation groups, "
+            "phase 2 generates all supported fixture formats."
+        ),
+    )
+
+    optimize_gas_group = parser.getgroup(
+        "optimize gas",
+        "Arguments defining test gas optimization behavior.",
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas",
+        action="store_true",
+        dest="optimize_gas",
+        default=False,
+        help=(
+            "Attempt to optimize the gas used in every transaction for the filled tests, "
+            "then print the minimum amount of gas at which the test still produces a correct "
+            "post state and the exact same trace."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-output",
+        action="store",
+        dest="optimize_gas_output",
+        default=Path("optimize-gas-output.json"),
+        type=Path,
+        help=(
+            "Path to the JSON file that is output to the gas optimization. "
+            "Requires `--optimize-gas`."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-max-gas-limit",
+        action="store",
+        dest="optimize_gas_max_gas_limit",
+        default=None,
+        type=int,
+        help=(
+            "Maximum gas limit for gas optimization, if reached the search will stop and "
+            "fail for that given test. Requires `--optimize-gas`."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-post-processing",
+        action="store_true",
+        dest="optimize_gas_post_processing",
+        default=False,
+        help=(
+            "Post process the traces during gas optimization in order to Account for "
+            "opcodes that put the current gas in the stack, in order to remove "
+            "remaining-gas from the comparison."
+        ),
+    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -262,46 +621,12 @@ def pytest_addoption(parser: pytest.Parser):
         "--t8n-dump-dir",
         action="store",
         dest="base_dump_dir",
-        default=AppConfig().DEFAULT_EVM_LOGS_DIR,
+        default=None,
         help=(
             "Path to dump the transition tool debug output. "
-            f"(Default: {AppConfig().DEFAULT_EVM_LOGS_DIR})"
+            "Only creates debug output when explicitly specified."
         ),
     )
-    debug_group.addoption(
-        "--skip-evm-dump",
-        "--skip-t8n-dump",
-        action="store_true",
-        dest="skip_dump_dir",
-        default=False,
-        help=("Skip dumping the the transition tool debug output."),
-    )
-
-
-def pytest_sessionstart(session: pytest.Session):
-    """
-    Initialize session-level state.
-
-    Either initialize an empty pre-allocation groups container for phase 1 or
-    load the pre-allocation groups for phase 2 execution.
-    """
-    # Initialize empty pre-allocation groups container for phase 1
-    if session.config.getoption("generate_pre_alloc_groups"):
-        session.config.pre_alloc_groups = PreAllocGroups(root={})  # type: ignore[attr-defined]
-
-    # Load the pre-allocation groups for phase 2
-    if session.config.getoption("use_pre_alloc_groups"):
-        pre_alloc_groups_folder = session.config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
-        if pre_alloc_groups_folder.exists():
-            session.config.pre_alloc_groups = PreAllocGroups.from_folder(  # type: ignore[attr-defined]
-                pre_alloc_groups_folder
-            )
-        else:
-            pytest.exit(
-                f"Pre-allocation groups folder not found: {pre_alloc_groups_folder}. "
-                "Run phase 1 with --generate-pre-alloc-groups first.",
-                returncode=pytest.ExitCode.USAGE_ERROR,
-            )
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -313,13 +638,14 @@ def pytest_configure(config):
     Couple of notes:
     1. Register the plugin's custom markers and process command-line options.
 
-        Custom marker registration:
-        https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
+       Custom marker registration:
+       https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
 
     2. `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
-        called before the pytest-html plugin's pytest_configure to ensure that
-        it uses the modified `htmlpath` option.
+       called before the pytest-html plugin's pytest_configure to ensure that
+       it uses the modified `htmlpath` option.
     """
+    # Register custom markers
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
@@ -327,11 +653,15 @@ def pytest_configure(config):
     # Initialize fixture output configuration
     config.fixture_output = FixtureOutput.from_config(config)
 
+    # Initialize filling session
+    config.filling_session = FillingSession.from_config(config)
+
     if is_help_or_collectonly_mode(config):
         return
 
     try:
-        # Check whether the directory exists and is not empty; if --clean is set, it will delete it
+        # Check whether the directory exists and is not empty; if --clean is
+        # set, it will delete it
         config.fixture_output.create_directories(is_master=not hasattr(config, "workerinput"))
     except ValueError as e:
         pytest.exit(str(e), returncode=pytest.ExitCode.USAGE_ERROR)
@@ -339,29 +669,50 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and not config.getoption("generate_pre_alloc_groups")
+        and config.filling_session.phase_manager.current_phase  # type: ignore[attr-defined]
+        != FixtureFillingPhase.PRE_ALLOC_GENERATION
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
-    # Instantiate the transition tool here to check that the binary path/trace option is valid.
-    # This ensures we only raise an error once, if appropriate, instead of for every test.
+    config.gas_optimized_tests = {}
+    if config.getoption("optimize_gas", False):
+        if config.getoption("optimize_gas_post_processing"):
+            config.op_mode = OpMode.OPTIMIZE_GAS_POST_PROCESSING
+        else:
+            config.op_mode = OpMode.OPTIMIZE_GAS
+
+    config.collect_traces = config.getoption("evm_collect_traces") or config.getoption(
+        "optimize_gas", False
+    )
+
+    # Instantiate the transition tool here to check that the binary path/trace
+    # option is valid. This ensures we only raise an error once, if
+    # appropriate, instead of for every test.
     evm_bin = config.getoption("evm_bin")
+    trace = config.getoption("evm_collect_traces")
+    t8n_server_url = config.getoption("t8n_server_url")
+    kwargs = {
+        "trace": trace,
+    }
+    if t8n_server_url is not None:
+        kwargs["server_url"] = t8n_server_url
     if evm_bin is None:
         assert TransitionTool.default_tool is not None, "No default transition tool found"
-        t8n = TransitionTool.default_tool(trace=config.getoption("evm_collect_traces"))
+        t8n = TransitionTool.default_tool(**kwargs)
     else:
-        t8n = TransitionTool.from_binary_path(
-            binary_path=evm_bin, trace=config.getoption("evm_collect_traces")
+        t8n = TransitionTool.from_binary_path(binary_path=evm_bin, **kwargs)
+
+    if (
+        isinstance(config.getoption("numprocesses"), int)
+        and config.getoption("numprocesses") > 0
+        and not t8n.supports_xdist
+    ):
+        pytest.exit(
+            f"The {t8n.__class__.__name__} t8n tool does not work well with the xdist plugin;"
+            "use -n=0.",
+            returncode=pytest.ExitCode.USAGE_ERROR,
         )
-        if (
-            isinstance(config.getoption("numprocesses"), int)
-            and config.getoption("numprocesses") > 0
-            and "Besu" in str(t8n.detect_binary_pattern)
-        ):
-            pytest.exit(
-                "The Besu t8n tool does not work well with the xdist plugin; use -n=0.",
-                returncode=pytest.ExitCode.USAGE_ERROR,
-            )
+    config.t8n = t8n
 
     if "Tools" not in config.stash[metadata_key]:
         config.stash[metadata_key]["Tools"] = {
@@ -395,8 +746,8 @@ def pytest_report_teststatus(report, config: pytest.Config):
     We use this:
 
     1. To disable test session progress report if we're writing the JSON
-        fixtures to stdout to be read by a consume command on stdin. I.e.,
-        don't write this type of output to the console:
+    fixtures to stdout to be read by a consume command on stdin. I.e., don't
+    write this type of output to the console:
     ```text
     ...x...
     ```
@@ -415,28 +766,30 @@ def pytest_terminal_summary(
     Emphasize that fixtures have only been filled; they must now be executed to
     actually run the tests.
     """
+    del exitstatus
+
     yield
     if config.fixture_output.is_stdout or hasattr(config, "workerinput"):  # type: ignore[attr-defined]
         return
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (pre-allocation group generation)
-        if config.getoption("generate_pre_alloc_groups"):
+        session_instance: FillingSession = config.filling_session  # type: ignore[attr-defined]
+        if session_instance.phase_manager.is_pre_alloc_generation:
             # Generate summary stats
             pre_alloc_groups: PreAllocGroups
             if config.pluginmanager.hasplugin("xdist"):
                 # Load pre-allocation groups from disk
                 pre_alloc_groups = PreAllocGroups.from_folder(
-                    config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
+                    config.fixture_output.pre_alloc_groups_folder_path,  # type: ignore[attr-defined]
+                    lazy_load=False,
                 )
             else:
-                assert hasattr(config, "pre_alloc_groups")
-                pre_alloc_groups = config.pre_alloc_groups  # type: ignore[attr-defined]
+                assert session_instance.pre_alloc_groups is not None
+                pre_alloc_groups = session_instance.pre_alloc_groups
 
             total_groups = len(pre_alloc_groups.root)
-            total_accounts = sum(
-                group.pre_account_count for group in pre_alloc_groups.root.values()
-            )
+            total_accounts = sum(group.pre_account_count for group in pre_alloc_groups.values())
 
             terminalreporter.write_sep(
                 "=",
@@ -531,10 +884,12 @@ def pytest_runtest_makereport(item, call):
                 "state_test",
                 "blockchain_test",
                 "blockchain_test_engine",
+                "blockchain_test_sync",
             ]:
                 report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
             else:
-                report.user_properties.append(("evm_dump_dir", "N/A"))  # not yet for EOF
+                # not yet for EOF
+                report.user_properties.append(("evm_dump_dir", "N/A"))
 
 
 def pytest_html_report_title(report):
@@ -551,24 +906,15 @@ def evm_bin(request: pytest.FixtureRequest) -> Path | None:
 @pytest.fixture(autouse=True, scope="session")
 def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
     """
-    Return configured evm tool binary path used to run statetest or
-    blocktest.
+    Return configured evm tool binary path used to run statetest or blocktest.
     """
     return request.config.getoption("verify_fixtures_bin")
 
 
 @pytest.fixture(autouse=True, scope="session")
-def t8n(
-    request: pytest.FixtureRequest, evm_bin: Path | None
-) -> Generator[TransitionTool, None, None]:
+def t8n(request: pytest.FixtureRequest) -> Generator[TransitionTool, None, None]:
     """Return configured transition tool."""
-    if evm_bin is None:
-        assert TransitionTool.default_tool is not None, "No default transition tool found"
-        t8n = TransitionTool.default_tool(trace=request.config.getoption("evm_collect_traces"))
-    else:
-        t8n = TransitionTool.from_binary_path(
-            binary_path=evm_bin, trace=request.config.getoption("evm_collect_traces")
-        )
+    t8n: TransitionTool = request.config.t8n  # type: ignore
     if not t8n.exception_mapper.reliable:
         warnings.warn(
             f"The t8n tool that is currently being used to fill tests ({t8n.__class__.__name__}) "
@@ -605,8 +951,8 @@ def evm_fixture_verification(
     verify_fixtures_bin: Path | None,
 ) -> Generator[FixtureConsumer | None, None, None]:
     """
-    Return configured evm binary for executing statetest and blocktest
-    commands used to verify generated JSON fixtures.
+    Return configured evm binary for executing statetest and blocktest commands
+    used to verify generated JSON fixtures.
     """
     if not do_fixture_verification:
         yield None
@@ -620,7 +966,7 @@ def evm_fixture_verification(
     try:
         evm_fixture_verification = FixtureConsumerTool.from_binary_path(
             binary_path=Path(verify_fixtures_bin),
-            trace=request.config.getoption("evm_collect_traces"),
+            trace=request.config.collect_traces,  # type: ignore[attr-defined]
         )
     except Exception:
         if reused_evm_bin:
@@ -643,8 +989,6 @@ def evm_fixture_verification(
 @pytest.fixture(scope="session")
 def base_dump_dir(request: pytest.FixtureRequest) -> Path | None:
     """Path to base directory to dump the evm debug output."""
-    if request.config.getoption("skip_dump_dir"):
-        return None
     base_dump_dir_str = request.config.getoption("base_dump_dir")
     if base_dump_dir_str:
         return Path(base_dump_dir_str)
@@ -721,8 +1065,9 @@ def dump_dir_parameter_level(
     Directory to dump evm transition tool debug output on a test parameter
     level.
 
-    Example with --evm-dump-dir=/tmp/evm:
-    -> /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shanghai/
+    Example with --evm-dump-dir=/tmp/evm: ->
+    /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shangh
+    ai/
     """
     evm_dump_dir = node_to_test_info(request.node).get_dump_dir_path(
         base_dump_dir,
@@ -743,6 +1088,8 @@ def get_fixture_collection_scope(fixture_name, config):
 
     See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
     """
+    del fixture_name
+
     if config.fixture_output.is_stdout:
         return "session"
     if config.fixture_output.single_fixture_per_file:
@@ -772,12 +1119,16 @@ def fixture_collector(
     fixture_output: FixtureOutput,
 ) -> Generator[FixtureCollector, None, None]:
     """
-    Return configured fixture collector instance used for all tests
-    in one test module.
+    Return configured fixture collector instance used for all tests in one test
+    module.
     """
+    # Dynamically load the 'static_filler' and 'solc' plugins if needed
+    if request.config.getoption("fill_static_tests_enabled"):
+        request.config.pluginmanager.import_plugin("pytest_plugins.filler.static_filler")
+        request.config.pluginmanager.import_plugin("pytest_plugins.solc.solc")
+
     fixture_collector = FixtureCollector(
         output_dir=fixture_output.directory,
-        flat_output=fixture_output.flat_output,
         fill_static_tests=request.config.getoption("fill_static_tests_enabled"),
         single_fixture_per_file=fixture_output.single_fixture_per_file,
         filler_path=filler_path,
@@ -829,8 +1180,9 @@ def fixture_source_url(
     )
     test_module_relative_path = os.path.relpath(request.module.__file__)
     if module_relative_path != test_module_relative_path:
-        # This can be the case when the test function's body only contains pass and the entire
-        # test logic is implemented as a test generator from the framework.
+        # This can be the case when the test function's body only contains pass
+        # and the entire test logic is implemented as a test generator from the
+        # framework.
         test_module_github_url = generate_github_url(
             test_module_relative_path,
             branch_or_commit_or_tag=commit_hash_or_tag,
@@ -843,9 +1195,10 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     """
     Generate pytest.fixture for a given BaseTest subclass.
 
-    Implementation detail: All spec fixtures must be scoped on test function level to avoid
-    leakage between tests.
+    Implementation detail: All spec fixtures must be scoped on test function
+    level to avoid leakage between tests.
     """
+    cls_fixture_parameters = [p for p in ALL_FIXTURE_PARAMETERS if p in cls.model_fields]
 
     @pytest.fixture(
         scope="function",
@@ -862,16 +1215,19 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         fixture_collector: FixtureCollector,
         test_case_description: str,
         fixture_source_url: str,
+        gas_benchmark_value: int,
+        witness_generator,
     ):
         """
-        Fixture used to instantiate an auto-fillable BaseTest object from within
-        a test function.
+        Fixture used to instantiate an auto-fillable BaseTest object from
+        within a test function.
 
-        Every test that defines a test filler must explicitly specify its parameter name
-        (see `pytest_parameter_name` in each implementation of BaseTest) in its function
-        arguments.
+        Every test that defines a test filler must explicitly specify its
+        parameter name (see `pytest_parameter_name` in each implementation of
+        BaseTest) in its function arguments.
 
-        When parametrize, indirect must be used along with the fixture format as value.
+        When parametrize, indirect must be used along with the fixture format
+        as value.
         """
         if hasattr(request.node, "fixture_format"):
             fixture_format = request.node.fixture_format
@@ -887,56 +1243,73 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
                 if "pre" not in kwargs:
                     kwargs["pre"] = pre
+                if "expected_benchmark_gas_used" not in kwargs:
+                    kwargs["expected_benchmark_gas_used"] = gas_benchmark_value
+                kwargs |= {
+                    p: request.getfixturevalue(p)
+                    for p in cls_fixture_parameters
+                    if p not in kwargs
+                }
+
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
+                self._operation_mode = request.config.op_mode
+                if (
+                    self._operation_mode == OpMode.OPTIMIZE_GAS
+                    or self._operation_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                ):
+                    self._gas_optimization_max_gas_limit = request.config.getoption(
+                        "optimize_gas_max_gas_limit", None
+                    )
+
+                # Get the filling session from config
+                session: FillingSession = request.config.filling_session  # type: ignore
 
                 # Phase 1: Generate pre-allocation groups
-                if fixture_format is BlockchainEngineXFixture and request.config.getoption(
-                    "generate_pre_alloc_groups"
-                ):
+                if session.phase_manager.is_pre_alloc_generation:
+                    # Use the original update_pre_alloc_groups method which
+                    # returns the groups
                     self.update_pre_alloc_groups(
-                        request.config.pre_alloc_groups, fork, request.node.nodeid
+                        session.pre_alloc_groups, fork, request.node.nodeid
                     )
                     return  # Skip fixture generation in phase 1
 
-                # Phase 2: Use pre-allocation groups (only for BlockchainEngineXFixture)
+                # Phase 2: Use pre-allocation groups (only for
+                # BlockchainEngineXFixture)
                 pre_alloc_hash = None
-                if fixture_format is BlockchainEngineXFixture and request.config.getoption(
-                    "use_pre_alloc_groups"
-                ):
+                if FixtureFillingPhase.PRE_ALLOC_GENERATION in fixture_format.format_phases:
                     pre_alloc_hash = self.compute_pre_alloc_group_hash(fork=fork)
-                    if pre_alloc_hash not in request.config.pre_alloc_groups:
-                        pre_alloc_path = (
-                            request.config.fixture_output.pre_alloc_groups_folder_path
-                            / pre_alloc_hash
-                        )
-                        raise ValueError(
-                            f"Pre-allocation hash {pre_alloc_hash} not found in "
-                            f"pre-allocation groups. "
-                            f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
-                            "Make sure phase 1 (--generate-pre-alloc-groups) was run "
-                            "before phase 2."
-                        )
-                    group: PreAllocGroup = request.config.pre_alloc_groups[pre_alloc_hash]  # type: ignore[annotation-unchecked]
+                    group = session.get_pre_alloc_group(pre_alloc_hash)
                     self.pre = group.pre
+                try:
+                    fixture = self.generate(
+                        t8n=t8n,
+                        fork=fork,
+                        fixture_format=fixture_format,
+                    )
+                finally:
+                    if (
+                        request.config.op_mode == OpMode.OPTIMIZE_GAS
+                        or request.config.op_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                    ):
+                        gas_optimized_tests = request.config.gas_optimized_tests
+                        assert gas_optimized_tests is not None
+                        # Force adding something to the list, even if it's
+                        # None, to keep track of failed tests in the output
+                        # file.
+                        gas_optimized_tests[request.node.nodeid] = self._gas_optimization
 
-                fixture = self.generate(
-                    t8n=t8n,
-                    fork=fork,
-                    fixture_format=fixture_format,
-                )
-
-                # Post-process for Engine X format (add pre_hash and state diff)
+                # Post-process for Engine X format (add pre_hash and state
+                # diff)
                 if (
-                    fixture_format is BlockchainEngineXFixture
-                    and request.config.getoption("use_pre_alloc_groups")
+                    FixtureFillingPhase.PRE_ALLOC_GENERATION in fixture_format.format_phases
                     and pre_alloc_hash is not None
                 ):
                     fixture.pre_hash = pre_alloc_hash
 
                     # Calculate state diff for efficiency
                     if hasattr(fixture, "post_state") and fixture.post_state is not None:
-                        group = request.config.pre_alloc_groups[pre_alloc_hash]
+                        group = session.get_pre_alloc_group(pre_alloc_hash)
                         fixture.post_state_diff = calculate_post_state_diff(
                             fixture.post_state, group.pre
                         )
@@ -948,6 +1321,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     ref_spec=reference_spec,
                     _info_metadata=t8n._info_metadata,
                 )
+
+                # Generate witness data if witness functionality is enabled via
+                # the witness plugin
+                if witness_generator is not None:
+                    witness_generator(fixture)
 
                 fixture_path = fixture_collector.add_fixture(
                     node_to_test_info(request.node),
@@ -974,45 +1352,19 @@ for cls in BaseTest.spec_types.values():
 
 def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
-    Pytest hook used to dynamically generate test cases for each fixture format a given
-    test spec supports.
+    Pytest hook used to dynamically generate test cases for each fixture format
+    a given test spec supports.
+
+    NOTE: The static test filler does NOT use this hook. See
+    FillerFile.collect() in ./static_filler.py for more details.
     """
+    session: FillingSession = metafunc.config.filling_session  # type: ignore[attr-defined]
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
-            generate_pre_alloc_groups = metafunc.config.getoption(
-                "generate_pre_alloc_groups", False
-            )
-            use_pre_alloc_groups = metafunc.config.getoption("use_pre_alloc_groups", False)
-
-            if generate_pre_alloc_groups or use_pre_alloc_groups:
-                # When pre-allocation group flags are set, only generate BlockchainEngineXFixture
-                supported_formats = [
-                    format_item
-                    for format_item in test_type.supported_fixture_formats
-                    if (
-                        format_item is BlockchainEngineXFixture
-                        or (
-                            isinstance(format_item, LabeledFixtureFormat)
-                            and format_item.format is BlockchainEngineXFixture
-                        )
-                    )
-                ]
-            else:
-                # Filter out BlockchainEngineXFixture if pre-allocation group flags not set
-                supported_formats = [
-                    format_item
-                    for format_item in test_type.supported_fixture_formats
-                    if not (
-                        format_item is BlockchainEngineXFixture
-                        or (
-                            isinstance(format_item, LabeledFixtureFormat)
-                            and format_item.format is BlockchainEngineXFixture
-                        )
-                    )
-                ]
-
             parameters = []
-            for i, format_with_or_without_label in enumerate(supported_formats):
+            for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
+                if not session.should_generate_format(format_with_or_without_label):
+                    continue
                 parameter = labeled_format_parameter_set(format_with_or_without_label)
                 if i > 0:
                     parameter.marks.append(pytest.mark.derived_test)  # type: ignore
@@ -1032,32 +1384,63 @@ def pytest_collection_modifyitems(
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
     can't be used in the Hive Pyspec Simulator.
 
-    Replaces the test ID for state tests that use a transition fork with the base fork.
+    Replaces the test ID for state tests that use a transition fork with the
+    base fork.
 
     These can't be handled in this plugins pytest_generate_tests() as the fork
     parametrization occurs in the forks plugin.
     """
-    for item in items[:]:  # use a copy of the list, as we'll be modifying it
+    del config
+
+    items_for_removal = []
+    for i, item in enumerate(items):
+        item.name = item.name.strip().replace(" ", "-")
         params: Dict[str, Any] | None = None
         if isinstance(item, pytest.Function):
             params = item.callspec.params
         elif hasattr(item, "params"):
             params = item.params
         if not params or "fork" not in params or params["fork"] is None:
-            items.remove(item)
+            items_for_removal.append(i)
             continue
         fork: Fork = params["fork"]
         spec_type, fixture_format = get_spec_format_for_item(params)
         if isinstance(fixture_format, NotSetType):
-            items.remove(item)
+            items_for_removal.append(i)
             continue
         assert issubclass(fixture_format, BaseFixture)
         if not fixture_format.supports_fork(fork):
-            items.remove(item)
+            items_for_removal.append(i)
             continue
+
         markers = list(item.iter_markers())
+
+        # Automatically apply pre_alloc_group marker to slow tests that are not
+        # benchmark tests
+        has_slow_marker = any(marker.name == "slow" for marker in markers)
+        has_benchmark_marker = any(marker.name == "benchmark" for marker in markers)
+        has_pre_alloc_group_marker = any(marker.name == "pre_alloc_group" for marker in markers)
+
+        if has_slow_marker and not has_benchmark_marker and not has_pre_alloc_group_marker:
+            # Add pre_alloc_group marker to isolate slow non-benchmark tests
+            pre_alloc_marker = pytest.mark.pre_alloc_group(
+                "separate",
+                reason=(
+                    "Non-benchmark tests marked as slow should be generated "
+                    "with their own pre-alloc-group"
+                ),
+            )
+            item.add_marker(pre_alloc_marker)
+            # Re-collect markers after adding the new one
+            markers = list(item.iter_markers())
+
+        # Both the fixture format itself and the spec filling it have a chance
+        # to veto the filling of a specific format.
+        if fixture_format.discard_fixture_format_by_marks(fork, markers):
+            items_for_removal.append(i)
+            continue
         if spec_type.discard_fixture_format_by_marks(fixture_format, fork, markers):
-            items.remove(item)
+            items_for_removal.append(i)
             continue
         for marker in markers:
             if marker.name == "fill":
@@ -1079,6 +1462,9 @@ def pytest_collection_modifyitems(
                     f"fork_{base_fork.name()}",
                 )
 
+    for i in reversed(items_for_removal):
+        items.pop(i)
+
 
 def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     """
@@ -1089,15 +1475,24 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     - Generate index file for all produced fixtures.
     - Create tarball of the output directory if the output is a tarball.
     """
+    del exitstatus
+
     # Save pre-allocation groups after phase 1
-    fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
-    if session.config.getoption("generate_pre_alloc_groups") and hasattr(
-        session.config, "pre_alloc_groups"
-    ):
-        pre_alloc_groups_folder = fixture_output.pre_alloc_groups_folder_path
-        pre_alloc_groups_folder.mkdir(parents=True, exist_ok=True)
-        session.config.pre_alloc_groups.to_folder(pre_alloc_groups_folder)
+    fixture_output: FixtureOutput = session.config.fixture_output  # type: ignore[attr-defined]
+    session_instance: FillingSession = session.config.filling_session  # type: ignore[attr-defined]
+    if session_instance.phase_manager.is_pre_alloc_generation:
+        session_instance.save_pre_alloc_groups()
         return
+
+    if session.config.getoption("optimize_gas", False):  # type: ignore[attr-defined]
+        output_file = Path(session.config.getoption("optimize_gas_output"))
+        lock_file_path = output_file.with_suffix(".lock")
+        assert hasattr(session.config, "gas_optimized_tests")
+        gas_optimized_tests: Dict[str, int] = session.config.gas_optimized_tests
+        with FileLock(lock_file_path):
+            if output_file.exists():
+                gas_optimized_tests = json.loads(output_file.read_text()) | gas_optimized_tests
+            output_file.write_text(json.dumps(gas_optimized_tests, indent=2, sort_keys=True))
 
     if xdist.is_xdist_worker(session):
         return
@@ -1110,12 +1505,11 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         file.unlink()
 
     # Generate index file for all produced fixtures.
-    if session.config.getoption("generate_index") and not session.config.getoption(
-        "generate_pre_alloc_groups"
+    if (
+        session.config.getoption("generate_index")
+        and not session_instance.phase_manager.is_pre_alloc_generation
     ):
-        generate_fixtures_index(
-            fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
-        )
+        generate_fixtures_index(fixture_output.directory, quiet_mode=True, force_flag=False)
 
     # Create tarball of the output directory if the output is a tarball.
     fixture_output.create_tarball()

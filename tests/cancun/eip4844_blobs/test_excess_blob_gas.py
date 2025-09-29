@@ -1,25 +1,29 @@
 """
-abstract: Tests `excessBlobGas` and `blobGasUsed` block fields for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test `excessBlobGas` and `blobGasUsed` block fields for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+Tests `excessBlobGas` and `blobGasUsed` block fields for EIP-4844.
 
-note: Adding a new test
-    Add a function that is named `test_<test_name>` and takes at least the following arguments:
+Tests `excessBlobGas` and `blobGasUsed` block fields for
+[EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
+Note: Adding a new test Add a function that is named `test_<test_name>` and
+takes at least the following arguments.
 
-    - blockchain_test
-    - env
-    - pre
-    - blocks
-    - post
-    - correct_excess_blob_gas
+Required arguments:
+- `blockchain_test`
+- `env`
+- `pre`
+- `blocks`
+- `post`
+- `correct_excess_blob_gas`
 
-    The following arguments *need* to be parametrized or the test will not be generated:
+The following arguments can be parametrized to generate new combinations
+and
+test cases:
 
-    - new_blobs
+- new_blobs: Number of blobs in the block (automatically split across
+transactions as needed)
 
-    All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
-    cases.
-
-"""  # noqa: E501
+All other `pytest.fixture` fixtures can be parametrized to generate new
+combinations and test cases.
+"""
 
 import itertools
 from typing import Callable, Dict, Iterator, List, Mapping, Optional, Tuple
@@ -55,7 +59,9 @@ pytestmark = pytest.mark.valid_from("Cancun")
 
 @pytest.fixture
 def parent_excess_blobs(fork: Fork) -> int:  # noqa: D103
-    """By default we start with an intermediate value between the target and max."""
+    """
+    By default we start with an intermediate value between the target and max.
+    """
     return (fork.max_blobs_per_block() + fork.target_blobs_per_block()) // 2 + 1
 
 
@@ -89,11 +95,12 @@ def header_excess_blob_gas(  # noqa: D103
 
 
 @pytest.fixture
-def tx_blob_data_cost(  # noqa: D103
+def tx_blob_data_cost(
     tx_max_fee_per_blob_gas: int,
     new_blobs: int,
     blob_gas_per_blob: int,
 ) -> int:
+    """Calculate total blob data cost for all blobs in block."""
     return tx_max_fee_per_blob_gas * blob_gas_per_blob * new_blobs
 
 
@@ -103,10 +110,22 @@ def tx_gas_limit() -> int:  # noqa: D103
 
 
 @pytest.fixture
-def tx_exact_cost(  # noqa: D103
-    tx_value: int, tx_max_fee_per_gas: int, tx_blob_data_cost: int, tx_gas_limit: int
+def tx_exact_cost(
+    tx_value: int,
+    tx_max_fee_per_gas: int,
+    tx_blob_data_cost: int,
+    tx_gas_limit: int,
+    new_blobs: int,
+    fork: Fork,
 ) -> int:
-    return (tx_gas_limit * tx_max_fee_per_gas) + tx_value + tx_blob_data_cost
+    """Calculate exact cost for all transactions."""
+    if new_blobs == 0:
+        num_transactions = 1
+    else:
+        num_transactions = (new_blobs + fork.max_blobs_per_tx() - 1) // fork.max_blobs_per_tx()
+    base_cost_per_tx = (tx_gas_limit * tx_max_fee_per_gas) + tx_value
+    total_base_cost = base_cost_per_tx * num_transactions
+    return total_base_cost + tx_blob_data_cost
 
 
 @pytest.fixture
@@ -129,54 +148,57 @@ def sender(pre: Alloc, tx_exact_cost: int) -> Address:  # noqa: D103
 
 
 @pytest.fixture
-def post(  # noqa: D103
-    destination_account: Address, tx_value: int, blob_gas_price: int
-) -> Mapping[Address, Account]:
-    return {
-        destination_account: Account(
-            storage={0: blob_gas_price},
-            balance=tx_value,
-        ),
-    }
-
-
-@pytest.fixture
-def tx(  # noqa: D103
+def txs(  # noqa: D103
     sender: EOA,
     new_blobs: int,
     tx_max_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
     tx_gas_limit: int,
     destination_account: Address,
+    fork: Fork,
 ):
     if new_blobs == 0:
         # Send a normal type two tx instead
-        return Transaction(
-            ty=2,
-            sender=sender,
-            to=destination_account,
-            value=1,
-            gas_limit=tx_gas_limit,
-            max_fee_per_gas=tx_max_fee_per_gas,
-            max_priority_fee_per_gas=0,
-            access_list=[],
+        return [
+            Transaction(
+                ty=2,
+                sender=sender,
+                to=destination_account,
+                value=1,
+                gas_limit=tx_gas_limit,
+                max_fee_per_gas=tx_max_fee_per_gas,
+                max_priority_fee_per_gas=0,
+                access_list=[],
+            )
+        ]
+
+    # Split into multi txs for forks where max per tx < max per block
+    txs = []
+    blob_index = 0
+    remaining_blobs = new_blobs
+    while remaining_blobs > 0:
+        tx_blobs = min(remaining_blobs, fork.max_blobs_per_tx())
+        txs.append(
+            Transaction(
+                ty=Spec.BLOB_TX_TYPE,
+                sender=sender,
+                to=destination_account,
+                value=1,
+                gas_limit=tx_gas_limit,
+                max_fee_per_gas=tx_max_fee_per_gas,
+                max_priority_fee_per_gas=0,
+                max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
+                access_list=[],
+                blob_versioned_hashes=add_kzg_version(
+                    [Hash(blob_index + x) for x in range(tx_blobs)],
+                    Spec.BLOB_COMMITMENT_VERSION_KZG,
+                ),
+            )
         )
-    else:
-        return Transaction(
-            ty=Spec.BLOB_TX_TYPE,
-            sender=sender,
-            to=destination_account,
-            value=1,
-            gas_limit=tx_gas_limit,
-            max_fee_per_gas=tx_max_fee_per_gas,
-            max_priority_fee_per_gas=0,
-            max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
-            access_list=[],
-            blob_versioned_hashes=add_kzg_version(
-                [Hash(x) for x in range(new_blobs)],
-                Spec.BLOB_COMMITMENT_VERSION_KZG,
-            ),
-        )
+        blob_index += tx_blobs
+        remaining_blobs -= tx_blobs
+
+    return txs
 
 
 @pytest.fixture
@@ -185,16 +207,20 @@ def header_blob_gas_used() -> Optional[int]:  # noqa: D103
 
 
 @pytest.fixture
-def correct_blob_gas_used(  # noqa: D103
-    tx: Transaction,
+def correct_blob_gas_used(
+    txs: List[Transaction],
     blob_gas_per_blob: int,
 ) -> int:
-    return Spec.get_total_blob_gas(tx=tx, blob_gas_per_blob=blob_gas_per_blob)
+    """Calculate the correct `blobGasUsed` for all txs."""
+    total_blob_gas = 0
+    for tx in txs:
+        total_blob_gas += Spec.get_total_blob_gas(tx=tx, blob_gas_per_blob=blob_gas_per_blob)
+    return total_blob_gas
 
 
 @pytest.fixture
 def blocks(  # noqa: D103
-    tx: Transaction,
+    txs: List[Transaction],
     header_excess_blob_gas: Optional[int],
     header_blob_gas_used: Optional[int],
     correct_excess_blob_gas: int,
@@ -216,7 +242,7 @@ def blocks(  # noqa: D103
         """Add a block to the blocks list."""
         blocks.append(
             Block(
-                txs=[tx],
+                txs=txs,
                 rlp_modifier=Header(**header_modifier) if header_modifier else None,
                 header_verify=Header(
                     excess_blob_gas=correct_excess_blob_gas,
@@ -251,6 +277,21 @@ def blocks(  # noqa: D103
     return blocks
 
 
+@pytest.fixture
+def post(  # noqa: D103
+    destination_account: Address,
+    tx_value: int,
+    blob_gas_price: int,
+    txs: List[Transaction],
+) -> Mapping[Address, Account]:
+    return {
+        destination_account: Account(
+            storage={0: blob_gas_price},
+            balance=tx_value * len(txs),
+        ),
+    }
+
+
 @pytest.mark.parametrize_by_fork(
     "parent_blobs",
     lambda fork: range(0, fork.max_blobs_per_block() + 1),
@@ -269,12 +310,14 @@ def test_correct_excess_blob_gas_calculation(
     correct_excess_blob_gas: int,
 ):
     """
-    Test calculation of the `excessBlobGas` increase/decrease across
-    multiple blocks with and without blobs.
+    Test calculation of the `excessBlobGas` increase/decrease across multiple
+    blocks with and without blobs.
 
     - With parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs
-    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent value of excess blob gas
-    """  # noqa: E501
+
+    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent
+    value of excess blob gas
+    """
     blockchain_test(
         pre=pre,
         post=post,
@@ -286,8 +329,8 @@ def test_correct_excess_blob_gas_calculation(
 
 def generate_blob_gas_cost_increases_tests(delta: int) -> Callable[[Fork], List[int]]:
     """
-    Generate a list of block excess blob gas values where the blob gas price increases
-    based on fork properties.
+    Generate a list of block excess blob gas values where the blob gas price
+    increases based on fork properties.
     """
 
     def generator_function(fork: Fork) -> List[int]:
@@ -330,8 +373,8 @@ def test_correct_increasing_blob_gas_costs(
     correct_excess_blob_gas: int,
 ):
     """
-    Test calculation of the `excessBlobGas` and blob gas tx costs at
-    value points where the cost increases to interesting amounts.
+    Test calculation of the `excessBlobGas` and blob gas tx costs at value
+    points where the cost increases to interesting amounts.
 
     - At the first blob gas cost increase (1 to 2)
     - At total transaction data cost increase to `> 2^32`
@@ -367,8 +410,8 @@ def test_correct_decreasing_blob_gas_costs(
     correct_excess_blob_gas: int,
 ):
     """
-    Test calculation of the `excessBlobGas` and blob gas tx costs at
-    value points where the cost decreases to interesting amounts.
+    Test calculation of the `excessBlobGas` and blob gas tx costs at value
+    points where the cost decreases to interesting amounts.
 
     See test_correct_increasing_blob_gas_costs.
     """
@@ -398,8 +441,8 @@ def test_invalid_zero_excess_blob_gas_in_header(
 ):
     """
     Test rejection of blocks where the `excessBlobGas` in the header drops to
-    zero in a block with or without data blobs, but the excess blobs in the parent are
-    greater than target.
+    zero in a block with or without data blobs, but the excess blobs in the
+    parent are greater than target.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -454,6 +497,7 @@ def test_invalid_blob_gas_used_in_header(
     """
     if header_blob_gas_used is None:
         raise Exception("test case is badly formatted")
+
     blockchain_test(
         pre=pre,
         post={},
@@ -493,8 +537,10 @@ def test_invalid_excess_blob_gas_above_target_change(
     """
     Test rejection of blocks where the `excessBlobGas`.
 
-    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with zero blobs
-    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with max blobs
+    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block
+        with zero blobs.
+    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block
+        with max blobs.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -536,8 +582,8 @@ def test_invalid_static_excess_blob_gas(
     parent_excess_blob_gas: int,
 ):
     """
-    Test rejection of blocks where the `excessBlobGas` remains unchanged
-    but the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.
+    Test rejection of blocks where the `excessBlobGas` remains unchanged but
+    the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.
 
     Test is parametrized to `MAX_BLOBS_PER_BLOCK` and `TARGET_BLOBS_PER_BLOCK`.
     """
@@ -623,7 +669,8 @@ def test_invalid_static_excess_blob_gas_from_zero_on_blobs_above_target(
     Test rejection of blocks where the `excessBlobGas` does not increase from
     zero, even when the included blobs is above target.
 
-    Test is parametrized to `[TARGET_BLOBS_PER_BLOCK+1, MAX_BLOBS_PER_BLOCK]` new blobs.
+    Test is parametrized to `[TARGET_BLOBS_PER_BLOCK+1, MAX_BLOBS_PER_BLOCK]`
+    new blobs.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -672,9 +719,9 @@ def test_invalid_excess_blob_gas_change(
     Test rejection of blocks where the `excessBlobGas` changes to an invalid
     value.
 
-    Given a parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs, test an invalid
-    `excessBlobGas` value by changing it by `[-TARGET_BLOBS_PER_BLOCK, TARGET_BLOBS_PER_BLOCK]`
-    from the correct value.
+    Given a parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs, test an
+    invalid `excessBlobGas` value by changing it by `[-TARGET_BLOBS_PER_BLOCK,
+    TARGET_BLOBS_PER_BLOCK]` from the correct value.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -724,8 +771,8 @@ def test_invalid_negative_excess_blob_gas(
     Test rejection of blocks where the `excessBlobGas` changes to the two's
     complement equivalent of the negative value after subtracting target blobs.
 
-    Reasoning is that the `excessBlobGas` is a `uint64`, so it cannot be negative, and
-    we test for a potential underflow here.
+    Reasoning is that the `excessBlobGas` is a `uint64`, so it cannot be
+    negative, and we test for a potential underflow here.
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")
@@ -774,8 +821,10 @@ def test_invalid_non_multiple_excess_blob_gas(
     Test rejection of blocks where the `excessBlobGas` changes to a value that
     is not a multiple of Spec.GAS_PER_BLOB`.
 
-    - Parent block contains `TARGET_BLOBS_PER_BLOCK + 1` blobs, but `excessBlobGas` is off by +/-1
-    - Parent block contains `TARGET_BLOBS_PER_BLOCK - 1` blobs, but `excessBlobGas` is off by +/-1
+    - Parent block contains `TARGET_BLOBS_PER_BLOCK + 1` blobs, but
+       `excessBlobGas` is off by +/-1
+    - Parent block contains `TARGET_BLOBS_PER_BLOCK - 1` blobs, but
+       `excessBlobGas` is off by +/-1
     """
     if header_excess_blob_gas is None:
         raise Exception("test case is badly formatted")

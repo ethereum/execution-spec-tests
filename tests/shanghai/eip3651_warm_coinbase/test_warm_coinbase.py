@@ -1,9 +1,8 @@
 """
-abstract: Tests [EIP-3651: Warm COINBASE](https://eips.ethereum.org/EIPS/eip-3651)
-    Tests for [EIP-3651: Warm COINBASE](https://eips.ethereum.org/EIPS/eip-3651).
+Tests [EIP-3651: Warm COINBASE](https://eips.ethereum.org/EIPS/eip-3651).
 
-note: Tests ported from:
-    - [ethereum/tests/pull/1082](https://github.com/ethereum/tests/pull/1082).
+Tests ported from:
+[ethereum/tests/pull/1082](https://github.com/ethereum/tests/pull/1082).
 """
 
 import pytest
@@ -19,7 +18,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .spec import ref_spec_3651
 
@@ -100,12 +99,8 @@ def test_warm_coinbase_call_out_of_gas(
     caller_address = pre.deploy_contract(caller_code)
 
     tx = Transaction(
-        ty=0x0,
-        chain_id=0x01,
-        nonce=0,
         to=caller_address,
         gas_limit=100_000,
-        gas_price=10,
         sender=sender,
     )
 
@@ -240,12 +235,8 @@ def test_warm_coinbase_gas_usage(
         expected_gas = 2600  # Cold account access cost before EIP-3651
 
     tx = Transaction(
-        ty=0x0,
-        chain_id=0x01,
-        nonce=0,
         to=measure_address,
         gas_limit=100_000,
-        gas_price=10,
         sender=sender,
     )
 

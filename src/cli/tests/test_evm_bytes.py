@@ -8,7 +8,9 @@ from ..evm_bytes import process_evm_bytes_string
 
 basic_vector = [
     "0x60008080808061AAAA612d5ff1600055",
-    "Op.PUSH1[0x0] + Op.DUP1 + Op.DUP1 + Op.DUP1 + Op.DUP1 + Op.PUSH2[0xaaaa] + Op.PUSH2[0x2d5f] + Op.CALL + Op.PUSH1[0x0] + Op.SSTORE",  # noqa: E501
+    "Op.PUSH1[0x0] + Op.DUP1 + Op.DUP1 + Op.DUP1 + Op.DUP1 + "
+    "Op.PUSH2[0xaaaa] + Op.PUSH2[0x2d5f] + Op.CALL + Op.PUSH1[0x0] + "
+    "Op.SSTORE",
 ]
 complex_vector = [
     "0x7fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf5f527fc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedf6020527fe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff60405260786040356020355f35608a565b5f515f55602051600155604051600255005b5e56",  # noqa: E501
@@ -24,8 +26,9 @@ rjumpi_vector = [
 ]
 rjumpv_vector = [
     "0xe213b1465aef60276095472e3250cf64736f6c63430008150033a26469706673582212206eab0a7969fe",
-    "Op.RJUMPV[-0x4eba, 0x5aef, 0x6027, 0x6095, 0x472e, 0x3250, -0x309c, 0x736f, 0x6c63, 0x4300,"
-    + " 0x815, 0x33, -0x5d9c, 0x6970, 0x6673, 0x5822, 0x1220, 0x6eab, 0xa79, 0x69fe]",
+    "Op.RJUMPV[-0x4eba, 0x5aef, 0x6027, 0x6095, 0x472e, 0x3250, -0x309c, "
+    "0x736f, 0x6c63, 0x4300," + " 0x815, 0x33, -0x5d9c, 0x6970, 0x6673, 0x5822, 0x1220, 0x6eab, "
+    "0xa79, 0x69fe]",
 ]
 
 

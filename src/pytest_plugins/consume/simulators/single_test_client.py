@@ -1,4 +1,6 @@
-"""Common pytest fixtures for simulators with single-test client architecture."""
+"""
+Common pytest fixtures for simulators with single-test client architecture.
+"""
 
 import io
 import json
@@ -12,10 +14,10 @@ from hive.testing import HiveTest
 from ethereum_test_base_types import Number, to_json
 from ethereum_test_fixtures import BlockchainFixtureCommon
 from ethereum_test_fixtures.blockchain import FixtureHeader
-from pytest_plugins.consume.simulators.helpers.ruleset import (
+
+from .helpers.ruleset import (
     ruleset,  # TODO: generate dynamically
 )
-
 from .helpers.timing import TimingData
 
 logger = logging.getLogger(__name__)
@@ -23,7 +25,10 @@ logger = logging.getLogger(__name__)
 
 @pytest.fixture(scope="function")
 def client_genesis(fixture: BlockchainFixtureCommon) -> dict:
-    """Convert the fixture genesis block header and pre-state to a client genesis state."""
+    """
+    Convert the fixture genesis block header and pre-state to a client genesis
+    state.
+    """
     genesis = to_json(fixture.genesis)
     alloc = to_json(fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix
@@ -38,8 +43,10 @@ def environment(
 ) -> dict:
     """Define the environment that hive will start the client with."""
     assert fixture.fork in ruleset, f"fork '{fixture.fork}' missing in hive ruleset"
+    chain_id = str(Number(fixture.config.chain_id))
     return {
-        "HIVE_CHAIN_ID": str(Number(fixture.config.chain_id)),
+        "HIVE_CHAIN_ID": chain_id,
+        "HIVE_NETWORK_ID": chain_id,  # Use same value for P2P network compatibility
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
         "HIVE_CHECK_LIVE_PORT": str(check_live_port),
@@ -49,7 +56,10 @@ def environment(
 
 @pytest.fixture(scope="function")
 def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
-    """Create a buffered reader for the genesis block header of the current test fixture."""
+    """
+    Create a buffered reader for the genesis block header of the current test
+    fixture.
+    """
     genesis_json = json.dumps(client_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
@@ -69,8 +79,12 @@ def client(
     client_type: ClientType,
     total_timing_data: TimingData,
 ) -> Generator[Client, None, None]:
-    """Initialize the client with the appropriate files and environment variables."""
+    """
+    Initialize the client with the appropriate files and environment variables.
+    """
     logger.info(f"Starting client ({client_type.name})...")
+    logger.debug(f"Main client Network ID: {environment.get('HIVE_NETWORK_ID', 'NOT SET!')}")
+    logger.debug(f"Main client Chain ID: {environment.get('HIVE_CHAIN_ID', 'NOT SET!')}")
     with total_timing_data.time("Start client"):
         client = hive_test.start_client(
             client_type=client_type, environment=environment, files=client_files

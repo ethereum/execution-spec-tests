@@ -13,7 +13,7 @@ import pytest
 
 from ethereum_test_tools import Environment
 from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
-from pytest_plugins.filler.filler import default_output_directory
+from ..filler import default_output_directory
 
 
 # flake8: noqa
@@ -78,7 +78,6 @@ test_count_shanghai = 8
 total_test_count = test_count_paris + test_count_shanghai
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "args, expected_fixture_files, expected_fixture_counts",
     [
@@ -150,44 +149,6 @@ total_test_count = test_count_paris + test_count_shanghai
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
             id="build-name-in-fixtures-ini-file",
-        ),
-        pytest.param(
-            ["--flat-output"],
-            [
-                Path("fixtures/blockchain_tests/paris_one.json"),
-                Path("fixtures/blockchain_tests_engine/paris_one.json"),
-                Path("fixtures/state_tests/paris_one.json"),
-                Path("fixtures/blockchain_tests/paris_two.json"),
-                Path("fixtures/blockchain_tests_engine/paris_two.json"),
-                Path("fixtures/state_tests/paris_two.json"),
-                Path("fixtures/blockchain_tests/shanghai_one.json"),
-                Path("fixtures/blockchain_tests_engine/shanghai_one.json"),
-                Path("fixtures/state_tests/shanghai_one.json"),
-                Path("fixtures/blockchain_tests/shanghai_two.json"),
-                Path("fixtures/blockchain_tests_engine/shanghai_two.json"),
-                Path("fixtures/state_tests/shanghai_two.json"),
-            ],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            id="flat-output",
-        ),
-        pytest.param(
-            ["--flat-output", "--output", "other_fixtures"],
-            [
-                Path("other_fixtures/blockchain_tests/paris_one.json"),
-                Path("other_fixtures/blockchain_tests_engine/paris_one.json"),
-                Path("other_fixtures/state_tests/paris_one.json"),
-                Path("other_fixtures/blockchain_tests/paris_two.json"),
-                Path("other_fixtures/blockchain_tests_engine/paris_two.json"),
-                Path("other_fixtures/state_tests/paris_two.json"),
-                Path("other_fixtures/blockchain_tests/shanghai_one.json"),
-                Path("other_fixtures/blockchain_tests_engine/shanghai_one.json"),
-                Path("other_fixtures/state_tests/shanghai_one.json"),
-                Path("other_fixtures/blockchain_tests/shanghai_two.json"),
-                Path("other_fixtures/blockchain_tests_engine/shanghai_two.json"),
-                Path("other_fixtures/state_tests/shanghai_two.json"),
-            ],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            id="flat-output_custom-output-dir",
         ),
         pytest.param(
             ["--single-fixture-per-file"],
@@ -419,101 +380,14 @@ total_test_count = test_count_paris + test_count_shanghai
             [1] * 36,
             id="single-fixture-per-file_custom_output_dir",
         ),
-        pytest.param(
-            ["--flat-output", "--single-fixture-per-file"],
-            [
-                Path(
-                    "fixtures/blockchain_tests/paris_one__fork_Paris_blockchain_test_from_state_test.json"
-                ),
-                Path("fixtures/state_tests/paris_one__fork_Paris_state_test.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/paris_one__fork_Paris_blockchain_test_engine_from_state_test.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/paris_one__fork_Shanghai_blockchain_test_from_state_test.json"
-                ),
-                Path("fixtures/state_tests/paris_one__fork_Shanghai_state_test.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/paris_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/paris_two__fork_Paris_blockchain_test_from_state_test.json"
-                ),
-                Path("fixtures/state_tests/paris_two__fork_Paris_state_test.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/paris_two__fork_Paris_blockchain_test_engine_from_state_test.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/paris_two__fork_Shanghai_blockchain_test_from_state_test.json"
-                ),
-                Path("fixtures/state_tests/paris_two__fork_Shanghai_state_test.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/paris_two__fork_Shanghai_blockchain_test_engine_from_state_test.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_one__fork_Paris_blockchain_test_from_state_test.json"
-                ),
-                Path("fixtures/state_tests/shanghai_one__fork_Paris_state_test.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_one__fork_Paris_blockchain_test_engine_from_state_test.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_one__fork_Shanghai_blockchain_test_from_state_test.json"
-                ),
-                Path("fixtures/state_tests/shanghai_one__fork_Shanghai_state_test.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_two__fork_Paris_blockchain_test_from_state_test_x_1.json"
-                ),
-                Path("fixtures/state_tests/shanghai_two__fork_Paris_state_test_x_1.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_two__fork_Paris_blockchain_test_engine_from_state_test_x_1.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_two__fork_Paris_blockchain_test_from_state_test_x_2.json"
-                ),
-                Path("fixtures/state_tests/shanghai_two__fork_Paris_state_test_x_2.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_two__fork_Paris_blockchain_test_engine_from_state_test_x_2.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_two__fork_Paris_blockchain_test_from_state_test_x_3.json"
-                ),
-                Path("fixtures/state_tests/shanghai_two__fork_Paris_state_test_x_3.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_two__fork_Paris_blockchain_test_engine_from_state_test_x_3.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_two__fork_Shanghai_blockchain_test_from_state_test_x_1.json"
-                ),
-                Path("fixtures/state_tests/shanghai_two__fork_Shanghai_state_test_x_1.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_two__fork_Shanghai_blockchain_test_engine_from_state_test_x_1.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_two__fork_Shanghai_blockchain_test_from_state_test_x_2.json"
-                ),
-                Path("fixtures/state_tests/shanghai_two__fork_Shanghai_state_test_x_2.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_two__fork_Shanghai_blockchain_test_engine_from_state_test_x_2.json"
-                ),
-                Path(
-                    "fixtures/blockchain_tests/shanghai_two__fork_Shanghai_blockchain_test_from_state_test_x_3.json"
-                ),
-                Path("fixtures/state_tests/shanghai_two__fork_Shanghai_state_test_x_3.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai_two__fork_Shanghai_blockchain_test_engine_from_state_test_x_3.json"
-                ),
-            ],
-            [1] * 36,
-            id="flat-single-per-file_flat-output",
-        ),
     ],
 )
 def test_fixture_output_based_on_command_line_args(
-    testdir, args, expected_fixture_files, expected_fixture_counts
+    testdir,
+    args,
+    expected_fixture_files,
+    expected_fixture_counts,
+    default_t8n,
 ):
     """
     Test:
@@ -545,9 +419,13 @@ def test_fixture_output_based_on_command_line_args(
     test_module = shanghai_tests_dir.join("test_module_shanghai.py")
     test_module.write(test_module_shanghai)
 
-    testdir.copy_example(name="pytest.ini")
+    testdir.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    args.append("-c")
+    args.append("pytest-fill.ini")
     args.append("-v")
     args.append("--no-html")
+    args.append("--t8n-server-url")
+    args.append(default_t8n.server_url)
 
     result = testdir.runpytest(*args)
     result.assert_outcomes(
@@ -600,7 +478,9 @@ def test_fixture_output_based_on_command_line_args(
 
     assert ini_file is not None, f"No {expected_ini_file} file was found in {meta_dir}"
     config = configparser.ConfigParser()
-    config.read(ini_file)
+    ini_file_text = ini_file.read_text()
+    ini_file_text = ini_file_text.replace(default_t8n.server_url, "t8n_server_path")
+    config.read_string(ini_file_text)
 
     if "--skip-index" not in args:
         assert index_file is not None, f"No {expected_index_file} file was found in {meta_dir}"
@@ -632,7 +512,6 @@ test_module_environment_variables = textwrap.dedent(
 )
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "args, expected_fixture_files, expected_fixture_counts, expected_gas_limit",
     [
@@ -661,7 +540,12 @@ test_module_environment_variables = textwrap.dedent(
     ],
 )
 def test_fill_variables(
-    testdir, args, expected_fixture_files, expected_fixture_counts, expected_gas_limit
+    testdir,
+    args,
+    expected_fixture_files,
+    expected_fixture_counts,
+    expected_gas_limit,
+    default_t8n,
 ):
     """
     Test filling tests that depend on variables such as the max block gas limit.
@@ -674,11 +558,15 @@ def test_fill_variables(
         test_module_environment_variables.format(expected_gas_limit=expected_gas_limit)
     )
 
-    testdir.copy_example(name="pytest.ini")
+    testdir.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    args.append("-c")
+    args.append("pytest-fill.ini")
     args.append("-v")
     args.append("-m")
     args.append("state_test")
     args.append("--no-html")
+    args.append("--t8n-server-url")
+    args.append(default_t8n.server_url)
     result = testdir.runpytest(*args)
     result.assert_outcomes(
         passed=1,
@@ -730,7 +618,9 @@ def test_fill_variables(
 
     assert ini_file is not None, f"No {expected_ini_file} file was found in {meta_dir}"
     config = configparser.ConfigParser()
-    config.read(ini_file)
+    ini_file_text = ini_file.read_text()
+    ini_file_text = ini_file_text.replace(default_t8n.server_url, "t8n_server_path")
+    config.read_string(ini_file_text)
 
     if "--skip-index" not in args:
         assert index_file is not None, f"No {expected_index_file} file was found in {meta_dir}"

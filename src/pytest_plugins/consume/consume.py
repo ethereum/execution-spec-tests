@@ -1,4 +1,6 @@
-"""A pytest plugin providing common functionality for consuming test fixtures."""
+"""
+A pytest plugin providing common functionality for consuming test fixtures.
+"""
 
 import re
 import sys
@@ -6,7 +8,7 @@ import tarfile
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 from urllib.parse import urlparse
 
 import platformdirs
@@ -46,59 +48,64 @@ def default_html_report_file_path() -> str:
 class FixtureDownloader:
     """Handles downloading and extracting fixture archives."""
 
-    def __init__(self, url: str, base_directory: Path):  # noqa: D107
+    def __init__(self, url: str, destination_folder: Path):  # noqa: D107
         self.url = url
-        self.base_directory = base_directory
+        self.destination_folder = destination_folder
         self.parsed_url = urlparse(url)
         self.archive_name = self.strip_archive_extension(Path(self.parsed_url.path).name)
 
-    @property
-    def extract_to(self) -> Path:
-        """Path to the directory where the archive will be extracted."""
-        if is_release_url(self.url):
-            version = Path(self.parsed_url.path).parts[-2]
-            self.org_repo = self.extract_github_repo()
-            return self.base_directory / self.org_repo / version / self.archive_name
-        return self.base_directory / "other" / self.archive_name
-
     def download_and_extract(self) -> Tuple[bool, Path]:
-        """Download the URL and extract it locally if it hasn't already been downloaded."""
-        if self.extract_to.exists():
+        """
+        Download the URL and extract it locally if it hasn't already been
+        downloaded.
+        """
+        if self.destination_folder.exists():
             return True, self.detect_extracted_directory()
 
         return False, self.fetch_and_extract()
-
-    def extract_github_repo(self) -> str:
-        """Extract <username>/<repo> from GitHub URLs, otherwise return 'other'."""
-        parts = self.parsed_url.path.strip("/").split("/")
-        return (
-            f"{parts[0]}/{parts[1]}"
-            if self.parsed_url.netloc == "github.com" and len(parts) >= 2
-            else "other"
-        )
 
     @staticmethod
     def strip_archive_extension(filename: str) -> str:
         """Remove .tar.gz or .tgz extensions from filename."""
         return filename.removesuffix(".tar.gz").removesuffix(".tgz")
 
+    @staticmethod
+    def get_cache_path(url: str, cache_folder: Path) -> Path:
+        """Get the appropriate cache path for a given URL."""
+        parsed_url = urlparse(url)
+        archive_name = FixtureDownloader.strip_archive_extension(Path(parsed_url.path).name)
+
+        if is_release_url(url):
+            version = Path(parsed_url.path).parts[-2]
+            parts = parsed_url.path.strip("/").split("/")
+            org_repo = (
+                f"{parts[0]}/{parts[1]}"
+                if parsed_url.netloc == "github.com" and len(parts) >= 2
+                else "other"
+            )
+            return cache_folder / org_repo / version / archive_name
+        return cache_folder / "other" / archive_name
+
     def fetch_and_extract(self) -> Path:
         """Download and extract an archive from the given URL."""
-        self.extract_to.mkdir(parents=True, exist_ok=False)
+        self.destination_folder.mkdir(parents=True, exist_ok=True)
         response = requests.get(self.url)
         response.raise_for_status()
 
         with tarfile.open(fileobj=BytesIO(response.content), mode="r:gz") as tar:
-            tar.extractall(path=self.extract_to, filter="data")
+            tar.extractall(path=self.destination_folder)
 
         return self.detect_extracted_directory()
 
     def detect_extracted_directory(self) -> Path:
         """
-        Detect a single top-level dir within the extracted archive, otherwise return extract_to.
+        Detect a single top-level dir within the extracted archive, otherwise
+        return destination_folder.
         """  # noqa: D200
-        extracted_dirs = [d for d in self.extract_to.iterdir() if d.is_dir() and d.name != ".meta"]
-        return extracted_dirs[0] if len(extracted_dirs) == 1 else self.extract_to
+        extracted_dirs = [
+            d for d in self.destination_folder.iterdir() if d.is_dir() and d.name != ".meta"
+        ]
+        return extracted_dirs[0] if len(extracted_dirs) == 1 else self.destination_folder
 
 
 @dataclass
@@ -112,25 +119,45 @@ class FixturesSource:
     is_local: bool = True
     is_stdin: bool = False
     was_cached: bool = False
+    extract_to_local_path: bool = False
 
     @classmethod
-    def from_input(cls, input_source: str) -> "FixturesSource":
+    def from_input(
+        cls,
+        input_source: str,
+        cache_folder: Optional[Path] = None,
+        extract_to: Optional[Path] = None,
+    ) -> "FixturesSource":
         """Determine the fixture source type and return an instance."""
+        if cache_folder is None:
+            cache_folder = CACHED_DOWNLOADS_DIRECTORY
         if input_source == "stdin":
             return cls(input_option=input_source, path=Path(), is_local=False, is_stdin=True)
         if is_release_url(input_source):
-            return cls.from_release_url(input_source)
+            return cls.from_release_url(input_source, cache_folder, extract_to)
         if is_url(input_source):
-            return cls.from_url(input_source)
+            return cls.from_url(input_source, cache_folder, extract_to)
         if ReleaseTag.is_release_string(input_source):
-            return cls.from_release_spec(input_source)
+            return cls.from_release_spec(input_source, cache_folder, extract_to)
         return cls.validate_local_path(Path(input_source))
 
     @classmethod
-    def from_release_url(cls, url: str) -> "FixturesSource":
+    def from_release_url(
+        cls, url: str, cache_folder: Optional[Path] = None, extract_to: Optional[Path] = None
+    ) -> "FixturesSource":
         """Create a fixture source from a supported github repo release URL."""
-        downloader = FixtureDownloader(url, CACHED_DOWNLOADS_DIRECTORY)
-        was_cached, path = downloader.download_and_extract()
+        if cache_folder is None:
+            cache_folder = CACHED_DOWNLOADS_DIRECTORY
+
+        destination_folder = extract_to or FixtureDownloader.get_cache_path(url, cache_folder)
+        downloader = FixtureDownloader(url, destination_folder)
+
+        # Skip cache check for extract_to (always download fresh)
+        if extract_to is not None:
+            was_cached = False
+            path = downloader.fetch_and_extract()
+        else:
+            was_cached, path = downloader.download_and_extract()
 
         return cls(
             input_option=url,
@@ -139,13 +166,27 @@ class FixturesSource:
             release_page="",
             is_local=False,
             was_cached=was_cached,
+            extract_to_local_path=extract_to is not None,
         )
 
     @classmethod
-    def from_url(cls, url: str) -> "FixturesSource":
+    def from_url(
+        cls, url: str, cache_folder: Optional[Path] = None, extract_to: Optional[Path] = None
+    ) -> "FixturesSource":
         """Create a fixture source from a direct URL."""
-        downloader = FixtureDownloader(url, CACHED_DOWNLOADS_DIRECTORY)
-        was_cached, path = downloader.download_and_extract()
+        if cache_folder is None:
+            cache_folder = CACHED_DOWNLOADS_DIRECTORY
+
+        destination_folder = extract_to or FixtureDownloader.get_cache_path(url, cache_folder)
+        downloader = FixtureDownloader(url, destination_folder)
+
+        # Skip cache check for extract_to (always download fresh)
+        if extract_to is not None:
+            was_cached = False
+            path = downloader.fetch_and_extract()
+        else:
+            was_cached, path = downloader.download_and_extract()
+
         return cls(
             input_option=url,
             path=path,
@@ -153,15 +194,31 @@ class FixturesSource:
             release_page="",
             is_local=False,
             was_cached=was_cached,
+            extract_to_local_path=extract_to is not None,
         )
 
     @classmethod
-    def from_release_spec(cls, spec: str) -> "FixturesSource":
-        """Create a fixture source from a release spec (e.g., develop@latest)."""
+    def from_release_spec(
+        cls, spec: str, cache_folder: Optional[Path] = None, extract_to: Optional[Path] = None
+    ) -> "FixturesSource":
+        """
+        Create a fixture source from a release spec (e.g., develop@latest).
+        """
+        if cache_folder is None:
+            cache_folder = CACHED_DOWNLOADS_DIRECTORY
         url = get_release_url(spec)
         release_page = get_release_page_url(url)
-        downloader = FixtureDownloader(url, CACHED_DOWNLOADS_DIRECTORY)
-        was_cached, path = downloader.download_and_extract()
+
+        destination_folder = extract_to or FixtureDownloader.get_cache_path(url, cache_folder)
+        downloader = FixtureDownloader(url, destination_folder)
+
+        # Skip cache check for extract_to (always download fresh)
+        if extract_to is not None:
+            was_cached = False
+            path = downloader.fetch_and_extract()
+        else:
+            was_cached, path = downloader.download_and_extract()
+
         return cls(
             input_option=spec,
             path=path,
@@ -169,11 +226,14 @@ class FixturesSource:
             release_page=release_page,
             is_local=False,
             was_cached=was_cached,
+            extract_to_local_path=extract_to is not None,
         )
 
     @staticmethod
     def validate_local_path(path: Path) -> "FixturesSource":
-        """Validate that a local fixture path exists and contains JSON files."""
+        """
+        Validate that a local fixture path exists and contains JSON files.
+        """
         if not path.exists():
             pytest.exit(f"Specified fixture directory '{path}' does not exist.")
         if not any(path.glob("**/*.json")):
@@ -191,24 +251,29 @@ class SimLimitBehavior:
     @staticmethod
     def _escape_id(pattern: str) -> str:
         """
-        Escape regex char in the pattern; prepend and append '.*' (for `fill` IDs).
+        Escape regex char in the pattern; prepend and append '.*' (for `fill`
+        IDs).
 
-        The `pattern` is prefixed and suffixed with a wildcard match to allow `fill`
-        test case IDs to be specified, otherwise the full `consume` test ID must be
-        specified.
+        The `pattern` is prefixed and suffixed with a wildcard match to allow
+        `fill` test case IDs to be specified, otherwise the full `consume` test
+        ID must be specified.
         """
         return f".*{re.escape(pattern)}.*"
 
     @classmethod
     def from_string(cls, pattern: str) -> "SimLimitBehavior":
         """
-        Parse the `--sim.limit` argument and return a `SimLimitBehavior` instance.
+        Parse the `--sim.limit` argument and return a `SimLimitBehavior`
+        instance.
 
         If `pattern`:
-        - Is "collectonly", enable collection mode without filtering.
-        - Starts with "collectonly:", enable collection mode and use the rest as a regex pattern.
-        - Starts with "id:", treat the rest as a literal test ID and escape special regex chars.
-        - Starts with "collectonly:id:", enable collection mode with a literal test ID.
+          - Is "collectonly", enable collection mode without filtering.
+          - Starts with "collectonly:", enable collection mode and use the
+            rest as a regex pattern.
+          - Starts with "id:", treat the rest as a literal test ID and escape
+            special regex chars.
+          - Starts with "collectonly:id:", enable collection mode with a
+            literal test ID.
         """
         if pattern == "collectonly":
             return cls(pattern=".*", collectonly=True)
@@ -258,6 +323,17 @@ def pytest_addoption(parser):  # noqa: D103
             f"Defaults to the following directory: '{CACHED_DOWNLOADS_DIRECTORY}'."
         ),
     )
+    consume_group.addoption(
+        "--extract-to",
+        action="store",
+        dest="extract_to_folder",
+        default=None,
+        help=(
+            "Extract downloaded fixtures to the specified directory. Only valid with 'cache' "
+            "command. When used, fixtures are extracted directly to this path instead of the "
+            "user's execution-spec-tests cache directory."
+        ),
+    )
     if "cache" in sys.argv:
         return
     consume_group.addoption(
@@ -295,19 +371,30 @@ def pytest_configure(config):  # noqa: D103
     test collection begins.
 
     `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
-    called before the pytest-html plugin's pytest_configure to ensure that
-    it uses the modified `htmlpath` option.
+    called before the pytest-html plugin's pytest_configure to ensure that it
+    uses the modified `htmlpath` option.
     """
+    # Validate --extract-to usage
+    if config.option.extract_to_folder is not None and "cache" not in sys.argv:
+        pytest.exit("The --extract-to flag is only valid with the 'cache' command.")
+
     if config.option.fixtures_source is None:
-        # NOTE: Setting the default value here is necessary for correct stdin/piping behavior.
+        # NOTE: Setting the default value here is necessary for correct
+        # stdin/piping behavior.
         config.fixtures_source = FixturesSource(
             input_option=default_input(), path=Path(default_input())
         )
     else:
-        # NOTE: Setting `type=FixturesSource.from_input` in pytest_addoption() causes the option to
-        # be evaluated twice which breaks the result of `was_cached`; the work-around is to call it
-        # manually here.
-        config.fixtures_source = FixturesSource.from_input(config.option.fixtures_source)
+        # NOTE: Setting `type=FixturesSource.from_input` in pytest_addoption()
+        # causes the option to be evaluated twice which breaks the result of
+        # `was_cached`; the work-around is to call it manually here.
+        config.fixtures_source = FixturesSource.from_input(
+            config.option.fixtures_source,
+            Path(config.option.fixture_cache_folder),
+            Path(config.option.extract_to_folder)
+            if config.option.extract_to_folder is not None
+            else None,
+        )
     config.fixture_source_flags = ["--input", config.fixtures_source.input_option]
 
     if "cache" in sys.argv and not config.fixtures_source:
@@ -315,7 +402,9 @@ def pytest_configure(config):  # noqa: D103
 
     if "cache" in sys.argv:
         reason = ""
-        if config.fixtures_source.was_cached:
+        if config.fixtures_source.extract_to_local_path:
+            reason += "Fixtures downloaded and extracted to specified directory."
+        elif config.fixtures_source.was_cached:
             reason += "Fixtures already cached."
         elif not config.fixtures_source.is_local:
             reason += "Fixtures downloaded and cached."
@@ -339,7 +428,6 @@ def pytest_configure(config):  # noqa: D103
             config.fixtures_source.path,
             quiet_mode=False,
             force_flag=False,
-            disable_infer_format=False,
         )
 
     index = IndexFile.model_validate_json(index_file.read_text())
@@ -355,7 +443,8 @@ def pytest_configure(config):  # noqa: D103
     all_forks = {  # type: ignore
         fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
     }
-    # Append all forks within the index file (compatibility with `ethereum/tests`)
+    # Append all forks within the index file (compatibility with
+    # `ethereum/tests`)
     all_forks.update(getattr(index, "forks", []))
     for fork in all_forks:
         config.addinivalue_line("markers", f"{fork}: Tests for the {fork} fork")
@@ -410,7 +499,8 @@ def fixtures_source(request) -> FixturesSource:  # noqa: D103
 def pytest_generate_tests(metafunc):
     """
     Generate test cases for every test fixture in all the JSON fixture files
-    within the specified fixtures directory, or read from stdin if the directory is 'stdin'.
+    within the specified fixtures directory, or read from stdin if the
+    directory is 'stdin'.
     """
     if "cache" in sys.argv:
         return
@@ -432,14 +522,8 @@ def pytest_generate_tests(metafunc):
     metafunc.parametrize("test_case", param_list)
 
     if "client_type" in metafunc.fixturenames:
-        client_ids = [client.name for client in metafunc.config.hive_execution_clients]
-        metafunc.parametrize("client_type", metafunc.config.hive_execution_clients, ids=client_ids)
-
-
-def pytest_collection_modifyitems(items):
-    """Modify collected item names to remove the test runner function from the name."""
-    for item in items:
-        original_name = item.originalname
-        remove = f"{original_name}["
-        if item.name.startswith(remove):
-            item.name = item.name.removeprefix(remove)[:-1]
+        metafunc.parametrize(
+            "client_type",
+            metafunc.config.hive_execution_clients,
+            ids=[client.name for client in metafunc.config.hive_execution_clients],
+        )

@@ -14,6 +14,8 @@ from .processors import HelpFlagsProcessor
 @common_pytest_options
 def check_eip_versions(pytest_args: List[str], **kwargs) -> None:
     """Run pytest with the `spec_version_checker` plugin."""
+    del kwargs
+
     command = PytestCommand(
         config_file="pytest-check-eip-versions.ini",
         argument_processors=[HelpFlagsProcessor("check-eip-versions")],

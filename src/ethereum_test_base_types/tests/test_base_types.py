@@ -5,8 +5,8 @@ from typing import Any, Dict
 import pytest
 
 from ..base_types import Address, Hash, Wei
+from ..base_types_json import to_json
 from ..composite_types import AccessList
-from ..json import to_json
 
 
 @pytest.mark.parametrize(

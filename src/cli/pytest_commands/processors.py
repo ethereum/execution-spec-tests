@@ -13,15 +13,18 @@ from .base import ArgumentProcessor
 class HelpFlagsProcessor(ArgumentProcessor):
     """Processes help-related flags to provide cleaner help output."""
 
-    def __init__(self, command_type: str):
+    def __init__(self, command_type: str, required_args: List[str] | None = None):
         """
         Initialize the help processor.
 
         Args:
-            command_type: The type of command (e.g., "fill", "consume", "execute")
+          command_type: The type of command (e.g., "fill", "consume",
+                        "execute")
+          required_args: The arguments that are required for the command to run
 
         """
         self.command_type = command_type
+        self.required_args = required_args or []
 
     def process_args(self, args: List[str]) -> List[str]:
         """
@@ -33,7 +36,8 @@ class HelpFlagsProcessor(ArgumentProcessor):
         ctx = click.get_current_context()
 
         if ctx.params.get("help_flag"):
-            return [f"--{self.command_type}-help"]
+            # And also add the required arguments to the help output
+            return [f"--{self.command_type}-help"] + self.required_args
         elif ctx.params.get("pytest_help_flag"):
             return ["--help"]
 
@@ -45,8 +49,8 @@ class StdoutFlagsProcessor(ArgumentProcessor):
 
     def process_args(self, args: List[str]) -> List[str]:
         """
-        If the user has requested to write to stdout, add pytest arguments
-        to suppress pytest's test session header and summary output.
+        If the user has requested to write to stdout, add pytest arguments to
+        suppress pytest's test session header and summary output.
         """
         if not self._is_writing_to_stdout(args):
             return args
@@ -98,6 +102,8 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
 
         if self.command_name == "engine":
             modified_args.extend(["-p", "pytest_plugins.consume.simulators.engine.conftest"])
+        elif self.command_name == "sync":
+            modified_args.extend(["-p", "pytest_plugins.consume.simulators.sync.conftest"])
         elif self.command_name == "rlp":
             modified_args.extend(["-p", "pytest_plugins.consume.simulators.rlp.conftest"])
         else:
@@ -113,6 +119,20 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
         return "-n" in args
 
 
+class WatchFlagsProcessor(ArgumentProcessor):
+    """
+    Processes --watch and --watcherfall flags
+    for file watching functionality.
+    """
+
+    def process_args(self, args: List[str]) -> List[str]:
+        """
+        Remove --watch and --watcherfall
+        flags from args passed to pytest.
+        """
+        return [arg for arg in args if arg not in ["--watch", "--watcherfall"]]
+
+
 class ConsumeCommandProcessor(ArgumentProcessor):
     """Processes consume-specific command arguments."""
 
@@ -121,7 +141,7 @@ class ConsumeCommandProcessor(ArgumentProcessor):
         Initialize the consume processor.
 
         Args:
-            is_hive: Whether this is a hive-based consume command
+          is_hive: Whether this is a hive-based consume command
 
         """
         self.is_hive = is_hive

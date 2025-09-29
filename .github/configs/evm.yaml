@@ -10,14 +10,9 @@ static:
   impl: evmone
   repo: ethereum/evmone
   ref: master
-  targets: ["evmone-t8n", "evmone-eofparse"]
+  targets: ["evmone-t8n"]
 benchmark:
   impl: evmone
   repo: ethereum/evmone
   ref: master
-  targets: ["evmone-t8n", "evmone-eofparse"]
-eip7692:
-  impl: evmone
-  repo: ethereum/evmone
-  ref: master
-  targets: ["evmone-t8n", "evmone-eofparse"]
+  targets: ["evmone-t8n"]

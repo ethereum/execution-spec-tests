@@ -1,13 +1,14 @@
 """Account-related types for Ethereum tests."""
 
+import json
 from dataclasses import dataclass, field
-from typing import Dict, List, Literal, Optional, Tuple
+from enum import Enum, auto
+from typing import Any, Dict, List, Literal, Optional, Self, Tuple
 
 from coincurve.keys import PrivateKey
 from ethereum_types.bytes import Bytes20
 from ethereum_types.numeric import U256, Bytes32, Uint
 from pydantic import PrivateAttr
-from typing_extensions import Self
 
 from ethereum_test_base_types import (
     Account,
@@ -49,8 +50,8 @@ class State:
 
 def set_account(state: State, address: Bytes20, account: Optional[FrontierAccount]) -> None:
     """
-    Set the `Account` object at an address. Setting to `None` deletes
-    the account (but not its storage, see `destroy_account()`).
+    Set the `Account` object at an address. Setting to `None` deletes the
+    account (but not its storage, see `destroy_account()`).
     """
     trie_set(state._main_trie, address, account)
 
@@ -92,9 +93,11 @@ def state_root(state: State) -> Bytes32:
 
 class EOA(Address):
     """
-    An Externally Owned Account (EOA) is an account controlled by a private key.
+    An Externally Owned Account (EOA) is an account controlled by a private
+    key.
 
-    The EOA is defined by its address and (optionally) by its corresponding private key.
+    The EOA is defined by its address and (optionally) by its corresponding
+    private key.
     """
 
     key: Hash | None
@@ -144,12 +147,6 @@ class Alloc(BaseAlloc):
         address: Address
         account: Account | None
 
-        def __init__(self, address: Address, account: Account | None, *args):
-            """Initialize the exception."""
-            super().__init__(args)
-            self.address = address
-            self.account = account
-
         def __str__(self):
             """Print exception string."""
             return f"unexpected account in allocation {self.address}: {self.account}"
@@ -160,25 +157,82 @@ class Alloc(BaseAlloc):
 
         address: Address
 
-        def __init__(self, address: Address, *args):
-            """Initialize the exception."""
-            super().__init__(args)
-            self.address = address
-
         def __str__(self):
             """Print exception string."""
             return f"Account missing from allocation {self.address}"
 
+    @dataclass(kw_only=True)
+    class CollisionError(Exception):
+        """Different accounts at the same address."""
+
+        address: Address
+        account_1: Account | None
+        account_2: Account | None
+
+        def to_json(self) -> Dict[str, Any]:
+            """Dump to json object."""
+            return {
+                "address": self.address.hex(),
+                "account_1": self.account_1.model_dump(mode="json")
+                if self.account_1 is not None
+                else None,
+                "account_2": self.account_2.model_dump(mode="json")
+                if self.account_2 is not None
+                else None,
+            }
+
+        @classmethod
+        def from_json(cls, obj: Dict[str, Any]) -> Self:
+            """Parse from a json dict."""
+            return cls(
+                address=Address(obj["address"]),
+                account_1=Account.model_validate(obj["account_1"])
+                if obj["account_1"] is not None
+                else None,
+                account_2=Account.model_validate(obj["account_2"])
+                if obj["account_2"] is not None
+                else None,
+            )
+
+        def __str__(self) -> str:
+            """Print exception string."""
+            return (
+                "Overlapping key defining different accounts detected:\n"
+                f"{json.dumps(self.to_json(), indent=2)}"
+            )
+
+    class KeyCollisionMode(Enum):
+        """Mode for handling key collisions when merging allocations."""
+
+        ERROR = auto()
+        OVERWRITE = auto()
+        ALLOW_IDENTICAL_ACCOUNTS = auto()
+
     @classmethod
     def merge(
-        cls, alloc_1: "Alloc", alloc_2: "Alloc", allow_key_collision: bool = True
+        cls,
+        alloc_1: "Alloc",
+        alloc_2: "Alloc",
+        key_collision_mode: KeyCollisionMode = KeyCollisionMode.OVERWRITE,
     ) -> "Alloc":
         """Return merged allocation of two sources."""
         overlapping_keys = alloc_1.root.keys() & alloc_2.root.keys()
-        if overlapping_keys and not allow_key_collision:
-            raise Exception(
-                f"Overlapping keys detected: {[key.hex() for key in overlapping_keys]}"
-            )
+        if overlapping_keys:
+            if key_collision_mode == cls.KeyCollisionMode.ERROR:
+                raise Exception(
+                    f"Overlapping keys detected: {[key.hex() for key in overlapping_keys]}"
+                )
+            elif key_collision_mode == cls.KeyCollisionMode.ALLOW_IDENTICAL_ACCOUNTS:
+                # The overlapping keys must point to the exact same account
+                for key in overlapping_keys:
+                    account_1 = alloc_1[key]
+                    account_2 = alloc_2[key]
+                    if account_1 != account_2:
+                        raise Alloc.CollisionError(
+                            address=key,
+                            account_1=account_1,
+                            account_2=account_2,
+                        )
         merged = alloc_1.model_dump()
 
         for address, other_account in alloc_2.root.items():
@@ -267,7 +321,9 @@ class Alloc(BaseAlloc):
             if account is None:
                 # Account must not exist
                 if address in got_alloc.root and got_alloc.root[address] is not None:
-                    raise Alloc.UnexpectedAccountError(address, got_alloc.root[address])
+                    raise Alloc.UnexpectedAccountError(
+                        address=address, account=got_alloc.root[address]
+                    )
             else:
                 if address in got_alloc.root:
                     got_account = got_alloc.root[address]
@@ -275,7 +331,7 @@ class Alloc(BaseAlloc):
                     assert isinstance(account, Account)
                     account.check_alloc(address, got_account)
                 else:
-                    raise Alloc.MissingAccountError(address)
+                    raise Alloc.MissingAccountError(address=address)
 
     def deploy_contract(
         self,
@@ -287,6 +343,7 @@ class Alloc(BaseAlloc):
         address: Address | None = None,
         evm_code_type: EVMCodeType | None = None,
         label: str | None = None,
+        stub: str | None = None,
     ) -> Address:
         """Deploy a contract to the allocation."""
         raise NotImplementedError("deploy_contract is not implemented in the base class")
@@ -299,7 +356,10 @@ class Alloc(BaseAlloc):
         delegation: Address | Literal["Self"] | None = None,
         nonce: NumberConvertible | None = None,
     ) -> EOA:
-        """Add a previously unused EOA to the pre-alloc with the balance specified by `amount`."""
+        """
+        Add a previously unused EOA to the pre-alloc with the balance specified
+        by `amount`.
+        """
         raise NotImplementedError("fund_eoa is not implemented in the base class")
 
     def fund_address(self, address: Address, amount: NumberConvertible):
@@ -315,7 +375,7 @@ class Alloc(BaseAlloc):
         """
         Return a previously unused account guaranteed to be empty.
 
-        This ensures the account has zero balance, zero nonce, no code, and no storage.
-        The account is not a precompile or a system contract.
+        This ensures the account has zero balance, zero nonce, no code, and no
+        storage. The account is not a precompile or a system contract.
         """
         raise NotImplementedError("empty_account is not implemented in the base class")

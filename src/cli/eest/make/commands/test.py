@@ -1,9 +1,10 @@
 """
 Provides a CLI command to scaffold a test file.
 
-The `test` command guides the user through a series of prompts to generate a test file
-based on the selected test type, fork, EIP number, and EIP name. The generated test file
-is saved in the appropriate directory with a rendered template using Jinja2.
+The `test` command guides the user through a series of prompts to generate a
+test file based on the selected test type, fork, EIP number, and EIP name. The
+generated test file is saved in the appropriate directory with a rendered
+template using Jinja2.
 """
 
 import os
@@ -13,9 +14,10 @@ from pathlib import Path
 import click
 import jinja2
 
-from cli.input import input_select, input_text
 from config.docs import DocsConfig
 from ethereum_test_forks import get_development_forks, get_forks
+
+from ....input import input_select, input_text
 
 template_loader = jinja2.PackageLoader("cli.eest.make")
 template_env = jinja2.Environment(
@@ -37,10 +39,11 @@ def test():
     """
     Generate a new test file for an EIP.
 
-    This function guides the user through a series of prompts to generate a test file
-    for Ethereum execution specifications. The user is prompted to select the type of test,
-    the fork to use, and to provide the EIP number and name. Based on the inputs, a test file
-    is created in the appropriate directory with a rendered template.
+    This function guides the user through a series of prompts to generate a
+    test file for Ethereum execution specifications. The user is prompted to
+    select the type of test, the fork to use, and to provide the EIP number and
+    name. Based on the inputs, a test file is created in the appropriate
+    directory with a rendered template.
 
     Example:
         uv run eest make test

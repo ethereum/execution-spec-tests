@@ -60,18 +60,25 @@ def to_fixed_size_bytes(
     """
     Convert multiple types into fixed-size bytes.
 
-    :param input_bytes: The input data to convert.
-    :param size: The size of the output bytes.
-    :param left_padding: Whether to allow left-padding of the input data bytes using zeros. If the
-        input data is an integer, padding is always performed.
-    :param right_padding: Whether to allow right-padding of the input data bytes using zeros. If
-        the input data is an integer, padding is always performed.
+    Args:
+      input_bytes: The input data to convert.
+      size: The size of the output bytes.
+      left_padding: Whether to allow left-padding of the input data bytes
+                    using zeros. If the input data is an integer, padding is
+                    always performed.
+      right_padding: Whether to allow right-padding of the input data bytes
+                     using zeros. If the input data is an integer, padding
+                     is always performed.
+
     """
     if isinstance(input_bytes, int):
         return int.to_bytes(input_bytes, length=size, byteorder="big", signed=input_bytes < 0)
     input_bytes = to_bytes(input_bytes)
     if len(input_bytes) > size:
-        raise Exception(f"input is too large for fixed size bytes: {len(input_bytes)} > {size}")
+        raise Exception(
+            f"input is too large for fixed size bytes: {input_bytes.hex()}, "
+            f" {len(input_bytes)} > {size}"
+        )
     if len(input_bytes) < size:
         if left_padding:
             return bytes(input_bytes).rjust(size, b"\x00")

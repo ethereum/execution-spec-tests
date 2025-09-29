@@ -9,8 +9,8 @@ from .ethereum_cli import EthereumCLI
 
 class FixtureConsumerTool(FixtureConsumer, EthereumCLI):
     """
-    Fixture consumer tool abstract base class which should be inherited by all fixture consumer
-    tool implementations.
+    Fixture consumer tool abstract base class which should be inherited by all
+    fixture consumer tool implementations.
     """
 
     registered_tools: List[Type["FixtureConsumerTool"]] = []

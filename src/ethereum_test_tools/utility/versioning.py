@@ -9,10 +9,11 @@ def get_current_commit_hash_or_tag(repo_path=".", shorten_hash=False):
     """
     Get the latest commit tag or commit hash from the repository.
 
-    If a tag points to the current commit, return the tag name.
-    If no tag exists:
-        - If shorten_hash is True, return the first 8 characters of the commit hash.
-        - Otherwise, return the full commit hash.
+    If a tag points to the current commit, return the tag name. If no tag
+    exists:
+      - If shorten_hash is True, return the first 8 characters of the
+        commit hash.
+      - Otherwise, return the full commit hash.
     """
     try:
         repo = Repo(repo_path)

@@ -18,10 +18,14 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 @pytest.mark.parametrize(
     **extend_with_defaults(
         defaults={
-            "skip_header_listing": False,  # second section is mentioned in code header array
-            "skip_body_listing": False,  # second section code is in container's body
-            "skip_types_body_listing": False,  # code input bytes not listed in container's body
-            "skip_types_header_listing": False,  # code input bytes size not added to types section size  # noqa: E501
+            # second section is mentioned in code header array
+            "skip_header_listing": False,
+            # second section code is in container's body
+            "skip_body_listing": False,
+            # code input bytes not listed in container's body
+            "skip_types_body_listing": False,
+            # code input bytes size not added to types section size
+            "skip_types_header_listing": False,
             "expected_code": "",
             "expected_exception": None,
         },
@@ -30,7 +34,8 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 {
                     "skip_header_listing": True,
                     "skip_body_listing": True,
-                    "expected_code": "ef00010100080200010003ff00040000800001000000003050000bad60A7",  # noqa: E501
+                    "expected_code": "ef00010100080200010003ff0004000080000"
+                    "1000000003050000bad60A7",
                     "expected_exception": [
                         EOFException.INVALID_TYPE_SECTION_SIZE,
                         EOFException.INVALID_SECTION_BODIES_SIZE,
@@ -42,7 +47,8 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 {
                     "skip_header_listing": True,
                     "skip_body_listing": False,
-                    "expected_code": "ef00010100080200010003ff00040000800001000000003050003050000bad60A7",  # noqa: E501
+                    "expected_code": "ef00010100080200010003ff0004000080000"
+                    "1000000003050003050000bad60A7",
                     "expected_exception": [
                         EOFException.INVALID_TYPE_SECTION_SIZE,
                         EOFException.INVALID_SECTION_BODIES_SIZE,
@@ -54,7 +60,8 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 {
                     "skip_header_listing": False,
                     "skip_body_listing": True,
-                    "expected_code": "ef000101000802000200030003ff00040000800001000000003050000bad60A7",  # noqa: E501
+                    "expected_code": "ef000101000802000200030003ff000400008"
+                    "00001000000003050000bad60A7",
                     "expected_exception": [
                         EOFException.UNREACHABLE_CODE_SECTIONS,
                         EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
@@ -66,7 +73,8 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
                 {
                     "skip_header_listing": False,
                     "skip_body_listing": False,
-                    "expected_code": "ef000101000802000200030003ff00040000800001000000003050003050000bad60A7",  # noqa: E501
+                    "expected_code": "ef000101000802000200030003ff000400008"
+                    "00001000000003050003050000bad60A7",
                     "expected_exception": EOFException.UNREACHABLE_CODE_SECTIONS,
                 },
                 id="layout_ok_code_bad",
@@ -125,7 +133,8 @@ def test_code_section_header_body_mismatch(
                 skip_body_listing=skip_body_listing,
                 # whether to not print its input bytes in containers body
                 skip_types_body_listing=skip_types_body_listing,
-                # whether to not calculate its input bytes size in types section's header
+                # whether to not calculate its input bytes size in types
+                # section's header
                 skip_types_header_listing=skip_types_header_listing,
             ),
             Section.Data("0x0bad60A7"),

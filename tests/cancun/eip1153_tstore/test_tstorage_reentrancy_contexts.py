@@ -1,7 +1,6 @@
 """
-abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
-    Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy contexts.
-"""  # noqa: E501
+Tests transient storage in reentrancy contexts.
+"""
 
 from enum import EnumMeta, unique
 from typing import Dict
@@ -59,11 +58,15 @@ class DynamicReentrancyTestCases(EnumMeta):
 
             classdict[f"TSTORE_BEFORE_{opcode._name_}_HAS_NO_EFFECT"] = {
                 "description": (
-                    f"{opcode._name_} undoes the transient storage write from the failed call: "
-                    f"TSTORE(x, y), CALL(self, ...), TSTORE(x, z), {opcode._name_}, TLOAD(x) "
-                    "returns y."
-                    "",
-                    "Based on [ethereum/tests/.../08_revertUndoesTransientStoreFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/08_revertUndoesTransientStoreFiller.yml)",  # noqa: E501
+                    f"{opcode._name_} undoes the transient storage write "
+                    "from the failed call: "
+                    "TSTORE(x, y), CALL(self, ...), TSTORE(x, z), "
+                    f"{opcode._name_}, TLOAD(x) returns y.",
+                    "Based on [ethereum/tests/.../08_revertUndoes"
+                    "TransientStoreFiller.yml](https://github.com/ethereum/"
+                    "tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src"
+                    "/EIPTestsFiller/StateTests/stEIP1153-transientStorage/"
+                    "08_revertUndoesTransientStoreFiller.yml)",
                 ),
                 "bytecode": Conditional(
                     condition=SETUP_CONDITION,
@@ -84,11 +87,13 @@ class DynamicReentrancyTestCases(EnumMeta):
 
             classdict[f"{opcode._name_}_UNDOES_ALL"] = {
                 "description": (
-                    f"{opcode._name_} undoes all the transient storage writes to the same key ",
-                    "from a failed call. TSTORE(x, y), CALL(self, ...), TSTORE(x, z), ",
-                    f"TSTORE(x, z + 1) {opcode._name_}, TLOAD(x) returns y.",
+                    f"{opcode._name_} undoes all the transient storage writes "
+                    "to the same key from a failed call. "
+                    "TSTORE(x, y), CALL(self, ...), TSTORE(x, z), "
+                    f"TSTORE(x, z + 1) {opcode._name_}, TLOAD(x) returns y."
                     "",
-                    "Based on [ethereum/tests/.../09_revertUndoesAllFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/09_revertUndoesAllFiller.yml).",  # noqa: E501
+                    "Based on "
+                    "[ethereum/tests/.../09_revertUndoesAllFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/09_revertUndoesAllFiller.yml).",
                 ),
                 "bytecode": Conditional(
                     condition=SETUP_CONDITION,
@@ -106,7 +111,8 @@ class DynamicReentrancyTestCases(EnumMeta):
                     ),
                     # reenter
                     if_false=(
-                        # store twice and revert/invalid; none of the stores should take effect
+                        # store twice and revert/invalid; none of the stores
+                        # should take effect
                         Op.TSTORE(0xFE, 0x201)
                         + Op.TSTORE(0xFE, 0x202)
                         + Op.TSTORE(0xFF, 0x201)
@@ -128,11 +134,17 @@ class DynamicReentrancyTestCases(EnumMeta):
 
             classdict[f"{opcode._name_}_UNDOES_TSTORAGE_AFTER_SUCCESSFUL_CALL"] = {
                 "description": (
-                    f"{opcode._name_} undoes transient storage writes from inner calls that "
-                    "successfully returned. TSTORE(x, y), CALL(self, ...), CALL(self, ...), "
-                    f"TSTORE(x, y + 1), RETURN, {opcode._name_}, TLOAD(x) returns y."
-                    "",
-                    "Based on [ethereum/tests/.../10_revertUndoesStoreAfterReturnFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/10_revertUndoesStoreAfterReturnFiller.yml).",  # noqa: E501
+                    f"{opcode._name_} undoes transient storage writes from "
+                    "inner calls that successfully returned. "
+                    "TSTORE(x, y), CALL(self, ...), CALL(self, ...), "
+                    f"TSTORE(x, y + 1), RETURN, {opcode._name_}, TLOAD(x) "
+                    "returns y.",
+                    "Based on [ethereum/tests/.../"
+                    "10_revertUndoesStoreAfterReturnFiller.yml]"
+                    "(https://github.com/ethereum/tests/blob/"
+                    "9b00b68593f5869eb51a6659e1cc983e875e616b/src/"
+                    "EIPTestsFiller/StateTests/stEIP1153-transientStorage/"
+                    "10_revertUndoesStoreAfterReturnFiller.yml).",
                 ),
                 "bytecode": Switch(
                     default_action=(  # setup; make first reentrant sub-call
@@ -149,11 +161,13 @@ class DynamicReentrancyTestCases(EnumMeta):
                                 ret_size=32,
                             ),
                         )
-                        + Op.SSTORE(1, Op.MLOAD(32))  # should be 1 (successful call)
+                        + Op.SSTORE(1, Op.MLOAD(32))  # should be 1 (successful
+                        # call)
                         + Op.SSTORE(3, Op.TLOAD(0xFF))
                     ),
                     cases=[
-                        # the first, reentrant call, which reverts/receives invalid
+                        # the first, reentrant call, which reverts/receives
+                        # invalid
                         CalldataCase(
                             value=2,
                             action=(
@@ -162,7 +176,8 @@ class DynamicReentrancyTestCases(EnumMeta):
                                 + opcode_call
                             ),
                         ),
-                        # the second, reentrant call, which returns successfully
+                        # the second, reentrant call, which returns
+                        # successfully
                         CalldataCase(
                             value=3,
                             action=Op.TSTORE(0xFF, 0x101),
@@ -184,7 +199,10 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
             "Reentrant calls access the same transient storage: "
             "TSTORE(x, y), CALL(self, ...), TLOAD(x) returns y."
             ""
-            "Based on [ethereum/tests/.../05_tloadReentrancyFiller.yml](https://github.com/ethereum/tests/tree/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage).",  # noqa: E501
+            "Based on [ethereum/tests/.../05_tloadReentrancyFiller.yml]"
+            "(https://github.com/ethereum/tests/tree/"
+            "9b00b68593f5869eb51a6659e1cc983e875e616b/src/"
+            "EIPTestsFiller/StateTests/stEIP1153-transientStorage).",
         ),
         "bytecode": Conditional(
             condition=SETUP_CONDITION,
@@ -197,10 +215,16 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
     }
     TLOAD_AFTER_REENTRANT_TSTORE = {
         "description": (
-            "Successfully returned calls do not revert transient storage writes: "
-            "TSTORE(x, y), CALL(self, ...), TSTORE(x, z), RETURN, TLOAD(x) returns z."
-            ""
-            "Based on [ethereum/tests/.../07_tloadAfterReentrancyStoreFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/07_tloadAfterReentrancyStoreFiller.yml).",  # noqa: E501
+            "Successfully returned calls do not revert transient "
+            "storage writes: "
+            "TSTORE(x, y), CALL(self, ...), TSTORE(x, z), RETURN, TLOAD(x) "
+            "returns z."
+            "Based on [ethereum/tests/.../"
+            "07_tloadAfterReentrancyStoreFiller.yml](https://github.com/"
+            "ethereum/tests/blob/"
+            "9b00b68593f5869eb51a6659e1cc983e875e616b/src/"
+            "EIPTestsFiller/StateTests/stEIP1153-transientStorage/"
+            "07_tloadAfterReentrancyStoreFiller.yml).",
         ),
         "bytecode": Conditional(
             condition=SETUP_CONDITION,
@@ -209,7 +233,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                 Op.TSTORE(0xFF, 0x100)
                 + Op.SSTORE(1, Op.TLOAD(0xFF))
                 + REENTRANT_CALL
-                + Op.SSTORE(2, Op.TLOAD(0xFF))  # test value updated during reentrant call
+                + Op.SSTORE(2, Op.TLOAD(0xFF))  # test value updated during
+                # reentrant call
             ),
             # reenter
             if_false=Op.TSTORE(0xFF, 0x101),
@@ -221,7 +246,11 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
             "Reentrant calls can manipulate the same transient storage: "
             "TSTORE(x, y), CALL(self, ...), TSTORE(x, z), TLOAD(x) returns z."
             ""
-            "Based on [ethereum/tests/.../06_tstoreInReentrancyCallFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/06_tstoreInReentrancyCallFiller.yml).",  # noqa: E501
+            "Based on [ethereum/tests/.../06_tstoreInReentrancyCallFiller.yml]"
+            "(https://github.com/ethereum/tests/blob/"
+            "9b00b68593f5869eb51a6659e1cc983e875e616b/src/"
+            "EIPTestsFiller/StateTests/stEIP1153-transientStorage/"
+            "06_tstoreInReentrancyCallFiller.yml).",
         ),
         "bytecode": Conditional(
             condition=SETUP_CONDITION,
@@ -230,7 +259,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                 Op.TSTORE(0xFF, 0x100)
                 + Op.SSTORE(1, Op.TLOAD(0xFF))
                 + REENTRANT_CALL
-                + Op.SSTORE(3, Op.TLOAD(0xFF))  # test value updated during reentrant call
+                + Op.SSTORE(3, Op.TLOAD(0xFF))  # test value updated during
+                # reentrant call
             ),
             # reenter
             if_false=Op.TSTORE(0xFF, 0x101) + Op.SSTORE(2, Op.TLOAD(0xFF)),
@@ -239,9 +269,16 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
     }
     TSTORE_IN_CALL_THEN_TLOAD_RETURN_IN_STATICCALL = {
         "description": (
-            "A reentrant call followed by a reentrant subcall can call tload correctly: "
-            "TSTORE(x, y), CALL(self, ...), STATICCALL(self, ...), TLOAD(x), RETURN returns y."
-            "Based on [ethereum/tests/.../10_revertUndoesStoreAfterReturnFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/10_revertUndoesStoreAfterReturnFiller.yml).",  # noqa: E501
+            "A reentrant call followed by a reentrant subcall can "
+            "call tload correctly: "
+            "TSTORE(x, y), CALL(self, ...), STATICCALL(self, ...), "
+            "TLOAD(x), RETURN returns y."
+            "Based on [ethereum/tests/.../"
+            "10_revertUndoesStoreAfterReturnFiller.yml]"
+            "(https://github.com/ethereum/tests/blob/"
+            "9b00b68593f5869eb51a6659e1cc983e875e616b/src/"
+            "EIPTestsFiller/StateTests/stEIP1153-transientStorage/"
+            "10_revertUndoesStoreAfterReturnFiller.yml).",
         ),
         "bytecode": Switch(
             default_action=(  # setup; make first reentrant sub-call
@@ -252,7 +289,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                 + Op.SSTORE(4, Op.TLOAD(0xFE))
             ),
             cases=[
-                # the first, reentrant call which calls tstore and a further reentrant staticcall
+                # the first, reentrant call which calls tstore and a further
+                # reentrant staticcall
                 CalldataCase(
                     value=2,
                     action=(
@@ -264,7 +302,8 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
                         + Op.SSTORE(3, Op.MLOAD(0))
                     ),
                 ),
-                # the second, reentrant call, which calls tload and return returns successfully
+                # the second, reentrant call, which calls tload and return
+                # returns successfully
                 CalldataCase(
                     value=3,
                     action=Op.MSTORE(0, Op.TLOAD(0xFE)) + Op.RETURN(0, 32),

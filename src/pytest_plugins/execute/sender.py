@@ -85,15 +85,17 @@ def sender_key_initial_balance(
     """
     Calculate the initial balance of each sender key.
 
-    The way to do this is to fetch the seed sender balance and divide it by the number of
-    workers. This way we can ensure that each sender key has the same initial balance.
+    The way to do this is to fetch the seed sender balance and divide it by the
+    number of workers. This way we can ensure that each sender key has the same
+    initial balance.
 
-    We also only do this once per session, because if we try to fetch the balance again, it
-    could be that another worker has already sent a transaction and the balance is different.
+    We also only do this once per session, because if we try to fetch the
+    balance again, it could be that another worker has already sent a
+    transaction and the balance is different.
 
-    It's not really possible to calculate the transaction costs of each test that each worker
-    is going to run, so we can't really calculate the initial balance of each sender key
-    based on that.
+    It's not really possible to calculate the transaction costs of each test
+    that each worker is going to run, so we can't really calculate the initial
+    balance of each sender key based on that.
     """
     base_name = "sender_key_initial_balance"
     base_file = session_temp_folder / base_name
@@ -108,7 +110,8 @@ def sender_key_initial_balance(
                 seed_account_sweep_amount = eth_rpc.get_balance(seed_sender)
             seed_sender_balance_per_worker = seed_account_sweep_amount // worker_count
             assert seed_sender_balance_per_worker > 100, "Seed sender balance too low"
-            # Subtract the cost of the transaction that is going to be sent to the seed sender
+            # Subtract the cost of the transaction that is going to be sent to
+            # the seed sender
             sender_key_initial_balance = seed_sender_balance_per_worker - (
                 sender_fund_refund_gas_limit * sender_funding_transactions_gas_price
             )
@@ -132,11 +135,12 @@ def sender_key(
     """
     Get the sender keys for all tests.
 
-    The seed sender is going to be shared among different processes, so we need to lock it
-    before we produce each funding transaction.
+    The seed sender is going to be shared among different processes, so we need
+    to lock it before we produce each funding transaction.
     """
-    # For the seed sender we do need to keep track of the nonce because it is shared among
-    # different processes, and there might not be a new block produced between the transactions.
+    # For the seed sender we do need to keep track of the nonce because it is
+    # shared among different processes, and there might not be a new block
+    # produced between the transactions.
     seed_sender_nonce_file_name = "seed_sender_nonce"
     seed_sender_lock_file_name = f"{seed_sender_nonce_file_name}.lock"
     seed_sender_nonce_file = session_temp_folder / seed_sender_nonce_file_name
@@ -172,15 +176,16 @@ def sender_key(
     )
 
     refund_gas_limit = sender_fund_refund_gas_limit
-    # double the gas price to ensure the transaction is included and overwrites any other
-    # transaction that might have been sent by the sender.
+    # double the gas price to ensure the transaction is included and overwrites
+    # any other transaction that might have been sent by the sender.
     refund_gas_price = sender_funding_transactions_gas_price * 2
     tx_cost = refund_gas_limit * refund_gas_price
 
     if (remaining_balance - 1) < tx_cost:
         return
 
-    # Update the nonce of the sender in case one of the pre-alloc transactions failed
+    # Update the nonce of the sender in case one of the pre-alloc transactions
+    # failed
     sender.nonce = Number(eth_rpc.get_transaction_count(sender))
 
     refund_tx = Transaction(

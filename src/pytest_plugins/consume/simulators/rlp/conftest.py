@@ -46,12 +46,15 @@ def blocks_rlp(fixture: BlockchainFixture) -> List[Bytes]:
 
 @pytest.fixture(scope="function")
 def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> List[io.BufferedReader]:
-    """Convert the RLP-encoded blocks of the current test fixture to buffered readers."""
+    """
+    Convert the RLP-encoded blocks of the current test fixture to buffered
+    readers.
+    """
     block_rlp_files = []
     for _, block_rlp in enumerate(blocks_rlp):
         block_rlp_stream = io.BytesIO(block_rlp)
         block_rlp_files.append(io.BufferedReader(cast(io.RawIOBase, block_rlp_stream)))
-    return block_rlp_files
+    return block_rlp_files  # type: ignore[return-value]
 
 
 @pytest.fixture(scope="function")

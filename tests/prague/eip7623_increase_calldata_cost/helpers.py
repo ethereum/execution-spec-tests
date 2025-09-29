@@ -16,16 +16,18 @@ def find_floor_cost_threshold(
     intrinsic_gas_cost_calculator: Callable[[int], int],
 ) -> int:
     """
-    Find the minimum amount of tokens that will trigger the floor gas cost, by using a binary
-    search and the intrinsic gas cost and floor data calculators.
+    Find the minimum amount of tokens that will trigger the floor gas cost, by
+    using a binary search and the intrinsic gas cost and floor data
+    calculators.
     """
-    # Start with 1000 tokens and if the intrinsic gas cost is greater than the floor gas cost,
-    # multiply the number of tokens by 2 until it's not.
+    # Start with 1000 tokens and if the intrinsic gas cost is greater than the
+    # floor gas cost, multiply the number of tokens by 2 until it's not.
     tokens = 1000
     while floor_data_gas_cost_calculator(tokens) < intrinsic_gas_cost_calculator(tokens):
         tokens *= 2
 
-    # Binary search to find the minimum number of tokens that will trigger the floor gas cost.
+    # Binary search to find the minimum number of tokens that will trigger the
+    # floor gas cost.
     left = 0
     right = tokens
     while left < right:
@@ -39,7 +41,8 @@ def find_floor_cost_threshold(
     if floor_data_gas_cost_calculator(tokens) > intrinsic_gas_cost_calculator(tokens):
         tokens -= 1
 
-    # Verify that increasing the tokens by one would always trigger the floor gas cost.
+    # Verify that increasing the tokens by one would always trigger the floor
+    # gas cost.
     assert (
         floor_data_gas_cost_calculator(tokens) <= intrinsic_gas_cost_calculator(tokens)
     ) and floor_data_gas_cost_calculator(tokens + 1) > intrinsic_gas_cost_calculator(tokens + 1), (

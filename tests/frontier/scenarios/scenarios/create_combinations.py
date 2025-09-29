@@ -4,11 +4,10 @@ from dataclasses import dataclass
 from typing import List
 
 from ethereum_test_tools import Alloc, Bytecode
-from ethereum_test_tools.vm.opcode import Macros as Om
-from ethereum_test_tools.vm.opcode import Opcode
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import compute_create_address
-from ethereum_test_vm import EVMCodeType
+from ethereum_test_vm import EVMCodeType, Opcode
+from ethereum_test_vm import Macros as Om
+from ethereum_test_vm import Opcodes as Op
 
 from ..common import Scenario, ScenarioEnvironment, ScenarioGeneratorInput
 
@@ -28,7 +27,10 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
     """Generate Scenarios for create combinations."""
 
     def _compute_selfbalance() -> int:
-        """Compute selfbalance opcode for root -> call -> scenario -> create | [call*] -> program."""  # noqa: E501
+        """
+        Compute selfbalance opcode for root -> call -> scenario ->
+        create | [call*] -> program.
+        """
         if call in [Op.DELEGATECALL, Op.CALLCODE]:
             return (
                 balance.scenario_contract_balance + balance.root_call_value - balance.create_value
@@ -52,7 +54,8 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
         salt = [0] if create == Op.CREATE2 else []
         operation_contract = scenario_input.pre.deploy_contract(code=scenario_input.operation_code)
 
-        # the code result in init code will be actually code of a deployed contract
+        # the code result in init code will be actually code of a deployed
+        # contract
         scenario_contract = scenario_input.pre.deploy_contract(
             balance=3,
             code=Op.EXTCODECOPY(operation_contract, 0, 0, Op.EXTCODESIZE(operation_contract))

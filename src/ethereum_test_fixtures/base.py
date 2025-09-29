@@ -2,9 +2,11 @@
 
 import hashlib
 import json
+from enum import Enum, auto
 from functools import cached_property
-from typing import Annotated, Any, ClassVar, Dict, Type, Union
+from typing import Annotated, Any, ClassVar, Dict, List, Set, Type, Union
 
+import pytest
 from pydantic import (
     Discriminator,
     Field,
@@ -38,6 +40,13 @@ def fixture_format_discriminator(v: Any) -> str | None:
     return fixture_format
 
 
+class FixtureFillingPhase(Enum):
+    """Execution phase for fixture generation."""
+
+    PRE_ALLOC_GENERATION = auto()
+    FILL = auto()
+
+
 class BaseFixture(CamelModel):
     """Represents a base Ethereum test fixture of any type."""
 
@@ -51,10 +60,14 @@ class BaseFixture(CamelModel):
     format_name: ClassVar[str] = ""
     output_file_extension: ClassVar[str] = ".json"
     description: ClassVar[str] = "Unknown fixture format; it has not been set."
+    format_phases: ClassVar[Set[FixtureFillingPhase]] = {FixtureFillingPhase.FILL}
 
     @classmethod
     def output_base_dir_name(cls) -> str:
-        """Return name of the subdirectory where this type of fixture should be dumped to."""
+        """
+        Return name of the subdirectory where this type of fixture should be
+        dumped to.
+        """
         return cls.format_name.replace("test", "tests")
 
     @classmethod
@@ -145,13 +158,25 @@ class BaseFixture(CamelModel):
         """
         return True
 
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """
+        Discard a fixture format from filling if the appropriate marker is
+        used.
+        """
+        return False
+
 
 class LabeledFixtureFormat:
     """
     Represents a fixture format with a custom label.
 
-    This label will be used in the test id and also will be added as a marker to the
-    generated test case when filling the test.
+    This label will be used in the test id and also will be added as a marker
+    to the generated test case when filling the test.
     """
 
     format: Type[BaseFixture]
@@ -179,15 +204,20 @@ class LabeledFixtureFormat:
 
     @property
     def format_name(self) -> str:
-        """Get the execute format name."""
+        """Get the filling format name."""
         return self.format.format_name
+
+    @property
+    def format_phases(self) -> Set[FixtureFillingPhase]:
+        """Get the filling format phases where it should be included."""
+        return self.format.format_phases
 
     def __eq__(self, other: Any) -> bool:
         """
         Check if two labeled fixture formats are equal.
 
-        If the other object is a FixtureFormat type, the format of the labeled fixture
-        format will be compared with the format of the other object.
+        If the other object is a FixtureFormat type, the format of the labeled
+        fixture format will be compared with the format of the other object.
         """
         if isinstance(other, LabeledFixtureFormat):
             return self.format == other.format

@@ -34,7 +34,7 @@ def pytest_addoption(parser):
         help="Show help options specific to the consume command and exit.",
     )
     help_group.addoption(
-        "--execute-help",
+        "--execute-remote-help",
         action="store_true",
         dest="show_execute_help",
         default=False,
@@ -54,11 +54,20 @@ def pytest_addoption(parser):
         default=False,
         help="Show help options specific to the execute's command recover and exit.",
     )
+    help_group.addoption(
+        "--execute-eth-config-help",
+        action="store_true",
+        dest="show_execute_eth_config_help",
+        default=False,
+        help="Show help options specific to the execute's command eth_config and exit.",
+    )
 
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
-    """Handle specific help flags by displaying the corresponding help message."""
+    """
+    Handle specific help flags by displaying the corresponding help message.
+    """
     if config.getoption("show_check_eip_versions_help"):
         show_specific_help(
             config,
@@ -71,7 +80,7 @@ def pytest_configure(config):
     elif config.getoption("show_fill_help"):
         show_specific_help(
             config,
-            "pytest.ini",
+            "pytest-fill.ini",
             [
                 "evm",
                 "solc",
@@ -80,6 +89,7 @@ def pytest_configure(config):
                 "defining debug",
                 "pre-allocation behavior during test filling",
                 "ported",
+                "witness",
             ],
         )
     elif config.getoption("show_consume_help"):
@@ -124,10 +134,21 @@ def pytest_configure(config):
                 "remote seed sender",
             ],
         )
+    elif config.getoption("show_execute_eth_config_help"):
+        show_specific_help(
+            config,
+            "pytest-execute-eth-config.ini",
+            [
+                "eth_config",
+            ],
+        )
 
 
 def show_specific_help(config, expected_ini, substrings):
-    """Print help options filtered by specific substrings from the given configuration."""
+    """
+    Print help options filtered by specific substrings from the given
+    configuration.
+    """
     pytest_ini = Path(config.inifile)
     if pytest_ini.name != expected_ini:
         raise ValueError(

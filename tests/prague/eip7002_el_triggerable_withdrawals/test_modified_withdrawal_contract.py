@@ -1,8 +1,6 @@
 """
-abstract: Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002)
-    Test execution layer triggered exits [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
-
-"""  # noqa: E501
+Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
+"""
 
 from typing import List
 
@@ -91,7 +89,10 @@ def test_extra_withdrawals(
     pre: Alloc,
     requests_list: List[WithdrawalRequest],
 ):
-    """Test how clients were to behave when more than 16 withdrawals would be allowed per block."""
+    """
+    Test how clients were to behave when more than 16 withdrawals would be
+    allowed per block.
+    """
     modified_code: Bytecode = Bytecode()
     memory_offset: int = 0
     amount_of_requests: int = 0
@@ -116,7 +117,8 @@ def test_extra_withdrawals(
         balance=0,
     )
 
-    # given a list of withdrawal requests construct a withdrawal request transaction
+    # given a list of withdrawal requests construct a withdrawal request
+    # transaction
     withdrawal_request_transaction = WithdrawalRequestTransaction(requests=requests_list)
     # prepare withdrawal senders
     withdrawal_request_transaction.update_pre(pre=pre)
@@ -144,8 +146,8 @@ def test_extra_withdrawals(
 )
 def test_system_contract_errors():
     """
-    Test system contract raising different errors when called by the system account at the
-    end of the block execution.
+    Test system contract raising different errors when called by the system
+    account at the end of the block execution.
 
     To see the list of generated tests, please refer to the
     `generate_system_contract_error_test` decorator definition.

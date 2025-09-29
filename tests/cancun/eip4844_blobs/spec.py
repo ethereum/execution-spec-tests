@@ -87,8 +87,8 @@ class SpecHelpers:
         blob_gas_price: int,
     ) -> int:
         """
-        Get the minimum required excess blob gas value to get a given blob gas cost in a
-        block.
+        Get the minimum required excess blob gas value to get a given blob gas
+        cost in a block.
         """
         current_excess_blob_gas = 0
         current_blob_gas_price = 1
@@ -106,7 +106,10 @@ class SpecHelpers:
         fork: Fork,
         blob_gas_price: int,
     ) -> int:
-        """Get the minimum required excess blobs to get a given blob gas cost in a block."""
+        """
+        Get the minimum required excess blobs to get a given blob gas cost in a
+        block.
+        """
         gas_per_blob = fork.blob_gas_per_blob()
         return (
             cls.get_min_excess_blob_gas_for_blob_gas_price(
@@ -120,23 +123,29 @@ class SpecHelpers:
     def get_blob_combinations(
         cls,
         blob_count: int,
+        max_blobs_per_tx: int,
     ) -> List[Tuple[int, ...]]:
-        """Get all possible combinations of blobs that result in a given blob count."""
+        """
+        Get all possible combinations of blobs that result in a given blob
+        count.
+        """
         combinations = [
             seq
             for i in range(
                 blob_count + 1, 0, -1
-            )  # We can have from 1 to at most MAX_BLOBS_PER_BLOCK blobs per block
+            )  # We can have from 1 to at most MAX_BLOBS_PER_BLOCK blobs per
+            # block
             for seq in itertools.combinations_with_replacement(
-                range(1, blob_count + 2), i
+                range(1, min(blob_count + 1, max_blobs_per_tx) + 1), i
             )  # We iterate through all possible combinations
-            if sum(seq) == blob_count  # And we only keep the ones that match the
-            # expected invalid blob count
+            # And we only keep the ones that match the expected blob count
+            if sum(seq) == blob_count and all(tx_blobs <= max_blobs_per_tx for tx_blobs in seq)
+            # Validate each tx
         ]
 
-        # We also add the reversed version of each combination, only if it's not
-        # already in the list. E.g. (4, 1) is added from (1, 4) but not
-        # (1, 1, 1, 1, 1) because its reversed version is identical.
+        # We also add the reversed version of each combination, only if it's
+        # not already in the list. E.g. (4, 1) is added from (1, 4) but not (1,
+        # 1, 1, 1, 1) because its reversed version is identical.
         combinations += [
             tuple(reversed(x)) for x in combinations if tuple(reversed(x)) not in combinations
         ]
@@ -145,13 +154,15 @@ class SpecHelpers:
     @classmethod
     def all_valid_blob_combinations(cls, fork: Fork) -> List[Tuple[int, ...]]:
         """
-        Return all valid blob tx combinations for a given block,
-        assuming the given MAX_BLOBS_PER_BLOCK.
+        Return all valid blob tx combinations for a given block, assuming the
+        given MAX_BLOBS_PER_BLOCK, whilst respecting MAX_BLOBS_PER_TX.
         """
         max_blobs_per_block = fork.max_blobs_per_block()
+        max_blobs_per_tx = fork.max_blobs_per_tx()
+
         combinations: List[Tuple[int, ...]] = []
         for i in range(1, max_blobs_per_block + 1):
-            combinations += cls.get_blob_combinations(i)
+            combinations += cls.get_blob_combinations(i, max_blobs_per_tx)
         return combinations
 
     @classmethod
@@ -161,4 +172,10 @@ class SpecHelpers:
         MAX_BLOBS_PER_BLOCK+1 blobs.
         """
         max_blobs_per_block = fork.max_blobs_per_block()
-        return cls.get_blob_combinations(max_blobs_per_block + 1)
+        max_blobs_per_tx = fork.max_blobs_per_tx()
+        invalid_combinations = cls.get_blob_combinations(
+            max_blobs_per_block + 1,
+            max_blobs_per_tx,
+        )
+        invalid_combinations.append((max_blobs_per_block + 1,))
+        return invalid_combinations

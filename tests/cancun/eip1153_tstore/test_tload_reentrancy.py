@@ -1,6 +1,5 @@
 """
-Ethereum Transient Storage EIP Tests
-https://eips.ethereum.org/EIPS/eip-1153.
+[EIP-1153](https://eips.ethereum.org/EIPS/eip-1153) Transient Storage tests.
 """
 
 from enum import Enum
@@ -18,9 +17,9 @@ from ethereum_test_tools import (
     Switch,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Bytecode
-from ethereum_test_tools.vm.opcode import Macros as Om
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Macros as Om
+from ethereum_test_vm import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-1153.md"
 REFERENCE_SPEC_VERSION = "1eb863b534a5a3e19e9c196ab2a7f3db4bb9da17"
@@ -53,8 +52,8 @@ def test_tload_reentrancy(
     """
     Ported .json vectors.
 
-    (05_tloadReentrancyFiller.yml)
-    Reentrant calls access the same transient storage
+    (05_tloadReentrancyFiller.yml) Reentrant calls access the same transient
+    storage
     """
     tload_value = 44
     empty_value = 0
@@ -138,7 +137,8 @@ def test_tload_reentrancy(
                     slot_tload_in_subcall_result: (
                         0xFF  # if call OOG, we fail to obtain the result
                         if call_return == Om.OOG
-                        # else delegate and callcode are working in the same context so tload works
+                        # else delegate and callcode are working in the same
+                        # context so tload works
                         else (
                             tload_value
                             if call_type == Op.DELEGATECALL or call_type == Op.CALLCODE

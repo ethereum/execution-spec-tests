@@ -14,6 +14,7 @@ Both `consume` and `execute` provide sub-commands which correspond to different 
 | [`consume direct`](#direct)             | Client consume tests via a `statetest` interface                                        | EVM                                                          | None          | Module test                       |
 | [`consume direct`](#direct)             | Client consume tests via a `blocktest` interface                                        | EVM, block processing                                        | None          | Module test,</br>Integration test |
 | [`consume engine`](#engine)             | Client imports blocks via Engine API `EngineNewPayload` in Hive                         | EVM, block processing, Engine API                            | Staging, Hive | System test                       |
+| [`consume sync`](#sync)                 | Client syncs from another client using Engine API in Hive                               | EVM, block processing, Engine API, P2P sync                  | Staging, Hive | System test                       |
 | [`consume rlp`](#rlp)                   | Client imports RLP-encoded blocks upon start-up in Hive                                 | EVM, block processing, RLP import (sync\*)                   | Staging, Hive | System test                       |
 | [`execute hive`](./execute/hive.md)     | Tests executed against a client via JSON RPC `eth_sendRawTransaction` in Hive           | EVM, JSON RPC, mempool                                       | Staging, Hive | System test                       |
 | [`execute remote`](./execute/remote.md) | Tests executed against a client via JSON RPC `eth_sendRawTransaction` on a live network | EVM, JSON RPC, mempool, EL-EL/EL-CL interaction (indirectly) | Production    | System Test                       |
@@ -81,6 +82,25 @@ The `consume rlp` command:
 
 This method simulates how clients import blocks during historical sync, testing the complete block validation and state transition pipeline, see below for more details and a comparison to consumption via the Engine API.
 
+## Sync
+
+| Nomenclature   |                        |
+| -------------- |------------------------|
+| Command        | `consume sync`         |
+| Simulator      | None                   |
+| Fixture format | `blockchain_test_sync` |
+
+The consume sync method tests execution client synchronization capabilities by having one client sync from another via the Engine API and P2P networking. This method validates that clients can correctly synchronize state and blocks from peers, testing both the Engine API, sync triggering, and P2P block propagation mechanisms.
+
+The `consume sync` command:
+
+1. **Initializes the client under test** with genesis state and executes all test payloads.
+2. **Spins up a sync client** with the same genesis state.
+3. **Establishes P2P connection** between the two clients, utilizing ``admin_addPeer`` with enode url.
+4. **Triggers synchronization** by sending the target block to the sync client via `engine_newPayload` followed by `engine_forkchoiceUpdated` requests.
+5. **Monitors sync progress** and validates that the sync client reaches the same state.
+6. **Verifies final state** matches between both clients.
+
 ## Engine vs RLP Simulator
 
 The RLP Simulator (`eest/consume-rlp`) and the Engine Simulator (`eest/consume-engine`) should be seen as complimentary to one another. Although they execute the same underlying EVM test cases, the block validation logic is executed via different client code paths (using different [fixture formats](./test_formats/index.md)). Therefore, ideally, **both simulators should be executed for full coverage**.
@@ -110,7 +130,7 @@ See [Execute Command](./execute/index.md).
 
 ## Two Methods to Run EEST Simulators
 
-Many of the methods use the Hive Testing Environment to interact clients and run tests against them. These methods are also called Hive simulators. While Hive is always necessary to run simulators, they can be called in two different ways. Both of these commands execute the same simulator code, but in different environments, we take the example of the `eest/consume-engine` simulator:
+Many of the methods use the Hive Testing Environment to interact with clients and run tests against them. These methods are also called Hive simulators. While Hive is always necessary to run simulators, they can be called in two different ways. Both of these commands execute the same simulator code, but in different environments, we take the example of the `eest/consume-engine` simulator:
 
 1. `./hive --sim=eest/consume-engine` is a standalone command that installs EEST and the `consume` command in a dockerized container managed by Hive. This is the standard method to execute EEST [fixture releases](./releases.md) against clients in CI environments and is the method to generate the results at [hive.ethpandaops.io](https://hive.ethpandaops.io). See [Hive](./hive/index.md) and its [Common Options](./hive/common_options.md) for help with this method.
 2. `uv run consume engine` requires the user to clone and [install EEST](../getting_started/installation.md) and start a Hive server in [development mode](./hive/dev_mode.md). In this case, the simulator runs on the native system and communicate to the client via the Hive API. This is particularly useful during test development as fixtures on the local disk can be specified via `--input=fixtures/`. As the simulator runs natively, it is easy to drop into a debugger and inspect the simulator or client container state. See [Hive Developer Mode](./hive/dev_mode.md) for help with this method.

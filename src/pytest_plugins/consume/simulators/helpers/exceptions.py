@@ -16,10 +16,16 @@ from ethereum_test_fixtures.blockchain import FixtureHeader
 
 
 class GenesisBlockMismatchExceptionError(Exception):
-    """Definers a mismatch exception between the client and fixture genesis blockhash."""
+    """
+    Definers a mismatch exception between the client and fixture genesis
+    blockhash.
+    """
 
     def __init__(self, *, expected_header: FixtureHeader, got_genesis_block: Dict[str, str]):
-        """Initialize the exception with the expected and received genesis block headers."""
+        """
+        Initialize the exception with the expected and received genesis block
+        headers.
+        """
         message = (
             "Genesis block hash mismatch.\n\n"
             f"Expected: {expected_header.block_hash}\n"
@@ -47,7 +53,9 @@ class GenesisBlockMismatchExceptionError(Exception):
 
     @staticmethod
     def compare_models(expected: FixtureHeader, got: FixtureHeader) -> Tuple[Dict, List]:
-        """Compare two FixtureHeader model instances and return their differences."""
+        """
+        Compare two FixtureHeader model instances and return their differences.
+        """
         differences = {}
         unexpected_fields = []
         for (exp_name, exp_value), (got_name, got_value) in zip(expected, got, strict=False):

@@ -2,14 +2,15 @@
 
 from ethereum_test_forks import Fork
 from ethereum_test_tools import Bytecode
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 
 def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode, fork: Fork):
     """Create a code loop that calls a precompile with the given calldata."""
     max_code_size = fork.max_code_size()
 
-    # The attack contract is: CALLDATA_PREP + #JUMPDEST + [attack_block]* + JUMP(#)
+    # The attack contract is: CALLDATA_PREP + #JUMPDEST + [attack_block]* +
+    # JUMP(#)
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(calldata))
     max_iters_loop = (max_code_size - len(calldata) - len(jumpdest) - len(jump_back)) // len(

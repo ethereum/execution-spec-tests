@@ -5,33 +5,39 @@ from typing import List
 import click
 
 from .base import PytestCommand, PytestExecution, common_pytest_options
-from .processors import HelpFlagsProcessor, StdoutFlagsProcessor
+from .processors import HelpFlagsProcessor, StdoutFlagsProcessor, WatchFlagsProcessor
+from .watcher import FileWatcher
 
 
 class FillCommand(PytestCommand):
     """Pytest command for the fill operation."""
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Initialize fill command with processors."""
         super().__init__(
-            config_file="pytest.ini",
+            config_file="pytest-fill.ini",
             argument_processors=[
                 HelpFlagsProcessor("fill"),
                 StdoutFlagsProcessor(),
+                WatchFlagsProcessor(),
             ],
+            **kwargs,
         )
 
     def create_executions(self, pytest_args: List[str]) -> List[PytestExecution]:
         """
-        Create execution plan that supports two-phase pre-allocation group generation.
+        Create execution plan that supports two-phase pre-allocation group
+        generation.
 
         Returns single execution for normal filling, or two-phase execution
-        when --generate-pre-alloc-groups is specified.
+        when --generate-pre-alloc-groups or --generate-all-formats is
+        specified.
         """
         processed_args = self.process_arguments(pytest_args)
 
         # Check if we need two-phase execution
-        if "--generate-pre-alloc-groups" in processed_args:
+        if self._should_use_two_phase_execution(processed_args):
+            processed_args = self._ensure_generate_all_formats_for_tarball(processed_args)
             return self._create_two_phase_executions(processed_args)
         elif "--use-pre-alloc-groups" in processed_args:
             # Only phase 2: using existing pre-allocation groups
@@ -40,13 +46,16 @@ class FillCommand(PytestCommand):
             # Normal single-phase execution
             return [
                 PytestExecution(
-                    config_file=self.config_file,
+                    config_file=self.config_path,
                     args=processed_args,
                 )
             ]
 
     def _create_two_phase_executions(self, args: List[str]) -> List[PytestExecution]:
-        """Create two-phase execution: pre-allocation group generation + fixture filling."""
+        """
+        Create two-phase execution: pre-allocation group generation + fixture
+        filling.
+        """
         # Phase 1: Pre-allocation group generation (clean and minimal output)
         phase1_args = self._create_phase1_args(args)
 
@@ -55,12 +64,12 @@ class FillCommand(PytestCommand):
 
         return [
             PytestExecution(
-                config_file=self.config_file,
+                config_file=self.config_path,
                 args=phase1_args,
                 description="generating pre-allocation groups",
             ),
             PytestExecution(
-                config_file=self.config_file,
+                config_file=self.config_path,
                 args=phase2_args,
                 description="filling test fixtures",
             ),
@@ -70,7 +79,7 @@ class FillCommand(PytestCommand):
         """Create single execution using existing pre-allocation groups."""
         return [
             PytestExecution(
-                config_file=self.config_file,
+                config_file=self.config_path,
                 args=args,
             )
         ]
@@ -83,14 +92,16 @@ class FillCommand(PytestCommand):
         # Add required phase 1 flags (with quiet output by default)
         phase1_args = [
             "--generate-pre-alloc-groups",
-            "-qq",  # Quiet pytest output by default (user -v/-vv/-vvv can override)
+            "-qq",  # Quiet pytest output by default (user -v/-vv/-vvv can
+            # override)
         ] + filtered_args
 
         return phase1_args
 
     def _create_phase2_args(self, args: List[str]) -> List[str]:
         """Create arguments for phase 2 (fixture filling)."""
-        # Remove --generate-pre-alloc-groups and --clean, then add --use-pre-alloc-groups
+        # Remove --generate-pre-alloc-groups and --clean, then add --use-pre-
+        # alloc-groups
         phase2_args = self._remove_generate_pre_alloc_groups_flag(args)
         phase2_args = self._remove_clean_flag(phase2_args)
         phase2_args = self._add_use_pre_alloc_groups_flag(phase2_args)
@@ -109,6 +120,7 @@ class FillCommand(PytestCommand):
             # Pre-allocation group flags (we'll add our own)
             "--generate-pre-alloc-groups",
             "--use-pre-alloc-groups",
+            "--generate-all-formats",
         }
 
         filtered_args = []
@@ -133,7 +145,10 @@ class FillCommand(PytestCommand):
         return filtered_args
 
     def _remove_generate_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
-        """Remove --generate-pre-alloc-groups flag from argument list."""
+        """
+        Remove --generate-pre-alloc-groups flag but keep --generate-all-formats
+        for phase 2.
+        """
         return [arg for arg in args if arg != "--generate-pre-alloc-groups"]
 
     def _remove_clean_flag(self, args: List[str]) -> List[str]:
@@ -143,6 +158,57 @@ class FillCommand(PytestCommand):
     def _add_use_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
         """Add --use-pre-alloc-groups flag to argument list."""
         return args + ["--use-pre-alloc-groups"]
+
+    def _should_use_two_phase_execution(self, args: List[str]) -> bool:
+        """Determine if two-phase execution is needed."""
+        return (
+            "--generate-pre-alloc-groups" in args
+            or "--generate-all-formats" in args
+            or self._is_tarball_output(args)
+        )
+
+    def _ensure_generate_all_formats_for_tarball(self, args: List[str]) -> List[str]:
+        """Auto-add --generate-all-formats for tarball output."""
+        if self._is_tarball_output(args) and "--generate-all-formats" not in args:
+            return args + ["--generate-all-formats"]
+        return args
+
+    def _is_tarball_output(self, args: List[str]) -> bool:
+        """Check if output argument specifies a tarball (.tar.gz) path."""
+        from pathlib import Path
+
+        for i, arg in enumerate(args):
+            if arg.startswith("--output="):
+                output_path = Path(arg.split("=", 1)[1])
+                return str(output_path).endswith(".tar.gz")
+            elif arg == "--output" and i + 1 < len(args):
+                output_path = Path(args[i + 1])
+                return str(output_path).endswith(".tar.gz")
+        return False
+
+    def _is_watch_mode(self, args: List[str]) -> bool:
+        """Check if any watch flag is present in arguments."""
+        return any(flag in args for flag in ["--watch", "--watcherfall"])
+
+    def _is_verbose_watch_mode(self, args: List[str]) -> bool:
+        """
+        Check if verbose watch flag (--watcherfall)
+        is present in arguments.
+        """
+        return "--watcherfall" in args
+
+    def execute(self, pytest_args: List[str]) -> None:
+        """Execute the command with optional watch mode support."""
+        if self._is_watch_mode(pytest_args):
+            self._execute_with_watch(pytest_args)
+        else:
+            super().execute(pytest_args)
+
+    def _execute_with_watch(self, pytest_args: List[str]) -> None:
+        """Execute fill command in watch mode."""
+        verbose = self._is_verbose_watch_mode(pytest_args)
+        watcher = FileWatcher(console=self.runner.console, verbose=verbose)
+        watcher.run_with_watch(pytest_args)
 
 
 class PhilCommand(FillCommand):
@@ -169,7 +235,7 @@ class PhilCommand(FillCommand):
 
         return [
             PytestExecution(
-                config_file=self.config_file,
+                config_file=self.config_path,
                 args=emoji_args,
             )
         ]
@@ -183,6 +249,8 @@ class PhilCommand(FillCommand):
 @common_pytest_options
 def fill(pytest_args: List[str], **kwargs) -> None:
     """Entry point for the fill command."""
+    del kwargs
+
     command = FillCommand()
     command.execute(list(pytest_args))
 
@@ -195,10 +263,13 @@ def fill(pytest_args: List[str], **kwargs) -> None:
 @common_pytest_options
 def phil(pytest_args: List[str], **kwargs) -> None:
     """Friendly alias for the fill command."""
+    del kwargs
+
     command = PhilCommand()
     command.execute(list(pytest_args))
 
 
 if __name__ == "__main__":
-    # to allow debugging in vscode: in launch config, set "module": "cli.pytest_commands.fill"
+    # to allow debugging in vscode: in launch config, set "module":
+    # "cli.pytest_commands.fill"
     fill(prog_name="fill")

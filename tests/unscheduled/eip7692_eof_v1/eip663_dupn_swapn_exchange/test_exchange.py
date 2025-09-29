@@ -1,7 +1,6 @@
 """
-abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663)
-    Tests for the EXCHANGE instruction.
-"""  # noqa: E501
+Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.ethereum.org/EIPS/eip-663).
+"""
 
 import pytest
 
@@ -15,8 +14,8 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container, Section
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION

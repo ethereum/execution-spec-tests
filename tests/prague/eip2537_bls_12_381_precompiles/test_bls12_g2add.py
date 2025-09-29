@@ -1,7 +1,10 @@
 """
-abstract: Tests BLS12_G2ADD precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests BLS12_G2ADD precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+Tests BLS12_G2ADD precompile.
+
+Tests the BLS12_G2ADD precompile implementation from [EIP-2537:
+Precompile for BLS12-381 curve operations]
+(https://eips.ethereum.org/EIPS/eip-2537).
+"""
 
 import pytest
 
@@ -26,8 +29,8 @@ pytestmark = [
     # Test vectors from the reference spec (from the cryptography team)
     vectors_from_file("add_G2_bls.json")
     + [
-        # Identity (infinity) element test cases.
-        # Checks that any point added to the identity element (INF) equals itself.
+        # Identity (infinity) element test cases. Checks that any point added
+        # to the identity element (INF) equals itself.
         pytest.param(
             Spec.G2 + Spec.INF_G2,
             Spec.G2,
@@ -115,8 +118,8 @@ pytestmark = [
             None,
             id="point_plus_reflected_point",
         ),
-        # Not in the r-order subgroup test cases.
-        # Checks that any point on the curve but not in the subgroup is used for operations.
+        # Not in the r-order subgroup test cases. Checks that any point on the
+        # curve but not in the subgroup is used for operations.
         pytest.param(
             Spec.P2_NOT_IN_SUBGROUP + Spec.P2_NOT_IN_SUBGROUP,
             Spec.P2_NOT_IN_SUBGROUP_TIMES_2,
@@ -165,7 +168,8 @@ pytestmark = [
             None,
             id="doubled_non_sub_plus_neg",
         ),
-        # More not in the r-order subgroup test cases, but using random generated points.
+        # More not in the r-order subgroup test cases, but using random
+        # generated points.
         pytest.param(
             G2_POINTS_NOT_IN_SUBGROUP[0] + Spec.P2,
             add_points_g2(G2_POINTS_NOT_IN_SUBGROUP[0], Spec.P2),
@@ -290,6 +294,38 @@ def test_valid(
             id="b_y_2_equal_to_p",
         ),
         pytest.param(
+            PointG2((Spec.P2.x[0] + Spec.P, Spec.P2.x[1]), Spec.P2.y) + Spec.G2,
+            id="a_x_1_above_p",
+        ),
+        pytest.param(
+            PointG2((Spec.P2.x[0], Spec.P2.x[1] + Spec.P), Spec.P2.y) + Spec.G2,
+            id="a_x_2_above_p",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0] + Spec.P, Spec.P2.y[1])) + Spec.G2,
+            id="a_y_1_above_p",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] + Spec.P)) + Spec.G2,
+            id="a_y_2_above_p",
+        ),
+        pytest.param(
+            Spec.P2 + PointG2((Spec.G2.x[0] + Spec.P, Spec.G2.x[1]), Spec.G2.y),
+            id="b_x_1_above_p",
+        ),
+        pytest.param(
+            Spec.P2 + PointG2((Spec.G2.x[0], Spec.G2.x[1] + Spec.P), Spec.G2.y),
+            id="b_x_2_above_p",
+        ),
+        pytest.param(
+            Spec.P2 + PointG2(Spec.G2.x, (Spec.G2.y[0] + Spec.P, Spec.G2.y[1])),
+            id="b_y_1_above_p",
+        ),
+        pytest.param(
+            Spec.P2 + PointG2(Spec.G2.x, (Spec.G2.y[0], Spec.G2.y[1] + Spec.P)),
+            id="b_y_2_above_p",
+        ),
+        pytest.param(
             b"\x80" + bytes(Spec.INF_G2)[1:] + Spec.INF_G2,
             id="invalid_encoding_a",
         ),
@@ -332,6 +368,22 @@ def test_valid(
         pytest.param(
             bytes(Spec.G2) + bytes(Spec.G2)[128:],
             id="mixed_g1_g2_points",
+        ),
+        pytest.param(
+            PointG2((Spec.P2.x[0] | Spec.MAX_FP_BIT_SET, Spec.P2.x[1]), Spec.P2.y) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_x1",
+        ),
+        pytest.param(
+            PointG2((Spec.P2.x[0], Spec.P2.x[1] | Spec.MAX_FP_BIT_SET), Spec.P2.y) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_x2",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0] | Spec.MAX_FP_BIT_SET, Spec.P2.y[1])) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_y1",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] | Spec.MAX_FP_BIT_SET)) + Spec.P2,
+            id="non_zero_byte_16_boundary_violation_y2",
         ),
         # Not on the curve cases using random generated points.
         pytest.param(

@@ -10,11 +10,11 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.code.generators import Initcode as LegacyInitcode
+from ethereum_test_tools import Initcode as LegacyInitcode
 from ethereum_test_types import TransactionReceipt
 from ethereum_test_types.eof.v1 import Container
-from tests.prague.eip7702_set_code_tx.spec import Spec
 
+from ....prague.eip7702_set_code_tx.spec import Spec
 from .. import EOF_FORK_NAME
 from ..eip7620_eof_create.helpers import (
     smallest_initcode_subcontainer,
@@ -99,9 +99,9 @@ def test_legacy_create_tx_prefix_initcode(
     initcode: Bytes,
 ):
     """
-    Test that a legacy contract creation tx behaves as it did before EIP-7873 for
-    initcode stating with `EF`.
-    The transaction should be valid but fail on executing of the first byte `EF`.
+    Test that a legacy contract creation tx behaves as it did before EIP-7873
+    for initcode stating with `EF`. The transaction should be valid but fail on
+    executing of the first byte `EF`.
     """
     env = Environment()
     sender = pre.fund_eoa()

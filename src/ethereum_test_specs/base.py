@@ -1,14 +1,17 @@
-"""Base test class and helper functions for Ethereum state and blockchain tests."""
+"""
+Base test class and helper functions for Ethereum state and blockchain tests.
+"""
 
 import hashlib
 from abc import abstractmethod
+from enum import StrEnum, unique
 from functools import reduce
 from os import path
 from pathlib import Path
 from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
-from pydantic import BaseModel, Field, PrivateAttr
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
@@ -42,19 +45,39 @@ class HashMismatchExceptionError(Exception):
 
 def verify_result(result: Result, env: Environment):
     """
-    Verify that values in the t8n result match the expected values.
-    Raises exception on unexpected values.
+    Verify that values in the t8n result match the expected values. Raises
+    exception on unexpected values.
     """
     if env.withdrawals is not None:
         assert result.withdrawals_root == to_hex(Withdrawal.list_root(env.withdrawals))
 
 
+@unique
+class OpMode(StrEnum):
+    """Operation mode for the fill and execute."""
+
+    CONSENSUS = "consensus"
+    BENCHMARKING = "benchmarking"
+    OPTIMIZE_GAS = "optimize-gas"
+    OPTIMIZE_GAS_POST_PROCESSING = "optimize-gas-post-processing"
+
+
 class BaseTest(BaseModel):
-    """Represents a base Ethereum test which must return a single test fixture."""
+    """
+    Represents a base Ethereum test which must return a single test fixture.
+    """
+
+    model_config = ConfigDict(extra="forbid")
 
     tag: str = ""
 
     _request: pytest.FixtureRequest | None = PrivateAttr(None)
+    _operation_mode: OpMode | None = PrivateAttr(None)
+    _gas_optimization: int | None = PrivateAttr(None)
+    _gas_optimization_max_gas_limit: int | None = PrivateAttr(None)
+
+    expected_benchmark_gas_used: int | None = None
+    skip_gas_used_validation: bool = False
 
     spec_types: ClassVar[Dict[str, Type["BaseTest"]]] = {}
 
@@ -74,7 +97,10 @@ class BaseTest(BaseModel):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard a fixture format from filling if the appropriate marker is used."""
+        """
+        Discard a fixture format from filling if the appropriate marker is
+        used.
+        """
         return False
 
     @classmethod
@@ -98,9 +124,12 @@ class BaseTest(BaseModel):
         new_instance = cls(
             tag=base_test.tag,
             t8n_dump_dir=base_test.t8n_dump_dir,
+            expected_benchmark_gas_used=base_test.expected_benchmark_gas_used,
+            skip_gas_used_validation=base_test.skip_gas_used_validation,
             **kwargs,
         )
         new_instance._request = base_test._request
+        new_instance._operation_mode = base_test._operation_mode
         return new_instance
 
     @classmethod
@@ -110,7 +139,10 @@ class BaseTest(BaseModel):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard an execute format from executing if the appropriate marker is used."""
+        """
+        Discard an execute format from executing if the appropriate marker is
+        used.
+        """
         return False
 
     @abstractmethod
@@ -167,10 +199,11 @@ class BaseTest(BaseModel):
 
     def is_exception_test(self) -> bool | None:
         """
-        Check if the test is an exception test (invalid block, invalid transaction).
+        Check if the test is an exception test (invalid block, invalid
+        transaction).
 
-        `None` is returned if it's not possible to determine if the test is negative or not.
-        This is the case when the test is not run in pytest.
+        `None` is returned if it's not possible to determine if the test is
+        negative or not. This is the case when the test is not run in pytest.
         """
         if self._request is not None and hasattr(self._request, "node"):
             return self._request.node.get_closest_marker("exception_test") is not None
@@ -209,7 +242,8 @@ class BaseTest(BaseModel):
         """
         Get the genesis environment for pre-allocation groups.
 
-        Must be implemented by subclasses to provide the appropriate environment.
+        Must be implemented by subclasses to provide the appropriate
+        environment.
         """
         raise NotImplementedError(
             f"{self.__class__.__name__} must implement genesis environment access for use with "
@@ -219,7 +253,10 @@ class BaseTest(BaseModel):
     def update_pre_alloc_groups(
         self, pre_alloc_groups: PreAllocGroups, fork: Fork, test_id: str
     ) -> PreAllocGroups:
-        """Create or update the pre-allocation group with the pre from the current spec."""
+        """
+        Create or update the pre-allocation group with the pre from the current
+        spec.
+        """
         if not hasattr(self, "pre"):
             raise AttributeError(
                 f"{self.__class__.__name__} does not have a 'pre' field. Pre-allocation groups "
@@ -233,22 +270,24 @@ class BaseTest(BaseModel):
             group.pre = Alloc.merge(
                 group.pre,
                 self.pre,
-                allow_key_collision=True,
+                key_collision_mode=Alloc.KeyCollisionMode.ALLOW_IDENTICAL_ACCOUNTS,
             )
             group.fork = fork
             group.test_ids.append(str(test_id))
-            group.test_count = len(group.test_ids)
-            group.pre_account_count = len(group.pre.root)
             pre_alloc_groups[pre_alloc_hash] = group
         else:
-            # Create new group - use Environment instead of expensive genesis generation
+            # Create new group - use Environment instead of expensive genesis
+            # generation
+            genesis_env = self.get_genesis_environment(fork)
+            pre_alloc = Alloc.merge(
+                Alloc.model_validate(fork.pre_allocation_blockchain()),
+                self.pre,
+            )
             group = PreAllocGroup(
-                test_count=1,
-                pre_account_count=len(self.pre.root),
                 test_ids=[str(test_id)],
                 fork=fork,
-                environment=self.get_genesis_environment(fork),
-                pre=self.pre,
+                environment=genesis_env,
+                pre=pre_alloc,
             )
             pre_alloc_groups[pre_alloc_hash] = group
         return pre_alloc_groups

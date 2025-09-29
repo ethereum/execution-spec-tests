@@ -18,8 +18,8 @@ def update_pre(
     blocks_withdrawal_requests: List[List[WithdrawalRequestInteractionBase]],
 ):
     """
-    Init state of the accounts. Every deposit transaction defines their own pre-state
-    requirements, and this fixture aggregates them all.
+    Init state of the accounts. Every deposit transaction defines their own
+    pre-state requirements, and this fixture aggregates them all.
     """
     for requests in blocks_withdrawal_requests:
         for r in requests:
@@ -31,7 +31,10 @@ def included_requests(
     update_pre: None,  # Fixture is used for its side effects
     blocks_withdrawal_requests: List[List[WithdrawalRequestInteractionBase]],
 ) -> List[List[WithdrawalRequest]]:
-    """Return the list of withdrawal requests that should be included in each block."""
+    """
+    Return the list of withdrawal requests that should be included in each
+    block.
+    """
     excess_withdrawal_requests = 0
     carry_over_requests: List[WithdrawalRequest] = []
     per_block_included_requests: List[List[WithdrawalRequest]] = []
@@ -110,8 +113,10 @@ def blocks(
         timestamp += 1
 
     return blocks + [
+        # Add an empty block at the end to verify that no more withdrawal
+        # requests are included
         Block(
             header_verify=Header(requests_hash=Requests()),
             timestamp=timestamp,
         )
-    ]  # Add an empty block at the end to verify that no more withdrawal requests are included
+    ]

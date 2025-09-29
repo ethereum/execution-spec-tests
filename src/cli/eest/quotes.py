@@ -51,5 +51,7 @@ def box_quote(quote):
 
 
 def get_quote():
-    """Return random inspirational quote related to system design formatted in a box."""
+    """
+    Return random inspirational quote formatted in a box.
+    """
     return box_quote(random.choice(make_something_great))

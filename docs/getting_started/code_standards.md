@@ -80,11 +80,13 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
 - **Relative Imports**: Use relative imports within the same package
 - **Error Handling**: Use explicit exception types and meaningful error messages.
 - **Type Hints**: All functions should include type annotations.
+- **Unused Function Arguments**: When  unavoidable, use `del`, e.g., `del unused_var`, at function start to avoid flagging linter errors.
 - **Variable Naming**:
     - Use `snake_case` for variables, functions, and modules.
     - Use `PascalCase` for classes.
     - Use `UPPER_CASE` for constants.
 - **File Paths**: Strongly prefer `pathlib` over `os.path` for file system operations.
+- **Retry Logic**: Use [`tenacity`](https://github.com/jd/tenacity) library for handling flaky network connections and transient failures.
 
 ## Editor Setup
 

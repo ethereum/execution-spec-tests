@@ -1,19 +1,26 @@
 """
-abstract: Test cases for [EIP-7620: EOF Contract Creation](https://eips.ethereum.org/EIPS/eip-7620)
-    EIP-7620 replaces `CREATE` and `CREATE2` with `EOFCREATE` for deploying contracts in the EOF format.
-    Opcodes introduced: `EOFCREATE` (`0xEC`), `RETURNCODE` (`0xEE`).
+Test cases for EOF Contract Creation for EIP-7620.
 
+EIP-7620 replaces `CREATE` and `CREATE2` with `EOFCREATE` for deploying
+contracts in the EOF format.
 
-EOFCREATE, RETURNCODE, and container tests
+Full specification:
+[EIP-7620: EOF Contract Creation](https://eips.ethereum.org/EIPS/eip-7620).
 
-evmone tests not ported
+Opcodes introduced: `EOFCREATE` (`0xEC`), `RETURNCODE` (`0xEE`).
 
-- create_tx_with_eof_initcode - This calls it invalid, it is now the way to add EOF contacts to state
-- eofcreate_extcall_returncode - per the new initcode mode tests you cannot have RETURNCODE
-    in a deployed contract
-- eofcreate_dataloadn_referring_to_auxdata - covered by
-    tests.unscheduled.eip7480_data_section.test_data_opcodes.test_data_section_succeed
-- eofcreate_initcontainer_return - RETURN is banned in initcode containers
-- eofcreate_initcontainer_stop - STOP is banned in initcode containers
+EOFCREATE, RETURNCODE, and container tests.
+
+evmone tests not ported:
+- create_tx_with_eof_initcode: This calls it invalid, it is now the way to
+                               add EOF contacts to state
+- eofcreate_extcall_returncode: Per the new initcode
+                                mode tests you cannot have RETURNCODE in a
+                                deployed contract
+- eofcreate_dataloadn_referring_to_auxdata: covered by
+                     tests.unscheduled.eip7480_data_section.
+                     test_data_opcodes.test_data_section_succeed
+- eofcreate_initcontainer_return: RETURN is banned in initcode containers
+- eofcreate_initcontainer_stop: STOP is banned in initcode containers
 - All TXCREATE tests.
-"""  # noqa: E501
+"""

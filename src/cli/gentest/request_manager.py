@@ -1,13 +1,17 @@
 """
-A request manager Ethereum  RPC calls.
+A request manager Ethereum RPC calls.
 
-The RequestManager handles transactions and block data retrieval from a remote Ethereum node,
-utilizing Pydantic models to define the structure of transactions and blocks.
+The RequestManager handles transactions and block data retrieval from a remote
+Ethereum node, utilizing Pydantic models to define the structure of
+transactions and blocks.
 
 Classes:
-- RequestManager: The main class for managing RPC requests and responses.
-- RemoteTransaction: A Pydantic model representing a transaction retrieved from the node.
-- RemoteBlock: A Pydantic model representing a block retrieved from the node.
+    RequestManager:    The main class for managing RPC requests and
+                       responses.
+    RemoteTransaction: A Pydantic model representing a transaction
+                       retrieved from the node.
+    RemoteBlock:       A Pydantic model representing a block retrieved from
+                       the node.
 """
 
 from typing import Dict
@@ -15,7 +19,7 @@ from typing import Dict
 from config import EnvConfig
 from ethereum_test_base_types import Hash
 from ethereum_test_rpc import BlockNumberType, DebugRPC, EthRPC
-from ethereum_test_rpc.types import TransactionByHashResponse
+from ethereum_test_rpc.rpc_types import TransactionByHashResponse
 from ethereum_test_types import Environment
 
 

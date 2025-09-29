@@ -1,14 +1,15 @@
 eels:
   evm-bin: ethereum-spec-evm-resolver
-  x-dist: 10
+  x-dist: auto
 geth:
   evm-bin: evm
+  x-dist: auto
 evmone:
   evm-bin: evmone-t8n
-  x-dist: 10
+  x-dist: auto
 besu:
   evm-bin: evmtool
   x-dist: 0
 ethjs:
   evm-bin: ethereumjs-t8ntool.sh
-  x-dist: 10
+  x-dist: auto

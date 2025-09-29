@@ -9,7 +9,11 @@ Documentation for [`{{ pytest_node_id }}@{{ short_git_ref }}`]({{ source_code_ur
 !!! example "Generate fixtures for these test cases for {{ target_or_valid_fork }} with:"
 
     ```console
+{% if is_benchmark %}
+    fill -v {{ pytest_node_id }} -m benchmark
+{% else %}
     fill -v {{ pytest_node_id }} --fork {{ target_or_valid_fork }}
+{% endif %}
     ```
 {% endif %}
 
