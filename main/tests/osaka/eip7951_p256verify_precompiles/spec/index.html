@@ -6059,6 +6059,8 @@
       
         
       
+        
+      
     
     
     
@@ -6161,6 +6163,29 @@
   
   <span class="md-ellipsis">
     <code>test_wycheproof_extra</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_p256verify/test_valid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_valid</code>
     
   </span>
   
@@ -27308,7 +27333,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e55fbcee8e314a117c49541fcd057bf2a5a25494/tests/osaka/eip7951_p256verify_precompiles/spec.py"><code>tests/osaka/eip7951_p256verify_precompiles/spec.py@e55fbcee</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3d5326d9d0d186bfa6bb9162cc6c5aab5153c867/tests/osaka/eip7951_p256verify_precompiles/spec.py"><code>tests/osaka/eip7951_p256verify_precompiles/spec.py@3d5326d9</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27400,7 +27425,10 @@
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
-<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-7951 specifications as defined at</span>
@@ -27418,6 +27446,9 @@
     <span class="n">A</span> <span class="o">=</span> <span class="mh">0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC</span>  <span class="c1">## Curve Coefficient</span>
     <span class="n">B</span> <span class="o">=</span> <span class="mh">0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B</span>  <span class="c1">## Curve Coefficient</span>
     <span class="n">N</span> <span class="o">=</span> <span class="mh">0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551</span>  <span class="c1">## Subgroup Order</span>
+
+    <span class="n">Gx</span> <span class="o">=</span> <span class="mh">0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296</span>  <span class="c1">## Generator Point X</span>
+    <span class="n">Gy</span> <span class="o">=</span> <span class="mh">0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5</span>  <span class="c1">## Generator Point Y</span>
 
     <span class="c1"># Other constants</span>
     <span class="n">SUCCESS_RETURN_VALUE</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x01</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)</span>
