@@ -20,7 +20,7 @@ class BlocktestBuilder:
         self.t8n = transition_tool or GethTransitionTool()
 
     def build_blocktest(self, fuzzer_output: Dict[str, Any]) -> Dict[str, Any]:
-        """Build a valid blocktest from fuzzer output using BlockchainTest.from_fuzzer."""
+        """Build a valid blocktest from fuzzer output."""
         # Parse and validate using Pydantic model
         fuzzer_data = FuzzerOutput(**fuzzer_output)
 

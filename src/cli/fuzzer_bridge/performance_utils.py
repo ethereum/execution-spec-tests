@@ -5,9 +5,14 @@ import mmap
 import os
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
-import orjson  # Fast JSON library (optional dependency)
+try:
+    import orjson  # type: ignore  # Fast JSON library (optional dependency)
+
+    HAS_ORJSON = True
+except ImportError:
+    HAS_ORJSON = False
 
 
 class FastJSONHandler:
@@ -21,17 +26,16 @@ class FastJSONHandler:
             with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mmapped_file:
                 # Read the entire content at once
                 content = mmapped_file.read()
-                try:
-                    # Try fast orjson if available
+                if HAS_ORJSON:
                     return orjson.loads(content)
-                except (ImportError, AttributeError):
+                else:
                     # Fallback to standard json
                     return json.loads(content.decode("utf-8"))
 
     @staticmethod
     def dump_json_fast(data: Dict[str, Any], file_path: Path, pretty: bool = False) -> None:
         """Dump JSON using optimized serialization."""
-        try:
+        if HAS_ORJSON:
             # Use orjson for faster serialization
             if pretty:
                 content = orjson.dumps(data, option=orjson.OPT_INDENT_2)
@@ -39,11 +43,13 @@ class FastJSONHandler:
                 content = orjson.dumps(data)
             with open(file_path, "wb") as f:
                 f.write(content)
-        except (ImportError, AttributeError):
+        else:
             # Fallback to standard json
-            json_kwargs = {"indent": 2} if pretty else {}
             with open(file_path, "w") as f:
-                json.dump(data, f, **json_kwargs)
+                if pretty:
+                    json.dump(data, f, indent=2)
+                else:
+                    json.dump(data, f)
 
 
 class BatchProcessor:
@@ -73,7 +79,7 @@ class BatchProcessor:
 
     @staticmethod
     def calculate_optimal_workers(file_count: int) -> int:
-        """Calculate optimal number of workers based on file count and system resources."""
+        """Calculate optimal number of workers for processing."""
         cpu_count = os.cpu_count() or 4
 
         # Scale workers based on file count
@@ -133,7 +139,7 @@ class BufferPool:
     def __init__(self, buffer_size: int = 1024 * 1024):  # 1MB default
         """Initialize buffer pool."""
         self.buffer_size = buffer_size
-        self.buffers = []
+        self.buffers: List[bytearray] = []
 
     def get_buffer(self) -> bytearray:
         """Get a buffer from pool or create new one."""

@@ -1,4 +1,4 @@
-"""Fuzzer bridge module for converting blocktest-fuzzer output to valid blocktests."""
+"""Fuzzer bridge for converting blocktest-fuzzer output to blocktests."""
 
 from .blocktest_builder import BlocktestBuilder, build_blocktest_from_fuzzer
 

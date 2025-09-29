@@ -152,6 +152,7 @@ The fuzzer describes the environment for block 1 (the block containing the trans
 ### System Contracts
 
 The framework automatically includes system contracts required by the fork:
+
 - Deposit contract (for proof-of-stake)
 - Withdrawal contract
 - Beacon roots contract
@@ -162,6 +163,7 @@ These are included in the state root calculation without requiring fuzzer specif
 ### Transaction Signing
 
 All transactions are automatically signed using the provided private keys. The fuzzer bridge:
+
 1. Validates that each sender has a corresponding private key
 2. Signs transactions with the appropriate signature type for the fork
 3. Handles EIP-1559 transactions when base fee is present
@@ -172,18 +174,22 @@ All transactions are automatically signed using the provided private keys. The f
 ### Common Issues
 
 #### "Genesis block hash doesn't match"
+
 - **Cause**: Environment parameters are incorrect
 - **Solution**: Ensure the fuzzer output follows the v2 format exactly
 
 #### "No private key for sender"
+
 - **Cause**: Account sends transaction but no privateKey field provided
 - **Solution**: Add privateKey to the account in the accounts section
 
 #### "Private key doesn't match address"
+
 - **Cause**: The provided private key doesn't generate the specified address
 - **Solution**: Use correct private key or generate address from private key
 
 #### "Transaction type not supported in fork"
+
 - **Cause**: Using EIP-1559 transactions in pre-London forks
 - **Solution**: Ensure transaction types match the specified fork
 
@@ -192,16 +198,19 @@ All transactions are automatically signed using the provided private keys. The f
 Once you've generated blockchain test fixtures, verify them with Ethereum clients:
 
 ### Go-Ethereum (geth)
+
 ```bash
 ../go-ethereum/build/bin/evm blocktest generated_test.json
 ```
 
 ### Besu
+
 ```bash
 ../besu/ethereum/evmtool/build/install/evmtool/bin/evmtool block-test generated_test.json
 ```
 
 ### Nethermind
+
 ```bash
 ../nethermind/src/artifacts/bin/nethermind.test.runner test -b generated_test.json
 ```

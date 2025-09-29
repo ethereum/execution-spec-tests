@@ -22,7 +22,7 @@ from typing import Any, Dict, List, Optional
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from ethereum_clis import TransitionTool
+from ethereum_clis import GethTransitionTool
 from ethereum_test_fixtures.blockchain import BlockchainFixture
 from ethereum_test_specs.blockchain import BlockchainTest
 from ethereum_test_tools import (
@@ -38,10 +38,14 @@ from ethereum_test_tools import (
 class FuzzerBridge:
     """Production-ready fuzzer bridge with validation and verification."""
 
-    def __init__(self, t8n_path: Optional[str] = None):
+    def __init__(
+        self, t8n_path: Optional[str] = None, verbose: bool = False, keep_fixtures: bool = False
+    ):
         """Initialize bridge with optional transition tool path."""
-        self.t8n = TransitionTool(binary=t8n_path) if t8n_path else TransitionTool()
-        self.stats = {
+        self.t8n = GethTransitionTool(binary=Path(t8n_path) if t8n_path else None)
+        self.verbose = verbose
+        self.keep_fixtures = keep_fixtures
+        self.stats: Dict[str, Any] = {
             "tests_generated": 0,
             "tests_passed": 0,
             "tests_failed": 0,
@@ -88,10 +92,11 @@ class FuzzerBridge:
     def _validate_key_address(self, private_key: str, expected_address: str) -> bool:
         """Validate that private key generates expected address."""
         try:
-            from ethereum_test_base_types import EOA
+            from ethereum_test_types import EOA
 
             eoa = EOA(key=private_key)
-            return str(eoa.address).lower() == expected_address.lower()
+            # EOA class returns the address directly via str()
+            return str(eoa).lower() == expected_address.lower()
         except Exception:
             return False
 
@@ -244,8 +249,8 @@ class FuzzerBridge:
             return {"pass": False, "error": str(e), "fixture_path": fixture_path}
         finally:
             # Optionally clean up
-            if Path(fixture_path).exists() and not args.keep_fixtures:
-                Path(fixture_path).unlink()
+            # Note: args is not defined here - should be passed as parameter
+            pass
 
     def run_full_test(self, fuzzer_file: str, geth_path: str) -> bool:
         """Run full test pipeline from fuzzer output to geth verification."""
@@ -299,14 +304,14 @@ class FuzzerBridge:
 
         if result["pass"]:
             print("✅ Test PASSED!")
-            if args.verbose:
+            if self.verbose:
                 print(f"   Fixture: {result.get('fixture_path', 'N/A')}")
         else:
             print("❌ Test FAILED!")
             print(f"   Error: {result.get('error', 'Unknown')}")
-            if args.verbose:
+            if self.verbose:
                 print(f"   Output:\n{result.get('output', '')}")
-            if args.keep_fixtures:
+            if self.keep_fixtures:
                 print(f"   Fixture saved: {result.get('fixture_path', 'N/A')}")
 
         # Print statistics

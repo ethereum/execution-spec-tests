@@ -59,9 +59,11 @@ def process_single_file(
 
     # Write output
     output_file = output_path / f"{input_file.stem}.json"
-    json_kwargs = {"indent": 2} if pretty else {}
     with open(output_file, "w") as f:
-        json.dump(fixtures, f, **json_kwargs)
+        if pretty:
+            json.dump(fixtures, f, indent=2)
+        else:
+            json.dump(fixtures, f)
 
     if not quiet:
         click.echo(f"Generated: {output_file}", err=True)
@@ -79,13 +81,9 @@ def process_single_file_worker(
     """Process a single file in a worker process."""
     json_file_path, output_file = file_info
 
-    # Create transition tool per worker (cached per process)
-    if not hasattr(process_single_file_worker, "_t8n"):
-        t8n = GethTransitionTool(binary=evm_bin) if evm_bin else GethTransitionTool()
-        process_single_file_worker._t8n = t8n
-        process_single_file_worker._builder = BlocktestBuilder(t8n)
-
-    builder = process_single_file_worker._builder
+    # Create transition tool and builder for this worker
+    t8n = GethTransitionTool(binary=evm_bin) if evm_bin else GethTransitionTool()
+    builder = BlocktestBuilder(t8n)
 
     try:
         with open(json_file_path) as f:
@@ -103,9 +101,11 @@ def process_single_file_worker(
         if not merge:
             # Write individual file preserving structure
             output_file.parent.mkdir(parents=True, exist_ok=True)
-            json_kwargs = {"indent": 2} if pretty else {}
             with open(output_file, "w") as f:
-                json.dump(fixtures, f, **json_kwargs)
+                if pretty:
+                    json.dump(fixtures, f, indent=2)
+                else:
+                    json.dump(fixtures, f)
 
         return (json_file_path, fixtures), None
     except Exception as e:
@@ -145,9 +145,11 @@ def process_file_batch(
                 # Write individual file preserving structure
                 output_file = rel_path.with_suffix(".json")
                 output_file.parent.mkdir(parents=True, exist_ok=True)
-                json_kwargs = {"indent": 2} if pretty else {}
                 with open(output_file, "w") as f:
-                    json.dump(fixtures, f, **json_kwargs)
+                    if pretty:
+                        json.dump(fixtures, f, indent=2)
+                    else:
+                        json.dump(fixtures, f)
 
             results.append((json_file_path, fixtures))
         except Exception as e:
@@ -256,9 +258,11 @@ def process_directory_parallel(
         # Write merged file if requested
         if merge and all_fixtures:
             merged_file = output_dir / "merged_fixtures.json"
-            json_kwargs = {"indent": 2} if pretty else {}
             with open(merged_file, "w") as f:
-                json.dump(all_fixtures, f, **json_kwargs)
+                if pretty:
+                    json.dump(all_fixtures, f, indent=2)
+                else:
+                    json.dump(all_fixtures, f)
             if not quiet:
                 progress.console.print(f"[green]Merged fixtures written to: {merged_file}[/green]")
 
@@ -327,9 +331,11 @@ def process_directory(
                     output_file = output_dir / rel_path.with_suffix(".json")
                     output_file.parent.mkdir(parents=True, exist_ok=True)
                     fixtures = {test_name: blocktest}
-                    json_kwargs = {"indent": 2} if pretty else {}
                     with open(output_file, "w") as f:
-                        json.dump(fixtures, f, **json_kwargs)
+                        if pretty:
+                            json.dump(fixtures, f, indent=2)
+                        else:
+                            json.dump(fixtures, f)
 
                 success_count += 1
 
@@ -341,9 +347,11 @@ def process_directory(
         # Write merged file if requested
         if merge and all_fixtures:
             merged_file = output_dir / "merged_fixtures.json"
-            json_kwargs = {"indent": 2} if pretty else {}
             with open(merged_file, "w") as f:
-                json.dump(all_fixtures, f, **json_kwargs)
+                if pretty:
+                    json.dump(all_fixtures, f, indent=2)
+                else:
+                    json.dump(all_fixtures, f)
             if not quiet:
                 progress.console.print(f"[green]Merged fixtures written to: {merged_file}[/green]")
 

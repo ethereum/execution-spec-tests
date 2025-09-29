@@ -480,6 +480,7 @@ class BlockchainTest(BaseTest):
         pre_dict: Dict[Address, Any] = {}
         for addr, account in fuzzer_data.accounts.items():
             from ethereum_test_tools import Account
+
             pre_dict[addr] = Account(
                 balance=account.balance,
                 nonce=account.nonce,
@@ -536,6 +537,7 @@ class BlockchainTest(BaseTest):
 
         # Create block
         from ethereum_test_tools import Block
+
         block = Block(
             txs=transactions,
             timestamp=int(env.currentTimestamp),
