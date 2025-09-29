@@ -1,7 +1,10 @@
 """Tests for EIP-7928 using the consistent data class pattern."""
 
+from typing import Dict
+
 import pytest
 
+from ethereum_test_base_types import Address
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -335,13 +338,12 @@ def test_bal_self_destruct(
         factory = pre.deploy_contract(code=factory_bytecode)
         kaboom_same_tx = compute_create_address(address=factory, nonce=1)
 
-    # Pre fund the accounts in pre state
+    # Determine which account will be self-destructed
+    self_destructed_account = kaboom_same_tx if self_destruct_in_same_tx else kaboom
+
     if pre_funded:
         expected_recipient_balance += pre_fund_amount
-        if self_destruct_in_same_tx:
-            pre.fund_address(address=kaboom_same_tx, amount=pre_fund_amount)
-        else:
-            pre.fund_address(address=kaboom, amount=pre_fund_amount)
+        pre.fund_address(address=self_destructed_account, amount=pre_fund_amount)
 
     tx = Transaction(
         sender=alice,
@@ -350,9 +352,6 @@ def test_bal_self_destruct(
         gas_limit=1_000_000,
         gas_price=0xA,
     )
-
-    # Determine which account was destructed
-    self_destructed_account = kaboom_same_tx if self_destruct_in_same_tx else kaboom
 
     block = Block(
         txs=[tx],
@@ -370,8 +369,17 @@ def test_bal_self_destruct(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)]
                     if pre_funded
                     else [],
-                    storage_reads=[0x01, 0x42],  # Accessed slots to be recorded as reads
-                    storage_changes=[],
+                    # Accessed slots for same-tx are recorded as reads (0x02)
+                    storage_reads=[0x01, 0x02] if self_destruct_in_same_tx else [0x01],
+                    # Storage changes are recorded for non-same-tx
+                    # self-destructs
+                    storage_changes=[
+                        BalStorageSlot(
+                            slot=0x02, slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)]
+                        )
+                    ]
+                    if not self_destruct_in_same_tx
+                    else [],
                     code_changes=[],  # should not be present
                     nonce_changes=[],  # should not be present
                 ),
@@ -379,7 +387,7 @@ def test_bal_self_destruct(
         ),
     )
 
-    post = {
+    post: Dict[Address, Account] = {
         alice: Account(nonce=1),
         bob: Account(balance=expected_recipient_balance),
     }
