@@ -117,6 +117,25 @@ This page provides guidance on how to troubleshoot common issues that may arise 
 
     This will enable the legacy cryptographic algorithms, including RIPEMD160. See [ethereum/execution-specs#506](https://github.com/ethereum/execution-specs/issues/506) for more information.
 
+## Problem: VS Code "Autoformat on Save" with Ruff Not Working
+
+!!! danger "Problem: 'Autoformat on Save' with Ruff not working as expected in VS Code"
+    If you are using VS Code and "autoformat on save" is not working as expected, or if it produces different formatting than the official `tox -e lint` command, you may have a version mismatch with the `ruff` formatter. This problem can be confirmed if `git diff` shows changes to an otherwise unmodified file after you have saved it.
+
+    This issue often occurs when VS Code is not configured to use the project's virtual environment (`.venv`) or if the linting dependencies have not been installed. In this case, VS Code's Ruff extension falls back to a bundled version of `ruff`, which may not match the version pinned in the project's `pyproject.toml` file.
+
+!!! success "Solution: Install all required dependencies and select the correct interpreter"
+
+    1.  Ensure all dependencies are installed, including the `lint` extras.
+
+        ```bash
+        uv sync --all-extras
+        ```
+
+    2.  In VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) and select `Python: Select Interpreter`.
+    
+    3.  Choose the interpreter located in the project's `.venv` directory. This ensures VS Code uses the correct `ruff` version from your project's environment.
+    
 ## Other Issues Not Listed?
 
 If you're facing an issue that's not listed here, you can easily report it on GitHub for resolution.
