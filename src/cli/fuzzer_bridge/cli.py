@@ -80,7 +80,7 @@ def process_single_file_worker(
     json_file_path, output_file = file_info
 
     # Create transition tool per worker (cached per process)
-    if not hasattr(process_single_file_worker, '_t8n'):
+    if not hasattr(process_single_file_worker, "_t8n"):
         t8n = GethTransitionTool(binary=evm_bin) if evm_bin else GethTransitionTool()
         process_single_file_worker._t8n = t8n
         process_single_file_worker._builder = BlocktestBuilder(t8n)
@@ -245,12 +245,7 @@ def process_directory_parallel(
                             )
 
                     # Update progress bar
-                    progress.update(
-                        task_id,
-                        advance=1,
-                        filename=display_name,
-                        workers=num_workers
-                    )
+                    progress.update(task_id, advance=1, filename=display_name, workers=num_workers)
 
                 except Exception as e:
                     error_count += 1
@@ -274,7 +269,7 @@ def process_directory_parallel(
                 task_id,
                 completed=file_count,
                 filename=f"Done! {success_count} succeeded, {error_count} failed {emoji}",
-                workers=num_workers
+                workers=num_workers,
             )
 
 

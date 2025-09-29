@@ -459,7 +459,8 @@ class BlockchainTest(BaseTest):
         fuzzer_output: Dict[str, Any],
         fork: Fork,
     ) -> "BlockchainTest":
-        """Create a BlockchainTest from fuzzer output data.
+        """
+        Create a BlockchainTest from fuzzer output data.
 
         Args:
             fuzzer_output: Dictionary containing fuzzer output in v2 format
@@ -467,6 +468,7 @@ class BlockchainTest(BaseTest):
 
         Returns:
             BlockchainTest instance ready for fixture generation
+
         """
         from cli.fuzzer_bridge.models import FuzzerOutput
 

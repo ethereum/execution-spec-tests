@@ -6,6 +6,8 @@ from pydantic import BaseModel, Field, field_validator
 
 from ethereum_test_base_types import Address, Bytes, Hash, HexNumber
 
+# ruff: noqa: N815  # Allow mixedCase for JSON field compatibility
+
 
 class FuzzerAccount(BaseModel):
     """Account definition in fuzzer output."""
@@ -22,9 +24,7 @@ class FuzzerAccount(BaseModel):
         """Convert storage keys and values to HexNumber."""
         if not v:
             return {}
-        return {
-            HexNumber(k): HexNumber(v_) for k, v_ in v.items()
-        }
+        return {HexNumber(k): HexNumber(v_) for k, v_ in v.items()}
 
 
 class FuzzerTransaction(BaseModel):
@@ -99,9 +99,7 @@ class FuzzerOutput(BaseModel):
         if not v:
             return {}
         return {
-            Address(addr): (
-                FuzzerAccount(**acc_data) if isinstance(acc_data, dict) else acc_data
-            )
+            Address(addr): (FuzzerAccount(**acc_data) if isinstance(acc_data, dict) else acc_data)
             for addr, acc_data in v.items()
         }
 
