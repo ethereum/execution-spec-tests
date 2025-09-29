@@ -8,11 +8,10 @@ The fuzzer bridge solves a critical problem: fuzzers can generate transactions a
 
 ## Architecture
 
-```
-┌──────────────┐     JSON      ┌──────────────┐      Fixtures     ┌──────────────┐
-│  Blocktest   │ ──────────▶   │   Fuzzer     │ ──────────────▶   │   Ethereum   │
-│   Fuzzer     │   (v2 format)  │   Bridge     │   (Blockchain     │   Clients    │
-└──────────────┘                └──────────────┘     Tests)        └──────────────┘
+```mermaid
+graph LR
+    A[Blocktest<br/>Fuzzer] -->|JSON<br/>v2 format| B[Fuzzer<br/>Bridge]
+    B -->|Blockchain Test<br/>Fixtures| C[Ethereum<br/>Clients]
 ```
 
 ## Fuzzer Output Format (v2)
@@ -64,20 +63,16 @@ The fuzzer must output JSON in the following format:
 
 ### Key Requirements
 
-1. **Private Keys**: Any account that sends transactions MUST include a `privateKey` field
-2. **Address-Key Match**: Private keys must generate the corresponding addresses
-3. **Environment**: Describes the environment for block 1 (genesis is automatically derived)
-4. **Version**: Use "2.0" for this format
+1. **Private Keys**: Any account that sends transactions MUST include a `privateKey` field.
+2. **Address-Key Match**: Private keys must generate the corresponding addresses.
+3. **Environment**: Describes the environment for block 1 (genesis is automatically derived).
+4. **Version**: Use "2.0" for this format.
 
 ## Installation
 
-```bash
-# From execution-spec-tests root
-cd src/cli/fuzzer_bridge
+See the [EEST installation guide](https://eest.ethereum.org/main/getting_started/installation/) for setting up the execution-spec-tests framework.
 
-# Install dependencies (if not already installed)
-uv sync --all-extras
-```
+Once EEST is installed, the fuzzer bridge will be available as a command-line tool.
 
 ## Usage
 
@@ -85,13 +80,13 @@ uv sync --all-extras
 
 ```bash
 # Convert fuzzer output to blockchain test
-python -m fuzzer_bridge.cli --input fuzzer_output.json --output blocktest.json
+uv run fuzzer_bridge --input fuzzer_output.json --output blocktest.json
 
 # With custom fork
-python -m fuzzer_bridge.cli --input fuzzer_output.json --output blocktest.json --fork Shanghai
+uv run fuzzer_bridge --input fuzzer_output.json --output blocktest.json --fork Shanghai
 
 # Pretty print output
-python -m fuzzer_bridge.cli --input fuzzer_output.json --output blocktest.json --pretty
+uv run fuzzer_bridge --input fuzzer_output.json --output blocktest.json --pretty
 ```
 
 ### 2. Python API
@@ -125,21 +120,6 @@ def test_fuzzer_generated(blockchain_test):
     """Test generated from fuzzer output."""
     test = create_test_from_fuzzer("fuzzer_output.json")
     blockchain_test(**test)
-```
-
-## Production Test Suite
-
-See `production_test.py` for a complete example that:
-1. Loads fuzzer output
-2. Converts to blockchain test
-3. Generates fixtures
-4. Verifies with go-ethereum
-5. Reports results
-
-Run the production test:
-
-```bash
-python production_test.py --fuzzer-output sample_fuzzer_v2.json --geth-path ../go-ethereum/build/bin/evm
 ```
 
 ## Key Insights
@@ -195,11 +175,6 @@ python production_test.py --fuzzer-output sample_fuzzer_v2.json --geth-path ../g
 ## Contributing
 
 When modifying the fuzzer bridge:
-1. Update the version number in `__init__.py`
-2. Add tests for new features
-3. Update this README
-4. Ensure compatibility with latest execution-spec-tests
-
-## License
-
-See the main execution-spec-tests repository for license information.
+1. Add tests for new features.
+2. Update this README.
+3. Ensure compatibility with latest execution-spec-tests.

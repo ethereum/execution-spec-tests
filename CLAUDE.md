@@ -26,12 +26,7 @@ Execute: Python Tests → execute → Live JSON-RPC Testing
 
 ## 🚀 Essential Commands
 
-All commands use `uv run` prefix.
-
-**IMPORTANT**: Always activate the virtual environment first before running any commands:
-```bash
-source .venv/bin/activate
-```
+All commands use `uv run` prefix. The `uv sync --all-extras` command (below) automatically creates and manages a virtual environment.
 
 ### Setup
 

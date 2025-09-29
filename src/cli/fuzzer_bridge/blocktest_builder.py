@@ -2,15 +2,14 @@
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 import ethereum_test_forks
 from ethereum_clis import GethTransitionTool, TransitionTool
-from ethereum_test_base_types import Address, Hash, HexNumber
 from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_specs import BlockchainTest
-from ethereum_test_tools import Account, Alloc, AuthorizationTuple, Block, Environment, Transaction
-from ethereum_test_types import Withdrawal
+
+from .models import FuzzerOutput
 
 
 class BlocktestBuilder:
@@ -20,197 +19,17 @@ class BlocktestBuilder:
         """Initialize the builder with optional transition tool."""
         self.t8n = transition_tool or GethTransitionTool()
 
-    def _parse_pre_state(self, accounts: Dict[str, Any]) -> tuple[Alloc, Dict[Address, str]]:
-        """Parse pre-state accounts and private keys."""
-        pre_dict: Dict[Address, Account | None] = {}
-        private_keys: Dict[Address, str] = {}
+    def build_blocktest(self, fuzzer_output: Dict[str, Any]) -> Dict[str, Any]:
+        """Build a valid blocktest from fuzzer output using BlockchainTest.from_fuzzer."""
+        # Parse and validate using Pydantic model
+        fuzzer_data = FuzzerOutput(**fuzzer_output)
 
-        for addr_str, account_data in accounts.items():
-            addr = Address(addr_str)
-            pre_dict[addr] = Account(
-                balance=HexNumber(account_data.get("balance", "0x0")),
-                nonce=HexNumber(account_data.get("nonce", "0x0")),
-                code=account_data.get("code", ""),
-                storage=account_data.get("storage", {}),
-            )
-            if "privateKey" in account_data:
-                private_keys[addr] = account_data["privateKey"]
-
-        return Alloc(pre_dict), private_keys
-
-    def _parse_authorization_list(
-        self, auth_list_data: List[Dict[str, Any]]
-    ) -> List[AuthorizationTuple]:
-        """Parse authorization list from fuzzer data."""
-        auth_tuples = []
-        for auth_data in auth_list_data:
-            # Handle values that could be hex strings or numeric (including scientific notation)
-            def parse_value(val: Any, default: Any = 0) -> HexNumber:
-                if val is None:
-                    val = default
-                if isinstance(val, str) and val.startswith("0x"):
-                    # Already a hex string, HexNumber will handle it correctly
-                    return HexNumber(val)
-                elif isinstance(val, str):
-                    # Scientific notation string like "1.0e+18"
-                    return HexNumber(int(float(val)))
-                else:
-                    # Direct numeric value
-                    return HexNumber(int(val) if not isinstance(val, float) else int(val))
-
-            chain_id = parse_value(auth_data.get("chainId"))
-            nonce = parse_value(auth_data.get("nonce"))
-            v = parse_value(auth_data.get("v"))
-            r = parse_value(auth_data.get("r"))
-            s = parse_value(auth_data.get("s"))
-
-            auth_tuples.append(
-                AuthorizationTuple(
-                    chain_id=chain_id,
-                    address=Address(auth_data["address"]),
-                    nonce=nonce,
-                    v=v,
-                    r=r,
-                    s=s,
-                )
-            )
-        return auth_tuples
-
-    def _parse_transactions(
-        self, tx_list: List[Dict[str, Any]], private_keys: Dict[Address, str]
-    ) -> List[Transaction]:
-        """Parse transactions from fuzzer output."""
-        transactions = []
-        for tx_data in tx_list:
-            sender = Address(tx_data.get("from", tx_data.get("sender")))
-
-            # Build transaction parameters
-            tx_params = {
-                "sender": sender,
-                "secret_key": private_keys.get(sender),
-                "to": Address(tx_data["to"]) if tx_data.get("to") else None,
-                "value": HexNumber(tx_data.get("value", "0x0")),
-                "gas_limit": HexNumber(tx_data.get("gas", tx_data.get("gasLimit", "0x5208"))),
-                "nonce": HexNumber(tx_data.get("nonce", "0x0")),
-                "data": tx_data.get("data", tx_data.get("input", "")),
-                "access_list": tx_data.get("accessList"),
-                "blob_versioned_hashes": tx_data.get("blobVersionedHashes"),
-            }
-
-            # Handle transaction type
-            if "type" in tx_data:
-                tx_type = (
-                    int(tx_data["type"], 16)
-                    if isinstance(tx_data["type"], str)
-                    else tx_data["type"]
-                )
-                tx_params["ty"] = tx_type
-
-            # Handle gas pricing
-            if "gasPrice" in tx_data:
-                tx_params["gas_price"] = HexNumber(tx_data["gasPrice"])
-            if "maxFeePerGas" in tx_data:
-                tx_params["max_fee_per_gas"] = HexNumber(tx_data["maxFeePerGas"])
-            if "maxPriorityFeePerGas" in tx_data:
-                tx_params["max_priority_fee_per_gas"] = HexNumber(tx_data["maxPriorityFeePerGas"])
-
-            # Handle authorization list for setcode transactions
-            if "authorizationList" in tx_data:
-                tx_params["authorization_list"] = self._parse_authorization_list(
-                    tx_data["authorizationList"]
-                )
-
-            transactions.append(Transaction(**tx_params))
-        return transactions
-
-    def _parse_environment(self, env_data: Dict[str, Any]) -> Environment:
-        """Parse environment from fuzzer output."""
-        return Environment(
-            fee_recipient=Address(env_data.get("currentCoinbase")),
-            difficulty=0,  # Post-merge
-            gas_limit=int(env_data.get("currentGasLimit", "0x1000000"), 16),
-            number=0,
-            timestamp=HexNumber(int(env_data.get("currentTimestamp", "0x1000"), 16) - 12),
-            prev_randao=Hash(
-                env_data.get(
-                    "currentRandom",
-                    env_data.get(
-                        "prevRandao",
-                        "0x0000000000000000000000000000000000000000000000000000000000000000",
-                    ),
-                )
-            ),
-            base_fee_per_gas=HexNumber(env_data.get("currentBaseFee", "0x7"))
-            if "currentBaseFee" in env_data
-            else None,
-            excess_blob_gas=HexNumber(env_data.get("currentExcessBlobGas"))
-            if "currentExcessBlobGas" in env_data
-            else None,
-            blob_gas_used=HexNumber(env_data.get("currentBlobGasUsed"))
-            if "currentBlobGasUsed" in env_data
-            else None,
-            withdrawals=self._parse_withdrawals(env_data.get("withdrawals")),
-        )
-
-    def parse_fuzzer_output(self, fuzzer_data: Dict[str, Any]) -> tuple:
-        """Parse fuzzer output format into test components."""
-        # Parse accounts and private keys
-        accounts = fuzzer_data.get("accounts", fuzzer_data.get("pre", {}))
-        pre, private_keys = self._parse_pre_state(accounts)
-
-        # Parse transactions
-        transactions = self._parse_transactions(fuzzer_data.get("transactions", []), private_keys)
-
-        # Parse environment
-        env = self._parse_environment(fuzzer_data.get("env", {}))
-
-        # Parse fork
-        fork_name = fuzzer_data.get("fork", "Prague")
+        # Get fork
+        fork_name = fuzzer_data.fork
         fork = getattr(ethereum_test_forks, fork_name)
 
-        # Parse chain ID
-        chain_id_raw = fuzzer_data.get("chainId", fuzzer_data.get("chainid", "1"))
-        chain_id = int(chain_id_raw, 16) if isinstance(chain_id_raw, str) else chain_id_raw
-
-        return pre, transactions, env, fork, chain_id
-
-    def _parse_withdrawals(self, withdrawals_data: Optional[List]) -> Optional[List[Withdrawal]]:
-        """Parse withdrawals from fuzzer data."""
-        if not withdrawals_data:
-            return None
-
-        withdrawals = []
-        for w in withdrawals_data:
-            withdrawals.append(
-                Withdrawal(
-                    index=HexNumber(w["index"]),
-                    validator_index=HexNumber(w["validatorIndex"]),
-                    address=Address(w["address"]),
-                    amount=HexNumber(w["amount"]),
-                )
-            )
-        return withdrawals
-
-    def build_blocktest(self, fuzzer_output: Dict[str, Any]) -> Dict[str, Any]:
-        """Build a valid blocktest from fuzzer output."""
-        pre, transactions, env, fork, chain_id = self.parse_fuzzer_output(fuzzer_output)
-
-        # Create block with transactions (block 1)
-        env_data = fuzzer_output.get("env", {})
-        block = Block(
-            txs=transactions,
-            timestamp=int(env_data.get("currentTimestamp", "0x1000"), 16),
-            fee_recipient=Address(env_data.get("currentCoinbase")),
-        )
-
-        # Create blockchain test
-        test = BlockchainTest(
-            pre=pre,
-            blocks=[block],
-            post={},  # Calculated during generation
-            genesis_environment=env,
-            chain_id=chain_id,
-        )
+        # Create BlockchainTest using from_fuzzer method
+        test = BlockchainTest.from_fuzzer(fuzzer_output, fork)
 
         # Generate fixture
         fixture = test.generate(
