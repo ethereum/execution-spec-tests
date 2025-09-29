@@ -287,7 +287,6 @@ def test_bal_code_changes(
     )
 
 
-@pytest.mark.valid_from("Amsterdam")
 @pytest.mark.parametrize("self_destruct_in_same_tx", [True, False], ids=["same_tx", "new_tx"])
 @pytest.mark.parametrize("pre_funded", [True, False], ids=["pre_funded", "not_pre_funded"])
 def test_bal_self_destruct(
@@ -478,7 +477,10 @@ def test_bal_call_with_value_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
 ):
-    """Ensure BAL captures balance changes from CALL opcode with value transfer."""
+    """
+    Ensure BAL captures balance changes from CALL opcode with
+    value transfer.
+    """
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
 
@@ -512,7 +514,10 @@ def test_bal_callcode_with_value_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
 ):
-    """Ensure BAL captures balance changes from CALLCODE opcode with value transfer."""
+    """
+    Ensure BAL captures balance changes from CALLCODE opcode with
+    value transfer.
+    """
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
 
@@ -563,14 +568,18 @@ def test_bal_delegated_storage_writes(
     blockchain_test: BlockchainTestFiller,
     delegated_opcode,
 ):
-    """Ensure BAL captures delegated storage writes via DELEGATECALL and CALLCODE."""
+    """
+    Ensure BAL captures delegated storage writes via
+    DELEGATECALL and CALLCODE.
+    """
     alice = pre.fund_eoa()
 
     # TargetContract that writes 0x42 to slot 0x01
     target_code = Op.SSTORE(0x01, 0x42)
     target_contract = pre.deploy_contract(code=target_code)
 
-    # Oracle contract that uses delegated opcode to execute TargetContract's code
+    # Oracle contract that uses delegated opcode to execute
+    # TargetContract's code
     oracle_code = delegated_opcode(target_contract)
     oracle_contract = pre.deploy_contract(code=oracle_code)
 
@@ -619,7 +628,10 @@ def test_bal_delegated_storage_reads(
     blockchain_test: BlockchainTestFiller,
     delegated_opcode,
 ):
-    """Ensure BAL captures delegated storage reads via DELEGATECALL and CALLCODE."""
+    """
+    Ensure BAL captures delegated storage reads via
+    DELEGATECALL and CALLCODE.
+    """
     alice = pre.fund_eoa()
 
     # TargetContract that reads from slot 0x01
