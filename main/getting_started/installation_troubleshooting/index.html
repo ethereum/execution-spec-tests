@@ -686,6 +686,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#problem-vs-code-autoformat-on-save-with-ruff-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: VS Code "Autoformat on Save" with Ruff Not Working
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-issues-not-listed" class="md-nav__link">
     <span class="md-ellipsis">
       Other Issues Not Listed?
@@ -27388,6 +27397,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#problem-vs-code-autoformat-on-save-with-ruff-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: VS Code "Autoformat on Save" with Ruff Not Working
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-issues-not-listed" class="md-nav__link">
     <span class="md-ellipsis">
       Other Issues Not Listed?
@@ -27523,6 +27541,28 @@ Running <code>uv run solc --version</code> should now return the expected versio
 </code></pre></div>
 <p>This will enable the legacy cryptographic algorithms, including RIPEMD160. See <a href="https://github.com/ethereum/execution-specs/issues/506">ethereum/execution-specs#506</a> for more information.</p>
 </div>
+<h2 id="problem-vs-code-autoformat-on-save-with-ruff-not-working">Problem: VS Code "Autoformat on Save" with Ruff Not Working<a class="headerlink" href="#problem-vs-code-autoformat-on-save-with-ruff-not-working" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Problem: 'Autoformat on Save' with Ruff not working as expected in VS Code</p>
+<p>If you are using VS Code and "autoformat on save" is not working as expected, or if it produces different formatting than the official <code>tox -e lint</code> command, you may have a version mismatch with the <code>ruff</code> formatter. This problem can be confirmed if <code>git diff</code> shows changes to an otherwise unmodified file after you have saved it.</p>
+<p>This issue often occurs when VS Code is not configured to use the project's virtual environment (<code>.venv</code>) or if the linting dependencies have not been installed. In this case, VS Code's Ruff extension falls back to a bundled version of <code>ruff</code>, which may not match the version pinned in the project's <code>pyproject.toml</code> file.</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Solution: Install all required dependencies and select the correct interpreter</p>
+<ol>
+<li>
+<p>Ensure all dependencies are installed, including the <code>lint</code> extras.</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>sync<span class="w"> </span>--all-extras
+</code></pre></div>
+</li>
+<li>
+<p>In VS Code, open the Command Palette (<code>Ctrl+Shift+P</code> or <code>Cmd+Shift+P</code>) and select <code>Python: Select Interpreter</code>.</p>
+</li>
+<li>
+<p>Choose the interpreter located in the project's <code>.venv</code> directory. This ensures VS Code uses the correct <code>ruff</code> version from your project's environment.</p>
+</li>
+</ol>
+</div>
 <h2 id="other-issues-not-listed">Other Issues Not Listed?<a class="headerlink" href="#other-issues-not-listed" title="Permanent link">&para;</a></h2>
 <p>If you're facing an issue that's not listed here, you can easily report it on GitHub for resolution.</p>
 <p><a href="https://github.com/ethereum/execution-spec-tests/issues/new?title=docs(bug):%20unable%20to%20install%20eest%20with%20error%20...&amp;labels=scope:docs,type:bug&amp;body=%3Ccopy-paste%20command%20that%20triggered%20the%20issue%20here%3E%0A%3Ccopy-paste%20output%20or%20attach%20screenshot%20here%3E">Click here to report a documentation issue related to installation</a></p>
@@ -27557,6 +27597,7 @@ Running <code>uv run solc --version</code> should now return the expected versio
     </span>
     <nav>
       
+        <a href="mailto:145854833+khushi-chaudhary04@users.noreply.github.com">Khushi Chaudhary</a>, 
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
         <a href="mailto:felix314159@users.noreply.github.com">felix</a>
