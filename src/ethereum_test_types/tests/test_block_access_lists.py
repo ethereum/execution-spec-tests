@@ -340,7 +340,9 @@ def test_actual_bal_tx_indices_ordering(field_name):
     ["nonce_changes", "balance_changes", "code_changes"],
 )
 def test_actual_bal_duplicate_tx_indices(field_name):
-    """Test that actual BAL must not have duplicate tx indices in change lists."""
+    """
+    Test that actual BAL must not have duplicate tx indices in change lists.
+    """
     addr = Address(0xA)
 
     # Duplicate tx_index=1
@@ -376,7 +378,10 @@ def test_actual_bal_duplicate_tx_indices(field_name):
 
 
 def test_actual_bal_storage_duplicate_tx_indices():
-    """Test that storage changes must not have duplicate tx indices within same slot."""
+    """
+    Test that storage changes must not have duplicate tx indices within same
+    slot.
+    """
     addr = Address(0xA)
 
     # Create storage changes with duplicate tx_index within the same slot

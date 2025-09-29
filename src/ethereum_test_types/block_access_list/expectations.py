@@ -238,7 +238,8 @@ class BlockAccessListExpectation(CamelModel):
                         f"{account.storage_changes[i].slot}"
                     )
 
-            # Check transaction index ordering and uniqueness within storage slots
+            # Check transaction index ordering and uniqueness within storage
+            # slots
             for storage_slot in account.storage_changes:
                 if not storage_slot.slot_changes:
                     continue
