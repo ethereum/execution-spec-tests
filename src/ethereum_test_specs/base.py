@@ -76,6 +76,7 @@ class BaseTest(BaseModel):
     _gas_optimization: int | None = PrivateAttr(None)
     _gas_optimization_max_gas_limit: int | None = PrivateAttr(None)
 
+    gas_benchmark_value: int | None = None
     expected_benchmark_gas_used: int | None = None
     skip_gas_used_validation: bool = False
 
@@ -124,6 +125,7 @@ class BaseTest(BaseModel):
         new_instance = cls(
             tag=base_test.tag,
             t8n_dump_dir=base_test.t8n_dump_dir,
+            gas_benchmark_value=base_test.gas_benchmark_value,
             expected_benchmark_gas_used=base_test.expected_benchmark_gas_used,
             skip_gas_used_validation=base_test.skip_gas_used_validation,
             **kwargs,

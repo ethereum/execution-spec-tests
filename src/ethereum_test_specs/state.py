@@ -444,9 +444,13 @@ class StateTest(BaseTest):
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
         if execute_format == TransactionPost:
+            # Pass gas validation params for benchmark tests
             return TransactionPost(
                 blocks=[[self.tx]],
                 post=self.post,
+                gas_benchmark_value=self.gas_benchmark_value,
+                expected_benchmark_gas_used=self.expected_benchmark_gas_used,
+                skip_gas_used_validation=self.skip_gas_used_validation,
             )
         raise Exception(f"Unsupported execute format: {execute_format}")
 
