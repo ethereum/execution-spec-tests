@@ -370,7 +370,7 @@ def test_bal_self_destruct(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)]
                     if pre_funded
                     else [],
-                    storage_reads=[0x01],  # Read from storage slot 0x01
+                    storage_reads=[0x01, 0x42],  # Accessed slots to be recorded as reads
                     storage_changes=[],
                     code_changes=[],  # should not be present
                     nonce_changes=[],  # should not be present
@@ -402,8 +402,12 @@ def test_bal_self_destruct(
     else:
         post.update(
             {
-                # This contract was self-destructed, we want its storage to be cleared
-                kaboom: Account(balance=0, code=selfdestruct_code, storage={0x01: 0x0, 0x2: 0x0}),
+                # This contract was self-destructed in a separate tx.
+                # From EIP 6780: `SELFDESTRUCT` does not delete any data
+                # (including storage keys, code, or the account itself).
+                kaboom: Account(
+                    balance=0, code=selfdestruct_code, storage={0x01: 0x123, 0x2: 0x42}
+                ),
             }
         )
 
