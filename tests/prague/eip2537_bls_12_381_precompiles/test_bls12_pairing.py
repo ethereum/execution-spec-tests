@@ -122,6 +122,7 @@ pytestmark = [
         ),
     ],
 )
+@pytest.mark.slow()
 def test_valid(
     state_test: StateTestFiller,
     pre: Alloc,

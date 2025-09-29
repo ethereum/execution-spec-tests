@@ -19,6 +19,7 @@ from ethereum_test_vm import Opcodes as Op
     [0, 2, 16, 33, 257],
 )
 @pytest.mark.parametrize("calldata_source", ["contract", "tx"])
+@pytest.mark.slow()
 def test_calldatasize(
     state_test: StateTestFiller,
     fork: Fork,

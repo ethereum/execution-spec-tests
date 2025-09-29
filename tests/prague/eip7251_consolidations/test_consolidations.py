@@ -657,6 +657,7 @@ pytestmark = pytest.mark.valid_from("Prague")
 @pytest.mark.pre_alloc_group(
     "consolidation_requests", reason="Tests standard consolidation request functionality"
 )
+@pytest.mark.slow()
 def test_consolidation_requests(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],

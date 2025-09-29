@@ -87,6 +87,7 @@ pytestmark = [
         ),
     ],
 )
+@pytest.mark.slow()
 def test_valid(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -247,6 +248,7 @@ def test_invalid(
         ),
     ],
 )
+@pytest.mark.slow()
 def test_call_types(
     state_test: StateTestFiller,
     pre: Alloc,

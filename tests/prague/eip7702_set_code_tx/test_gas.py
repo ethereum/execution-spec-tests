@@ -753,6 +753,7 @@ def gas_test_parameter_args(
 @pytest.mark.parametrize(
     **gas_test_parameter_args(include_pre_authorized=False, execution_gas_allowance=True)
 )
+@pytest.mark.slow()
 def test_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,

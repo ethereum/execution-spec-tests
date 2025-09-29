@@ -629,6 +629,7 @@ def test_invalid_block_blob_count(
 @pytest.mark.parametrize("tx_error", [TransactionException.INSUFFICIENT_ACCOUNT_FUNDS], ids=[""])
 @pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.slow()
 def test_insufficient_balance_blob_tx(
     state_test: StateTestFiller,
     state_env: Environment,
@@ -1405,6 +1406,7 @@ def test_blob_tx_attribute_gasprice_opcode(
 )
 @pytest.mark.exception_test
 @pytest.mark.valid_at_transition_to("Cancun")
+@pytest.mark.slow()
 def test_blob_type_tx_pre_fork(
     state_test: StateTestFiller,
     pre: Alloc,

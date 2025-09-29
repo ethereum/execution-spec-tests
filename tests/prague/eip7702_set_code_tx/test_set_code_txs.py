@@ -522,6 +522,7 @@ def test_set_code_to_self_destruct(
 
 
 @pytest.mark.with_all_create_opcodes
+@pytest.mark.slow()
 def test_set_code_to_contract_creator(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -3562,6 +3563,7 @@ def test_creating_delegation_designation_contract(
         ),
     ],
 )
+@pytest.mark.slow()
 def test_many_delegations(
     state_test: StateTestFiller,
     fork: Fork,
@@ -3824,6 +3826,7 @@ def test_set_code_from_account_with_non_delegating_code(
     ],
 )
 @pytest.mark.exception_test
+@pytest.mark.slow()
 def test_set_code_transaction_fee_validations(
     state_test: StateTestFiller,
     pre: Alloc,

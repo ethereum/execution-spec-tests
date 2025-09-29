@@ -28,6 +28,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1014.version
 @pytest.mark.parametrize("create_type", [Op.CREATE, Op.CREATE2])
 @pytest.mark.parametrize("return_type", [Op.RETURN, Op.REVERT])
 @pytest.mark.parametrize("return_type_in_create", [Op.RETURN, Op.REVERT])
+@pytest.mark.slow()
 def test_create2_return_data(
     call_return_size: int,
     create_type: Op,

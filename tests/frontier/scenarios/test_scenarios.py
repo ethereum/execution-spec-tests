@@ -144,7 +144,7 @@ def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List
         ProgramTstoreTload(),
         ProgramLogs(),
         ProgramSuicide(),
-        pytest.param(ProgramInvalidOpcode(), marks=[pytest.mark.slow()]),
+        ProgramInvalidOpcode(),
         ProgramAddress(),
         ProgramBalance(),
         ProgramOrigin(),
@@ -159,7 +159,7 @@ def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List
         ProgramReturnDataSize(),
         ProgramReturnDataCopy(),
         ProgramExtCodehash(),
-        pytest.param(ProgramBlockhash(), marks=[pytest.mark.slow()]),
+        ProgramBlockhash(),
         ProgramCoinbase(),
         ProgramTimestamp(),
         ProgramNumber(),
@@ -176,6 +176,7 @@ def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List
         ProgramAllFrontierOpcodes(),
     ],
 )
+@pytest.mark.slow()
 def test_scenarios(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,

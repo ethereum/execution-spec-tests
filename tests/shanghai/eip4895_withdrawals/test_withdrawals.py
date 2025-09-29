@@ -694,6 +694,7 @@ def test_large_amount(
 @pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize("amount", [0, 1])
 @pytest.mark.with_all_precompiles
+@pytest.mark.slow()
 def test_withdrawing_to_precompiles(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,

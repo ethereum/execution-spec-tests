@@ -39,6 +39,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7883.version
 @EIPChecklist.Precompile.Test.InputLengths.Dynamic.Valid()
 @EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Berlin")
+@pytest.mark.slow()
 def test_vectors_from_eip(
     state_test: StateTestFiller,
     pre: Alloc,
