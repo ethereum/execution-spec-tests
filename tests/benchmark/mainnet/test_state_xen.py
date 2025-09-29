@@ -16,20 +16,20 @@ import math
 
 import pytest
 
-from ethereum_test_forks import Fork
+from ethereum_test_base_types.composite_types import Account
+from ethereum_test_forks.helpers import Fork
 from ethereum_test_tools import (
-    Account,
     Alloc,
     Block,
     BlockchainTestFiller,
-    Environment,
     Hash,
     Transaction,
     While,
-    compute_create2_address,
 )
 from ethereum_test_tools import Macros as Om
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.block_types import Environment
+from ethereum_test_types.helpers import compute_create2_address
+from ethereum_test_vm import Opcodes as Op
 
 
 # TODO: add test which writes to already existing storage
@@ -102,7 +102,7 @@ def test_xen_approve(
 
 
 @pytest.mark.valid_from("Frontier")
-def test_xen_approve_existing_slots(
+def test_xen_approve_change_existing_slots(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
 ):
@@ -114,9 +114,116 @@ def test_xen_approve_existing_slots(
         60_000_000  # TODO: currently hardcoded, should be read from `gas_benchmark_value`
     )
 
+    # 22 Sep 10:08:22 | Processed            23366464         |      207.4 ms  | slot          1,734 ms |⛽ Gas gwei: 1.00 .. 1.00 (1.00) .. 1.00
+    # 22 Sep 10:08:22 | Cleared caches: Rlp
+    # 22 Sep 10:08:22 |  Block    0.0600 ETH    59.96 MGas    |        1   txs | calls      7,752 (  0) | sload       8 | sstore  7,762 | create   0
+    # 22 Sep 10:08:22 |  Block throughput      289.05 MGas/s  |        4.8 tps |             4.82 Blk/s | exec code cache  15,508 | new      0 | ops   1,868,419
+
+    xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
+    gas_threshold = 40_000
+
+    # This test deletes 9599 storage slots from XEN
+
+    fn_signature_approve = bytes.fromhex(
+        "095EA7B3"
+    )  # Function selector of `approve(address,uint256)`
+    # This code loops until there is less than threshold_gas left and reads two items from calldata:
+    # The first 32 bytes are interpreted as the start address to start approving for
+    # The second 32 bytes is the approval amount
+    # This can thus be used to initialize the approvals (in multiple txs) to write to the storage
+    # Since initializing storage (from zero to nonzero) is more expensive, this thus has
+    # to be done over multiple blocks/txs
+    # The attack block can then target all of the just initialized storage slots to edit
+    # (This should thus yield more dirty trie nodes than the )
+    approval_loop_code = (
+        Om.MSTORE(fn_signature_approve)
+        + Op.MSTORE(4 + 32, Op.CALLDATALOAD(32))
+        + Op.CALLDATALOAD(0)
+        + While(
+            body=Op.MSTORE(
+                4, Op.DUP1
+            )  # Put a copy of the topmost stack item in memory (this is the target address)
+            + Op.CALL(address=xen_contract, args_offset=0, args_size=4 + 32 + 32)
+            + Op.ADD  # Add the status of the CALL
+            # (this should always be 1 unless the `gas_threshold` is too low) to the stack item
+            # The address and thus target storage slot changes!
+            + Op.MSTORE(4 + 32, Op.SUB(Op.MLOAD(4 + 32), Op.GAS)),
+            condition=Op.GT(Op.GAS, gas_threshold),
+        )
+    )
+
+    approval_spammer_contract = pre.deploy_contract(code=approval_loop_code)
+
+    sender = pre.fund_eoa()
+
+    blocks = []
+
+    # TODO: calculate these constants based on the gas limit of the benchmark test
+    start_address = 0x01  # XEN blocks approving the zero address
+    current_address = start_address
+    address_incr = 2000
+
+    approval_value_fresh = Hash(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE)
+    approval_value_overwrite = Hash(0)
+
+    block_count = 10
+
+    for _ in range(block_count):
+        setup_calldata = Hash(current_address) + approval_value_fresh
+        setup_tx = Transaction(
+            to=approval_spammer_contract,
+            gas_limit=attack_gas_limit,
+            data=setup_calldata,
+            sender=sender,
+            max_priority_fee_per_gas=100,
+            max_fee_per_gas=10000,
+        )
+        blocks.append(Block(txs=[setup_tx]))
+
+        current_address += address_incr
+
+    attack_calldata = Hash(start_address) + approval_value_overwrite
+
+    attack_tx = Transaction(
+        to=approval_spammer_contract,
+        gas_limit=attack_gas_limit,
+        max_priority_fee_per_gas=100,
+        max_fee_per_gas=10000,
+        data=attack_calldata,
+        sender=sender,
+    )
+    blocks.append(Block(txs=[attack_tx]))
+
+    blockchain_test(
+        pre=pre,
+        post={},  # TODO: add sanity checks (succesful tx execution and no out-of-gas)
+        blocks=blocks,
+    )
+
+
+# TODO split this code in all situations: 0->1, 1->2, 1->0
+@pytest.mark.valid_from("Frontier")
+def test_xen_approve_delete_existing_slots(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+):
+    """
+    Uses the `approve(address,uint256)` method of XEN (ERC20) close to the maximum amount
+    of slots which could be edited (as opposed to be created) within a single block/transaction.
+    """
+    attack_gas_limit = (
+        60_000_000  # TODO: currently hardcoded, should be read from `gas_benchmark_value`
+    )
+
+    # 22 Sep 10:08:22 | Processed            23366464         |      207.4 ms  | slot          1,734 ms |⛽ Gas gwei: 1.00 .. 1.00 (1.00) .. 1.00
+    # 22 Sep 10:08:22 | Cleared caches: Rlp
+    # 22 Sep 10:08:22 |  Block    0.0600 ETH    59.96 MGas    |        1   txs | calls      7,752 (  0) | sload       8 | sstore  7,762 | create   0
+    # 22 Sep 10:08:22 |  Block throughput      289.05 MGas/s  |        4.8 tps |             4.82 Blk/s | exec code cache  15,508 | new      0 | ops   1,868,419
+
     # Gas limit: 60M, 2424 SSTOREs, 300 MGas/s
 
     xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
+    usdt_contract = 0xDAC17F958D2EE523A2206206994597C13D831EC7  # Used in intermediate blocks to attempt to bust te cache
     gas_threshold = 40_000
 
     fn_signature_approve = bytes.fromhex(
@@ -142,25 +249,53 @@ def test_xen_approve_existing_slots(
             + Op.ADD,  # Add the status of the CALL
             # (this should always be 1 unless the `gas_threshold` is too low) to the stack item
             # The address and thus target storage slot changes!
+            # + Op.MSTORE(4 + 32, Op.SUB(Op.MLOAD(4 + 34), Op.GAS)),
             condition=Op.GT(Op.GAS, gas_threshold),
         )
     )
 
     approval_spammer_contract = pre.deploy_contract(code=approval_loop_code)
 
+    usdt_approve_spammer_code = (
+        Om.MSTORE(fn_signature_approve)
+        + Op.MSTORE(4 + 32, 1)
+        + Op.SLOAD(0)
+        + While(
+            body=Op.MSTORE(
+                4, Op.DUP1
+            )  # Put a copy of the topmost stack item in memory (this is the target address)
+            + Op.CALL(address=usdt_contract, args_offset=0, args_size=4 + 32 + 32)
+            + Op.ADD,  # Add the status of the CALL
+            # (this should always be 1 unless the `gas_threshold` is too low) to the stack item
+            # The address and thus target storage slot changes!
+            # + Op.MSTORE(4 + 32, Op.SUB(Op.MLOAD(4 + 34), Op.GAS)),
+            condition=Op.GT(Op.GAS, gas_threshold),
+        )
+        + Op.PUSH1(0)
+        + Op.SSTORE
+    )
+    # Set storage to value 1 to avoid paying 20k on the update
+    usdt_approve_spammer_contract = pre.deploy_contract(
+        code=usdt_approve_spammer_code, storage={0: 1}
+    )
+
     sender = pre.fund_eoa()
+    sender2 = pre.fund_eoa()  # More senders to get more chance to get a semi-full block
+    sender3 = (
+        pre.fund_eoa()
+    )  # If done from one sender, Nethermind's block builder only includes 1 tx
+    sender4 = pre.fund_eoa()
+    sender5 = pre.fund_eoa()
 
     blocks = []
 
     # TODO: calculate these constants based on the gas limit of the benchmark test
-    start_address = 0x01
+    start_address = 0x01  # Start at address 1, address 0 cannot be approved
     current_address = start_address
     address_incr = 2000
 
     approval_value_fresh = Hash(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE)
-    approval_value_overwrite = Hash(
-        0xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDE
-    )
+    approval_value_overwrite = Hash(0)
 
     block_count = 10
 
@@ -171,20 +306,81 @@ def test_xen_approve_existing_slots(
             gas_limit=attack_gas_limit,
             data=setup_calldata,
             sender=sender,
+            max_priority_fee_per_gas=100,
+            max_fee_per_gas=10000,
         )
         blocks.append(Block(txs=[setup_tx]))
 
         current_address += address_incr
+
+    spam_count = 10
+
+    for _ in range(spam_count):
+        # NOTE: USDC does not allow changing the approval value. It first has to be
+        # set to zero before it changes. We therefore flood USDC with approvals in an
+        # attempt to bust the cache
+        spam_tx = Transaction(
+            to=usdt_approve_spammer_contract,
+            gas_limit=attack_gas_limit,
+            sender=sender,
+            max_priority_fee_per_gas=100,
+            max_fee_per_gas=10000,
+        )
+        blocks.append(Block(txs=[spam_tx]))
 
     attack_calldata = Hash(start_address) + approval_value_overwrite
 
     attack_tx = Transaction(
         to=approval_spammer_contract,
         gas_limit=attack_gas_limit,
+        max_priority_fee_per_gas=100,
+        max_fee_per_gas=10000,
         data=attack_calldata,
         sender=sender,
     )
-    blocks.append(Block(txs=[attack_tx]))
+    # Take into account the max refunds (which will be awarded here)
+    # The previous tx will also not completely use all gas since it jumps out of the loop early
+    # to avoid that the whole tx OOGs
+    # TODO: make this attack gas limit dependent
+    # It should be sufficient to assume full refund and to send the whole block as gas limit initially
+    # The next tx gas limit is thus (if refund is maximally applied) 20% of the original
+    # Repeat this until the intrinsic costs cannot be paid
+    attack_tx_2 = Transaction(
+        to=approval_spammer_contract,
+        gas_limit=attack_gas_limit // 5,
+        max_priority_fee_per_gas=90,
+        max_fee_per_gas=9000,
+        data=Hash(8000) + approval_value_overwrite,
+        sender=sender2,
+    )
+    attack_tx_3 = Transaction(
+        to=approval_spammer_contract,
+        gas_limit=attack_gas_limit // (5 * 5),
+        max_priority_fee_per_gas=80,
+        max_fee_per_gas=8000,
+        data=Hash(12000) + approval_value_overwrite,
+        sender=sender3,
+    )
+    attack_tx_4 = Transaction(
+        to=approval_spammer_contract,
+        gas_limit=attack_gas_limit // (5 * 5 * 5),
+        max_priority_fee_per_gas=80,
+        max_fee_per_gas=8000,
+        data=Hash(16000) + approval_value_overwrite,
+        sender=sender4,
+    )
+    attack_tx_5 = Transaction(
+        to=approval_spammer_contract,
+        gas_limit=attack_gas_limit // (5 * 5 * 5 * 5),
+        max_priority_fee_per_gas=80,
+        max_fee_per_gas=8000,
+        data=Hash(18000) + approval_value_overwrite,
+        sender=sender5,
+    )
+
+    blocks.append(
+        Block(txs=[attack_tx, attack_tx_2, attack_tx_3, attack_tx_4, attack_tx_5])
+    )  # , #attack_tx_2, attack_tx_3]))
 
     blockchain_test(
         pre=pre,
