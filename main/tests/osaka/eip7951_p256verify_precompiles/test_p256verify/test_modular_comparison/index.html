@@ -27335,7 +27335,7 @@
 
 
 <h1 id="test_modular_comparison"><code>test_modular_comparison()</code><a class="headerlink" href="#test_modular_comparison" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/45ba0a8f771d847daba0b45462efca6278059414/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L664"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@45ba0a8f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/694590ee7be3fda50e59ac577de80dae82adf57f/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L721"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@694590ee</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison --fork Osaka</span>
@@ -27358,58 +27358,76 @@ direct equality r' == r.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span>
-<span class="normal">676</span>
-<span class="normal">677</span>
-<span class="normal">678</span>
-<span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
-<span class="normal">706</span>
-<span class="normal">707</span>
-<span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
-<span class="normal">713</span>
-<span class="normal">714</span>
-<span class="normal">715</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span>
+<span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span>
+<span class="normal">747</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
+<span class="normal">786</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># Test case where computed x-coordinate exceeds curve order N</span>
@@ -27425,7 +27443,25 @@ direct equality r' == r.</p>
             <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x0AD99500288D466940031D72A9F5445A4D43784640855BF0A69874D2DE5FE103</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xC5011E6EF2C42DCD50D5D3D29F99AE6EBA2C80C9244F4C5422F0979FF0C3BA5E</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">SUCCESS_RETURN_VALUE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;modular_comparison_x_coordinate_exceeds_n&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;x_coordinate_exceeds_n&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">H1</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R1</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S1</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X1</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y1</span><span class="p">,</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">SUCCESS_RETURN_VALUE</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;x_coordinate_exceeds_n_v2&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Test cases where compute x-coordinate exceeds curve order N,</span>
+        <span class="c1"># but the signature is invalid.</span>
+        <span class="c1"># This is a modification of the above test by taking -h, -r, -s</span>
+        <span class="c1"># what gives the same u1 and u2 and in the result the same point R.</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">H</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="n">Spec</span><span class="o">.</span><span class="n">H1</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R1</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X1</span>
+            <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y1</span><span class="p">,</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INVALID_RETURN_VALUE</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_x_coordinate_exceeds_n&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span>
@@ -27518,13 +27554,35 @@ direct equality r' == r.</p>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--modular_comparison_x_coordinate_exceeds_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--modular_comparison_x_coordinate_exceeds_n]">
-                    ...fork_Osaka-state_test--modular_comparison_x_coordinate_exceeds_n
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--x_coordinate_exceeds_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--x_coordinate_exceeds_n]">
+                    ...fork_Osaka-state_test--x_coordinate_exceeds_n
                 </abbr>
             </td>
                         <td>256</td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>00000000000000000000000000000000</code> <code>4319055358e8617b0c46353d039cdaab</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc63254e</code> <code>0ad99500288d466940031d72a9f5445a</code> <code>4d43784640855bf0a69874d2de5fe103</code> <code>c5011e6ef2c42dcd50d5d3d29f99ae6e</code> <code>ba2c80c9244f4c5422f0979ff0c3ba5e</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--x_coordinate_exceeds_n_v2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--x_coordinate_exceeds_n_v2]">
+                    ...fork_Osaka-state_test--x_coordinate_exceeds_n_v2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td><code>532eaabd9574880dbf76b9b8cc00832c</code> <code>20a6ec113d682299550d7a6e0f345e25</code> <code>00000000000000000000000000000000</code> <code>4319055358e8617b0c46353d039cdaab</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc63254e</code> <code>d705d16f80987e2d9b1a6957d29ce22f</code> <code>ebf7d10fa515153182415c8361baaca4</code> <code>b1fc105ee5ce80d514ec1238beae2037</code> <code>a6f83625593620d460819e8682160926</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--invalid_x_coordinate_exceeds_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-state_test--invalid_x_coordinate_exceeds_n]">
+                    ...fork_Osaka-state_test--invalid_x_coordinate_exceeds_n
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td><code>acd155416a8b77f34089464733ff7cd3</code> <code>9c400e9c69af7beb9eac5054ed2ec72c</code> <code>ffffffff00000000ffffffffffffffff</code> <code>79cdf55a4e2f3d09e7739585f8c64aa6</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000003</code> <code>d705d16f80987e2d9b1a6957d29ce22f</code> <code>ebf7d10fa515153182415c8361baaca4</code> <code>b1fc105ee5ce80d514ec1238beae2037</code> <code>a6f83625593620d460819e8682160926</code></td>
+                        <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -27551,13 +27609,35 @@ direct equality r' == r.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--modular_comparison_x_coordinate_exceeds_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--modular_comparison_x_coordinate_exceeds_n]">
-                    ...fork_Osaka-blockchain_test_from_state_test--modular_comparison_x_coordinate_exceeds_n
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--x_coordinate_exceeds_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--x_coordinate_exceeds_n]">
+                    ...fork_Osaka-blockchain_test_from_state_test--x_coordinate_exceeds_n
                 </abbr>
             </td>
                         <td>256</td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>00000000000000000000000000000000</code> <code>4319055358e8617b0c46353d039cdaab</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc63254e</code> <code>0ad99500288d466940031d72a9f5445a</code> <code>4d43784640855bf0a69874d2de5fe103</code> <code>c5011e6ef2c42dcd50d5d3d29f99ae6e</code> <code>ba2c80c9244f4c5422f0979ff0c3ba5e</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--x_coordinate_exceeds_n_v2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--x_coordinate_exceeds_n_v2]">
+                    ...fork_Osaka-blockchain_test_from_state_test--x_coordinate_exceeds_n_v2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td><code>532eaabd9574880dbf76b9b8cc00832c</code> <code>20a6ec113d682299550d7a6e0f345e25</code> <code>00000000000000000000000000000000</code> <code>4319055358e8617b0c46353d039cdaab</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc63254e</code> <code>d705d16f80987e2d9b1a6957d29ce22f</code> <code>ebf7d10fa515153182415c8361baaca4</code> <code>b1fc105ee5ce80d514ec1238beae2037</code> <code>a6f83625593620d460819e8682160926</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--invalid_x_coordinate_exceeds_n]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison[fork_Osaka-blockchain_test_from_state_test--invalid_x_coordinate_exceeds_n]">
+                    ...fork_Osaka-blockchain_test_from_state_test--invalid_x_coordinate_exceeds_n
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td><code>acd155416a8b77f34089464733ff7cd3</code> <code>9c400e9c69af7beb9eac5054ed2ec72c</code> <code>ffffffff00000000ffffffffffffffff</code> <code>79cdf55a4e2f3d09e7739585f8c64aa6</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000003</code> <code>d705d16f80987e2d9b1a6957d29ce22f</code> <code>ebf7d10fa515153182415c8361baaca4</code> <code>b1fc105ee5ce80d514ec1238beae2037</code> <code>a6f83625593620d460819e8682160926</code></td>
+                        <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 

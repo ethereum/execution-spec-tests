@@ -27333,7 +27333,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/45ba0a8f771d847daba0b45462efca6278059414/tests/osaka/eip7951_p256verify_precompiles/spec.py"><code>tests/osaka/eip7951_p256verify_precompiles/spec.py@45ba0a8f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/694590ee7be3fda50e59ac577de80dae82adf57f/tests/osaka/eip7951_p256verify_precompiles/spec.py"><code>tests/osaka/eip7951_p256verify_precompiles/spec.py@694590ee</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27428,7 +27428,16 @@
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-7951 specifications as defined at</span>
@@ -27462,6 +27471,15 @@
     <span class="n">S0</span> <span class="o">=</span> <span class="n">S</span><span class="p">(</span><span class="mh">0x4CD60B855D442F5B3C7B11EB6C4E0AE7525FE710FAB9AA7C77A67F79E6FADD76</span><span class="p">)</span>
     <span class="n">X0</span> <span class="o">=</span> <span class="n">X</span><span class="p">(</span><span class="mh">0x2927B10512BAE3EDDCFE467828128BAD2903269919F7086069C8C4DF6C732838</span><span class="p">)</span>
     <span class="n">Y0</span> <span class="o">=</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xC7787964EAAC00E5921FB1498A60F4606766B3D9685001558D1A974E7341513E</span><span class="p">)</span>
+
+    <span class="c1"># Test constants from:</span>
+    <span class="c1"># https://github.com/C2SP/wycheproof/blob/4a6c2bf5dc4c0b67c770233ad33961ee653996a0/testvectors/ecdsa_webcrypto_test.json#L1064</span>
+    <span class="c1"># k*G has a large x-coordinate which also gives very small r.</span>
+    <span class="n">H1</span> <span class="o">=</span> <span class="n">H</span><span class="p">(</span><span class="mh">0x532EAABD9574880DBF76B9B8CC00832C20A6EC113D682299550D7A6E0F345E25</span><span class="p">)</span>
+    <span class="n">R1</span> <span class="o">=</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x000000000000000000000000000000004319055358E8617B0C46353D039CDAAB</span><span class="p">)</span>
+    <span class="n">S1</span> <span class="o">=</span> <span class="n">S</span><span class="p">(</span><span class="mh">0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC63254E</span><span class="p">)</span>
+    <span class="n">X1</span> <span class="o">=</span> <span class="n">X</span><span class="p">(</span><span class="mh">0xD705D16F80987E2D9B1A6957D29CE22FEBF7D10FA515153182415C8361BAACA4</span><span class="p">)</span>
+    <span class="n">Y1</span> <span class="o">=</span> <span class="n">Y</span><span class="p">(</span><span class="mh">0xB1FC105EE5CE80D514EC1238BEAE2037A6F83625593620D460819E8682160926</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">delegation_designation</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytes</span><span class="p">:</span>
