@@ -519,6 +519,22 @@ class BlockchainTest(BaseTest):
             if tx.maxPriorityFeePerGas:
                 tx_params["max_priority_fee_per_gas"] = tx.maxPriorityFeePerGas
 
+            # Handle authorization list (EIP-7702)
+            if tx.authorizationList:
+                from ethereum_test_tools import AuthorizationTuple
+
+                tx_params["authorization_list"] = [
+                    AuthorizationTuple(
+                        chain_id=auth.chainId,
+                        address=auth.address,
+                        nonce=auth.nonce,
+                        v=auth.v,
+                        r=auth.r,
+                        s=auth.s,
+                    )
+                    for auth in tx.authorizationList
+                ]
+
             transactions.append(Transaction(**tx_params))
 
         # Build environment
@@ -542,6 +558,7 @@ class BlockchainTest(BaseTest):
             txs=transactions,
             timestamp=int(env.currentTimestamp),
             fee_recipient=env.currentCoinbase,
+            parent_beacon_block_root=fuzzer_data.parentBeaconBlockRoot,
         )
 
         # Return BlockchainTest instance

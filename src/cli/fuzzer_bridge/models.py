@@ -27,6 +27,22 @@ class FuzzerAccount(BaseModel):
         return {HexNumber(k): HexNumber(v_) for k, v_ in v.items()}
 
 
+class FuzzerAuthorization(BaseModel):
+    """Authorization tuple for EIP-7702 SetCode transactions."""
+
+    chainId: HexNumber = Field(..., alias="chainId")
+    address: Address
+    nonce: HexNumber
+    v: HexNumber  # yParity
+    r: HexNumber
+    s: HexNumber
+
+    class Config:
+        """Pydantic configuration."""
+
+        populate_by_name = True
+
+
 class FuzzerTransaction(BaseModel):
     """Transaction definition in fuzzer output."""
 
@@ -42,6 +58,7 @@ class FuzzerTransaction(BaseModel):
     accessList: Optional[List[Dict[str, Union[str, List[str]]]]] = Field(None, alias="accessList")
     blobVersionedHashes: Optional[List[Hash]] = Field(None, alias="blobVersionedHashes")
     maxFeePerBlobGas: Optional[HexNumber] = Field(None, alias="maxFeePerBlobGas")
+    authorizationList: Optional[List[FuzzerAuthorization]] = Field(None, alias="authorizationList")
 
     class Config:
         """Pydantic configuration."""
@@ -83,6 +100,7 @@ class FuzzerOutput(BaseModel):
     accounts: Dict[Address, FuzzerAccount]
     transactions: List[FuzzerTransaction]
     env: FuzzerEnvironment
+    parentBeaconBlockRoot: Optional[Hash] = Field(None, alias="parentBeaconBlockRoot")
 
     @field_validator("version")
     @classmethod
