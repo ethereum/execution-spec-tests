@@ -11,7 +11,7 @@ from ethereum_test_tools import (
     Hash,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
     BalNonceChange,
@@ -86,11 +86,14 @@ def test_bal_2930_slot_listed_and_unlisted_writes(
     blockchain_test: BlockchainTestFiller,
     fork,
 ):
-    """Ensure BAL includes storage writes regardless of access list presence."""
+    """
+    Ensure BAL includes storage writes regardless of access list presence.
+    """
     alice = pre.fund_eoa()
     storage_writer = pre.deploy_contract(code=Op.SSTORE(0x01, 0x42) + Op.SSTORE(0x02, 0x43))
 
-    # Access list only includes slot 0x01, but contract writes to both 0x01 and 0x02
+    # Access list only includes slot 0x01, but contract writes to both
+    # 0x01 and 0x02
     access_list = AccessList(
         address=storage_writer,
         storage_keys=[Hash(0x01)],
@@ -155,7 +158,8 @@ def test_bal_2930_slot_listed_and_unlisted_reads(
         storage={0x01: 0x42, 0x02: 0x43},  # Pre-populate storage with values
     )
 
-    # Access list only includes slot 0x01, but contract reads from both 0x01 and 0x02
+    # Access list only includes slot 0x01, but contract reads from both
+    # 0x01 and 0x02
     access_list = AccessList(
         address=storage_reader,
         storage_keys=[Hash(0x01)],
