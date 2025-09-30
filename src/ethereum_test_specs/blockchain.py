@@ -903,7 +903,6 @@ class BlockchainTest(BaseTest):
             return TransactionPost(
                 blocks=blocks,
                 post=self.post,
-                gas_benchmark_value=self.gas_benchmark_value,
                 expected_benchmark_gas_used=self.expected_benchmark_gas_used,
                 skip_gas_used_validation=self.skip_gas_used_validation,
             )

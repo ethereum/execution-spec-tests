@@ -448,7 +448,6 @@ class StateTest(BaseTest):
             return TransactionPost(
                 blocks=[[self.tx]],
                 post=self.post,
-                gas_benchmark_value=self.gas_benchmark_value,
                 expected_benchmark_gas_used=self.expected_benchmark_gas_used,
                 skip_gas_used_validation=self.skip_gas_used_validation,
             )
