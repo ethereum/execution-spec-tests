@@ -20,7 +20,9 @@ def test_identity_return_overwrite(
     pre: Alloc,
     call_opcode: Op,
 ):
-    """Test the return data of the identity precompile overwriting its input."""
+    """
+    Test the return data of the identity precompile overwriting its input.
+    """
     code = (
         sum(Op.MSTORE8(offset=i, value=(i + 1)) for i in range(4))  # memory = [1, 2, 3, 4]
         + call_opcode(
@@ -62,7 +64,10 @@ def test_identity_return_buffer_modify(
     pre: Alloc,
     call_opcode: Op,
 ):
-    """Test the modification of the input range to attempt to modify the return buffer."""
+    """
+    Test the modification of the input range to attempt to modify the return
+    buffer.
+    """
     env = Environment()
     code = (
         sum(Op.MSTORE8(offset=i, value=(i + 1)) for i in range(4))  # memory = [1, 2, 3, 4]

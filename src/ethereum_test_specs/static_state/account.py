@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, List, Mapping, Set, Tuple
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from ethereum_test_base_types import Bytes, EthereumTestRootModel, HexNumber, Storage
 from ethereum_test_types import Alloc
@@ -54,11 +54,7 @@ class AccountInFiller(BaseModel, TagDependentData):
     nonce: ValueInFiller | None = None
     storage: StorageInPre | None = None
 
-    class Config:
-        """Model Config."""
-
-        extra = "forbid"
-        arbitrary_types_allowed = True  # For CodeInFiller
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
 
     def tag_dependencies(self) -> Mapping[str, Tag]:
         """Get tag dependencies."""

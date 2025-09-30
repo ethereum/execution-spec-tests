@@ -61,19 +61,19 @@ def pytest_configure(config: pytest.Config) -> None:
     config._eels_resolutions_file = eels_resolutions_file  # type: ignore
 
 
-def pytest_report_header(config: pytest.Config, startdir: Path) -> str:
+def pytest_report_header(config: pytest.Config, start_path: Path) -> str:
     """
     Report the EELS_RESOLUTIONS_FILE path to the pytest report header.
 
     Args:
         config (pytest.Config): The pytest configuration object.
-        startdir (Path): The starting directory for the test run.
+        start_path (Path): The starting directory for the test run.
 
     Returns:
         str: A string to add to the pytest report header.
 
     """
-    del startdir
+    del start_path
 
     eels_resolutions_file = getattr(config, "_eels_resolutions_file", None)
     if eels_resolutions_file:

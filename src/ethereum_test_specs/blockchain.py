@@ -4,7 +4,7 @@ from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Tuple, Type
 
 import pytest
-from pydantic import ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, field_validator, model_serializer
 
 from ethereum_clis import BlockExceptionWithMessage, Result, TransitionTool
 from ethereum_test_base_types import (
@@ -141,15 +141,14 @@ class Header(CamelModel):
     engine_api_error_code=EngineAPIError.InvalidParams, ) ```
     """
 
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        # explicitly set Removable items to None so they are not included in
-        # the serialization (in combination with exclude_None=True in
-        # model.dump()).
-        json_encoders={
-            Removable: lambda x: None,
-        },
-    )
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    @model_serializer(mode="wrap", when_used="json")
+    def _serialize_model(self, serializer, info):
+        """Exclude Removable fields from serialization."""
+        del info
+        data = serializer(self)
+        return {k: v for k, v in data.items() if not isinstance(v, Removable)}
 
     @field_validator("withdrawals_root", mode="before")
     @classmethod
