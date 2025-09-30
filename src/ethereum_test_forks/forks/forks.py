@@ -1840,31 +1840,31 @@ class Osaka(Prague, solc_name="cancun"):
 
 
 class BPO1(Osaka, bpo_fork=True):
-    """BPO1 fork - Blob Parameter Only fork 1."""
+    """Mainnet BPO1 fork - Blob Parameter Only fork 1."""
 
     @classmethod
     def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the blob base fee update fraction for BPO1."""
-        return 8832827
+        return 8346193
 
     @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs in BPO1 have a target of 9 blobs per block."""
-        return 9
+        """Blobs in BPO1 have a target of 10 blobs per block."""
+        return 10
 
     @classmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs in BPO1 have a max of 14 blobs per block."""
-        return 14
+        """Blobs in BPO1 have a max of 15 blobs per block."""
+        return 15
 
 
 class BPO2(BPO1, bpo_fork=True):
-    """BPO2 fork - Blob Parameter Only fork 2."""
+    """Mainnet BPO2 fork - Blob Parameter Only fork 2."""
 
     @classmethod
     def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the blob base fee update fraction for BPO2."""
-        return 13739630
+        return 11684671
 
     @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
@@ -1878,7 +1878,10 @@ class BPO2(BPO1, bpo_fork=True):
 
 
 class BPO3(BPO2, bpo_fork=True):
-    """BPO3 fork - Blob Parameter Only fork 3."""
+    """
+    Pseudo BPO3 fork - Blob Parameter Only fork 3.
+    For testing purposes only.
+    """
 
     @classmethod
     def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
@@ -1897,7 +1900,10 @@ class BPO3(BPO2, bpo_fork=True):
 
 
 class BPO4(BPO3, bpo_fork=True):
-    """BPO4 fork - Blob Parameter Only fork 4."""
+    """
+    Pseudo BPO4 fork - Blob Parameter Only fork 4.
+    For testing purposes only. Testing a decrease in values from BPO3.
+    """
 
     @classmethod
     def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
@@ -1917,8 +1923,8 @@ class BPO4(BPO3, bpo_fork=True):
 
 class BPO5(BPO4, bpo_fork=True):
     """
-    BPO5 fork - Blob Parameter Only fork 5 (Required to parse Fusaka devnet
-    genesis files).
+    Pseudo BPO5 fork - Blob Parameter Only fork 5.
+    For testing purposes only. Required to parse Fusaka devnet genesis files.
     """
 
     pass
