@@ -312,7 +312,17 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
         ),
         pytest.param(
             Spec.H0 + Spec.R0 + Spec.S0 + X(0) + Y(0),
-            id="point_on_infinity",
+            id="point_at_infinity",
+        ),
+        # Test case with Q at infinity. If the implementation misses the check
+        # that Q is not the point at infinity, the signature should verify.
+        pytest.param(
+            Spec.H0
+            + R(0x2DD5CBB0E37BAEC8D1460909B206CA2C87E50CA43B8F31E46168027A7F0AEEC6)
+            + Spec.S0
+            + X(0)
+            + Y(0),
+            id="point_at_infinity_v2",
         ),
         pytest.param(
             Spec.H0 + Spec.R0 + Spec.S0 + X(Spec.X0.value + 1) + Spec.Y0,
