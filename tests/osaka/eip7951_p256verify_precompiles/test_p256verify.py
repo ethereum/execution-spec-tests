@@ -221,6 +221,44 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             Spec.H0 + Spec.R0 + S(Spec.N) + Spec.X0 + Spec.Y0,
             id="s_eq_to_n",
         ),
+        # If checks for r, s, and point-at-infinity are missing, the s=0 zeros
+        # both u1 and u2, so the computed R is the point at infinity,
+        # and the signature may be considered valid in such implementation.
+        pytest.param(
+            Spec.H0 + R(0) + S(0) + X(Spec.Gx) + Y(Spec.Gy),
+            id="r_0_s_0",
+        ),
+        pytest.param(
+            Spec.H0 + R(0) + S(Spec.N) + X(Spec.Gx) + Y(Spec.Gy),
+            id="r_0_s_N",
+        ),
+        pytest.param(
+            Spec.H0 + R(Spec.N) + S(0) + X(Spec.Gx) + Y(Spec.Gy),
+            id="r_N_s_0",
+        ),
+        pytest.param(
+            Spec.H0 + R(Spec.N) + S(Spec.N) + X(Spec.Gx) + Y(Spec.Gy),
+            id="r_N_s_N",
+        ),
+        # If checks for r and point-at-infinity are missing, the h=0 and r=0
+        # zero both u1 and u2, so the computed R is the point at infinity,
+        # and the signature may be considered valid in such implementation.
+        pytest.param(
+            H(0) + R(0) + Spec.S0 + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_0_r_0",
+        ),
+        pytest.param(
+            H(0) + R(Spec.N) + Spec.S0 + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_0_r_N",
+        ),
+        pytest.param(
+            H(Spec.N) + R(0) + Spec.S0 + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_N_r_0",
+        ),
+        pytest.param(
+            H(Spec.N) + R(Spec.N) + Spec.S0 + X(Spec.Gx) + Y(Spec.Gy),
+            id="hash_N_r_N",
+        ),
         pytest.param(
             Spec.H0 + R(Spec.Gx) + S((2**256 - 1) % Spec.N) + X(Spec.Gx) + Y(Spec.Gy),
             id="s_max_mod_N",
