@@ -715,7 +715,25 @@ def test_precompile_will_return_success_with_tx_value(
             + X(0x0AD99500288D466940031D72A9F5445A4D43784640855BF0A69874D2DE5FE103)
             + Y(0xC5011E6EF2C42DCD50D5D3D29F99AE6EBA2C80C9244F4C5422F0979FF0C3BA5E),
             Spec.SUCCESS_RETURN_VALUE,
-            id="modular_comparison_x_coordinate_exceeds_n",
+            id="x_coordinate_exceeds_n",
+        ),
+        pytest.param(
+            Spec.H1 + Spec.R1 + Spec.S1 + Spec.X1 + Spec.Y1,
+            Spec.SUCCESS_RETURN_VALUE,
+            id="x_coordinate_exceeds_n_v2",
+        ),
+        # Test cases where compute x-coordinate exceeds curve order N,
+        # but the signature is invalid.
+        # This is a modification of the above test by taking -h, -r, -s
+        # what gives the same u1 and u2 and in the result the same point R.
+        pytest.param(
+            H(Spec.N - Spec.H1.value)
+            + R(Spec.N - Spec.R1.value)
+            + S(Spec.N - Spec.S1.value)
+            + Spec.X1
+            + Spec.Y1,
+            Spec.INVALID_RETURN_VALUE,
+            id="invalid_x_coordinate_exceeds_n",
         ),
         pytest.param(
             Spec.H0
