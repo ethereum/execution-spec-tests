@@ -1485,6 +1485,22 @@
          <lastmod>2025-09-30</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/homestead/identity_precompile/</loc>
+         <lastmod>2025-09-30</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/homestead/identity_precompile/test_identity/</loc>
+         <lastmod>2025-09-30</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/homestead/identity_precompile/test_identity/test_identity_return_buffer_modify/</loc>
+         <lastmod>2025-09-30</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/homestead/identity_precompile/test_identity/test_identity_return_overwrite/</loc>
+         <lastmod>2025-09-30</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/istanbul/</loc>
          <lastmod>2025-09-30</lastmod>
     </url>
