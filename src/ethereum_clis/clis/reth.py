@@ -34,7 +34,7 @@ class RethExceptionMapper(ExceptionMapper):
         ),
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
         BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "mismatched block requests hash",
-        # Reth does not validate the sizes or offsets of the deposit 
+        # Reth does not validate the sizes or offsets of the deposit
         # contract logs. As a workaround we have set
         # INVALID_DEPOSIT_EVENT_LAYOUT equal to INVALID_REQUESTS.
         #

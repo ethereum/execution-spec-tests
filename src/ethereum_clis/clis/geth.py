@@ -78,7 +78,7 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.INVALID_VERSIONED_HASHES: "invalid number of versionedHashes",
         BlockException.INVALID_REQUESTS: "invalid requests hash",
         BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "invalid requests hash",
-        # Geth does not validate the sizes or offsets of the deposit 
+        # Geth does not validate the sizes or offsets of the deposit
         # contract logs. As a workaround we have set
         # INVALID_DEPOSIT_EVENT_LAYOUT equal to INVALID_REQUESTS.
         #
