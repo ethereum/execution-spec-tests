@@ -27335,7 +27335,7 @@
 
 
 <h1 id="test_invalid"><code>test_invalid()</code><a class="headerlink" href="#test_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/28e339e9cbb94441505a598994e9d6f36b123da8/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L152"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@28e339e9</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/45ba0a8f771d847daba0b45462efca6278059414/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L168"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@45ba0a8f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid --fork Osaka</span>
@@ -27355,23 +27355,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
@@ -27697,7 +27681,27 @@
 <span class="normal">491</span>
 <span class="normal">492</span>
 <span class="normal">493</span>
-<span class="normal">494</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_length_input&quot;</span><span class="p">),</span>
@@ -27752,6 +27756,10 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">S</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;s_eq_to_n&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Gx</span><span class="p">)</span> <span class="o">+</span> <span class="n">S</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">Spec</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Gx</span><span class="p">)</span> <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Gy</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;s_max_mod_N&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">P</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
@@ -28251,6 +28259,17 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---s_max_mod_N]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---s_max_mod_N]">
+                    ...fork_Osaka-state_test---s_max_mod_N
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>6b17d1f2e12c4247f8bce6e563a440f2</code> <code>77037d812deb33a0f4a13945d898c296</code> <code>00000000ffffffff0000000000000000</code> <code>4319055258e8617b0c46353d039cdaae</code> <code>6b17d1f2e12c4247f8bce6e563a440f2</code> <code>77037d812deb33a0f4a13945d898c296</code> <code>4fe342e2fe1a7f9b8ee7eb4a7c0f9e16</code> <code>2bce33576b315ececbb6406837bf51f5</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_eq_to_p]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---x_eq_to_p]">
                     ...fork_Osaka-state_test---x_eq_to_p
                 </abbr>
@@ -28720,6 +28739,17 @@
                         <td>256</td>
                         <td></td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>ffffffff00000000ffffffffffffffff</code> <code>bce6faada7179e84f3b9cac2fc632551</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---s_max_mod_N]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---s_max_mod_N]">
+                    ...fork_Osaka-blockchain_test_from_state_test---s_max_mod_N
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>6b17d1f2e12c4247f8bce6e563a440f2</code> <code>77037d812deb33a0f4a13945d898c296</code> <code>00000000ffffffff0000000000000000</code> <code>4319055258e8617b0c46353d039cdaae</code> <code>6b17d1f2e12c4247f8bce6e563a440f2</code> <code>77037d812deb33a0f4a13945d898c296</code> <code>4fe342e2fe1a7f9b8ee7eb4a7c0f9e16</code> <code>2bce33576b315ececbb6406837bf51f5</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
