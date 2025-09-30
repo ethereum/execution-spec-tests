@@ -479,8 +479,8 @@ class TransitionTool(EthereumCLI):
             output.result.traces = self.collect_traces(
                 output.result.receipts, temp_dir, debug_output_path
             )
-            temp_dir.cleanup()
 
+        temp_dir.cleanup()
         return output
 
     def safe_t8n_args(

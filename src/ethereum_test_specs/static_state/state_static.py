@@ -4,7 +4,7 @@ from typing import Callable, ClassVar, List, Self, Set, Union
 
 import pytest
 from _pytest.mark.structures import ParameterSet
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc
@@ -37,10 +37,7 @@ class StateStaticTest(BaseStaticTest):
     transaction: GeneralTransactionInFiller
     expect: List[ExpectSectionInStateTestFiller]
 
-    class Config:
-        """Model Config."""
-
-        extra = "forbid"
+    model_config = ConfigDict(extra="forbid")
 
     def model_post_init(self, context):
         """Initialize StateStaticTest."""
