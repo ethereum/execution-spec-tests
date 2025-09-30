@@ -146,6 +146,7 @@ class Header(CamelModel):
     @model_serializer(mode="wrap", when_used="json")
     def _serialize_model(self, serializer, info):
         """Exclude Removable fields from serialization."""
+        del info
         data = serializer(self)
         return {k: v for k, v in data.items() if not isinstance(v, Removable)}
 
