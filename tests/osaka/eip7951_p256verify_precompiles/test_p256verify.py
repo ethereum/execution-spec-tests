@@ -233,6 +233,10 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             id="r_eq_to_n",
         ),
         pytest.param(
+            Spec.H0 + R(2**256 - 1) + Spec.S0 + Spec.X0 + Spec.Y0,
+            id="r_max",
+        ),
+        pytest.param(
             Spec.H0 + Spec.R0 + S(0) + Spec.X0 + Spec.Y0,
             id="s_eq_to_zero",
         ),
