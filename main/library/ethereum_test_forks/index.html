@@ -32165,7 +32165,7 @@ timestamp.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="Osaka (ethereum_test_forks.forks.forks.Osaka)" href="#ethereum_test_forks.Osaka">Osaka</a></code></p>
 
 
-        <p>BPO1 fork - Blob Parameter Only fork 1.</p>
+        <p>Mainnet BPO1 fork - Blob Parameter Only fork 1.</p>
 
 
 
@@ -32192,22 +32192,22 @@ timestamp.</p>
 <span class="normal">1856</span>
 <span class="normal">1857</span>
 <span class="normal">1858</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO1</span><span class="p">(</span><span class="n">Osaka</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BPO1 fork - Blob Parameter Only fork 1.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mainnet BPO1 fork - Blob Parameter Only fork 1.&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the blob base fee update fraction for BPO1.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="mi">8832827</span>
+        <span class="k">return</span> <span class="mi">8346193</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a target of 9 blobs per block.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="mi">9</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a target of 10 blobs per block.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">10</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a max of 14 blobs per block.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="mi">14</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a max of 15 blobs per block.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">15</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -32247,7 +32247,7 @@ timestamp.</p>
 <span class="normal">1848</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the blob base fee update fraction for BPO1.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">8832827</span>
+    <span class="k">return</span> <span class="mi">8346193</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -32274,7 +32274,7 @@ timestamp.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Blobs in BPO1 have a target of 9 blobs per block.</p>
+        <p>Blobs in BPO1 have a target of 10 blobs per block.</p>
 
 
             <details class="quote">
@@ -32284,8 +32284,8 @@ timestamp.</p>
 <span class="normal">1852</span>
 <span class="normal">1853</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a target of 9 blobs per block.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">9</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a target of 10 blobs per block.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">10</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -32312,7 +32312,7 @@ timestamp.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Blobs in BPO1 have a max of 14 blobs per block.</p>
+        <p>Blobs in BPO1 have a max of 15 blobs per block.</p>
 
 
             <details class="quote">
@@ -32322,8 +32322,8 @@ timestamp.</p>
 <span class="normal">1857</span>
 <span class="normal">1858</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a max of 14 blobs per block.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">14</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO1 have a max of 15 blobs per block.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">15</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -32360,7 +32360,7 @@ timestamp.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="BPO1 (ethereum_test_forks.forks.forks.BPO1)" href="#ethereum_test_forks.BPO1">BPO1</a></code></p>
 
 
-        <p>BPO2 fork - Blob Parameter Only fork 2.</p>
+        <p>Mainnet BPO2 fork - Blob Parameter Only fork 2.</p>
 
 
 
@@ -32387,12 +32387,12 @@ timestamp.</p>
 <span class="normal">1875</span>
 <span class="normal">1876</span>
 <span class="normal">1877</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO2</span><span class="p">(</span><span class="n">BPO1</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BPO2 fork - Blob Parameter Only fork 2.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mainnet BPO2 fork - Blob Parameter Only fork 2.&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the blob base fee update fraction for BPO2.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="mi">13739630</span>
+        <span class="k">return</span> <span class="mi">11684671</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -32442,7 +32442,7 @@ timestamp.</p>
 <span class="normal">1867</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the blob base fee update fraction for BPO2.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">13739630</span>
+    <span class="k">return</span> <span class="mi">11684671</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -32555,7 +32555,8 @@ timestamp.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="BPO2 (ethereum_test_forks.forks.forks.BPO2)" href="#ethereum_test_forks.BPO2">BPO2</a></code></p>
 
 
-        <p>BPO3 fork - Blob Parameter Only fork 3.</p>
+        <p>Pseudo BPO3 fork - Blob Parameter Only fork 3.
+For testing purposes only.</p>
 
 
 
@@ -32581,8 +32582,14 @@ timestamp.</p>
 <span class="normal">1893</span>
 <span class="normal">1894</span>
 <span class="normal">1895</span>
-<span class="normal">1896</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO3</span><span class="p">(</span><span class="n">BPO2</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BPO3 fork - Blob Parameter Only fork 3.&quot;&quot;&quot;</span>
+<span class="normal">1896</span>
+<span class="normal">1897</span>
+<span class="normal">1898</span>
+<span class="normal">1899</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO3</span><span class="p">(</span><span class="n">BPO2</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pseudo BPO3 fork - Blob Parameter Only fork 3.</span>
+<span class="sd">    For testing purposes only.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -32631,10 +32638,10 @@ timestamp.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1883</span>
-<span class="normal">1884</span>
-<span class="normal">1885</span>
-<span class="normal">1886</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1886</span>
+<span class="normal">1887</span>
+<span class="normal">1888</span>
+<span class="normal">1889</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the blob base fee update fraction for BPO3.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">20609697</span>
@@ -32669,10 +32676,10 @@ timestamp.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1888</span>
-<span class="normal">1889</span>
-<span class="normal">1890</span>
-<span class="normal">1891</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1891</span>
+<span class="normal">1892</span>
+<span class="normal">1893</span>
+<span class="normal">1894</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO3 have a target of 21 blobs per block.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">21</span>
@@ -32707,10 +32714,10 @@ timestamp.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1893</span>
-<span class="normal">1894</span>
-<span class="normal">1895</span>
-<span class="normal">1896</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1896</span>
+<span class="normal">1897</span>
+<span class="normal">1898</span>
+<span class="normal">1899</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO3 have a max of 32 blobs per block.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">32</span>
@@ -32750,7 +32757,8 @@ timestamp.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="BPO3 (ethereum_test_forks.forks.forks.BPO3)" href="#ethereum_test_forks.BPO3">BPO3</a></code></p>
 
 
-        <p>BPO4 fork - Blob Parameter Only fork 4.</p>
+        <p>Pseudo BPO4 fork - Blob Parameter Only fork 4.
+For testing purposes only. Testing a decrease in values from BPO3.</p>
 
 
 
@@ -32760,10 +32768,7 @@ timestamp.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1899</span>
-<span class="normal">1900</span>
-<span class="normal">1901</span>
-<span class="normal">1902</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1902</span>
 <span class="normal">1903</span>
 <span class="normal">1904</span>
 <span class="normal">1905</span>
@@ -32776,8 +32781,17 @@ timestamp.</p>
 <span class="normal">1912</span>
 <span class="normal">1913</span>
 <span class="normal">1914</span>
-<span class="normal">1915</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO4</span><span class="p">(</span><span class="n">BPO3</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BPO4 fork - Blob Parameter Only fork 4.&quot;&quot;&quot;</span>
+<span class="normal">1915</span>
+<span class="normal">1916</span>
+<span class="normal">1917</span>
+<span class="normal">1918</span>
+<span class="normal">1919</span>
+<span class="normal">1920</span>
+<span class="normal">1921</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO4</span><span class="p">(</span><span class="n">BPO3</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pseudo BPO4 fork - Blob Parameter Only fork 4.</span>
+<span class="sd">    For testing purposes only. Testing a decrease in values from BPO3.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -32826,10 +32840,10 @@ timestamp.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1902</span>
-<span class="normal">1903</span>
-<span class="normal">1904</span>
-<span class="normal">1905</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1908</span>
+<span class="normal">1909</span>
+<span class="normal">1910</span>
+<span class="normal">1911</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the blob base fee update fraction for BPO4.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">13739630</span>
@@ -32864,10 +32878,10 @@ timestamp.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1907</span>
-<span class="normal">1908</span>
-<span class="normal">1909</span>
-<span class="normal">1910</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1913</span>
+<span class="normal">1914</span>
+<span class="normal">1915</span>
+<span class="normal">1916</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO4 have a target of 14 blobs per block.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">14</span>
@@ -32902,10 +32916,10 @@ timestamp.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1912</span>
-<span class="normal">1913</span>
-<span class="normal">1914</span>
-<span class="normal">1915</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1918</span>
+<span class="normal">1919</span>
+<span class="normal">1920</span>
+<span class="normal">1921</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Blobs in BPO4 have a max of 21 blobs per block.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">21</span>
@@ -32945,8 +32959,8 @@ timestamp.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="BPO4 (ethereum_test_forks.forks.forks.BPO4)" href="#ethereum_test_forks.BPO4">BPO4</a></code></p>
 
 
-        <p>BPO5 fork - Blob Parameter Only fork 5 (Required to parse Fusaka devnet
-genesis files).</p>
+        <p>Pseudo BPO5 fork - Blob Parameter Only fork 5.
+For testing purposes only. Required to parse Fusaka devnet genesis files.</p>
 
 
 
@@ -32956,16 +32970,16 @@ genesis files).</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1918</span>
-<span class="normal">1919</span>
-<span class="normal">1920</span>
-<span class="normal">1921</span>
-<span class="normal">1922</span>
-<span class="normal">1923</span>
-<span class="normal">1924</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO5</span><span class="p">(</span><span class="n">BPO4</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1924</span>
+<span class="normal">1925</span>
+<span class="normal">1926</span>
+<span class="normal">1927</span>
+<span class="normal">1928</span>
+<span class="normal">1929</span>
+<span class="normal">1930</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BPO5</span><span class="p">(</span><span class="n">BPO4</span><span class="p">,</span> <span class="n">bpo_fork</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    BPO5 fork - Blob Parameter Only fork 5 (Required to parse Fusaka devnet</span>
-<span class="sd">    genesis files).</span>
+<span class="sd">    Pseudo BPO5 fork - Blob Parameter Only fork 5.</span>
+<span class="sd">    For testing purposes only. Required to parse Fusaka devnet genesis files.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">pass</span>
@@ -33017,13 +33031,7 @@ genesis files).</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1927</span>
-<span class="normal">1928</span>
-<span class="normal">1929</span>
-<span class="normal">1930</span>
-<span class="normal">1931</span>
-<span class="normal">1932</span>
-<span class="normal">1933</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1933</span>
 <span class="normal">1934</span>
 <span class="normal">1935</span>
 <span class="normal">1936</span>
@@ -33047,7 +33055,13 @@ genesis files).</p>
 <span class="normal">1954</span>
 <span class="normal">1955</span>
 <span class="normal">1956</span>
-<span class="normal">1957</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Amsterdam</span><span class="p">(</span><span class="n">Osaka</span><span class="p">):</span>
+<span class="normal">1957</span>
+<span class="normal">1958</span>
+<span class="normal">1959</span>
+<span class="normal">1960</span>
+<span class="normal">1961</span>
+<span class="normal">1962</span>
+<span class="normal">1963</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Amsterdam</span><span class="p">(</span><span class="n">Osaka</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Amsterdam fork.&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
@@ -33111,12 +33125,12 @@ genesis files).</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1930</span>
-<span class="normal">1931</span>
-<span class="normal">1932</span>
-<span class="normal">1933</span>
-<span class="normal">1934</span>
-<span class="normal">1935</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1936</span>
+<span class="normal">1937</span>
+<span class="normal">1938</span>
+<span class="normal">1939</span>
+<span class="normal">1940</span>
+<span class="normal">1941</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">header_bal_hash_required</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    From Amsterdam, header must contain block access list hash (EIP-7928).</span>
@@ -33153,10 +33167,10 @@ genesis files).</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1937</span>
-<span class="normal">1938</span>
-<span class="normal">1939</span>
-<span class="normal">1940</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1943</span>
+<span class="normal">1944</span>
+<span class="normal">1945</span>
+<span class="normal">1946</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_deployed</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if this fork is deployed.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">False</span>
@@ -33191,12 +33205,12 @@ genesis files).</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1942</span>
-<span class="normal">1943</span>
-<span class="normal">1944</span>
-<span class="normal">1945</span>
-<span class="normal">1946</span>
-<span class="normal">1947</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1948</span>
+<span class="normal">1949</span>
+<span class="normal">1950</span>
+<span class="normal">1951</span>
+<span class="normal">1952</span>
+<span class="normal">1953</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">engine_new_payload_version</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -33234,15 +33248,15 @@ as a parameter.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1949</span>
-<span class="normal">1950</span>
-<span class="normal">1951</span>
-<span class="normal">1952</span>
-<span class="normal">1953</span>
-<span class="normal">1954</span>
-<span class="normal">1955</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1955</span>
 <span class="normal">1956</span>
-<span class="normal">1957</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1957</span>
+<span class="normal">1958</span>
+<span class="normal">1959</span>
+<span class="normal">1960</span>
+<span class="normal">1961</span>
+<span class="normal">1962</span>
+<span class="normal">1963</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">engine_execution_payload_block_access_list</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -36060,13 +36074,7 @@ on blockchain type tests.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1960</span>
-<span class="normal">1961</span>
-<span class="normal">1962</span>
-<span class="normal">1963</span>
-<span class="normal">1964</span>
-<span class="normal">1965</span>
-<span class="normal">1966</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1966</span>
 <span class="normal">1967</span>
 <span class="normal">1968</span>
 <span class="normal">1969</span>
@@ -36088,7 +36096,13 @@ on blockchain type tests.</p>
 <span class="normal">1985</span>
 <span class="normal">1986</span>
 <span class="normal">1987</span>
-<span class="normal">1988</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EOFv1</span><span class="p">(</span><span class="n">Prague</span><span class="p">,</span> <span class="n">solc_name</span><span class="o">=</span><span class="s2">&quot;cancun&quot;</span><span class="p">):</span>
+<span class="normal">1988</span>
+<span class="normal">1989</span>
+<span class="normal">1990</span>
+<span class="normal">1991</span>
+<span class="normal">1992</span>
+<span class="normal">1993</span>
+<span class="normal">1994</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EOFv1</span><span class="p">(</span><span class="n">Prague</span><span class="p">,</span> <span class="n">solc_name</span><span class="o">=</span><span class="s2">&quot;cancun&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF fork.&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
@@ -36150,13 +36164,13 @@ on blockchain type tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1963</span>
-<span class="normal">1964</span>
-<span class="normal">1965</span>
-<span class="normal">1966</span>
-<span class="normal">1967</span>
-<span class="normal">1968</span>
-<span class="normal">1969</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1969</span>
+<span class="normal">1970</span>
+<span class="normal">1971</span>
+<span class="normal">1972</span>
+<span class="normal">1973</span>
+<span class="normal">1974</span>
+<span class="normal">1975</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">evm_code_types</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EVMCodeType</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF V1 is supported starting from Osaka.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">EOFv1</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">evm_code_types</span><span class="p">(</span>
@@ -36194,16 +36208,16 @@ on blockchain type tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1971</span>
-<span class="normal">1972</span>
-<span class="normal">1973</span>
-<span class="normal">1974</span>
-<span class="normal">1975</span>
-<span class="normal">1976</span>
-<span class="normal">1977</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1977</span>
 <span class="normal">1978</span>
 <span class="normal">1979</span>
-<span class="normal">1980</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1980</span>
+<span class="normal">1981</span>
+<span class="normal">1982</span>
+<span class="normal">1983</span>
+<span class="normal">1984</span>
+<span class="normal">1985</span>
+<span class="normal">1986</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">call_opcodes</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Opcodes</span><span class="p">,</span> <span class="n">EVMCodeType</span><span class="p">]]:</span>
@@ -36245,13 +36259,13 @@ development.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1982</span>
-<span class="normal">1983</span>
-<span class="normal">1984</span>
-<span class="normal">1985</span>
-<span class="normal">1986</span>
-<span class="normal">1987</span>
-<span class="normal">1988</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1988</span>
+<span class="normal">1989</span>
+<span class="normal">1990</span>
+<span class="normal">1991</span>
+<span class="normal">1992</span>
+<span class="normal">1993</span>
+<span class="normal">1994</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_deployed</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Flag that the fork has not been deployed to mainnet; it is under active</span>

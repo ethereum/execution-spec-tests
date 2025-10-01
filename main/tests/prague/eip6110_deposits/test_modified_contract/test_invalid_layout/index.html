@@ -27699,7 +27699,7 @@
 
 
 <h1 id="test_invalid_layout"><code>test_invalid_layout()</code><a class="headerlink" href="#test_invalid_layout" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0ef435ac6d03a2167ea84ac3083a8c5afe8c416a/tests/prague/eip6110_deposits/test_modified_contract.py#L166"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout@0ef435ac</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8d3a51e1bd7c6dfd9ba7c10eb6b1ba27bd02e15c/tests/prague/eip6110_deposits/test_modified_contract.py#L166"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout@8d3a51e1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout --fork Osaka</span>
@@ -27777,24 +27777,7 @@
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;log_argument,value&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27848,23 +27831,6 @@
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
                 <span class="n">exception</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">BlockException</span><span class="o">.</span><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span><span class="p">,</span>
-                    <span class="n">BlockException</span><span class="o">.</span><span class="n">INVALID_REQUESTS</span><span class="p">,</span>
-                    <span class="c1"># INVALID_REQUESTS is an alternative workaround for</span>
-                    <span class="c1"># Geth/Reth only.</span>
-                    <span class="c1">#</span>
-                    <span class="c1"># Geth/Reth do not validate the sizes or offsets of the</span>
-                    <span class="c1"># deposit contract logs.</span>
-                    <span class="c1">#</span>
-                    <span class="c1"># Although this is out of spec, it is understood that this</span>
-                    <span class="c1"># will not cause an issue so long as the mainnet/testnet</span>
-                    <span class="c1"># deposit contracts don&#39;t change.</span>
-                    <span class="c1">#</span>
-                    <span class="c1"># This offsets are checked second and the sizes are checked</span>
-                    <span class="c1"># third within the `is_valid_deposit_event_data` function:</span>
-                    <span class="c1"># https://eips.ethereum.org/EIPS/eip-6110#block-validity</span>
-                    <span class="c1">#</span>
-                    <span class="c1"># EELS definition for `is_valid_deposit_event_data`:</span>
-                    <span class="c1"># https://github.com/ethereum/execution-specs/blob/5ddb904fa7ba27daeff423e78466744c51e8cb6a/src/ethereum/forks/prague/requests.py#L51</span>
                 <span class="p">],</span>
             <span class="p">),</span>
         <span class="p">],</span>
