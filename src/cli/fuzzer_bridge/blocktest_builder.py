@@ -1,6 +1,7 @@
 """Build valid blocktests from fuzzer-generated transactions and pre-state."""
 
 import json
+import random
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -10,6 +11,26 @@ from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_specs import BlockchainTest
 
 from .models import FuzzerOutput
+
+
+def choose_random_num_blocks(num_txs: int, max_blocks: int = 10) -> int:
+    """
+    Choose random number of blocks for given transaction count.
+
+    Selects a random number between 1 and min(num_txs, max_blocks) to enable
+    testing of various block configurations.
+
+    Args:
+        num_txs: Number of transactions to distribute
+        max_blocks: Maximum number of blocks (default: 10)
+
+    Returns:
+        Random integer between 1 and min(num_txs, max_blocks)
+
+    """
+    if num_txs == 0:
+        return 1  # Allow empty block testing
+    return random.randint(1, min(num_txs, max_blocks))
 
 
 class BlocktestBuilder:

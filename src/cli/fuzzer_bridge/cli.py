@@ -46,6 +46,7 @@ def process_single_file(
     num_blocks: int = 1,
     block_strategy: str = "distribute",
     block_time: int = 12,
+    random_blocks: bool = False,
 ) -> Dict[str, Any]:
     """Process a single fuzzer output file."""
     with open(input_file) as f:
@@ -55,9 +56,20 @@ def process_single_file(
     if fork:
         fuzzer_data["fork"] = fork
 
+    # Determine number of blocks
+    if random_blocks:
+        from .blocktest_builder import choose_random_num_blocks
+
+        actual_num_blocks = choose_random_num_blocks(len(fuzzer_data.get("transactions", [])))
+    else:
+        actual_num_blocks = num_blocks
+
     # Build blocktest
     blocktest = builder.build_blocktest(
-        fuzzer_data, num_blocks=num_blocks, block_strategy=block_strategy, block_time=block_time
+        fuzzer_data,
+        num_blocks=actual_num_blocks,
+        block_strategy=block_strategy,
+        block_time=block_time,
     )
     test_name = generate_test_name(input_file)
     fixtures = {test_name: blocktest}
@@ -85,6 +97,7 @@ def process_single_file_worker(
     num_blocks: int = 1,
     block_strategy: str = "distribute",
     block_time: int = 12,
+    random_blocks: bool = False,
 ) -> Tuple[Optional[Tuple[Path, Dict[str, Any]]], Optional[Tuple[Path, Exception]]]:
     """Process a single file in a worker process."""
     json_file_path, output_file = file_info
@@ -101,10 +114,18 @@ def process_single_file_worker(
         if fork:
             fuzzer_data["fork"] = fork
 
+        # Determine number of blocks
+        if random_blocks:
+            from .blocktest_builder import choose_random_num_blocks
+
+            actual_num_blocks = choose_random_num_blocks(len(fuzzer_data.get("transactions", [])))
+        else:
+            actual_num_blocks = num_blocks
+
         # Build blocktest
         blocktest = builder.build_blocktest(
             fuzzer_data,
-            num_blocks=num_blocks,
+            num_blocks=actual_num_blocks,
             block_strategy=block_strategy,
             block_time=block_time,
         )
@@ -134,6 +155,7 @@ def process_file_batch(
     num_blocks: int = 1,
     block_strategy: str = "distribute",
     block_time: int = 12,
+    random_blocks: bool = False,
 ) -> Tuple[list[Tuple[Path, Dict[str, Any]]], list[Tuple[Path, Exception]]]:
     """Process a batch of files in a worker process."""
     # Create transition tool per worker
@@ -152,10 +174,20 @@ def process_file_batch(
             if fork:
                 fuzzer_data["fork"] = fork
 
+            # Determine number of blocks
+            if random_blocks:
+                from .blocktest_builder import choose_random_num_blocks
+
+                actual_num_blocks = choose_random_num_blocks(
+                    len(fuzzer_data.get("transactions", []))
+                )
+            else:
+                actual_num_blocks = num_blocks
+
             # Build blocktest
             blocktest = builder.build_blocktest(
                 fuzzer_data,
-                num_blocks=num_blocks,
+                num_blocks=actual_num_blocks,
                 block_strategy=block_strategy,
                 block_time=block_time,
             )
@@ -191,6 +223,7 @@ def process_directory_parallel(
     num_blocks: int = 1,
     block_strategy: str = "distribute",
     block_time: int = 12,
+    random_blocks: bool = False,
 ):
     """Process directory of fuzzer output files with parallel processing."""
     all_fixtures = {}
@@ -238,6 +271,7 @@ def process_directory_parallel(
             num_blocks=num_blocks,
             block_strategy=block_strategy,
             block_time=block_time,
+            random_blocks=random_blocks,
         )
 
         with ProcessPoolExecutor(max_workers=num_workers) as executor:
@@ -315,6 +349,7 @@ def process_directory(
     num_blocks: int = 1,
     block_strategy: str = "distribute",
     block_time: int = 12,
+    random_blocks: bool = False,
 ):
     """Process directory of fuzzer output files."""
     all_fixtures = {}
@@ -349,10 +384,20 @@ def process_directory(
                 if fork:
                     fuzzer_data["fork"] = fork
 
+                # Determine number of blocks
+                if random_blocks:
+                    from .blocktest_builder import choose_random_num_blocks
+
+                    actual_num_blocks = choose_random_num_blocks(
+                        len(fuzzer_data.get("transactions", []))
+                    )
+                else:
+                    actual_num_blocks = num_blocks
+
                 # Build blocktest
                 blocktest = builder.build_blocktest(
                     fuzzer_data,
-                    num_blocks=num_blocks,
+                    num_blocks=actual_num_blocks,
                     block_strategy=block_strategy,
                     block_time=block_time,
                 )
@@ -466,6 +511,11 @@ def process_directory(
     default=12,
     help="Seconds between blocks (default: 12)",
 )
+@click.option(
+    "--random-blocks",
+    is_flag=True,
+    help="Randomly choose number of blocks (1 to min(num_txs, 10))",
+)
 def main(
     input_path: Path,
     output_path: Path,
@@ -479,6 +529,7 @@ def main(
     num_blocks: int,
     block_strategy: str,
     block_time: int,
+    random_blocks: bool,
 ):
     """
     Convert fuzzer output to valid blocktest fixtures.
@@ -512,6 +563,7 @@ def main(
             num_blocks,
             block_strategy,
             block_time,
+            random_blocks,
         )
     else:
         # Directory processing with optional parallel mode
@@ -528,6 +580,7 @@ def main(
                 num_blocks,
                 block_strategy,
                 block_time,
+                random_blocks,
             )
         else:
             process_directory(
@@ -541,6 +594,7 @@ def main(
                 num_blocks,
                 block_strategy,
                 block_time,
+                random_blocks,
             )
 
 
