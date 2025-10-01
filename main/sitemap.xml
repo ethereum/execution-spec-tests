@@ -329,6 +329,22 @@
          <lastmod>2025-10-01</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/bloatnet/</loc>
+         <lastmod>2025-10-01</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/bloatnet/test_multi_opcode/</loc>
+         <lastmod>2025-10-01</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/bloatnet/test_multi_opcode/test_bloatnet_balance_extcodecopy/</loc>
+         <lastmod>2025-10-01</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/bloatnet/test_multi_opcode/test_bloatnet_balance_extcodesize/</loc>
+         <lastmod>2025-10-01</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_blocks/</loc>
          <lastmod>2025-10-01</lastmod>
     </url>
