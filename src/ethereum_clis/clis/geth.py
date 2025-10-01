@@ -77,6 +77,21 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.INCORRECT_EXCESS_BLOB_GAS: "invalid excessBlobGas",
         BlockException.INVALID_VERSIONED_HASHES: "invalid number of versionedHashes",
         BlockException.INVALID_REQUESTS: "invalid requests hash",
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "invalid requests hash",
+        # Geth does not validate the sizes or offsets of the deposit
+        # contract logs. As a workaround we have set
+        # INVALID_DEPOSIT_EVENT_LAYOUT equal to INVALID_REQUESTS.
+        #
+        # Although this is out of spec, it is understood that this
+        # will not cause an issue so long as the mainnet/testnet
+        # deposit contracts don't change.
+        #
+        # The offsets are checked second and the sizes are checked
+        # third within the `is_valid_deposit_event_data` function:
+        # https://eips.ethereum.org/EIPS/eip-6110#block-validity
+        #
+        # EELS definition for `is_valid_deposit_event_data`:
+        # https://github.com/ethereum/execution-specs/blob/5ddb904fa7ba27daeff423e78466744c51e8cb6a/src/ethereum/forks/prague/requests.py#L51
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: "system call failed to execute:",
         BlockException.INVALID_BLOCK_HASH: "blockhash mismatch",
         BlockException.RLP_BLOCK_LIMIT_EXCEEDED: "block RLP-encoded size exceeds maximum",
