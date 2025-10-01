@@ -1377,6 +1377,14 @@
          <lastmod>2025-10-01</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_blockhash/</loc>
+         <lastmod>2025-10-01</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_blockhash/test_genesis_hash_available/</loc>
+         <lastmod>2025-10-01</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_call/</loc>
          <lastmod>2025-10-01</lastmod>
     </url>
