@@ -344,6 +344,16 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             Spec.H0 + Spec.R0 + Spec.S0 + X(Spec.P + 1) + Spec.Y0,
             id="x_greater_than_p",
         ),
+        # Test case produces the point R at infinity: (R0/S0)*G + (R0/S0)*(-G).
+        pytest.param(
+            H(Spec.R0.value) + Spec.R0 + Spec.S0 + X(Spec.Gx) + Y(Spec.P - Spec.Gy),
+            id="R_at_infinity_v1",
+        ),
+        # Test case produces the point R at infinity: (1/1)*G + (1/1)*(-G).
+        pytest.param(
+            H(1) + R(1) + S(1) + X(Spec.Gx) + Y(Spec.P - Spec.Gy),
+            id="R_at_infinity_v2",
+        ),
         pytest.param(
             Spec.H0
             + R(0x813EF79CCEFA9A56F7BA805F0E478584FE5F0DD5F567BC09B5123CCBC9832365)
