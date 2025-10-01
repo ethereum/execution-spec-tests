@@ -27517,7 +27517,7 @@
 
 
 <h1 id="test_invalid"><code>test_invalid()</code><a class="headerlink" href="#test_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4215632e8f9bb8bb97839e6d39d7877ce9213b9f/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L187"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@4215632e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/90b15e6c82bda3c73b514af99fd024e524f57231/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L187"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid@90b15e6c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid --fork Osaka</span>
@@ -27941,7 +27941,17 @@
 <span class="normal">588</span>
 <span class="normal">589</span>
 <span class="normal">590</span>
-<span class="normal">591</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_length_input&quot;</span><span class="p">),</span>
@@ -28069,7 +28079,17 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;point_on_infinity&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;point_at_infinity&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Test case with Q at infinity. If the implementation misses the check</span>
+        <span class="c1"># that Q is not the point at infinity, the signature should verify.</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span>
+            <span class="o">+</span> <span class="n">R</span><span class="p">(</span><span class="mh">0x2DD5CBB0E37BAEC8D1460909B206CA2C87E50CA43B8F31E46168027A7F0AEEC6</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span>
+            <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;point_at_infinity_v2&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span> <span class="o">+</span> <span class="n">X</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">X0</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
@@ -28722,13 +28742,24 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_on_infinity]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_on_infinity]">
-                    ...fork_Osaka-state_test---point_on_infinity
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_at_infinity]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_at_infinity]">
+                    ...fork_Osaka-state_test---point_at_infinity
                 </abbr>
             </td>
                         <td>256</td>
                         <td></td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_at_infinity_v2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-state_test---point_at_infinity_v2]">
+                    ...fork_Osaka-state_test---point_at_infinity_v2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2dd5cbb0e37baec8d1460909b206ca2c</code> <code>87e50ca43b8f31e46168027a7f0aeec6</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -29338,13 +29369,24 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_on_infinity]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_on_infinity]">
-                    ...fork_Osaka-blockchain_test_from_state_test---point_on_infinity
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_at_infinity]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_at_infinity]">
+                    ...fork_Osaka-blockchain_test_from_state_test---point_at_infinity
                 </abbr>
             </td>
                         <td>256</td>
                         <td></td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_at_infinity_v2]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---point_at_infinity_v2]">
+                    ...fork_Osaka-blockchain_test_from_state_test---point_at_infinity_v2
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td></td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2dd5cbb0e37baec8d1460909b206ca2c</code> <code>87e50ca43b8f31e46168027a7f0aeec6</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
