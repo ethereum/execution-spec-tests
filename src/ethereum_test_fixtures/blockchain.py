@@ -103,7 +103,9 @@ class HeaderForkRequirement(str):
 
     def required(self, fork: Fork, block_number: int, timestamp: int) -> bool:
         """Check if the field is required for the given fork."""
-        return getattr(fork, f"header_{self}_required")(block_number, timestamp)
+        return getattr(fork, f"header_{self}_required")(
+            block_number=block_number, timestamp=timestamp
+        )
 
     @classmethod
     def get_from_annotation(cls, field_hints: Any) -> "HeaderForkRequirement | None":
