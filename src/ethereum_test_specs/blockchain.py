@@ -898,9 +898,12 @@ class BlockchainTest(BaseTest):
             blocks: List[List[Transaction]] = []
             for block in self.blocks:
                 blocks += [block.txs]
+            # Pass gas validation params for benchmark tests
             return TransactionPost(
                 blocks=blocks,
                 post=self.post,
+                expected_benchmark_gas_used=self.expected_benchmark_gas_used,
+                skip_gas_used_validation=self.skip_gas_used_validation,
             )
         raise Exception(f"Unsupported execute format: {execute_format}")
 

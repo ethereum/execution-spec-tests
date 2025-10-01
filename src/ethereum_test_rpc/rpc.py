@@ -292,6 +292,18 @@ class EthRPC(BaseRPC):
             pprint(e.errors())
             raise e
 
+    def get_transaction_receipt(self, transaction_hash: Hash) -> dict | None:
+        """
+        `eth_getTransactionReceipt`: Returns transaction receipt.
+
+        Used to get the actual gas used by a transaction for gas validation
+        in benchmark tests.
+        """
+        response = self.post_request(
+            method="getTransactionReceipt", params=[f"{transaction_hash}"]
+        )
+        return response
+
     def get_storage_at(
         self, address: Address, position: Hash, block_number: BlockNumberType = "latest"
     ) -> Hash:

@@ -20,6 +20,9 @@ class TransactionPost(BaseExecute):
 
     blocks: List[List[Transaction]]
     post: Alloc
+    # Gas validation fields for benchmark tests
+    expected_benchmark_gas_used: int | None = None  # Expected total gas to be consumed
+    skip_gas_used_validation: bool = False  # Skip gas validation even if expected is set
 
     format_name: ClassVar[str] = "transaction_post_test"
     description: ClassVar[str] = (
@@ -33,6 +36,10 @@ class TransactionPost(BaseExecute):
         assert not any(tx.ty == 3 for block in self.blocks for tx in block), (
             "Transaction type 3 is not supported in execute mode."
         )
+
+        # Track transaction hashes for gas validation (benchmarking)
+        all_tx_hashes = []
+
         for block in self.blocks:
             signed_txs = []
             for tx_index, tx in enumerate(block):
@@ -51,11 +58,31 @@ class TransactionPost(BaseExecute):
                 for transaction in signed_txs:
                     if transaction.error is None:
                         eth_rpc.send_wait_transaction(transaction)
+                        all_tx_hashes.append(transaction.hash)
                     else:
                         with pytest.raises(SendTransactionExceptionError):
                             eth_rpc.send_transaction(transaction)
             else:
                 eth_rpc.send_wait_transactions(signed_txs)
+                all_tx_hashes.extend([tx.hash for tx in signed_txs])
+
+        # Perform gas validation if required for benchmarking
+        # Ensures benchmark tests consume exactly the expected gas
+        if not self.skip_gas_used_validation and self.expected_benchmark_gas_used is not None:
+            total_gas_used = 0
+            # Fetch transaction receipts to get actual gas used
+            for tx_hash in all_tx_hashes:
+                receipt = eth_rpc.get_transaction_receipt(tx_hash)
+                assert receipt is not None, f"Failed to get receipt for transaction {tx_hash}"
+                gas_used = int(receipt["gasUsed"], 16)
+                total_gas_used += gas_used
+
+            # Verify that the total gas consumed matches expectations
+            assert total_gas_used == self.expected_benchmark_gas_used, (
+                f"Total gas used ({total_gas_used}) does not match "
+                f"expected benchmark gas ({self.expected_benchmark_gas_used}), "
+                f"difference: {total_gas_used - self.expected_benchmark_gas_used}"
+            )
 
         for address, account in self.post.root.items():
             balance = eth_rpc.get_balance(address)

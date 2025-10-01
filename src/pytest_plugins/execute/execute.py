@@ -342,6 +342,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     kwargs["pre"] = pre
                 elif kwargs["pre"] != pre:
                     raise ValueError("The pre-alloc object was modified by the test.")
+                # Set default for expected_benchmark_gas_used
+                if "expected_benchmark_gas_used" not in kwargs:
+                    kwargs["expected_benchmark_gas_used"] = request.getfixturevalue(
+                        "gas_benchmark_value"
+                    )
                 kwargs |= {
                     p: request.getfixturevalue(p)
                     for p in cls_fixture_parameters
