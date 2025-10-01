@@ -54,6 +54,10 @@ class EthrexExceptionMapper(ExceptionMapper):
             r"unexpected length|Contract creation in type 4 transaction|"
             r"Error decoding field 'to' of type primitive_types::H160: InvalidLength"
         ),
+        TransactionException.TYPE_3_TX_CONTRACT_CREATION: (
+            r"unexpected length|Contract creation in type 3 transaction|"
+            r"Error decoding field 'to' of type primitive_types::H160: InvalidLength"
+        ),
         TransactionException.TYPE_4_TX_PRE_FORK: (
             r"eip 7702 transactions present in pre-prague payload|"
             r"Type 4 transactions are not supported before the Prague fork"
