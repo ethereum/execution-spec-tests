@@ -63,7 +63,10 @@ class EthrexExceptionMapper(ExceptionMapper):
         ),
         TransactionException.INTRINSIC_GAS_TOO_LOW: (
             r"gas floor exceeds the gas limit|call gas cost exceeds the gas limit|"
-            r"Intrinsic gas too low"
+            r"Transaction gas limit lower than the minimum gas cost to execute the transaction"
+        ),
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: (
+            r"Transaction gas limit lower than the gas cost floor for calldata tokens"
         ),
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: (
             r"gas price is less than basefee|Insufficient max fee per gas"
@@ -75,6 +78,7 @@ class EthrexExceptionMapper(ExceptionMapper):
         TransactionException.INITCODE_SIZE_EXCEEDED: (
             r"create initcode size limit|Initcode size exceeded.*"
         ),
+        TransactionException.NONCE_IS_MAX: (r"Nonce is max"),
         TransactionException.GAS_ALLOWANCE_EXCEEDED: (r"Gas allowance exceeded.*"),
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (r"Blob count exceeded.*"),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"System call failed.*"),
