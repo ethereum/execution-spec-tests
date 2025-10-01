@@ -8,7 +8,10 @@ DEFAULT_BENCHMARK_FORK = "Prague"
 
 
 def pytest_generate_tests(metafunc):
-    """Add default valid_from marker to state tests without explicit fork specification."""
+    """
+    Add default valid_from marker to state tests without explicit fork
+    specification.
+    """
     state_dir = Path(__file__).parent
     test_file_path = Path(metafunc.definition.fspath)
 
