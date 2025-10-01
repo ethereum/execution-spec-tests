@@ -675,7 +675,7 @@ requires-dist = [
     { name = "pytest-rerunfailures", specifier = ">=16.0,<17" },
     { name = "pytest-xdist", specifier = ">=3.3.1,<4" },
     { name = "pyyaml", specifier = ">=6.0.2,<7" },
-    { name = "questionary", git = "https://github.com/tmbo/questionary?rev=ff22aeae1cd9c1c734f14329934e349bec7873bc" },
+    { name = "questionary", specifier = ">=2.1.0,<3" },
     { name = "requests", specifier = ">=2.31.0,<3" },
     { name = "requests-unixsocket2", specifier = ">=0.4.0" },
     { name = "rich", specifier = ">=13.7.0,<14" },
