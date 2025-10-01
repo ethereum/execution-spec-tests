@@ -12,18 +12,19 @@ from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Storage, Transaction
 
 
+@pytest.mark.ported_from(
+    [
+        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/VMTests/vmTests/swapFiller.yml"
+    ],
+    pr=["https://github.com/ethereum/execution-spec-tests/pull/1163"],
+)
 @pytest.mark.parametrize(
     "swap_opcode",
     [getattr(Op, f"SWAP{i}") for i in range(1, 17)],
     ids=lambda op: str(op),
 )
 @pytest.mark.valid_from("Frontier")
-def test_swap(
-    state_test: StateTestFiller,
-    fork: Fork,
-    pre: Alloc,
-    swap_opcode: Op
-):
+def test_swap(state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: Op):
     """
     The set of `SWAP*` opcodes swaps the top of the stack with a specific
     element.
