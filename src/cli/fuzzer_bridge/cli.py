@@ -43,6 +43,9 @@ def process_single_file(
     fork: Optional[str],
     pretty: bool,
     quiet: bool,
+    num_blocks: int = 1,
+    block_strategy: str = "distribute",
+    block_time: int = 12,
 ) -> Dict[str, Any]:
     """Process a single fuzzer output file."""
     with open(input_file) as f:
@@ -53,7 +56,9 @@ def process_single_file(
         fuzzer_data["fork"] = fork
 
     # Build blocktest
-    blocktest = builder.build_blocktest(fuzzer_data)
+    blocktest = builder.build_blocktest(
+        fuzzer_data, num_blocks=num_blocks, block_strategy=block_strategy, block_time=block_time
+    )
     test_name = generate_test_name(input_file)
     fixtures = {test_name: blocktest}
 
@@ -77,6 +82,9 @@ def process_single_file_worker(
     pretty: bool,
     merge: bool,
     evm_bin: Optional[Path],
+    num_blocks: int = 1,
+    block_strategy: str = "distribute",
+    block_time: int = 12,
 ) -> Tuple[Optional[Tuple[Path, Dict[str, Any]]], Optional[Tuple[Path, Exception]]]:
     """Process a single file in a worker process."""
     json_file_path, output_file = file_info
@@ -94,7 +102,12 @@ def process_single_file_worker(
             fuzzer_data["fork"] = fork
 
         # Build blocktest
-        blocktest = builder.build_blocktest(fuzzer_data)
+        blocktest = builder.build_blocktest(
+            fuzzer_data,
+            num_blocks=num_blocks,
+            block_strategy=block_strategy,
+            block_time=block_time,
+        )
         test_name = generate_test_name(json_file_path)
         fixtures = {test_name: blocktest}
 
@@ -118,6 +131,9 @@ def process_file_batch(
     pretty: bool,
     merge: bool,
     evm_bin: Optional[Path],
+    num_blocks: int = 1,
+    block_strategy: str = "distribute",
+    block_time: int = 12,
 ) -> Tuple[list[Tuple[Path, Dict[str, Any]]], list[Tuple[Path, Exception]]]:
     """Process a batch of files in a worker process."""
     # Create transition tool per worker
@@ -137,7 +153,12 @@ def process_file_batch(
                 fuzzer_data["fork"] = fork
 
             # Build blocktest
-            blocktest = builder.build_blocktest(fuzzer_data)
+            blocktest = builder.build_blocktest(
+                fuzzer_data,
+                num_blocks=num_blocks,
+                block_strategy=block_strategy,
+                block_time=block_time,
+            )
             test_name = generate_test_name(json_file_path)
             fixtures = {test_name: blocktest}
 
@@ -167,6 +188,9 @@ def process_directory_parallel(
     quiet: bool,
     evm_bin: Optional[Path],
     num_workers: Optional[int] = None,
+    num_blocks: int = 1,
+    block_strategy: str = "distribute",
+    block_time: int = 12,
 ):
     """Process directory of fuzzer output files with parallel processing."""
     all_fixtures = {}
@@ -211,6 +235,9 @@ def process_directory_parallel(
             pretty=pretty,
             merge=merge,
             evm_bin=evm_bin,
+            num_blocks=num_blocks,
+            block_strategy=block_strategy,
+            block_time=block_time,
         )
 
         with ProcessPoolExecutor(max_workers=num_workers) as executor:
@@ -285,6 +312,9 @@ def process_directory(
     pretty: bool,
     merge: bool,
     quiet: bool,
+    num_blocks: int = 1,
+    block_strategy: str = "distribute",
+    block_time: int = 12,
 ):
     """Process directory of fuzzer output files."""
     all_fixtures = {}
@@ -320,7 +350,12 @@ def process_directory(
                     fuzzer_data["fork"] = fork
 
                 # Build blocktest
-                blocktest = builder.build_blocktest(fuzzer_data)
+                blocktest = builder.build_blocktest(
+                    fuzzer_data,
+                    num_blocks=num_blocks,
+                    block_strategy=block_strategy,
+                    block_time=block_time,
+                )
                 test_name = generate_test_name(json_file_path)
 
                 if merge:
@@ -411,6 +446,26 @@ def process_directory(
     default=None,
     help="Number of parallel workers (default: auto-detect based on CPU count)",
 )
+@click.option(
+    "-b",
+    "--num-blocks",
+    type=int,
+    default=1,
+    help="Number of blocks to generate from fuzzer input (default: 1)",
+)
+@click.option(
+    "--block-strategy",
+    type=click.Choice(["distribute", "first-block"]),
+    default="distribute",
+    help="Transaction distribution strategy: 'distribute' splits txs evenly, "
+    "'first-block' puts all txs in first block (default: distribute)",
+)
+@click.option(
+    "--block-time",
+    type=int,
+    default=12,
+    help="Seconds between blocks (default: 12)",
+)
 def main(
     input_path: Path,
     output_path: Path,
@@ -421,6 +476,9 @@ def main(
     quiet: bool,
     parallel: bool,
     workers: Optional[int],
+    num_blocks: int,
+    block_strategy: str,
+    block_time: int,
 ):
     """
     Convert fuzzer output to valid blocktest fixtures.
@@ -444,15 +502,46 @@ def main(
     # Process input
     if input_path.is_file():
         # Single file processing
-        process_single_file(input_path, output_path, builder, fork, pretty, quiet)
+        process_single_file(
+            input_path,
+            output_path,
+            builder,
+            fork,
+            pretty,
+            quiet,
+            num_blocks,
+            block_strategy,
+            block_time,
+        )
     else:
         # Directory processing with optional parallel mode
         if parallel:
             process_directory_parallel(
-                input_path, output_path, fork, pretty, merge, quiet, evm_bin, workers
+                input_path,
+                output_path,
+                fork,
+                pretty,
+                merge,
+                quiet,
+                evm_bin,
+                workers,
+                num_blocks,
+                block_strategy,
+                block_time,
             )
         else:
-            process_directory(input_path, output_path, builder, fork, pretty, merge, quiet)
+            process_directory(
+                input_path,
+                output_path,
+                builder,
+                fork,
+                pretty,
+                merge,
+                quiet,
+                num_blocks,
+                block_strategy,
+                block_time,
+            )
 
 
 if __name__ == "__main__":
