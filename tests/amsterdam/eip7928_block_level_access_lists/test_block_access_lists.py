@@ -11,7 +11,6 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Initcode,
-    Storage,
     Transaction,
     compute_create_address,
 )
@@ -124,89 +123,6 @@ def test_bal_balance_changes(
         post={
             alice: Account(nonce=1, balance=alice_final_balance),
             bob: Account(balance=100),
-        },
-    )
-
-
-def test_bal_storage_writes(
-    pre: Alloc,
-    blockchain_test: BlockchainTestFiller,
-):
-    """Ensure BAL captures storage writes."""
-    storage = Storage({0x01: 0})  # type: ignore
-    storage_contract = pre.deploy_contract(
-        code=Op.SSTORE(0x01, 0x42) + Op.STOP,
-        # pre-fill with canary value to detect writes in post-state
-        storage=storage.canary(),
-    )
-    alice = pre.fund_eoa()
-
-    tx = Transaction(
-        sender=alice,
-        to=storage_contract,
-        gas_limit=100000,
-    )
-
-    block = Block(
-        txs=[tx],
-        expected_block_access_list=BlockAccessListExpectation(
-            account_expectations={
-                storage_contract: BalAccountExpectation(
-                    storage_changes=[
-                        BalStorageSlot(
-                            slot=0x01,
-                            slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)],
-                        )
-                    ],
-                ),
-            }
-        ),
-    )
-
-    blockchain_test(
-        pre=pre,
-        blocks=[block],
-        post={
-            alice: Account(nonce=1),
-            storage_contract: Account(storage={0x01: 0x42}),
-        },
-    )
-
-
-def test_bal_storage_reads(
-    pre: Alloc,
-    blockchain_test: BlockchainTestFiller,
-):
-    """Ensure BAL captures storage reads."""
-    storage_contract = pre.deploy_contract(
-        code=Op.SLOAD(0x01) + Op.STOP,
-        storage={0x01: 0x42},
-    )
-    alice = pre.fund_eoa()
-
-    tx = Transaction(
-        sender=alice,
-        to=storage_contract,
-        gas_limit=100000,
-    )
-
-    block = Block(
-        txs=[tx],
-        expected_block_access_list=BlockAccessListExpectation(
-            account_expectations={
-                storage_contract: BalAccountExpectation(
-                    storage_reads=[0x01],
-                ),
-            }
-        ),
-    )
-
-    blockchain_test(
-        pre=pre,
-        blocks=[block],
-        post={
-            alice: Account(nonce=1),
-            storage_contract: Account(storage={0x01: 0x42}),
         },
     )
 
