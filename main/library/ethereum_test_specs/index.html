@@ -33306,7 +33306,11 @@ limit cap into multiple transactions.</p>
 <span class="normal">905</span>
 <span class="normal">906</span>
 <span class="normal">907</span>
-<span class="normal">908</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -33432,7 +33436,7 @@ limit cap into multiple transactions.</p>
                 <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                 <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
                 <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
-                <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
+                <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
                 <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
             <span class="p">),</span>
             <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
@@ -33445,7 +33449,11 @@ limit cap into multiple transactions.</p>
         <span class="c1"># executing the block by simply counting the type-3 txs, we need to set</span>
         <span class="c1"># the correct value by default.</span>
         <span class="n">blob_gas_used</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">blob_gas_per_blob</span> <span class="o">:=</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">blob_gas_per_blob</span> <span class="o">:=</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">(</span>
+                <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span>
+            <span class="p">)</span>
+        <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">blob_gas_used</span> <span class="o">=</span> <span class="n">blob_gas_per_blob</span> <span class="o">*</span> <span class="n">count_blobs</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span>
 
         <span class="n">header</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="p">(</span>
@@ -33483,7 +33491,7 @@ limit cap into multiple transactions.</p>
                 <span class="p">)</span>
 
         <span class="n">requests_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
             <span class="k">assert</span> <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
                 <span class="s2">&quot;Requests are required for this block&quot;</span>
             <span class="p">)</span>
@@ -33502,7 +33510,7 @@ limit cap into multiple transactions.</p>
             <span class="n">header</span><span class="o">.</span><span class="n">requests_hash</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">Requests</span><span class="p">(</span><span class="n">requests_lists</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">requests</span><span class="p">)))</span>
             <span class="n">requests_list</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">requests</span>
 
-        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_bal_hash_required</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_bal_hash_required</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
             <span class="k">assert</span> <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">block_access_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
                 <span class="s2">&quot;Block access list is required for this block but was not provided &quot;</span>
                 <span class="s2">&quot;by the transition tool&quot;</span>
@@ -33706,7 +33714,7 @@ limit cap into multiple transactions.</p>
                 <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">invalid_blocks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span>
-            <span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span>
+            <span class="n">block_number</span><span class="o">=</span><span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span>
         <span class="p">)</span>
         <span class="k">assert</span> <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
             <span class="s2">&quot;A hive fixture was requested but no forkchoice update is defined.&quot;</span>
@@ -34261,7 +34269,11 @@ used.</p>
 <span class="normal">684</span>
 <span class="normal">685</span>
 <span class="normal">686</span>
-<span class="normal">687</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -34295,7 +34307,7 @@ used.</p>
             <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
-            <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
+            <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
         <span class="p">),</span>
         <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
@@ -34308,7 +34320,11 @@ used.</p>
     <span class="c1"># executing the block by simply counting the type-3 txs, we need to set</span>
     <span class="c1"># the correct value by default.</span>
     <span class="n">blob_gas_used</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">blob_gas_per_blob</span> <span class="o">:=</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">blob_gas_per_blob</span> <span class="o">:=</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">(</span>
+            <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span>
+        <span class="p">)</span>
+    <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">blob_gas_used</span> <span class="o">=</span> <span class="n">blob_gas_per_blob</span> <span class="o">*</span> <span class="n">count_blobs</span><span class="p">(</span><span class="n">txs</span><span class="p">)</span>
 
     <span class="n">header</span> <span class="o">=</span> <span class="n">FixtureHeader</span><span class="p">(</span>
@@ -34346,7 +34362,7 @@ used.</p>
             <span class="p">)</span>
 
     <span class="n">requests_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
             <span class="s2">&quot;Requests are required for this block&quot;</span>
         <span class="p">)</span>
@@ -34365,7 +34381,7 @@ used.</p>
         <span class="n">header</span><span class="o">.</span><span class="n">requests_hash</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">Requests</span><span class="p">(</span><span class="n">requests_lists</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">requests</span><span class="p">)))</span>
         <span class="n">requests_list</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">requests</span>
 
-    <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_bal_hash_required</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_bal_hash_required</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">block_access_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
             <span class="s2">&quot;Block access list is required for this block but was not provided &quot;</span>
             <span class="s2">&quot;by the transition tool&quot;</span>
@@ -34483,16 +34499,16 @@ used.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">693</span>
 <span class="normal">694</span>
 <span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
-<span class="normal">698</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify post alloc after all block/s or payload/s are generated.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">expected_state</span><span class="p">:</span>
@@ -34529,11 +34545,7 @@ used.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">704</span>
 <span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span>
@@ -34588,7 +34600,11 @@ used.</p>
 <span class="normal">756</span>
 <span class="normal">757</span>
 <span class="normal">758</span>
-<span class="normal">759</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -34675,11 +34691,7 @@ used.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">761</span>
-<span class="normal">762</span>
-<span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">765</span>
 <span class="normal">766</span>
 <span class="normal">767</span>
 <span class="normal">768</span>
@@ -34783,7 +34795,11 @@ used.</p>
 <span class="normal">866</span>
 <span class="normal">867</span>
 <span class="normal">868</span>
-<span class="normal">869</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">869</span>
+<span class="normal">870</span>
+<span class="normal">871</span>
+<span class="normal">872</span>
+<span class="normal">873</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -34823,7 +34839,7 @@ used.</p>
             <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">invalid_blocks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span>
-        <span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span>
+        <span class="n">block_number</span><span class="o">=</span><span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">built_block</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">timestamp</span>
     <span class="p">)</span>
     <span class="k">assert</span> <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
         <span class="s2">&quot;A hive fixture was requested but no forkchoice update is defined.&quot;</span>
@@ -34919,11 +34935,7 @@ used.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">871</span>
-<span class="normal">872</span>
-<span class="normal">873</span>
-<span class="normal">874</span>
-<span class="normal">875</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">875</span>
 <span class="normal">876</span>
 <span class="normal">877</span>
 <span class="normal">878</span>
@@ -34936,7 +34948,11 @@ used.</p>
 <span class="normal">885</span>
 <span class="normal">886</span>
 <span class="normal">887</span>
-<span class="normal">888</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+<span class="normal">888</span>
+<span class="normal">889</span>
+<span class="normal">890</span>
+<span class="normal">891</span>
+<span class="normal">892</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -34981,11 +34997,7 @@ used.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">890</span>
-<span class="normal">891</span>
-<span class="normal">892</span>
-<span class="normal">893</span>
-<span class="normal">894</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">894</span>
 <span class="normal">895</span>
 <span class="normal">896</span>
 <span class="normal">897</span>
@@ -34999,7 +35011,11 @@ used.</p>
 <span class="normal">905</span>
 <span class="normal">906</span>
 <span class="normal">907</span>
-<span class="normal">908</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -38090,7 +38106,7 @@ used.</p>
         <span class="c1"># We can&#39;t generate a state test fixture that names a transition fork,</span>
         <span class="c1"># so we get the fork at the block number and timestamp of the state</span>
         <span class="c1"># test</span>
-        <span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork_at</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+        <span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork_at</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
 
         <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">(</span><span class="n">keep_secret_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -38729,7 +38745,7 @@ used.</p>
     <span class="c1"># We can&#39;t generate a state test fixture that names a transition fork,</span>
     <span class="c1"># so we get the fork at the block number and timestamp of the state</span>
     <span class="c1"># test</span>
-    <span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork_at</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
+    <span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">fork_at</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
 
     <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">(</span><span class="n">keep_secret_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

@@ -27790,7 +27790,7 @@
 
 
 <h1 id="test_beacon_root_contract_deploy"><code>test_beacon_root_contract_deploy()</code><a class="headerlink" href="#test_beacon_root_contract_deploy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/65f2663da5416a6e3af8ed63c0f9ed549e3bb13e/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L705"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@65f2663d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/77edf420a88e2b1805dfcb0c8016f95ca8c28428/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L705"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@77edf420</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy --fork Osaka</span>
@@ -27963,7 +27963,9 @@ and verifying the code deployed and its functionality after Cancun.</p>
 <span class="normal">854</span>
 <span class="normal">855</span>
 <span class="normal">856</span>
-<span class="normal">857</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">857</span>
+<span class="normal">858</span>
+<span class="normal">859</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">15_000</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deploy_on_shanghai&quot;</span><span class="p">),</span>
@@ -27991,7 +27993,7 @@ and verifying the code deployed and its functionality after Cancun.</p>
 <span class="sd">    Tests the fork transition to cancun deploying the contract during Shanghai</span>
 <span class="sd">    and verifying the code deployed and its functionality after Cancun.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)</span>
     <span class="n">tx_gas_limit</span> <span class="o">=</span> <span class="mh">0x3D090</span>
     <span class="n">tx_gas_price</span> <span class="o">=</span> <span class="mh">0xE8D4A51000</span>
     <span class="n">deployer_required_balance</span> <span class="o">=</span> <span class="n">tx_gas_limit</span> <span class="o">*</span> <span class="n">tx_gas_price</span>
@@ -28025,7 +28027,9 @@ and verifying the code deployed and its functionality after Cancun.</p>
                     <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">deploy_tx</span><span class="p">],</span>
                     <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="p">(</span>
                         <span class="n">beacon_root</span>
-                        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">current_timestamp</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span>
+                            <span class="n">block_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">current_timestamp</span>
+                        <span class="p">)</span>
                         <span class="k">else</span> <span class="kc">None</span>
                     <span class="p">),</span>
                     <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>

@@ -27790,7 +27790,7 @@
 
 
 <h1 id="test_no_beacon_root_contract_at_transition"><code>test_no_beacon_root_contract_at_transition()</code><a class="headerlink" href="#test_no_beacon_root_contract_at_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/65f2663da5416a6e3af8ed63c0f9ed549e3bb13e/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L635"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_no_beacon_root_contract_at_transition@65f2663d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/77edf420a88e2b1805dfcb0c8016f95ca8c28428/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L635"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_no_beacon_root_contract_at_transition@77edf420</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_no_beacon_root_contract_at_transition --fork Osaka</span>
@@ -27896,7 +27896,7 @@ pre-deploy was not deployed in time for the fork.</p>
 <span class="sd">    Tests the fork transition to cancun in the case where the beacon root</span>
 <span class="sd">    pre-deploy was not deployed in time for the fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
