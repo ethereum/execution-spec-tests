@@ -26,9 +26,9 @@ from ethereum_test_tools import (
 from ethereum_test_tools import (
     Opcodes as Op,
 )
-from ethereum_test_types import BalStorageChange
 from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
+    BalStorageChange,
     BalStorageSlot,
     BlockAccessListExpectation,
 )
@@ -116,7 +116,11 @@ def test_bal_sstore_and_oog(
     )
 
 
-@pytest.mark.parametrize("fails_at_sload", [True, False], ids=["oog_at_sload", "successful_sload"])
+@pytest.mark.parametrize(
+    "fails_at_sload",
+    [True, False],
+    ids=["oog_at_sload", "successful_sload"],
+)
 def test_bal_sload_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
