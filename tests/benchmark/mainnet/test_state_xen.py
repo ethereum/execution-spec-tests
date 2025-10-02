@@ -295,7 +295,7 @@ def test_xen_approve_delete_existing_slots(blockchain_test: BlockchainTestFiller
     approval_value_fresh = Hash(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE)
     approval_value_overwrite = Hash(0)
 
-    block_count = 100
+    block_count = 10
 
     for _ in range(block_count):
         setup_calldata = Hash(current_address) + approval_value_fresh
@@ -311,7 +311,7 @@ def test_xen_approve_delete_existing_slots(blockchain_test: BlockchainTestFiller
 
         current_address += address_incr
 
-    spam_count = 10
+    spam_count = 1000
 
     for _ in range(spam_count):
         # NOTE: USDC does not allow changing the approval value. It first has to be
