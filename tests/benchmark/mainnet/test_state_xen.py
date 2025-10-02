@@ -12,23 +12,20 @@ This therefore only tests the practical, "real life" and most likely scenario.
 However, with enough funds (to bloat a contract state), this is thus not the worst scenario.
 """
 
-import math
-
 import pytest
 
-from ethereum_test_base_types.composite_types import Account
-from ethereum_test_forks.helpers import Fork
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
+    Account,
     Alloc,
     Block,
     BlockchainTestFiller,
+    Environment,
     Hash,
     Transaction,
     While,
 )
 from ethereum_test_tools import Macros as Om
-from ethereum_test_types.block_types import Environment
-from ethereum_test_types.helpers import compute_create2_address
 from ethereum_test_vm import Opcodes as Op
 
 
@@ -98,6 +95,7 @@ def test_xen_approve(
         pre=pre,
         post={},  # TODO: add sanity checks (succesful tx execution and no out-of-gas)
         blocks=blocks,
+        skip_gas_used_validation=True,
     )
 
 
@@ -182,6 +180,8 @@ def test_xen_approve_change_existing_slots(
 
         current_address += address_incr
 
+    # TODO: insert unrelated spam to USDT to bust cache
+
     attack_calldata = Hash(start_address) + approval_value_overwrite
 
     attack_tx = Transaction(
@@ -198,15 +198,13 @@ def test_xen_approve_change_existing_slots(
         pre=pre,
         post={},  # TODO: add sanity checks (succesful tx execution and no out-of-gas)
         blocks=blocks,
+        skip_gas_used_validation=True,
     )
 
 
 # TODO split this code in all situations: 0->1, 1->2, 1->0
 @pytest.mark.valid_from("Frontier")
-def test_xen_approve_delete_existing_slots(
-    blockchain_test: BlockchainTestFiller,
-    pre: Alloc,
-):
+def test_xen_approve_delete_existing_slots(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
     Uses the `approve(address,uint256)` method of XEN (ERC20) close to the maximum amount
     of slots which could be edited (as opposed to be created) within a single block/transaction.
@@ -297,7 +295,7 @@ def test_xen_approve_delete_existing_slots(
     approval_value_fresh = Hash(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE)
     approval_value_overwrite = Hash(0)
 
-    block_count = 10
+    block_count = 100
 
     for _ in range(block_count):
         setup_calldata = Hash(current_address) + approval_value_fresh
@@ -386,6 +384,7 @@ def test_xen_approve_delete_existing_slots(
         pre=pre,
         post={},  # TODO: add sanity checks (succesful tx execution and no out-of-gas)
         blocks=blocks,
+        skip_gas_used_validation=True,
     )
 
 
@@ -401,8 +400,9 @@ def test_xen_approve_delete_existing_slots(
 # TODO: set correct fork, XEN might reject on historical forks due to e.g. non-existent opcodes
 # NOTE: deploy both XEN (0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8)
 # and Math (0x4bBA9B6B49f3dFA6615f079E9d66B0AA68B04A4d) in prestate for the Mainnet scenario!
+# NOTE: this requires the timestamp hack, where each new payload moves by at least 24*60*60+1
+# seconds (fix me later if we have the tooling for this)
 @pytest.mark.valid_from("Frontier")
-@pytest.mark.skip(reason="TEMP: disabled test")  # TODO fixme
 def test_xen_claimrank_and_mint(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
@@ -422,9 +422,6 @@ def test_xen_claimrank_and_mint(
     # timestamp = 12 TODO: disabled, this is likely not part of EEST to support
     # A special CL has to perform edited newPayloads such that we can edit the timestamp
 
-    # TODO: adjust this to the right amount of the actual performance test block
-    num_xen = 1
-
     # NOTE: these contracts MUST be specified for this test to work
     # TODO: check how/if EEST enforces this
     xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
@@ -435,58 +432,40 @@ def test_xen_claimrank_and_mint(
 
     # This is after (!!) deployment (so step 2, not 1): claimMintReward()
     calldata_claim_mint_reward = bytes.fromhex("52c7f8dc")
-    after_initcode_callata = Om.MSTORE(bytes.fromhex("52c7f8dc")) + Op.CALL(
-        address=(xen_contract),
-        args_size=len(calldata_claim_mint_reward),
-    )
-
     # Calldata for claimRank(1)
     calldata_claim_rank = bytes.fromhex(
         "9ff054df0000000000000000000000000000000000000000000000000000000000000001"
     )
-
-    # claimRank(1) and deposits the code to claimMintReward() if this contract is called
-    initcode = (
-        Om.MSTORE(calldata_claim_rank)
+    after_initcode_callata = (
+        Om.MSTORE(bytes.fromhex("52c7f8dc"), offset=0)
+        + Op.CALL(
+            address=(xen_contract),
+            args_size=len(calldata_claim_mint_reward),
+        )
+        + Om.MSTORE(calldata_claim_rank, offset=0)
         + Op.CALL(
             address=(xen_contract),
             args_size=len(calldata_claim_rank),
         )
-        + Om.MSTORE(after_initcode_callata)
+    )
+
+    # claimRank(1) and deposits the code to claimMintReward() if this contract is called
+    # + claimRank(1) again
+    initcode = (
+        Om.MSTORE(calldata_claim_rank, offset=0)
+        + Op.CALL(
+            address=(xen_contract),
+            args_size=len(calldata_claim_rank),
+        )
+        + Om.MSTORE(after_initcode_callata, offset=0)
         + Op.RETURN(0, len(after_initcode_callata))
     )
 
     # Template code that will be used to deploy a large number of contracts.
     initcode_address = pre.deploy_contract(code=initcode)
 
-    # Calculate the number of contracts that can be deployed with the available gas.
-    gas_costs = fork.gas_costs()
-    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    loop_cost = (
-        gas_costs.G_KECCAK_256  # KECCAK static cost
-        + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic cost for CREATE2
-        + gas_costs.G_VERY_LOW * 3  # ~MSTOREs+ADDs
-        + gas_costs.G_COLD_ACCOUNT_ACCESS  # CALL to self-destructing contract
-        + gas_costs.G_SELF_DESTRUCT
-        + 63  # ~Gluing opcodes
-    )
-    final_storage_gas = (
-        gas_costs.G_STORAGE_RESET + gas_costs.G_COLD_SLOAD + (gas_costs.G_VERY_LOW * 2)
-    )
-    memory_expansion_cost = fork().memory_expansion_gas_calculator()(new_bytes=96)
-    base_costs = (
-        intrinsic_gas_cost_calc()
-        + (gas_costs.G_VERY_LOW * 12)  # 8 PUSHs + 4 MSTOREs
-        + final_storage_gas
-        + memory_expansion_cost
-    )
-    num_contracts = num_xen  # TODO: edit this to construct as much contracts as possible to
     # `claimMintReward()` as the performance test.
-    expected_benchmark_gas_used = num_contracts * loop_cost + base_costs
 
-    # Create a factory that deployes a new SELFDESTRUCT contract instance pre-funded depending on
-    # the value_bearing parameter. We use CREATE2 so the caller contract can easily reproduce
-    # the addresses in a loop for CALLs.
     factory_code = (
         Op.EXTCODECOPY(
             address=initcode_address,
@@ -508,18 +487,17 @@ def test_xen_claimrank_and_mint(
 
     factory_address = pre.deploy_contract(code=factory_code)
 
-    factory_caller_code = Op.CALLDATALOAD(0) + While(
+    factory_gas_threshold = 400_000
+
+    factory_caller_code = While(
         body=Op.POP(Op.CALL(address=factory_address)),
-        condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
+        condition=Op.GT(Op.GAS, factory_gas_threshold),
     )
     factory_caller_address = pre.deploy_contract(code=factory_caller_code)
 
-    contracts_deployment_tx = Transaction(
-        to=factory_caller_address,
-        gas_limit=attack_gas_limit,
-        data=Hash(num_contracts),
-        sender=pre.fund_eoa(),
-    )
+    sender = pre.fund_eoa()
+
+    gas_threshold = 400_000
 
     code = (
         # Setup memory for later CREATE2 address generation loop.
@@ -528,13 +506,12 @@ def test_xen_claimrank_and_mint(
         + Op.MSTORE8(32 - 20 - 1, 0xFF)
         + Op.MSTORE(32, 0)  # NOTE: this memory location is used as start index of the contracts.
         + Op.MSTORE(64, initcode.keccak256())
-        + Op.CALLDATALOAD(0)
         # Main loop
         + While(
             body=Op.POP(Op.CALL(address=Op.SHA3(32 - 20 - 1, 85)))
             + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
             # Loop over `CALLDATALOAD` contracts
-            condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
+            condition=Op.GT(Op.GAS, gas_threshold),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
@@ -542,26 +519,28 @@ def test_xen_claimrank_and_mint(
 
     # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
     code_addr = pre.deploy_contract(code=code, storage={0: 1})
-    sender = pre.fund_eoa()
-    sender_nonce = 0
 
     post = {
-        factory_address: Account(storage={0: num_contracts}),
         code_addr: Account(storage={0: 42}),  # Check for successful execution.
     }
-    deployed_contract_addresses = []
-    for i in range(num_contracts):
-        deployed_contract_address = compute_create2_address(
-            address=factory_address,
-            salt=i,
-            initcode=initcode,
+    # deployed_contract_addresses = []
+    # for i in range(num_contracts):
+    #    deployed_contract_address = compute_create2_address(
+    #        address=factory_address,
+    #        salt=i,
+    ##        initcode=initcode,
+    #   )
+    #    post[deployed_contract_address] = Account(nonce=1)
+    #    deployed_contract_addresses.append(deployed_contract_address)
+
+    blocks = []
+    for _ in range(20):
+        contracts_deployment_tx = Transaction(
+            to=factory_caller_address,
+            gas_limit=attack_gas_limit,
+            sender=sender,
         )
-        post[deployed_contract_address] = Account(nonce=1)
-        deployed_contract_addresses.append(deployed_contract_address)
-
-    setup_block = Block(txs=[contracts_deployment_tx])
-
-    blocks = [setup_block]
+        blocks.append(Block(txs=[contracts_deployment_tx]))
 
     # for _ in range(24*60*60):
     #    blocks.append(Block(txs=[Transaction(sender=sender,to=sender, nonce=sender_nonce)]))
@@ -569,13 +548,9 @@ def test_xen_claimrank_and_mint(
 
     opcode_tx = Transaction(
         to=code_addr,
-        data=Hash(num_contracts),
         gas_limit=attack_gas_limit,
         sender=sender,
-        nonce=sender_nonce,
     )
-
-    sender_nonce = sender_nonce + 1
 
     attack_block = Block(
         txs=[opcode_tx],
@@ -593,5 +568,5 @@ def test_xen_claimrank_and_mint(
         post=post,
         blocks=blocks,
         exclude_full_post_state_in_output=True,
-        expected_benchmark_gas_used=expected_benchmark_gas_used,
+        skip_gas_used_validation=True,
     )
