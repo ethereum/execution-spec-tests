@@ -1,5 +1,6 @@
 """
-Tests for EIP-7928 Block Access Lists with out-of-gas scenarios.
+Tests for EIP-7928 Block Access Lists with single-opcode success and OOG
+scenarios.
 
 Block access lists (BAL) are generated via a client's state tracing journal.
 Residual journal entries may persist when opcodes run out of gas, resulting
