@@ -16,7 +16,6 @@ import time
 
 import pytest
 
-from ethereum_test_base_types import Hash
 from ethereum_test_exceptions import UndefinedException
 from ethereum_test_fixtures import BlockchainEngineSyncFixture
 from ethereum_test_rpc import AdminRPC, EngineRPC, EthRPC, NetRPC
@@ -40,65 +39,6 @@ class LoggedError(Exception):
         """Initialize the exception and log the failure."""
         super().__init__(*args)
         logger.fail(str(self))
-
-
-def wait_for_sync(
-    sync_eth_rpc: EthRPC,
-    expected_block_hash: str | Hash,
-    timeout: int = 10,
-    poll_interval: float = 1.0,
-) -> bool:
-    """Wait for the sync client to reach the expected block hash."""
-    start_time = time.time()
-    last_block_number = 0
-    no_progress_count = 0
-
-    while time.time() - start_time < timeout:
-        try:
-            # First check if we have the expected block
-            block = sync_eth_rpc.get_block_by_hash(Hash(expected_block_hash))
-            if block is not None:
-                logger.info(f"Sync complete! Client has block {expected_block_hash}")
-                return True
-
-            # Check current sync progress
-            current_block = sync_eth_rpc.get_block_by_number("latest")
-            if current_block:
-                current_number = int(current_block.get("number", "0x0"), 16)
-                current_hash = current_block.get("hash", "unknown")
-                if current_number > last_block_number:
-                    logger.info(f"Sync progress: block {current_number} (hash: {current_hash})")
-                    last_block_number = current_number
-                    no_progress_count = 0
-                else:
-                    no_progress_count += 1
-                    if no_progress_count == 1:
-                        logger.info(
-                            f"Sync client is at block {current_number} (hash: {current_hash})"
-                        )
-                    elif no_progress_count % 10 == 0:
-                        logger.debug(
-                            f"No sync progress for {no_progress_count} polls, "
-                            f"still at block {current_number}"
-                        )
-
-        except Exception as e:
-            logger.debug(f"Error checking sync status: {e}")
-
-        time.sleep(poll_interval)
-
-    # Log final state
-    try:
-        final_block = sync_eth_rpc.get_block_by_number("latest")
-        if final_block:
-            logger.warning(
-                f"Sync timeout! Final block: {final_block.get('number', 'unknown')} "
-                f"(hash: {final_block.get('hash', 'unknown')})"
-            )
-    except Exception:
-        pass
-
-    return False
 
 
 def test_blockchain_via_sync(
@@ -445,7 +385,7 @@ def test_blockchain_via_sync(
         last_forkchoice_time = time.time()
         forkchoice_interval = 2.0  # Send forkchoice updates every 2 seconds
 
-        while time.time() - sync_start_time < 60:  # 60 second timeout
+        while time.time() - sync_start_time < 15:  # 15 second timeout
             # Send periodic forkchoice updates to keep sync alive
             if time.time() - last_forkchoice_time >= forkchoice_interval:
                 try:
@@ -473,35 +413,35 @@ def test_blockchain_via_sync(
                 f"within timeout"
             )
 
-        # Final verification
+        logger.info("Sync verification successful!")
+
+        # Verify the final state but give a few tries
+        assert eth_rpc is not None, "eth_rpc is required"
         assert sync_eth_rpc is not None, "sync_eth_rpc is required"
-        assert sync_engine_rpc is not None, "sync_engine_rpc is required"
-        if wait_for_sync(sync_eth_rpc, last_valid_block_hash, timeout=5):
-            logger.info("Sync verification successful!")
 
-            # Verify the final state
-            sync_block = sync_eth_rpc.get_block_by_hash(last_valid_block_hash)
-            client_block = eth_rpc.get_block_by_hash(last_valid_block_hash)
+        for attempt in range(3):
+            try:
+                sync_block = sync_eth_rpc.get_block_by_hash(last_valid_block_hash)
+                client_block = eth_rpc.get_block_by_hash(last_valid_block_hash)
 
-            if sync_block["stateRoot"] != client_block["stateRoot"]:
-                raise LoggedError(
-                    f"State root mismatch after sync. "
-                    f"Sync client: {sync_block['stateRoot']}, "
-                    f"Client under test: {client_block['stateRoot']}"
-                )
-
-            # Verify post state if available
-            if fixture.post_state_hash:
-                if sync_block["stateRoot"] != str(fixture.post_state_hash):
+                if sync_block["stateRoot"] != client_block["stateRoot"]:
                     raise LoggedError(
-                        f"Final state root mismatch. "
-                        f"Expected: {fixture.post_state_hash}, "
-                        f"Got: {sync_block['stateRoot']}"
+                        f"State root mismatch after sync. "
+                        f"Sync client: {sync_block['stateRoot']}, "
+                        f"Client under test: {client_block['stateRoot']}"
                     )
-        else:
-            raise LoggedError(
-                f"Sync client failed to synchronize to block {last_valid_block_hash} "
-                f"within timeout"
-            )
+
+                if fixture.post_state_hash:
+                    if sync_block["stateRoot"] != str(fixture.post_state_hash):
+                        raise LoggedError(
+                            f"Final state root mismatch. "
+                            f"Expected: {fixture.post_state_hash}, "
+                            f"Got: {sync_block['stateRoot']}"
+                        )
+            except Exception as e:
+                if attempt < 2:
+                    time.sleep(1)
+                    continue
+                raise e
 
     logger.info("Sync test completed successfully!")
