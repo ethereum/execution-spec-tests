@@ -430,8 +430,7 @@ class ProgramChainid(ScenarioTestProgram):
 
     def result(self) -> ProgramResult:
         """Test result."""
-        # TODO: why attribute error when accessing ChainConfig.chain_id?
-        #       only ChainConfigDefaults works
+        # TODO: use `chain_config` fixture instead.
         chain_id = ChainConfigDefaults.chain_id
 
         return ProgramResult(result=chain_id, from_fork=Istanbul)
