@@ -261,11 +261,12 @@ def test_repeated_address_acl(
     fork: Fork,
 ):
     """
-    Tests that slots are warmed correctly in an access list that has the same address repeated
-    more than once, each time with different slots.
+    Tests that slots are warmed correctly in an access list that has the same
+    address repeated more than once, each time with different slots.
 
-    Difference with other ACL tests is that we actually try to access both slots at runtime,
-    we also measure the gas cost of each access in order to make debugging easier.
+    Difference with other ACL tests is that we actually try to
+    access both slots at runtime. We also measure the gas cost
+    of each access in order to make debugging easier.
     """
     sender = pre.fund_eoa()
     gsc = fork.gas_costs()
