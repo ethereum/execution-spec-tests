@@ -102,6 +102,10 @@ def pytest_configure(config: pytest.Config):
     )
     config.addinivalue_line(
         "markers",
+        "stateful: Tests for stateful benchmarking scenarios.",
+    )
+    config.addinivalue_line(
+        "markers",
         "exception_test: Negative tests that include an invalid block or transaction.",
     )
     config.addinivalue_line(
