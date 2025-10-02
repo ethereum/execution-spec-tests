@@ -524,7 +524,7 @@ class BlockchainTest(BaseTest):
                 env=env,
                 fork=fork,
                 chain_id=self.chain_id,
-                reward=fork.get_reward(env.number, env.timestamp),
+                reward=fork.get_reward(block_number=env.number, timestamp=env.timestamp),
                 blob_schedule=fork.blob_schedule(),
             ),
             debug_output_path=self.get_next_transition_tool_output_path(),
@@ -537,7 +537,11 @@ class BlockchainTest(BaseTest):
         # executing the block by simply counting the type-3 txs, we need to set
         # the correct value by default.
         blob_gas_used: int | None = None
-        if (blob_gas_per_blob := fork.blob_gas_per_blob(env.number, env.timestamp)) > 0:
+        if (
+            blob_gas_per_blob := fork.blob_gas_per_blob(
+                block_number=env.number, timestamp=env.timestamp
+            )
+        ) > 0:
             blob_gas_used = blob_gas_per_blob * count_blobs(txs)
 
         header = FixtureHeader(
@@ -575,7 +579,7 @@ class BlockchainTest(BaseTest):
                 )
 
         requests_list: List[Bytes] | None = None
-        if fork.header_requests_required(header.number, header.timestamp):
+        if fork.header_requests_required(block_number=header.number, timestamp=header.timestamp):
             assert transition_tool_output.result.requests is not None, (
                 "Requests are required for this block"
             )
@@ -594,7 +598,7 @@ class BlockchainTest(BaseTest):
             header.requests_hash = Hash(Requests(requests_lists=list(block.requests)))
             requests_list = block.requests
 
-        if fork.header_bal_hash_required(header.number, header.timestamp):
+        if fork.header_bal_hash_required(block_number=header.number, timestamp=header.timestamp):
             assert transition_tool_output.result.block_access_list is not None, (
                 "Block access list is required for this block but was not provided "
                 "by the transition tool"
@@ -798,7 +802,7 @@ class BlockchainTest(BaseTest):
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
         fcu_version = fork.engine_forkchoice_updated_version(
-            built_block.header.number, built_block.header.timestamp
+            block_number=built_block.header.number, timestamp=built_block.header.timestamp
         )
         assert fcu_version is not None, (
             "A hive fixture was requested but no forkchoice update is defined."

@@ -103,7 +103,9 @@ class HeaderForkRequirement(str):
 
     def required(self, fork: Fork, block_number: int, timestamp: int) -> bool:
         """Check if the field is required for the given fork."""
-        return getattr(fork, f"header_{self}_required")(block_number, timestamp)
+        return getattr(fork, f"header_{self}_required")(
+            block_number=block_number, timestamp=timestamp
+        )
 
     @classmethod
     def get_from_annotation(cls, field_hints: Any) -> "HeaderForkRequirement | None":
@@ -238,9 +240,13 @@ class FixtureHeader(CamelModel):
         environment_values["extra_data"] = env.extra_data
         extras = {
             "state_root": state_root,
-            "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
+            "requests_hash": Requests()
+            if fork.header_requests_required(block_number=0, timestamp=0)
+            else None,
             "block_access_list_hash": (
-                BlockAccessList().rlp_hash if fork.header_bal_hash_required(0, 0) else None
+                BlockAccessList().rlp_hash
+                if fork.header_bal_hash_required(block_number=0, timestamp=0)
+                else None
             ),
             "fork": fork,
         }
@@ -356,14 +362,18 @@ class FixtureEngineNewPayload(CamelModel):
         **kwargs,
     ) -> "FixtureEngineNewPayload":
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
-        new_payload_version = fork.engine_new_payload_version(header.number, header.timestamp)
+        new_payload_version = fork.engine_new_payload_version(
+            block_number=header.number, timestamp=header.timestamp
+        )
         forkchoice_updated_version = fork.engine_forkchoice_updated_version(
-            header.number, header.timestamp
+            block_number=header.number, timestamp=header.timestamp
         )
 
         assert new_payload_version is not None, "Invalid header for engine_newPayload"
 
-        if fork.engine_execution_payload_block_access_list(header.number, header.timestamp):
+        if fork.engine_execution_payload_block_access_list(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             if block_access_list is None:
                 raise ValueError(
                     f"`block_access_list` is required in engine `ExecutionPayload` for >={fork}."
@@ -377,19 +387,25 @@ class FixtureEngineNewPayload(CamelModel):
         )
 
         params: List[Any] = [execution_payload]
-        if fork.engine_new_payload_blob_hashes(header.number, header.timestamp):
+        if fork.engine_new_payload_blob_hashes(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             blob_hashes = Transaction.list_blob_versioned_hashes(transactions)
             if blob_hashes is None:
                 raise ValueError(f"Blob hashes are required for ${fork}.")
             params.append(blob_hashes)
 
-        if fork.engine_new_payload_beacon_root(header.number, header.timestamp):
+        if fork.engine_new_payload_beacon_root(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             parent_beacon_block_root = header.parent_beacon_block_root
             if parent_beacon_block_root is None:
                 raise ValueError(f"Parent beacon block root is required for ${fork}.")
             params.append(parent_beacon_block_root)
 
-        if fork.engine_new_payload_requests(header.number, header.timestamp):
+        if fork.engine_new_payload_requests(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             if requests is None:
                 raise ValueError(f"Requests are required for ${fork}.")
             params.append(requests)

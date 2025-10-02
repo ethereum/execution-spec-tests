@@ -247,7 +247,9 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
         forkchoice_state = ForkchoiceState(
             head_block_hash=head_block["hash"],
         )
-        parent_beacon_block_root = Hash(0) if self.fork.header_beacon_root_required(0, 0) else None
+        parent_beacon_block_root = (
+            Hash(0) if self.fork.header_beacon_root_required(block_number=0, timestamp=0) else None
+        )
         payload_attributes = PayloadAttributes(
             timestamp=HexNumber(head_block["timestamp"]) + 1,
             prev_randao=Hash(0),
@@ -255,13 +257,17 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
             withdrawals=[] if self.fork.header_withdrawals_required() else None,
             parent_beacon_block_root=parent_beacon_block_root,
             target_blobs_per_block=(
-                self.fork.target_blobs_per_block(0, 0)
-                if self.fork.engine_payload_attribute_target_blobs_per_block(0, 0)
+                self.fork.target_blobs_per_block(block_number=0, timestamp=0)
+                if self.fork.engine_payload_attribute_target_blobs_per_block(
+                    block_number=0, timestamp=0
+                )
                 else None
             ),
             max_blobs_per_block=(
-                self.fork.max_blobs_per_block(0, 0)
-                if self.fork.engine_payload_attribute_max_blobs_per_block(0, 0)
+                self.fork.max_blobs_per_block(block_number=0, timestamp=0)
+                if self.fork.engine_payload_attribute_max_blobs_per_block(
+                    block_number=0, timestamp=0
+                )
                 else None
             ),
         )

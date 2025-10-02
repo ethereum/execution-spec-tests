@@ -544,7 +544,7 @@ def test_beacon_root_transition(
     ):
         timestamp_index = timestamp % Spec.HISTORY_BUFFER_LENGTH
 
-        transitioned = fork.header_beacon_root_required(i, timestamp)
+        transitioned = fork.header_beacon_root_required(block_number=i, timestamp=timestamp)
         if transitioned:
             # We've transitioned, the current timestamp must contain a value in
             # the contract
@@ -650,7 +650,7 @@ def test_no_beacon_root_contract_at_transition(
     Tests the fork transition to cancun in the case where the beacon root
     pre-deploy was not deployed in time for the fork.
     """
-    assert fork.header_beacon_root_required(1, timestamp)
+    assert fork.header_beacon_root_required(block_number=1, timestamp=timestamp)
     blocks: List[Block] = [
         Block(
             txs=[tx],
@@ -730,7 +730,7 @@ def test_beacon_root_contract_deploy(
     Tests the fork transition to cancun deploying the contract during Shanghai
     and verifying the code deployed and its functionality after Cancun.
     """
-    assert fork.header_beacon_root_required(1, timestamp)
+    assert fork.header_beacon_root_required(block_number=1, timestamp=timestamp)
     tx_gas_limit = 0x3D090
     tx_gas_price = 0xE8D4A51000
     deployer_required_balance = tx_gas_limit * tx_gas_price
@@ -764,7 +764,9 @@ def test_beacon_root_contract_deploy(
                     txs=[deploy_tx],
                     parent_beacon_block_root=(
                         beacon_root
-                        if fork.header_beacon_root_required(1, current_timestamp)
+                        if fork.header_beacon_root_required(
+                            block_number=1, timestamp=current_timestamp
+                        )
                         else None
                     ),
                     timestamp=timestamp // 2,
