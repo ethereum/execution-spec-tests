@@ -36,7 +36,7 @@ class Operation(Enum):
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_ContractSuicideDuringInitFiller.json",
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/1871"],
-    # coverage_missed_reason="Converting solidity code result in following opcode not being used:",
+    # coverage_missed_reason="Tip to coinbase",
 )
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.with_all_create_opcodes
@@ -54,8 +54,8 @@ def test_create_suicide_during_transaction_create(
     transaction_create: bool,
 ):
     """Contract init code calls suicide then measures different metrics."""
-    if create_opcode == Op.CREATE2 and transaction_create:
-        pytest.skip("Excluded: CREATE2 with transaction_create=True")
+    if create_opcode != Op.CREATE and transaction_create:
+        pytest.skip(f"Excluded: {create_opcode} with transaction_create=True")
 
     sender = pre.fund_eoa()
     contract_deploy = pre.deploy_contract(
@@ -63,12 +63,13 @@ def test_create_suicide_during_transaction_create(
         + create_opcode(size=Op.CALLDATASIZE(), value=Op.CALLVALUE())
     )
     contract_success = pre.deploy_contract(code=Op.SSTORE(1, 1))
+    self_destruct_destination = pre.deploy_contract(code=Op.STOP)
     contract_after_suicide = pre.deploy_contract(code=Op.SSTORE(1, 1))
 
     contract_initcode = Initcode(
         initcode_prefix=Op.CALL(address=contract_success, gas=Op.SUB(Op.GAS, 100_000))
         + Op.SELFDESTRUCT(
-            Op.ADDRESS if operation == Operation.SUICIDE_TO_ITSELF else contract_success
+            Op.ADDRESS if operation == Operation.SUICIDE_TO_ITSELF else self_destruct_destination
         )
         + Op.CALL(address=contract_after_suicide, gas=Op.SUB(Op.GAS, 100_000)),
         deploy_code=Op.SSTORE(0, 1),
@@ -81,19 +82,20 @@ def test_create_suicide_during_transaction_create(
         opcode=create_opcode,
     )
 
+    tx_value = 100
     tx = Transaction(
         gas_limit=1_000_000,
         to=None if transaction_create else contract_deploy,
         data=contract_initcode,
-        nonce=0,
-        value=100,
+        value=tx_value,
         sender=sender,
         protected=fork >= Byzantium,
     )
 
     post = {
-        contract_success: Account(
-            balance=0 if operation == Operation.SUICIDE_TO_ITSELF else 100, storage={1: 1}
+        contract_success: Account(storage={1: 1}),
+        self_destruct_destination: Account(
+            balance=0 if operation == Operation.SUICIDE_TO_ITSELF else tx_value
         ),
         contract_deploy: Account(storage={0: 0}),
         contract_after_suicide: Account(storage={1: 0}),  # suicide eats all gas
