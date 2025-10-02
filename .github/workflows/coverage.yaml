@@ -143,12 +143,23 @@ jobs:
       - name: Print Unique Test IDs that will be covered
         if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         run: |
-          echo "=== Original BASE (main) test IDs ==="
-          uv run python -c "import json; data=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json')); [print(tc['id']) for tc in data['test_cases']]"
-          echo "=== Ported PATCH test IDs ==="
-          uv run python -c "import json; data=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json')); [print(tc['id']) for tc in data['test_cases']]"
-          echo "=== SUMMARY ==="
-          uv run python -c "import json; base=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json')); patch=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json')); print(f'BASE: {len(base[\"test_cases\"])} tests, PATCH: {len(patch[\"test_cases\"])} tests, Difference: {len(patch[\"test_cases\"]) - len(base[\"test_cases\"])}')"
+          BASE_INDEX="${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json"
+          PATCH_INDEX="${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json"
+          if [[ -f "$BASE_INDEX" ]]; then
+              echo "=== Original BASE (main) test IDs ==="
+              uv run python -c "import json; data=json.load(open('$BASE_INDEX')); [print(tc['id']) for tc in data['test_cases']]"
+          else
+              echo "=== Original BASE (main) test files ==="
+              find "${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/" -type f
+          fi
+          if [[ -f "$PATCH_INDEX" ]]; then
+              echo "=== Ported PATCH test IDs ==="
+              uv run python -c "import json; data=json.load(open('$PATCH_INDEX')); [print(tc['id']) for tc in data['test_cases']]"
+          fi
+          if [[ -f "$BASE_INDEX" && -f "$PATCH_INDEX" ]]; then
+              echo "=== SUMMARY ==="
+              uv run python -c "import json; base=json.load(open('$BASE_INDEX')); patch=json.load(open('$PATCH_INDEX')); print(f'BASE: {len(base[\"test_cases\"])} tests, PATCH: {len(patch[\"test_cases\"])} tests, Difference: {len(patch[\"test_cases\"]) - len(base[\"test_cases\"])}')"
+          fi
 
       - name: Run coverage of the BASE tests
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
