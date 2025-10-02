@@ -30,12 +30,14 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add flexible API for absence checks for EIP-7928 (BAL) tests ([#2124](https://github.com/ethereum/execution-spec-tests/pull/2124)).
 - 🐞 Use `engine_newPayloadV5` for `>=Amsterdam` forks in `consume engine` ([#2170](https://github.com/ethereum/execution-spec-tests/pull/2170)).
 - 🔀 Refactor EIP-7928 (BAL) absence checks into a friendlier class-based DevEx ([#2175](https://github.com/ethereum/execution-spec-tests/pull/2175)).
+- 🐞 Tighten up validation for empty lists on Block-Level Access List tests ([#2118](https://github.com/ethereum/execution-spec-tests/pull/2118)).
 
 ### 🧪 Test Cases
 
 - ✨ Add safe EIP-6110 workaround to allow Geth/Reth to pass invalid deposit request tests even thought they are out of spec ([#2177](https://github.com/ethereum/execution-spec-tests/pull/2177), [#2233](https://github.com/ethereum/execution-spec-tests/pull/2233)).
 - ✨ Add an EIP-7928 test case targeting the `SELFDESTRUCT` opcode. ([#2159](https://github.com/ethereum/execution-spec-tests/pull/2159)).
 - ✨ Add essential tests for coverage gaps in EIP-7951 (`p256verify` precompile) ([#2179](https://github.com/ethereum/execution-spec-tests/pull/2159), [#2203](https://github.com/ethereum/execution-spec-tests/pull/2203), [#2215](https://github.com/ethereum/execution-spec-tests/pull/2215), [#2216](https://github.com/ethereum/execution-spec-tests/pull/2216), [#2217](https://github.com/ethereum/execution-spec-tests/pull/2217), [#2218](https://github.com/ethereum/execution-spec-tests/pull/2218), [#2221](https://github.com/ethereum/execution-spec-tests/pull/2221), [#2229](https://github.com/ethereum/execution-spec-tests/pull/2229), [#2230](https://github.com/ethereum/execution-spec-tests/pull/2230), [#2237](https://github.com/ethereum/execution-spec-tests/pull/2237), [#2238](https://github.com/ethereum/execution-spec-tests/pull/2238)).
+- ✨ Add EIP-7928 successful and OOG single-opcode tests ([#2118](https://github.com/ethereum/execution-spec-tests/pull/2118)).
 
 ## [v5.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v5.0.0) - 2025-09-05
 
