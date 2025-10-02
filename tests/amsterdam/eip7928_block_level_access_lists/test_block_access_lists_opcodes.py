@@ -153,9 +153,9 @@ def test_bal_sload_and_oog(
     sload_cold_cost = gas_costs.G_COLD_SLOAD
     tx_gas_limit = intrinsic_gas_cost + push_cost + sload_cold_cost
 
-    # if fails_at_sload:
-    #     # subtract 1 gas to ensure OOG at SLOAD
-    #     tx_gas_limit -= 1
+    if fails_at_sload:
+        # subtract 1 gas to ensure OOG at SLOAD
+        tx_gas_limit -= 1
 
     tx = Transaction(
         sender=alice,
