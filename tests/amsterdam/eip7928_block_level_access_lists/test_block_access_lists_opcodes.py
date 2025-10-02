@@ -43,7 +43,9 @@ REFERENCE_SPEC_VERSION = ref_spec_7928.version
 pytestmark = pytest.mark.valid_from("Amsterdam")
 
 
-@pytest.mark.parametrize("fails_at_sstore", [True, False])
+@pytest.mark.parametrize(
+    "fails_at_sstore", [True, False], ids=["oog_at_sstore", "successful_sstore"]
+)
 def test_bal_sstore_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -114,7 +116,7 @@ def test_bal_sstore_and_oog(
     )
 
 
-@pytest.mark.parametrize("fails_at_sload", [True, False])
+@pytest.mark.parametrize("fails_at_sload", [True, False], ids=["oog_at_sload", "successful_sload"])
 def test_bal_sload_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -177,7 +179,9 @@ def test_bal_sload_and_oog(
     )
 
 
-@pytest.mark.parametrize("fails_at_balance", [True, False])
+@pytest.mark.parametrize(
+    "fails_at_balance", [True, False], ids=["oog_at_balance", "successful_balance"]
+)
 def test_bal_balance_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -240,7 +244,9 @@ def test_bal_balance_and_oog(
     )
 
 
-@pytest.mark.parametrize("fails_at_extcodesize", [True, False])
+@pytest.mark.parametrize(
+    "fails_at_extcodesize", [True, False], ids=["oog_at_extcodesize", "successful_extcodesize"]
+)
 def test_bal_extcodesize_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -307,7 +313,7 @@ def test_bal_extcodesize_and_oog(
     )
 
 
-@pytest.mark.parametrize("fails_at_call", [True, False])
+@pytest.mark.parametrize("fails_at_call", [True, False], ids=["oog_at_call", "successful_call"])
 def test_bal_call_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -375,7 +381,9 @@ def test_bal_call_and_oog(
     )
 
 
-@pytest.mark.parametrize("fails_at_delegatecall", [True, False])
+@pytest.mark.parametrize(
+    "fails_at_delegatecall", [True, False], ids=["oog_at_delegatecall", "successful_delegatecall"]
+)
 def test_bal_delegatecall_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -448,7 +456,9 @@ def test_bal_delegatecall_and_oog(
     )
 
 
-@pytest.mark.parametrize("fails_at_extcodecopy", [True, False])
+@pytest.mark.parametrize(
+    "fails_at_extcodecopy", [True, False], ids=["oog_at_extcodecopy", "successful_extcodecopy"]
+)
 def test_bal_extcodecopy_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
