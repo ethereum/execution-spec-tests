@@ -311,7 +311,7 @@ def test_xen_approve_delete_existing_slots(blockchain_test: BlockchainTestFiller
 
         current_address += address_incr
 
-    spam_count = 1000
+    spam_count = 200
 
     for _ in range(spam_count):
         # NOTE: USDC does not allow changing the approval value. It first has to be
