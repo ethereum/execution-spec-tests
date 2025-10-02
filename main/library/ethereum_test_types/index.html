@@ -22582,6 +22582,8 @@
       
         
       
+        
+      
     
     
     
@@ -22661,6 +22663,29 @@
   
   <span class="md-ellipsis">
     <code>test_transaction_intrinsic_gas_cost</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/berlin/eip2930_access_list/test_acl/test_repeated_address_acl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_repeated_address_acl</code>
     
   </span>
   
@@ -35509,13 +35534,7 @@ way.</p>
 <span class="normal">413</span>
 <span class="normal">414</span>
 <span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockAccessListExpectation</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">416</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockAccessListExpectation</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block Access List expectation model for test writing.</span>
 
@@ -35752,6 +35771,10 @@ way.</p>
             <span class="k">if</span> <span class="n">field_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">expected</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
                 <span class="k">continue</span>
 
+            <span class="c1"># Check if explicitly set to empty but actual has values</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">expected_list</span> <span class="ow">and</span> <span class="n">actual_list</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> to be empty but found </span><span class="si">{</span><span class="n">actual_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
             <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;storage_reads&quot;</span><span class="p">:</span>
                 <span class="c1"># storage_reads is a simple list of StorageKey</span>
                 <span class="n">actual_idx</span> <span class="o">=</span> <span class="mi">0</span>
@@ -35824,49 +35847,39 @@ way.</p>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Handle nonce_changes, balance_changes, code_changes</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">expected_list</span> <span class="ow">and</span> <span class="n">actual_list</span><span class="p">:</span>
-                    <span class="c1"># Empty expected but non-empty actual - error</span>
-                    <span class="n">item_type</span> <span class="o">=</span> <span class="n">field_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_changes&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                    <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> to be empty but found </span><span class="si">{</span><span class="n">actual_list</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="p">)</span>
-
+                <span class="c1"># Create tuples for comparison (ordering already validated)</span>
+                <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;nonce_changes&quot;</span><span class="p">:</span>
+                    <span class="n">expected_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">post_nonce</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected_list</span><span class="p">]</span>
+                    <span class="n">actual_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">post_nonce</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">actual_list</span><span class="p">]</span>
+                    <span class="n">item_type</span> <span class="o">=</span> <span class="s2">&quot;nonce&quot;</span>
+                <span class="k">elif</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;balance_changes&quot;</span><span class="p">:</span>
+                    <span class="n">expected_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">post_balance</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected_list</span><span class="p">]</span>
+                    <span class="n">actual_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">post_balance</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">actual_list</span><span class="p">]</span>
+                    <span class="n">item_type</span> <span class="o">=</span> <span class="s2">&quot;balance&quot;</span>
+                <span class="k">elif</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;code_changes&quot;</span><span class="p">:</span>
+                    <span class="n">expected_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">new_code</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected_list</span><span class="p">]</span>
+                    <span class="n">actual_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">new_code</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">actual_list</span><span class="p">]</span>
+                    <span class="n">item_type</span> <span class="o">=</span> <span class="s2">&quot;code&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># Create tuples for comparison (ordering already validated)</span>
-                    <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;nonce_changes&quot;</span><span class="p">:</span>
-                        <span class="n">expected_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">post_nonce</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected_list</span><span class="p">]</span>
-                        <span class="n">actual_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">post_nonce</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">actual_list</span><span class="p">]</span>
-                        <span class="n">item_type</span> <span class="o">=</span> <span class="s2">&quot;nonce&quot;</span>
-                    <span class="k">elif</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;balance_changes&quot;</span><span class="p">:</span>
-                        <span class="n">expected_tuples</span> <span class="o">=</span> <span class="p">[</span>
-                            <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">post_balance</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected_list</span>
-                        <span class="p">]</span>
-                        <span class="n">actual_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">post_balance</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">actual_list</span><span class="p">]</span>
-                        <span class="n">item_type</span> <span class="o">=</span> <span class="s2">&quot;balance&quot;</span>
-                    <span class="k">elif</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;code_changes&quot;</span><span class="p">:</span>
-                        <span class="n">expected_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">new_code</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected_list</span><span class="p">]</span>
-                        <span class="n">actual_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">tx_index</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">new_code</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">actual_list</span><span class="p">]</span>
-                        <span class="n">item_type</span> <span class="o">=</span> <span class="s2">&quot;code&quot;</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="c1"># sanity check</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected field type: </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="c1"># sanity check</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected field type: </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="c1"># Check that expected forms a subsequence of actual</span>
-                    <span class="n">actual_idx</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="k">for</span> <span class="n">exp_tuple</span> <span class="ow">in</span> <span class="n">expected_tuples</span><span class="p">:</span>
-                        <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
-                        <span class="k">while</span> <span class="n">actual_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual_tuples</span><span class="p">):</span>
-                            <span class="k">if</span> <span class="n">actual_tuples</span><span class="p">[</span><span class="n">actual_idx</span><span class="p">]</span> <span class="o">==</span> <span class="n">exp_tuple</span><span class="p">:</span>
-                                <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
-                                <span class="n">actual_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-                                <span class="k">break</span>
+                <span class="c1"># Check that expected forms a subsequence of actual</span>
+                <span class="n">actual_idx</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">exp_tuple</span> <span class="ow">in</span> <span class="n">expected_tuples</span><span class="p">:</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">while</span> <span class="n">actual_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual_tuples</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">actual_tuples</span><span class="p">[</span><span class="n">actual_idx</span><span class="p">]</span> <span class="o">==</span> <span class="n">exp_tuple</span><span class="p">:</span>
+                            <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
                             <span class="n">actual_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="k">break</span>
+                        <span class="n">actual_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
-                        <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
-                            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_type</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> change </span><span class="si">{</span><span class="n">exp_tuple</span><span class="si">}</span><span class="s2"> not found &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;or not in correct order. Actual changes: </span><span class="si">{</span><span class="n">actual_tuples</span><span class="si">}</span><span class="s2">&quot;</span>
-                            <span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_type</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> change </span><span class="si">{</span><span class="n">exp_tuple</span><span class="si">}</span><span class="s2"> not found &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;or not in correct order. Actual changes: </span><span class="si">{</span><span class="n">actual_tuples</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
