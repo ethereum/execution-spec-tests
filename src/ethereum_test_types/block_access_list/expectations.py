@@ -168,6 +168,13 @@ class BlockAccessListExpectation(CamelModel):
                     raise BlockAccessListValidationError(
                         f"Address {address} should not be in BAL but was found"
                     )
+            elif expectation == BalAccountExpectation():
+                # explicit check for NO account changes for the address
+                if actual_accounts_by_addr.get(address) != BalAccountChange(address=address):
+                    raise BlockAccessListValidationError(
+                        f"No account changes expected for {address} but found "
+                        f"changes: {actual_accounts_by_addr[address]}"
+                    )
             else:
                 # check address is present and validate changes
                 if address not in actual_accounts_by_addr:

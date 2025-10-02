@@ -345,7 +345,7 @@ def test_bal_self_destruct(
         pytest.param(lambda target_addr: Op.EXTCODESIZE(target_addr), id="extcodesize"),
         pytest.param(lambda target_addr: Op.EXTCODECOPY(target_addr, 0, 0, 32), id="extcodecopy"),
         pytest.param(lambda target_addr: Op.EXTCODEHASH(target_addr), id="extcodehash"),
-        pytest.param(lambda target_addr: Op.CALL(0, target_addr, 50, 0, 0, 0, 0), id="call"),
+        pytest.param(lambda target_addr: Op.CALL(0, target_addr, 0, 0, 0, 0, 0), id="call"),
         pytest.param(
             lambda target_addr: Op.CALLCODE(0, target_addr, 0, 0, 0, 0, 0), id="callcode"
         ),
