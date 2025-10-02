@@ -2,8 +2,9 @@
 """
 Compare opcode counts between two folders of JSON fixtures.
 
-This script crawls two folders for JSON files, parses them using the Fixtures model,
-and compares the opcode_count field from the info section between fixtures with the same name.
+This script crawls two folders for JSON files, parses them using the Fixtures
+model, and compares the opcode_count field from the info section between
+fixtures with the same name.
 """
 
 import sys
@@ -77,7 +78,7 @@ def load_all_opcode_counts(
         )
         if fixtures:
             file_opcode_counts = extract_opcode_counts_from_fixtures(fixtures)
-            # Use fixture name as key, if there are conflicts, the last one wins
+            # Use fixture name as key, if there are conflicts, choose the last
             all_opcode_counts.update(file_opcode_counts)
 
     return all_opcode_counts
