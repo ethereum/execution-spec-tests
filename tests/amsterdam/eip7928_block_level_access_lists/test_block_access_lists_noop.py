@@ -3,8 +3,15 @@
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Transaction
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_tools import (
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Transaction,
+)
+from ethereum_test_tools import (
+    Opcodes as Op,
+)
 from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
     BalBalanceChange,
@@ -218,6 +225,7 @@ def test_bal_aborted_storage_access(
         post={},
     )
 
+
 @pytest.mark.parametrize(
     "account_access_opcode",
     [
@@ -291,7 +299,7 @@ def test_bal_fully_unmutated_account(
     # Deploy Oracle contract with pre-existing storage value
     oracle = pre.deploy_contract(
         code=Op.SSTORE(0x01, 0x42) + Op.STOP,
-        storage={0x01: 0x42}  # Pre-existing value
+        storage={0x01: 0x42},  # Pre-existing value
     )
 
     tx = Transaction(sender=alice, to=oracle, gas_limit=1_000_000, value=0, gas_price=0xA)
