@@ -190,9 +190,10 @@ exclude = [
     '^site/',
 ]
 plugins = ["pydantic.mypy"]
-# more rules
 namespace_packages = true
 strict_optional = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
 strict_bytes = true
 warn_unused_ignores = true
 warn_unused_configs = true
