@@ -28,6 +28,46 @@ REFERENCE_SPEC_VERSION = ref_spec_7928.version
 pytestmark = pytest.mark.valid_from("Amsterdam")
 
 
+def test_bal_2930_account_listed_but_untouched(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+):
+    """Ensure BAL excludes untouched access list accounts."""
+    alice = pre.fund_eoa()
+    bob = pre.fund_eoa()
+    oracle = pre.deploy_contract(code=Op.STOP)
+
+    access_list = AccessList(
+        address=oracle,
+        storage_keys=[Hash(0x1)],
+    )
+
+    gas_limit = 1_000_000
+
+    tx = Transaction(ty=1, sender=alice, to=bob, gas_limit=gas_limit, access_list=[access_list])
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                # The address excluded from BAL since state is not accessed
+                oracle: None,
+            }
+        ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={
+            alice: Account(nonce=1),
+        },
+    )
+
+
 def test_bal_2930_slot_listed_but_untouched(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -66,8 +106,8 @@ def test_bal_2930_slot_listed_but_untouched(
                 alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
-                # The address excluded from BAL since state is not accessed
-                pure_calculator: None,
+                # The account was loaded.
+                pure_calculator: BalAccountExpectation(),
             }
         ),
     )
