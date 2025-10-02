@@ -12,7 +12,7 @@ from typing import Dict, List, Optional
 
 import click
 
-from ethereum_clis.types import OpcodeCount
+from ethereum_clis.cli_types import OpcodeCount
 from ethereum_test_fixtures.file import Fixtures
 
 

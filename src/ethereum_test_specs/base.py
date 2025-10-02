@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
-from ethereum_clis.types import OpcodeCount
+from ethereum_clis.cli_types import OpcodeCount
 from ethereum_test_base_types import to_hex
 from ethereum_test_execution import BaseExecute, ExecuteFormat, LabeledExecuteFormat
 from ethereum_test_fixtures import (
