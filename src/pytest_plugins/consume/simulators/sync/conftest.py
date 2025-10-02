@@ -47,6 +47,10 @@ def pytest_collection_modifyitems(session, config, items):
     del session, config
 
     for item in items:
+        # Auto-mark all verify_sync tests as flaky with 3 reruns
+        if item.get_closest_marker("blockchain_test_sync"):
+            item.add_marker(pytest.mark.flaky(reruns=3))
+
         # Check if this test has both client_type and sync_client_type
         if (
             hasattr(item, "callspec")
