@@ -4,6 +4,7 @@ from functools import cached_property
 
 from ethereum_test_forks import Byzantium, Cancun, Constantinople, Fork, Istanbul, London, Shanghai
 from ethereum_test_tools import Alloc, Bytecode
+from ethereum_test_types import ChainConfigDefaults
 from ethereum_test_vm import Opcodes as Op
 
 from ..common import (
@@ -429,7 +430,10 @@ class ProgramChainid(ScenarioTestProgram):
 
     def result(self) -> ProgramResult:
         """Test result."""
-        return ProgramResult(result=1, from_fork=Istanbul)
+        # TODO: use `chain_config` fixture instead.
+        chain_id = ChainConfigDefaults.chain_id
+
+        return ProgramResult(result=chain_id, from_fork=Istanbul)
 
 
 class ProgramSelfbalance(ScenarioTestProgram):
