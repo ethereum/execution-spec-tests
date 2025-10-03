@@ -27997,7 +27997,7 @@
 
 
 <h1 id="test_modexp"><code>test_modexp()</code><a class="headerlink" href="#test_modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/14d7a5decede68a343fa2047adb139f9fbc957c1/tests/byzantium/eip198_modexp_precompile/test_modexp.py#L27"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp@14d7a5de</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/eb6120b3b01a522ba5b3abfb5fb49aab9732fac5/tests/byzantium/eip198_modexp_precompile/test_modexp.py#L27"><code>tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp@eb6120b3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp --fork Osaka</span>
@@ -28194,7 +28194,17 @@
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
-<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Byzantium&quot;</span><span class="p">)</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Byzantium&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;mod_exp_input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">],</span>
     <span class="p">[</span>
@@ -28241,6 +28251,16 @@
         <span class="p">(</span>
             <span class="n">ModExpInput</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">modulus</span><span class="o">=</span><span class="s2">&quot;0001&quot;</span><span class="p">),</span>
             <span class="n">ModExpOutput</span><span class="p">(</span><span class="n">returned_data</span><span class="o">=</span><span class="s2">&quot;0x0000&quot;</span><span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">declared_exponent_length</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">32</span><span class="p">,</span>
+                <span class="n">declared_modulus_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ModExpOutput</span><span class="p">(</span><span class="n">returned_data</span><span class="o">=</span><span class="s2">&quot;0x00&quot;</span><span class="p">,</span> <span class="n">call_success</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
         <span class="p">),</span>
         <span class="c1"># Test cases from EIP 198.</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -28548,6 +28568,16 @@
                 <tr data-fork="Byzantium" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Byzantium-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Byzantium-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Byzantium-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Byzantium" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Byzantium-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Byzantium-state_test-EIP-198-case1]">
                     ...fork_Byzantium-state_test-EIP-198-case1
                 </abbr>
@@ -28704,6 +28734,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Byzantium" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Byzantium-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Byzantium-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Byzantium-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Byzantium" data-fixture="blockchain_test">
             <td> 
@@ -28868,6 +28908,16 @@
                 <tr data-fork="Constantinople" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Constantinople-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Constantinople-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Constantinople-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Constantinople" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Constantinople-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Constantinople-state_test-EIP-198-case1]">
                     ...fork_Constantinople-state_test-EIP-198-case1
                 </abbr>
@@ -29024,6 +29074,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Constantinople" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Constantinople-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Constantinople-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Constantinople-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Constantinople" data-fixture="blockchain_test">
             <td> 
@@ -29188,6 +29248,16 @@
                 <tr data-fork="ConstantinopleFix" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_ConstantinopleFix-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_ConstantinopleFix-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_ConstantinopleFix-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="ConstantinopleFix" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_ConstantinopleFix-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_ConstantinopleFix-state_test-EIP-198-case1]">
                     ...fork_ConstantinopleFix-state_test-EIP-198-case1
                 </abbr>
@@ -29344,6 +29414,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="ConstantinopleFix" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_ConstantinopleFix-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_ConstantinopleFix-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_ConstantinopleFix-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="ConstantinopleFix" data-fixture="blockchain_test">
             <td> 
@@ -29508,6 +29588,16 @@
                 <tr data-fork="Istanbul" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Istanbul-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Istanbul-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Istanbul-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Istanbul" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Istanbul-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Istanbul-state_test-EIP-198-case1]">
                     ...fork_Istanbul-state_test-EIP-198-case1
                 </abbr>
@@ -29664,6 +29754,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Istanbul" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Istanbul-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Istanbul-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Istanbul-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="blockchain_test">
             <td> 
@@ -29828,6 +29928,16 @@
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Berlin-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Berlin-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Berlin-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Berlin-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Berlin-state_test-EIP-198-case1]">
                     ...fork_Berlin-state_test-EIP-198-case1
                 </abbr>
@@ -29984,6 +30094,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Berlin-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Berlin-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Berlin-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
@@ -30148,6 +30268,16 @@
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_London-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_London-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_London-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_London-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_London-state_test-EIP-198-case1]">
                     ...fork_London-state_test-EIP-198-case1
                 </abbr>
@@ -30304,6 +30434,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_London-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_London-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_London-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
@@ -30468,6 +30608,16 @@
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Paris-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Paris-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Paris-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Paris-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Paris-state_test-EIP-198-case1]">
                     ...fork_Paris-state_test-EIP-198-case1
                 </abbr>
@@ -30624,6 +30774,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Paris-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Paris-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Paris-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
@@ -30788,6 +30948,16 @@
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Shanghai-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Shanghai-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Shanghai-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Shanghai-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Shanghai-state_test-EIP-198-case1]">
                     ...fork_Shanghai-state_test-EIP-198-case1
                 </abbr>
@@ -30944,6 +31114,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Shanghai-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Shanghai-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
@@ -31108,6 +31288,16 @@
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Cancun-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Cancun-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Cancun-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Cancun-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Cancun-state_test-EIP-198-case1]">
                     ...fork_Cancun-state_test-EIP-198-case1
                 </abbr>
@@ -31264,6 +31454,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Cancun-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Cancun-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Cancun-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -31428,6 +31628,16 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Prague-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Prague-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Prague-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Prague-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Prague-state_test-EIP-198-case1]">
                     ...fork_Prague-state_test-EIP-198-case1
                 </abbr>
@@ -31584,6 +31794,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Prague-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Prague-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Prague-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -31748,6 +31968,16 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Osaka-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Osaka-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Osaka-state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Osaka-state_test-EIP-198-case1]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Osaka-state_test-EIP-198-case1]">
                     ...fork_Osaka-state_test-EIP-198-case1
                 </abbr>
@@ -31904,6 +32134,16 @@
             </td>
                         <td>base=b'' exponent=b'' modulus=b'\x00\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td>call_success=True returned_data=b'\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Osaka-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]" title="tests/byzantium/eip198_modexp_precompile/test_modexp.py::test_modexp[fork_Osaka-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00]">
+                    ...fork_Osaka-blockchain_test_from_state_test-ModExpInput_base_0x-exponent_0x-modulus_0x-declared_exponent_length_4294967296-declared_modulus_length_1-ModExpOutput_call_success_False-returned_data_0x00
+                </abbr>
+            </td>
+                        <td>base=b'' exponent=b'' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=4294967296 declared_modulus_length=1</td>
+                        <td>call_success=False returned_data=b'\x00'</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
