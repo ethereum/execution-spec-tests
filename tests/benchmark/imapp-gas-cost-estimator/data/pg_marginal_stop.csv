@@ -1,0 +1,5 @@
+program_id,opcode,op_count,bytecode
+STOP_0,STOP,0,5f
+STOP_1,STOP,1,5f00
+INVALID_0,INVALID,0,5f
+INVALID_1,INVALID,1,5ffe
