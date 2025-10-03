@@ -382,8 +382,8 @@ def test_bal_account_access_target(
                 alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
                 ),
-                target_contract: BalAccountExpectation(),
-                oracle_contract: BalAccountExpectation(),
+                target_contract: BalAccountExpectation.empty(),
+                oracle_contract: BalAccountExpectation.empty(),
             }
         ),
     )
@@ -462,7 +462,7 @@ def test_bal_callcode_with_value_transfer(
                 bob: BalAccountExpectation(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
                 ),
-                target_contract: BalAccountExpectation(),
+                target_contract: BalAccountExpectation.empty(),
             }
         ),
     )
@@ -522,7 +522,7 @@ def test_bal_delegated_storage_writes(
                         )
                     ],
                 ),
-                target_contract: BalAccountExpectation(),
+                target_contract: BalAccountExpectation.empty(),
             }
         ),
     )
@@ -577,7 +577,7 @@ def test_bal_delegated_storage_reads(
                 oracle_contract: BalAccountExpectation(
                     storage_reads=[0x01],
                 ),
-                target_contract: BalAccountExpectation(),
+                target_contract: BalAccountExpectation.empty(),
             }
         ),
     )
@@ -737,7 +737,7 @@ def test_bal_2930_slot_listed_but_untouched(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
                 # The account was loaded.
-                pure_calculator: BalAccountExpectation(),
+                pure_calculator: BalAccountExpectation.empty(),
             }
         ),
     )

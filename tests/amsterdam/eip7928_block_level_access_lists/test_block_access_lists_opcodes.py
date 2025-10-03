@@ -231,9 +231,9 @@ def test_bal_balance_and_oog(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
-                balance_checker: BalAccountExpectation(),
+                balance_checker: BalAccountExpectation.empty(),
                 # Bob should only appear in BAL if BALANCE succeeded
-                **({} if fails_at_balance else {bob: BalAccountExpectation()}),
+                **({} if fails_at_balance else {bob: BalAccountExpectation.empty()}),
             }
         ),
     )
@@ -300,9 +300,13 @@ def test_bal_extcodesize_and_oog(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
-                codesize_checker: BalAccountExpectation(),
+                codesize_checker: BalAccountExpectation.empty(),
                 # Target should only appear if EXTCODESIZE succeeded
-                **({} if fails_at_extcodesize else {target_contract: BalAccountExpectation()}),
+                **(
+                    {}
+                    if fails_at_extcodesize
+                    else {target_contract: BalAccountExpectation.empty()}
+                ),
             }
         ),
     )
@@ -369,9 +373,9 @@ def test_bal_call_and_oog(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
-                call_contract: BalAccountExpectation(),
+                call_contract: BalAccountExpectation.empty(),
                 # Bob should only appear if CALL succeeded
-                **({} if fails_at_call else {bob: BalAccountExpectation()}),
+                **({} if fails_at_call else {bob: BalAccountExpectation.empty()}),
             }
         ),
     )
@@ -443,9 +447,13 @@ def test_bal_delegatecall_and_oog(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
-                delegatecall_contract: BalAccountExpectation(),
+                delegatecall_contract: BalAccountExpectation.empty(),
                 # Target should only appear if DELEGATECALL succeeded
-                **({} if fails_at_delegatecall else {target_contract: BalAccountExpectation()}),
+                **(
+                    {}
+                    if fails_at_delegatecall
+                    else {target_contract: BalAccountExpectation.empty()}
+                ),
             }
         ),
     )
@@ -515,9 +523,13 @@ def test_bal_extcodecopy_and_oog(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
-                extcodecopy_contract: BalAccountExpectation(),
+                extcodecopy_contract: BalAccountExpectation.empty(),
                 # Target should only appear if EXTCODECOPY succeeded
-                **({} if fails_at_extcodecopy else {target_contract: BalAccountExpectation()}),
+                **(
+                    {}
+                    if fails_at_extcodecopy
+                    else {target_contract: BalAccountExpectation.empty()}
+                ),
             }
         ),
     )

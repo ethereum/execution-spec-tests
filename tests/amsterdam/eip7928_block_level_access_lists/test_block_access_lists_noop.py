@@ -37,11 +37,7 @@ def test_bal_self_transfer(
     alice = pre.fund_eoa(amount=start_balance)
 
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    intrinsic_gas_cost = intrinsic_gas_calculator(
-        calldata=b"",
-        contract_creation=False,
-        access_list=[],
-    )
+    intrinsic_gas_cost = intrinsic_gas_calculator()
 
     tx = Transaction(
         sender=alice, to=alice, gas_limit=intrinsic_gas_cost, value=100, gas_price=0xA
@@ -78,11 +74,7 @@ def test_bal_zero_value_transfer(
     bob = pre.fund_eoa(amount=100)
 
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    intrinsic_gas_cost = intrinsic_gas_calculator(
-        calldata=b"",
-        contract_creation=False,
-        access_list=[],
-    )
+    intrinsic_gas_cost = intrinsic_gas_calculator()
 
     tx = Transaction(sender=alice, to=bob, gas_limit=intrinsic_gas_cost, value=0, gas_price=0xA)
 
@@ -118,14 +110,7 @@ def test_bal_pure_contract_call(
     pure_contract = pre.deploy_contract(code=Op.ADD(0x3, 0x2))
 
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    gas_limit = (
-        intrinsic_gas_calculator(
-            calldata=b"",
-            contract_creation=False,
-            access_list=[],
-        )
-        + 5_000
-    )  # Buffer
+    gas_limit = intrinsic_gas_calculator() + 5_000  # Buffer
 
     tx = Transaction(sender=alice, to=pure_contract, gas_limit=gas_limit, gas_price=0xA)
 
@@ -137,7 +122,7 @@ def test_bal_pure_contract_call(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
                 # Ensure called contract is tracked
-                pure_contract: BalAccountExpectation(),
+                pure_contract: BalAccountExpectation.empty(),
             }
         ),
     )
@@ -156,11 +141,7 @@ def test_bal_noop_storage_write(
 
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
     gas_limit = (
-        intrinsic_gas_calculator(
-            calldata=b"",
-            contract_creation=False,
-            access_list=[],
-        )
+        intrinsic_gas_calculator()
         # Sufficient gas for write
         + fork.gas_costs().G_COLD_SLOAD
         + fork.gas_costs().G_COLD_ACCOUNT_ACCESS
@@ -276,8 +257,8 @@ def test_bal_aborted_account_access(
                 alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
                 ),
-                target_contract: BalAccountExpectation(),
-                abort_contract: BalAccountExpectation(),
+                target_contract: BalAccountExpectation.empty(),
+                abort_contract: BalAccountExpectation.empty(),
             }
         ),
     )
