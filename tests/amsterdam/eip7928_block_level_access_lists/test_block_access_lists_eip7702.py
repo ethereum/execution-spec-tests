@@ -191,7 +191,8 @@ def test_bal_7702_delegation_update(
                 BalBalanceChange(tx_index=2, post_balance=20),
             ]
         ),
-        # Both delegation targets must not be present in BAL - the account is never accessed
+        # Both delegation targets must not be present in BAL
+        # the account is never accessed
         oracle1: None,
         oracle2: None,
     }
@@ -308,7 +309,8 @@ def test_bal_7702_delegation_clear(
                 BalBalanceChange(tx_index=2, post_balance=20),
             ]
         ),
-        # Both delegation targets must not be present in BAL - the account is never accessed
+        # Both delegation targets must not be present in BAL
+        # the account is never accessed
         oracle: None,
         abyss: None,
     }
@@ -351,7 +353,10 @@ def test_bal_7702_delegated_storage_access(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
 ):
-    """Ensure BAL captures storage operations when calling a delegated EIP-7702 account."""
+    """
+    Ensure BAL captures storage operations when calling a delegated
+    EIP-7702 account.
+    """
     # Oracle contract that reads from slot 0x01 and writes to slot 0x02
     oracle = pre.deploy_contract(code=Op.SLOAD(0x01) + Op.PUSH1(0x42) + Op.PUSH1(0x02) + Op.SSTORE)
     bob = pre.fund_eoa()
@@ -384,7 +389,8 @@ def test_bal_7702_delegated_storage_access(
                 bob: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
-                # Oracle appears in BAL due to account access (delegation target)
+                # Oracle appears in BAL due to account access
+                # (delegation target)
                 oracle: BalAccountExpectation(),
             }
         ),
@@ -446,7 +452,8 @@ def test_bal_7702_invalid_nonce_authorization(
                 relayer: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
-                # Oracle must NOT be present - authorization failed so account never accessed
+                # Oracle must NOT be present - authorization failed so
+                # account is never accessed
                 oracle: None,
             }
         ),
@@ -504,7 +511,8 @@ def test_bal_7702_invalid_chain_id_authorization(
                 relayer: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
-                # Oracle must NOT be present - authorization failed so account never accessed
+                # Oracle must NOT be present - authorization failed so
+                # account never accessed
                 oracle: None,
             }
         ),
