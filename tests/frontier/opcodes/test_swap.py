@@ -17,6 +17,10 @@ from ethereum_test_tools import StateTestFiller, Storage, Transaction
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/VMTests/vmTests/swapFiller.yml"
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/1163"],
+    coverage_missed_reason=(
+        "Test isolation (1 contract per execution) reduces evmone state "
+        "comparisons vs old dispatcher pattern (16 contracts per execution)"
+    ),
 )
 @pytest.mark.parametrize(
     "swap_opcode",
