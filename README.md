@@ -23,7 +23,7 @@ flowchart LR
   style D stroke:#333,stroke-width:2px
   style G stroke:#F9A825,stroke-width:2px
   style H stroke:#F9A825,stroke-width:2px
-  
+
   subgraph "ethereum/go-ethereum, ..."
     C[<code>evm t8n</code><br/>external executable]
   end
@@ -48,7 +48,7 @@ flowchart LR
     H([Client executables])
   end
 
-  C <-.-> B  
+  C <-.-> B
   D <-.-> B
   A --> B
   E <-.-> |retrieve latest spec version\ncheck tested spec version| B
@@ -106,10 +106,10 @@ pip install uv
 Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and install its dependencies:
 
 ```console
-git clone https://github.com/ethereum/execution-spec-tests
+git clone --depth 1 https://github.com/ethereum/execution-spec-tests
 cd execution-spec-tests
-uv python install 3.11
-uv python pin 3.11
+uv python install 3.12
+uv python pin 3.12
 uv sync --all-extras
 ```
 
