@@ -564,6 +564,7 @@ def test_invalid_length_g2msm(
 @pytest.mark.parametrize("gas_modifier", [pytest.param(0, id="exact_gas")])
 @pytest.mark.parametrize("expected_output", [Spec.PAIRING_TRUE], ids=[""])
 @pytest.mark.parametrize("precompile_address", [Spec.PAIRING])
+@pytest.mark.slow()
 def test_valid_gas_pairing(
     state_test: StateTestFiller,
     env: Environment,

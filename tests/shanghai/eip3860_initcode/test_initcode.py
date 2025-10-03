@@ -339,6 +339,7 @@ class TestContractCreationGasUsage:
             return Alloc({create_contract_address: Account(code=initcode.deploy_code)})
         return Alloc({create_contract_address: Account.NONEXISTENT})
 
+    @pytest.mark.slow()
     def test_gas_usage(
         self,
         state_test: StateTestFiller,
@@ -501,6 +502,7 @@ class TestCreateInitcode:
         return ceiling_division(len(initcode), 32) * gas_costs.G_KECCAK_256_WORD
 
     @pytest.mark.xdist_group(name="bigmem")
+    @pytest.mark.slow()
     def test_create_opcode_initcode(
         self,
         state_test: StateTestFiller,

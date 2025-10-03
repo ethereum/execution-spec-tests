@@ -389,6 +389,7 @@ pytestmark = pytest.mark.ported_from(
         ),
     ],
 )
+@pytest.mark.slow()
 def test_blake2b(
     state_test: StateTestFiller,
     pre: Alloc,

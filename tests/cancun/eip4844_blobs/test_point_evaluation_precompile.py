@@ -449,6 +449,7 @@ def all_external_vectors() -> List:
 )
 @pytest.mark.parametrize("versioned_hash", [None])
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.slow()
 def test_external_vectors(
     state_test: StateTestFiller,
     pre: Alloc,

@@ -386,6 +386,7 @@ def test_valid(
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
+@pytest.mark.slow()
 def test_invalid(
     state_test: StateTestFiller,
     pre: Alloc,

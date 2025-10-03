@@ -145,6 +145,7 @@ tx_intrinsic_gas_access_list_vectors = [
     ],
 )
 @pytest.mark.with_all_tx_types(selector=lambda tx_type: tx_type in [1, 2])
+@pytest.mark.slow()
 def test_tx_intrinsic_gas(
     state_test: StateTestFiller,
     tx_type: int,

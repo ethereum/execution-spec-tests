@@ -91,6 +91,7 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
 )
 @pytest.mark.parametrize("stack_height", range(1024, 1026))
 @pytest.mark.valid_from("Frontier")
+@pytest.mark.slow()
 def test_stack_overflow(
     state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: Op, stack_height: int
 ):

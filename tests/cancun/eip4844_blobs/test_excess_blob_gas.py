@@ -480,6 +480,7 @@ def all_invalid_blob_gas_used_combinations(fork: Fork) -> Iterator[Tuple[int, in
 )
 @pytest.mark.parametrize("parent_blobs", [0])
 @pytest.mark.exception_test
+@pytest.mark.slow()
 def test_invalid_blob_gas_used_in_header(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -759,6 +760,7 @@ def test_invalid_excess_blob_gas_change(
     lambda fork: range(fork.target_blobs_per_block()),
 )
 @pytest.mark.exception_test
+@pytest.mark.slow()
 def test_invalid_negative_excess_blob_gas(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -809,6 +811,7 @@ def test_invalid_negative_excess_blob_gas(
     lambda fork: [fork.target_blobs_per_block() + 1],
 )
 @pytest.mark.exception_test
+@pytest.mark.slow()
 def test_invalid_non_multiple_excess_blob_gas(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
