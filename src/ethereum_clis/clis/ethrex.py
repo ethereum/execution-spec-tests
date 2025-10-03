@@ -22,6 +22,7 @@ class EthrexExceptionMapper(ExceptionMapper):
         ),
         BlockException.INVALID_GAS_USED: "Gas used doesn't match value in header",
         BlockException.INCORRECT_BLOB_GAS_USED: "Blob gas used doesn't match value in header",
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: "Transaction gas max limit exceeded for Osaka",
     }
     mapping_regex = {
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
@@ -36,6 +37,9 @@ class EthrexExceptionMapper(ExceptionMapper):
         r"Nonce mismatch.*",
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
             r"blob gas used \d+ exceeds maximum allowance \d+"
+        ),
+        TransactionException.GAS_ALLOWANCE_EXCEEDED: (
+            r"Gas allowance exceeded. Block gas limit: \d+, transaction gas limit: \d+"
         ),
         TransactionException.TYPE_3_TX_ZERO_BLOBS: (
             r"blob transactions present in pre-cancun payload|empty blobs|"
