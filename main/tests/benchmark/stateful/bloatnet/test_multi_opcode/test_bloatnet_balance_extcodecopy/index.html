@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_bloatnet_balance_extcodesize/">
       
       
-        <link rel="next" href="../../../../test_worst_blocks/">
+        <link rel="next" href="../test_bloatnet_balance_extcodehash/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -25862,6 +25862,8 @@
       
         
       
+        
+      
     
     
     
@@ -26006,6 +26008,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_bloatnet_balance_extcodehash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_bloatnet_balance_extcodehash</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27974,7 +27999,7 @@
 
 
 <h1 id="test_bloatnet_balance_extcodecopy"><code>test_bloatnet_balance_extcodecopy()</code><a class="headerlink" href="#test_bloatnet_balance_extcodecopy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/476f3c3e437e6a8048e47786389d55e8c0bf6dcc/tests/benchmark/stateful/bloatnet/test_multi_opcode.py#L180"><code>tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy@476f3c3e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/14d7a5decede68a343fa2047adb139f9fbc957c1/tests/benchmark/stateful/bloatnet/test_multi_opcode.py#L192"><code>tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy@14d7a5de</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy -m stateful</span>
@@ -27994,25 +28019,13 @@ address generation.</p>
 <p>This test forces actual bytecode reads from disk by:
 1. Assumes contracts are already deployed via the factory
 2. Generating CREATE2 addresses dynamically during execution
-3. Using BALANCE (cold) to warm the account
-4. Using EXTCODECOPY (warm) to read 1 byte from the END of the bytecode</p>
+3. Using BALANCE and EXTCODECOPY (order controlled by balance_first param)
+4. Reading 1 byte from the END of the bytecode to force full contract load</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/stateful/bloatnet/test_multi_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
@@ -28135,12 +28148,41 @@ address generation.</p>
 <span class="normal">312</span>
 <span class="normal">313</span>
 <span class="normal">314</span>
-<span class="normal">315</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;balance_first&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;balance_extcodecopy&quot;</span><span class="p">,</span> <span class="s2">&quot;extcodecopy_balance&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_bloatnet_balance_extcodecopy</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">balance_first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    BloatNet test using BALANCE + EXTCODECOPY with on-the-fly CREATE2</span>
@@ -28149,8 +28191,8 @@ address generation.</p>
 <span class="sd">    This test forces actual bytecode reads from disk by:</span>
 <span class="sd">    1. Assumes contracts are already deployed via the factory</span>
 <span class="sd">    2. Generating CREATE2 addresses dynamically during execution</span>
-<span class="sd">    3. Using BALANCE (cold) to warm the account</span>
-<span class="sd">    4. Using EXTCODECOPY (warm) to read 1 byte from the END of the bytecode</span>
+<span class="sd">    3. Using BALANCE and EXTCODECOPY (order controlled by balance_first param)</span>
+<span class="sd">    4. Reading 1 byte from the END of the bytecode to force full contract load</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">max_contract_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
@@ -28162,16 +28204,16 @@ address generation.</p>
     <span class="n">cost_per_contract</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># SHA3 static cost for address generation (30)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># SHA3 dynamic cost (85 bytes = 3 words * 6)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># Cold BALANCE (2600)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP balance (2)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>  <span class="c1"># Warm EXTCODECOPY base (100)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># Cold access (2600)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP first result (2)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>  <span class="c1"># Warm access base (100)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COPY</span> <span class="o">*</span> <span class="mi">1</span>  <span class="c1"># Copy cost for 1 byte (3)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># DUP1 before BALANCE, DUP4 for address (6)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># DUP1 before first op, DUP4 for address (6)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">8</span>  <span class="c1"># PUSH operations (8 * 3 = 24)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_LOW</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># MLOAD for salt twice (6)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># ADD operations (6)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_LOW</span>  <span class="c1"># MSTORE salt back (3)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP after EXTCODECOPY (2)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP after second op (2)</span>
         <span class="o">+</span> <span class="mi">10</span>  <span class="c1"># While loop overhead</span>
     <span class="p">)</span>
 
@@ -28194,6 +28236,20 @@ address generation.</p>
         <span class="sa">f</span><span class="s2">&quot;Test needs </span><span class="si">{</span><span class="n">contracts_needed</span><span class="si">}</span><span class="s2"> contracts for &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gas_benchmark_value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">M gas. &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;Factory storage will be checked during execution.&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Define operations that differ based on parameter</span>
+    <span class="n">balance_op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">)</span>
+    <span class="n">extcodecopy_op</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># size (1 byte)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">(</span><span class="n">max_contract_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># code offset (last byte)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">96</span><span class="p">)</span>  <span class="c1"># unique memory offset</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP4</span>  <span class="c1"># address (duplicated earlier)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>  <span class="c1"># clean up address</span>
+    <span class="p">)</span>
+    <span class="n">benchmark_ops</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">balance_op</span> <span class="o">+</span> <span class="n">extcodecopy_op</span><span class="p">)</span> <span class="k">if</span> <span class="n">balance_first</span> <span class="k">else</span> <span class="p">(</span><span class="n">extcodecopy_op</span> <span class="o">+</span> <span class="n">balance_op</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># Build attack contract that reads config from factory and performs attack</span>
@@ -28232,16 +28288,7 @@ address generation.</p>
                 <span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">85</span><span class="p">)</span>  <span class="c1"># Generate CREATE2 address from memory[11:96]</span>
                 <span class="c1"># The address is now on the stack</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>  <span class="c1"># Duplicate for later operations</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">)</span>  <span class="c1"># Cold access</span>
-                <span class="c1"># EXTCODECOPY(addr, mem_offset, last_byte_offset, 1)</span>
-                <span class="c1"># Read the LAST byte to force full contract load</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># size (1 byte)</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">(</span><span class="n">max_contract_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># code offset (last byte)</span>
-                <span class="c1"># Use salt as memory offset to avoid overlap</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">96</span><span class="p">)</span>  <span class="c1"># Add base memory offset for unique position</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP4</span>  <span class="c1"># address (duplicated earlier)</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>  <span class="c1"># Clean up address</span>
+                <span class="o">+</span> <span class="n">benchmark_ops</span>  <span class="c1"># Execute operations in specified order</span>
                 <span class="c1"># Increment salt for next iteration</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># Increment and store salt</span>
             <span class="p">),</span>
@@ -28276,7 +28323,7 @@ address generation.</p>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork.</p>
+<p>The interactive table below is also available as a <a href="../test_bloatnet_balance_extcodecopy.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -28319,24 +28366,45 @@ address generation.</p>
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>balance_first</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Prague-blockchain_test]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Prague-blockchain_test]">
-                    ...fork_Prague-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Prague-blockchain_test-balance_extcodecopy]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Prague-blockchain_test-balance_extcodecopy]">
+                    ...fork_Prague-blockchain_test-balance_extcodecopy
                 </abbr>
             </td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Prague-blockchain_test-extcodecopy_balance]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Prague-blockchain_test-extcodecopy_balance]">
+                    ...fork_Prague-blockchain_test-extcodecopy_balance
+                </abbr>
+            </td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Osaka-blockchain_test]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Osaka-blockchain_test-balance_extcodecopy]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Osaka-blockchain_test-balance_extcodecopy]">
+                    ...fork_Osaka-blockchain_test-balance_extcodecopy
                 </abbr>
             </td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Osaka-blockchain_test-extcodecopy_balance]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodecopy[fork_Osaka-blockchain_test-extcodecopy_balance]">
+                    ...fork_Osaka-blockchain_test-extcodecopy_balance
+                </abbr>
+            </td>
+                        <td>False</td>
                     </tr>
             </tbody>
 </table>
@@ -28391,13 +28459,13 @@ address generation.</p>
         
         
           
-          <a href="../../../../test_worst_blocks/" class="md-footer__link md-footer__link--next" aria-label="Next: Test Worst Blocks">
+          <a href="../test_bloatnet_balance_extcodehash/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_bloatnet_balance_extcodehash&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Test Worst Blocks
+                <code>test_bloatnet_balance_extcodehash</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">

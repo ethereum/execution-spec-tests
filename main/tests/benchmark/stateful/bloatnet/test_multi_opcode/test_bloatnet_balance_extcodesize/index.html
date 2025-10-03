@@ -25862,6 +25862,8 @@
       
         
       
+        
+      
     
     
     
@@ -26001,6 +26003,29 @@
   
   <span class="md-ellipsis">
     <code>test_bloatnet_balance_extcodecopy</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_bloatnet_balance_extcodehash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_bloatnet_balance_extcodehash</code>
     
   </span>
   
@@ -27974,7 +27999,7 @@
 
 
 <h1 id="test_bloatnet_balance_extcodesize"><code>test_bloatnet_balance_extcodesize()</code><a class="headerlink" href="#test_bloatnet_balance_extcodesize" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/476f3c3e437e6a8048e47786389d55e8c0bf6dcc/tests/benchmark/stateful/bloatnet/test_multi_opcode.py#L52"><code>tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize@476f3c3e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/14d7a5decede68a343fa2047adb139f9fbc957c1/tests/benchmark/stateful/bloatnet/test_multi_opcode.py#L52"><code>tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize@14d7a5de</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize -m stateful</span>
@@ -27994,7 +28019,7 @@ address generation.</p>
 <p>This test:
 1. Assumes contracts are already deployed via the factory (salt 0 to N-1)
 2. Generates CREATE2 addresses dynamically during execution
-3. Calls BALANCE (cold) then EXTCODESIZE (warm) on each
+3. Calls BALANCE and EXTCODESIZE (order controlled by balance_first param)
 4. Maximizes cache eviction by accessing many contracts</p>
 
 
@@ -28125,12 +28150,30 @@ address generation.</p>
 <span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
-<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;balance_first&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;balance_extcodesize&quot;</span><span class="p">,</span> <span class="s2">&quot;extcodesize_balance&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_bloatnet_balance_extcodesize</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">balance_first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    BloatNet test using BALANCE + EXTCODESIZE with &quot;on-the-fly&quot; CREATE2</span>
@@ -28139,7 +28182,7 @@ address generation.</p>
 <span class="sd">    This test:</span>
 <span class="sd">    1. Assumes contracts are already deployed via the factory (salt 0 to N-1)</span>
 <span class="sd">    2. Generates CREATE2 addresses dynamically during execution</span>
-<span class="sd">    3. Calls BALANCE (cold) then EXTCODESIZE (warm) on each</span>
+<span class="sd">    3. Calls BALANCE and EXTCODESIZE (order controlled by balance_first param)</span>
 <span class="sd">    4. Maximizes cache eviction by accessing many contracts</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
@@ -28151,11 +28194,11 @@ address generation.</p>
     <span class="n">cost_per_contract</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># SHA3 static cost for address generation (30)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># SHA3 dynamic cost (85 bytes = 3 words * 6)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># Cold BALANCE (2600)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP balance (2)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>  <span class="c1"># Warm EXTCODESIZE (100)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP code size (2)</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># DUP1 before BALANCE (3)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># Cold access (2600)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP first result (2)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>  <span class="c1"># Warm access (100)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP second result (2)</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># DUP1 before first op (3)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>  <span class="c1"># PUSH1 operations (4 * 3)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_LOW</span>  <span class="c1"># MLOAD for salt (3)</span>
         <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span>  <span class="c1"># ADD for increment (3)</span>
@@ -28182,6 +28225,13 @@ address generation.</p>
         <span class="sa">f</span><span class="s2">&quot;Test needs </span><span class="si">{</span><span class="n">contracts_needed</span><span class="si">}</span><span class="s2"> contracts for &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gas_benchmark_value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">M gas. &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;Factory storage will be checked during execution.&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Define operations that differ based on parameter</span>
+    <span class="n">balance_op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">)</span>
+    <span class="n">extcodesize_op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">)</span>
+    <span class="n">benchmark_ops</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">balance_op</span> <span class="o">+</span> <span class="n">extcodesize_op</span><span class="p">)</span> <span class="k">if</span> <span class="n">balance_first</span> <span class="k">else</span> <span class="p">(</span><span class="n">extcodesize_op</span> <span class="o">+</span> <span class="n">balance_op</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># Build attack contract that reads config from factory and performs attack</span>
@@ -28219,9 +28269,8 @@ address generation.</p>
                 <span class="c1"># Generate CREATE2 addr: keccak256(0xFF+factory+salt+hash)</span>
                 <span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">85</span><span class="p">)</span>  <span class="c1"># Generate CREATE2 address from memory[11:96]</span>
                 <span class="c1"># The address is now on the stack</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>  <span class="c1"># Duplicate for EXTCODESIZE</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">)</span>  <span class="c1"># Cold access</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">)</span>  <span class="c1"># Warm access</span>
+                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>  <span class="c1"># Duplicate for second operation</span>
+                <span class="o">+</span> <span class="n">benchmark_ops</span>  <span class="c1"># Execute operations in specified order</span>
                 <span class="c1"># Increment salt for next iteration</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># Increment and store salt</span>
             <span class="p">),</span>
@@ -28256,7 +28305,7 @@ address generation.</p>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork.</p>
+<p>The interactive table below is also available as a <a href="../test_bloatnet_balance_extcodesize.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -28299,24 +28348,45 @@ address generation.</p>
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>balance_first</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Prague-blockchain_test]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Prague-blockchain_test]">
-                    ...fork_Prague-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Prague-blockchain_test-balance_extcodesize]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Prague-blockchain_test-balance_extcodesize]">
+                    ...fork_Prague-blockchain_test-balance_extcodesize
                 </abbr>
             </td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Prague-blockchain_test-extcodesize_balance]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Prague-blockchain_test-extcodesize_balance]">
+                    ...fork_Prague-blockchain_test-extcodesize_balance
+                </abbr>
+            </td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Osaka-blockchain_test]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Osaka-blockchain_test-balance_extcodesize]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Osaka-blockchain_test-balance_extcodesize]">
+                    ...fork_Osaka-blockchain_test-balance_extcodesize
                 </abbr>
             </td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Osaka-blockchain_test-extcodesize_balance]" title="tests/benchmark/stateful/bloatnet/test_multi_opcode.py::test_bloatnet_balance_extcodesize[fork_Osaka-blockchain_test-extcodesize_balance]">
+                    ...fork_Osaka-blockchain_test-extcodesize_balance
+                </abbr>
+            </td>
+                        <td>False</td>
                     </tr>
             </tbody>
 </table>
