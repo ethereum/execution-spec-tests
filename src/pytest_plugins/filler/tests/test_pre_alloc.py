@@ -5,7 +5,7 @@ from itertools import count
 import pytest
 
 from ethereum_test_base_types import Address, TestPrivateKey, TestPrivateKey2
-from ethereum_test_forks import Prague
+from ethereum_test_forks import Fork, Prague
 from ethereum_test_types import EOA
 from ethereum_test_vm import EVMCodeType
 from ethereum_test_vm import Opcodes as Op
@@ -19,7 +19,9 @@ from ..pre_alloc import (
 
 
 def create_test_alloc(
-    alloc_mode: AllocMode = AllocMode.PERMISSIVE, evm_code_type: EVMCodeType = EVMCodeType.LEGACY
+    alloc_mode: AllocMode = AllocMode.PERMISSIVE,
+    fork: Fork = Prague,
+    evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
 ) -> Alloc:
     """Create a test Alloc instance with default iterators."""
     contract_iter = iter(
@@ -34,7 +36,7 @@ def create_test_alloc(
         alloc_mode=alloc_mode,
         contract_address_iterator=contract_iter,
         eoa_iterator=eoa_iter,
-        fork=Prague,
+        fork=fork,
         evm_code_type=evm_code_type,
     )
 
