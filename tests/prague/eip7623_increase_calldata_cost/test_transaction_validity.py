@@ -141,7 +141,6 @@ def test_transaction_validity_type_0(
     "ty",
     [pytest.param(1, id="type_1"), pytest.param(2, id="type_2")],
 )
-@pytest.mark.slow()
 def test_transaction_validity_type_1_type_2(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -290,7 +289,6 @@ def test_transaction_validity_type_3(
     "ty",
     [pytest.param(4, id="type_4")],
 )
-@pytest.mark.slow()
 def test_transaction_validity_type_4(
     state_test: StateTestFiller,
     pre: Alloc,
