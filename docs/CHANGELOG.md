@@ -31,6 +31,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Use `engine_newPayloadV5` for `>=Amsterdam` forks in `consume engine` ([#2170](https://github.com/ethereum/execution-spec-tests/pull/2170)).
 - 🔀 Refactor EIP-7928 (BAL) absence checks into a friendlier class-based DevEx ([#2175](https://github.com/ethereum/execution-spec-tests/pull/2175)).
 - 🐞 Tighten up validation for empty lists on Block-Level Access List tests ([#2118](https://github.com/ethereum/execution-spec-tests/pull/2118)).
+- ✨ Added the `MemoryVariable` EVM abstraction to generate more readable bytecode when there's heavy use of variables that are stored in memory ([#1609](https://github.com/ethereum/execution-spec-tests/pull/1609)).
 
 ### 🧪 Test Cases
 
