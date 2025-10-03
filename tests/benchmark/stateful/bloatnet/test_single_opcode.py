@@ -34,7 +34,7 @@ ALLOWANCE_SELECTOR = 0xDD62ED3E  # allowance(address,address)
 #
 #   [Pre-deployed ERC20 Contract] ──── Storage slots for balances
 #           │
-#           │  balanceOf(address) → SLOAD(keccak256(address || slot))
+#           ���  balanceOf(address) → SLOAD(keccak256(address || slot))
 #           │
 #   [Attack Contract] ──CALL──► ERC20.balanceOf(random_address)
 #           │
@@ -146,6 +146,133 @@ def test_sload_empty_erc20_balanceof(
                         args_offset=32,
                         args_size=36,
                         ret_offset=96,
+                        ret_size=32,
+                    )
+                    + Op.POP  # Discard result
+                    # Decrement counter: counter - 1
+                    + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
+                ),
+            )
+        )
+
+    # Deploy attack contract
+    attack_address = pre.deploy_contract(code=attack_code)
+
+    # Run the attack
+    attack_tx = Transaction(
+        to=attack_address,
+        gas_limit=gas_benchmark_value,
+        sender=pre.fund_eoa(),
+    )
+
+    # Post-state
+    post = {
+        attack_address: Account(storage={}),
+    }
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=[attack_tx])],
+        post=post,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+def test_sstore_erc20_approve(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_benchmark_value: int,
+    address_stubs,
+):
+    """
+    BloatNet SSTORE benchmark using ERC20 approve to write to storage.
+
+    This test:
+    1. Auto-discovers ERC20 contracts from stubs (pattern: erc20_contract_*)
+    2. Splits gas budget evenly across all discovered contracts
+    3. Calls approve(spender, amount) incrementally (counter as spender)
+    4. Forces SSTOREs to allowance mapping storage slots
+    """
+    gas_costs = fork.gas_costs()
+
+    # Calculate gas costs
+    intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
+
+    # Cost per iteration (attack contract overhead + approve call)
+    cost_per_iteration = (
+        # Attack contract loop overhead
+        gas_costs.G_VERY_LOW * 2  # MLOAD counter (3*2)
+        + gas_costs.G_VERY_LOW * 2  # MSTORE selector (3*2)
+        + gas_costs.G_VERY_LOW * 4  # MLOAD + MSTORE spender + amount (3*4)
+        + gas_costs.G_BASE  # POP (2)
+        + gas_costs.G_BASE * 3  # SUB + MLOAD + MSTORE for counter decrement (2*3)
+        + gas_costs.G_BASE * 2  # ISZERO * 2 for loop condition (2*2)
+        + gas_costs.G_MID  # JUMPI (8)
+        # CALL to ERC20 contract
+        + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm CALL to same contract (100)
+        # Inside ERC20 approve
+        + gas_costs.G_VERY_LOW  # PUSH4 selector (3)
+        + gas_costs.G_BASE  # EQ selector match (2)
+        + gas_costs.G_MID  # JUMPI to function (8)
+        + gas_costs.G_JUMPDEST  # JUMPDEST at function start (1)
+        + gas_costs.G_VERY_LOW * 3  # CALLDATALOAD args (3*3)
+        + gas_costs.G_KECCAK_256  # keccak256 static (30)
+        + gas_costs.G_KECCAK_256_WORD * 2  # keccak256 dynamic for 64 bytes (2*6)
+        + gas_costs.G_STORAGE_SET  # SSTORE to zero slot (20000)
+        + gas_costs.G_VERY_LOW * 3  # MSTORE result + RETURN setup (3*3)
+        # RETURN costs 0 gas
+    )
+
+    num_contracts = len(address_stubs.root)
+
+    # Calculate gas budget per contract and calls per contract
+    available_gas = gas_benchmark_value - intrinsic_gas
+    gas_per_contract = available_gas // num_contracts
+    calls_per_contract = int(gas_per_contract // cost_per_iteration)
+
+    # Deploy all discovered ERC20 contracts using stubs
+    erc20_addresses = []
+    for stub_name in address_stubs.root:
+        addr = pre.deploy_contract(
+            code=Bytecode(),
+            stub=stub_name,
+        )
+        erc20_addresses.append(addr)
+
+    # Log test requirements
+    print(
+        f"Total gas budget: {gas_benchmark_value / 1_000_000:.1f}M gas. "
+        f"~{gas_per_contract / 1_000_000:.1f}M gas per contract, "
+        f"{calls_per_contract} approve calls per contract."
+    )
+
+    # Build attack code that loops through each contract
+    attack_code: Bytecode = Op.JUMPDEST  # Entry point
+
+    for erc20_address in erc20_addresses:
+        # For each contract, initialize counter and loop
+        attack_code += (
+            # Initialize counter in memory[0] = number of calls
+            Op.MSTORE(offset=0, value=calls_per_contract)
+            # Loop for this specific contract
+            + While(
+                condition=Op.MLOAD(0) + Op.ISZERO + Op.ISZERO,  # Continue while counter > 0
+                body=(
+                    # Use counter directly as spender address (cheapest option)
+                    # Store function selector at memory[32]
+                    Op.MSTORE(offset=32, value=APPROVE_SELECTOR)
+                    # Store spender address at memory[64] (use counter)
+                    + Op.MSTORE(offset=64, value=Op.MLOAD(0))
+                    # Store amount at memory[96] (use counter as amount)
+                    + Op.MSTORE(offset=96, value=Op.MLOAD(0))
+                    # Call approve(spender, amount) on ERC20 contract
+                    + Op.CALL(
+                        address=erc20_address,
+                        value=0,
+                        args_offset=32,
+                        args_size=68,  # 4 bytes selector + 32 bytes spender + 32 bytes amount
+                        ret_offset=128,
                         ret_size=32,
                     )
                     + Op.POP  # Discard result
