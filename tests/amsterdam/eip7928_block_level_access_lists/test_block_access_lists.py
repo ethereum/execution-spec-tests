@@ -5,6 +5,7 @@ from typing import Dict
 import pytest
 
 from ethereum_test_base_types import AccessList, Address, Hash
+from ethereum_test_specs.blockchain import Header
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -14,6 +15,7 @@ from ethereum_test_tools import (
     Transaction,
     compute_create_address,
 )
+from ethereum_test_types import Environment
 from ethereum_test_types.block_access_list import (
     BalAccountExpectation,
     BalBalanceChange,
@@ -595,14 +597,13 @@ def test_bal_block_rewards(
     charlie = pre.fund_eoa(amount=0)  # fee recipient
 
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    intrinsic_gas_cost = intrinsic_gas_calculator(
+    intrinsic_gas = intrinsic_gas_calculator(
         calldata=b"",
         contract_creation=False,
         access_list=[],
     )
-    tx_gas_limit = intrinsic_gas_cost + 1000  # add a small buffer
+    tx_gas_limit = intrinsic_gas + 1000  # add a small buffer
     gas_price = 0xA
-    base_fee_per_gas = 0x2  # Set base fee for EIP-1559
 
     tx = Transaction(
         sender=alice,
@@ -614,16 +615,23 @@ def test_bal_block_rewards(
 
     # EIP-1559 fee calculation:
     # - Total gas cost
-    total_gas_cost = intrinsic_gas_cost * gas_price
+    total_gas_cost = intrinsic_gas * gas_price
     # - Tip portion
-    tip_to_charlie = intrinsic_gas_cost * (gas_price - base_fee_per_gas)
+
+    genesis_env = Environment(base_fee_per_gas=0x7)
+    base_fee_per_gas = fork.base_fee_per_gas_calculator()(
+        parent_base_fee_per_gas=genesis_env.base_fee_per_gas,
+        parent_gas_used=0,
+        parent_gas_limit=genesis_env.gas_limit,
+    )
+    tip_to_charlie = (gas_price - base_fee_per_gas) * intrinsic_gas
 
     alice_final_balance = alice_initial_balance - 100 - total_gas_cost
 
     block = Block(
         txs=[tx],
         fee_recipient=charlie,  # Set Charlie as the fee recipient
-        base_fee_per_gas=base_fee_per_gas,  # Set base fee for EIP-1559
+        header_verify=Header(base_fee_per_gas=base_fee_per_gas),
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
                 alice: BalAccountExpectation(
@@ -646,6 +654,7 @@ def test_bal_block_rewards(
         pre=pre,
         blocks=[block],
         post={},
+        genesis_environment=genesis_env,
     )
 
 
