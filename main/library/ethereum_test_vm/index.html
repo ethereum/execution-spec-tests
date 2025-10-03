@@ -3207,6 +3207,75 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable" class="md-nav__link">
+    <span class="md-ellipsis">
+      MemoryVariable
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MemoryVariable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.__new__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __new__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.set" class="md-nav__link">
+    <span class="md-ellipsis">
+      set
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.add" class="md-nav__link">
+    <span class="md-ellipsis">
+      add
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.sub" class="md-nav__link">
+    <span class="md-ellipsis">
+      sub
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.store_value" class="md-nav__link">
+    <span class="md-ellipsis">
+      store_value
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.return_value" class="md-nav__link">
+    <span class="md-ellipsis">
+      return_value
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_vm.call_return_code" class="md-nav__link">
     <span class="md-ellipsis">
       call_return_code
@@ -29994,6 +30063,75 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable" class="md-nav__link">
+    <span class="md-ellipsis">
+      MemoryVariable
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MemoryVariable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.__new__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __new__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.set" class="md-nav__link">
+    <span class="md-ellipsis">
+      set
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.add" class="md-nav__link">
+    <span class="md-ellipsis">
+      add
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.sub" class="md-nav__link">
+    <span class="md-ellipsis">
+      sub
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.store_value" class="md-nav__link">
+    <span class="md-ellipsis">
+      store_value
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_vm.MemoryVariable.return_value" class="md-nav__link">
+    <span class="md-ellipsis">
+      return_value
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_vm.call_return_code" class="md-nav__link">
     <span class="md-ellipsis">
       call_return_code
@@ -33163,6 +33301,457 @@ serialization and validation.</p>
 
 
 
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_vm.MemoryVariable" class="doc doc-heading">
+            <code>MemoryVariable</code>
+
+
+<a href="#ethereum_test_vm.MemoryVariable" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Bytecode (ethereum_test_vm.bytecode.Bytecode)" href="#ethereum_test_vm.Bytecode">Bytecode</a></code></p>
+
+
+        <p>Variable abstraction to help keep track values that are stored in memory.</p>
+<p>To use, simply declare a variable with an unique offset that is not used
+by any other variable.</p>
+<p>The variable then can be used in-place to read the value from memory:</p>
+<div class="highlight"><pre><span></span><code><span class="n">v</span> <span class="o">=</span> <span class="n">MemoryVariable</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+<span class="n">bytecode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">())</span>
+</code></pre></div>
+<p>The previous example is equivalent to:</p>
+<div class="highlight"><pre><span></span><code><span class="n">bytecode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">())</span>
+</code></pre></div>
+<p>The variable also contains methods to add and subtract values from the
+memory offset.</p>
+<div class="highlight"><pre><span></span><code><span class="n">v</span> <span class="o">=</span> <span class="n">MemoryVariable</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+<span class="n">bytecode</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mh">0xff</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">return_value</span><span class="p">()</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>The previous example is equivalent to:</p>
+<div class="highlight"><pre><span></span><code><span class="n">bytecode</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mh">0xff</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MemoryVariable</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Variable abstraction to help keep track values that are stored in memory.</span>
+
+<span class="sd">    To use, simply declare a variable with an unique offset that is not used</span>
+<span class="sd">    by any other variable.</span>
+
+<span class="sd">    The variable then can be used in-place to read the value from memory:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    v = MemoryVariable(128)</span>
+
+<span class="sd">    bytecode = Op.ADD(v, Op.CALLDATASIZE())</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    The previous example is equivalent to:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    bytecode = Op.ADD(Op.MLOAD(offset=128), Op.CALLDATASIZE())</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    The variable also contains methods to add and subtract values from the</span>
+<span class="sd">    memory offset.</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    v = MemoryVariable(128)</span>
+
+<span class="sd">    bytecode = (</span>
+<span class="sd">        v.set(0xff)</span>
+<span class="sd">        + v.add(1)</span>
+<span class="sd">        + v.return_value()</span>
+<span class="sd">    )</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    The previous example is equivalent to:</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    bytecode = (</span>
+<span class="sd">        Op.MSTORE(offset=128, value=0xff)</span>
+<span class="sd">        + Op.MSTORE(offset=128, value=Op.ADD(Op.MLOAD(offset=128), 1))</span>
+<span class="sd">        + Op.RETURN(offset=128, size=32)</span>
+<span class="sd">    )</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate a new EVM memory variable.</span>
+
+<span class="sd">        When used with normal bytecode, this class simply returns the MLOAD</span>
+<span class="sd">        with the provided offset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">))</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the given value at the memory location of this variable.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;In-place add the given value to the one currently in memory.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">),</span> <span class="n">value</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place subtract the given value from the one currently</span>
+<span class="sd">        in memory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">),</span> <span class="n">value</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">store_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Op.SSTORE the value that is currently in memory.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Op.RETURN the value that is currently in memory.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_vm.MemoryVariable.__new__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_vm.MemoryVariable.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Instantiate a new EVM memory variable.</p>
+<p>When used with normal bytecode, this class simply returns the MLOAD
+with the provided offset.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Instantiate a new EVM memory variable.</span>
+
+<span class="sd">    When used with normal bytecode, this class simply returns the MLOAD</span>
+<span class="sd">    with the provided offset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">))</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span>
+    <span class="k">return</span> <span class="n">instance</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_vm.MemoryVariable.set" class="doc doc-heading">
+            <code class="highlight language-python"><span class="nb">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_vm.MemoryVariable.set" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Set the given value at the memory location of this variable.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the given value at the memory location of this variable.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_vm.MemoryVariable.add" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_vm.MemoryVariable.add" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>In-place add the given value to the one currently in memory.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;In-place add the given value to the one currently in memory.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">),</span> <span class="n">value</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_vm.MemoryVariable.sub" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">sub</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_vm.MemoryVariable.sub" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>In-place subtract the given value from the one currently
+in memory.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In-place subtract the given value from the one currently</span>
+<span class="sd">    in memory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">),</span> <span class="n">value</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_vm.MemoryVariable.store_value" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">store_value</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_vm.MemoryVariable.store_value" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Op.SSTORE the value that is currently in memory.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">store_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Op.SSTORE the value that is currently in memory.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_vm.MemoryVariable.return_value" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">return_value</span><span class="p">()</span></code>
+
+<a href="#ethereum_test_vm.MemoryVariable.return_value" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Op.RETURN the value that is currently in memory.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Op.RETURN the value that is currently in memory.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
 <div class="doc doc-object doc-function">
 
 
@@ -33179,17 +33768,17 @@ serialization and validation.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_return_code</span><span class="p">(</span><span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">revert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_return_code</span><span class="p">(</span><span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">revert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return return code for a CALL operation.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">opcode</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
