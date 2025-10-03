@@ -220,8 +220,9 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
         + Conditional(
             condition=Op.ISZERO(current_byte),
             if_true=(
-                # Increase the calldata byte offset, and if it's greater than the calldata size,
-                # return, otherwise jump to the calldata copy code and read the next byte.
+                # Increase the calldata byte offset, and if it's greater than
+                # the calldata size, return, otherwise jump to the calldata
+                # copy code and read the next byte.
                 byte_offset.add(1)
                 + Conditional(
                     condition=Op.GT(byte_offset, Op.CALLDATASIZE()),

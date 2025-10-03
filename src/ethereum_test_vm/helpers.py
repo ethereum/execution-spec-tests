@@ -8,7 +8,8 @@ class MemoryVariable(Bytecode):
     """
     Variable abstraction to help keep track values that are stored in memory.
 
-    To use, simply declare a variable with an unique offset that is not used by any other variable.
+    To use, simply declare a variable with an unique offset that is not used
+    by any other variable.
 
     The variable then can be used in-place to read the value from memory:
 
@@ -24,7 +25,8 @@ class MemoryVariable(Bytecode):
     bytecode = Op.ADD(Op.MLOAD(offset=128), Op.CALLDATASIZE())
     ```
 
-    The variable also contains methods to add and subtract values from the memory offset.
+    The variable also contains methods to add and subtract values from the
+    memory offset.
 
     ```python
     v = MemoryVariable(128)
@@ -54,8 +56,8 @@ class MemoryVariable(Bytecode):
         """
         Instantiate a new EVM memory variable.
 
-        When used with normal bytecode, this class simply returns the MLOAD with the provided
-        offset.
+        When used with normal bytecode, this class simply returns the MLOAD
+        with the provided offset.
         """
         instance = super().__new__(cls, Op.MLOAD(offset=offset))
         instance.offset = offset
@@ -70,7 +72,10 @@ class MemoryVariable(Bytecode):
         return Op.MSTORE(offset=self.offset, value=Op.ADD(Op.MLOAD(offset=self.offset), value))
 
     def sub(self, value: int | Bytecode) -> Bytecode:
-        """In-place subtract the given value from the one currently in memory."""
+        """
+        In-place subtract the given value from the one currently
+        in memory.
+        """
         return Op.MSTORE(offset=self.offset, value=Op.SUB(Op.MLOAD(offset=self.offset), value))
 
     def store_value(self, key: int | Bytecode) -> Bytecode:
