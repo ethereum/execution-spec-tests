@@ -5,6 +5,7 @@ from typing import Dict
 import pytest
 
 from ethereum_test_base_types import AccessList, Address, Hash
+from ethereum_test_specs.blockchain import Header
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -630,6 +631,7 @@ def test_bal_block_rewards(
     block = Block(
         txs=[tx],
         fee_recipient=charlie,  # Set Charlie as the fee recipient
+        header_verify=Header(base_fee_per_gas=base_fee_per_gas),
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
                 alice: BalAccountExpectation(
