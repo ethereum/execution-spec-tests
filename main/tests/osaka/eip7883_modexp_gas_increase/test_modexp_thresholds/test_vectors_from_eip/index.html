@@ -27997,7 +27997,7 @@
 
 
 <h1 id="test_vectors_from_eip"><code>test_vectors_from_eip()</code><a class="headerlink" href="#test_vectors_from_eip" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9fc77e24cf164ff3e921a11d8cb056364e6ccca2/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L33"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_vectors_from_eip@9fc77e24</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/322fd26ac129cc4efc593c875fcaa868b2e8c18d/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L33"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_vectors_from_eip@322fd26a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_vectors_from_eip --fork Osaka</span>
@@ -28037,7 +28037,8 @@
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,modexp_expected,gas_old,gas_new&quot;</span><span class="p">,</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;vectors.json&quot;</span><span class="p">),</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -28046,6 +28047,7 @@
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">InputLengths</span><span class="o">.</span><span class="n">Dynamic</span><span class="o">.</span><span class="n">Valid</span><span class="p">()</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">GasCostChanges</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">GasUpdatesMeasurement</span><span class="p">()</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_vectors_from_eip</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

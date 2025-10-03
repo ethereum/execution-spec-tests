@@ -27997,7 +27997,7 @@
 
 
 <h1 id="test_scenarios"><code>test_scenarios()</code><a class="headerlink" href="#test_scenarios" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9fc77e24cf164ff3e921a11d8cb056364e6ccca2/tests/frontier/scenarios/test_scenarios.py#L110"><code>tests/frontier/scenarios/test_scenarios.py::test_scenarios@9fc77e24</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/322fd26ac129cc4efc593c875fcaa868b2e8c18d/tests/frontier/scenarios/test_scenarios.py#L110"><code>tests/frontier/scenarios/test_scenarios.py::test_scenarios@322fd26a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/scenarios/test_scenarios.py::test_scenarios --fork Osaka</span>
@@ -28180,7 +28180,8 @@ scenarios will be complex Generate one test file for [each operation] *
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/templateGen.js&quot;</span><span class="p">,</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/createDiffPlacesTests.sh&quot;</span><span class="p">,</span>
@@ -28217,7 +28218,7 @@ scenarios will be complex Generate one test file for [each operation] *
         <span class="n">ProgramTstoreTload</span><span class="p">(),</span>
         <span class="n">ProgramLogs</span><span class="p">(),</span>
         <span class="n">ProgramSuicide</span><span class="p">(),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">ProgramInvalidOpcode</span><span class="p">(),</span> <span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()]),</span>
+        <span class="n">ProgramInvalidOpcode</span><span class="p">(),</span>
         <span class="n">ProgramAddress</span><span class="p">(),</span>
         <span class="n">ProgramBalance</span><span class="p">(),</span>
         <span class="n">ProgramOrigin</span><span class="p">(),</span>
@@ -28232,7 +28233,7 @@ scenarios will be complex Generate one test file for [each operation] *
         <span class="n">ProgramReturnDataSize</span><span class="p">(),</span>
         <span class="n">ProgramReturnDataCopy</span><span class="p">(),</span>
         <span class="n">ProgramExtCodehash</span><span class="p">(),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">ProgramBlockhash</span><span class="p">(),</span> <span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()]),</span>
+        <span class="n">ProgramBlockhash</span><span class="p">(),</span>
         <span class="n">ProgramCoinbase</span><span class="p">(),</span>
         <span class="n">ProgramTimestamp</span><span class="p">(),</span>
         <span class="n">ProgramNumber</span><span class="p">(),</span>
@@ -28249,6 +28250,7 @@ scenarios will be complex Generate one test file for [each operation] *
         <span class="n">ProgramAllFrontierOpcodes</span><span class="p">(),</span>
     <span class="p">],</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_scenarios</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>

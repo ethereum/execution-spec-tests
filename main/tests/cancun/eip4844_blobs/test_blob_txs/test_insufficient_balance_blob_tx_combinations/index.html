@@ -27997,7 +27997,7 @@
 
 
 <h1 id="test_insufficient_balance_blob_tx_combinations"><code>test_insufficient_balance_blob_tx_combinations()</code><a class="headerlink" href="#test_insufficient_balance_blob_tx_combinations" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9fc77e24cf164ff3e921a11d8cb056364e6ccca2/tests/cancun/eip4844_blobs/test_blob_txs.py#L851"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx_combinations@9fc77e24</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/322fd26ac129cc4efc593c875fcaa868b2e8c18d/tests/cancun/eip4844_blobs/test_blob_txs.py#L852"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx_combinations@322fd26a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_insufficient_balance_blob_tx_combinations --fork Osaka</span>
@@ -28022,8 +28022,7 @@ invalid.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">851</span>
-<span class="normal">852</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">852</span>
 <span class="normal">853</span>
 <span class="normal">854</span>
 <span class="normal">855</span>
@@ -28048,7 +28047,8 @@ invalid.</p>
 <span class="normal">874</span>
 <span class="normal">875</span>
 <span class="normal">876</span>
-<span class="normal">877</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">877</span>
+<span class="normal">878</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
     <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">all_valid_blob_combinations</span><span class="p">,</span>
 <span class="p">)</span>

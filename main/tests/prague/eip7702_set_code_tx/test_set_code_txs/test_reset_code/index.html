@@ -27997,7 +27997,7 @@
 
 
 <h1 id="test_reset_code"><code>test_reset_code()</code><a class="headerlink" href="#test_reset_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9fc77e24cf164ff3e921a11d8cb056364e6ccca2/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3039"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_reset_code@9fc77e24</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/322fd26ac129cc4efc593c875fcaa868b2e8c18d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3040"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_reset_code@322fd26a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_reset_code --fork Osaka</span>
@@ -28018,8 +28018,7 @@ set to the account.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3039</span>
-<span class="normal">3040</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3040</span>
 <span class="normal">3041</span>
 <span class="normal">3042</span>
 <span class="normal">3043</span>
@@ -28091,7 +28090,8 @@ set to the account.</p>
 <span class="normal">3109</span>
 <span class="normal">3110</span>
 <span class="normal">3111</span>
-<span class="normal">3112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3112</span>
+<span class="normal">3113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;self_sponsored&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;not_self_sponsored&quot;</span><span class="p">),</span>

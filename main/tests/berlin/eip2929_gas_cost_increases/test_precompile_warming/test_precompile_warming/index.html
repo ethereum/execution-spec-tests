@@ -27997,7 +27997,7 @@
 
 
 <h1 id="test_precompile_warming"><code>test_precompile_warming()</code><a class="headerlink" href="#test_precompile_warming" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9fc77e24cf164ff3e921a11d8cb056364e6ccca2/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L75"><code>tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming@9fc77e24</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/322fd26ac129cc4efc593c875fcaa868b2e8c18d/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L75"><code>tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming@322fd26a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming --fork Osaka</span>
@@ -28121,13 +28121,15 @@ initialized to include:
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;address,precompile_in_successor,precompile_in_predecessor&quot;</span><span class="p">,</span>
     <span class="n">precompile_addresses_in_predecessor_successor</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">Before</span><span class="o">.</span><span class="n">Cold</span><span class="p">(</span><span class="n">eip</span><span class="o">=</span><span class="p">[</span><span class="mi">7951</span><span class="p">])</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">After</span><span class="o">.</span><span class="n">Warm</span><span class="p">(</span><span class="n">eip</span><span class="o">=</span><span class="p">[</span><span class="mi">7951</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_precompile_warming</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
