@@ -72,6 +72,16 @@ REFERENCE_SPEC_VERSION = "5c8f066acb210c704ef80c1033a941aa5374aac5"
             ModExpInput(base="", exponent="", modulus="0001"),
             ModExpOutput(returned_data="0x0000"),
         ),
+        (
+            ModExpInput(
+                base="",
+                exponent="",
+                modulus="",
+                declared_exponent_length=2**32,
+                declared_modulus_length=1,
+            ),
+            ModExpOutput(returned_data="0x00", call_success=False),
+        ),
         # Test cases from EIP 198.
         pytest.param(
             ModExpInput(
