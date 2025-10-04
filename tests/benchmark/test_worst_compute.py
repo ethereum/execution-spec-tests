@@ -2978,13 +2978,20 @@ def test_worst_push(
 ):
     """Test running a block with as many PUSH as possible."""
     op = opcode[1] if opcode.has_data_portion() else opcode
-    opcode_sequence = op * fork.max_stack_height()
-    target_contract_address = pre.deploy_contract(code=opcode_sequence)
+
+    op_seq = Bytecode()
+    for _ in range(fork.max_stack_height()):
+        if len(op_seq) + len(op) > fork.max_code_size():
+            break
+        op_seq += op
+
+    target_contract_address = pre.deploy_contract(code=op_seq)
 
     calldata = Bytecode()
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
 
     code = code_loop_precompile_call(calldata, attack_block, fork)
+
     code_address = pre.deploy_contract(code=code)
 
     tx = Transaction(
