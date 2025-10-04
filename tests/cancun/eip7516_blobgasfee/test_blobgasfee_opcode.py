@@ -52,7 +52,7 @@ def caller_code(
     callee_address: Address,
 ) -> Bytecode:
     """Bytecode used to call the bytecode containing the BLOBBASEFEE opcode."""
-    return Op.SSTORE(Op.NUMBER, Op.CALL(gas=call_gas, address=callee_address))
+    return Op.SSTORE(1, Op.CALL(gas=call_gas, address=callee_address))
 
 
 @pytest.fixture
