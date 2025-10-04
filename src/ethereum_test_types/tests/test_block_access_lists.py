@@ -69,7 +69,18 @@ def test_address_exclusion_validation_raises_when_address_is_present():
         expectation.verify_against(actual_bal)
 
 
-def test_empty_account_changes_raises_when_changes_are_present():
+@pytest.mark.parametrize(
+    "empty_changes_definition,exception_message",
+    [
+        [BalAccountExpectation(), "ambiguous. Use BalAccountExpectation.empty()"],
+        [BalAccountExpectation.empty(), "No account changes expected for "],
+    ],
+    ids=["BalAccountExpectation()", "BalAccountExpectation.empty()"],
+)
+def test_empty_account_changes_definitions(
+    empty_changes_definition,
+    exception_message,
+):
     """
     Test that validation fails when expected empty changes but actual
     has changes.
@@ -85,12 +96,11 @@ def test_empty_account_changes_raises_when_changes_are_present():
         ]
     )
 
-    expectation = BlockAccessListExpectation(account_expectations={alice: BalAccountExpectation()})
+    expectation = BlockAccessListExpectation(
+        account_expectations={alice: empty_changes_definition}
+    )
 
-    with pytest.raises(
-        BlockAccessListValidationError,
-        match=f"No account changes expected for {alice}",
-    ):
+    with pytest.raises(BlockAccessListValidationError, match=exception_message):
         expectation.verify_against(actual_bal)
 
 

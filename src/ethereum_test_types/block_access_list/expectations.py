@@ -5,7 +5,7 @@ This module contains classes for defining and validating expected
 BAL values in tests.
 """
 
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, ClassVar, Dict, List, Optional
 
 from pydantic import Field, PrivateAttr
 
@@ -52,6 +52,33 @@ class BalAccountExpectation(CamelModel):
     absent_values: Optional[BalAccountAbsentValues] = Field(
         default=None, description="Explicit absent value expectations using BalAccountAbsentValues"
     )
+
+    _EMPTY: ClassVar[Optional["BalAccountExpectation"]] = None
+
+    @classmethod
+    def empty(cls) -> "BalAccountExpectation":
+        """
+        Create an expectation that validates the account has NO changes.
+
+        This is distinct from `BalAccountExpectation()` with no fields set,
+        which is ambiguous and clashes with `model_fields_set` logic, and
+        will raise a clarifying error if used in expectations.
+
+        Returns:
+            A BalAccountExpectation instance with all change lists empty.
+            This uses a classvar to facilitate identity checks across
+            multiple expectation instances.
+
+        """
+        if cls._EMPTY is None:
+            cls._EMPTY = cls(
+                nonce_changes=[],
+                balance_changes=[],
+                code_changes=[],
+                storage_changes=[],
+                storage_reads=[],
+            )
+        return cls._EMPTY
 
 
 def compose(
@@ -168,19 +195,28 @@ class BlockAccessListExpectation(CamelModel):
                     raise BlockAccessListValidationError(
                         f"Address {address} should not be in BAL but was found"
                     )
-            elif expectation == BalAccountExpectation():
-                # explicit check for NO account changes for the address
-                if actual_accounts_by_addr.get(address) != BalAccountChange(address=address):
-                    raise BlockAccessListValidationError(
-                        f"No account changes expected for {address} but found "
-                        f"changes: {actual_accounts_by_addr[address]}"
-                    )
+            elif not expectation.model_fields_set:
+                # Disallow ambiguous BalAccountExpectation() with no fields set
+                raise BlockAccessListValidationError(
+                    f"Address {address}: BalAccountExpectation() with no fields set is "
+                    f"ambiguous. Use BalAccountExpectation.empty() to validate no changes, "
+                    f"or explicitly set the fields to validate "
+                    f"(e.g., nonce_changes=[...])."
+                )
             else:
                 # check address is present and validate changes
                 if address not in actual_accounts_by_addr:
                     raise BlockAccessListValidationError(
                         f"Expected address {address} not found in actual BAL"
                     )
+
+                if expectation is BalAccountExpectation.empty():
+                    # explicit check for "no changes" validation w/ .empty()
+                    if actual_accounts_by_addr.get(address) != BalAccountChange(address=address):
+                        raise BlockAccessListValidationError(
+                            f"No account changes expected for {address} but found "
+                            f"changes: {actual_accounts_by_addr[address]}"
+                        )
 
                 actual_account = actual_accounts_by_addr[address]
                 try:
