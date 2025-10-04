@@ -28,6 +28,7 @@ from .cli_types import (
     Traces,
     TransactionReceipt,
     TransactionTraces,
+    TransitionToolCLIInput,
     TransitionToolContext,
     TransitionToolInput,
     TransitionToolOutput,
@@ -185,6 +186,15 @@ class TransitionTool(EthereumCLI):
                 env=self.env,
             )
 
+        def to_cli_input(self) -> TransitionToolCLIInput:
+            """Convert the data to a TransitionToolCLIInput object."""
+            return TransitionToolCLIInput(
+                alloc=self.alloc,
+                txs=self.txs,
+                env=self.env,
+                blob_schedule=self.blob_schedule or BlobSchedule(),
+            )
+
         def get_request_data(self) -> TransitionToolRequest:
             """Convert the data to a TransitionToolRequest object."""
             return TransitionToolRequest(
@@ -211,7 +221,7 @@ class TransitionTool(EthereumCLI):
         os.mkdir(os.path.join(temp_dir.name, "input"))
         os.mkdir(os.path.join(temp_dir.name, "output"))
 
-        input_contents = t8n_data.to_input().model_dump(mode="json", **model_dump_config)
+        input_contents = t8n_data.to_cli_input().model_dump(mode="json", **model_dump_config)
 
         input_paths = {
             k: os.path.join(temp_dir.name, "input", f"{k}.json") for k in input_contents.keys()
@@ -235,6 +245,8 @@ class TransitionTool(EthereumCLI):
             input_paths["env"],
             "--input.txs",
             input_paths["txs"],
+            "--input.blobSchedule",
+            input_paths["blobSchedule"],
             "--output.basedir",
             temp_dir.name,
             "--output.result",
