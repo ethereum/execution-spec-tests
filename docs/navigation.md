@@ -41,6 +41,7 @@
   * [Running Tests](running_tests/index.md)
       * [Methods of Running Tests](running_tests/running.md)
       * [EEST Fixture Releases](running_tests/releases.md)
+      * [Fuzzer Bridge](writing_tests/fuzzer_bridge.md)
       * [Test Fixture Specifications](running_tests/test_formats/index.md)
           * [State Tests](running_tests/test_formats/state_test.md)
           * [Blockchain Tests](running_tests/test_formats/blockchain_test.md)
