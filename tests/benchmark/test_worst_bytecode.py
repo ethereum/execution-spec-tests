@@ -6,24 +6,24 @@ import math
 
 import pytest
 
+from ethereum_test_benchmark.benchmark_code_generator import JumpLoopGenerator
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
+    BenchmarkTestFiller,
     Block,
     BlockchainTestFiller,
     Bytecode,
+    Bytes,
     Environment,
     Hash,
-    StateTestFiller,
     Transaction,
     While,
     compute_create2_address,
 )
 from ethereum_test_types.helpers import compute_create_address
 from ethereum_test_vm import Opcodes as Op
-
-from .helpers import code_loop_precompile_call
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
@@ -245,7 +245,7 @@ def test_worst_bytecode_single_opcode(
     ids=lambda x: x.hex(),
 )
 def test_worst_initcode_jumpdest_analysis(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     pattern: Bytecode,
@@ -261,7 +261,6 @@ def test_worst_initcode_jumpdest_analysis(
     is modified by mixing-in the returned create address between CREATE
     invocations to prevent caching.
     """
-    max_code_size = fork.max_code_size()
     initcode_size = fork.max_initcode_size()
 
     # Expand the initcode pattern to the transaction data so it can be used in
@@ -291,32 +290,20 @@ def test_worst_initcode_jumpdest_analysis(
     # Make sure the last opcode in the initcode is JUMPDEST.
     code_prepare_initcode += Op.MSTORE(initcode_size - 32, Op.PUSH32[bytes(Op.JUMPDEST) * 32])
 
-    code_invoke_create = (
+    attack_block = (
         Op.PUSH1[len(initcode_prefix)]
         + Op.MSTORE
         + Op.CREATE(value=Op.PUSH0, offset=Op.PUSH0, size=Op.MSIZE)
     )
 
-    initial_random = Op.PUSH0
-    code_prefix = code_prepare_initcode + initial_random
-    code_loop_header = Op.JUMPDEST
-    code_loop_footer = Op.JUMP(len(code_prefix))
-    code_loop_body_len = (
-        max_code_size - len(code_prefix) - len(code_loop_header) - len(code_loop_footer)
-    )
+    setup = code_prepare_initcode + Op.PUSH0
 
-    code_loop_body = (code_loop_body_len // len(code_invoke_create)) * bytes(code_invoke_create)
-    code = code_prefix + code_loop_header + code_loop_body + code_loop_footer
-    assert (max_code_size - len(code_invoke_create)) < len(code) <= max_code_size
+    tx = JumpLoopGenerator(
+        setup=setup, attack_block=attack_block, cleanup=Bytecode()
+    ).generate_transaction(pre, gas_benchmark_value, fork)
+    tx.data = Bytes(tx_data)
 
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        data=tx_data,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -349,14 +336,13 @@ def test_worst_initcode_jumpdest_analysis(
     ],
 )
 def test_worst_create(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
     max_code_size_ratio: float,
     non_zero_data: bool,
     value: int,
-    gas_benchmark_value: int,
 ):
     """
     Test the CREATE and CREATE2 performance with different configurations.
@@ -394,7 +380,7 @@ def test_worst_create(
     # ...
     # JUMP(#)
     # ```
-    code_prefix = (
+    setup = (
         Op.PUSH3(code_size)
         + Op.PUSH1(value)
         + Op.EXTCODECOPY(
@@ -405,7 +391,7 @@ def test_worst_create(
 
     if opcode == Op.CREATE2:
         # For CREATE2, we provide an initial salt.
-        code_prefix = code_prefix + Op.PUSH1(42)
+        setup += Op.PUSH1(42)
 
     attack_block = (
         # For CREATE:
@@ -420,16 +406,18 @@ def test_worst_create(
         # - DUP3 is targeting the EXTCODESIZE value pushed in code_prefix.
         else Op.DUP3 + Op.PUSH0 + Op.DUP4 + Op.CREATE2
     )
-    code = code_loop_precompile_call(code_prefix, attack_block, fork)
+
+    code = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_repeated_code(
+        attack_block, Bytecode(), Bytecode(), fork
+    )
 
     tx = Transaction(
         # Set enough balance in the pre-alloc for `value > 0` configurations.
         to=pre.deploy_contract(code=code, balance=1_000_000_000 if value > 0 else 0),
-        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
         tx=tx,
@@ -444,7 +432,7 @@ def test_worst_create(
     ],
 )
 def test_worst_creates_collisions(
-    state_test: StateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
@@ -475,14 +463,12 @@ def test_worst_creates_collisions(
     # The CALL to the proxy contract needs at a minimum gas corresponding to
     # the CREATE(2) plus extra required PUSH0s for arguments.
     min_gas_required = gas_costs.G_CREATE + gas_costs.G_BASE * (3 if opcode == Op.CREATE else 4)
-    code_prefix = Op.PUSH20(proxy_contract) + Op.PUSH3(min_gas_required)
+    setup = Op.PUSH20(proxy_contract) + Op.PUSH3(min_gas_required)
     attack_block = Op.POP(
         # DUP7 refers to the PUSH3 above.
         # DUP7 refers to the proxy contract address.
         Op.CALL(gas=Op.DUP7, address=Op.DUP7)
     )
-    code = code_loop_precompile_call(code_prefix, attack_block, fork)
-    tx_target = pre.deploy_contract(code=code)
 
     # (**) We deploy the contract that CREATE(2) will attempt to create so any
     # attempt will fail.
@@ -496,14 +482,8 @@ def test_worst_creates_collisions(
             addr = compute_create_address(address=proxy_contract, nonce=nonce)
             pre.deploy_contract(address=addr, code=Op.INVALID)
 
-    tx = Transaction(
-        to=tx_target,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_test(
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )
