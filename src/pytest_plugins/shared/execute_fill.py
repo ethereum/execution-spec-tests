@@ -157,6 +157,10 @@ def pytest_configure(config: pytest.Config):
         "markers",
         "valid_for_bpo_forks: Marks a test as valid for BPO forks",
     )
+    config.addinivalue_line(
+        "markers",
+        "mainnet: Specialty tests crafted for running on mainnet and sanity checking.",
+    )
 
 
 @pytest.fixture(scope="function")
