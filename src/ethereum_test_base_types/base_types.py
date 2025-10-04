@@ -78,12 +78,13 @@ class Wei(Number):
             if len(words) > 1:
                 unit = words[1].lower()
                 multiplier = cls._get_multiplier(unit)
+            parse_number = lambda x: int(x) if x.isdecimal() else float(x)
             value: float
             if "**" in value_str:
                 base, exp = value_str.split("**")
-                value = float(base) ** int(exp)
+                value = parse_number(base) ** int(exp)
             else:
-                value = float(value_str)
+                value = parse_number(value_str)
             return super(Number, cls).__new__(cls, value * multiplier)
         return super(Number, cls).__new__(cls, to_number(input_number))
 
