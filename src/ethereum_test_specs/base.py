@@ -15,6 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
+from ethereum_clis.cli_types import OpcodeCount
 from ethereum_test_base_types import to_hex
 from ethereum_test_execution import BaseExecute, ExecuteFormat, LabeledExecuteFormat
 from ethereum_test_fixtures import (
@@ -75,6 +76,7 @@ class BaseTest(BaseModel):
     _operation_mode: OpMode | None = PrivateAttr(None)
     _gas_optimization: int | None = PrivateAttr(None)
     _gas_optimization_max_gas_limit: int | None = PrivateAttr(None)
+    _opcode_count: OpcodeCount | None = PrivateAttr(None)
 
     expected_benchmark_gas_used: int | None = None
     skip_gas_used_validation: bool = False
@@ -130,6 +132,7 @@ class BaseTest(BaseModel):
         )
         new_instance._request = base_test._request
         new_instance._operation_mode = base_test._operation_mode
+        new_instance._opcode_count = base_test._opcode_count
         return new_instance
 
     @classmethod

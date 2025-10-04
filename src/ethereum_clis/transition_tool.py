@@ -25,6 +25,7 @@ from ethereum_test_forks.helpers import get_development_forks, get_forks
 from ethereum_test_types import Alloc, Environment, Transaction
 
 from .cli_types import (
+    OpcodeCount,
     Traces,
     TransactionReceipt,
     TransactionTraces,
@@ -71,6 +72,7 @@ class TransitionTool(EthereumCLI):
     t8n_use_server: bool = False
     server_url: str | None = None
     process: Optional[subprocess.Popen] = None
+    supports_opcode_count: ClassVar[bool] = False
 
     supports_xdist: ClassVar[bool] = True
 
@@ -248,6 +250,13 @@ class TransitionTool(EthereumCLI):
             "--state.chainid",
             str(t8n_data.chain_id),
         ]
+        if self.supports_opcode_count:
+            args.extend(
+                [
+                    "--opcode.count",
+                    "opcodes.json",
+                ]
+            )
 
         if self.trace:
             args.append("--trace")
@@ -308,6 +317,20 @@ class TransitionTool(EthereumCLI):
         output = TransitionToolOutput.model_validate(
             output_contents, context={"exception_mapper": self.exception_mapper}
         )
+        if self.supports_opcode_count:
+            opcode_count_file_path = Path(temp_dir.name) / "opcodes.json"
+            if opcode_count_file_path.exists():
+                opcode_count = OpcodeCount.model_validate_json(opcode_count_file_path.read_text())
+                output.result.opcode_count = opcode_count
+
+                if debug_output_path:
+                    dump_files_to_directory(
+                        debug_output_path,
+                        {
+                            "opcodes.json": opcode_count.model_dump(),
+                        },
+                    )
+
         if self.trace:
             output.result.traces = self.collect_traces(
                 output.result.receipts, temp_dir, debug_output_path

@@ -113,6 +113,7 @@ groupstats = "cli.show_pre_alloc_group_stats:main"
 extract_config = "cli.extract_config:extract_config"
 compare_fixtures = "cli.compare_fixtures:main"
 modify_static_test_gas_limits = "cli.modify_static_test_gas_limits:main"
+diff_opcode_counts = "cli.diff_opcode_counts:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
