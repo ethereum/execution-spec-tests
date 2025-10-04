@@ -261,6 +261,15 @@ class TransitionToolInput(CamelModel):
     env: Environment
 
 
+class TransitionToolCLIInput(CamelModel):
+    """Transition tool CLI input."""
+
+    alloc: Alloc
+    txs: List[Transaction]
+    env: Environment
+    blob_schedule: BlobSchedule
+
+
 class TransitionToolOutput(CamelModel):
     """Transition tool output."""
 
