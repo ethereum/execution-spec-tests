@@ -199,37 +199,66 @@ def test_sstore_erc20_approve(
     # Calculate gas costs
     intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
 
-    # Cost per iteration (attack contract overhead + approve call)
-    cost_per_iteration = (
-        # Attack contract loop overhead
-        gas_costs.G_VERY_LOW * 2  # MLOAD counter (3*2)
-        + gas_costs.G_VERY_LOW * 2  # MSTORE selector (3*2)
-        + gas_costs.G_VERY_LOW * 4  # MLOAD + MSTORE spender + amount (3*4)
-        + gas_costs.G_BASE  # POP (2)
-        + gas_costs.G_BASE * 3  # SUB + MLOAD + MSTORE for counter decrement (2*3)
-        + gas_costs.G_BASE * 2  # ISZERO * 2 for loop condition (2*2)
+    num_contracts = len(address_stubs.root)
+
+    # Per-contract fixed overhead (setup + teardown)
+    memory_expansion_cost = 15  # Memory expansion to 160 bytes (5 words)
+    overhead_per_contract = (
+        gas_costs.G_VERY_LOW  # MSTORE to initialize counter (3)
+        + memory_expansion_cost  # Memory expansion (15)
+        + gas_costs.G_JUMPDEST  # JUMPDEST at loop start (1)
+        + gas_costs.G_LOW  # MLOAD for While condition check (5)
+        + gas_costs.G_BASE  # ISZERO (2)
+        + gas_costs.G_BASE  # ISZERO (2)
         + gas_costs.G_MID  # JUMPI (8)
+        + gas_costs.G_BASE  # POP to clean up counter at end (2)
+    )  # = 38
+
+    # Cost per iteration (attack contract operations + ERC20 execution)
+    cost_per_iteration = (
+        # Attack contract loop body operations
+        gas_costs.G_VERY_LOW  # MSTORE selector at memory[32] (3)
+        + gas_costs.G_LOW  # MLOAD counter (5)
+        + gas_costs.G_VERY_LOW  # MSTORE spender at memory[64] (3)
+        + gas_costs.G_LOW  # MLOAD counter (5)
+        + gas_costs.G_VERY_LOW  # MSTORE amount at memory[96] (3)
         # CALL to ERC20 contract
-        + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm CALL to same contract (100)
-        # Inside ERC20 approve
+        + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm CALL base cost (100)
+        + gas_costs.G_BASE  # POP call result (2)
+        # Counter decrement: MSTORE(0, SUB(MLOAD(0), 1))
+        + gas_costs.G_LOW  # MLOAD counter (5)
+        + gas_costs.G_VERY_LOW  # PUSH1 1 (3)
+        + gas_costs.G_VERY_LOW  # SUB (3)
+        + gas_costs.G_VERY_LOW  # MSTORE counter back (3)
+        # While loop condition check
+        + gas_costs.G_LOW  # MLOAD counter (5)
+        + gas_costs.G_BASE  # ISZERO (2)
+        + gas_costs.G_BASE  # ISZERO (2)
+        + gas_costs.G_MID  # JUMPI back to loop start (8)
+        # Inside ERC20 approve function
         + gas_costs.G_VERY_LOW  # PUSH4 selector (3)
         + gas_costs.G_BASE  # EQ selector match (2)
         + gas_costs.G_MID  # JUMPI to function (8)
         + gas_costs.G_JUMPDEST  # JUMPDEST at function start (1)
-        + gas_costs.G_VERY_LOW * 3  # CALLDATALOAD args (3*3)
+        + gas_costs.G_VERY_LOW  # CALLDATALOAD spender (3)
+        + gas_costs.G_VERY_LOW  # CALLDATALOAD amount (3)
         + gas_costs.G_KECCAK_256  # keccak256 static (30)
-        + gas_costs.G_KECCAK_256_WORD * 2  # keccak256 dynamic for 64 bytes (2*6)
+        + gas_costs.G_KECCAK_256_WORD * 2  # keccak256 dynamic for 64 bytes (12)
         + gas_costs.G_STORAGE_SET  # SSTORE to zero slot (20000)
-        + gas_costs.G_VERY_LOW * 3  # MSTORE result + RETURN setup (3*3)
+        + gas_costs.G_VERY_LOW  # PUSH1 1 for return value (3)
+        + gas_costs.G_VERY_LOW  # MSTORE return value (3)
+        + gas_costs.G_VERY_LOW  # PUSH1 32 for return size (3)
+        + gas_costs.G_VERY_LOW  # PUSH1 0 for return offset (3)
         # RETURN costs 0 gas
-    )
+    )  # = 20,226
 
-    num_contracts = len(address_stubs.root)
+    # Calculate total gas needed
+    total_overhead = intrinsic_gas + (overhead_per_contract * num_contracts)
+    available_gas_for_iterations = gas_benchmark_value - total_overhead
 
-    # Calculate gas budget per contract and calls per contract
-    available_gas = gas_benchmark_value - intrinsic_gas
-    gas_per_contract = available_gas // num_contracts
-    calls_per_contract = int(gas_per_contract // cost_per_iteration)
+    # Calculate calls per contract
+    total_iterations_possible = available_gas_for_iterations // cost_per_iteration
+    calls_per_contract = total_iterations_possible // num_contracts
 
     # Deploy all discovered ERC20 contracts using stubs
     erc20_addresses = []
@@ -243,8 +272,9 @@ def test_sstore_erc20_approve(
     # Log test requirements
     print(
         f"Total gas budget: {gas_benchmark_value / 1_000_000:.1f}M gas. "
-        f"~{gas_per_contract / 1_000_000:.1f}M gas per contract, "
-        f"{calls_per_contract} approve calls per contract."
+        f"Intrinsic: {intrinsic_gas}, Overhead per contract: {overhead_per_contract}, "
+        f"Cost per iteration: {cost_per_iteration}. "
+        f"{calls_per_contract} approve calls per contract ({num_contracts} contracts)."
     )
 
     # Build attack code that loops through each contract
