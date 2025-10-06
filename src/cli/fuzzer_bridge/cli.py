@@ -445,14 +445,138 @@ def process_directory(
             )
 
 
+def batch_mode(
+    fork: Optional[str],
+    evm_bin: Optional[Path],
+    pretty: bool,
+    num_blocks: int,
+    block_strategy: str,
+    block_time: int,
+    random_blocks: bool,
+) -> None:
+    """
+    Persistent batch processing mode.
+
+    Reads input/output pairs from stdin, processes each, and outputs status
+    to stdout. Protocol:
+    - INPUT (stdin): <input_json_path> <output_directory>
+    - OUTPUT (stdout): DONE <generated_blocktest_path> or ERROR <error_message>
+    """
+    import sys
+    import traceback
+
+    # Pre-initialize transition tool and builder once for performance
+    t8n: TransitionTool
+    if evm_bin:
+        t8n = GethTransitionTool(binary=evm_bin)
+    else:
+        t8n = GethTransitionTool()
+
+    builder = BlocktestBuilder(t8n)
+
+    # Write ready signal to stderr for debugging
+    print("Batch mode initialized. Ready to process files.", file=sys.stderr, flush=True)
+
+    while True:
+        try:
+            # Read line from stdin
+            line = sys.stdin.readline()
+            if not line:  # EOF
+                break
+
+            line = line.strip()
+            if not line:
+                continue
+
+            # Parse input/output paths
+            parts = line.split()
+            if len(parts) != 2:
+                print(f"ERROR: invalid input format: {line}", flush=True)
+                continue
+
+            input_path_str, output_dir_str = parts
+            input_path = Path(input_path_str)
+            output_dir = Path(output_dir_str)
+
+            # Process the file
+            try:
+                # Read fuzzer input
+                if not input_path.exists():
+                    print(f"ERROR: file not found: {input_path}", flush=True)
+                    continue
+
+                with open(input_path) as f:
+                    fuzzer_data = json.load(f)
+
+                # Override fork if specified
+                if fork:
+                    fuzzer_data["fork"] = fork
+
+                # Determine number of blocks
+                if random_blocks:
+                    from .blocktest_builder import choose_random_num_blocks
+
+                    actual_num_blocks = choose_random_num_blocks(
+                        len(fuzzer_data.get("transactions", []))
+                    )
+                else:
+                    actual_num_blocks = num_blocks
+
+                # Build blocktest (existing logic)
+                blocktest = builder.build_blocktest(
+                    fuzzer_data,
+                    num_blocks=actual_num_blocks,
+                    block_strategy=block_strategy,
+                    block_time=block_time,
+                )
+
+                # Generate test name
+                test_name = generate_test_name(input_path)
+                fixtures = {test_name: blocktest}
+
+                # Write output
+                output_dir.mkdir(parents=True, exist_ok=True)
+                input_stem = input_path.stem
+                output_file = output_dir / f"{input_stem}.json"
+
+                with open(output_file, "w") as f:
+                    if pretty:
+                        json.dump(fixtures, f, indent=2)
+                    else:
+                        json.dump(fixtures, f)
+
+                # Report success (CRITICAL: must flush)
+                print(f"DONE {output_file}", flush=True)
+
+            except FileNotFoundError:
+                print(f"ERROR: file not found: {input_path}", flush=True)
+            except json.JSONDecodeError as e:
+                print(f"ERROR: invalid JSON in {input_path}: {e}", flush=True)
+                # Log full traceback to stderr for debugging
+                traceback.print_exc(file=sys.stderr)
+            except Exception as e:
+                print(f"ERROR: conversion failed for {input_path}: {e}", flush=True)
+                # Log full traceback to stderr for debugging
+                traceback.print_exc(file=sys.stderr)
+
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            # Catch-all for unexpected errors in the main loop
+            print(f"ERROR: unexpected error in batch loop: {e}", flush=True)
+            traceback.print_exc(file=sys.stderr)
+
+
 @click.command()
 @click.argument(
     "input_path",
     type=click.Path(exists=True, dir_okay=True, file_okay=True, path_type=Path),
+    required=False,
 )
 @click.argument(
     "output_path",
     type=click.Path(dir_okay=True, file_okay=False, path_type=Path),
+    required=False,
 )
 @click.option(
     "--fork",
@@ -516,9 +640,14 @@ def process_directory(
     is_flag=True,
     help="Randomly choose number of blocks (1 to min(num_txs, 10))",
 )
+@click.option(
+    "--batch",
+    is_flag=True,
+    help="Persistent batch mode: read file paths from stdin, output to stdout",
+)
 def main(
-    input_path: Path,
-    output_path: Path,
+    input_path: Optional[Path],
+    output_path: Optional[Path],
     fork: Optional[str],
     evm_bin: Optional[Path],
     pretty: bool,
@@ -530,13 +659,34 @@ def main(
     block_strategy: str,
     block_time: int,
     random_blocks: bool,
+    batch: bool,
 ):
     """
     Convert fuzzer output to valid blocktest fixtures.
 
-    INPUT_PATH: Input JSON file or directory containing fuzzer output files
-    OUTPUT_PATH: Output directory for generated blocktest fixtures
+    INPUT_PATH: Input JSON file or directory (not required in --batch mode)
+    OUTPUT_PATH: Output directory for fixtures (not required in --batch mode)
+
+    In batch mode (--batch), reads input/output pairs from stdin.
     """
+    # Batch mode: persistent stdin/stdout processing
+    if batch:
+        batch_mode(
+            fork=fork,
+            evm_bin=evm_bin,
+            pretty=pretty,
+            num_blocks=num_blocks,
+            block_strategy=block_strategy,
+            block_time=block_time,
+            random_blocks=random_blocks,
+        )
+        return
+
+    # Standard mode: require input_path and output_path
+    if input_path is None or output_path is None:
+        raise click.UsageError(
+            "INPUT_PATH and OUTPUT_PATH are required when not using --batch mode"
+        )
     # Create transition tool
     t8n: TransitionTool
     if evm_bin:
