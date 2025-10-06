@@ -47,12 +47,19 @@ def callee_address(pre: Alloc, callee_code: Bytecode) -> Address:
 
 
 @pytest.fixture
+def expected_value_slot() -> Bytecode:
+    """Storage slot where to save the expected value, by default 1."""
+    return Op.PUSH1(1)
+
+
+@pytest.fixture
 def caller_code(
     call_gas: int,
     callee_address: Address,
+    expected_value_slot: Bytecode,
 ) -> Bytecode:
     """Bytecode used to call the bytecode containing the BLOBBASEFEE opcode."""
-    return Op.SSTORE(1, Op.CALL(gas=call_gas, address=callee_address))
+    return Op.SSTORE(expected_value_slot, Op.CALL(gas=call_gas, address=callee_address))
 
 
 @pytest.fixture
@@ -191,6 +198,7 @@ def test_blobbasefee_before_fork(
 timestamps = [7_500, 14_999, 15_000]
 
 
+@pytest.mark.parametrize("expected_value_slot", [Op.NUMBER])
 @pytest.mark.parametrize(
     "caller_pre_storage",
     [{block_number: 0xFF for block_number, _ in enumerate(timestamps, start=1)}],
