@@ -33517,7 +33517,11 @@ limit cap into multiple transactions.</p>
 <span class="normal">909</span>
 <span class="normal">910</span>
 <span class="normal">911</span>
-<span class="normal">912</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -34022,6 +34026,10 @@ limit cap into multiple transactions.</p>
             <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
                 <span class="n">blocks</span> <span class="o">+=</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">txs</span><span class="p">]</span>
             <span class="c1"># Pass gas validation params for benchmark tests</span>
+            <span class="c1"># If not benchmark mode, skip gas used validation</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operation_mode</span> <span class="o">!=</span> <span class="n">OpMode</span><span class="o">.</span><span class="n">BENCHMARKING</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">skip_gas_used_validation</span> <span class="o">=</span> <span class="kc">True</span>
+
             <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
                 <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
                 <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
@@ -35222,7 +35230,11 @@ used.</p>
 <span class="normal">909</span>
 <span class="normal">910</span>
 <span class="normal">911</span>
-<span class="normal">912</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -35234,6 +35246,10 @@ used.</p>
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
             <span class="n">blocks</span> <span class="o">+=</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">txs</span><span class="p">]</span>
         <span class="c1"># Pass gas validation params for benchmark tests</span>
+        <span class="c1"># If not benchmark mode, skip gas used validation</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operation_mode</span> <span class="o">!=</span> <span class="n">OpMode</span><span class="o">.</span><span class="n">BENCHMARKING</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skip_gas_used_validation</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
             <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
@@ -38080,7 +38096,10 @@ used.</p>
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests transactions over the period of a single block.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -38480,6 +38499,9 @@ used.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
             <span class="c1"># Pass gas validation params for benchmark tests</span>
+            <span class="c1"># If not benchmark mode, skip gas used validation</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operation_mode</span> <span class="o">!=</span> <span class="n">OpMode</span><span class="o">.</span><span class="n">BENCHMARKING</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">skip_gas_used_validation</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
                 <span class="n">blocks</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">]],</span>
                 <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
@@ -39220,7 +39242,10 @@ used.</p>
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -39229,6 +39254,9 @@ used.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
         <span class="c1"># Pass gas validation params for benchmark tests</span>
+        <span class="c1"># If not benchmark mode, skip gas used validation</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operation_mode</span> <span class="o">!=</span> <span class="n">OpMode</span><span class="o">.</span><span class="n">BENCHMARKING</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skip_gas_used_validation</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
             <span class="n">blocks</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">]],</span>
             <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
