@@ -606,7 +606,7 @@ def test_mixed_sload_sstore(
     for erc20_address in erc20_addresses:
         # For each contract, execute SLOAD operations (balanceOf)
         attack_code += (
-            # Store function selector at memory[32] (once per contract)
+            # Store function selector at memory[32] once (outside loop)
             Op.MSTORE(offset=32, value=BALANCEOF_SELECTOR)
             # Initialize counter in memory[0] = number of balanceOf calls
             + Op.MSTORE(offset=0, value=sload_calls_per_contract)
@@ -625,7 +625,7 @@ def test_mixed_sload_sstore(
                         ret_offset=0,
                         ret_size=0,
                     )
-                    + Op.POP  # Discard result
+                    + Op.POP  # Discard CALL success status
                     # Decrement counter
                     + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
                 ),
@@ -634,7 +634,7 @@ def test_mixed_sload_sstore(
 
         # For each contract, execute SSTORE operations (approve)
         attack_code += (
-            # Store function selector at memory[32] (once per contract)
+            # Store function selector at memory[32] once (outside loop)
             Op.MSTORE(offset=32, value=APPROVE_SELECTOR)
             # Initialize counter in memory[0] = number of approve calls
             + Op.MSTORE(offset=0, value=sstore_calls_per_contract)
@@ -655,7 +655,7 @@ def test_mixed_sload_sstore(
                         ret_offset=0,
                         ret_size=0,
                     )
-                    + Op.POP  # Discard result
+                    + Op.POP  # Discard CALL success status
                     # Decrement counter
                     + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
                 ),

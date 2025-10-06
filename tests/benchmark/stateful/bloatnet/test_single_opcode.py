@@ -128,27 +128,26 @@ def test_sload_empty_erc20_balanceof(
     for erc20_address in erc20_addresses:
         # For each contract, initialize counter and loop
         attack_code += (
+            # Store function selector at memory[32] once (outside loop)
+            Op.MSTORE(offset=32, value=BALANCEOF_SELECTOR)
             # Initialize counter in memory[0] = number of calls
-            Op.MSTORE(offset=0, value=calls_per_contract)
+            + Op.MSTORE(offset=0, value=calls_per_contract)
             # Loop for this specific contract
             + While(
                 condition=Op.MLOAD(0) + Op.ISZERO + Op.ISZERO,  # Continue while counter > 0
                 body=(
-                    # Use counter directly as address (cheapest option)
-                    # Store function selector at memory[32]
-                    Op.MSTORE(offset=32, value=BALANCEOF_SELECTOR)
-                    # Store address at memory[64] (just use counter as address)
-                    + Op.MSTORE(offset=64, value=Op.MLOAD(0))
+                    # Store address at memory[64] (use counter as address)
+                    Op.MSTORE(offset=64, value=Op.MLOAD(0))
                     # Call balanceOf(address) on ERC20 contract
                     + Op.CALL(
                         address=erc20_address,
                         value=0,
                         args_offset=32,
                         args_size=36,
-                        ret_offset=96,
-                        ret_size=32,
+                        ret_offset=0,
+                        ret_size=0,
                     )
-                    + Op.POP  # Discard result
+                    + Op.POP  # Discard CALL success status
                     # Decrement counter: counter - 1
                     + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
                 ),
@@ -283,17 +282,16 @@ def test_sstore_erc20_approve(
     for erc20_address in erc20_addresses:
         # For each contract, initialize counter and loop
         attack_code += (
+            # Store function selector at memory[32] once (outside loop)
+            Op.MSTORE(offset=32, value=APPROVE_SELECTOR)
             # Initialize counter in memory[0] = number of calls
-            Op.MSTORE(offset=0, value=calls_per_contract)
+            + Op.MSTORE(offset=0, value=calls_per_contract)
             # Loop for this specific contract
             + While(
                 condition=Op.MLOAD(0) + Op.ISZERO + Op.ISZERO,  # Continue while counter > 0
                 body=(
-                    # Use counter directly as spender address (cheapest option)
-                    # Store function selector at memory[32]
-                    Op.MSTORE(offset=32, value=APPROVE_SELECTOR)
                     # Store spender address at memory[64] (use counter)
-                    + Op.MSTORE(offset=64, value=Op.MLOAD(0))
+                    Op.MSTORE(offset=64, value=Op.MLOAD(0))
                     # Store amount at memory[96] (use counter as amount)
                     + Op.MSTORE(offset=96, value=Op.MLOAD(0))
                     # Call approve(spender, amount) on ERC20 contract
@@ -302,10 +300,10 @@ def test_sstore_erc20_approve(
                         value=0,
                         args_offset=32,
                         args_size=68,  # 4 bytes selector + 32 bytes spender + 32 bytes amount
-                        ret_offset=128,
-                        ret_size=32,
+                        ret_offset=0,
+                        ret_size=0,
                     )
-                    + Op.POP  # Discard result
+                    + Op.POP  # Discard CALL success status
                     # Decrement counter: counter - 1
                     + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
                 ),
