@@ -337,7 +337,7 @@ def test_block_full_access_list_and_data(
 @pytest.mark.parametrize("empty_authority", [True, False])
 @pytest.mark.parametrize("zero_delegation", [True, False])
 def test_worst_case_auth_block(
-    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     intrinsic_cost: int,
     gas_benchmark_value: int,
@@ -350,31 +350,31 @@ def test_worst_case_auth_block(
 
     iteration_count = (gas_benchmark_value - intrinsic_cost) // gas_costs.G_AUTHORIZATION
 
-    code = Op.STOP + Op.JUMPDEST * (fork.max_code_size() - 1)
+    code = Op.STOP * fork.max_code_size()
     auth_target = pre.deploy_contract(code=code)
 
-    auth_tuples = [
-        AuthorizationTuple(
-            address=Address(0) if zero_delegation else auth_target,
-            nonce=0,
-            signer=pre.fund_eoa(delegation=None)
+    auth_tuples = []
+    for _ in range(iteration_count):
+        auth_target = Address(0) if zero_delegation else auth_target
+        signer = (
+            pre.fund_eoa(amount=0, delegation=None)
             if empty_authority
-            else pre.fund_eoa(delegation=Address(1)),
+            else pre.fund_eoa(amount=0, delegation=Address(1))
         )
-        for _ in range(iteration_count)
-    ]
+        auth_tuple = AuthorizationTuple(address=auth_target, nonce=signer.nonce, signer=signer)
+        auth_tuples.append(auth_tuple)
 
     tx = Transaction(
-        to=pre.fund_eoa(),
+        to=pre.empty_account(),
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
         authorization_list=auth_tuples,
     )
 
-    state_test(
+    blockchain_test(
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=[tx])],
         expected_benchmark_gas_used=fork.transaction_intrinsic_cost_calculator()(
             authorization_list_or_count=auth_tuples
         ),
