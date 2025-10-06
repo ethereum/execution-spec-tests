@@ -224,6 +224,44 @@ def test_phase_switching_preserves_existing_data():
     assert exec_values == [100, 200, 300]
 
 
+def test_multiple_managers_phase_isolation():
+    """Test that phase dependence for managers is isolated."""
+    manager1 = TestPhaseManager()
+    manager2 = TestPhaseManager()
+
+    # Both managers should start in execution phase
+    assert manager1.get_current_phase() == TestPhase.EXECUTION
+    assert manager2.get_current_phase() == TestPhase.EXECUTION
+
+    # Change phase of manager1 to setup
+    with manager1.setup():
+        # manager1 should be in setup phase
+        assert manager1.get_current_phase() == TestPhase.SETUP
+        # manager2 should still be in execution phase
+        assert manager2.get_current_phase() == TestPhase.EXECUTION
+
+        # Add transactions to verify phase isolation
+        tx1 = Transaction(to=Address(0x100), value=100, gas_limit=21000)
+        tx2 = Transaction(to=Address(0x200), value=200, gas_limit=21000)
+
+        manager1.add_transaction(tx1)
+        manager2.add_transaction(tx2)
+
+        # Verify transactions are in correct phases
+        assert tx1.test_phase == TestPhase.SETUP.value
+        assert tx2.test_phase == TestPhase.EXECUTION.value
+
+    # After exiting setup context, manager1 should return to execution phase
+    assert manager1.get_current_phase() == TestPhase.EXECUTION
+    assert manager2.get_current_phase() == TestPhase.EXECUTION
+
+    # Verify final state
+    assert len(manager1.setup_transactions) == 1
+    assert len(manager1.execution_transactions) == 0
+    assert len(manager2.setup_transactions) == 0
+    assert len(manager2.execution_transactions) == 1
+
+
 @pytest.mark.parametrize(
     ["manager_instance", "expected_phase"],
     [

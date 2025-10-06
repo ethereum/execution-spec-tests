@@ -241,13 +241,9 @@ class Block(Header):
     expected_post_state: Alloc | None = None
     """Post state for verification after block execution in BlockchainTest"""
     block_access_list: Bytes | None = Field(None)
-    """
-        EIP-7928: Block-level access lists (serialized).
-    """
+    """EIP-7928: Block-level access lists (serialized)."""
     test_phase: TestPhase | None = None
-    """
-    Test phase for this block.
-    """
+    """Test phase for this block."""
 
     def set_environment(self, env: Environment) -> Environment:
         """
