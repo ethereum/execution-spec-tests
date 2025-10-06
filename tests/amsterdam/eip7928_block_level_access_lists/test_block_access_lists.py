@@ -1118,3 +1118,42 @@ def test_bal_aborted_account_access(
         blocks=[block],
         post={},
     )
+
+
+def test_bal_fully_unmutated_account(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+):
+    """
+    Test that BAL captures account that has zero net mutations.
+
+    oracle account:
+        1. Storage read and write the same value (no net change).
+        2. Receives `0` value transfer (no net change).
+    """
+    alice = pre.fund_eoa()
+    # Deploy Oracle contract with pre-existing storage value
+    oracle = pre.deploy_contract(
+        code=Op.SSTORE(0x01, 0x42) + Op.STOP,
+        storage={0x01: 0x42},  # Pre-existing value
+    )
+
+    tx = Transaction(sender=alice, to=oracle, gas_limit=1_000_000, value=0, gas_price=0xA)
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                oracle: BalAccountExpectation(
+                    storage_changes=[],  # No net storage changes
+                    storage_reads=[0x01],  # But storage was accessed
+                    balance_changes=[],  # No net balance changes
+                ),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
