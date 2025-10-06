@@ -419,10 +419,16 @@ def test_blockchain_via_sync(
         assert eth_rpc is not None, "eth_rpc is required"
         assert sync_eth_rpc is not None, "sync_eth_rpc is required"
 
-        for attempt in range(3):
+        for attempt in range(5):
             try:
                 sync_block = sync_eth_rpc.get_block_by_hash(last_valid_block_hash)
                 client_block = eth_rpc.get_block_by_hash(last_valid_block_hash)
+
+                if sync_block is None or client_block is None:
+                    raise LoggedError(
+                        f"Failed to retrieve block {last_valid_block_hash} "
+                        f"on attempt {attempt + 1}"
+                    )
 
                 if sync_block["stateRoot"] != client_block["stateRoot"]:
                     raise LoggedError(
@@ -438,8 +444,9 @@ def test_blockchain_via_sync(
                             f"Expected: {fixture.post_state_hash}, "
                             f"Got: {sync_block['stateRoot']}"
                         )
+                break
             except Exception as e:
-                if attempt < 2:
+                if attempt < 4:
                     time.sleep(1)
                     continue
                 raise e
