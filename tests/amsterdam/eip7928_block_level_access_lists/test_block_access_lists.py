@@ -1066,7 +1066,7 @@ def test_bal_aborted_storage_access(
         pytest.param(lambda target_addr: Op.EXTCODEHASH(target_addr), id="extcodehash"),
         pytest.param(lambda target_addr: Op.CALL(0, target_addr, 50, 0, 0, 0, 0), id="call"),
         pytest.param(
-            lambda target_addr: Op.CALLCODE(0, target_addr, 0, 0, 0, 0, 0), id="callcode"
+            lambda target_addr: Op.CALLCODE(0, target_addr, 50, 0, 0, 0, 0), id="callcode"
         ),
         pytest.param(
             lambda target_addr: Op.DELEGATECALL(0, target_addr, 0, 0, 0, 0), id="delegatecall"
