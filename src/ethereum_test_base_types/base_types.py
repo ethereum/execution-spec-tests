@@ -83,7 +83,7 @@ class Wei(Number):
                 base, exp = value_str.split("**")
                 value = float(base) ** int(exp)
             else:
-                value = float(value_str)
+                value = int(value_str) if value_str.isdecimal() else float(value_str)
             return super(Number, cls).__new__(cls, value * multiplier)
         return super(Number, cls).__new__(cls, to_number(input_number))
 

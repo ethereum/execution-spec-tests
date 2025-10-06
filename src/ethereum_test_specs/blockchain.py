@@ -903,6 +903,10 @@ class BlockchainTest(BaseTest):
             for block in self.blocks:
                 blocks += [block.txs]
             # Pass gas validation params for benchmark tests
+            # If not benchmark mode, skip gas used validation
+            if self._operation_mode != OpMode.BENCHMARKING:
+                self.skip_gas_used_validation = True
+
             return TransactionPost(
                 blocks=blocks,
                 post=self.post,
