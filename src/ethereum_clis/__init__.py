@@ -12,7 +12,12 @@ from .cli_types import (
 )
 from .clis.besu import BesuTransitionTool
 from .clis.ethereumjs import EthereumJSTransitionTool
-from .clis.evmone import EvmoneExceptionMapper, EvmOneFixtureConsumer, EvmOneTransitionTool
+from .clis.evmone import (
+    EvmOneBlockchainFixtureConsumer,
+    EvmoneExceptionMapper,
+    EvmOneStateFixtureConsumer,
+    EvmOneTransitionTool,
+)
 from .clis.execution_specs import ExecutionSpecsTransitionTool
 from .clis.geth import GethFixtureConsumer, GethTransitionTool
 from .clis.nethermind import Nethtest, NethtestFixtureConsumer
@@ -31,7 +36,8 @@ __all__ = (
     "EthereumJSTransitionTool",
     "EvmoneExceptionMapper",
     "EvmOneTransitionTool",
-    "EvmOneFixtureConsumer",
+    "EvmOneStateFixtureConsumer",
+    "EvmOneBlockchainFixtureConsumer",
     "ExecutionSpecsTransitionTool",
     "FixtureConsumerTool",
     "GethFixtureConsumer",
