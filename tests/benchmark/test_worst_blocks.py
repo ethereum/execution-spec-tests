@@ -12,6 +12,7 @@ from ethereum_test_tools import (
     AccessList,
     Address,
     Alloc,
+    AuthorizationTuple,
     Block,
     BlockchainTestFiller,
     Environment,
@@ -19,6 +20,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
+from ethereum_test_vm import Opcodes as Op
 
 
 @pytest.fixture
@@ -329,4 +331,60 @@ def test_block_full_access_list_and_data(
             calldata=shuffled_calldata,
             access_list=access_list,
         ),
+    )
+
+
+@pytest.mark.parametrize("empty_authority", [True, False])
+@pytest.mark.parametrize("zero_delegation", [True, False])
+def test_worst_case_auth_block(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    intrinsic_cost: int,
+    gas_benchmark_value: int,
+    fork: Fork,
+    empty_authority: bool,
+    zero_delegation: bool,
+):
+    """Test an auth block."""
+    gas_costs = fork.gas_costs()
+
+    iteration_count = (gas_benchmark_value - intrinsic_cost) // gas_costs.G_AUTHORIZATION
+
+    code = Op.STOP * fork.max_code_size()
+    auth_target = Address(0) if zero_delegation else pre.deploy_contract(code=code)
+
+    auth_tuples = []
+    for _ in range(iteration_count):
+        signer = (
+            pre.fund_eoa(amount=0, delegation=None)
+            if empty_authority
+            else pre.fund_eoa(amount=0, delegation=auth_target)
+        )
+        auth_tuple = AuthorizationTuple(address=auth_target, nonce=signer.nonce, signer=signer)
+        auth_tuples.append(auth_tuple)
+
+    tx = Transaction(
+        to=pre.empty_account(),
+        gas_limit=gas_benchmark_value,
+        sender=pre.fund_eoa(),
+        authorization_list=auth_tuples,
+    )
+
+    gas_used = fork.transaction_intrinsic_cost_calculator()(
+        authorization_list_or_count=auth_tuples
+    )
+
+    refund = 0
+    if not empty_authority:
+        refund = min(
+            gas_used // 5,
+            (gas_costs.G_AUTHORIZATION - gas_costs.R_AUTHORIZATION_EXISTING_AUTHORITY)
+            * iteration_count,
+        )
+
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+        expected_benchmark_gas_used=gas_used - refund,
     )
