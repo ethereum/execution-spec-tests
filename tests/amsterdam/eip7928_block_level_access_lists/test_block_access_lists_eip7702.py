@@ -140,7 +140,7 @@ def test_bal_7702_delegation_update(
     oracle1 = pre.deploy_contract(code=Op.STOP)
     oracle2 = pre.deploy_contract(code=Op.STOP)
 
-    ## Perhaps create  pre existing delegation,
+    ## Perhaps create pre existing delegation,
     ## see `test_bal_7702_delegated_storage_access` since
     ## `test_bal_7702_delegation_create` already tests creation
     tx_create = Transaction(
@@ -361,7 +361,6 @@ def test_bal_7702_delegated_storage_access(
     oracle = pre.deploy_contract(code=Op.SLOAD(0x01) + Op.PUSH1(0x42) + Op.PUSH1(0x02) + Op.SSTORE)
     bob = pre.fund_eoa()
 
-    ## Is there a cleaner way to create pre-existing delegation?
     alice = pre.deploy_contract(nonce=0x1, code=Spec7702.delegation_designation(oracle), balance=0)
 
     tx = Transaction(
@@ -440,11 +439,6 @@ def test_bal_7702_invalid_nonce_authorization(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
-                alice: BalAccountExpectation(
-                    # No code_changes because authorization failed
-                    nonce_changes=[],
-                    code_changes=[],
-                ),
                 # Ensuring silent fail
                 bob: BalAccountExpectation(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=10)]
@@ -452,6 +446,8 @@ def test_bal_7702_invalid_nonce_authorization(
                 relayer: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
+                # Alice's account was marked warm but no changes were made
+                alice: BalAccountExpectation.empty(),
                 # Oracle must NOT be present - authorization failed so
                 # account is never accessed
                 oracle: None,
