@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_block_full_data/">
       
       
-        <link rel="next" href="../../test_worst_bytecode/">
+        <link rel="next" href="../test_worst_case_auth_block/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -26015,6 +26015,8 @@
       
         
       
+        
+      
     
     
     
@@ -26182,6 +26184,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_case_auth_block/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_case_auth_block</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27995,7 +28020,7 @@
 
 
 <h1 id="test_block_full_access_list_and_data"><code>test_block_full_access_list_and_data()</code><a class="headerlink" href="#test_block_full_access_list_and_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/033c89f1ff94847ba0a7d64bf5fed26e88002806/tests/benchmark/test_worst_blocks.py#L238"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@033c89f1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2ad649c43598d9dbff8e8ebbca9c2e1bc7c02a13/tests/benchmark/test_worst_blocks.py#L240"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@2ad649c4</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data -m benchmark</span>
@@ -28016,9 +28041,7 @@ random mixed bytes.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
 <span class="normal">243</span>
@@ -28110,7 +28133,9 @@ random mixed bytes.</p>
 <span class="normal">329</span>
 <span class="normal">330</span>
 <span class="normal">331</span>
-<span class="normal">332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -28342,13 +28367,13 @@ random mixed bytes.</p>
         
         
           
-          <a href="../../test_worst_bytecode/" class="md-footer__link md-footer__link--next" aria-label="Next: Test Worst Bytecode">
+          <a href="../test_worst_case_auth_block/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_worst_case_auth_block&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Test Worst Bytecode
+                <code>test_worst_case_auth_block</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">
