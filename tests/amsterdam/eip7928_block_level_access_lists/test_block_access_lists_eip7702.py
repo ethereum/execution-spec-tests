@@ -391,7 +391,7 @@ def test_bal_7702_delegated_storage_access(
                 ),
                 # Oracle appears in BAL due to account access
                 # (delegation target)
-                oracle: BalAccountExpectation(),
+                oracle: BalAccountExpectation.empty(),
             }
         ),
     )
