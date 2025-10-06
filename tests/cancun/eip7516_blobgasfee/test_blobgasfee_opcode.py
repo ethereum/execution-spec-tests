@@ -47,19 +47,12 @@ def callee_address(pre: Alloc, callee_code: Bytecode) -> Address:
 
 
 @pytest.fixture
-def store_slot() -> Bytecode:
-    """Storage slot where to save the expected value, by default 1."""
-    return Op.PUSH1(1)
-
-
-@pytest.fixture
 def caller_code(
     call_gas: int,
     callee_address: Address,
-    store_slot: Bytecode,
 ) -> Bytecode:
     """Bytecode used to call the bytecode containing the BLOBBASEFEE opcode."""
-    return Op.SSTORE(store_slot, Op.CALL(gas=call_gas, address=callee_address))
+    return Op.SSTORE(Op.SELFBALANCE, Op.CALL(gas=call_gas, address=callee_address))
 
 
 @pytest.fixture
@@ -90,6 +83,7 @@ def tx(pre: Alloc, caller_address: Address) -> Transaction:
         sender=pre.fund_eoa(),
         gas_limit=1_000_000,
         to=caller_address,
+        value=1,
     )
 
 
@@ -198,7 +192,6 @@ def test_blobbasefee_before_fork(
 timestamps = [7_500, 14_999, 15_000]
 
 
-@pytest.mark.parametrize("store_slot", [Op.NUMBER])
 @pytest.mark.parametrize(
     "caller_pre_storage",
     [{block_number: 0xFF for block_number, _ in enumerate(timestamps, start=1)}],
