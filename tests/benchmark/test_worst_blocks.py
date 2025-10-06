@@ -351,15 +351,14 @@ def test_worst_case_auth_block(
     iteration_count = (gas_benchmark_value - intrinsic_cost) // gas_costs.G_AUTHORIZATION
 
     code = Op.STOP * fork.max_code_size()
-    auth_target = pre.deploy_contract(code=code)
+    auth_target = Address(0) if zero_delegation else pre.deploy_contract(code=code)
 
     auth_tuples = []
     for _ in range(iteration_count):
-        auth_target = Address(0) if zero_delegation else auth_target
         signer = (
             pre.fund_eoa(amount=0, delegation=None)
             if empty_authority
-            else pre.fund_eoa(amount=0, delegation=Address(1))
+            else pre.fund_eoa(amount=0, delegation=auth_target)
         )
         auth_tuple = AuthorizationTuple(address=auth_target, nonce=signer.nonce, signer=signer)
         auth_tuples.append(auth_tuple)
@@ -371,11 +370,21 @@ def test_worst_case_auth_block(
         authorization_list=auth_tuples,
     )
 
+    gas_used = fork.transaction_intrinsic_cost_calculator()(
+        authorization_list_or_count=auth_tuples
+    )
+
+    refund = 0
+    if not empty_authority:
+        refund = min(
+            gas_used // 5,
+            (gas_costs.G_AUTHORIZATION - gas_costs.R_AUTHORIZATION_EXISTING_AUTHORITY)
+            * iteration_count,
+        )
+
     blockchain_test(
         pre=pre,
         post={},
         blocks=[Block(txs=[tx])],
-        expected_benchmark_gas_used=fork.transaction_intrinsic_cost_calculator()(
-            authorization_list_or_count=auth_tuples
-        ),
+        expected_benchmark_gas_used=gas_used - refund,
     )
