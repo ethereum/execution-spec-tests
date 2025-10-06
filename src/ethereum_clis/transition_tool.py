@@ -30,6 +30,7 @@ from .cli_types import (
     TransactionReceipt,
     TransactionTraces,
     TransitionToolCLIInput,
+    TransitionToolConfig,
     TransitionToolContext,
     TransitionToolInput,
     TransitionToolOutput,
@@ -195,7 +196,11 @@ class TransitionTool(EthereumCLI):
                 alloc=self.alloc,
                 txs=self.txs,
                 env=self.env,
-                blob_schedule=self.blob_schedule or BlobSchedule(),
+                config=TransitionToolConfig(
+                    blob_schedule=self.blob_schedule or BlobSchedule(),
+                    chain_id=self.chain_id,
+                    network=self.fork,
+                ),
             )
 
         def get_request_data(self) -> TransitionToolRequest:
@@ -248,8 +253,8 @@ class TransitionTool(EthereumCLI):
             input_paths["env"],
             "--input.txs",
             input_paths["txs"],
-            "--input.blobSchedule",
-            input_paths["blobSchedule"],
+            "--input.config",
+            input_paths["config"],
             "--output.basedir",
             temp_dir.name,
             "--output.result",
