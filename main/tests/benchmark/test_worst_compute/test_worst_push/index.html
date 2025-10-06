@@ -27995,7 +27995,7 @@
 
 
 <h1 id="test_worst_push"><code>test_worst_push()</code><a class="headerlink" href="#test_worst_push" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/68489a2cc61a6ddc46b77d03a0c0d417699c454f/tests/benchmark/test_worst_compute.py#L2934"><code>tests/benchmark/test_worst_compute.py::test_worst_push@68489a2c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d8523ed72bb1f0f82a878ef4357e8b0436a5b2dc/tests/benchmark/test_worst_compute.py#L2934"><code>tests/benchmark/test_worst_compute.py::test_worst_push@d8523ed7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_push -m benchmark</span>
@@ -28081,7 +28081,14 @@
 <span class="normal">2997</span>
 <span class="normal">2998</span>
 <span class="normal">2999</span>
-<span class="normal">3000</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3000</span>
+<span class="normal">3001</span>
+<span class="normal">3002</span>
+<span class="normal">3003</span>
+<span class="normal">3004</span>
+<span class="normal">3005</span>
+<span class="normal">3006</span>
+<span class="normal">3007</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">),</span>
@@ -28128,13 +28135,20 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many PUSH as possible.&quot;&quot;&quot;</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">opcode</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">opcode</span><span class="o">.</span><span class="n">has_data_portion</span><span class="p">()</span> <span class="k">else</span> <span class="n">opcode</span>
-    <span class="n">opcode_sequence</span> <span class="o">=</span> <span class="n">op</span> <span class="o">*</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_stack_height</span><span class="p">()</span>
-    <span class="n">target_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">opcode_sequence</span><span class="p">)</span>
+
+    <span class="n">op_seq</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">max_stack_height</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">op_seq</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">():</span>
+            <span class="k">break</span>
+        <span class="n">op_seq</span> <span class="o">+=</span> <span class="n">op</span>
+
+    <span class="n">target_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">op_seq</span><span class="p">)</span>
 
     <span class="n">calldata</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">target_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
     <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+
     <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

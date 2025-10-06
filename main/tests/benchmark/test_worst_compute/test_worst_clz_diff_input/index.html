@@ -27995,7 +27995,7 @@
 
 
 <h1 id="test_worst_clz_diff_input"><code>test_worst_clz_diff_input()</code><a class="headerlink" href="#test_worst_clz_diff_input" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/68489a2cc61a6ddc46b77d03a0c0d417699c454f/tests/benchmark/test_worst_compute.py#L3107"><code>tests/benchmark/test_worst_compute.py::test_worst_clz_diff_input@68489a2c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d8523ed72bb1f0f82a878ef4357e8b0436a5b2dc/tests/benchmark/test_worst_compute.py#L3114"><code>tests/benchmark/test_worst_compute.py::test_worst_clz_diff_input@d8523ed7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_clz_diff_input -m benchmark</span>
@@ -28015,14 +28015,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3107</span>
-<span class="normal">3108</span>
-<span class="normal">3109</span>
-<span class="normal">3110</span>
-<span class="normal">3111</span>
-<span class="normal">3112</span>
-<span class="normal">3113</span>
-<span class="normal">3114</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3114</span>
 <span class="normal">3115</span>
 <span class="normal">3116</span>
 <span class="normal">3117</span>
@@ -28066,7 +28059,14 @@
 <span class="normal">3155</span>
 <span class="normal">3156</span>
 <span class="normal">3157</span>
-<span class="normal">3158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="normal">3158</span>
+<span class="normal">3159</span>
+<span class="normal">3160</span>
+<span class="normal">3161</span>
+<span class="normal">3162</span>
+<span class="normal">3163</span>
+<span class="normal">3164</span>
+<span class="normal">3165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_clz_diff_input</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

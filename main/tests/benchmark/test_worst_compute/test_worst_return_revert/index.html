@@ -27995,7 +27995,7 @@
 
 
 <h1 id="test_worst_return_revert"><code>test_worst_return_revert()</code><a class="headerlink" href="#test_worst_return_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/68489a2cc61a6ddc46b77d03a0c0d417699c454f/tests/benchmark/test_worst_compute.py#L3003"><code>tests/benchmark/test_worst_compute.py::test_worst_return_revert@68489a2c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d8523ed72bb1f0f82a878ef4357e8b0436a5b2dc/tests/benchmark/test_worst_compute.py#L3010"><code>tests/benchmark/test_worst_compute.py::test_worst_return_revert@d8523ed7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_return_revert -m benchmark</span>
@@ -28015,14 +28015,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3003</span>
-<span class="normal">3004</span>
-<span class="normal">3005</span>
-<span class="normal">3006</span>
-<span class="normal">3007</span>
-<span class="normal">3008</span>
-<span class="normal">3009</span>
-<span class="normal">3010</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3010</span>
 <span class="normal">3011</span>
 <span class="normal">3012</span>
 <span class="normal">3013</span>
@@ -28074,7 +28067,14 @@
 <span class="normal">3059</span>
 <span class="normal">3060</span>
 <span class="normal">3061</span>
-<span class="normal">3062</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3062</span>
+<span class="normal">3063</span>
+<span class="normal">3064</span>
+<span class="normal">3065</span>
+<span class="normal">3066</span>
+<span class="normal">3067</span>
+<span class="normal">3068</span>
+<span class="normal">3069</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">],</span>
 <span class="p">)</span>
