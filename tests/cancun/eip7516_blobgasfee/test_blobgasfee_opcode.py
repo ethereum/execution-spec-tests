@@ -52,7 +52,7 @@ def caller_code(
     callee_address: Address,
 ) -> Bytecode:
     """Bytecode used to call the bytecode containing the BLOBBASEFEE opcode."""
-    return Op.SSTORE(Op.NUMBER, Op.CALL(gas=call_gas, address=callee_address))
+    return Op.SSTORE(Op.SELFBALANCE, Op.CALL(gas=call_gas, address=callee_address))
 
 
 @pytest.fixture
@@ -83,6 +83,7 @@ def tx(pre: Alloc, caller_address: Address) -> Transaction:
         sender=pre.fund_eoa(),
         gas_limit=1_000_000,
         to=caller_address,
+        value=1,
     )
 
 
