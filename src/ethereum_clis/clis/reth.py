@@ -33,21 +33,6 @@ class RethExceptionMapper(ExceptionMapper):
             "failed to decode deposit requests from receipts"
         ),
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
-        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "mismatched block requests hash",
-        # Reth does not validate the sizes or offsets of the deposit
-        # contract logs. As a workaround we have set
-        # INVALID_DEPOSIT_EVENT_LAYOUT equal to INVALID_REQUESTS.
-        #
-        # Although this is out of spec, it is understood that this
-        # will not cause an issue so long as the mainnet/testnet
-        # deposit contracts don't change.
-        #
-        # The offsets are checked second and the sizes are checked
-        # third within the `is_valid_deposit_event_data` function:
-        # https://eips.ethereum.org/EIPS/eip-6110#block-validity
-        #
-        # EELS definition for `is_valid_deposit_event_data`:
-        # https://github.com/ethereum/execution-specs/blob/5ddb904fa7ba27daeff423e78466744c51e8cb6a/src/ethereum/forks/prague/requests.py#L51
         BlockException.INVALID_RECEIPTS_ROOT: "receipt root mismatch",
         BlockException.INVALID_STATE_ROOT: "mismatched block state root",
         BlockException.INVALID_BLOCK_HASH: "block hash mismatch",
