@@ -23,6 +23,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Add retry logic to RPC requests to fix flaky connection issues in Hive ([#2205](https://github.com/ethereum/execution-spec-tests/pull/2205)).
 - 🛠️ Mark `consume sync` tests as `flaky` with 3 retires due to client sync inconsistencies ([#2252](https://github.com/ethereum/execution-spec-tests/pull/2252)).
+- ✨ Add `consume direct` using `evmone-statetest` and `evmone-blockchaintest` ([#2243](https://github.com/ethereum/execution-spec-tests/pull/2243)).
 
 ### 📋 Misc
 

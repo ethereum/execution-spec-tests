@@ -1,15 +1,29 @@
 """Evmone Transition tool interface."""
 
+import json
 import re
+import shlex
+import shutil
+import subprocess
+import tempfile
+import textwrap
+from functools import cache
 from pathlib import Path
-from typing import ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 
+import pytest
+
+from ethereum_clis.file_utils import dump_files_to_directory
+from ethereum_clis.fixture_consumer_tool import FixtureConsumerTool
 from ethereum_test_exceptions import (
     EOFException,
     ExceptionBase,
     ExceptionMapper,
     TransactionException,
 )
+from ethereum_test_fixtures.base import FixtureFormat
+from ethereum_test_fixtures.blockchain import BlockchainFixture
+from ethereum_test_fixtures.state import StateFixture
 from ethereum_test_forks import Fork
 
 from ..transition_tool import TransitionTool
@@ -41,6 +55,236 @@ class EvmOneTransitionTool(TransitionTool):
         provides no way to determine supported forks.
         """
         return True
+
+
+class EvmoneFixtureConsumerCommon:
+    """Common functionality for Evmone fixture consumers."""
+
+    binary: Path
+    version_flag: str = "--version"
+
+    cached_version: Optional[str] = None
+
+    def __init__(
+        self,
+        trace: bool = False,
+    ):
+        """Initialize the EvmoneFixtureConsumerCommon class."""
+        self._info_metadata: Optional[Dict[str, Any]] = {}
+
+    def _run_command(self, command: List[str]) -> subprocess.CompletedProcess:
+        try:
+            return subprocess.run(
+                command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+        except subprocess.CalledProcessError as e:
+            raise Exception("Command failed with non-zero status.") from e
+        except Exception as e:
+            raise Exception("Unexpected exception calling evm tool.") from e
+
+    # TODO: copied from geth.py, needs to be deduplicated, but nethermind.py
+    # also has its version
+    def _consume_debug_dump(
+        self,
+        command: List[str],
+        result: subprocess.CompletedProcess,
+        fixture_path: Path,
+        debug_output_path: Path,
+    ):
+        # our assumption is that each command element is a string
+        assert all(isinstance(x, str) for x in command), (
+            f"Not all elements of 'command' list are strings: {command}"
+        )
+        assert len(command) > 0
+
+        # replace last value with debug fixture path
+        debug_fixture_path = str(debug_output_path / "fixtures.json")
+        command[-1] = debug_fixture_path
+
+        # ensure that flags with spaces are wrapped in double-quotes
+        consume_direct_call = " ".join(shlex.quote(arg) for arg in command)
+
+        consume_direct_script = textwrap.dedent(
+            f"""\
+            #!/bin/bash
+            {consume_direct_call}
+            """
+        )
+        dump_files_to_directory(
+            str(debug_output_path),
+            {
+                "consume_direct_args.py": command,
+                "consume_direct_returncode.txt": result.returncode,
+                "consume_direct_stdout.txt": result.stdout,
+                "consume_direct_stderr.txt": result.stderr,
+                "consume_direct.sh+x": consume_direct_script,
+            },
+        )
+        shutil.copyfile(fixture_path, debug_fixture_path)
+
+    def _skip_message(self, fixture_format: FixtureFormat) -> str:
+        return f"Fixture format {fixture_format.format_name} not supported by {self.binary}"
+
+    @cache  # noqa
+    def consume_test_file(
+        self,
+        fixture_path: Path,
+        debug_output_path: Optional[Path] = None,
+    ) -> Dict[str, Any]:
+        """
+        Consume an entire state or blockchain test file.
+
+        The `evmone-...test` will always execute all the tests contained in a
+        file without the possibility of selecting a single test, so this
+        function is cached in order to only call the command once and
+        `consume_test` can simply select the result that was requested.
+        """
+        global_options: List[str] = []
+        if debug_output_path:
+            global_options += ["--trace"]
+
+        with tempfile.NamedTemporaryFile() as tempfile_json:
+            # `evmone` uses `gtest` and generates JSON output to a file,
+            # c.f. https://google.github.io/googletest/advanced.html#generating-a-json-report
+            # see there for the JSON schema.
+            global_options += ["--gtest_output=json:{}".format(tempfile_json.name)]
+            command = [str(self.binary)] + global_options + [str(fixture_path)]
+            result = self._run_command(command)
+
+            if result.returncode not in [0, 1]:
+                raise Exception(
+                    f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
+                )
+
+            try:
+                output_data = json.load(tempfile_json)
+            except json.JSONDecodeError as e:
+                raise Exception(
+                    f"Failed to parse JSON output from evmone-state/blockchaintest: {e}"
+                ) from e
+
+            if debug_output_path:
+                self._consume_debug_dump(command, result, fixture_path, debug_output_path)
+
+            return output_data
+
+    def _failure_msg(self, file_results: Dict[str, Any]) -> str:
+        # Assumes only one test has run and there has been a failure,
+        # as asserted before.
+        failures = file_results["testsuites"][0]["testsuite"][0]["failures"]
+        return ", ".join([f["failure"] for f in failures])
+
+    def consume_test(
+        self,
+        fixture_path: Path,
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
+    ):
+        """
+        Consume a single state or blockchain test.
+
+        Uses the cached result from `consume_test_file` in order to not
+        call the command every time an select a single result from there.
+        """
+        file_results = self.consume_test_file(
+            fixture_path=fixture_path,
+            debug_output_path=debug_output_path,
+        )
+        if not fixture_name:
+            fixture_hint = fixture_path.stem
+        else:
+            fixture_hint = fixture_name
+        assert file_results["tests"] == 1, f"Multiple tests ran for {fixture_hint}"
+        assert file_results["disabled"] == 0, f"Disabled tests for {fixture_hint}"
+        assert file_results["errors"] == 0, f"Errors during test for {fixture_hint}"
+        assert file_results["failures"] == 0, (
+            f"Failures for {fixture_hint}: {self._failure_msg(file_results)}"
+        )
+
+        test_name = file_results["testsuites"][0]["testsuite"][0]["name"]
+        assert test_name == fixture_path.stem, (
+            f"Test name mismatch, expected {fixture_path.stem}, got {test_name}"
+        )
+
+
+class EvmOneStateFixtureConsumer(
+    EvmoneFixtureConsumerCommon,
+    FixtureConsumerTool,
+    fixture_formats=[StateFixture],
+):
+    """Evmone's implementation of the fixture consumer for state tests."""
+
+    default_binary = Path("evmone-statetest")
+    detect_binary_pattern = re.compile(r"^evmone-statetest\b")
+
+    def __init__(
+        self,
+        binary: Optional[Path] = None,
+        trace: bool = False,
+    ):
+        """Initialize the EvmOneStateFixtureConsumer class."""
+        self.binary = binary if binary else self.default_binary
+        super().__init__(trace=trace)
+
+    def consume_fixture(
+        self,
+        fixture_format: FixtureFormat,
+        fixture_path: Path,
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
+    ):
+        """
+        Execute the appropriate fixture consumer for the fixture at
+        `fixture_path`.
+        """
+        if fixture_format == StateFixture:
+            self.consume_test(
+                fixture_path=fixture_path,
+                fixture_name=fixture_name,
+                debug_output_path=debug_output_path,
+            )
+        else:
+            pytest.skip(self._skip_message(fixture_format))
+
+
+class EvmOneBlockchainFixtureConsumer(
+    EvmoneFixtureConsumerCommon,
+    FixtureConsumerTool,
+    fixture_formats=[BlockchainFixture],
+):
+    """Evmone's implementation of the fixture consumer for blockchain tests."""
+
+    default_binary = Path("evmone-blockchaintest")
+    detect_binary_pattern = re.compile(r"^evmone-blockchaintest\b")
+
+    def __init__(
+        self,
+        binary: Optional[Path] = None,
+        trace: bool = False,
+    ):
+        """Initialize the EvmOneBlockchainFixtureConsumer class."""
+        self.binary = binary if binary else self.default_binary
+        super().__init__(trace=trace)
+
+    def consume_fixture(
+        self,
+        fixture_format: FixtureFormat,
+        fixture_path: Path,
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
+    ):
+        """
+        Execute the appropriate fixture consumer for the fixture at
+        `fixture_path`.
+        """
+        if fixture_format == BlockchainFixture:
+            self.consume_test(
+                fixture_path=fixture_path,
+                fixture_name=fixture_name,
+                debug_output_path=debug_output_path,
+            )
+        else:
+            pytest.skip(self._skip_message(fixture_format))
 
 
 class EvmoneExceptionMapper(ExceptionMapper):

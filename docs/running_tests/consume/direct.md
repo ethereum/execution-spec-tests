@@ -13,8 +13,9 @@ uv run consume direct --bin=<evm-binary> [OPTIONS]
 
     Currently, only the following clients can be used with `consume direct`:
 
-    - go-ethereum `statetest` and `blocktest`.
-    - Nethermind `nethtest`.
+    - go-ethereum `statetest` and `blocktest`
+    - Nethermind `nethtest`
+    - evmone `evmone-statetest` and `evmone-blockchaintest`
 
 ## Advantages
 
@@ -24,7 +25,7 @@ uv run consume direct --bin=<evm-binary> [OPTIONS]
 
 ## Limitations
 
-- **Limited client support**: Only go-ethereum and Nethermind.
+- **Limited client support**: Only go-ethereum, Nethermind and evmone
 - **Module scope**: Tests EVM, respectively block import, in isolation, not full client behavior.
 - **Interface dependency**: Requires client-specific test interfaces.
 
@@ -40,6 +41,12 @@ or Nethermind:
 
 ```bash
 uv run consume direct --input ./fixtures -m state_test --bin=nethtest
+```
+
+or evmone:
+
+```bash
+uv run consume direct --input ./fixtures --bin=evmone-statetest --bin=evmone-blockchaintest
 ```
 
 Run fixtures in the blockchain test format for the Prague fork:
