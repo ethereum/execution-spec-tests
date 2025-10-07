@@ -531,6 +531,12 @@ class BlockchainTest(BaseTest):
             slow_request=self.is_tx_gas_heavy_test(),
         )
 
+        if transition_tool_output.result.opcode_count is not None:
+            if self._opcode_count is None:
+                self._opcode_count = transition_tool_output.result.opcode_count
+            else:
+                self._opcode_count += transition_tool_output.result.opcode_count
+
         # One special case of the invalid transactions is the blob gas used,
         # since this value is not included in the transition tool result, but
         # it is included in the block header, and some clients check it before
@@ -746,6 +752,9 @@ class BlockchainTest(BaseTest):
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
         self.verify_post_state(t8n, t8n_state=alloc)
+        info = {}
+        if self._opcode_count is not None:
+            info["opcode_count"] = self._opcode_count.model_dump()
         return BlockchainFixture(
             fork=fork,
             genesis=genesis.header,
@@ -760,6 +769,7 @@ class BlockchainTest(BaseTest):
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
                 chain_id=self.chain_id,
             ),
+            info=info,
         )
 
     def make_hive_fixture(
@@ -812,6 +822,9 @@ class BlockchainTest(BaseTest):
         self.verify_post_state(t8n, t8n_state=alloc)
 
         # Create base fixture data, common to all fixture formats
+        info = {}
+        if self._opcode_count is not None:
+            info["opcode_count"] = self._opcode_count.model_dump()
         fixture_data = {
             "fork": fork,
             "genesis": genesis.header,
@@ -825,6 +838,7 @@ class BlockchainTest(BaseTest):
                 chain_id=self.chain_id,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
             ),
+            "info": info,
         }
 
         # Add format-specific fields

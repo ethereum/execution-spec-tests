@@ -39,6 +39,7 @@ class EvmOneTransitionTool(TransitionTool):
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
+    supports_opcode_count: ClassVar[bool] = True
 
     def __init__(
         self,
