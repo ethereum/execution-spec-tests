@@ -24143,6 +24143,8 @@
       
         
       
+        
+      
     
     
     
@@ -25158,6 +25160,120 @@
   
   <span class="md-ellipsis">
     <code>test_double_kill</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_12_5_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../tests/frontier/opcodes/test_swap/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Test Swap
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9_12_5_12" id="__nav_9_12_5_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_9_12_5_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_12_5_12">
+            <span class="md-nav__icon md-icon"></span>
+            Test Swap
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tests/frontier/opcodes/test_swap/test_swap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_swap</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tests/frontier/opcodes/test_swap/test_stack_underflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_stack_underflow</code>
     
   </span>
   
@@ -28050,8 +28166,9 @@
 <p class="admonition-title">Limited Client Support</p>
 <p>Currently, only the following clients can be used with <code>consume direct</code>:</p>
 <ul>
-<li>go-ethereum <code>statetest</code> and <code>blocktest</code>.</li>
-<li>Nethermind <code>nethtest</code>.</li>
+<li>go-ethereum <code>statetest</code> and <code>blocktest</code></li>
+<li>Nethermind <code>nethtest</code></li>
+<li>evmone <code>evmone-statetest</code> and <code>evmone-blockchaintest</code></li>
 </ul>
 </div>
 <h2 id="advantages">Advantages<a class="headerlink" href="#advantages" title="Permanent link">&para;</a></h2>
@@ -28062,7 +28179,7 @@
 </ul>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Limited client support</strong>: Only go-ethereum and Nethermind.</li>
+<li><strong>Limited client support</strong>: Only go-ethereum, Nethermind and evmone</li>
 <li><strong>Module scope</strong>: Tests EVM, respectively block import, in isolation, not full client behavior.</li>
 <li><strong>Interface dependency</strong>: Requires client-specific test interfaces.</li>
 </ul>
@@ -28072,6 +28189,9 @@
 </code></pre></div>
 <p>or Nethermind:</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </span>direct<span class="w"> </span>--input<span class="w"> </span>./fixtures<span class="w"> </span>-m<span class="w"> </span>state_test<span class="w"> </span>--bin<span class="o">=</span>nethtest
+</code></pre></div>
+<p>or evmone:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </span>direct<span class="w"> </span>--input<span class="w"> </span>./fixtures<span class="w"> </span>--bin<span class="o">=</span>evmone-statetest<span class="w"> </span>--bin<span class="o">=</span>evmone-blockchaintest
 </code></pre></div>
 <p>Run fixtures in the blockchain test format for the Prague fork:</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </span>direct<span class="w"> </span>--input<span class="w"> </span>./fixtures<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;blockchain_test and Prague&quot;</span><span class="w"> </span>--bin<span class="o">=</span>evm
@@ -28105,12 +28225,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.54 5.54 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13zM0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20zm24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:5735525+pdobacz@users.noreply.github.com">pdobacz</a>
     </nav>
   </span>
 

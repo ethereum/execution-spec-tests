@@ -1485,6 +1485,18 @@
          <lastmod>2025-10-07</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_swap/</loc>
+         <lastmod>2025-10-07</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_swap/test_stack_underflow/</loc>
+         <lastmod>2025-10-07</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_swap/test_swap/</loc>
+         <lastmod>2025-10-07</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/precompiles/</loc>
          <lastmod>2025-10-07</lastmod>
     </url>
