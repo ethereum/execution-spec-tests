@@ -33,7 +33,9 @@ class RethExceptionMapper(ExceptionMapper):
             "failed to decode deposit requests from receipts"
         ),
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
-        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "failed to decode deposit requests from receipts",
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+            "failed to decode deposit requests from receipts"
+        ),
         BlockException.INVALID_RECEIPTS_ROOT: "receipt root mismatch",
         BlockException.INVALID_STATE_ROOT: "mismatched block state root",
         BlockException.INVALID_BLOCK_HASH: "block hash mismatch",
