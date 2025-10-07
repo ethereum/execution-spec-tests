@@ -1,36 +1,54 @@
-"""Pydantic models for fuzzer output format v2."""
+"""
+Pydantic models for fuzzer output format v2.
 
-from typing import Dict, List, Optional, Union
+This module defines Data Transfer Objects (DTOs) for parsing
+fuzzer output. These DTOs are intentionally separate from EEST
+domain models (Transaction, Account) to maintain clean separation
+between external data format and internal representation.
 
-from pydantic import BaseModel, Field, field_validator
+Design Principle:
+- DTOs (this file): Parse external JSON-RPC standard format
+- Domain Models (EEST): Internal test generation logic
+- Converter (converter.py): Explicit transformation between the two
+"""
 
-from ethereum_test_base_types import Address, Bytes, Hash, HexNumber
+from typing import Dict, List
 
-# ruff: noqa: N815  # Allow mixedCase for JSON field compatibility
+from pydantic import BaseModel, Field
+
+from ethereum_test_base_types import AccessList, Address, Bytes, CamelModel, Hash, HexNumber
+from ethereum_test_forks import Fork
+from ethereum_test_types import Environment
 
 
-class FuzzerAccount(BaseModel):
-    """Account definition in fuzzer output."""
+class FuzzerAccountInput(BaseModel):
+    """
+    Raw account data from fuzzer output.
+
+    This is a DTO that accepts fuzzer's JSON format without triggering
+    EEST's Account validation logic or defaults.
+    """
 
     balance: HexNumber
     nonce: HexNumber = HexNumber(0)
     code: Bytes = Bytes(b"")
     storage: Dict[HexNumber, HexNumber] = Field(default_factory=dict)
-    privateKey: Optional[Bytes] = Field(None, alias="privateKey")
+    private_key: Hash | None = Field(None, alias="privateKey")
 
-    @field_validator("storage", mode="before")
-    @classmethod
-    def validate_storage(cls, v):
-        """Convert storage keys and values to HexNumber."""
-        if not v:
-            return {}
-        return {HexNumber(k): HexNumber(v_) for k, v_ in v.items()}
+    class Config:
+        """Pydantic configuration."""
+
+        populate_by_name = True
 
 
-class FuzzerAuthorization(BaseModel):
-    """Authorization tuple for EIP-7702 SetCode transactions."""
+class FuzzerAuthorizationInput(BaseModel):
+    """
+    Raw authorization tuple from fuzzer output (EIP-7702).
 
-    chainId: HexNumber = Field(..., alias="chainId")
+    Accepts fuzzer's camelCase JSON format.
+    """
+
+    chain_id: HexNumber = Field(..., alias="chainId")
     address: Address
     nonce: HexNumber
     v: HexNumber  # yParity
@@ -43,22 +61,37 @@ class FuzzerAuthorization(BaseModel):
         populate_by_name = True
 
 
-class FuzzerTransaction(BaseModel):
-    """Transaction definition in fuzzer output."""
+class FuzzerTransactionInput(BaseModel):
+    """
+    Raw transaction data from fuzzer output.
+
+    This is a DTO that accepts standard Ethereum JSON-RPC transaction format
+    without triggering EEST's Transaction.model_post_init logic.
+
+    Key differences from EEST Transaction:
+    - Uses "gas" not "gas_limit" (JSON-RPC standard)
+    - Uses "data" not "input" (JSON-RPC standard)
+    - Uses "from" not "sender" (JSON-RPC standard)
+    - No automatic TestAddress injection
+    - No automatic transaction type detection
+    - No automatic signature handling
+    """
 
     from_: Address = Field(..., alias="from")
-    to: Optional[Address] = None
-    value: HexNumber = HexNumber(0)
-    gas: HexNumber
-    gasPrice: Optional[HexNumber] = Field(None, alias="gasPrice")
-    maxFeePerGas: Optional[HexNumber] = Field(None, alias="maxFeePerGas")
-    maxPriorityFeePerGas: Optional[HexNumber] = Field(None, alias="maxPriorityFeePerGas")
+    to: Address | None = None
+    gas: HexNumber  # Will be mapped to gas_limit in converter
+    gas_price: HexNumber | None = Field(None, alias="gasPrice")
+    max_fee_per_gas: HexNumber | None = Field(None, alias="maxFeePerGas")
+    max_priority_fee_per_gas: HexNumber | None = Field(None, alias="maxPriorityFeePerGas")
     nonce: HexNumber
-    data: Bytes = Bytes(b"")
-    accessList: Optional[List[Dict[str, Union[str, List[str]]]]] = Field(None, alias="accessList")
-    blobVersionedHashes: Optional[List[Hash]] = Field(None, alias="blobVersionedHashes")
-    maxFeePerBlobGas: Optional[HexNumber] = Field(None, alias="maxFeePerBlobGas")
-    authorizationList: Optional[List[FuzzerAuthorization]] = Field(None, alias="authorizationList")
+    data: Bytes = Bytes(b"")  # Will be mapped to data/input in converter
+    value: HexNumber = HexNumber(0)
+    access_list: List[AccessList] | None = Field(None, alias="accessList")
+    blob_versioned_hashes: List[Hash] | None = Field(None, alias="blobVersionedHashes")
+    max_fee_per_blob_gas: HexNumber | None = Field(None, alias="maxFeePerBlobGas")
+    authorization_list: List[FuzzerAuthorizationInput] | None = Field(
+        None, alias="authorizationList"
+    )
 
     class Config:
         """Pydantic configuration."""
@@ -66,75 +99,23 @@ class FuzzerTransaction(BaseModel):
         populate_by_name = True
 
 
-class FuzzerEnvironment(BaseModel):
-    """Environment definition in fuzzer output."""
+class FuzzerOutput(CamelModel):
+    """
+    Main fuzzer output format v2.
 
-    currentCoinbase: Address = Field(..., alias="currentCoinbase")
-    currentDifficulty: HexNumber = Field(HexNumber(0), alias="currentDifficulty")
-    currentGasLimit: HexNumber = Field(..., alias="currentGasLimit")
-    currentNumber: HexNumber = Field(..., alias="currentNumber")
-    currentTimestamp: HexNumber = Field(..., alias="currentTimestamp")
-    currentBaseFee: Optional[HexNumber] = Field(None, alias="currentBaseFee")
-    currentRandom: Optional[Hash] = Field(None, alias="currentRandom")
-    currentExcessBlobGas: Optional[HexNumber] = Field(None, alias="currentExcessBlobGas")
-    currentBlobGasUsed: Optional[HexNumber] = Field(None, alias="currentBlobGasUsed")
-    parentBeaconBlockRoot: Optional[Hash] = Field(None, alias="parentBeaconBlockRoot")
-    parentUncleHash: Optional[Hash] = Field(None, alias="parentUncleHash")
-    parentDifficulty: Optional[HexNumber] = Field(None, alias="parentDifficulty")
-    parentBaseFee: Optional[HexNumber] = Field(None, alias="parentBaseFee")
-    parentGasUsed: Optional[HexNumber] = Field(None, alias="parentGasUsed")
-    parentGasLimit: Optional[HexNumber] = Field(None, alias="parentGasLimit")
+    This is the top-level DTO that parses the complete fuzzer
+    output JSON. It uses pure DTOs (FuzzerAccountInput,
+    FuzzerTransactionInput) to avoid triggering EEST domain
+    model logic during parsing.
 
-    class Config:
-        """Pydantic configuration."""
-
-        populate_by_name = True
-
-
-class FuzzerOutput(BaseModel):
-    """Main fuzzer output format v2."""
+    After parsing, the converter will transform these DTOs into
+    EEST domain models.
+    """
 
     version: str = Field(..., pattern="^2\\.0$")
-    fork: str
-    chainId: int = Field(1, alias="chainId")
-    accounts: Dict[Address, FuzzerAccount]
-    transactions: List[FuzzerTransaction]
-    env: FuzzerEnvironment
-    parentBeaconBlockRoot: Optional[Hash] = Field(None, alias="parentBeaconBlockRoot")
-
-    @field_validator("version")
-    @classmethod
-    def validate_version(cls, v):
-        """Ensure version is 2.0."""
-        if v != "2.0":
-            raise ValueError(f"Only version 2.0 is supported, got {v}")
-        return v
-
-    @field_validator("accounts", mode="before")
-    @classmethod
-    def validate_accounts(cls, v):
-        """Convert account addresses to Address type."""
-        if not v:
-            return {}
-        return {
-            Address(addr): (FuzzerAccount(**acc_data) if isinstance(acc_data, dict) else acc_data)
-            for addr, acc_data in v.items()
-        }
-
-    def validate_private_keys(self) -> None:
-        """Validate that all transaction senders have private keys."""
-        senders = {tx.from_ for tx in self.transactions}
-        for sender in senders:
-            if sender not in self.accounts:
-                raise ValueError(f"Sender {sender} not found in accounts")
-            if not self.accounts[sender].privateKey:
-                raise ValueError(f"No private key for sender {sender}")
-
-    def get_sender_private_key(self, sender: Address) -> Bytes:
-        """Get the private key for a sender address."""
-        if sender not in self.accounts:
-            raise ValueError(f"Sender {sender} not found in accounts")
-        private_key = self.accounts[sender].privateKey
-        if not private_key:
-            raise ValueError(f"No private key for sender {sender}")
-        return private_key
+    fork: Fork
+    chain_id: HexNumber = Field(HexNumber(1))
+    accounts: Dict[Address, FuzzerAccountInput]
+    transactions: List[FuzzerTransactionInput]
+    env: Environment
+    parent_beacon_block_root: Hash | None = None

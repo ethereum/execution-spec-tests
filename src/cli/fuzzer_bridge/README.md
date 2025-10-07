@@ -68,6 +68,127 @@ The fuzzer must output JSON in the following format:
 3. **Environment**: Describes the environment for block 1 (genesis is automatically derived).
 4. **Version**: Use "2.0" for this format.
 
+## Architecture: DTO Pattern
+
+The fuzzer bridge uses a **Data Transfer Object (DTO) pattern** for clean separation between external data format and internal domain logic.
+
+### Design Flow
+
+```mermaid
+graph TD
+    A["Fuzzer JSON Output<br/>(JSON-RPC Format v2.0)"]
+
+    B["DTOs (Pydantic Models)<br/>models.py"]
+    B1["FuzzerAccountInput<br/>Raw account JSON"]
+    B2["FuzzerTransactionInput<br/>Raw transaction JSON (uses 'gas')"]
+    B3["FuzzerAuthorizationInput<br/>Raw auth tuple (EIP-7702)"]
+    B4["FuzzerOutput<br/>Complete fuzzer output"]
+
+    C["EEST Domain Models<br/>converter.py"]
+    C1["Account<br/>With validation & defaults"]
+    C2["Transaction<br/>With gas_limit, EOA sender"]
+    C3["AuthorizationTuple<br/>EIP-7702 support"]
+    C4["EOA<br/>Created from private keys"]
+
+    D["BlockchainTest"]
+    E["Blockchain Fixture"]
+
+    A -->|parse| B
+    B -.-> B1
+    B -.-> B2
+    B -.-> B3
+    B -.-> B4
+
+    B -->|convert| C
+    C -.-> C1
+    C -.-> C2
+    C -.-> C3
+    C -.-> C4
+
+    C -->|generate| D
+    D --> E
+
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
+    style D fill:#f3e5f5
+    style E fill:#fce4ec
+```
+
+### Why DTOs?
+
+1. **Separation of Concerns**
+   - External JSON-RPC format ≠ EEST internal representation
+   - Fuzzer format can change without affecting EEST domain models
+
+2. **No Side Effects During Parsing**
+   - DTOs don't trigger `model_post_init` validation logic
+   - Parsing is purely data extraction, no business logic
+
+3. **Explicit Field Mapping**
+   - Clear visibility: `gas` → `gas_limit`, `from` → `sender` (EOA)
+   - Type-safe conversions at boundary
+
+4. **Prevents TestAddress Pollution**
+   - EOA created in converter BEFORE Transaction instantiation
+   - Transaction.model_post_init never injects TestAddress
+
+### Key Field Mappings
+
+| Fuzzer Field (JSON-RPC) | DTO Field            | EEST Domain Field    | Notes                          |
+|-------------------------|----------------------|----------------------|--------------------------------|
+| `from`                  | `from_`              | `sender` (EOA)       | Creates EOA from private key   |
+| `gas`                   | `gas`                | `gas_limit`          | JSON-RPC vs internal naming    |
+| `data`                  | `data`               | `data`               | Same field, explicit mapping   |
+| `gasPrice`              | `gas_price`          | `gas_price`          | CamelCase → snake_case         |
+| `authorizationList`     | `authorization_list` | `authorization_list` | EIP-7702 support               |
+| `privateKey`            | `private_key`        | (used to create EOA) | Not stored in Account model    |
+
+### Module Responsibilities
+
+#### `models.py` - Data Transfer Objects
+- Pure Pydantic models for fuzzer JSON format
+- No business logic, only data validation
+- Accepts JSON-RPC naming conventions (camelCase)
+- ~119 lines
+
+#### `converter.py` - Transformation Logic
+- Pure functions: DTO → EEST domain models
+- All field mapping logic centralized here
+- Creates EOA objects from private keys
+- Builds BlockchainTest from validated data
+- ~305 lines
+
+#### `blocktest_builder.py` - CLI Integration
+- Orchestrates conversion workflow
+- Handles file I/O and CLI options
+- Calls converter functions
+- ~90 lines
+
+### Benefits
+
+✅ **Maintainability**: Changes to Account/Transaction propagate automatically
+✅ **Testability**: Each layer tested independently
+✅ **Type Safety**: Full type checking at DTO and domain layers
+✅ **Clarity**: Field mappings are explicit and documented
+✅ **No Circular Dependencies**: Clean module boundaries
+
+### Alternative Design: Why Not Inheritance?
+
+**Could have done**:
+```python
+class FuzzerAccount(Account):
+    private_key: Hash | None = None
+```
+
+**Why DTOs are better**:
+- Inheritance couples external format to domain model
+- model_post_init triggers during parsing (side effects)
+- Field name mismatches require complex aliasing
+- Harder to test layers independently
+
+The DTO pattern provides cleaner separation and explicit control.
+
 ## Installation
 
 See the [EEST installation guide](https://eest.ethereum.org/main/getting_started/installation/) for setting up the execution-spec-tests framework.
