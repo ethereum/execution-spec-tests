@@ -26,7 +26,7 @@ Execute: Python Tests → execute → Live JSON-RPC Testing
 
 ## 🚀 Essential Commands
 
-All commands use `uv run` prefix.
+All commands use `uv run` prefix. The `uv sync --all-extras` command (below) automatically creates and manages a virtual environment.
 
 ### Setup
 
