@@ -528,3 +528,58 @@ def test_bal_7702_invalid_chain_id_authorization(
         blocks=[block],
         post=post,
     )
+
+
+@pytest.mark.with_all_call_opcodes
+def test_bal_7702_delegated_via_call_opcode(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    call_opcode: Op,
+):
+    """
+    Ensure BAL captures delegation target when a contract uses *CALL
+    opcodes to call a delegated account.
+    """
+    # `oracle` contract that just returns successfully
+    oracle = pre.deploy_contract(code=Op.STOP)
+
+    # `alice` is a delegated account pointing to oracle
+    alice = pre.deploy_contract(
+        nonce=1,
+        code=Spec7702.delegation_designation(oracle),
+        balance=0,
+    )
+
+    # caller contract that uses `call_opcode` to call `alice`
+    caller = pre.deploy_contract(code=(call_opcode(address=alice) + Op.STOP))
+
+    bob = pre.fund_eoa()
+    tx = Transaction(
+        sender=bob,
+        to=caller,  # `bob` calls caller contract
+        gas_limit=10_000_000,
+        gas_price=0xA,
+    )
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                bob: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                caller: BalAccountExpectation.empty(),
+                # `alice` is accessed due to being the call target
+                alice: BalAccountExpectation.empty(),
+                # `oracle` appears in BAL due to delegation target access
+                oracle: BalAccountExpectation.empty(),
+            }
+        ),
+    )
+
+    post = {bob: Account(nonce=1)}
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post=post,
+    )
