@@ -33,9 +33,9 @@
         "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Osaka": {
-        "git_url": "https://github.com/spencer-tb/execution-specs.git",
-        "branch": "forks/bpo1",
-        "commit": "c0cdc5ed0e8c0d940d9277da4f532c2d8431e28d"
+        "git_url": "https://github.com/ethereum/execution-specs.git",
+        "branch": "forks/bpos",
+        "commit": "7aacb2c54111391af5e98c505d5010b5698a770f"
     },
     "BPO1": {
         "same_as": "Osaka"
