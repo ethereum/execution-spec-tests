@@ -107,13 +107,13 @@ class Opcode(Bytecode):
         max_stack_height: int | None = None,
         min_stack_height: int | None = None,
         data_portion_length: int = 0,
-        data_portion_formatter=None,
-        stack_properties_modifier=None,
-        unchecked_stack=False,
+        data_portion_formatter: Any = None,
+        stack_properties_modifier: Any = None,
+        unchecked_stack: bool = False,
         terminating: bool = False,
         kwargs: List[str] | None = None,
         kwargs_defaults: Optional[KW_ARGS_DEFAULTS_TYPE] = None,
-    ):
+    ) -> "Opcode":
         """Create new opcode instance."""
         if kwargs_defaults is None:
             kwargs_defaults = {}
@@ -324,7 +324,7 @@ class Macro(Bytecode):
         macro_or_bytes: Optional["Bytecode | Macro"] = None,
         *,
         lambda_operation: Callable[..., Bytecode] | None = None,
-    ):
+    ) -> "Macro":
         """Create new opcode macro instance."""
         if macro_or_bytes is None:
             macro_or_bytes = Bytecode()
@@ -337,7 +337,7 @@ class Macro(Bytecode):
             instance.lambda_operation = lambda_operation
             return instance
 
-    def __call__(self, *args_t: OpcodeCallArg, **kwargs) -> Bytecode:
+    def __call__(self, *args_t: OpcodeCallArg, **kwargs: Any) -> Bytecode:
         """Perform macro operation if any. Otherwise is a no-op."""
         if self.lambda_operation is not None:
             return self.lambda_operation(*args_t)

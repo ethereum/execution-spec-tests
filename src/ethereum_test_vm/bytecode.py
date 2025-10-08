@@ -1,6 +1,6 @@
 """Ethereum Virtual Machine bytecode primitives and utilities."""
 
-from typing import Any, SupportsBytes
+from typing import Any, Self, SupportsBytes
 
 from pydantic import GetCoreSchemaHandler
 from pydantic_core.core_schema import (
@@ -49,7 +49,7 @@ class Bytecode:
         min_stack_height: int | None = None,
         terminating: bool = False,
         name: str = "",
-    ):
+    ) -> Self:
         """Create new opcode instance."""
         if bytes_or_byte_code_base is None:
             instance = super().__new__(cls)
@@ -108,7 +108,7 @@ class Bytecode:
         """Return the name of the opcode, assigned at Enum creation."""
         return self._name_
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         """
         Allow comparison between Bytecode instances and bytes objects.
 
@@ -129,7 +129,7 @@ class Bytecode:
             return bytes(self) == bytes(other)
         raise NotImplementedError(f"Unsupported type for comparison: {type(other)}")
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """Return the hash of the bytecode representation."""
         return hash(
             (
