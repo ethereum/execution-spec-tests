@@ -14,7 +14,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[python]": {
-        "editor.rulers": [79, 100],
+        "editor.rulers": [79],
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.codeActionsOnSave": {
@@ -54,7 +54,6 @@
         // "-c", "pytest-consume.ini", "--input=fixtures/", "src/pytest_plugins/consume/direct/test_via_direct.py", "--evm-bin=~/bin/evm"
     ],
     "ruff.enable": true,
-    "ruff.lineLength": 99,
     "ruff.logLevel": "error",
     "extensions.ignoreRecommendations": false,
     "search.exclude": {

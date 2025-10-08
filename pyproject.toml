@@ -132,7 +132,7 @@ ethereum_test_forks = ["forks/contracts/*.bin"]
 "ethereum_test_types" = ["kzg_trusted_setup.txt"]
 
 [tool.ruff]
-line-length = 99
+line-length = 79
 
 [tool.ruff.lint]
 select = [
