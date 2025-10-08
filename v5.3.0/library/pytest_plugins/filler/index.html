@@ -36698,7 +36698,7 @@ across fixture types and forks for the same test.</p>
 
 
 <h2 id="pytest_plugins.filler.pre_alloc.pre" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">pre</span><span class="p">(</span><span class="n">alloc_mode</span><span class="p">,</span> <span class="n">contract_address_iterator</span><span class="p">,</span> <span class="n">eoa_iterator</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">pre</span><span class="p">(</span><span class="n">alloc_mode</span><span class="p">,</span> <span class="n">contract_address_iterator</span><span class="p">,</span> <span class="n">eoa_iterator</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.filler.pre_alloc.pre" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -36725,20 +36725,34 @@ across fixture types and forks for the same test.</p>
 <span class="normal">443</span>
 <span class="normal">444</span>
 <span class="normal">445</span>
-<span class="normal">446</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">pre</span><span class="p">(</span>
     <span class="n">alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span><span class="p">,</span>
     <span class="n">contract_address_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
     <span class="n">eoa_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">],</span>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Alloc</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return default pre allocation for all tests (Empty alloc).&quot;&quot;&quot;</span>
+    <span class="c1"># FIXME: Static tests dont have a fork so we need to get it from the node.</span>
+    <span class="n">actual_fork</span> <span class="o">=</span> <span class="n">fork</span>
+    <span class="k">if</span> <span class="n">actual_fork</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="s2">&quot;fork&quot;</span><span class="p">)</span>
+        <span class="n">actual_fork</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">fork</span>
+
     <span class="k">return</span> <span class="n">Alloc</span><span class="p">(</span>
         <span class="n">alloc_mode</span><span class="o">=</span><span class="n">alloc_mode</span><span class="p">,</span>
         <span class="n">contract_address_iterator</span><span class="o">=</span><span class="n">contract_address_iterator</span><span class="p">,</span>
         <span class="n">eoa_iterator</span><span class="o">=</span><span class="n">eoa_iterator</span><span class="p">,</span>
-        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+        <span class="n">fork</span><span class="o">=</span><span class="n">actual_fork</span><span class="p">,</span>
         <span class="n">evm_code_type</span><span class="o">=</span><span class="n">evm_code_type</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
