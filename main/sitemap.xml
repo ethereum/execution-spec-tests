@@ -609,6 +609,14 @@
          <lastmod>2025-10-08</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2929_gas_cost_increases/test_call/</loc>
+         <lastmod>2025-10-08</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2929_gas_cost_increases/test_call/test_call_insufficient_balance/</loc>
+         <lastmod>2025-10-08</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming/</loc>
          <lastmod>2025-10-08</lastmod>
     </url>
