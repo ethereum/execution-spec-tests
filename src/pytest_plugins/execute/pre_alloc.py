@@ -548,6 +548,12 @@ def pre(
     request: pytest.FixtureRequest,
 ) -> Generator[Alloc, None, None]:
     """Return default pre allocation for all tests (Empty alloc)."""
+    # FIXME: Static tests dont have a fork so we need to get it from the node.
+    actual_fork = fork
+    if actual_fork is None:
+        assert hasattr(request.node, "fork")
+        actual_fork = request.node.fork
+
     # Record the starting balance of the sender
     sender_test_starting_balance = eth_rpc.get_balance(sender_key)
 
