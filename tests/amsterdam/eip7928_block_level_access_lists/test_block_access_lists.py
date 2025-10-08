@@ -947,6 +947,38 @@ def test_bal_zero_value_transfer(
     blockchain_test(pre=pre, blocks=[block], post={})
 
 
+def test_bal_net_zero_balance_transfer(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+):
+    """Test that BAL captures accounts with net zero balance change."""
+    alice = pre.fund_eoa()
+    bob = pre.fund_eoa(amount=0)
+
+    # Oracle contract with 0 wei balance that self-destructs sending to Bob
+    oracle_code = Op.SELFDESTRUCT(bob)
+    oracle = pre.deploy_contract(code=oracle_code, balance=0)
+
+    tx = Transaction(sender=alice, to=oracle, gas_limit=1_000_000, gas_price=0xA)
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                bob: BalAccountExpectation.empty(),
+                oracle: BalAccountExpectation(
+                    balance_changes=[],  # No balance change (0 wei pre and post)
+                ),
+            }
+        ),
+    )
+
+    blockchain_test(pre=pre, blocks=[block], post={})
+
+
 def test_bal_pure_contract_call(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
