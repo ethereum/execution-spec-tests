@@ -180,7 +180,45 @@ def test_xen_approve_change_existing_slots(
 
         current_address += address_incr
 
-    # TODO: insert unrelated spam to USDT to bust cache
+    fn_signature_approve = bytes.fromhex("095EA7B3")
+    usdt_contract = 0xDAC17F958D2EE523A2206206994597C13D831EC7  # Used in intermediate blocks to attempt to bust te cache
+    usdt_approve_spammer_code = (
+        Om.MSTORE(fn_signature_approve)
+        + Op.MSTORE(4 + 32, 1)
+        + Op.SLOAD(0)
+        + While(
+            body=Op.MSTORE(
+                4, Op.DUP1
+            )  # Put a copy of the topmost stack item in memory (this is the target address)
+            + Op.CALL(address=usdt_contract, args_offset=0, args_size=4 + 32 + 32)
+            + Op.ADD,  # Add the status of the CALL
+            # (this should always be 1 unless the `gas_threshold` is too low) to the stack item
+            # The address and thus target storage slot changes!
+            # + Op.MSTORE(4 + 32, Op.SUB(Op.MLOAD(4 + 34), Op.GAS)),
+            condition=Op.GT(Op.GAS, gas_threshold),
+        )
+        + Op.PUSH1(0)
+        + Op.SSTORE
+    )
+    # Set storage to value 1 to avoid paying 20k on the update
+    usdt_approve_spammer_contract = pre.deploy_contract(
+        code=usdt_approve_spammer_code, storage={0: 1}
+    )
+
+    spam_count = 200
+
+    for _ in range(spam_count):
+        # NOTE: USDC does not allow changing the approval value. It first has to be
+        # set to zero before it changes. We therefore flood USDC with approvals in an
+        # attempt to bust the cache
+        spam_tx = Transaction(
+            to=usdt_approve_spammer_contract,
+            gas_limit=attack_gas_limit // 2,
+            sender=sender,
+            max_priority_fee_per_gas=100,
+            max_fee_per_gas=10000,
+        )
+        blocks.append(Block(txs=[spam_tx]))
 
     attack_calldata = Hash(start_address) + approval_value_overwrite
 
@@ -567,7 +605,7 @@ def test_xen_claimrank_and_mint(
         code=usdt_approve_spammer_code, storage={0: 1}
     )
 
-    spam_count = 100
+    spam_count = 200
 
     for _ in range(spam_count):
         # NOTE: USDC does not allow changing the approval value. It first has to be
