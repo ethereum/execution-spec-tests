@@ -12,6 +12,7 @@ from ethereum_test_checklists import EIPChecklist
 from ethereum_test_fixtures.blockchain import (
     FixtureBlockBase,
     FixtureHeader,
+    FixtureWithdrawal,
 )
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
@@ -21,6 +22,7 @@ from ethereum_test_tools import (
     BlockException,
     Bytes,
     Transaction,
+    Withdrawal,
 )
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types import EOA, Environment
@@ -35,6 +37,7 @@ pytestmark = [
         "block_rlp_limit_tests",
         reason="Block RLP size tests require exact calculations",
     ),
+    pytest.mark.xdist_group(name="bigmem"),
 ]
 
 
@@ -91,8 +94,13 @@ def create_test_header(gas_used: int) -> FixtureHeader:
     )
 
 
-def get_block_rlp_size(transactions: List[Transaction], gas_used: int) -> int:
-    """Calculate the RLP size of a block with given transactions."""
+def get_block_rlp_size(
+    transactions: List[Transaction], gas_used: int, withdrawals: List[Withdrawal] | None = None
+) -> int:
+    """
+    Calculate the RLP size of a block with given transactions
+    and withdrawals.
+    """
     header = create_test_header(gas_used)
     total_gas = sum((tx.gas_limit or 21000) for tx in transactions)
     header.gas_used = ZeroPaddedHexNumber(total_gas)
@@ -106,7 +114,19 @@ def get_block_rlp_size(transactions: List[Transaction], gas_used: int) -> int:
     if blob_gas_used > 0:
         header.blob_gas_used = ZeroPaddedHexNumber(blob_gas_used)
 
-    test_block = FixtureBlockBase(blockHeader=header, withdrawals=[])
+    # Convert withdrawals to FixtureWithdrawal if provided
+    block_withdrawals = []
+    if withdrawals is not None:
+        block_withdrawals = [
+            FixtureWithdrawal(
+                index=w.index,
+                validator_index=w.validator_index,
+                address=w.address,
+                amount=w.amount,
+            )
+            for w in withdrawals
+        ]
+    test_block = FixtureBlockBase(blockHeader=header, withdrawals=block_withdrawals)
     return len(test_block.with_rlp(txs=transactions).rlp)
 
 
@@ -118,6 +138,7 @@ def exact_size_transactions(
     gas_limit: int,
     emit_logs: bool = False,
     specific_transaction_to_include: Transaction | None = None,
+    withdrawals: List[Withdrawal] | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
     Generate transactions that fill a block to exactly the RLP size limit.
@@ -134,6 +155,7 @@ def exact_size_transactions(
         emit_logs: If True, transactions will call a contract that emits logs
         specific_transaction_to_include: If provided, this transaction will
             be included
+        withdrawals: Optional list of withdrawals to include in the block
 
     """
     log_contract = None
@@ -161,7 +183,7 @@ def exact_size_transactions(
             log_contract_code += Op.LOG4
         log_contract = pre.deploy_contract(log_contract_code)
 
-    if not specific_transaction_to_include:
+    if not specific_transaction_to_include and not withdrawals:
         # use cached version when possible for performance
         transactions, gas_used = _exact_size_transactions_cached(
             block_size_limit,
@@ -171,13 +193,16 @@ def exact_size_transactions(
             emit_logs_contract=log_contract,
         )
     else:
-        # Direct calculation, no cache, since `Transaction` is not hashable
+        # Direct calculation, no cache, since `Transaction` / `Withdrawal`
+        # are not hashable
         transactions, gas_used = _exact_size_transactions_impl(
             block_size_limit,
             fork,
             gas_limit,
             sender,
             specific_transaction_to_include=specific_transaction_to_include,
+            emit_logs_contract=log_contract,
+            withdrawals=withdrawals,
         )
 
     return transactions, gas_used
@@ -202,6 +227,7 @@ def _exact_size_transactions_cached(
         sender,
         None,
         emit_logs_contract,
+        None,
     )
 
 
@@ -212,6 +238,7 @@ def _exact_size_transactions_impl(
     sender: EOA,
     specific_transaction_to_include: Transaction | None = None,
     emit_logs_contract: Address | None = None,
+    withdrawals: List[Withdrawal] | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
     Calculate the exact size of transactions to be included. Shared by both
@@ -283,7 +310,9 @@ def _exact_size_transactions_impl(
         nonce += 1
         total_gas_used += last_tx.gas_limit
 
-    current_size = get_block_rlp_size(transactions, gas_used=total_gas_used)
+    current_size = get_block_rlp_size(
+        transactions, gas_used=total_gas_used, withdrawals=withdrawals
+    )
     remaining_bytes = block_size_limit - current_size
     remaining_gas = block_gas_limit - total_gas_used
 
@@ -299,7 +328,9 @@ def _exact_size_transactions_impl(
         )
 
         empty_block_size = get_block_rlp_size(
-            transactions + [empty_tx], gas_used=total_gas_used + empty_tx.gas_limit
+            transactions + [empty_tx],
+            gas_used=total_gas_used + empty_tx.gas_limit,
+            withdrawals=withdrawals,
         )
         empty_contribution = empty_block_size - current_size
 
@@ -320,7 +351,9 @@ def _exact_size_transactions_impl(
             )
 
             test_size = get_block_rlp_size(
-                transactions + [test_tx], gas_used=total_gas_used + target_gas
+                transactions + [test_tx],
+                gas_used=total_gas_used + target_gas,
+                withdrawals=withdrawals,
             )
 
             if test_size == block_size_limit:
@@ -354,6 +387,7 @@ def _exact_size_transactions_impl(
                         adjusted_test_size = get_block_rlp_size(
                             transactions + [adjusted_tx],
                             gas_used=total_gas_used + adjusted_gas,
+                            withdrawals=withdrawals,
                         )
 
                         if adjusted_test_size == block_size_limit:
@@ -372,7 +406,7 @@ def _exact_size_transactions_impl(
             transactions.append(empty_tx)
 
     final_size = get_block_rlp_size(
-        transactions, gas_used=sum(tx.gas_limit for tx in transactions)
+        transactions, gas_used=sum(tx.gas_limit for tx in transactions), withdrawals=withdrawals
     )
     final_gas = sum(tx.gas_limit for tx in transactions)
 
@@ -387,7 +421,6 @@ def _exact_size_transactions_impl(
 @EIPChecklist.BlockLevelConstraint.Test.Boundary.Under()
 @EIPChecklist.BlockLevelConstraint.Test.Boundary.Exact()
 @EIPChecklist.BlockLevelConstraint.Test.Boundary.Over()
-@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "delta",
     [
@@ -449,7 +482,6 @@ def test_block_at_rlp_size_limit_boundary(
 
 
 @EIPChecklist.BlockLevelConstraint.Test.Content.TransactionTypes()
-@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.with_all_typed_transactions
 @pytest.mark.verify_sync
 @pytest.mark.valid_from("Osaka")
@@ -491,7 +523,6 @@ def test_block_rlp_size_at_limit_with_all_typed_transactions(
 
 
 @EIPChecklist.BlockLevelConstraint.Test.Content.Logs()
-@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.verify_sync
 @pytest.mark.valid_from("Osaka")
 def test_block_at_rlp_limit_with_logs(
@@ -525,6 +556,67 @@ def test_block_at_rlp_limit_with_logs(
     block = Block(txs=transactions)
     block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT)
     block.timestamp = ZeroPaddedHexNumber(HEADER_TIMESTAMP)
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post=post,
+        blocks=[block],
+    )
+
+
+@EIPChecklist.BlockLevelConstraint.Test.Content.Withdrawals()
+@pytest.mark.verify_sync
+@pytest.mark.valid_from("Osaka")
+def test_block_at_rlp_limit_with_withdrawals(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    post: Alloc,
+    env: Environment,
+    sender: EOA,
+    fork: Fork,
+    block_size_limit: int,
+):
+    """
+    Test that a block at the RLP size limit is valid even when the block
+    contains withdrawals.
+    """
+    withdrawals = [
+        Withdrawal(
+            index=0,
+            validator_index=0,
+            address=pre.fund_eoa(),
+            amount=1,
+        ),
+        Withdrawal(
+            index=1,
+            validator_index=1,
+            address=pre.fund_eoa(),
+            amount=1,
+        ),
+    ]
+
+    transactions, gas_used = exact_size_transactions(
+        sender,
+        block_size_limit,
+        fork,
+        pre,
+        env.gas_limit,
+        withdrawals=withdrawals,
+    )
+
+    block_rlp_size = get_block_rlp_size(transactions, gas_used=gas_used, withdrawals=withdrawals)
+    assert block_rlp_size == block_size_limit, (
+        f"Block RLP size {block_rlp_size} does not exactly match limit {block_size_limit}, "
+        f"difference: {block_rlp_size - block_size_limit} bytes"
+    )
+
+    block = Block(
+        txs=transactions,
+        withdrawals=withdrawals,
+        extra_data=Bytes(EXTRA_DATA_AT_LIMIT),
+        timestamp=ZeroPaddedHexNumber(HEADER_TIMESTAMP),
+    )
 
     blockchain_test(
         genesis_environment=env,

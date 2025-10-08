@@ -1827,6 +1827,14 @@ class EIPChecklist:
 
                     pass
 
+                class Withdrawals(ChecklistItem):
+                    """
+                    Verify constraint behavior with non-empty withdrawals
+                    list.
+                    """
+
+                    pass
+
             class ForkTransition(ChecklistItem):
                 """Fork transition tests."""
 

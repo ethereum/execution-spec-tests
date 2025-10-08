@@ -1242,6 +1242,7 @@ Verify the constraint behaves correctly with different block contents that may a
 | `block_level_constraint/test/content/transaction_types` | Verify constraint behavior with all supported transaction types in the block. |        |       |
 | `block_level_constraint/test/content/logs` | Verify constraint behavior when transactions emit logs. |        |       |
 | `block_level_constraint/test/content/receipts` | Verify constraint behavior with varying receipt sizes. |        |       |
+| `block_level_constraint/test/content/withdrawals` | Verify constraint behavior with non-empty withdrawals list. |        |       |
 
 #### Fork Transition
 

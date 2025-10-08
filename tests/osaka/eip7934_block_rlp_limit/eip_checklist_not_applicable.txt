@@ -11,4 +11,4 @@ blob_count_changes = EIP-7934 does not introduce any blob count changes
 execution_layer_request = EIP-7934 does not introduce an execution layer request
 new_transaction_validity_constraint = EIP-7934 introduces a block-level constraint, not a transaction-level constraint
 modified_transaction_validity_constraint = EIP-7934 introduces a block-level constraint, not a transaction-level constraint
-block_level_constraint/test/content/receipts = Receipts are deterministically calculated from transaction results and do not directly affect RLP size constraint testing
+block_level_constraint/test/content/receipts = Receipts are not part of the block RLP encoding - only the receipts root hash is included in the block header. Therefore, varying receipt sizes do not affect the block RLP size limit.

@@ -59,6 +59,7 @@ class EIPChecklist:
                 Logs: _CallableChecklistItem
                 Receipts: _CallableChecklistItem
                 TransactionTypes: _CallableChecklistItem
+                Withdrawals: _CallableChecklistItem
 
             class ForkTransition(_CallableChecklistItem):
                 AcceptedAfterFork: _CallableChecklistItem
