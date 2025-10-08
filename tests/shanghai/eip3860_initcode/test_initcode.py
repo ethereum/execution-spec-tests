@@ -130,7 +130,7 @@ def test_contract_creating_tx(
     post: Alloc,
     sender: EOA,
     initcode: Initcode,
-):
+) -> None:
     """
     Test creating a contract with initcode that is on/over the allowed limit.
     """
@@ -347,7 +347,7 @@ class TestContractCreationGasUsage:
         pre: Alloc,
         post: Alloc,
         tx: Transaction,
-    ):
+    ) -> None:
         """
         Test transaction and contract creation using different gas limits.
         """
@@ -517,7 +517,7 @@ class TestCreateInitcode:
         contract_creation_gas_cost: int,
         initcode_word_cost: int,
         create2_word_cost: int,
-    ):
+    ) -> None:
         """
         Test contract creation with valid and invalid initcode lengths.
 

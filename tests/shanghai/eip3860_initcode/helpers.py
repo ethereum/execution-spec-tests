@@ -6,11 +6,11 @@ from ethereum_test_vm import Opcodes as Op
 INITCODE_RESULTING_DEPLOYED_CODE = Op.STOP
 
 
-def get_initcode_name(val: Initcode):
+def get_initcode_name(val: Initcode) -> str:
     """Return Initcode object's name to generate test ids."""
     return val._name_
 
 
-def get_create_id(opcode: Op):
+def get_create_id(opcode: Op) -> str:
     """Return the opcode name for the test id."""
     return opcode._name_.lower()
