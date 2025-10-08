@@ -22,9 +22,7 @@ class UnknownCLIError(Exception):
 class CLINotFoundInPathError(Exception):
     """Exception raised if the specified CLI binary isn't found in the path."""
 
-    def __init__(
-        self, message="The CLI binary was not found in the path", binary=None
-    ):
+    def __init__(self, message="The CLI binary was not found in the path", binary=None):
         """Initialize the exception."""
         if binary:
             message = f"{message} ({binary})"
@@ -85,9 +83,7 @@ class EthereumCLI:
         the appropriate subclass based on the version output by running
         the CLI with the version flag.
         """
-        assert cls.default_tool is not None, (
-            "default CLI implementation was never set"
-        )
+        assert cls.default_tool is not None, "default CLI implementation was never set"
 
         # ensure provided t8n binary can be found and used
         if binary_path is None:
@@ -105,8 +101,7 @@ class EthereumCLI:
             binary = Path(resolved_path)
         else:
             logger.debug(
-                f"Resolved path does not exist: {resolved_path}\n"
-                "Trying to find it via `which`"
+                f"Resolved path does not exist: {resolved_path}\nTrying to find it via `which`"
             )
 
             # it might be that the provided binary exists in path
@@ -115,15 +110,11 @@ class EthereumCLI:
             logger.debug(f"Output of 'which {binary_path}': {binary}")
 
             if binary is None:
-                logger.error(
-                    f"Resolved t8n binary path does not exist: {resolved_path}"
-                )
+                logger.error(f"Resolved t8n binary path does not exist: {resolved_path}")
                 raise CLINotFoundInPathError(binary=resolved_path)
 
             assert binary is not None
-            logger.debug(
-                f"Successfully located the path of the t8n binary: {binary}"
-            )
+            logger.debug(f"Successfully located the path of the t8n binary: {binary}")
             binary = Path(binary)
 
         # Group the tools by version flag, so we only have to call the tool
@@ -149,10 +140,7 @@ class EthereumCLI:
                 )
 
                 if result.returncode != 0:
-                    logger.debug(
-                        "Subprocess returncode is not 0!"
-                        f"It is: {result.returncode}"
-                    )
+                    logger.debug(f"Subprocess returncode is not 0!It is: {result.returncode}")
                     # don't raise exception, you are supposed to keep trying
                     # different version flags
                     continue
@@ -167,31 +155,25 @@ class EthereumCLI:
                 binary_output = ""
                 if result.stdout:
                     binary_output = result.stdout.decode().strip()
-                    logger.debug(
-                        f"Stripped subprocess stdout: {binary_output}"
-                    )
+                    logger.debug(f"Stripped subprocess stdout: {binary_output}")
 
                 for subclass in subclasses:
                     logger.debug(f"Trying subclass {subclass}")
                     try:
                         if subclass.detect_binary(binary_output):
-                            subclass_check_result = subclass(
-                                binary=binary, **kwargs
-                            )
+                            subclass_check_result = subclass(binary=binary, **kwargs)
                             return subclass_check_result
                     except Exception as e:
                         print(e)
                         continue
 
                     logger.debug(
-                        f"T8n with version {binary_output} does not belong "
-                        f"to subclass {subclass}"
+                        f"T8n with version {binary_output} does not belong to subclass {subclass}"
                     )
 
             except Exception as e:
                 logger.debug(
-                    "Trying to determine t8n version with "
-                    f"flag `{version_flag}` failed: {e}"
+                    f"Trying to determine t8n version with flag `{version_flag}` failed: {e}"
                 )
                 continue
 
@@ -207,8 +189,7 @@ class EthereumCLI:
         assert cls.detect_binary_pattern is not None
 
         logger.debug(
-            f"Trying to match {binary_output} against "
-            f"this pattern: {cls.detect_binary_pattern}"
+            f"Trying to match {binary_output} against this pattern: {cls.detect_binary_pattern}"
         )
         match_result = cls.detect_binary_pattern.match(binary_output)
         match_successful: bool = match_result is not None
@@ -251,9 +232,7 @@ class EthereumCLI:
             )
 
             if result.returncode != 0:
-                raise Exception(
-                    "failed to evaluate: " + result.stderr.decode()
-                )
+                raise Exception("failed to evaluate: " + result.stderr.decode())
 
             self.cached_version = result.stdout.decode().strip()
 
