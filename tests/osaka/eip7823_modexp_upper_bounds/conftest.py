@@ -145,14 +145,10 @@ def call_gas_amount(call_succeeds: bool, precompile_gas: int, fork: Fork) -> int
     if call_succeeds:
         return precompile_gas
     else:
-        # For bounds violations with EIP-7825 active, use a reasonable test amount
         tx_gas_limit_cap = fork.transaction_gas_limit_cap()
         if tx_gas_limit_cap:
-            # Provide a substantial amount to test "all gas consumed"
-            # but within transaction limits
-            return 10_000_000  # 10M gas - enough to detect the bug
+            return 10_000_000
         else:
-            # Pre-EIP-7825: use calculated amount + extra
             return precompile_gas + 100_000
 
 
