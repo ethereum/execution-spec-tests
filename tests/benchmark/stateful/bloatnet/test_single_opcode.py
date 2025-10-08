@@ -278,35 +278,38 @@ def test_sstore_erc20_approve(
     )
 
     # Build attack code that loops through each contract
-    attack_code: Bytecode = Op.JUMPDEST  # Entry point
+    attack_code: Bytecode = (
+        Op.JUMPDEST  # Entry point
+        + Op.MSTORE(offset=0, value=APPROVE_SELECTOR)  # Store selector once for all contracts
+    )
 
     for erc20_address in erc20_addresses:
         # For each contract, initialize counter and loop
         attack_code += (
-            # Store function selector at memory[32] once (outside loop)
-            Op.MSTORE(offset=32, value=APPROVE_SELECTOR)
-            # Initialize counter in memory[0] = number of calls
-            + Op.MSTORE(offset=0, value=calls_per_contract)
+            # Initialize counter in memory[32] = number of calls
+            Op.MSTORE(offset=32, value=calls_per_contract)
             # Loop for this specific contract
             + While(
-                condition=Op.MLOAD(0) + Op.ISZERO + Op.ISZERO,  # Continue while counter > 0
+                condition=Op.MLOAD(32) + Op.ISZERO + Op.ISZERO,  # Continue while counter > 0
                 body=(
                     # Store spender address at memory[64] (use counter)
-                    Op.MSTORE(offset=64, value=Op.MLOAD(0))
+                    Op.MSTORE(offset=64, value=Op.MLOAD(32))
                     # Store amount at memory[96] (use counter as amount)
-                    + Op.MSTORE(offset=96, value=Op.MLOAD(0))
+                    + Op.MSTORE(offset=96, value=Op.MLOAD(32))
                     # Call approve(spender, amount) on ERC20 contract
+                    # args_offset=28 reads: selector from MEM[28:32] + spender
+                    # from MEM[32:64] + amount from MEM[64:96]
                     + Op.CALL(
                         address=erc20_address,
                         value=0,
-                        args_offset=32,
+                        args_offset=28,
                         args_size=68,  # 4 bytes selector + 32 bytes spender + 32 bytes amount
                         ret_offset=0,
                         ret_size=0,
                     )
                     + Op.POP  # Discard CALL success status
                     # Decrement counter: counter - 1
-                    + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
+                    + Op.MSTORE(offset=32, value=Op.SUB(Op.MLOAD(32), 1))
                 ),
             )
         )
