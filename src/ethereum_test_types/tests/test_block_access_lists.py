@@ -1,5 +1,7 @@
 """Unit tests for BlockAccessListExpectation validation."""
 
+from typing import Any
+
 import pytest
 
 from ethereum_test_base_types import Address, StorageKey
@@ -18,7 +20,7 @@ from ethereum_test_types.block_access_list import (
 )
 
 
-def test_address_exclusion_validation_passes():
+def test_address_exclusion_validation_passes() -> None:
     """Test that address exclusion works when address is not in BAL."""
     alice = Address(0xA)
     bob = Address(0xB)
@@ -42,7 +44,7 @@ def test_address_exclusion_validation_passes():
     expectation.verify_against(actual_bal)
 
 
-def test_address_exclusion_validation_raises_when_address_is_present():
+def test_address_exclusion_validation_raises_when_address_is_present() -> None:
     """Test that validation fails when excluded address is in BAL."""
     alice = Address(0xA)
     bob = Address(0xB)
@@ -78,9 +80,9 @@ def test_address_exclusion_validation_raises_when_address_is_present():
     ids=["BalAccountExpectation()", "BalAccountExpectation.empty()"],
 )
 def test_empty_account_changes_definitions(
-    empty_changes_definition,
-    exception_message,
-):
+    empty_changes_definition: Any,
+    exception_message: str,
+) -> None:
     """
     Test that validation fails when expected empty changes but actual
     has changes.
@@ -104,7 +106,7 @@ def test_empty_account_changes_definitions(
         expectation.verify_against(actual_bal)
 
 
-def test_empty_list_validation():
+def test_empty_list_validation() -> None:
     """Test that empty list validates correctly."""
     alice = Address(0xA)
 
@@ -152,7 +154,7 @@ def test_empty_list_validation():
         ["storage_reads", 0x01],
     ],
 )
-def test_empty_list_validation_fails(field: str, value) -> None:
+def test_empty_list_validation_fails(field: str, value: Any) -> None:
     """Test that validation fails when expecting empty but field has values."""
     alice = Address(0xA)
 
@@ -190,7 +192,7 @@ def test_empty_list_validation_fails(field: str, value) -> None:
         expectation.verify_against(actual_bal)
 
 
-def test_partial_validation():
+def test_partial_validation() -> None:
     """Test that unset fields are not validated."""
     alice = Address(0xA)
 
@@ -220,7 +222,7 @@ def test_partial_validation():
     expectation.verify_against(actual_bal)
 
 
-def test_storage_changes_validation():
+def test_storage_changes_validation() -> None:
     """Test storage changes validation."""
     contract = Address(0xC)
 
@@ -256,7 +258,7 @@ def test_storage_changes_validation():
     expectation.verify_against(actual_bal)
 
 
-def test_missing_expected_address():
+def test_missing_expected_address() -> None:
     """Test that validation fails when expected address is missing."""
     alice = Address(0xA)
     bob = Address(0xB)
@@ -305,7 +307,7 @@ def test_missing_expected_address():
         ),
     ],
 )
-def test_actual_bal_address_ordering_validation(addresses, error_message):
+def test_actual_bal_address_ordering_validation(addresses: Any, error_message: str) -> None:
     """Test that actual BAL must have addresses in lexicographic order."""
     # Create BAL with addresses in the given order
     actual_bal = BlockAccessList(
@@ -331,7 +333,7 @@ def test_actual_bal_address_ordering_validation(addresses, error_message):
         ),
     ],
 )
-def test_actual_bal_storage_slot_ordering(storage_slots, error_message):
+def test_actual_bal_storage_slot_ordering(storage_slots: Any, error_message: str) -> None:
     """Test that actual BAL must have storage slots in lexicographic order."""
     addr = Address(0xA)
 
@@ -362,7 +364,7 @@ def test_actual_bal_storage_slot_ordering(storage_slots, error_message):
         ),
     ],
 )
-def test_actual_bal_storage_reads_ordering(storage_reads, error_message):
+def test_actual_bal_storage_reads_ordering(storage_reads: Any, error_message: str) -> None:
     """Test that actual BAL must have storage reads in lexicographic order."""
     addr = Address(0xA)
 
@@ -378,13 +380,13 @@ def test_actual_bal_storage_reads_ordering(storage_reads, error_message):
     "field_name",
     ["nonce_changes", "balance_changes", "code_changes"],
 )
-def test_actual_bal_tx_indices_ordering(field_name):
+def test_actual_bal_tx_indices_ordering(field_name: str) -> None:
     """Test that actual BAL must have tx indices in ascending order."""
     addr = Address(0xA)
 
     tx_indices = [2, 3, 1]  # out of order
 
-    changes = []
+    changes: Any = []
     if field_name == "nonce_changes":
         changes = [BalNonceChange(tx_index=idx, post_nonce=1) for idx in tx_indices]
     elif field_name == "balance_changes":
@@ -407,14 +409,14 @@ def test_actual_bal_tx_indices_ordering(field_name):
     "field_name",
     ["nonce_changes", "balance_changes", "code_changes"],
 )
-def test_actual_bal_duplicate_tx_indices(field_name):
+def test_actual_bal_duplicate_tx_indices(field_name: str) -> None:
     """
     Test that actual BAL must not have duplicate tx indices in change lists.
     """
     addr = Address(0xA)
 
     # Duplicate tx_index=1
-    changes = []
+    changes: Any = []
     if field_name == "nonce_changes":
         changes = [
             BalNonceChange(tx_index=1, post_nonce=1),
@@ -445,7 +447,7 @@ def test_actual_bal_duplicate_tx_indices(field_name):
         expectation.verify_against(actual_bal)
 
 
-def test_actual_bal_storage_duplicate_tx_indices():
+def test_actual_bal_storage_duplicate_tx_indices() -> None:
     """
     Test that storage changes must not have duplicate tx indices within same
     slot.
@@ -480,7 +482,7 @@ def test_actual_bal_storage_duplicate_tx_indices():
         expectation.verify_against(actual_bal)
 
 
-def test_expected_addresses_auto_sorted():
+def test_expected_addresses_auto_sorted() -> None:
     """
     Test that expected addresses are automatically sorted before comparison.
 
@@ -525,7 +527,7 @@ def test_expected_addresses_auto_sorted():
         ([StorageKey(0x02), StorageKey(0x01)], False),
     ],
 )
-def test_expected_storage_slots_ordering(expected_slots, should_pass):
+def test_expected_storage_slots_ordering(expected_slots: Any, should_pass: bool) -> None:
     """Test that expected storage slots must be defined in correct order."""
     addr = Address(0xA)
 
@@ -576,7 +578,7 @@ def test_expected_storage_slots_ordering(expected_slots, should_pass):
         ([StorageKey(0x01), StorageKey(0x03), StorageKey(0x02)], False),
     ],
 )
-def test_expected_storage_reads_ordering(expected_reads, should_pass):
+def test_expected_storage_reads_ordering(expected_reads: Any, should_pass: bool) -> None:
     """Test that expected storage reads must be defined in correct order."""
     addr = Address(0xA)
 
@@ -621,7 +623,7 @@ def test_expected_storage_reads_ordering(expected_reads, should_pass):
         ([1, 3, 2], False),
     ],
 )
-def test_expected_tx_indices_ordering(expected_tx_indices, should_pass):
+def test_expected_tx_indices_ordering(expected_tx_indices: Any, should_pass: bool) -> None:
     """Test that expected tx indices must be defined in correct order."""
     addr = Address(0xA)
 
@@ -660,7 +662,7 @@ def test_expected_tx_indices_ordering(expected_tx_indices, should_pass):
 
 
 @pytest.mark.parametrize("has_change_should_raise", [True, False])
-def test_absent_values_nonce_changes(has_change_should_raise):
+def test_absent_values_nonce_changes(has_change_should_raise: bool) -> None:
     """Test nonce_changes_at_tx validator with present/absent changes."""
     alice = Address(0xA)
 
@@ -697,7 +699,7 @@ def test_absent_values_nonce_changes(has_change_should_raise):
 
 
 @pytest.mark.parametrize("has_change_should_raise", [True, False])
-def test_absent_values_balance_changes(has_change_should_raise):
+def test_absent_values_balance_changes(has_change_should_raise: bool) -> None:
     """Test balance_changes_at_tx validator with present/absent changes."""
     alice = Address(0xA)
 
@@ -736,7 +738,7 @@ def test_absent_values_balance_changes(has_change_should_raise):
 
 
 @pytest.mark.parametrize("has_change_should_raise", [True, False])
-def test_absent_values_storage_changes(has_change_should_raise):
+def test_absent_values_storage_changes(has_change_should_raise: bool) -> None:
     """Test storage_changes_at_slots validator with present/absent changes."""
     contract = Address(0xC)
 
@@ -787,7 +789,7 @@ def test_absent_values_storage_changes(has_change_should_raise):
 
 
 @pytest.mark.parametrize("has_read_should_raise", [True, False])
-def test_absent_values_storage_reads(has_read_should_raise):
+def test_absent_values_storage_reads(has_read_should_raise: bool) -> None:
     """Test storage_reads_at_slots validator with present/absent reads."""
     contract = Address(0xC)
 
@@ -822,7 +824,7 @@ def test_absent_values_storage_reads(has_read_should_raise):
 
 
 @pytest.mark.parametrize("has_change_should_raise", [True, False])
-def test_absent_values_code_changes(has_change_should_raise):
+def test_absent_values_code_changes(has_change_should_raise: bool) -> None:
     """Test code_changes_at_tx validator with present/absent changes."""
     alice = Address(0xA)
 
@@ -858,7 +860,7 @@ def test_absent_values_code_changes(has_change_should_raise):
         expectation.verify_against(actual_bal)
 
 
-def test_multiple_absent_valuess():
+def test_multiple_absent_valuess() -> None:
     """Test multiple absence validators working together."""
     contract = Address(0xC)
 
@@ -920,7 +922,7 @@ def test_multiple_absent_valuess():
     expectation.verify_against(actual_bal)
 
 
-def test_absent_values_with_multiple_tx_indices():
+def test_absent_values_with_multiple_tx_indices() -> None:
     """Test absence validators with multiple transaction indices."""
     alice = Address(0xA)
 
@@ -975,7 +977,7 @@ def test_absent_values_with_multiple_tx_indices():
         expectation_fail.verify_against(actual_bal)
 
 
-def test_bal_account_absent_values_comprehensive():
+def test_bal_account_absent_values_comprehensive() -> None:
     """Test comprehensive BalAccountAbsentValues usage."""
     addr = Address(0xA)
 
@@ -1107,7 +1109,9 @@ def test_bal_account_absent_values_comprehensive():
         ("storage_reads", []),
     ],
 )
-def test_bal_account_absent_values_empty_list_validation_raises(field_name, field_value):
+def test_bal_account_absent_values_empty_list_validation_raises(
+    field_name: str, field_value: Any
+) -> None:
     """
     Test that empty lists in BalAccountAbsentValues fields
     raise appropriate errors.
@@ -1116,7 +1120,7 @@ def test_bal_account_absent_values_empty_list_validation_raises(field_name, fiel
         BalAccountAbsentValues(**{field_name: field_value})
 
 
-def test_bal_account_absent_values_empty_slot_changes_raises():
+def test_bal_account_absent_values_empty_slot_changes_raises() -> None:
     """
     Test that empty slot_changes in storage_changes
     raises appropriate error.

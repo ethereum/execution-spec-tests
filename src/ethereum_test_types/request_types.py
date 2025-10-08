@@ -125,7 +125,7 @@ class Requests:
         self,
         *requests: RequestBase,
         requests_lists: List[List[RequestBase] | Bytes] | None = None,
-    ):
+    ) -> None:
         """Initialize requests object."""
         if requests_lists is not None:
             assert len(requests) == 0, "requests must be empty if list is provided"

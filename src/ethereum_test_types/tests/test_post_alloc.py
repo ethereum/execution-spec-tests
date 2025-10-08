@@ -103,7 +103,7 @@ def alloc(request: pytest.FixtureRequest) -> Alloc:
 )
 def test_verify_post_alloc(
     post: Alloc, alloc: Alloc, expected_exception_type: Type[Exception] | None
-):
+) -> None:
     """Test `verify_post_alloc` method of `Alloc`."""
     if expected_exception_type is None:
         post.verify_post_alloc(alloc)

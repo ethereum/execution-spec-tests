@@ -107,7 +107,7 @@ class TestParameterGroup(BaseModel):
 
     model_config = ConfigDict(frozen=True, validate_default=True)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Generate repr string, intended to be used as a test id, based on the
         class name and the values of the non-default optional fields.

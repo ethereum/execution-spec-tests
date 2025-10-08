@@ -212,7 +212,7 @@ class Section(CopyValidateModel):
             + max_stack_increase.to_bytes(length=TYPES_STACK_BYTE_LENGTH, byteorder="big")
         )
 
-    def with_max_stack_height(self, max_stack_height) -> "Section":
+    def with_max_stack_height(self, max_stack_height: int) -> "Section":
         """
         Create copy of the section with `max_stack_height` set to the specified
         value.
@@ -270,7 +270,7 @@ class Section(CopyValidateModel):
 
     @classmethod
     def Code(  # noqa: N802
-        cls, code: Optional[BytesConvertible | Bytecode] = None, **kwargs
+        cls, code: Optional[BytesConvertible | Bytecode] = None, **kwargs: Any
     ) -> "Section":
         """Create new code section with the specified code."""
         if code is None:
@@ -287,14 +287,14 @@ class Section(CopyValidateModel):
 
     @classmethod
     def Container(  # noqa: N802
-        cls, container: "Container" | BytesConvertible, **kwargs
+        cls, container: "Container" | BytesConvertible, **kwargs: Any
     ) -> "Section":
         """Create new container section with the specified container."""
         kwargs.pop("kind", None)
         return cls(kind=SectionKind.CONTAINER, data=container, **kwargs)
 
     @classmethod
-    def Data(cls, data: BytesConvertible = b"", **kwargs) -> "Section":  # noqa: N802
+    def Data(cls, data: BytesConvertible = b"", **kwargs: Any) -> "Section":  # noqa: N802
         """Create new data section with the specified data."""
         kwargs.pop("kind", None)
         return cls(kind=SectionKind.DATA, data=data, **kwargs)
@@ -437,7 +437,7 @@ class Container(CopyValidateModel):
         return c
 
     @classmethod
-    def Code(cls, code: Optional[BytesConvertible] = None, **kwargs) -> "Container":  # noqa: N802
+    def Code(cls, code: Optional[BytesConvertible] = None, **kwargs: Any) -> "Container":  # noqa: N802
         """Create simple container with a single code section."""
         if code is None:
             code = Bytecode()

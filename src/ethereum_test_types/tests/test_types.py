@@ -27,24 +27,24 @@ from ..transaction_types import (
 )
 
 
-def test_storage():
+def test_storage() -> None:
     """Test `ethereum_test.types.storage` parsing."""
-    s = Storage({"10": "0x10"})
+    s = Storage({"10": "0x10"})  # type: ignore[dict-item]
 
     assert 10 in s
     assert s[10] == 16
 
-    s = Storage({"10": "10"})
+    s = Storage({"10": "10"})  # type: ignore[dict-item]
 
     assert 10 in s
     assert s[10] == 10
 
-    s = Storage({10: 10})
+    s = Storage({10: 10})  # type: ignore[dict-item]
 
     assert 10 in s
     assert s[10] == 10
 
-    iter_s = iter(Storage({10: 20, "11": "21"}))
+    iter_s = iter(Storage({10: 20, "11": "21"}))  # type: ignore[dict-item]
     assert next(iter_s) == 10
     assert next(iter_s) == 11
 
@@ -62,7 +62,7 @@ def test_storage():
     assert "0xa" not in s
     assert 10 not in s
 
-    s = Storage({-1: -1, -2: -2})
+    s = Storage({-1: -1, -2: -2})  # type: ignore[dict-item]
     assert s[-1] == 2**256 - 1
     assert s[-2] == 2**256 - 2
     d = to_json(s)
@@ -137,7 +137,7 @@ def test_storage():
         ),
     ],
 )
-def test_empty_accounts(account: Account):
+def test_empty_accounts(account: Account) -> None:
     """Test `ethereum_test.types.account` parsing."""
     assert not bool(account)
 
@@ -317,7 +317,9 @@ def test_empty_accounts(account: Account):
         ),
     ],
 )
-def test_account_check_alloc(account: Account, alloc_dict: Dict[Any, Any], should_pass: bool):
+def test_account_check_alloc(
+    account: Account, alloc_dict: Dict[Any, Any], should_pass: bool
+) -> None:
     """Test `Account.check_alloc` method."""
     alloc_account = Account(**alloc_dict)
     if should_pass:
@@ -356,7 +358,7 @@ def test_account_check_alloc(account: Account, alloc_dict: Dict[Any, Any], shoul
         ),
     ],
 )
-def test_alloc_append(alloc_1: Alloc, alloc_2: Alloc, expected_alloc: Alloc):
+def test_alloc_append(alloc_1: Alloc, alloc_2: Alloc, expected_alloc: Alloc) -> None:
     """Test `ethereum_test.types.alloc` merging."""
     assert Alloc.merge(alloc_1, alloc_2) == expected_alloc
 
@@ -392,7 +394,7 @@ def test_alloc_append(alloc_1: Alloc, alloc_2: Alloc, expected_alloc: Alloc):
 )
 def test_account_merge(
     account_1: Account | None, account_2: Account | None, expected_account: Account
-):
+) -> None:
     """Test `ethereum_test.types.account` merging."""
     assert Account.merge(account_1, account_2) == expected_account
 
@@ -642,13 +644,13 @@ class TestPydanticModelConversion:
 
     def test_json_serialization(
         self, can_be_deserialized: bool, model_instance: Any, json: str | Dict[str, Any]
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         assert to_json(model_instance) == json
 
     def test_json_deserialization(
         self, can_be_deserialized: bool, model_instance: Any, json: str | Dict[str, Any]
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         if not can_be_deserialized:
             pytest.skip(reason="The model instance in this case can not be deserialized")
@@ -686,8 +688,8 @@ class TestPydanticModelConversion:
     ],
 )
 def test_transaction_post_init_invalid_arg_combinations(  # noqa: D103
-    invalid_tx_args, expected_exception, expected_exception_substring
-):
+    invalid_tx_args: Any, expected_exception: Any, expected_exception_substring: str
+) -> None:
     """
     Test that Transaction.__post_init__ raises the expected exceptions for
     invalid constructor argument combinations.
@@ -765,7 +767,7 @@ def test_transaction_post_init_invalid_arg_combinations(  # noqa: D103
         ),
     ],
 )
-def test_transaction_post_init_defaults(tx_args, expected_attributes_and_values):
+def test_transaction_post_init_defaults(tx_args: Any, expected_attributes_and_values: Any) -> None:
     """
     Test that Transaction.__post_init__ sets the expected default values for
     missing fields.
@@ -834,7 +836,7 @@ def test_transaction_post_init_defaults(tx_args, expected_attributes_and_values)
         ),
     ],
 )
-def test_withdrawals_root(withdrawals: List[Withdrawal], expected_root: bytes):
+def test_withdrawals_root(withdrawals: List[Withdrawal], expected_root: bytes) -> None:
     """Test that withdrawals_root returns the expected hash."""
     assert Withdrawal.list_root(withdrawals) == expected_root
 
@@ -846,7 +848,7 @@ def test_withdrawals_root(withdrawals: List[Withdrawal], expected_root: bytes):
     ],
     ids=lambda model: model.__class__.__name__,
 )
-def test_model_copy(model: CopyValidateModel):
+def test_model_copy(model: CopyValidateModel) -> None:
     """Test that the copy method returns a correct copy of the model."""
     assert to_json(model.copy()) == to_json(model)
     assert model.copy().model_fields_set == model.model_fields_set
@@ -961,6 +963,6 @@ def test_model_copy(model: CopyValidateModel):
         ),
     ],
 )
-def test_serialization(value: Any, expected: Bytes):
+def test_serialization(value: Any, expected: Bytes) -> None:
     """Test `to_serializable_element` function."""
     assert value.rlp().hex() == expected.hex()
