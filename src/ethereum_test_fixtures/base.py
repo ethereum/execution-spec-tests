@@ -71,7 +71,7 @@ class BaseFixture(CamelModel):
         return cls.format_name.replace("test", "tests")
 
     @classmethod
-    def __pydantic_init_subclass__(cls, **kwargs):
+    def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         """
         Register all subclasses of BaseFixture with a fixture format name set
         as possible fixture formats.
@@ -132,7 +132,7 @@ class BaseFixture(CamelModel):
         fixture_source_url: str,
         ref_spec: ReferenceSpec | None,
         _info_metadata: Dict[str, Any],
-    ):
+    ) -> None:
         """Fill the info field for this fixture."""
         if "comment" not in self.info:
             self.info["comment"] = "`execution-spec-tests` generated test"

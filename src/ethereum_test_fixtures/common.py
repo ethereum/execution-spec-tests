@@ -58,7 +58,7 @@ class FixtureAuthorizationTuple(
         """Return FixtureAuthorizationTuple from an AuthorizationTuple."""
         return cls(**auth_tuple.model_dump())
 
-    def sign(self):
+    def sign(self) -> None:
         """Sign the current object for further serialization."""
         # No-op, as the object is always already signed
         return

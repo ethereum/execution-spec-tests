@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, ItemsView, Iterator, KeysView, ValuesView
 
 from filelock import FileLock
 from pydantic import SerializeAsAny
@@ -27,31 +27,31 @@ class Fixtures(EthereumTestRootModel):
 
     root: Dict[str, SerializeAsAny[BaseFixture]]
 
-    def __setitem__(self, key: str, value: Any):  # noqa: D105
+    def __setitem__(self, key: str, value: BaseFixture) -> None:  # noqa: D105
         self.root[key] = value
 
-    def __getitem__(self, item):  # noqa: D105
+    def __getitem__(self, item: str) -> SerializeAsAny[BaseFixture]:  # noqa: D105
         return self.root[item]
 
-    def __iter__(self):  # noqa: D105
+    def __iter__(self) -> Iterator[str]:  # type: ignore [override]  # noqa: D105
         return iter(self.root)
 
-    def __contains__(self, item):  # noqa: D105
+    def __contains__(self, item: str) -> bool:  # noqa: D105
         return item in self.root
 
-    def __len__(self):  # noqa: D105
+    def __len__(self) -> int:  # noqa: D105
         return len(self.root)
 
-    def keys(self):  # noqa: D102
+    def keys(self) -> KeysView[str]:  # noqa: D102
         return self.root.keys()
 
-    def values(self):  # noqa: D102
+    def values(self) -> ValuesView[SerializeAsAny[BaseFixture]]:  # noqa: D102
         return self.root.values()
 
-    def items(self):  # noqa: D102
+    def items(self) -> ItemsView[str, SerializeAsAny[BaseFixture]]:  # noqa: D102
         return self.root.items()
 
-    def collect_into_file(self, file_path: Path):
+    def collect_into_file(self, file_path: Path) -> None:
         """
         For all formats, we join the fixtures as json into a single file.
 

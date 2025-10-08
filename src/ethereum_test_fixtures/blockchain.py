@@ -8,8 +8,10 @@ from typing import (
     ClassVar,
     List,
     Literal,
+    Self,
     Set,
     Tuple,
+    Type,
     Union,
     cast,
     get_args,
@@ -51,7 +53,7 @@ from .base import BaseFixture, FixtureFillingPhase
 from .common import FixtureAuthorizationTuple, FixtureBlobSchedule
 
 
-def post_state_validator(alternate_field: str | None = None, mode: str = "after"):
+def post_state_validator(alternate_field: str | None = None, mode: str = "after") -> Any:
     """
     Create a validator to ensure exactly one post-state field is provided.
 
@@ -59,9 +61,9 @@ def post_state_validator(alternate_field: str | None = None, mode: str = "after"
     'post_state_diff'). mode: Pydantic validation mode.
     """
 
-    def decorator(cls):
-        @model_validator(mode=mode)
-        def validate_post_state_fields(self):
+    def decorator(cls: Type[Any]) -> Type[Any]:
+        @model_validator(mode=mode)  # type: ignore
+        def validate_post_state_fields(self: Any) -> Any:
             """Ensure exactly one post-state field is provided."""
             if mode == "after":
                 # Determine which fields to check
@@ -108,7 +110,7 @@ class HeaderForkRequirement(str):
         )
 
     @classmethod
-    def get_from_annotation(cls, field_hints: Any) -> "HeaderForkRequirement | None":
+    def get_from_annotation(cls, field_hints: Any) -> Self | None:
         """Find the annotation in the field args."""
         if isinstance(field_hints, cls):
             return field_hints
@@ -174,7 +176,7 @@ class FixtureHeader(CamelModel):
 
     fork: Fork | None = Field(None, exclude=True)
 
-    def model_post_init(self, __context):
+    def model_post_init(self, __context: Any) -> None:
         """
         Model post init method used to check for required fields of a given
         fork.
@@ -232,7 +234,7 @@ class FixtureHeader(CamelModel):
         return self.rlp.keccak256()
 
     @classmethod
-    def genesis(cls, fork: Fork, env: Environment, state_root: Hash) -> "FixtureHeader":
+    def genesis(cls, fork: Fork, env: Environment, state_root: Hash) -> Self:
         """Get the genesis header for the given fork."""
         environment_values = env.model_dump(exclude_none=True, exclude={"withdrawals"})
         if env.withdrawals is not None:
@@ -250,7 +252,7 @@ class FixtureHeader(CamelModel):
             ),
             "fork": fork,
         }
-        return FixtureHeader(**environment_values, **extras)
+        return cls(**environment_values, **extras)
 
 
 class FixtureExecutionPayload(CamelModel):
@@ -292,7 +294,7 @@ class FixtureExecutionPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         block_access_list: Bytes | None = None,
-    ) -> "FixtureExecutionPayload":
+    ) -> Self:
         """
         Return FixtureExecutionPayload from a FixtureHeader, a list of
         transactions, a list of withdrawals, and an optional block access list.
@@ -359,8 +361,8 @@ class FixtureEngineNewPayload(CamelModel):
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
         block_access_list: Bytes | None = None,
-        **kwargs,
-    ) -> "FixtureEngineNewPayload":
+        **kwargs: Any,
+    ) -> Self:
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
         new_payload_version = fork.engine_new_payload_version(
             block_number=header.number, timestamp=header.timestamp
@@ -431,7 +433,7 @@ class FixtureTransaction(TransactionFixtureConverter, TransactionGeneric[ZeroPad
     initcodes: List[Bytes] | None = None
 
     @classmethod
-    def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
+    def from_transaction(cls, tx: Transaction) -> Self:
         """Return FixtureTransaction from a Transaction."""
         return cls(**tx.model_dump())
 
@@ -443,7 +445,7 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
     """
 
     @classmethod
-    def from_withdrawal(cls, w: WithdrawalGeneric) -> "FixtureWithdrawal":
+    def from_withdrawal(cls, w: WithdrawalGeneric) -> Self:
         """Return FixtureWithdrawal from a Withdrawal."""
         return cls(**w.model_dump())
 
@@ -457,7 +459,7 @@ class WitnessChunk(CamelModel):
     headers: List[str]
 
     @classmethod
-    def parse_witness_chunks(cls, s: str) -> List["WitnessChunk"]:
+    def parse_witness_chunks(cls, s: str) -> List[Self]:
         """
         Parse multiple witness chunks from JSON string.
 
