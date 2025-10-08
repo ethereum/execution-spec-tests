@@ -52,7 +52,7 @@ def gas_measure_contract(
     pre: Alloc,
     fork: Fork,
     modexp_expected: bytes,
-    precompile_gas: int,
+    call_gas_amount: int,
     call_contract_post_storage: Storage,
     call_succeeds: bool,
 ) -> Address:
@@ -68,7 +68,7 @@ def gas_measure_contract(
       storage[3]: hash of return data from precompile
     """
     call_code = Op.CALL(
-        precompile_gas,
+        call_gas_amount,
         Spec.MODEXP_ADDRESS,
         0,
         0,
@@ -112,7 +112,7 @@ def gas_measure_contract(
     )
 
     if call_succeeds:
-        code += Op.SSTORE(call_contract_post_storage.store_next(precompile_gas), gas_calculation)
+        code += Op.SSTORE(call_contract_post_storage.store_next(call_gas_amount), gas_calculation)
         code += Op.RETURNDATACOPY(dest_offset=0, offset=0, size=Op.RETURNDATASIZE())
         code += Op.SSTORE(
             call_contract_post_storage.store_next(keccak256(bytes(modexp_expected))),
@@ -135,6 +135,20 @@ def precompile_gas(fork: Fork, modexp_input: ModExpInput) -> int:
         # Used for `test_modexp_invalid_inputs` we expect the call to not
         # succeed. Return is for completeness.
         return 500 if fork >= Osaka else 200
+
+
+@pytest.fixture
+def call_gas_amount(call_succeeds: bool, precompile_gas: int) -> int:
+    """
+    Gas to provide to the CALL operation. For bound violations, provide extra
+    gas to verify all provided gas is consumed.
+    """
+    if call_succeeds:
+        return precompile_gas
+    else:
+        # Provide 100k extra gas to detect if implementation only charges
+        # calculated amount vs consuming all provided gas
+        return precompile_gas + 100_000
 
 
 @pytest.fixture
