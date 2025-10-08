@@ -603,9 +603,7 @@ def test_mixed_sload_sstore(
     # Build attack code that loops through each contract
     attack_code: Bytecode = (
         Op.JUMPDEST  # Entry point
-        # Store selectors once for all contracts (saves gas)
-        + Op.MSTORE(offset=0, value=BALANCEOF_SELECTOR)
-        + Op.MSTORE(offset=100, value=APPROVE_SELECTOR)
+        + Op.MSTORE(offset=0, value=BALANCEOF_SELECTOR)  # Store selector once for all contracts
     )
 
     for erc20_address in erc20_addresses:
@@ -636,31 +634,35 @@ def test_mixed_sload_sstore(
         )
 
         # For each contract, execute SSTORE operations (approve)
+        # Reuse the same memory layout as balanceOf
         attack_code += (
-            # Initialize counter in memory[132] = number of approve calls
-            Op.MSTORE(offset=132, value=sstore_calls_per_contract)
+            # Store approve selector at memory[0] (reusing same slot)
+            Op.MSTORE(offset=0, value=APPROVE_SELECTOR)
+            # Initialize counter in memory[32] = number of approve calls
+            # (reusing same slot)
+            + Op.MSTORE(offset=32, value=sstore_calls_per_contract)
             # Loop for approve calls
             + While(
-                condition=Op.MLOAD(132) + Op.ISZERO + Op.ISZERO,
+                condition=Op.MLOAD(32) + Op.ISZERO + Op.ISZERO,
                 body=(
-                    # Store spender address at memory[164] (use counter)
-                    Op.MSTORE(offset=164, value=Op.MLOAD(132))
-                    # Store amount at memory[196] (use counter as amount)
-                    + Op.MSTORE(offset=196, value=Op.MLOAD(132))
+                    # Store spender address at memory[64] (use counter)
+                    Op.MSTORE(offset=64, value=Op.MLOAD(32))
+                    # Store amount at memory[96] (use counter as amount)
+                    + Op.MSTORE(offset=96, value=Op.MLOAD(32))
                     # Call approve(spender, amount) on ERC20 contract
-                    # args_offset=128 reads: selector from MEM[128:132] +
-                    # spender from MEM[132:164] + amount from MEM[164:196]
+                    # args_offset=28 reads: selector from MEM[28:32] + spender
+                    # from MEM[32:64] + amount from MEM[64:96]
                     + Op.CALL(
                         address=erc20_address,
                         value=0,
-                        args_offset=128,
+                        args_offset=28,
                         args_size=68,
                         ret_offset=0,
                         ret_size=0,
                     )
                     + Op.POP  # Discard CALL success status
                     # Decrement counter
-                    + Op.MSTORE(offset=132, value=Op.SUB(Op.MLOAD(132), 1))
+                    + Op.MSTORE(offset=32, value=Op.SUB(Op.MLOAD(32), 1))
                 ),
             )
         )
