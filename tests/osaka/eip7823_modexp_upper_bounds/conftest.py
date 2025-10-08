@@ -109,10 +109,10 @@ def gas_measure_contract(
             call_contract_post_storage.store_next(len(modexp_expected) if call_succeeds else 0),
             Op.RETURNDATASIZE(),
         )
+        + Op.SSTORE(call_contract_post_storage.store_next(call_gas_amount), gas_calculation)
     )
 
     if call_succeeds:
-        code += Op.SSTORE(call_contract_post_storage.store_next(call_gas_amount), gas_calculation)
         code += Op.RETURNDATACOPY(dest_offset=0, offset=0, size=Op.RETURNDATASIZE())
         code += Op.SSTORE(
             call_contract_post_storage.store_next(keccak256(bytes(modexp_expected))),
@@ -138,17 +138,22 @@ def precompile_gas(fork: Fork, modexp_input: ModExpInput) -> int:
 
 
 @pytest.fixture
-def call_gas_amount(call_succeeds: bool, precompile_gas: int) -> int:
+def call_gas_amount(call_succeeds: bool, precompile_gas: int, fork: Fork) -> int:
     """
-    Gas to provide to the CALL operation. For bound violations, provide extra
-    gas to verify all provided gas is consumed.
+    Gas to provide to the CALL operation.
     """
     if call_succeeds:
         return precompile_gas
     else:
-        # Provide 100k extra gas to detect if implementation only charges
-        # calculated amount vs consuming all provided gas
-        return precompile_gas + 100_000
+        # For bounds violations with EIP-7825 active, use a reasonable test amount
+        tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+        if tx_gas_limit_cap:
+            # Provide a substantial amount to test "all gas consumed"
+            # but within transaction limits
+            return 10_000_000  # 10M gas - enough to detect the bug
+        else:
+            # Pre-EIP-7825: use calculated amount + extra
+            return precompile_gas + 100_000
 
 
 @pytest.fixture
