@@ -601,63 +601,66 @@ def test_mixed_sload_sstore(
     )
 
     # Build attack code that loops through each contract
-    attack_code: Bytecode = Op.JUMPDEST  # Entry point
+    attack_code: Bytecode = (
+        Op.JUMPDEST  # Entry point
+        # Store selectors once for all contracts (saves gas)
+        + Op.MSTORE(offset=0, value=BALANCEOF_SELECTOR)
+        + Op.MSTORE(offset=100, value=APPROVE_SELECTOR)
+    )
 
     for erc20_address in erc20_addresses:
         # For each contract, execute SLOAD operations (balanceOf)
         attack_code += (
-            # Store function selector at memory[32] once (outside loop)
-            Op.MSTORE(offset=32, value=BALANCEOF_SELECTOR)
-            # Initialize counter in memory[0] = number of balanceOf calls
-            + Op.MSTORE(offset=0, value=sload_calls_per_contract)
+            # Initialize counter in memory[32] = number of balanceOf calls
+            Op.MSTORE(offset=32, value=sload_calls_per_contract)
             # Loop for balanceOf calls
             + While(
-                condition=Op.MLOAD(0) + Op.ISZERO + Op.ISZERO,
+                condition=Op.MLOAD(32) + Op.ISZERO + Op.ISZERO,
                 body=(
-                    # Store address at memory[64] (use counter as address)
-                    Op.MSTORE(offset=64, value=Op.MLOAD(0))
                     # Call balanceOf(address) on ERC20 contract
-                    + Op.CALL(
+                    # args_offset=28 reads: selector from MEM[28:32] + address
+                    # from MEM[32:64]
+                    Op.CALL(
                         address=erc20_address,
                         value=0,
-                        args_offset=32,
+                        args_offset=28,
                         args_size=36,
                         ret_offset=0,
                         ret_size=0,
                     )
                     + Op.POP  # Discard CALL success status
                     # Decrement counter
-                    + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
+                    + Op.MSTORE(offset=32, value=Op.SUB(Op.MLOAD(32), 1))
                 ),
             )
         )
 
         # For each contract, execute SSTORE operations (approve)
         attack_code += (
-            # Store function selector at memory[32] once (outside loop)
-            Op.MSTORE(offset=32, value=APPROVE_SELECTOR)
-            # Initialize counter in memory[0] = number of approve calls
-            + Op.MSTORE(offset=0, value=sstore_calls_per_contract)
+            # Initialize counter in memory[132] = number of approve calls
+            Op.MSTORE(offset=132, value=sstore_calls_per_contract)
             # Loop for approve calls
             + While(
-                condition=Op.MLOAD(0) + Op.ISZERO + Op.ISZERO,
+                condition=Op.MLOAD(132) + Op.ISZERO + Op.ISZERO,
                 body=(
-                    # Store spender address at memory[64] (use counter)
-                    Op.MSTORE(offset=64, value=Op.MLOAD(0))
-                    # Store amount at memory[96] (use counter as amount)
-                    + Op.MSTORE(offset=96, value=Op.MLOAD(0))
+                    # Store spender address at memory[164] (use counter)
+                    Op.MSTORE(offset=164, value=Op.MLOAD(132))
+                    # Store amount at memory[196] (use counter as amount)
+                    + Op.MSTORE(offset=196, value=Op.MLOAD(132))
                     # Call approve(spender, amount) on ERC20 contract
+                    # args_offset=128 reads: selector from MEM[128:132] +
+                    # spender from MEM[132:164] + amount from MEM[164:196]
                     + Op.CALL(
                         address=erc20_address,
                         value=0,
-                        args_offset=32,
+                        args_offset=128,
                         args_size=68,
                         ret_offset=0,
                         ret_size=0,
                     )
                     + Op.POP  # Discard CALL success status
                     # Decrement counter
-                    + Op.MSTORE(offset=0, value=Op.SUB(Op.MLOAD(0), 1))
+                    + Op.MSTORE(offset=132, value=Op.SUB(Op.MLOAD(132), 1))
                 ),
             )
         )
