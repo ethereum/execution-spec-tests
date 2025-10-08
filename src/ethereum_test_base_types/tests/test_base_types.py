@@ -125,7 +125,7 @@ from ..composite_types import AccessList
         (2, Hash("0x0000000000000000000000000000000000000000000000000000000000000001"), False),
     ],
 )
-def test_comparisons(a: Any, b: Any, equal: bool):
+def test_comparisons(a: Any, b: Any, equal: bool) -> None:
     """Test the comparison methods of the base types."""
     if equal:
         assert a == b
@@ -135,7 +135,7 @@ def test_comparisons(a: Any, b: Any, equal: bool):
         assert not a == b
 
 
-def test_hash_padding():
+def test_hash_padding() -> None:
     """Test Hash objects are padded correctly."""
     assert Hash(b"\x01", left_padding=True) == (
         "0x0000000000000000000000000000000000000000000000000000000000000001"
@@ -145,7 +145,7 @@ def test_hash_padding():
     )
 
 
-def test_address_padding():
+def test_address_padding() -> None:
     """Test that addresses are padded correctly."""
     assert Address(b"\x01", left_padding=True) == Address(
         "0x0000000000000000000000000000000000000001"
@@ -190,7 +190,7 @@ def test_address_padding():
         ("1 milli", 10**15),
     ],
 )
-def test_wei_parsing(s: str, expected: int):
+def test_wei_parsing(s: str, expected: int) -> None:
     """Test the parsing of wei values."""
     assert Wei(s) == expected
 
@@ -220,13 +220,13 @@ class TestPydanticModelConversion:
 
     def test_json_serialization(
         self, can_be_deserialized: bool, model_instance: Any, json: str | Dict[str, Any]
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         assert to_json(model_instance) == json
 
     def test_json_deserialization(
         self, can_be_deserialized: bool, model_instance: Any, json: str | Dict[str, Any]
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         if not can_be_deserialized:
             pytest.skip(reason="The model instance in this case can not be deserialized")

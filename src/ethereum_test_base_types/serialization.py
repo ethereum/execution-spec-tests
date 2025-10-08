@@ -79,7 +79,7 @@ class RLPSerializable:
         """
         return b""
 
-    def sign(self):
+    def sign(self) -> None:
         """Sign the current object for further serialization."""
         raise NotImplementedError(f'Object "{self.__class__.__name__}" cannot be signed.')
 
@@ -147,6 +147,6 @@ class SignableRLPSerializable(RLPSerializable):
 
     signable: ClassVar[bool] = True
 
-    def sign(self):
+    def sign(self) -> None:
         """Sign the current object for further serialization."""
         raise NotImplementedError(f'Object "{self.__class__.__name__}" needs to implement `sign`.')

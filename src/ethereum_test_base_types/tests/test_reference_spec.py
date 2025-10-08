@@ -1,6 +1,7 @@
 """Test suite for `ethereum_test_base_types.reference_spec` module."""
 
 import re
+from typing import Any
 
 import pytest
 import requests
@@ -60,10 +61,10 @@ c2xvZy53b3JkcHJlc3MuY29tLzIwMTYvMDQvMjgvdW5jbGUtbWluaW5nLWFu\
 LWV0aGVyZXVtLWNvbnNlbnN1cy1wcm90b2NvbC1mbGF3Lwo="
 
 
-def test_git_reference_spec(monkeypatch):
+def test_git_reference_spec(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test Git reference spec."""
 
-    def mock_get(self, headers=None):
+    def mock_get(self: Any, headers: Any | None = None) -> object:
         del self, headers
 
         class Response:
