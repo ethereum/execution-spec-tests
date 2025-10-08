@@ -434,13 +434,20 @@ def pre(
     contract_address_iterator: Iterator[Address],
     eoa_iterator: Iterator[EOA],
     evm_code_type: EVMCodeType,
-    fork: Fork,
+    fork: Fork | None,
+    request: pytest.FixtureRequest,
 ) -> Alloc:
     """Return default pre allocation for all tests (Empty alloc)."""
+    # FIXME: Static tests dont have a fork so we need to get it from the node.
+    actual_fork = fork
+    if actual_fork is None:
+        assert hasattr(request.node, "fork")
+        actual_fork = request.node.fork
+
     return Alloc(
         alloc_mode=alloc_mode,
         contract_address_iterator=contract_address_iterator,
         eoa_iterator=eoa_iterator,
-        fork=fork,
+        fork=actual_fork,
         evm_code_type=evm_code_type,
     )
