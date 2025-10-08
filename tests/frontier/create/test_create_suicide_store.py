@@ -3,7 +3,7 @@ Test dynamically created address is still callable and perform storage operation
 after being called for self destruct in a call.
 """
 
-from enum import Enum
+from enum import IntEnum
 
 import pytest
 
@@ -11,8 +11,7 @@ from ethereum_test_forks import Byzantium, Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
-    Case,
-    Environment,
+    CalldataCase,
     Initcode,
     StateTestFiller,
     Storage,
@@ -23,16 +22,12 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Opcodes as Op
 
 
-class Operation(Enum):
+class Operation(IntEnum):
     """Enum for created contract actions."""
 
     SUICIDE = 1
     ADD_STORAGE = 2
     GET_STORAGE = 3
-
-    def __int__(self):
-        """Convert to int."""
-        return int(self.value)
 
 
 @pytest.mark.ported_from(
@@ -50,7 +45,7 @@ def test_create_suicide_store(
     fork: Fork,
     pre: Alloc,
     create_opcode: Op,
-):
+) -> None:
     """
     Create dynamic contract that suicides, then called to push some storage
     and then called to return that storage value.
@@ -60,12 +55,12 @@ def test_create_suicide_store(
     suicide_initcode: Initcode = Initcode(
         deploy_code=Switch(
             cases=[
-                Case(
-                    condition=Op.EQ(Op.CALLDATALOAD(0), int(Operation.SUICIDE)),
-                    action=Op.SELFDESTRUCT(0x11),
+                CalldataCase(
+                    value=Operation.SUICIDE,
+                    action=Op.SELFDESTRUCT(pre.empty_account()),
                 ),
-                Case(
-                    condition=Op.EQ(Op.CALLDATALOAD(0), int(Operation.ADD_STORAGE)),
+                CalldataCase(
+                    value=Operation.ADD_STORAGE,
                     action=Op.SSTORE(1, Op.ADD(Op.SLOAD(1), subcall_storage))
                     + (
                         Op.TSTORE(1, Op.ADD(Op.TLOAD(1), subcall_storage))
@@ -73,8 +68,8 @@ def test_create_suicide_store(
                         else Op.STOP
                     ),
                 ),
-                Case(
-                    condition=Op.EQ(Op.CALLDATALOAD(0), int(Operation.GET_STORAGE)),
+                CalldataCase(
+                    value=Operation.GET_STORAGE,
                     action=(
                         Op.MSTORE(0, Op.ADD(Op.SLOAD(1), Op.TLOAD(1)))
                         if tload_support
@@ -94,17 +89,17 @@ def test_create_suicide_store(
     slot_after_suicide_sstore_return = 1
     slot_program_success = 2
     create_contract = pre.deploy_contract(
-        code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
+        code=Op.CALLDATACOPY(size=Op.CALLDATASIZE())
         + Op.SSTORE(slot_create_result, create_opcode(size=Op.CALLDATASIZE()))
         # Put some storage before suicide
-        + Op.MSTORE(64, int(Operation.ADD_STORAGE))
+        + Op.MSTORE(64, Operation.ADD_STORAGE)
         + Op.CALL(
             gas=Op.SUB(Op.GAS, 300_000),
             address=Op.SLOAD(slot_create_result),
             args_offset=64,
             args_size=32,
         )
-        + Op.MSTORE(64, int(Operation.SUICIDE))
+        + Op.MSTORE(64, Operation.SUICIDE)
         + Op.CALL(
             gas=Op.SUB(Op.GAS, 300_000),
             address=Op.SLOAD(slot_create_result),
@@ -112,14 +107,14 @@ def test_create_suicide_store(
             args_size=32,
         )
         # Put some storage after suicide
-        + Op.MSTORE(64, int(Operation.ADD_STORAGE))
+        + Op.MSTORE(64, Operation.ADD_STORAGE)
         + Op.CALL(
             gas=Op.SUB(Op.GAS, 300_000),
             address=Op.SLOAD(slot_create_result),
             args_offset=64,
             args_size=32,
         )
-        + Op.MSTORE(64, int(Operation.GET_STORAGE))
+        + Op.MSTORE(64, Operation.GET_STORAGE)
         + Op.CALL(
             gas=Op.SUB(Op.GAS, 300_000),
             address=Op.SLOAD(0),
@@ -146,7 +141,6 @@ def test_create_suicide_store(
         gas_limit=1_000_000,
         to=create_contract,
         data=suicide_initcode,
-        nonce=0,
         sender=sender,
         protected=fork >= Byzantium,
     )
@@ -155,4 +149,4 @@ def test_create_suicide_store(
         create_contract: Account(storage=expect_post),
         expected_create_address: Account.NONEXISTENT,
     }
-    state_test(env=Environment(), pre=pre, post=post, tx=tx)
+    state_test(pre=pre, post=post, tx=tx)
