@@ -1241,7 +1241,7 @@ class Cancun(Shanghai):
             block_number=block_number, timestamp=timestamp
         )
 
-        def fn(*, excess_blob_gas) -> int:
+        def fn(*, excess_blob_gas: int) -> int:
             return fake_exponential(
                 min_base_fee_per_blob_gas,
                 excess_blob_gas,
@@ -1748,7 +1748,9 @@ class Osaka(Prague, solc_name="cancun"):
         return 2
 
     @classmethod
-    def full_blob_tx_wrapper_version(cls, *, block_number=0, timestamp=0) -> int | None:
+    def full_blob_tx_wrapper_version(
+        cls, *, block_number: int = 0, timestamp: int = 0
+    ) -> int | None:
         """At Osaka, the full blob transaction wrapper version is defined."""
         return 1
 
