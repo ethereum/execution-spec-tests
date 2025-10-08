@@ -8,6 +8,7 @@ from typing import List, Tuple
 import pytest
 
 from ethereum_test_base_types import Address, HexNumber, ZeroPaddedHexNumber
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_fixtures.blockchain import (
     FixtureBlockBase,
     FixtureHeader,
@@ -30,7 +31,6 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_7934.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7934.version
 
 pytestmark = [
-    pytest.mark.valid_from("Osaka"),
     pytest.mark.pre_alloc_group(
         "block_rlp_limit_tests",
         reason="Block RLP size tests require exact calculations",
@@ -384,6 +384,9 @@ def _exact_size_transactions_impl(
     return transactions, final_gas
 
 
+@EIPChecklist.BlockLevelConstraint.Test.Boundary.Under()
+@EIPChecklist.BlockLevelConstraint.Test.Boundary.Exact()
+@EIPChecklist.BlockLevelConstraint.Test.Boundary.Over()
 @pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "delta",
@@ -393,6 +396,7 @@ def _exact_size_transactions_impl(
         pytest.param(1, id="max_rlp_size_plus_1_byte", marks=pytest.mark.exception_test),
     ],
 )
+@pytest.mark.valid_from("Osaka")
 def test_block_at_rlp_size_limit_boundary(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -444,9 +448,11 @@ def test_block_at_rlp_size_limit_boundary(
     )
 
 
+@EIPChecklist.BlockLevelConstraint.Test.Content.TransactionTypes()
 @pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.with_all_typed_transactions
 @pytest.mark.verify_sync
+@pytest.mark.valid_from("Osaka")
 def test_block_rlp_size_at_limit_with_all_typed_transactions(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -484,8 +490,10 @@ def test_block_rlp_size_at_limit_with_all_typed_transactions(
     )
 
 
+@EIPChecklist.BlockLevelConstraint.Test.Content.Logs()
 @pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.verify_sync
+@pytest.mark.valid_from("Osaka")
 def test_block_at_rlp_limit_with_logs(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -523,4 +531,104 @@ def test_block_at_rlp_limit_with_logs(
         pre=pre,
         post=post,
         blocks=[block],
+    )
+
+
+@EIPChecklist.BlockLevelConstraint.Test.ForkTransition.AcceptedBeforeFork()
+@EIPChecklist.BlockLevelConstraint.Test.ForkTransition.AcceptedAfterFork()
+@EIPChecklist.BlockLevelConstraint.Test.ForkTransition.RejectedAfterFork()
+@pytest.mark.parametrize(
+    "exceeds_limit_at_fork",
+    [
+        pytest.param(False, id="at_fork_within_limit"),
+        pytest.param(True, marks=pytest.mark.exception_test, id="at_fork_exceeds_limit"),
+    ],
+)
+@pytest.mark.valid_at_transition_to("Osaka")
+def test_fork_transition_block_rlp_limit(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    env: Environment,
+    fork: Fork,
+    exceeds_limit_at_fork: bool,
+    block_size_limit: int,
+):
+    """
+    Test block RLP size limit at fork transition boundary.
+
+    - Before fork (timestamp 14999): Block at limit +1 should be accepted
+    - At fork (timestamp 15000): Block at limit should be accepted
+    - At fork (timestamp 15000): Block at limit +1 should be rejected
+    """
+    sender_before_fork = pre.fund_eoa()
+    sender_at_fork = pre.fund_eoa()
+
+    transactions_before, gas_used_before = exact_size_transactions(
+        sender_before_fork,
+        block_size_limit,
+        fork,
+        pre,
+        env.gas_limit,
+    )
+
+    transactions_at_fork, gas_used_at_fork = exact_size_transactions(
+        sender_at_fork,
+        block_size_limit,
+        fork,
+        pre,
+        env.gas_limit,
+    )
+
+    for fork_block_rlp_size in [
+        get_block_rlp_size(transactions_before, gas_used=gas_used_before),
+        get_block_rlp_size(transactions_at_fork, gas_used=gas_used_at_fork),
+    ]:
+        assert fork_block_rlp_size == block_size_limit, (
+            f"Block RLP size {fork_block_rlp_size} does not exactly match "
+            f"limit {block_size_limit}, difference: "
+            f"{fork_block_rlp_size - block_size_limit} bytes"
+        )
+
+    # HEADER_TIMESTAMP (123456789) used in calculation takes 4 bytes in RLP
+    # encoding. Transition timestamps (14_999 and 15_000) take 2 bytes
+    # Re-define `_extradata_at_limit` accounting for this difference
+    timestamp_byte_savings = 2
+    _extradata_at_limit = EXTRA_DATA_AT_LIMIT + (b"\x00" * timestamp_byte_savings)
+
+    blocks = [
+        # before fork, block at limit +1 should be accepted
+        Block(
+            timestamp=14_999,
+            txs=transactions_before,
+            # +1 to exceed limit
+            extra_data=Bytes(_extradata_at_limit + b"\x00"),
+        )
+    ]
+
+    # At fork (timestamp 15000): Test behavior with and without exceeding limit
+    if exceeds_limit_at_fork:
+        blocks.append(
+            Block(
+                timestamp=15_000,
+                txs=transactions_at_fork,
+                # +1 to exceed limit, should be rejected
+                extra_data=Bytes(_extradata_at_limit + b"\x00"),
+                exception=BlockException.RLP_BLOCK_LIMIT_EXCEEDED,
+            )
+        )
+    else:
+        blocks.append(
+            Block(
+                timestamp=15_000,
+                txs=transactions_at_fork,
+                # exact limit should be accepted
+                extra_data=Bytes(EXTRA_DATA_AT_LIMIT),
+            )
+        )
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=blocks,
     )
