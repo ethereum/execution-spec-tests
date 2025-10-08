@@ -1357,6 +1357,14 @@
          <lastmod>2025-10-08</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/create/test_create_suicide_store/</loc>
+         <lastmod>2025-10-08</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/create/test_create_suicide_store/test_create_suicide_store/</loc>
+         <lastmod>2025-10-08</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/examples/</loc>
          <lastmod>2025-10-08</lastmod>
     </url>
