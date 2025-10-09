@@ -40,7 +40,7 @@ def test_account_storage_warm_cold_state(
     fork: Fork,
     account_warm: bool,
     storage_key_warm: bool,
-):
+) -> None:
     """Test type 1 transaction."""
     env = Environment()
     gas_costs = fork.gas_costs()
@@ -204,7 +204,7 @@ def test_transaction_intrinsic_gas_cost(
     fork: Fork,
     access_lists: List[AccessList],
     enough_gas: bool,
-):
+) -> None:
     """Test type 1 transaction."""
     env = Environment()
 
@@ -259,7 +259,7 @@ def test_repeated_address_acl(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     Tests that slots are warmed correctly in an access list that has the same
     address repeated more than once, each time with different slots.

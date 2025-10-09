@@ -87,7 +87,7 @@ def test_precompile_warming(
     precompile_in_successor: bool,
     precompile_in_predecessor: bool,
     pre: Alloc,
-):
+) -> None:
     """
     Call BALANCE of a precompile addresses before and after a fork.
 
