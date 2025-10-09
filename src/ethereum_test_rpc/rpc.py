@@ -3,6 +3,7 @@ JSON-RPC methods and helper functions for EEST consume based hive simulators.
 """
 
 import logging
+import os
 import time
 from itertools import count
 from pprint import pprint
@@ -58,11 +59,12 @@ class SendTransactionExceptionError(Exception):
 
     def __str__(self):
         """Return string representation of the exception."""
+        base = super().__str__()
         if self.tx is not None:
-            f"{super().__str__()} Transaction={self.tx.model_dump_json()}"
+            return f"{base} Transaction={self.tx.model_dump_json()}"
         elif self.tx_rlp is not None:
-            return f"{super().__str__()} Transaction RLP={self.tx_rlp.hex()}"
-        return super().__str__()
+            return f"{base} Transaction RLP={self.tx_rlp.hex()}"
+        return base
 
 
 class BaseRPC:
@@ -183,6 +185,7 @@ class EthRPC(BaseRPC):
     """
 
     transaction_wait_timeout: int = 60
+    poll_interval: float = 1.0  # how often to poll for tx inclusion
 
     BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
@@ -190,6 +193,7 @@ class EthRPC(BaseRPC):
         self,
         *args,
         transaction_wait_timeout: int = 60,
+        poll_interval: float | None = None,
         **kwargs,
     ):
         """
@@ -198,6 +202,20 @@ class EthRPC(BaseRPC):
         """
         super().__init__(*args, **kwargs)
         self.transaction_wait_timeout = transaction_wait_timeout
+
+        # Allow overriding via env "flag" EEST_POLL_INTERVAL or ctor arg
+        # Priority: ctor arg > env var > default (1.0)
+        env_val = os.getenv("EEST_POLL_INTERVAL")
+        if poll_interval is not None:
+            self.poll_interval = float(poll_interval)
+        elif env_val:
+            try:
+                self.poll_interval = float(env_val)
+            except ValueError:
+                logger.warning("Invalid EEST_POLL_INTERVAL=%r; falling back to 1.0s", env_val)
+                self.poll_interval = 1.0
+        else:
+            self.poll_interval = 1.0
 
     def config(self, timeout: int | None = None):
         """
@@ -222,7 +240,6 @@ class EthRPC(BaseRPC):
     def chain_id(self) -> int:
         """`eth_chainId`: Returns the current chain id."""
         response = self.post_request(method="chainId", timeout=10)
-
         return int(response, 16)
 
     def get_block_by_number(self, block_number: BlockNumberType = "latest", full_txs: bool = True):
@@ -233,14 +250,12 @@ class EthRPC(BaseRPC):
         block = hex(block_number) if isinstance(block_number, int) else block_number
         params = [block, full_txs]
         response = self.post_request(method="getBlockByNumber", params=params)
-
         return response
 
     def get_block_by_hash(self, block_hash: Hash, full_txs: bool = True):
         """`eth_getBlockByHash`: Returns information about a block by hash."""
         params = [f"{block_hash}", full_txs]
         response = self.post_request(method="getBlockByHash", params=params)
-
         return response
 
     def get_balance(self, address: Address, block_number: BlockNumberType = "latest") -> int:
@@ -249,18 +264,14 @@ class EthRPC(BaseRPC):
         """
         block = hex(block_number) if isinstance(block_number, int) else block_number
         params = [f"{address}", block]
-
         response = self.post_request(method="getBalance", params=params)
-
         return int(response, 16)
 
     def get_code(self, address: Address, block_number: BlockNumberType = "latest") -> Bytes:
         """`eth_getCode`: Returns code at a given address."""
         block = hex(block_number) if isinstance(block_number, int) else block_number
         params = [f"{address}", block]
-
         response = self.post_request(method="getCode", params=params)
-
         return Bytes(response)
 
     def get_transaction_count(
@@ -272,9 +283,7 @@ class EthRPC(BaseRPC):
         """
         block = hex(block_number) if isinstance(block_number, int) else block_number
         params = [f"{address}", block]
-
         response = self.post_request(method="getTransactionCount", params=params)
-
         return int(response, 16)
 
     def get_transaction_by_hash(self, transaction_hash: Hash) -> TransactionByHashResponse | None:
@@ -313,7 +322,6 @@ class EthRPC(BaseRPC):
         """
         block = hex(block_number) if isinstance(block_number, int) else block_number
         params = [f"{address}", f"{position}", block]
-
         response = self.post_request(method="getStorageAt", params=params)
         return Hash(response)
 
@@ -323,7 +331,6 @@ class EthRPC(BaseRPC):
         address.
         """
         response = self.post_request(method="gasPrice")
-
         return int(response, 16)
 
     def send_raw_transaction(
@@ -336,7 +343,6 @@ class EthRPC(BaseRPC):
                 params=[transaction_rlp.hex()],
                 request_id=request_id,
             )
-
             result_hash = Hash(response)
             assert result_hash is not None
             return result_hash
@@ -352,7 +358,6 @@ class EthRPC(BaseRPC):
                 params=[transaction.rlp().hex()],
                 request_id=transaction.metadata_string(),
             )
-
             result_hash = Hash(response)
             assert result_hash == transaction.hash
             assert result_hash is not None
@@ -393,7 +398,7 @@ class EthRPC(BaseRPC):
                 return tx
             if (time.time() - start_time) > self.transaction_wait_timeout:
                 break
-            time.sleep(1)
+            time.sleep(self.poll_interval)
         raise Exception(
             f"Transaction {tx_hash} ({transaction.model_dump_json()}) not included in a "
             f"block after {self.transaction_wait_timeout} seconds"
@@ -423,7 +428,7 @@ class EthRPC(BaseRPC):
                 return responses
             if (time.time() - start_time) > self.transaction_wait_timeout:
                 break
-            time.sleep(1)
+            time.sleep(self.poll_interval)
         missing_txs_strings = [
             f"{tx.hash} ({tx.model_dump_json()})" for tx in transactions if tx.hash in tx_hashes
         ]
