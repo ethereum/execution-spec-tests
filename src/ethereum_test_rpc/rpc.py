@@ -212,9 +212,7 @@ class EthRPC(BaseRPC):
             try:
                 self.poll_interval = float(env_val)
             except ValueError:
-                logger.warning(
-                    "Invalid EEST_POLL_INTERVAL=%r; falling back to 1.0s", env_val
-                )
+                logger.warning("Invalid EEST_POLL_INTERVAL=%r; falling back to 1.0s", env_val)
                 self.poll_interval = 1.0
         else:
             self.poll_interval = 1.0
