@@ -181,11 +181,19 @@ _opcode_synonyms = {
 }
 
 
-def validate_opcode(obj: Any) -> Opcodes | Opcode:
+class UndefinedOpcode(HexNumber):
+    """Undefined opcode."""
+
+    pass
+
+
+def validate_opcode(obj: Any) -> Opcodes | Opcode | UndefinedOpcode:
     """Validate an opcode from a string."""
-    if isinstance(obj, Opcode) or isinstance(obj, Opcodes):
+    if isinstance(obj, (Opcode, Opcodes, UndefinedOpcode)):
         return obj
     if isinstance(obj, str):
+        if obj.startswith("0x"):
+            return UndefinedOpcode(obj)
         if obj in _opcode_synonyms:
             obj = _opcode_synonyms[obj]
         for op in Opcodes:
@@ -198,7 +206,12 @@ class OpcodeCount(EthereumTestRootModel):
     """Opcode count returned from the evm tool."""
 
     root: Dict[
-        Annotated[Opcodes, PlainValidator(validate_opcode), PlainSerializer(lambda o: str(o))], int
+        Annotated[
+            Opcodes | UndefinedOpcode,
+            PlainValidator(validate_opcode),
+            PlainSerializer(lambda o: str(o)),
+        ],
+        int,
     ]
 
     def __add__(self, other: Self) -> Self:
