@@ -89,7 +89,7 @@ def test_consolidation_requests_during_fork(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],
     pre: Alloc,
-):
+) -> None:
     """
     Test making a consolidation request to the beacon chain at the time of the
     fork.

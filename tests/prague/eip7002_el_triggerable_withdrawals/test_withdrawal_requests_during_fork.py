@@ -89,7 +89,7 @@ def test_withdrawal_requests_during_fork(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],
     pre: Alloc,
-):
+) -> None:
     """
     Test making a withdrawal request to the beacon chain at the time of the
     fork.

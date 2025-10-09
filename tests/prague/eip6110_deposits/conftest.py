@@ -11,7 +11,7 @@ from .helpers import DepositInteractionBase, DepositRequest
 
 
 @pytest.fixture
-def update_pre(pre: Alloc, requests: List[DepositInteractionBase]):
+def update_pre(pre: Alloc, requests: List[DepositInteractionBase]) -> None:
     """
     Init state of the accounts. Every deposit transaction defines their own
     pre-state requirements, and this fixture aggregates them all.

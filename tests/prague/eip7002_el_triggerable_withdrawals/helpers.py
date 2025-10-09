@@ -74,7 +74,7 @@ class WithdrawalRequestInteractionBase:
         """Return a transaction for the withdrawal request."""
         raise NotImplementedError
 
-    def update_pre(self, pre: Alloc):
+    def update_pre(self, pre: Alloc) -> None:
         """Return the pre-state of the account."""
         raise NotImplementedError
 
@@ -108,7 +108,7 @@ class WithdrawalRequestTransaction(WithdrawalRequestInteractionBase):
             for request in self.requests
         ]
 
-    def update_pre(self, pre: Alloc):
+    def update_pre(self, pre: Alloc) -> None:
         """Return the pre-state of the account."""
         self.sender_account = pre.fund_eoa(self.sender_balance)
 
@@ -182,7 +182,7 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
             )
         ]
 
-    def update_pre(self, pre: Alloc):
+    def update_pre(self, pre: Alloc) -> None:
         """Return the pre-state of the account."""
         self.sender_account = pre.fund_eoa(self.sender_balance)
         self.contract_address = pre.deploy_contract(

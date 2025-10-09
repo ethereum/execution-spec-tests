@@ -86,7 +86,7 @@ def test_delegate_call_targets(
     target_address: Address,
     delegate: bool,
     call_from_initcode: bool,
-):
+) -> None:
     """
     Test contracts doing delegatecall to various targets resolved via 7702
     delegation.

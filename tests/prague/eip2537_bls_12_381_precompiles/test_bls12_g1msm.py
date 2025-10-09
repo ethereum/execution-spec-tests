@@ -93,7 +93,7 @@ def test_valid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test valid calls to the BLS12_G1MSM precompile."""
     state_test(
         env=Environment(),
@@ -215,7 +215,7 @@ def test_invalid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test invalid calls to the BLS12_G1MSM precompile."""
     state_test(
         env=Environment(),
@@ -254,7 +254,7 @@ def test_call_types(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1MSM precompile using different call types."""
     state_test(
         env=Environment(),

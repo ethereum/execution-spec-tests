@@ -64,7 +64,7 @@ def test_precompile_before_fork(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test all BLS12 precompiles before the Prague hard fork is active.
 

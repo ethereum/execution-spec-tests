@@ -633,7 +633,7 @@ def test_withdrawal_requests(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],
     pre: Alloc,
-):
+) -> None:
     """Test making a withdrawal request to the beacon chain."""
     blockchain_test(
         genesis_environment=Environment(),
@@ -812,7 +812,7 @@ def test_withdrawal_requests_negative(
     requests: List[WithdrawalRequestInteractionBase],
     block_body_override_requests: List[WithdrawalRequest],
     exception: BlockException,
-):
+) -> None:
     """
     Test blocks where the requests list and the actual withdrawal requests that
     happened in the block's transactions do not match.

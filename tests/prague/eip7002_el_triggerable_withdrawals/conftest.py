@@ -16,7 +16,7 @@ from .spec import Spec
 def update_pre(
     pre: Alloc,
     blocks_withdrawal_requests: List[List[WithdrawalRequestInteractionBase]],
-):
+) -> None:
     """
     Init state of the accounts. Every deposit transaction defines their own
     pre-state requirements, and this fixture aggregates them all.

@@ -80,7 +80,7 @@ def test_extra_logs(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     include_deposit_event: bool,
-):
+) -> None:
     """
     Test deposit contract emitting more log event types than the ones in
     mainnet.
@@ -181,7 +181,7 @@ def test_extra_logs(
 @pytest.mark.exception_test
 def test_invalid_layout(
     blockchain_test: BlockchainTestFiller, pre: Alloc, log_argument: str, value: str
-):
+) -> None:
     """
     Test deposit contract emitting logs with invalid layouts (sizes/offsets).
     """
@@ -242,7 +242,9 @@ def test_invalid_layout(
     ],
 )
 @pytest.mark.exception_test
-def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, slice_bytes: bool):
+def test_invalid_log_length(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, slice_bytes: bool
+) -> None:
     """
     Test deposit contract emitting logs with invalid log length (one byte more
     or less).
