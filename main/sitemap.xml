@@ -1873,11 +1873,19 @@
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_at_rlp_limit_with_withdrawals/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_at_rlp_size_limit_boundary/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_rlp_size_at_limit_with_all_typed_transactions/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_fork_transition_block_rlp_limit/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>

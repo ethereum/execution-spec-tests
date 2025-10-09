@@ -5217,6 +5217,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -5319,6 +5323,52 @@
   
   <span class="md-ellipsis">
     <code>test_block_at_rlp_limit_with_logs</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_at_rlp_limit_with_withdrawals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_at_rlp_limit_with_withdrawals</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_fork_transition_block_rlp_limit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_fork_transition_block_rlp_limit</code>
     
   </span>
   
@@ -23277,6 +23327,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#block-level-validation-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Block-Level Validation Constraint
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Block-Level Validation Constraint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-vectors_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Vectors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Vectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#boundary-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boundary Conditions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-variations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content Variations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork-transition_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fork Transition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#framework-changes_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Framework Changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -31258,6 +31374,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#block-level-validation-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Block-Level Validation Constraint
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Block-Level Validation Constraint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-vectors_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Vectors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Vectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#boundary-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boundary Conditions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-variations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content Variations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork-transition_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fork Transition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#framework-changes_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Framework Changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -31288,7 +31470,7 @@
 </thead>
 <tbody>
 <tr>
-<td>257</td>
+<td>267</td>
 <td>0</td>
 <td>🔴 0.00%</td>
 </tr>
@@ -34544,6 +34726,119 @@
 <h3 id="framework-changes_12">Framework Changes<a class="headerlink" href="#framework-changes_12" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Update the validity constraint as a fork method that returns the updated value starting from the fork where the constraint changes.</li>
+</ul>
+<h2 id="block-level-validation-constraint">Block-Level Validation Constraint<a class="headerlink" href="#block-level-validation-constraint" title="Permanent link">&para;</a></h2>
+<p>The EIP introduces a new constraint that applies at the block level (e.g., block RLP size limits, block validation rules).</p>
+<h3 id="test-vectors_13">Test Vectors<a class="headerlink" href="#test-vectors_13" title="Permanent link">&para;</a></h3>
+<h4 id="boundary-conditions">Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Permanent link">&para;</a></h4>
+<p>Verify block acceptance/rejection at constraint boundaries using off-by-one values.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>block_level_constraint/test/boundary/under</code></td>
+<td>Verify that a block with constraint value at limit minus one is accepted (expect success).</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>block_level_constraint/test/boundary/exact</code></td>
+<td>Verify that a block with constraint value exactly at limit is accepted (expect success).</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>block_level_constraint/test/boundary/over</code></td>
+<td>Verify that a block with constraint value at limit plus one is rejected (expect exception).</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="content-variations">Content Variations<a class="headerlink" href="#content-variations" title="Permanent link">&para;</a></h4>
+<p>Verify the constraint behaves correctly with different block contents that may affect the constraint calculation.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>block_level_constraint/test/content/transaction_types</code></td>
+<td>Verify constraint behavior with all supported transaction types in the block.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>block_level_constraint/test/content/logs</code></td>
+<td>Verify constraint behavior when transactions emit logs.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>block_level_constraint/test/content/receipts</code></td>
+<td>Verify constraint behavior with varying receipt sizes.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>block_level_constraint/test/content/withdrawals</code></td>
+<td>Verify constraint behavior with non-empty withdrawals list.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="fork-transition_10">Fork Transition<a class="headerlink" href="#fork-transition_10" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>block_level_constraint/test/fork_transition/accepted_before_fork</code></td>
+<td>Verify that a block before the activation fork is accepted even when the new constraint is not met.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>block_level_constraint/test/fork_transition/accepted_after_fork</code></td>
+<td>Verify that a block after the activation fork is accepted when the new constraint is met.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>block_level_constraint/test/fork_transition/rejected_after_fork</code></td>
+<td>Verify that a block after the activation fork is rejected when the new constraint is not met.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Note: All test cases must use off-by-one values to ensure proper boundary condition verification.</p>
+<h3 id="framework-changes_13">Framework Changes<a class="headerlink" href="#framework-changes_13" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Introduce the constraint as a fork method that returns:<ul>
+<li><code>None</code> for forks before its activation.</li>
+<li>A non-<code>None</code> value starting from the fork where the constraint becomes active.</li>
+</ul>
+</li>
 </ul>
 
 
