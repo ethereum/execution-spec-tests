@@ -384,6 +384,7 @@ class TransitionTool(EthereumCLI):
 
     def _generate_post_args(self, t8n_data: TransitionToolData) -> Dict[str, List[str] | str]:
         """Generate the arguments for the POST request to the t8n-server."""
+        del t8n_data
         return {}
 
     def _evaluate_server(

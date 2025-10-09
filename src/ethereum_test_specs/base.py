@@ -105,6 +105,7 @@ class BaseTest(BaseModel):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork, fixture_format, markers
         return False
 
     @classmethod
@@ -148,6 +149,7 @@ class BaseTest(BaseModel):
         Discard an execute format from executing if the appropriate marker is
         used.
         """
+        del execute_format, fork, markers
         return False
 
     @abstractmethod
@@ -168,6 +170,7 @@ class BaseTest(BaseModel):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
+        del fork
         raise Exception(f"Unsupported execute format: {execute_format}")
 
     @classmethod

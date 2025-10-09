@@ -299,6 +299,7 @@ class TestDocsGenerator:
         config: pytest.Config,
     ) -> None:
         """Add a summary line for the docs."""
+        del exitstatus, config
         terminalreporter.write_sep("=", f"{len(self.page_props)} doc pages generated", bold=True)
 
     def _setup_logger(self) -> None:

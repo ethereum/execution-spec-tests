@@ -646,6 +646,7 @@ class TestPydanticModelConversion:
         self, can_be_deserialized: bool, model_instance: Any, json: str | Dict[str, Any]
     ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
+        del can_be_deserialized
         assert to_json(model_instance) == json
 
     def test_json_deserialization(

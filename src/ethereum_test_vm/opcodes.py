@@ -339,6 +339,7 @@ class Macro(Bytecode):
 
     def __call__(self, *args_t: OpcodeCallArg, **kwargs: Any) -> Bytecode:
         """Perform macro operation if any. Otherwise is a no-op."""
+        del kwargs
         if self.lambda_operation is not None:
             return self.lambda_operation(*args_t)
 

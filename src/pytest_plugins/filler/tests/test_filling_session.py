@@ -42,6 +42,7 @@ class MockFixtureOutput:
     @classmethod
     def from_config(cls, config: Any) -> "MockFixtureOutput":
         """Mock factory method."""
+        del config
         return cls()
 
 

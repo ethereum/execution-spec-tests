@@ -195,7 +195,7 @@ class TestStandaloneConfiguration:
 class TestPytestIntegration:
     """Test the pytest integration of the logging module."""
 
-    def test_pytest_configure(self, monkeypatch: pytest.MonkeyPatch, tmpdir: Any) -> None:
+    def test_pytest_configure(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test that pytest_configure sets up logging correctly."""
         from pytest_plugins.custom_logging.plugin_logging import pytest_configure
 

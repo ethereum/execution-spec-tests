@@ -156,6 +156,7 @@ class BaseFixture(CamelModel):
 
         By default, all fixtures support all forks.
         """
+        del fork
         return True
 
     @classmethod
@@ -168,6 +169,7 @@ class BaseFixture(CamelModel):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork, markers
         return False
 
 

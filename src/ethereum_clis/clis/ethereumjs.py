@@ -42,6 +42,7 @@ class EthereumJSTransitionTool(TransitionTool):
 
         Currently, EthereumJS-t8n provides no way to determine supported forks.
         """
+        del fork
         return True
 
 

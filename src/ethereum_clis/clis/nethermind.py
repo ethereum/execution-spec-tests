@@ -151,6 +151,7 @@ class NethtestFixtureConsumer(
         function is cached in order to only call the command once and
         `consume_state_test` can simply select the result that was requested.
         """
+        del fixture_path
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         if debug_output_path:
@@ -228,6 +229,8 @@ class NethtestFixtureConsumer(
         debug_output_path: Optional[Path] = None,
     ) -> None:
         """Execute the the fixture at `fixture_path` via `nethtest`."""
+        del fixture_path
+        del fixture_name
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         if debug_output_path:
@@ -249,6 +252,7 @@ class NethtestFixtureConsumer(
         debug_output_path: Optional[Path] = None,
     ) -> Tuple[Dict[Any, Any], str, str]:
         """Consume an entire EOF fixture file."""
+        del fixture_path
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         pattern = re.compile(r"^(test_.+?)\s+(PASS|FAIL)$", re.MULTILINE)

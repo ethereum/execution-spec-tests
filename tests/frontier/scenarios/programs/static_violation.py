@@ -14,6 +14,7 @@ class ProgramSstoreSload(ScenarioTestProgram):
 
     def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
         """Test code."""
+        del pre, fork
         return (
             Op.SSTORE(0, 11)
             + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), Op.SLOAD(0)))
@@ -37,6 +38,7 @@ class ProgramTstoreTload(ScenarioTestProgram):
 
     def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
         """Test code."""
+        del pre, fork
         return Op.TSTORE(0, 11) + Op.MSTORE(0, Op.TLOAD(0)) + Op.RETURN(0, 32)
 
     @cached_property
@@ -54,6 +56,7 @@ class ProgramLogs(ScenarioTestProgram):
 
     def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
         """Test code."""
+        del pre, fork
         return (
             Op.MSTORE(0, 0x1122334455667788991011121314151617181920212223242526272829303132)
             + Op.LOG0(0, 1)
@@ -80,6 +83,7 @@ class ProgramSuicide(ScenarioTestProgram):
 
     def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
         """Test code."""
+        del pre, fork
         return Op.MSTORE(0, 1) + Op.SELFDESTRUCT(0) + Op.RETURN(0, 32)
 
     @cached_property

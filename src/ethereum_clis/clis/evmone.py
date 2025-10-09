@@ -55,6 +55,7 @@ class EvmOneTransitionTool(TransitionTool):
         Return True if the fork is supported by the tool. Currently, evmone-t8n
         provides no way to determine supported forks.
         """
+        del fork
         return True
 
 
@@ -71,6 +72,7 @@ class EvmoneFixtureConsumerCommon:
         trace: bool = False,
     ):
         """Initialize the EvmoneFixtureConsumerCommon class."""
+        del trace
         self._info_metadata: Optional[Dict[str, Any]] = {}
 
     def _run_command(self, command: List[str]) -> subprocess.CompletedProcess:
