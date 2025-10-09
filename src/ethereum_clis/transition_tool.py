@@ -19,6 +19,7 @@ from requests.exceptions import ReadTimeout
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_base_types import BlobSchedule
+from ethereum_test_base_types.composite_types import ForkBlobSchedule
 from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_forks import Fork
 from ethereum_test_forks.helpers import get_development_forks, get_forks
@@ -30,7 +31,6 @@ from .cli_types import (
     TransactionReceipt,
     TransactionTraces,
     TransitionToolCLIInput,
-    TransitionToolConfig,
     TransitionToolContext,
     TransitionToolInput,
     TransitionToolOutput,
@@ -77,6 +77,7 @@ class TransitionTool(EthereumCLI):
     supports_opcode_count: ClassVar[bool] = False
 
     supports_xdist: ClassVar[bool] = True
+    supports_blob_params: ClassVar[bool] = False
 
     @abstractmethod
     def __init__(
@@ -177,6 +178,16 @@ class TransitionTool(EthereumCLI):
                 timestamp=self.env.timestamp,
             )
 
+        @property
+        def blob_params(self) -> ForkBlobSchedule | None:
+            """Return the blob parameters for the current fork."""
+            if self.blob_schedule:
+                fork_name = self.fork.fork_at(
+                    block_number=self.env.number, timestamp=self.env.timestamp
+                ).name()
+                return self.blob_schedule[fork_name]
+            return None
+
         def __post_init__(self) -> None:
             """Modify the reward if the environment number is 0."""
             if self.env.number == 0:
@@ -196,11 +207,7 @@ class TransitionTool(EthereumCLI):
                 alloc=self.alloc,
                 txs=self.txs,
                 env=self.env,
-                config=TransitionToolConfig(
-                    blob_schedule=self.blob_schedule or BlobSchedule(),
-                    chain_id=self.chain_id,
-                    network=self.fork,
-                ),
+                blob_params=self.blob_params,
             )
 
         def get_request_data(self) -> TransitionToolRequest:
@@ -253,8 +260,6 @@ class TransitionTool(EthereumCLI):
             input_paths["env"],
             "--input.txs",
             input_paths["txs"],
-            "--input.config",
-            input_paths["config"],
             "--output.basedir",
             temp_dir.name,
             "--output.result",
@@ -273,6 +278,13 @@ class TransitionTool(EthereumCLI):
                 [
                     "--opcode.count",
                     "opcodes.json",
+                ]
+            )
+        if self.supports_blob_params and input_paths.get("blobParams"):
+            args.extend(
+                [
+                    "--input.blobParams",
+                    input_paths["blobParams"],
                 ]
             )
 

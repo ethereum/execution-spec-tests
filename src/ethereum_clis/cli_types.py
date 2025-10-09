@@ -15,6 +15,7 @@ from ethereum_test_base_types import (
     Hash,
     HexNumber,
 )
+from ethereum_test_base_types.composite_types import ForkBlobSchedule
 from ethereum_test_exceptions import (
     BlockException,
     ExceptionMapperValidator,
@@ -22,7 +23,6 @@ from ethereum_test_exceptions import (
     TransactionException,
     UndefinedException,
 )
-from ethereum_test_forks.helpers import Fork
 from ethereum_test_types import (
     Alloc,
     BlockAccessList,
@@ -262,21 +262,13 @@ class TransitionToolInput(CamelModel):
     env: Environment
 
 
-class TransitionToolConfig(CamelModel):
-    """Transition tool config."""
-
-    fork: Fork = Field(..., alias="network")
-    chain_id: int = Field(..., alias="chainid")
-    blob_schedule: BlobSchedule
-
-
 class TransitionToolCLIInput(CamelModel):
     """Transition tool CLI input."""
 
     alloc: Alloc
     txs: List[Transaction]
     env: Environment
-    config: TransitionToolConfig
+    blob_params: ForkBlobSchedule | None = None
 
 
 class TransitionToolOutput(CamelModel):
