@@ -384,7 +384,7 @@ def test_valid_blob_tx_combinations(
     pre: Alloc,
     env: Environment,
     block: Block,
-):
+) -> None:
     """
     Test all valid blob combinations in a single block, assuming a given value
     of `MAX_BLOBS_PER_BLOCK`.
@@ -490,7 +490,7 @@ def test_invalid_tx_max_fee_per_blob_gas(
     env: Environment,
     block: Block,
     non_zero_blob_gas_used_genesis_block: Optional[Block],
-):
+) -> None:
     """
     Reject blocks with invalid blob txs.
 
@@ -520,7 +520,7 @@ def test_invalid_tx_max_fee_per_blob_gas_state(
     state_env: Environment,
     pre: Alloc,
     txs: List[Transaction],
-):
+) -> None:
     """
     Reject an invalid blob transaction.
 
@@ -556,7 +556,7 @@ def test_invalid_normal_gas(
     txs: List[Transaction],
     header_verify: Optional[Header],
     rlp_modifier: Optional[Header],
-):
+) -> None:
     """
     Reject an invalid blob transaction.
 
@@ -594,7 +594,7 @@ def test_invalid_block_blob_count(
     pre: Alloc,
     env: Environment,
     block: Block,
-):
+) -> None:
     """
     Test all invalid blob combinations in a single block, where the sum of all
     blobs in a block is at `MAX_BLOBS_PER_BLOCK + 1`.
@@ -635,7 +635,7 @@ def test_insufficient_balance_blob_tx(
     state_env: Environment,
     pre: Alloc,
     txs: List[Transaction],
-):
+) -> None:
     """
     Reject blocks where user cannot afford the blob gas specified (but
     max_fee_per_gas would be enough for current block).
@@ -684,7 +684,7 @@ def test_sufficient_balance_blob_tx(
     state_env: Environment,
     pre: Alloc,
     txs: List[Transaction],
-):
+) -> None:
     """
     Check that transaction is accepted when user can exactly afford the blob
     gas specified (and max_fee_per_gas would be enough for current block).
@@ -736,7 +736,7 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     pre: Alloc,
     txs: List[Transaction],
     header_verify: Optional[Header],
-):
+) -> None:
     """
     Check that transaction is accepted when user can exactly afford the blob
     gas specified (and max_fee_per_gas would be enough for current block)
@@ -817,7 +817,7 @@ def test_blob_gas_subtraction_tx(
     destination_account: Address,
     destination_account_balance: int,
     total_account_transactions_fee: int,
-):
+) -> None:
     """
     Check that the blob gas fee for a transaction is subtracted from the sender
     balance before the transaction is executed.
@@ -862,7 +862,7 @@ def test_insufficient_balance_blob_tx_combinations(
     pre: Alloc,
     env: Environment,
     block: Block,
-):
+) -> None:
     """
     Reject all valid blob transaction combinations in a block, but block is
     invalid.
@@ -915,7 +915,7 @@ def test_invalid_tx_blob_count(
     txs: List[Transaction],
     header_verify: Optional[Header],
     rlp_modifier: Optional[Header],
-):
+) -> None:
     """
     Reject blocks that include blob transactions with invalid blob counts.
 
@@ -960,7 +960,7 @@ def test_invalid_blob_hash_versioning_single_tx(
     txs: List[Transaction],
     header_verify: Optional[Header],
     rlp_modifier: Optional[Header],
-):
+) -> None:
     """
     Reject blob transactions with invalid blob hash version.
 
@@ -1017,7 +1017,7 @@ def test_invalid_blob_hash_versioning_multiple_txs(
     pre: Alloc,
     env: Environment,
     block: Block,
-):
+) -> None:
     """
     Reject blocks that include blob transactions with invalid blob hash
     version.
@@ -1046,7 +1046,7 @@ def test_invalid_blob_tx_contract_creation(
     env: Environment,
     txs: List[Transaction],
     header_verify: Optional[Header],
-):
+) -> None:
     """
     Reject blocks that include blob transactions that have nil to value
     (contract creating).
@@ -1085,7 +1085,7 @@ def test_invalid_blob_tx_contract_creation(
 
 @pytest.fixture
 def opcode(
-    request,
+    request: pytest.FixtureRequest,
     sender: EOA,
     tx_calldata: bytes,
     block_base_fee_per_gas: int,
@@ -1160,7 +1160,7 @@ def test_blob_tx_attribute_opcodes(
     blob_hashes_per_tx: List[List[bytes]],
     opcode: Tuple[Bytecode, Storage.StorageDictType],
     state_env: Environment,
-):
+) -> None:
     """
     Test opcodes that read transaction attributes work properly for blob type
     transactions.
@@ -1214,7 +1214,7 @@ def test_blob_tx_attribute_value_opcode(
     blob_hashes_per_tx: List[List[bytes]],
     opcode: Tuple[Bytecode, Storage.StorageDictType],
     state_env: Environment,
-):
+) -> None:
     """
     Test the VALUE opcode with different blob type transaction value amounts.
     """
@@ -1281,7 +1281,7 @@ def test_blob_tx_attribute_calldata_opcodes(
     blob_hashes_per_tx: List[List[bytes]],
     opcode: Tuple[Bytecode, Storage.StorageDictType],
     state_env: Environment,
-):
+) -> None:
     """
     Test calldata related opcodes to verify their behavior is not affected by
     blobs.
@@ -1341,7 +1341,7 @@ def test_blob_tx_attribute_gasprice_opcode(
     blob_hashes_per_tx: List[List[bytes]],
     opcode: Tuple[Bytecode, Storage.StorageDictType],
     state_env: Environment,
-):
+) -> None:
     """
     Test GASPRICE opcode to sanity check that the blob gas fee does not affect
     its calculation.
@@ -1412,7 +1412,7 @@ def test_blob_type_tx_pre_fork(
     pre: Alloc,
     txs: List[Transaction],
     block_error: Optional[TransactionException | BlockException],
-):
+) -> None:
     """
     Reject blocks with blob type transactions before Cancun fork.
 

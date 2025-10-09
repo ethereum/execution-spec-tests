@@ -218,7 +218,7 @@ def post_fork_blocks(
     sender: EOA,
     pre_fork_blocks: List[Block],
     fork: Fork,
-):
+) -> list[Block]:
     """Generate blocks after the fork."""
     blocks = []
 
@@ -329,7 +329,7 @@ def test_invalid_pre_fork_block_with_blob_fields(
     pre_fork_blocks: List[Block],
     excess_blob_gas_present: bool,
     blob_gas_used_present: bool,
-):
+) -> None:
     """
     Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are
     present on a pre-fork block.
@@ -375,7 +375,7 @@ def test_invalid_post_fork_block_without_blob_fields(
     pre_fork_blocks: List[Block],
     excess_blob_gas_missing: bool,
     blob_gas_used_missing: bool,
-):
+) -> None:
     """
     Test block rejection when `excessBlobGas` and/or `blobGasUsed` fields are
     missing on a post-fork block.
@@ -430,7 +430,7 @@ def test_fork_transition_excess_blob_gas_at_blob_genesis(
     pre_fork_blocks: List[Block],
     post_fork_blocks: List[Block],
     post: Mapping[Address, Account],
-):
+) -> None:
     """
     Test `excessBlobGas` calculation in the header when the fork is activated.
 
@@ -500,7 +500,7 @@ def test_fork_transition_excess_blob_gas_post_blob_genesis(
     pre_fork_blocks: List[Block],
     post_fork_blocks: List[Block],
     post: Mapping[Address, Account],
-):
+) -> None:
     """
     Test `excessBlobGas` calculation in the header when the fork is activated.
     """

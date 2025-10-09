@@ -26,7 +26,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1153.version
 def test_basic_tload_transaction_begin(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Ported .json vectors.
 
@@ -77,7 +77,7 @@ def test_basic_tload_transaction_begin(
 def test_basic_tload_works(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Ported .json vectors.
 
@@ -135,7 +135,7 @@ def test_basic_tload_works(
 def test_basic_tload_other_after_tstore(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Ported .json vectors.
 
@@ -189,7 +189,7 @@ def test_basic_tload_other_after_tstore(
 def test_basic_tload_gasprice(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Ported .json vectors.
 
@@ -273,7 +273,7 @@ def test_basic_tload_gasprice(
 def test_basic_tload_after_store(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Ported .json vectors.
 

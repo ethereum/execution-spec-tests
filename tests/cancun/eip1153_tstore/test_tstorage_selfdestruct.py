@@ -228,7 +228,7 @@ def test_reentrant_selfdestructing_call(
     caller_bytecode: Bytecode,
     callee_bytecode: Bytecode,
     expected_storage: Dict,
-):
+) -> None:
     """
     Test transient storage in different reentrancy contexts after
     selfdestructing.

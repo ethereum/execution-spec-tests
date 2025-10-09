@@ -52,7 +52,7 @@ def test_tstore_reentrancy(
     call_type: Op,
     call_return: Op,
     call_dest_type: CallDestType,
-):
+) -> None:
     """
     Ported .json vectors.
 

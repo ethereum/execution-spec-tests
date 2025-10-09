@@ -3,7 +3,7 @@ Test EIP-1153 Transient Storage in execution contexts.
 """
 
 from enum import EnumMeta, unique
-from typing import Dict, Mapping
+from typing import Any, Dict, Mapping
 
 import pytest
 
@@ -37,7 +37,7 @@ class DynamicCallContextTestCases(EnumMeta):
     cases).
     """
 
-    def __new__(cls, name, bases, classdict):  # noqa: D102
+    def __new__(cls, name: str, bases: tuple[type, ...], classdict: Any) -> Any:  # noqa: D102
         for call_opcode in [Op.CALLCODE, Op.DELEGATECALL]:
             contract_call = call_opcode(address=Op.CALLDATALOAD(0))
             classdict[call_opcode._name_] = {
@@ -279,7 +279,7 @@ class CallContextTestCases(PytestParameterEnum, metaclass=DynamicCallContextTest
         "expected_callee_storage": {},
     }
 
-    def __init__(self, value):
+    def __init__(self, value: dict[str, Any]) -> None:
         """Initialize the test case with the given value."""
         value = {
             "env": Environment(),
@@ -333,7 +333,7 @@ def test_subcall(
     pre: Alloc,
     tx: Transaction,
     post: Mapping,
-):
+) -> None:
     """
     Test transient storage with a subcall using the following opcodes.
 

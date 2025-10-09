@@ -206,7 +206,7 @@ def test_point_evaluation_precompile_gas_usage(
     pre: Dict,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Test point evaluation precompile gas usage under different call contexts
     and gas limits.

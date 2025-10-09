@@ -156,7 +156,7 @@ def txs(  # noqa: D103
     tx_gas_limit: int,
     destination_account: Address,
     fork: Fork,
-):
+) -> List[Transaction]:
     if new_blobs == 0:
         # Send a normal type two tx instead
         return [
@@ -228,7 +228,7 @@ def blocks(  # noqa: D103
     non_zero_blob_gas_used_genesis_block: Block,
     max_blobs_per_block: int,
     blob_gas_per_blob: int,
-):
+) -> List[Block]:
     blocks = (
         []
         if non_zero_blob_gas_used_genesis_block is None
@@ -238,7 +238,7 @@ def blocks(  # noqa: D103
     def add_block(
         header_modifier: Optional[Dict] = None,
         exception_message: Optional[BlockException | List[BlockException]] = None,
-    ):
+    ) -> None:
         """Add a block to the blocks list."""
         blocks.append(
             Block(
@@ -308,7 +308,7 @@ def test_correct_excess_blob_gas_calculation(
     blocks: List[Block],
     post: Mapping[Address, Account],
     correct_excess_blob_gas: int,
-):
+) -> None:
     """
     Test calculation of the `excessBlobGas` increase/decrease across multiple
     blocks with and without blobs.
@@ -371,7 +371,7 @@ def test_correct_increasing_blob_gas_costs(
     blocks: List[Block],
     post: Mapping[Address, Account],
     correct_excess_blob_gas: int,
-):
+) -> None:
     """
     Test calculation of the `excessBlobGas` and blob gas tx costs at value
     points where the cost increases to interesting amounts.
@@ -408,7 +408,7 @@ def test_correct_decreasing_blob_gas_costs(
     blocks: List[Block],
     post: Mapping[Address, Account],
     correct_excess_blob_gas: int,
-):
+) -> None:
     """
     Test calculation of the `excessBlobGas` and blob gas tx costs at value
     points where the cost decreases to interesting amounts.
@@ -438,7 +438,7 @@ def test_invalid_zero_excess_blob_gas_in_header(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas` in the header drops to
     zero in a block with or without data blobs, but the excess blobs in the
@@ -489,7 +489,7 @@ def test_invalid_blob_gas_used_in_header(
     new_blobs: int,
     header_blob_gas_used: Optional[int],
     blob_gas_per_blob: int,
-):
+) -> None:
     """
     Test rejection of blocks where the `blobGasUsed` in the header is invalid.
 
@@ -534,7 +534,7 @@ def test_invalid_excess_blob_gas_above_target_change(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas`.
 
@@ -581,7 +581,7 @@ def test_invalid_static_excess_blob_gas(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     parent_excess_blob_gas: int,
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas` remains unchanged but
     the parent blobs included are not `TARGET_BLOBS_PER_BLOCK`.
@@ -623,7 +623,7 @@ def test_invalid_excess_blob_gas_target_blobs_increase_from_zero(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas` increases from zero,
     even when the included blobs are on or below target.
@@ -665,7 +665,7 @@ def test_invalid_static_excess_blob_gas_from_zero_on_blobs_above_target(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas` does not increase from
     zero, even when the included blobs is above target.
@@ -715,7 +715,7 @@ def test_invalid_excess_blob_gas_change(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas` changes to an invalid
     value.
@@ -768,7 +768,7 @@ def test_invalid_negative_excess_blob_gas(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas` changes to the two's
     complement equivalent of the negative value after subtracting target blobs.
@@ -819,7 +819,7 @@ def test_invalid_non_multiple_excess_blob_gas(
     blocks: List[Block],
     correct_excess_blob_gas: int,
     header_excess_blob_gas: Optional[int],
-):
+) -> None:
     """
     Test rejection of blocks where the `excessBlobGas` changes to a value that
     is not a multiple of Spec.GAS_PER_BLOB`.

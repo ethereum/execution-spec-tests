@@ -29,6 +29,7 @@ from ethereum_test_tools import (
     AuthorizationTuple,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     CodeGasMeasure,
     Environment,
     Hash,
@@ -99,7 +100,7 @@ class BlobhashScenario:
         ]
 
     @staticmethod
-    def blobhash_sstore(index: int, max_blobs_per_tx: int):
+    def blobhash_sstore(index: int, max_blobs_per_tx: int) -> Bytecode:
         """
         Return BLOBHASH sstore to the given index.
 
@@ -112,30 +113,44 @@ class BlobhashScenario:
         return Op.SSTORE(index, Op.BLOBHASH(index))
 
     @classmethod
-    def generate_blobhash_bytecode(cls, scenario_name: str, max_blobs_per_tx: int) -> bytes:
+    def generate_blobhash_bytecode(cls, scenario_name: str, max_blobs_per_tx: int) -> Bytecode:
         """Return BLOBHASH bytecode for the given scenario."""
         scenarios = {
             "single_valid": sum(
-                cls.blobhash_sstore(i, max_blobs_per_tx) for i in range(max_blobs_per_tx)
+                (cls.blobhash_sstore(i, max_blobs_per_tx) for i in range(max_blobs_per_tx)),
+                Bytecode(),
             ),
             "repeated_valid": sum(
-                sum(cls.blobhash_sstore(i, max_blobs_per_tx) for _ in range(10))
-                for i in range(max_blobs_per_tx)
+                (
+                    sum((cls.blobhash_sstore(i, max_blobs_per_tx) for _ in range(10)), Bytecode())
+                    for i in range(max_blobs_per_tx)
+                ),
+                Bytecode(),
             ),
             "valid_invalid": sum(
-                cls.blobhash_sstore(i, max_blobs_per_tx)
-                + cls.blobhash_sstore(max_blobs_per_tx, max_blobs_per_tx)
-                + cls.blobhash_sstore(i, max_blobs_per_tx)
-                for i in range(max_blobs_per_tx)
+                (
+                    cls.blobhash_sstore(i, max_blobs_per_tx)
+                    + cls.blobhash_sstore(max_blobs_per_tx, max_blobs_per_tx)
+                    + cls.blobhash_sstore(i, max_blobs_per_tx)
+                    for i in range(max_blobs_per_tx)
+                ),
+                Bytecode(),
             ),
             "varied_valid": sum(
-                cls.blobhash_sstore(i, max_blobs_per_tx)
-                + cls.blobhash_sstore(i + 1, max_blobs_per_tx)
-                + cls.blobhash_sstore(i, max_blobs_per_tx)
-                for i in range(max_blobs_per_tx - 1)
+                (
+                    cls.blobhash_sstore(i, max_blobs_per_tx)
+                    + cls.blobhash_sstore(i + 1, max_blobs_per_tx)
+                    + cls.blobhash_sstore(i, max_blobs_per_tx)
+                    for i in range(max_blobs_per_tx - 1)
+                ),
+                Bytecode(),
             ),
             "invalid_calls": sum(
-                cls.blobhash_sstore(i, max_blobs_per_tx) for i in range(-5, max_blobs_per_tx + 5)
+                (
+                    cls.blobhash_sstore(i, max_blobs_per_tx)
+                    for i in range(-5, max_blobs_per_tx + 5)
+                ),
+                Bytecode(),
             ),
         }
         scenario = scenarios.get(scenario_name)
@@ -152,7 +167,7 @@ def test_blobhash_gas_cost(
     tx_type: int,
     blobhash_index: int,
     state_test: StateTestFiller,
-):
+) -> None:
     """
     Tests `BLOBHASH` opcode gas cost using a variety of indexes.
 
@@ -216,7 +231,7 @@ def test_blobhash_scenarios(
     scenario: str,
     blockchain_test: BlockchainTestFiller,
     max_blobs_per_tx: int,
-):
+) -> None:
     """
     Tests that the `BLOBHASH` opcode returns the correct versioned hash for
     various valid indexes.
@@ -275,7 +290,7 @@ def test_blobhash_invalid_blob_index(
     blockchain_test: BlockchainTestFiller,
     scenario: str,
     max_blobs_per_tx: int,
-):
+) -> None:
     """
     Tests that the `BLOBHASH` opcode returns a zeroed `bytes32` value for
     invalid indexes.
@@ -334,7 +349,7 @@ def test_blobhash_multiple_txs_in_block(
     fork: Fork,
     blockchain_test: BlockchainTestFiller,
     max_blobs_per_tx: int,
-):
+) -> None:
     """
     Tests that the `BLOBHASH` opcode returns the appropriate values when there
     is more than 1 blob tx type within a block (for tx types 2 and 3).
@@ -348,7 +363,7 @@ def test_blobhash_multiple_txs_in_block(
     addresses = [pre.deploy_contract(blobhash_bytecode) for _ in range(4)]
     sender = pre.fund_eoa()
 
-    def blob_tx(address: Address, tx_type: int):
+    def blob_tx(address: Address, tx_type: int) -> Transaction:
         return Transaction(
             ty=tx_type,
             sender=sender,

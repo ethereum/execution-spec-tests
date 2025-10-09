@@ -54,7 +54,7 @@ def beacon_roots() -> Iterator[bytes]:
 
 
 @pytest.fixture
-def beacon_root(request, beacon_roots: Iterator[bytes]) -> bytes:  # noqa: D103
+def beacon_root(request: pytest.FixtureRequest, beacon_roots: Iterator[bytes]) -> bytes:  # noqa: D103
     return Hash(request.param) if hasattr(request, "param") else next(beacon_roots)
 
 
@@ -166,7 +166,7 @@ def system_address_balance() -> int:
 
 
 @pytest.fixture(autouse=True)
-def pre_fund_system_address(pre: Alloc, system_address_balance: int):
+def pre_fund_system_address(pre: Alloc, system_address_balance: int) -> None:
     """Whether to fund the system address."""
     if system_address_balance > 0:
         pre.fund_address(Address(Spec.SYSTEM_ADDRESS), system_address_balance)
