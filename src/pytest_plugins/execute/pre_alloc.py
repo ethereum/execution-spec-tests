@@ -403,7 +403,6 @@ class Alloc(BaseAlloc):
                 self._eth_rpc.send_transaction(set_storage_tx)
                 self._txs.append(set_storage_tx)
 
-            # --- REFRESH SENDER NONCE FROM RPC ---
             self._refresh_sender_nonce()
 
             if delegation is not None:
