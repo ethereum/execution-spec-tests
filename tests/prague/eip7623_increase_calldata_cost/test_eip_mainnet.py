@@ -1,6 +1,5 @@
 """
-abstract: Crafted tests for mainnet of [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623)
-    Crafted tests for mainnet of [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623).
+abstract: Crafted tests for mainnet of [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623).
 """  # noqa: E501
 
 import pytest
@@ -98,7 +97,10 @@ def test_eip_7623(
     pre: Alloc,
     tx: Transaction,
 ) -> None:
-    """Test transaction validity for transactions without access lists and contract creation."""
+    """
+    Test transaction validity for transactions without access lists
+    and contract creation.
+    """
     state_test(
         pre=pre,
         post={},

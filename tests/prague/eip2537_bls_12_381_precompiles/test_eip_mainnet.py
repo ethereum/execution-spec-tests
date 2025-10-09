@@ -1,6 +1,6 @@
 """
-abstract: Crafted tests for mainnet of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Crafted tests for mainnet of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+abstract: Crafted tests for mainnet of
+[EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
 """  # noqa: E501
 
 import pytest

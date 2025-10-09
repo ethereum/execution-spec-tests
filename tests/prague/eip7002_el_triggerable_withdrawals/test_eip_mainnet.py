@@ -1,6 +1,5 @@
 """
-abstract: Crafted tests for mainnet of [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002)
-    Crafted tests for mainnet of [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
+abstract: Crafted tests for mainnet of [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
 """  # noqa: E501
 
 from typing import List
