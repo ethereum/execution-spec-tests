@@ -948,11 +948,12 @@ def test_bal_zero_value_transfer(
 
 
 @pytest.mark.parametrize(
-    "initial_balance,transfer_amount",
+    "initial_balance,transfer_amount,transfer_mechanism",
     [
-        pytest.param(0, 0, id="zero_balance_zero_transfer"),
-        pytest.param(1, 1, id="nonzero_balance_net_zero"),
-        pytest.param(100, 50, id="larger_balance_net_zero"),
+        pytest.param(0, 0, "call", id="zero_balance_zero_transfer_call"),
+        pytest.param(0, 0, "selfdestruct", id="zero_balance_zero_transfer_selfdestruct"),
+        pytest.param(1, 1, "call", id="nonzero_balance_net_zero"),
+        pytest.param(100, 50, "call", id="larger_balance_net_zero"),
     ],
 )
 def test_bal_net_zero_balance_transfer(
@@ -960,6 +961,7 @@ def test_bal_net_zero_balance_transfer(
     blockchain_test: BlockchainTestFiller,
     initial_balance: int,
     transfer_amount: int,
+    transfer_mechanism: str,
 ):
     """
     Test that BAL does not record balance changes when net change is zero.
@@ -976,11 +978,15 @@ def test_bal_net_zero_balance_transfer(
     recipient = pre.fund_eoa(amount=0)
 
     net_zero_bal_contract_code = (
+        Op.SSTORE(0, Op.SELFBALANCE) + Op.SELFDESTRUCT(recipient)
+        if transfer_mechanism == "selfdestruct"
         # store current balance in slot 0
-        Op.SSTORE(0, Op.SELFBALANCE)
-        # send only the `transfer_amount` received to recipient (net zero)
-        + Op.CALL(0, recipient, Op.CALLVALUE, 0, 0, 0, 0)
-        + Op.STOP
+        else (
+            Op.SSTORE(0, Op.SELFBALANCE)
+            # send only the `transfer_amount` received to recipient (net zero)
+            + Op.CALL(0, recipient, Op.CALLVALUE, 0, 0, 0, 0)
+            + Op.STOP
+        )
     )
     net_zero_bal_contract = pre.deploy_contract(
         code=net_zero_bal_contract_code, balance=initial_balance
