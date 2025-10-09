@@ -1,6 +1,5 @@
 """
-abstract: Crafted tests for mainnet of [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110)
-    Crafted tests for mainnet of [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110).
+abstract: Crafted tests for mainnet of [EIP-6110: Supply validator deposits on chain](https://eips.ethereum.org/EIPS/eip-6110).
 """  # noqa: E501
 
 from typing import List
@@ -28,7 +27,8 @@ pytestmark = [pytest.mark.valid_at("Prague"), pytest.mark.mainnet]
         pytest.param(
             [
                 DepositTransaction(
-                    # TODO: Use a real public key to allow recovery of the funds.
+                    # TODO: Use a real public key to allow recovery of
+                    #  the funds.
                     requests=[
                         DepositRequest(
                             pubkey=0x01,

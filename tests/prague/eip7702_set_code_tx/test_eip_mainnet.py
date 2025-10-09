@@ -1,6 +1,5 @@
 """
-abstract: Crafted tests for mainnet of [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702)
-    Crafted tests for mainnet of [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
+abstract: Crafted tests for mainnet of [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
 """  # noqa: E501
 
 import pytest
