@@ -4,13 +4,13 @@ import subprocess
 from shutil import which
 
 import pytest
-from pytest_metadata.plugin import metadata_key  # type: ignore
+from pytest_metadata.plugin import metadata_key
 from semver import Version
 
 SOLC_EXPECTED_MIN_VERSION: Version = Version.parse("0.8.24")
 
 
-def pytest_addoption(parser: pytest.Parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     solc_group = parser.getgroup("solc", "Arguments defining the solc executable")
     solc_group.addoption(
@@ -26,7 +26,7 @@ def pytest_addoption(parser: pytest.Parser):
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config: pytest.Config):
+def pytest_configure(config: pytest.Config) -> None:
     """Ensure that solc is available and get its version."""
     solc_bin = config.getoption("solc_bin")
 
@@ -121,18 +121,18 @@ def pytest_configure(config: pytest.Config):
 
 
 @pytest.fixture(autouse=True, scope="session")
-def solc_bin(request: pytest.FixtureRequest):
+def solc_bin(request: pytest.FixtureRequest) -> str | None:
     """Return configured solc binary path."""
     return request.config.getoption("solc_bin") or which("solc")
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_report_header(config, start_path):
+def pytest_report_header(config: pytest.Config, start_path: object) -> list[str] | None:
     """Add lines to pytest's console output header."""
     del start_path
 
     if config.option.collectonly:
-        return
+        return None
     solc_version = config.stash[metadata_key]["Tools"]["solc"]
     solc_path = config.option.solc_bin or which("solc")
     return [f"solc: {solc_version}", f"solc path: {solc_path}"]
