@@ -480,7 +480,6 @@ class Alloc(BaseAlloc):
         If the address is already present in the pre-alloc the amount will be
         added to its existing balance.
         """
-        # --- REFRESH SENDER NONCE FROM RPC ---
         self._refresh_sender_nonce()
 
         fund_tx = Transaction(
