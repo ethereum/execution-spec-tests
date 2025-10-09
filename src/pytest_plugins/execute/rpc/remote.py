@@ -12,7 +12,7 @@ from ..pre_alloc import AddressStubs
 from .chain_builder_eth_rpc import ChainBuilderEthRPC
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     remote_rpc_group = parser.getgroup("remote_rpc", "Arguments defining remote RPC configuration")
     remote_rpc_group.addoption(
@@ -83,7 +83,7 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_configure(config: pytest.Config):
+def pytest_configure(config: pytest.Config) -> None:
     """Check if a chain ID configuration is provided."""
     if config.getoption("rpc_chain_id") is None and config.getoption("chain_id") is None:
         pytest.exit("No chain ID configuration found. Please use --chain-id.")
@@ -135,13 +135,13 @@ def pytest_configure(config: pytest.Config):
 
 
 @pytest.fixture(scope="session")
-def engine_rpc(request) -> EngineRPC | None:
+def engine_rpc(request: pytest.FixtureRequest) -> EngineRPC | None:
     """Execute remote command does not have access to the engine RPC."""
-    return request.config.engine_rpc
+    return request.config.engine_rpc  # type: ignore
 
 
 @pytest.fixture(autouse=True, scope="session")
-def rpc_endpoint(request) -> str:
+def rpc_endpoint(request: pytest.FixtureRequest) -> str:
     """
     Return remote RPC endpoint to be used to make requests to the execution
     client.
@@ -151,7 +151,7 @@ def rpc_endpoint(request) -> str:
 
 @pytest.fixture(autouse=True, scope="session")
 def eth_rpc(
-    request,
+    request: pytest.FixtureRequest,
     rpc_endpoint: str,
     engine_rpc: EngineRPC | None,
     session_fork: Fork,

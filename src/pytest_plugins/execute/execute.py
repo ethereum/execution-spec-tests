@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
 
 import pytest
-from pytest_metadata.plugin import metadata_key  # type: ignore
+from pytest_metadata.plugin import metadata_key
 
 from ethereum_test_execution import BaseExecute
 from ethereum_test_forks import Fork
@@ -34,7 +34,7 @@ def default_html_report_file_path() -> str:
     return "./execution_results/report_execute.html"
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     execute_group = parser.getgroup("execute", "Arguments defining test execution behavior")
     execute_group.addoption(
@@ -116,7 +116,7 @@ def pytest_addoption(parser):
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """
     Pytest hook called after command line options have been parsed and before
     test collection begins.
@@ -137,7 +137,7 @@ def pytest_configure(config):
     if is_help_or_collectonly_mode(config):
         return
 
-    config.engine_rpc_supported = False
+    config.engine_rpc_supported = False  # type: ignore[attr-defined]
     if config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
         config.option.htmlpath = Path(default_html_report_file_path())
@@ -146,8 +146,8 @@ def pytest_configure(config):
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
     # Configuration for the forks pytest plugin
-    config.skip_transition_forks = True
-    config.single_fork_mode = True
+    config.skip_transition_forks = True  # type: ignore[attr-defined]
+    config.single_fork_mode = True  # type: ignore[attr-defined]
 
     # Configure the chain ID for the tests.
     rpc_chain_id = config.getoption("rpc_chain_id", None)
@@ -166,12 +166,12 @@ def pytest_configure(config):
             ChainConfigDefaults.chain_id = chain_id
 
 
-def pytest_metadata(metadata):
+def pytest_metadata(metadata: dict[str, Any]) -> None:
     """Add or remove metadata to/from the pytest report."""
     metadata.pop("JAVA_HOME", None)
 
 
-def pytest_html_results_table_header(cells):
+def pytest_html_results_table_header(cells: list[str]) -> None:
     """Customize the table headers of the HTML report table."""
     cells.insert(3, '<th class="sortable" data-column-type="sender">Sender</th>')
     cells.insert(4, '<th class="sortable" data-column-type="fundedAccounts">Funded Accounts</th>')
@@ -181,7 +181,7 @@ def pytest_html_results_table_header(cells):
     del cells[-1]  # Remove the "Links" column
 
 
-def pytest_html_results_table_row(report, cells):
+def pytest_html_results_table_row(report: Any, cells: list[str]) -> None:
     """Customize the table rows of the HTML report table."""
     if hasattr(report, "user_properties"):
         user_props = dict(report.user_properties)
@@ -201,7 +201,9 @@ def pytest_html_results_table_row(report, cells):
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(
+    item: pytest.Item, call: pytest.CallInfo[None]
+) -> Generator[None, Any, None]:
     """
     Make each test's fixture json path available to the test report via
     user_properties.
@@ -217,13 +219,18 @@ def pytest_runtest_makereport(item, call):
                 report.user_properties.append((property_name, getattr(item.config, property_name)))
 
 
-def pytest_html_report_title(report):
+def pytest_html_report_title(report: Any) -> None:
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Execute Test Report"
 
 
 @pytest.fixture(scope="session")
-def transactions_per_block(request) -> int:  # noqa: D103
+def transactions_per_block(
+    request: pytest.FixtureRequest,
+) -> int:
+    """
+    Return the number of transactions to send before producing the next block.
+    """
     if transactions_per_block := request.config.getoption("transactions_per_block"):
         return transactions_per_block
 
@@ -235,7 +242,7 @@ def transactions_per_block(request) -> int:  # noqa: D103
 
 
 @pytest.fixture(scope="session")
-def default_gas_price(request) -> int:
+def default_gas_price(request: pytest.FixtureRequest) -> int:
     """Return default gas price used for transactions."""
     gas_price = request.config.getoption("default_gas_price")
     assert gas_price > 0, "Gas price must be greater than 0"
@@ -243,21 +250,27 @@ def default_gas_price(request) -> int:
 
 
 @pytest.fixture(scope="session")
-def default_max_fee_per_gas(request) -> int:
+def default_max_fee_per_gas(
+    request: pytest.FixtureRequest,
+) -> int:
     """Return default max fee per gas used for transactions."""
     return request.config.getoption("default_max_fee_per_gas")
 
 
 @pytest.fixture(scope="session")
-def default_max_priority_fee_per_gas(request) -> int:
+def default_max_priority_fee_per_gas(
+    request: pytest.FixtureRequest,
+) -> int:
     """Return default max priority fee per gas used for transactions."""
     return request.config.getoption("default_max_priority_fee_per_gas")
 
 
 @pytest.fixture(autouse=True, scope="session")
 def modify_transaction_defaults(
-    default_gas_price: int, default_max_fee_per_gas: int, default_max_priority_fee_per_gas: int
-):
+    default_gas_price: int,
+    default_max_fee_per_gas: int,
+    default_max_priority_fee_per_gas: int,
+) -> None:
     """
     Modify transaction defaults to values better suited for live networks.
     """
@@ -276,14 +289,14 @@ class Collector:
     eth_rpc: EthRPC
     collected_tests: Dict[str, BaseExecute] = field(default_factory=dict)
 
-    def collect(self, test_name: str, execute_format: BaseExecute):
+    def collect(self, test_name: str, execute_format: BaseExecute) -> None:
         """Collect transactions and post-allocations for the test case."""
         self.collected_tests[test_name] = execute_format
 
 
 @pytest.fixture(scope="session")
 def collector(
-    request,
+    request: pytest.FixtureRequest,
     eth_rpc: EthRPC,
 ) -> Generator[Collector, None, None]:
     """
@@ -296,7 +309,7 @@ def collector(
     yield collector
 
 
-def base_test_parametrizer(cls: Type[BaseTest]):
+def base_test_parametrizer(cls: Type[BaseTest]) -> Any:
     """
     Generate pytest.fixture for a given BaseTest subclass.
 
@@ -316,7 +329,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         eth_rpc: EthRPC,
         engine_rpc: EngineRPC | None,
         collector: Collector,
-    ):
+    ) -> Type[BaseTest]:
         """
         Fixture used to instantiate an auto-fillable BaseTest object from
         within a test function.
@@ -336,7 +349,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
             assert engine_rpc is not None, "Engine RPC is required for this format."
 
         class BaseTestWrapper(cls):  # type: ignore
-            def __init__(self, *args, **kwargs):
+            def __init__(self, *args: Any, **kwargs: Any) -> None:
                 kwargs["t8n_dump_dir"] = None
                 if "pre" not in kwargs:
                     kwargs["pre"] = pre
@@ -388,7 +401,7 @@ for cls in BaseTest.spec_types.values():
     globals()[cls.pytest_parameter_name()] = base_test_parametrizer(cls)
 
 
-def pytest_generate_tests(metafunc: pytest.Metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """
     Pytest hook used to dynamically generate test cases for each fixture format
     a given test spec supports.
@@ -410,7 +423,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
-def pytest_collection_modifyitems(items: List[pytest.Item]):
+def pytest_collection_modifyitems(
+    items: List[pytest.Item],
+) -> None:
     """
     Remove transition tests and add the appropriate execute markers to the
     test.

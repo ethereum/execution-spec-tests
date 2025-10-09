@@ -3,7 +3,7 @@
 from itertools import count
 from pathlib import Path
 from random import randint
-from typing import Dict, Generator, Iterator, List, Literal, Self, Tuple
+from typing import Any, Dict, Generator, Iterator, List, Literal, Self, Tuple
 
 import pytest
 import yaml
@@ -89,7 +89,7 @@ class AddressStubs(EthereumTestRootModel[Dict[str, Address]]):
         return cls.model_validate_json(json_data_or_path)
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     pre_alloc_group = parser.getgroup(
         "pre_alloc", "Arguments defining pre-allocation behavior during test execution"
@@ -129,7 +129,7 @@ def pytest_addoption(parser):
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_report_header(config):
+def pytest_report_header(config: pytest.Config) -> list[str]:
     """Pytest hook called to obtain the report header."""
     bold = "\033[1m"
     reset = "\033[39;49m"
@@ -141,7 +141,9 @@ def pytest_report_header(config):
 
 
 @pytest.fixture(scope="session")
-def address_stubs(request) -> AddressStubs | None:
+def address_stubs(
+    request: pytest.FixtureRequest,
+) -> AddressStubs | None:
     """
     Return an address stubs object.
 
@@ -151,13 +153,13 @@ def address_stubs(request) -> AddressStubs | None:
 
 
 @pytest.fixture(scope="session")
-def skip_cleanup(request) -> bool:
+def skip_cleanup(request: pytest.FixtureRequest) -> bool:
     """Return whether to skip cleanup phase after each test."""
     return request.config.getoption("skip_cleanup")
 
 
 @pytest.fixture(scope="session")
-def eoa_iterator(request) -> Iterator[EOA]:
+def eoa_iterator(request: pytest.FixtureRequest) -> Iterator[EOA]:
     """Return an iterator that generates EOAs."""
     eoa_start = request.config.getoption("eoa_iterator_start")
     print(f"Starting EOA index: {hex(eoa_start)}")
@@ -180,7 +182,7 @@ class Alloc(BaseAlloc):
 
     def __init__(
         self,
-        *args,
+        *args: Any,
         fork: Fork,
         sender: EOA,
         eth_rpc: EthRPC,
@@ -190,8 +192,8 @@ class Alloc(BaseAlloc):
         evm_code_type: EVMCodeType | None = None,
         node_id: str = "",
         address_stubs: AddressStubs | None = None,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the pre-alloc with the given parameters."""
         super().__init__(*args, **kwargs)
         self._fork = fork
@@ -217,12 +219,19 @@ class Alloc(BaseAlloc):
             rpc_nonce = self._eth_rpc.get_transaction_count(self._sender)
         self._sender.nonce = Number(rpc_nonce)
 
-    def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
+    def __setitem__(
+        self,
+        address: Address | FixedSizeBytesConvertible,
+        account: Account | None,
+    ) -> None:
         """Set account associated with an address."""
         raise ValueError("Tests are not allowed to set pre-alloc items in execute mode")
 
     def code_pre_processor(
-        self, code: Bytecode | Container, *, evm_code_type: EVMCodeType | None
+        self,
+        code: Bytecode | Container,
+        *,
+        evm_code_type: EVMCodeType | None,
     ) -> Bytecode | Container:
         """Pre-processes the code before setting it."""
         if evm_code_type is None:
@@ -473,7 +482,7 @@ class Alloc(BaseAlloc):
         self._funded_eoa.append(eoa)
         return eoa
 
-    def fund_address(self, address: Address, amount: NumberConvertible):
+    def fund_address(self, address: Address, amount: NumberConvertible) -> None:
         """
         Fund an address with a given amount.
 

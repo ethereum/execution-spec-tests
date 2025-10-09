@@ -26,7 +26,7 @@ CONSENSUS_CLIENTS = ["grandine", "lighthouse", "lodestar", "nimbus", "prysm", "t
 logger = get_logger(__name__)
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     eth_config_group = parser.getgroup("execute", "Arguments defining eth_config test behavior.")
     eth_config_group.addoption(
@@ -182,7 +182,7 @@ def pytest_configure(config: pytest.Config) -> None:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def rpc_endpoint(request) -> str:
+def rpc_endpoint(request: pytest.FixtureRequest) -> str:
     """
     Return remote RPC endpoint to be used to make requests to the execution
     client.
@@ -190,7 +190,7 @@ def rpc_endpoint(request) -> str:
     return request.config.getoption("rpc_endpoint")
 
 
-def all_rpc_endpoints(config) -> Dict[str, List[EthRPC]]:
+def all_rpc_endpoints(config: pytest.Config) -> Dict[str, List[EthRPC]]:
     """
     Derive a mapping of exec clients to the RPC URLs they are reachable at.
     """
@@ -227,7 +227,7 @@ def all_rpc_endpoints(config) -> Dict[str, List[EthRPC]]:
     return url_dict
 
 
-def pytest_generate_tests(metafunc: pytest.Metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """Generate tests for all clients under test."""
     # all_rpc_endpoints is a dictionary with the name of the exec client as key
     # and the possible URLs to contact it (different cl combinations) as value

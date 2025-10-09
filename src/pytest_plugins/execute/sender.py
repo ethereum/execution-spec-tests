@@ -5,14 +5,14 @@ from typing import Generator, Iterator
 
 import pytest
 from filelock import FileLock
-from pytest_metadata.plugin import metadata_key  # type: ignore
+from pytest_metadata.plugin import metadata_key
 
 from ethereum_test_base_types import Number, Wei
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import EOA, Transaction
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     sender_group = parser.getgroup(
         "sender",
@@ -199,6 +199,6 @@ def sender_key(
     eth_rpc.send_wait_transaction(refund_tx)
 
 
-def pytest_sessionstart(session):
+def pytest_sessionstart(session: pytest.Session) -> None:
     """Reset the sender info before the session starts."""
     session.config.stash[metadata_key]["Senders"] = {}

@@ -6,7 +6,7 @@ from ethereum_test_base_types import Address, HexNumber
 from ethereum_test_types import EOA
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     recover_group = parser.getgroup("execute", "Arguments defining fund recovery behavior.")
     recover_group.addoption(
@@ -43,7 +43,7 @@ def destination(request: pytest.FixtureRequest) -> Address:
     return request.config.option.destination
 
 
-def pytest_generate_tests(metafunc: pytest.Metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """Pytest hook used to dynamically generate test cases."""
     max_index = metafunc.config.option.max_index
     start_eoa_index = metafunc.config.option.start_eoa_index
