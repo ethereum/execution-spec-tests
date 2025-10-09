@@ -46,7 +46,7 @@ def test_eip_7002(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
-):
+) -> None:
     """Test making a withdrawal request."""
     blockchain_test(
         pre=pre,

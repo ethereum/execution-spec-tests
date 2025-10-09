@@ -964,7 +964,7 @@ def test_bal_net_zero_balance_transfer(
     initial_balance: int,
     transfer_amount: int,
     transfer_mechanism: str,
-):
+) -> None:
     """
     Test that BAL does not record balance changes when net change is zero.
 

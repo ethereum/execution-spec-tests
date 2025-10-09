@@ -81,7 +81,7 @@ def test_eip_2537(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the all precompiles of EIP-2537."""
     state_test(
         pre=pre,

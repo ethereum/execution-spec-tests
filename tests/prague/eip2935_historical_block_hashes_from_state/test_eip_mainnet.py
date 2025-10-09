@@ -19,7 +19,7 @@ pytestmark = [pytest.mark.valid_at("Prague"), pytest.mark.mainnet]
 def test_eip_2935(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test a simple block hash request from EIP-2935 system contract."""
     check_block_number = Op.SUB(Op.NUMBER, 1)  # Parent block number
     check_contract_code = (

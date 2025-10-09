@@ -46,7 +46,7 @@ def test_eip_7251(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],
     pre: Alloc,
-):
+) -> None:
     """Test making a consolidation request."""
     blockchain_test(
         pre=pre,
