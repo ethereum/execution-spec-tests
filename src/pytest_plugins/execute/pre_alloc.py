@@ -445,7 +445,6 @@ class Alloc(BaseAlloc):
 
         else:
             if Number(amount) > 0:
-                # --- REFRESH SENDER NONCE FROM RPC ---
                 self._refresh_sender_nonce()
 
                 fund_tx = Transaction(
