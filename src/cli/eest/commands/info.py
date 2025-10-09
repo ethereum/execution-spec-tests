@@ -30,7 +30,7 @@ def get_uv_version() -> str:
 
 
 @click.command(name="info")
-def info():
+def info() -> None:
     """Display EEST and system information."""
     # Format headers
     title = click.style("EEST", fg="green", bold=True)

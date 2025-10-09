@@ -1,5 +1,7 @@
 """Tests for the eofwrap module and click CLI."""
 
+from typing import Any
+
 import pytest
 
 from ethereum_test_base_types.conversions import to_hex
@@ -45,6 +47,6 @@ from ..eofwrap import wrap_code
     ],
     ids=lambda param: to_hex(param),
 )
-def test_wrap_code(code, result):
+def test_wrap_code(code: Any, result: Any) -> None:
     """Tests for the EOF wrapping logic and heuristics."""
     assert wrap_code(bytes(code)) == result

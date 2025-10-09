@@ -17,7 +17,7 @@ from ethereum_clis import (
 )
 
 
-def test_default_tool():
+def test_default_tool() -> None:
     """Tests that the default t8n tool is set."""
     assert TransitionTool.default_tool is ExecutionSpecsTransitionTool
 
@@ -52,25 +52,25 @@ def test_default_tool():
     ],
 )
 def test_from_binary(
-    monkeypatch,
+    monkeypatch: pytest.MonkeyPatch,
     binary_path: Path | None,
     which_result: str,
     read_result: str,
     expected_class: Type[TransitionTool],
-):
+) -> None:
     """Test that `from_binary` instantiates the correct subclass."""
 
     class MockCompletedProcess:
-        def __init__(self, stdout):
+        def __init__(self, stdout: bytes) -> None:
             self.stdout = stdout
             self.stderr = None
             self.returncode = 0
 
-    def mock_which(self):
+    def mock_which(self: str) -> str:
         del self
         return which_result
 
-    def mock_run(args, **kwargs):
+    def mock_run(args: list, **kwargs: dict) -> MockCompletedProcess:
         del args, kwargs
         return MockCompletedProcess(read_result.encode())
 
@@ -80,7 +80,7 @@ def test_from_binary(
     assert isinstance(TransitionTool.from_binary_path(binary_path=binary_path), expected_class)
 
 
-def test_unknown_binary_path():
+def test_unknown_binary_path() -> None:
     """
     Test that `from_binary_path` raises `UnknownCLIError` for unknown
     binary paths.

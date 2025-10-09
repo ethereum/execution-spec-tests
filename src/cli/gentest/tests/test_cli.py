@@ -1,5 +1,8 @@
 """Tests for the gentest CLI command."""
 
+from pathlib import Path
+from typing import Any
+
 import pytest
 from click.testing import CliRunner
 
@@ -90,7 +93,14 @@ def transaction_hash(tx_type: int) -> str:  # noqa: D103
 
 
 @pytest.mark.parametrize("tx_type", list(transactions_by_type.keys()))
-def test_tx_type(pytester, tmp_path, monkeypatch, tx_type, transaction_hash, default_t8n):
+def test_tx_type(
+    pytester: pytest.Pytester,
+    tmp_path: Path,
+    monkeypatch: Any,
+    tx_type: int,
+    transaction_hash: str,
+    default_t8n: Any,
+) -> None:
     """Generates a test case for any transaction type."""
     # This test is run in a CI environment, where connection to a
     # node could be unreliable. Therefore, we mock the RPC request to avoid any

@@ -4,7 +4,7 @@ import os
 import subprocess
 import time
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 
 from rich.console import Console
 
@@ -12,16 +12,16 @@ from rich.console import Console
 class FileWatcher:
     """Simple file watcher that re-runs the fill command on changes."""
 
-    def __init__(self, console=None, verbose=False):
+    def __init__(self, console: Console | None = None, verbose: bool = False) -> None:
         """Initialize the file watcher."""
         self.console = console or Console(highlight=False)
         self.verbose = verbose
 
-    def run_with_watch(self, args):
+    def run_with_watch(self, args: List[str]) -> None:
         """Watch for file changes and re-run fill command."""
         file_mtimes: Dict[Path, float] = {}
 
-        def get_file_mtimes():
+        def get_file_mtimes() -> Dict[Path, float]:
             """Get current modification times of all test and source files."""
             mtimes = {}
             # Watch tests directory
@@ -42,7 +42,7 @@ class FileWatcher:
                         pass
             return mtimes
 
-        def run_fill():
+        def run_fill() -> None:
             """Run fill command without --watch / --watcherfall flag."""
             clean_args = [arg for arg in args if arg not in ["--watch", "--watcherfall"]]
             cmd = ["uv", "run", "fill"] + clean_args

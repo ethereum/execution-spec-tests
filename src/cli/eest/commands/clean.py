@@ -16,7 +16,7 @@ import click
 )
 @click.option("--dry-run", is_flag=True, help="Simulate the cleanup without removing files.")
 @click.option("-v", "--verbose", is_flag=True, help="Show verbose output.")
-def clean(all_files: bool, dry_run: bool, verbose: bool):
+def clean(all_files: bool, dry_run: bool, verbose: bool) -> None:
     """
     Remove all generated files and directories from the repository.
 

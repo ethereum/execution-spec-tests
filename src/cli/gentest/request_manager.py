@@ -14,7 +14,7 @@ Classes:
                        the node.
 """
 
-from typing import Dict
+from typing import Any, Dict
 
 from config import EnvConfig
 from ethereum_test_base_types import Hash
@@ -29,10 +29,10 @@ class RPCRequest:
     node_url: str
     headers: dict[str, str]
 
-    def __init__(self):
-        """Initialize the RequestManager with specific client config."""
+    def __init__(self) -> None:
+        """Initialize RequestManager with specific client config."""
         node_config = EnvConfig().remote_nodes[0]
-        self.node_url = node_config.node_url
+        self.node_url = str(node_config.node_url)
         headers = node_config.rpc_headers
         self.rpc = EthRPC(node_config.node_url, extra_headers=headers)
         self.debug_rpc = DebugRPC(node_config.node_url, extra_headers=headers)
@@ -49,6 +49,7 @@ class RPCRequest:
     def eth_get_block_by_number(self, block_number: BlockNumberType) -> Environment:
         """Get block by number."""
         res = self.rpc.get_block_by_number(block_number)
+        assert res is not None, "Block not found"
 
         return Environment(
             fee_recipient=res["miner"],
@@ -58,12 +59,14 @@ class RPCRequest:
             timestamp=res["timestamp"],
         )
 
-    def debug_trace_call(self, transaction: TransactionByHashResponse) -> Dict[str, dict]:
+    def debug_trace_call(
+        self, transaction: TransactionByHashResponse
+    ) -> Dict[str, Dict[Any, Any]]:
         """Get pre-state required for transaction."""
         assert transaction.sender is not None
         assert transaction.to is not None
 
-        return self.debug_rpc.trace_call(
+        result = self.debug_rpc.trace_call(
             {
                 "from": transaction.sender.hex(),
                 "to": transaction.to.hex(),
@@ -71,3 +74,5 @@ class RPCRequest:
             },
             f"{transaction.block_number}",
         )
+        assert result is not None, "trace_call returned None"
+        return result

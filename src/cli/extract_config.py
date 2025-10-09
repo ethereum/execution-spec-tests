@@ -98,20 +98,19 @@ def create_genesis_from_fixture(fixture_path: Path) -> Tuple[FixtureHeader, Allo
         fixture_json = json.load(f)
 
     if "_info" in fixture_json:
-        fixture = Fixtures.model_validate(fixture_json)
         # Load the fixture
         fixtures = Fixtures.model_validate_json(fixture_path.read_text())
 
         # Get the first fixture (assuming single fixture file)
         fixture_id = list(fixtures.keys())[0]
-        fixture = fixtures[fixture_id]
+        base_fixture = fixtures[fixture_id]
 
-        if not isinstance(fixture, BlockchainFixtureCommon):
+        if not isinstance(base_fixture, BlockchainFixtureCommon):
             raise ValueError(f"Fixture {fixture_id} is not a blockchain fixture")
 
-        genesis = fixture.genesis
-        alloc = fixture.pre
-        chain_id = int(fixture.config.chain_id)
+        genesis = base_fixture.genesis
+        alloc = base_fixture.pre
+        chain_id = int(base_fixture.config.chain_id)
     else:
         pre_alloc_group = PreAllocGroup.model_validate(fixture_json)
         genesis = pre_alloc_group.genesis

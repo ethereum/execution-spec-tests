@@ -323,20 +323,25 @@ class FuzzerBridge:
         return result["pass"]
 
 
-def main():
+def main() -> int:
     """Main entry point for production test."""
     parser = argparse.ArgumentParser(
         description="Production test for fuzzer bridge with geth verification"
     )
-    parser.add_argument("--fuzzer-output", required=True, help="Path to fuzzer output JSON file")
+    parser.add_argument(
+        "--fuzzer-output",
+        required=True,
+        help="Path to fuzzer output JSON file",
+    )
     parser.add_argument("--geth-path", required=True, help="Path to go-ethereum evm binary")
     parser.add_argument("--t8n-path", help="Path to transition tool binary (optional)")
     parser.add_argument(
-        "--keep-fixtures", action="store_true", help="Keep generated fixture files for debugging"
+        "--keep-fixtures",
+        action="store_true",
+        help="Keep generated fixture files for debugging",
     )
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
 
-    global args
     args = parser.parse_args()
 
     # Check paths exist

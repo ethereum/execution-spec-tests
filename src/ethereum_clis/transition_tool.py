@@ -16,7 +16,7 @@ from urllib.parse import urlencode
 from requests import Response
 from requests.exceptions import ConnectionError as RequestsConnectionError
 from requests.exceptions import ReadTimeout
-from requests_unixsocket import Session  # type: ignore
+from requests_unixsocket import Session
 
 from ethereum_test_base_types import BlobSchedule
 from ethereum_test_exceptions import ExceptionMapper
@@ -93,7 +93,7 @@ class TransitionTool(EthereumCLI):
         self.trace = trace
         self._info_metadata: Optional[Dict[str, Any]] = {}
 
-    def __init_subclass__(cls):
+    def __init_subclass__(cls) -> None:
         """Register all subclasses of TransitionTool as possible tools."""
         TransitionTool.register_tool(cls)
 
@@ -102,24 +102,25 @@ class TransitionTool(EthereumCLI):
         """Return True if the fork is supported by the tool."""
         pass
 
-    def start_server(self):
+    def start_server(self) -> None:
         """
-        Start the t8n-server process, extract the port, and leave it running
-        for future reuse.
+        Start the t8n-server process, extract the port, and leave it
+        running for future reuse.
         """
         pass
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """Perform any cleanup tasks related to the tested tool."""
         pass
 
-    def reset_traces(self):
+    def reset_traces(self) -> None:
         """Reset the internal trace storage for a new test to begin."""
         self.traces = None
 
-    def append_traces(self, new_traces: Traces):
+    def append_traces(self, new_traces: Traces) -> None:
         """
-        Append a list of traces of a state transition to the current list.
+        Append a list of traces of a state transition to the current
+        list.
         """
         if self.traces is None:
             self.traces = []
@@ -174,7 +175,7 @@ class TransitionTool(EthereumCLI):
                 timestamp=self.env.timestamp,
             )
 
-        def __post_init__(self):
+        def __post_init__(self) -> None:
             """Modify the reward if the environment number is 0."""
             if self.env.number == 0:
                 self.reward = -1
@@ -340,8 +341,8 @@ class TransitionTool(EthereumCLI):
 
         return output
 
-    def _restart_server(self):
-        """Check if the server is still responsive and restart if needed."""
+    def _restart_server(self) -> None:
+        """Check if server is still responsive and restart if needed."""
         self.shutdown()
         time.sleep(0.1)
         self.start_server()
@@ -507,7 +508,11 @@ class TransitionTool(EthereumCLI):
         return output
 
     def safe_t8n_args(
-        self, fork_name: str, chain_id: int, reward: int, temp_dir=None
+        self,
+        fork_name: str,
+        chain_id: int,
+        reward: int,
+        temp_dir: tempfile.TemporaryDirectory | None = None,
     ) -> List[str]:
         """Safely construct t8n arguments with validated inputs."""
         # Validate fork name against actual transition tool names from all
@@ -570,7 +575,7 @@ class TransitionTool(EthereumCLI):
         stdin: TransitionToolInput,
         args: List[str],
         result: subprocess.CompletedProcess,
-    ):
+    ) -> None:
         """
         Export debug files if requested when interacting with t8n via streams.
         """

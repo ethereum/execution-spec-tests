@@ -145,7 +145,7 @@ class GethEvm(EthereumCLI):
         result: subprocess.CompletedProcess,
         fixture_path: Path,
         debug_output_path: Path,
-    ):
+    ) -> None:
         # our assumption is that each command element is a string
         assert all(isinstance(x, str) for x in command), (
             f"Not all elements of 'command' list are strings: {command}"
@@ -234,7 +234,7 @@ class GethFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Consume a single blockchain test.
 
@@ -329,7 +329,7 @@ class GethFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Consume a single state test.
 
@@ -362,7 +362,7 @@ class GethFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Execute the appropriate geth fixture consumer for the fixture at
         `fixture_path`.

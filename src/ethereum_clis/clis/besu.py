@@ -57,10 +57,10 @@ class BesuTransitionTool(TransitionTool):
         self.help_string = result.stdout
         self.besu_trace_dir = tempfile.TemporaryDirectory() if self.trace else None
 
-    def start_server(self):
+    def start_server(self) -> None:
         """
-        Start the t8n-server process, extract the port, and leave it running
-        for future reuse.
+        Start the t8n-server process, extract the port, and leave it
+        running for future reuse.
         """
         args = [
             str(self.binary),
@@ -70,7 +70,8 @@ class BesuTransitionTool(TransitionTool):
 
         if self.trace:
             args.append("--trace")
-            args.append(f"--output.basedir={self.besu_trace_dir.name}")
+            if self.besu_trace_dir:
+                args.append(f"--output.basedir={self.besu_trace_dir.name}")
 
         self.process = subprocess.Popen(
             args=args,
@@ -79,16 +80,20 @@ class BesuTransitionTool(TransitionTool):
         )
 
         while True:
+            if self.process.stdout is None:
+                raise Exception("Failed starting Besu subprocess")
             line = str(self.process.stdout.readline())
 
             if not line or "Failed to start transition server" in line:
                 raise Exception("Failed starting Besu subprocess\n" + line)
             if "Transition server listening on" in line:
-                port = re.search("Transition server listening on (\\d+)", line).group(1)
-                self.server_url = f"http://localhost:{port}/"
-                break
+                match = re.search("Transition server listening on (\\d+)", line)
+                if match:
+                    port = match.group(1)
+                    self.server_url = f"http://localhost:{port}/"
+                    break
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """Stop the t8n-server process if it was started."""
         if self.process:
             self.process.kill()

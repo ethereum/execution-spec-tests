@@ -65,7 +65,7 @@ def pop_all_by_hash(index: IndexFile, fixture_hash: HexNumber) -> List[TestCaseI
     return test_cases
 
 
-def remove_fixture_from_file(file: Path, test_case_id: str):
+def remove_fixture_from_file(file: Path, test_case_id: str) -> None:
     """Remove a single fixture by its ID from a generic fixture file."""
     try:
         # Load from json to a dict
@@ -78,7 +78,7 @@ def remove_fixture_from_file(file: Path, test_case_id: str):
         raise KeyError(f"Test case {test_case_id} not found in {file}") from None
 
 
-def batch_remove_fixtures_from_files(removals_by_file):
+def batch_remove_fixtures_from_files(removals_by_file: dict[Path, list[str]]) -> None:
     """Batch process file removals to minimize I/O."""
     for file_path, test_case_ids in removals_by_file.items():
         try:
@@ -93,10 +93,9 @@ def batch_remove_fixtures_from_files(removals_by_file):
             print(f"Error processing {file_path}: {e}")
 
 
-def rewrite_index(folder: Path, index: IndexFile, dry_run: bool):
+def rewrite_index(folder: Path, index: IndexFile, dry_run: bool) -> None:
     """
-    Rewrite the index to the correct index file, or if the test count was
-    reduced to zero, the entire directory is deleted.
+    Rewrite index to file, or if test count is zero, delete directory.
     """
     if len(index.test_cases) > 0:
         # Just rewrite the index
@@ -129,9 +128,9 @@ def main(
     patch: Path,
     dry_run: bool,
     abort_on_empty_patch: bool,
-):
+) -> None:
     """
-    Compare two fixture folders and remove duplicates based on fixture hashes.
+    Compare two folders and remove duplicates based on fixture hashes.
     """
     try:
         # Load indices

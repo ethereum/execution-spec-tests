@@ -15,7 +15,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, no_type_check
+from typing import Any, Dict, cast, no_type_check
 
 import click
 
@@ -42,10 +42,10 @@ from .evm_bytes import OpcodeWithOperands, process_evm_bytes
 @click.argument("input_path", type=click.Path(exists=True, dir_okay=True, file_okay=True))
 @click.argument("output_dir", type=click.Path(dir_okay=True, file_okay=False))
 @click.option("--traces", is_flag=True, type=bool)
-def eof_wrap(input_path: str, output_dir: str, traces: bool):
+def eof_wrap(input_path: str, output_dir: str, traces: bool) -> None:
     """
-    Wrap JSON blockchain test file(s) found at `input_path` and outputs them to
-    the `output_dir`.
+    Wrap JSON blockchain test file(s) found at `input_path`, output to
+    `output_dir`.
     """
     eof_wrapper = EofWrapper()
 
@@ -115,9 +115,9 @@ class EofWrapper:
     # Breakdown of runtime test failures summing up to `fixtures_cant_generate`
     GENERATION_ERRORS = "generation_errors"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
-        Initialize the EofWrapper with metrics tracking and a unique EOF set.
+        Initialize EofWrapper with metrics tracking and unique EOF set.
         """
         self.metrics = {
             self.FILES_GENERATED: 0,
@@ -133,7 +133,7 @@ class EofWrapper:
             self.VALIDATION_ERRORS: {},
             self.GENERATION_ERRORS: {},
         }
-        self.unique_eof = set()
+        self.unique_eof: set[str] = set()
 
     file_skip_list = [
         "Pyspecs",
@@ -169,17 +169,14 @@ class EofWrapper:
         "blobbasefee_stack_overflow",
     ]
 
-    def wrap_file(self, in_path: str, out_path: str, traces: bool):
+    def wrap_file(self, in_path: str, out_path: str, traces: bool) -> None:
         """
-        Wrap code from a blockchain test JSON file from `in_path` into EOF
-        containers, wherever possible. If not possible - skips and tracks that
-        in metrics. Possible means at least one account's code can be wrapped
-        in a valid EOF container and the assertions on post state are
-        satisfied.
+        Wrap code from blockchain test JSON file from `in_path` into
+        EOF containers. Tracks in metrics.
         """
         for skip in self.file_skip_list:
             if skip in in_path:
-                self.metrics[self.FILES_SKIPPED] += 1
+                self.metrics[self.FILES_SKIPPED] = cast(int, self.metrics[self.FILES_SKIPPED]) + 1
                 return
 
         fixtures: BlockchainFixtures = BlockchainFixtures.model_validate_json(
@@ -200,57 +197,82 @@ class EofWrapper:
                     try:
                         wrapped = wrap_code(account.code)
                     except ValueError as e:
-                        self.metrics[self.ACCOUNTS_INVALID_EOF] += 1
+                        self.metrics[self.ACCOUNTS_INVALID_EOF] = (
+                            cast(int, self.metrics[self.ACCOUNTS_INVALID_EOF]) + 1
+                        )
                         _inc_counter(
-                            self.metrics[self.VALIDATION_ERRORS], self._short_exception_msg(e)
+                            cast(
+                                dict[Any, Any],
+                                self.metrics[self.VALIDATION_ERRORS],
+                            ),
+                            self._short_exception_msg(e),
                         )
                         continue
 
                     if self._validate_eof(wrapped):
                         account.code = Bytes(wrapped)
                         wrapped_at_least_one_account = True
-                        self.metrics[self.ACCOUNTS_WRAPPED] += 1
+                        self.metrics[self.ACCOUNTS_WRAPPED] = (
+                            cast(int, self.metrics[self.ACCOUNTS_WRAPPED]) + 1
+                        )
                         fixture_eof_codes.append(to_hex(account.code))
 
                         # wrap the same account in post state the same way
                         if fixture.post_state and fixture.post_state.root[address]:
                             fixture.post_state.root[address].code = Bytes(wrapped)  # type: ignore
                     else:
-                        self.metrics[self.ACCOUNTS_INVALID_EOF] += 1
+                        self.metrics[self.ACCOUNTS_INVALID_EOF] = (
+                            cast(int, self.metrics[self.ACCOUNTS_INVALID_EOF]) + 1
+                        )
             if not wrapped_at_least_one_account:
-                self.metrics[self.FIXTURES_CANT_WRAP] += 1
+                self.metrics[self.FIXTURES_CANT_WRAP] = (
+                    cast(int, self.metrics[self.FIXTURES_CANT_WRAP]) + 1
+                )
                 continue
 
             try:
                 out_fixture = self._wrap_fixture(fixture, traces)
                 out_fixtures[fixture_id] = out_fixture
-                self.metrics[self.FIXTURES_GENERATED] += 1
+                self.metrics[self.FIXTURES_GENERATED] = (
+                    cast(int, self.metrics[self.FIXTURES_GENERATED]) + 1
+                )
                 self.unique_eof.update(fixture_eof_codes)
                 self.metrics[self.UNIQUE_ACCOUNTS_WRAPPED] = len(self.unique_eof)
             except Exception as e:
-                _inc_counter(self.metrics[self.GENERATION_ERRORS], self._short_exception_msg(e))
+                _inc_counter(
+                    cast(
+                        dict[Any, Any],
+                        self.metrics[self.GENERATION_ERRORS],
+                    ),
+                    self._short_exception_msg(e),
+                )
 
-                self.metrics[self.FIXTURES_CANT_GENERATE] += 1
-                self.metrics[self.ACCOUNTS_CANT_GENERATE] += len(fixture_eof_codes)
+                self.metrics[self.FIXTURES_CANT_GENERATE] = (
+                    cast(int, self.metrics[self.FIXTURES_CANT_GENERATE]) + 1
+                )
+                self.metrics[self.ACCOUNTS_CANT_GENERATE] = cast(
+                    int, self.metrics[self.ACCOUNTS_CANT_GENERATE]
+                ) + len(fixture_eof_codes)
 
                 print(f"Exception {e} occurred during generation of {in_path}: {fixture_id}")
 
         if len(out_fixtures) == 0:
-            self.metrics[self.FILES_SKIPPED] += 1
+            self.metrics[self.FILES_SKIPPED] = cast(int, self.metrics[self.FILES_SKIPPED]) + 1
             return
 
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         out_fixtures.collect_into_file(Path(out_path))
-        self.metrics[self.FILES_GENERATED] += 1
+        self.metrics[self.FILES_GENERATED] = cast(int, self.metrics[self.FILES_GENERATED]) + 1
 
-    def _short_exception_msg(self, e: Exception):
+    def _short_exception_msg(self, e: Exception) -> str:
+        """Shorten exception message for display."""
         threshold = 30
         short = str(e)
         if len(short) > threshold:
             short = short[:threshold] + "..."
         return short
 
-    def _wrap_fixture(self, fixture: BlockchainFixture, traces: bool):
+    def _wrap_fixture(self, fixture: BlockchainFixture, traces: bool) -> BlockchainFixture:
         env = Environment(
             difficulty=fixture.genesis.difficulty,
             gas_limit=fixture.genesis.gas_limit,
@@ -308,7 +330,9 @@ class EofWrapper:
                 # Skip - invalid blocks are not supported. Reason:
                 # FixtureTransaction doesn't support expected exception. But we
                 # can continue and test the remaining blocks.
-                self.metrics[self.INVALID_BLOCKS_SKIPPED] += 1
+                self.metrics[self.INVALID_BLOCKS_SKIPPED] = (
+                    cast(int, self.metrics[self.INVALID_BLOCKS_SKIPPED]) + 1
+                )
             else:
                 raise TypeError("not a FixtureBlock")
 
@@ -317,6 +341,7 @@ class EofWrapper:
             fork=EOFv1,
             fixture_format=BlockchainFixture,
         )
+        assert isinstance(result, BlockchainFixture)
         result.info["fixture-format"] = "blockchain_test"
         if traces:
             print_traces(t8n.get_traces())
@@ -329,7 +354,13 @@ class EofWrapper:
         actual_message = result.stdout.strip()
         if "OK" not in actual_message:
             if metrics:
-                _inc_counter(self.metrics[self.VALIDATION_ERRORS], actual_message)
+                _inc_counter(
+                    cast(
+                        dict[Any, Any],
+                        self.metrics[self.VALIDATION_ERRORS],
+                    ),
+                    actual_message,
+                )
             return False
 
         return True
