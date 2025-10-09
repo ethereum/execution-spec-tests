@@ -26,6 +26,7 @@ from .helpers import (
     compute_create_address,
     compute_eofcreate_address,
 )
+from .phase_manager import TestPhase, TestPhaseManager
 from .receipt_types import TransactionReceipt
 from .request_types import (
     ConsolidationRequest,
@@ -66,6 +67,8 @@ __all__ = (
     "Removable",
     "Requests",
     "TestParameterGroup",
+    "TestPhase",
+    "TestPhaseManager",
     "Transaction",
     "TransactionDefaults",
     "TransactionReceipt",

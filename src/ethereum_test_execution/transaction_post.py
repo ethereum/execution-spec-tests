@@ -8,7 +8,7 @@ from pytest import FixtureRequest
 from ethereum_test_base_types import Address, Alloc, Hash
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC, SendTransactionExceptionError
-from ethereum_test_types import Transaction, TransactionTestMetadata
+from ethereum_test_types import TestPhase, Transaction, TransactionTestMetadata
 
 from .base import BaseExecute
 
@@ -47,9 +47,15 @@ class TransactionPost(BaseExecute):
                 tx = tx.with_signature_and_sender()
                 to_address = tx.to
                 label = to_address.label if isinstance(to_address, Address) else None
+                phase = (
+                    "testing"
+                    if getattr(tx, "test_phase", None) == TestPhase.EXECUTION
+                    or getattr(block, "test_phase", None) == TestPhase.EXECUTION
+                    else "setup"
+                )
                 tx.metadata = TransactionTestMetadata(
                     test_id=request.node.nodeid,
-                    phase="testing",
+                    phase=phase,
                     target=label,
                     tx_index=tx_index,
                 )

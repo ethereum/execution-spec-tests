@@ -22,6 +22,7 @@ from ethereum_test_tools import (
     compute_create2_address,
     compute_create_address,
 )
+from ethereum_test_types import TestPhaseManager
 from ethereum_test_vm import Opcodes as Op
 
 from .helpers import code_loop_precompile_call
@@ -462,14 +463,16 @@ def test_worst_storage_access_warm(
 def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    test_phase_manager: TestPhaseManager,
     gas_benchmark_value: int,
 ):
     """
     Test running a block with as many blockhash accessing oldest allowed block
     as possible.
     """
-    # Create 256 dummy blocks to fill the blockhash window.
-    blocks = [Block()] * 256
+    with test_phase_manager.setup():
+        for _ in range(256):
+            test_phase_manager.add_block(Block())
 
     # Always ask for the oldest allowed BLOCKHASH block.
     execution_code = Op.PUSH1(1) + While(
@@ -481,12 +484,14 @@ def test_worst_blockhash(
         gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
-    blocks.append(Block(txs=[op_tx]))
+
+    with test_phase_manager.execution():
+        test_phase_manager.add_transaction(op_tx)
 
     blockchain_test(
         pre=pre,
         post={},
-        blocks=blocks,
+        test_phase_manager=test_phase_manager,
     )
 
 

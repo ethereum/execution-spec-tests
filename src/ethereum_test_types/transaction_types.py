@@ -292,6 +292,7 @@ class Transaction(
     zero: ClassVar[Literal[0]] = 0
 
     metadata: TransactionTestMetadata | None = Field(None, exclude=True)
+    test_phase: str | None = None
 
     model_config = ConfigDict(validate_assignment=True)
 
