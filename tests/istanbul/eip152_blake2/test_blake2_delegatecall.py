@@ -22,7 +22,9 @@ REFERENCE_SPEC_VERSION = "2762bfcff3e549ef263342e5239ef03ac2b07400"
 
 
 @pytest.mark.valid_from("ConstantinopleFix")
-def test_blake2_precompile_delegatecall(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_blake2_precompile_delegatecall(
+    state_test: StateTestFiller, pre: Alloc, fork: Fork
+) -> None:
     """
     Test delegatecall consumes specified gas for the Blake2B precompile when it
     exists.

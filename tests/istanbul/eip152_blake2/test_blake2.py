@@ -397,7 +397,7 @@ def test_blake2b(
     blake2b_contract_bytecode: Bytecode,
     data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
-):
+) -> None:
     """Test BLAKE2b precompile."""
     env = Environment()
 
@@ -514,7 +514,7 @@ def test_blake2b_invalid_gas(
     gas_limit: int,
     data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
-):
+) -> None:
     """Test BLAKE2b precompile invalid calls using different gas limits."""
     env = Environment()
 
@@ -636,7 +636,7 @@ def test_blake2b_gas_limit(
     gas_limit: int,
     data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
-):
+) -> None:
     """Test BLAKE2b precompile with different gas limits."""
     account = pre.deploy_contract(blake2b_contract_bytecode, storage={0: 0xDEADBEEF})
     sender = pre.fund_eoa()
@@ -763,7 +763,7 @@ def test_blake2b_large_gas_limit(
     blake2b_contract_bytecode: Bytecode,
     data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
-):
+) -> None:
     """Test BLAKE2b precompile with large gas limit."""
     account = pre.deploy_contract(blake2b_contract_bytecode, storage={0: 0xDEADBEEF})
     sender = pre.fund_eoa()
