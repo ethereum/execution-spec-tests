@@ -20,9 +20,7 @@ class UnknownCLIError(Exception):
 
 
 class CLINotFoundInPathError(Exception):
-    """
-    Exception raised if the specified CLI binary is not found in the path.
-    """
+    """Exception raised if the specified CLI binary isn't found in the path."""
 
     def __init__(self, message="The CLI binary was not found in the path", binary=None):
         """Initialize the exception."""
@@ -51,14 +49,12 @@ class EthereumCLI:
     cached_version: Optional[str] = None
 
     def __init__(self, *, binary: Optional[Path] = None):
-        """
-        Abstract initialization method that all subclasses must implement.
-        """
+        """Abstract init method that all subclasses must implement."""
         if binary is None:
             binary = self.default_binary
         else:
-            # improve behavior of which by resolving the path: ~/relative paths
-            # don't work
+            # improve behavior of which by resolving the path:
+            # ~/relative paths don't work
             resolved_path = Path(os.path.expanduser(binary)).resolve()
             if resolved_path.exists():
                 binary = resolved_path
@@ -80,12 +76,12 @@ class EthereumCLI:
     @classmethod
     def from_binary_path(cls, *, binary_path: Optional[Path], **kwargs) -> Any:
         """
-        Instantiate the appropriate CLI subclass derived from the CLI's
-        `binary_path`.
+        Instantiate the appropriate CLI subclass derived from the
+        CLI's `binary_path`.
 
-        This method will attempt to detect the CLI version and instantiate the
-        appropriate subclass based on the version output by running the CLI
-        with the version flag.
+        This method will attempt to detect the CLI version and instantiate
+        the appropriate subclass based on the version output by running
+        the CLI with the version flag.
         """
         assert cls.default_tool is not None, "default CLI implementation was never set"
 
@@ -127,27 +123,34 @@ class EthereumCLI:
             cls.registered_tools, key=lambda x: x.version_flag
         ):
             logger.debug(
-                f"Trying this `version` flag to determine if t8n supported: {version_flag}"
+                f"\n{'-' * 120}\nTrying this `version` flag to determine "
+                f"if t8n supported: {version_flag}"
             )
             # adding more logging reveals we check for `-v` twice..
 
             try:
                 result = subprocess.run(
-                    [binary, version_flag], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    [binary, version_flag],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                 )
                 logger.debug(
-                    f"Subprocess:\n\tstdout: {result.stdout}\n\n\n\tstderr: {result.stderr}\n\n\n"  # type: ignore
+                    f"Subprocess:\n\tstdout: {result.stdout}\n\n\n\t"  # type: ignore
+                    f"stderr: {result.stderr}\n\n\n"  # type: ignore
                 )
 
                 if result.returncode != 0:
-                    logger.debug(f"Subprocess returncode is not 0! It is: {result.returncode}")
+                    logger.debug(f"Subprocess returncode is not 0!It is: {result.returncode}")
+                    # don't raise exception, you are supposed to keep trying
+                    # different version flags
                     continue
-                    # don't raise exception, you are supposed to keep
-                    # trying different version flags
 
+                # if there is a breaking error try sth else
                 if result.stderr:
-                    logger.debug(f"Stderr detected: {result.stderr}")  # type: ignore
-                    continue
+                    stderr_str = str(result.stderr)
+                    if EthereumCLI.stderr_is_breaking(stderr=stderr_str):
+                        logger.debug(f"Stderr detected: {stderr_str}")
+                        continue
 
                 binary_output = ""
                 if result.stdout:
@@ -156,9 +159,13 @@ class EthereumCLI:
 
                 for subclass in subclasses:
                     logger.debug(f"Trying subclass {subclass}")
-
-                    if subclass.detect_binary(binary_output):
-                        return subclass(binary=binary, **kwargs)
+                    try:
+                        if subclass.detect_binary(binary_output):
+                            subclass_check_result = subclass(binary=binary, **kwargs)
+                            return subclass_check_result
+                    except Exception as e:
+                        print(e)
+                        continue
 
                     logger.debug(
                         f"T8n with version {binary_output} does not belong to subclass {subclass}"
@@ -175,12 +182,19 @@ class EthereumCLI:
     @classmethod
     def detect_binary(cls, binary_output: str) -> bool:
         """
-        Return True if a CLI's `binary_output` matches the class's expected
-        output.
+        Return True if a CLI's `binary_output` matches the
+        class's expected output.
         """
+        logger.debug(f"Trying to detect binary for {binary_output}..")
         assert cls.detect_binary_pattern is not None
 
-        return cls.detect_binary_pattern.match(binary_output) is not None
+        logger.debug(
+            f"Trying to match {binary_output} against this pattern: {cls.detect_binary_pattern}"
+        )
+        match_result = cls.detect_binary_pattern.match(binary_output)
+        match_successful: bool = match_result is not None
+
+        return match_successful
 
     @classmethod
     def is_installed(cls, binary_path: Optional[Path] = None) -> bool:
@@ -194,10 +208,22 @@ class EthereumCLI:
         binary = shutil.which(binary_path)
         return binary is not None
 
+    @classmethod
+    def stderr_is_breaking(cls, *, stderr: str) -> bool:
+        """
+        Process the stderr output and decide if the error is a
+        breaking error for this specific tool.
+        """
+        # harmless java warning on certain systems (besu)
+        if "SVE vector length" in stderr:
+            return False
+
+        return True
+
     def version(self) -> str:
         """
-        Return the name and version of the CLI as reported by the CLI's version
-        flag.
+        Return the name and version of the CLI as reported by
+        the CLI's version flag.
         """
         if self.cached_version is None:
             result = subprocess.run(
