@@ -293,7 +293,7 @@ def test_modexp(
     mod_exp_input: ModExpInput | Bytes,
     output: ModExpOutput,
     pre: Alloc,
-):
+) -> None:
     """Test the MODEXP precompile."""
     env = Environment()
     sender = pre.fund_eoa()
