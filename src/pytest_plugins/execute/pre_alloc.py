@@ -40,7 +40,6 @@ from ethereum_test_types.eof.v1 import Container
 from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 
 MAX_BYTECODE_SIZE = 24576
-
 MAX_INITCODE_SIZE = MAX_BYTECODE_SIZE * 2
 
 
@@ -205,6 +204,19 @@ class Alloc(BaseAlloc):
         self._node_id = node_id
         self._address_stubs = address_stubs or AddressStubs(root={})
 
+    # always refresh _sender nonce from RPC ("pending") before building tx
+    def _refresh_sender_nonce(self) -> None:
+        """
+        Synchronize self._sender.nonce with the node's view.
+        Prefer 'pending' to account for in-flight transactions.
+        """
+        try:
+            rpc_nonce = self._eth_rpc.get_transaction_count(self._sender, block_number="pending")
+        except TypeError:
+            # If EthRPC.get_transaction_count has no 'block' kwarg
+            rpc_nonce = self._eth_rpc.get_transaction_count(self._sender)
+        self._sender.nonce = Number(rpc_nonce)
+
     def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
         """Set account associated with an address."""
         raise ValueError("Tests are not allowed to set pre-alloc items in execute mode")
@@ -300,6 +312,8 @@ class Alloc(BaseAlloc):
         deploy_gas_limit = min(deploy_gas_limit * 2, 30_000_000)
         print(f"Deploying contract with gas limit: {deploy_gas_limit}")
 
+        self._refresh_sender_nonce()
+
         deploy_tx = Transaction(
             sender=self._sender,
             to=None,
@@ -362,6 +376,9 @@ class Alloc(BaseAlloc):
                         sum(Op.SSTORE(key, value) for key, value in storage.root.items()) + Op.STOP
                     )
                 )
+
+                self._refresh_sender_nonce()
+
                 set_storage_tx = Transaction(
                     sender=self._sender,
                     to=eoa,
@@ -385,6 +402,8 @@ class Alloc(BaseAlloc):
                 )
                 self._eth_rpc.send_transaction(set_storage_tx)
                 self._txs.append(set_storage_tx)
+
+            self._refresh_sender_nonce()
 
             if delegation is not None:
                 if not isinstance(delegation, Address) and delegation == "Self":
@@ -426,6 +445,8 @@ class Alloc(BaseAlloc):
 
         else:
             if Number(amount) > 0:
+                self._refresh_sender_nonce()
+
                 fund_tx = Transaction(
                     sender=self._sender,
                     to=eoa,
@@ -459,6 +480,8 @@ class Alloc(BaseAlloc):
         If the address is already present in the pre-alloc the amount will be
         added to its existing balance.
         """
+        self._refresh_sender_nonce()
+
         fund_tx = Transaction(
             sender=self._sender,
             to=address,
