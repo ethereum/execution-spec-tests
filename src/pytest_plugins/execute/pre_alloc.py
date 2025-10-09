@@ -377,7 +377,6 @@ class Alloc(BaseAlloc):
                     )
                 )
 
-                # --- REFRESH SENDER NONCE FROM RPC ---
                 self._refresh_sender_nonce()
 
                 set_storage_tx = Transaction(
