@@ -219,7 +219,7 @@ class EthRPC(BaseRPC):
         else:
             self.poll_interval = 1.0
 
-    def config(self, timeout: int | None = None):
+    def config(self, timeout: int | None = None) -> EthConfigResponse | None:
         """
         `eth_config`: Returns information about a fork configuration of the
         client.
