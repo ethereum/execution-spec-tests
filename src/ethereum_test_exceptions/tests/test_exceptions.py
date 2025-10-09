@@ -33,7 +33,7 @@ BlockExceptionListAdapter: TypeAdapter = TypeAdapter(BlockExceptionInstanceOrLis
 )
 def test_exceptions_string_conversion(
     exception: BlockException | TransactionException, expected: str
-):
+) -> None:
     """
     Test that the exceptions are unique and have the correct string
     representation.
@@ -92,6 +92,6 @@ def test_exceptions_string_conversion(
         ),
     ],
 )
-def test_exceptions_or(type_adapter: TypeAdapter, exception, expected: str):
+def test_exceptions_or(type_adapter: TypeAdapter, exception: list, expected: str) -> None:
     """Test that the exceptions can be combined using the | operator."""
     assert type_adapter.dump_python(type_adapter.validate_python(exception)) == expected
