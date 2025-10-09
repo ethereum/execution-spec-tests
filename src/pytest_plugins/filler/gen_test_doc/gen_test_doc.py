@@ -79,7 +79,7 @@ logger = logging.getLogger("mkdocs")
 docstring_test_function_history: Dict[str, str] = {}
 
 
-def pytest_addoption(parser):  # noqa: D103
+def pytest_addoption(parser: pytest.Parser) -> None:  # noqa: D103
     gen_docs = parser.getgroup(
         "gen_docs", "Arguments related to generating test case documentation"
     )
@@ -103,7 +103,7 @@ def pytest_addoption(parser):  # noqa: D103
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):  # noqa: D103
+def pytest_configure(config: pytest.Config) -> None:  # noqa: D103
     if config.getoption("gen_docs"):
         config.option.disable_html = True
         config.pluginmanager.register(TestDocsGenerator(config), "test-case-doc-generator")
@@ -234,7 +234,7 @@ def get_test_function_test_type(item: pytest.Item) -> str:
 class TestDocsGenerator:
     """Pytest plugin class for generating test case documentation."""
 
-    def __init__(self, config) -> None:
+    def __init__(self, config: pytest.Config) -> None:
         """Initialize the plugin with the given pytest config."""
         self.config = config
         self.target_fork: str = config.getoption("gen_docs_target_fork")
@@ -255,7 +255,9 @@ class TestDocsGenerator:
         self.page_props: PagePropsLookup = {}
 
     @pytest.hookimpl(hookwrapper=True, trylast=True)
-    def pytest_collection_modifyitems(self, config: pytest.Config, items: List[pytest.Item]):
+    def pytest_collection_modifyitems(
+        self, config: pytest.Config, items: List[pytest.Item]
+    ) -> object:
         """Generate html doc for each test item that pytest has collected."""
         yield
 
@@ -285,16 +287,21 @@ class TestDocsGenerator:
         self.update_mkdocs_nav()
 
     @pytest.hookimpl(tryfirst=True)
-    def pytest_runtestloop(self, session):
+    def pytest_runtestloop(self, session: pytest.Session) -> bool:
         """Skip test execution, only generate docs."""
         session.testscollected = 0
         return True
 
-    def pytest_terminal_summary(self, terminalreporter, exitstatus, config):
+    def pytest_terminal_summary(
+        self,
+        terminalreporter: Any,
+        exitstatus: int,
+        config: pytest.Config,
+    ) -> None:
         """Add a summary line for the docs."""
         terminalreporter.write_sep("=", f"{len(self.page_props)} doc pages generated", bold=True)
 
-    def _setup_logger(self):
+    def _setup_logger(self) -> None:
         """
         Configure the mkdocs logger and adds a StreamHandler if outside mkdocs.
 
@@ -342,7 +349,7 @@ class TestDocsGenerator:
         # local test build, e.g. via `uv run mkdocs serve`
         return "/execution-spec-tests/"
 
-    def add_global_page_props_to_env(self):
+    def add_global_page_props_to_env(self) -> None:
         """Populate global page properties used in j2 templates."""
         global_page_props = {
             "target_fork": self.target_fork,
@@ -405,7 +412,7 @@ class TestDocsGenerator:
 
             module_relative_path = Path(items[0].module.__file__).relative_to(Path.cwd())
             source_url = generate_github_url(
-                module_relative_path,
+                str(module_relative_path),
                 branch_or_commit_or_tag=self.ref,
                 line_number=items[0].function.__code__.co_firstlineno,
             )
@@ -528,7 +535,9 @@ class TestDocsGenerator:
                 title=sanitize_string_title(str(directory.name)),
                 path=directory,
                 pytest_node_id=str(directory),
-                source_code_url=generate_github_url(directory, branch_or_commit_or_tag=self.ref),
+                source_code_url=generate_github_url(
+                    str(directory), branch_or_commit_or_tag=self.ref
+                ),
                 # TODO: This won't work in all cases; should be from the
                 # development fork Currently breaks for
                 # `tests/unscheduled/eip7692_eof_v1/index.md`
@@ -567,7 +576,9 @@ class TestDocsGenerator:
             self.page_props[str(spec_path)] = ModulePageProps(
                 title="Spec",
                 path=spec_path,
-                source_code_url=generate_github_url(spec_path, branch_or_commit_or_tag=self.ref),
+                source_code_url=generate_github_url(
+                    str(spec_path), branch_or_commit_or_tag=self.ref
+                ),
                 pytest_node_id=str(spec_path),
                 package_name=get_import_path(spec_path),
                 target_or_valid_fork="",
@@ -583,7 +594,9 @@ class TestDocsGenerator:
             self.page_props[str(md_path)] = MarkdownPageProps(
                 title=md_path.stem,
                 path=md_path,
-                source_code_url=generate_github_url(md_path, branch_or_commit_or_tag=self.ref),
+                source_code_url=generate_github_url(
+                    str(md_path), branch_or_commit_or_tag=self.ref
+                ),
                 # abuse: not a test, but used in source code link
                 pytest_node_id=str(md_path),
                 target_or_valid_fork="",

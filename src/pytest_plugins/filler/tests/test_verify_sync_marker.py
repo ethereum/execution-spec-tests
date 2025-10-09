@@ -1,6 +1,7 @@
 """Test blockchain sync fixture generation with verify_sync pytest marker."""
 
 import textwrap
+from typing import Any
 
 from ethereum_clis import TransitionTool
 
@@ -20,7 +21,7 @@ test_module_with_verify_sync = textwrap.dedent(
     TEST_ADDRESS = Account(balance=1_000_000)
 
     @pytest.mark.valid_at("Cancun")
-    def test_verify_sync_default(blockchain_test):
+    def test_verify_sync_default(blockchain_test) -> None:
         blockchain_test(
             pre={TestAddress: TEST_ADDRESS},
             post={},
@@ -30,7 +31,7 @@ test_module_with_verify_sync = textwrap.dedent(
 
     @pytest.mark.valid_at("Cancun")
     @pytest.mark.verify_sync
-    def test_verify_sync_with_marker(blockchain_test):
+    def test_verify_sync_with_marker(blockchain_test) -> None:
         blockchain_test(
             pre={TestAddress: TEST_ADDRESS},
             post={},
@@ -47,7 +48,7 @@ test_module_with_verify_sync = textwrap.dedent(
             ),
         ]
     )
-    def test_verify_sync_with_param_marks(blockchain_test, has_exception):
+    def test_verify_sync_with_param_marks(blockchain_test, has_exception) -> None:
         blockchain_test(
             pre={TestAddress: TEST_ADDRESS},
             post={},
@@ -65,9 +66,9 @@ test_module_with_verify_sync = textwrap.dedent(
 
 
 def test_verify_sync_marker(
-    pytester,
+    pytester: Any,
     default_t8n: TransitionTool,
-):
+) -> None:
     """
     Test blockchain sync fixture generation with verify_sync marker.
 
