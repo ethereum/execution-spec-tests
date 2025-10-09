@@ -3,17 +3,17 @@
 import pytest
 
 from ethereum_test_fixtures import LabeledFixtureFormat
-from ethereum_test_forks import ArrowGlacier, forks_from_until, get_deployed_forks, get_forks
+from ethereum_test_forks import ArrowGlacier, Fork, forks_from_until, get_deployed_forks, get_forks
 from ethereum_test_tools import StateTest
 
 
 @pytest.fixture
-def fork_map():
+def fork_map() -> dict[str, Fork]:
     """Lookup fork.name() : fork class."""
     return {fork.name(): fork for fork in get_forks()}
 
 
-def test_no_options_no_validity_marker(pytester: pytest.Pytester):
+def test_no_options_no_validity_marker(pytester: pytest.Pytester) -> None:
     """
     Test test parametrization with:
     - no fork command-line options,
@@ -36,7 +36,7 @@ def test_no_options_no_validity_marker(pytester: pytest.Pytester):
         len(forks_under_test) * len(StateTest.supported_fixture_formats) - expected_skipped
     )
     stdout = "\n".join(result.stdout.lines)
-    for fork in forks_under_test:
+    for test_fork in forks_under_test:
         for fixture_format in StateTest.supported_fixture_formats:
             if isinstance(fixture_format, LabeledFixtureFormat):
                 fixture_format_label = fixture_format.label
@@ -44,13 +44,13 @@ def test_no_options_no_validity_marker(pytester: pytest.Pytester):
             else:
                 fixture_format_label = fixture_format.format_name.lower()
             if (
-                not fixture_format.supports_fork(fork)
+                not fixture_format.supports_fork(test_fork)
                 or "blockchain_test_engine_x" in fixture_format_label
             ):
                 expected_passed -= 1
-                assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" not in stdout
+                assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" not in stdout
                 continue
-            assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" in stdout
+            assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" in stdout
 
     result.assert_outcomes(
         passed=expected_passed,
@@ -61,7 +61,9 @@ def test_no_options_no_validity_marker(pytester: pytest.Pytester):
 
 
 @pytest.mark.parametrize("fork", ["London", "Paris"])
-def test_from_london_option_no_validity_marker(pytester: pytest.Pytester, fork_map, fork):
+def test_from_london_option_no_validity_marker(
+    pytester: pytest.Pytester, fork_map: dict[str, Fork], fork: str
+) -> None:
     """
     Test test parametrization with:
     - --from London command-line option,
@@ -82,7 +84,7 @@ def test_from_london_option_no_validity_marker(pytester: pytest.Pytester, fork_m
     forks_under_test = forks_from_until(fork_map[fork], all_forks[-1])
     expected_passed = len(forks_under_test) * len(StateTest.supported_fixture_formats)
     stdout = "\n".join(result.stdout.lines)
-    for fork in forks_under_test:
+    for test_fork in forks_under_test:
         for fixture_format in StateTest.supported_fixture_formats:
             if isinstance(fixture_format, LabeledFixtureFormat):
                 fixture_format_label = fixture_format.label
@@ -90,13 +92,13 @@ def test_from_london_option_no_validity_marker(pytester: pytest.Pytester, fork_m
             else:
                 fixture_format_label = fixture_format.format_name.lower()
             if (
-                not fixture_format.supports_fork(fork)
+                not fixture_format.supports_fork(test_fork)
                 or "blockchain_test_engine_x" in fixture_format_label
             ):
                 expected_passed -= 1
-                assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" not in stdout
+                assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" not in stdout
                 continue
-            assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" in stdout
+            assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" in stdout
     result.assert_outcomes(
         passed=expected_passed,
         failed=0,
@@ -105,7 +107,9 @@ def test_from_london_option_no_validity_marker(pytester: pytest.Pytester, fork_m
     )
 
 
-def test_from_london_until_shanghai_option_no_validity_marker(pytester: pytest.Pytester, fork_map):
+def test_from_london_until_shanghai_option_no_validity_marker(
+    pytester: pytest.Pytester, fork_map: dict[str, Fork]
+) -> None:
     """
     Test test parametrization with:
     - --from London command-line option,
@@ -130,7 +134,7 @@ def test_from_london_until_shanghai_option_no_validity_marker(pytester: pytest.P
     if ArrowGlacier in forks_under_test:
         forks_under_test.remove(ArrowGlacier)
         expected_passed -= len(StateTest.supported_fixture_formats)
-    for fork in forks_under_test:
+    for test_fork in forks_under_test:
         for fixture_format in StateTest.supported_fixture_formats:
             if isinstance(fixture_format, LabeledFixtureFormat):
                 fixture_format_label = fixture_format.label
@@ -138,13 +142,13 @@ def test_from_london_until_shanghai_option_no_validity_marker(pytester: pytest.P
             else:
                 fixture_format_label = fixture_format.format_name.lower()
             if (
-                not fixture_format.supports_fork(fork)
+                not fixture_format.supports_fork(test_fork)
                 or "blockchain_test_engine_x" in fixture_format_label
             ):
                 expected_passed -= 1
-                assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" not in stdout
+                assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" not in stdout
                 continue
-            assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" in stdout
+            assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" in stdout
     result.assert_outcomes(
         passed=expected_passed,
         failed=0,
@@ -153,7 +157,9 @@ def test_from_london_until_shanghai_option_no_validity_marker(pytester: pytest.P
     )
 
 
-def test_from_paris_until_paris_option_no_validity_marker(pytester: pytest.Pytester, fork_map):
+def test_from_paris_until_paris_option_no_validity_marker(
+    pytester: pytest.Pytester, fork_map: dict[str, Fork]
+) -> None:
     """
     Test test parametrization with:
     - --from Paris command-line option,
@@ -177,7 +183,7 @@ def test_from_paris_until_paris_option_no_validity_marker(pytester: pytest.Pytes
     stdout: str = "\n".join(result.stdout.lines)
     assert len(stdout) > 0, "stdout is empty string"
 
-    for fork in forks_under_test:
+    for test_fork in forks_under_test:
         for fixture_format in StateTest.supported_fixture_formats:
             if isinstance(fixture_format, LabeledFixtureFormat):
                 fixture_format_label = fixture_format.label
@@ -186,9 +192,9 @@ def test_from_paris_until_paris_option_no_validity_marker(pytester: pytest.Pytes
                 fixture_format_label = fixture_format.format_name.lower()
             if "blockchain_test_engine_x" in fixture_format_label:
                 expected_passed -= 1
-                assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" not in stdout
+                assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" not in stdout
                 continue
-            assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" in stdout
+            assert f":test_all_forks[fork_{test_fork}-{fixture_format_label}]" in stdout
     result.assert_outcomes(
         passed=expected_passed,
         failed=0,

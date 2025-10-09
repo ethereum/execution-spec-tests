@@ -7,7 +7,7 @@ import pytest
 from ethereum_clis import TransitionTool
 
 
-def generate_test(**kwargs: str):
+def generate_test(**kwargs: str) -> str:
     """Generate a test function with the given fork markers."""
     markers = [f"@pytest.mark.{key}({value})" for key, value in kwargs.items()]
     marker_lines = "\n".join(markers)
@@ -195,12 +195,12 @@ def test_case(state_test):
     ],
 )
 def test_fork_markers(
-    pytester,
+    pytester: pytest.Pytester,
     test_function: str,
     outcomes: dict,
     pytest_args: List[str],
     default_t8n: TransitionTool,
-):
+) -> None:
     """
     Test fork markers in an isolated test session, i.e., in
     a `fill` execution.
@@ -210,6 +210,7 @@ def test_fork_markers(
     """
     pytester.makepyfile(test_function)
     pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    assert default_t8n.server_url is not None
     result = pytester.runpytest(
         "-c",
         "pytest-fill.ini",
