@@ -1,9 +1,10 @@
 """Hive instance information structures."""
 
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import yaml
 from pydantic import BaseModel, Field, RootModel
+from typing_extensions import Self
 
 from ethereum_test_base_types import CamelModel
 
@@ -11,12 +12,12 @@ from ethereum_test_base_types import CamelModel
 class YAMLModel(BaseModel):
     """A helper class for YAML serialization of pydantic models."""
 
-    def yaml(self, **kwargs):
+    def yaml(self, **kwargs: Any) -> str:
         """Return the YAML representation of the model."""
         return yaml.dump(self.model_dump(), **kwargs)
 
     @classmethod
-    def parse_yaml(cls, yaml_string):
+    def parse_yaml(cls, yaml_string: str) -> Self:
         """Parse a YAML string into a model instance."""
         data = yaml.safe_load(yaml_string)
         return cls(**data)

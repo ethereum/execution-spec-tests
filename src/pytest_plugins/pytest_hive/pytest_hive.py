@@ -39,6 +39,7 @@ import os
 import warnings
 from dataclasses import asdict
 from pathlib import Path
+from typing import Any, Generator, List
 
 import pytest
 from filelock import FileLock
@@ -52,7 +53,7 @@ from .hive_info import ClientFile, HiveInfo
 logger = get_logger(__name__)
 
 
-def pytest_configure(config):  # noqa: D103
+def pytest_configure(config: pytest.Config) -> None:  # noqa: D103
     hive_simulator_url = config.getoption("hive_simulator")
     if hive_simulator_url is None:
         pytest.exit(
@@ -66,10 +67,10 @@ def pytest_configure(config):  # noqa: D103
         )
     # TODO: Try and get these into fixtures; this is only here due to the
     # "dynamic" parametrization of client_type with hive_execution_clients.
-    config.hive_simulator_url = hive_simulator_url
-    config.hive_simulator = Simulation(url=hive_simulator_url)
+    config.hive_simulator_url = hive_simulator_url  # type: ignore[attr-defined]
+    config.hive_simulator = Simulation(url=hive_simulator_url)  # type: ignore[attr-defined]
     try:
-        config.hive_execution_clients = config.hive_simulator.client_types(
+        config.hive_execution_clients = config.hive_simulator.client_types(  # type: ignore[attr-defined]
             role=ClientRole.ExecutionClient
         )
     except Exception as e:
@@ -85,7 +86,7 @@ def pytest_configure(config):  # noqa: D103
         pytest.exit(message)
 
 
-def pytest_addoption(parser: pytest.Parser):  # noqa: D103
+def pytest_addoption(parser: pytest.Parser) -> None:  # noqa: D103
     pytest_hive_group = parser.getgroup("pytest_hive", "Arguments related to pytest hive")
     pytest_hive_group.addoption(
         "--hive-simulator",
@@ -114,14 +115,14 @@ def get_hive_info(simulator: Simulation) -> HiveInfo | None:
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_report_header(config, start_path):
+def pytest_report_header(config: pytest.Config, start_path: Path) -> List[str] | None:
     """Add lines to pytest's console output header."""
     del start_path
 
     if config.option.collectonly:
-        return
-    header_lines = [f"hive simulator: {config.hive_simulator_url}"]
-    if hive_info := get_hive_info(config.hive_simulator):
+        return None
+    header_lines = [f"hive simulator: {config.hive_simulator_url}"]  # type: ignore[attr-defined]
+    if hive_info := get_hive_info(config.hive_simulator):  # type: ignore[attr-defined]
         hive_command = " ".join(hive_info.command)
         header_lines += [
             f"hive command: {hive_command}",
@@ -136,7 +137,9 @@ def pytest_report_header(config, start_path):
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(
+    item: pytest.Item, call: pytest.CallInfo[None]
+) -> Generator[None, Any, None]:
     """
     Make the setup, call, and teardown results available in the teardown phase
     of a test fixture (i.e., after yield has been called).
@@ -156,13 +159,13 @@ def pytest_runtest_makereport(item, call):
 
 
 @pytest.fixture(scope="session")
-def simulator(request) -> Simulation:
+def simulator(request: pytest.FixtureRequest) -> Simulation:
     """Return the Hive simulator instance."""
-    return request.config.hive_simulator
+    return request.config.hive_simulator  # type: ignore[attr-defined]
 
 
 @pytest.fixture(scope="session")
-def hive_info(simulator: Simulation):
+def hive_info(simulator: Simulation) -> HiveInfo | None:
     """Fetch and return the Hive instance information."""
     return get_hive_info(simulator)
 
@@ -175,7 +178,7 @@ def client_file(hive_info: HiveInfo | None) -> ClientFile:
     return hive_info.client_file
 
 
-def get_test_suite_scope(fixture_name, config: pytest.Config):
+def get_test_suite_scope(fixture_name: str, config: pytest.Config) -> str:
     """
     Return the appropriate scope of the test suite.
 
@@ -188,13 +191,13 @@ def get_test_suite_scope(fixture_name, config: pytest.Config):
     return "module"
 
 
-@pytest.fixture(scope=get_test_suite_scope)
+@pytest.fixture(scope=get_test_suite_scope)  # type: ignore[arg-type]
 def test_suite(
     simulator: Simulation,
     session_temp_folder: Path,
     test_suite_name: str,
     test_suite_description: str,
-):
+) -> Generator[HiveTestSuite, None, None]:
     """Defines a Hive test suite and cleans up after all tests have run."""
     suite_file_name = f"test_suite_{test_suite_name}"
     suite_file = session_temp_folder / suite_file_name
@@ -239,7 +242,9 @@ def test_suite(
 
 
 @pytest.fixture(scope="function")
-def hive_test(request, test_suite: HiveTestSuite):
+def hive_test(
+    request: pytest.FixtureRequest, test_suite: HiveTestSuite
+) -> Generator[HiveTest, None, None]:
     """
     Propagate the pytest test case and its result to the hive server.
 
