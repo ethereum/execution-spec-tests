@@ -190,6 +190,14 @@ exclude = [
     '^site/',
 ]
 plugins = ["pydantic.mypy"]
+# more rules
+namespace_packages = true
+strict_optional = true
+strict_bytes = true
+#warn_unused_ignores = true TODO
+warn_unused_configs = true
+warn_redundant_casts = true
+ignore_missing_imports = false
 
 [tool.codespell]
 skip = ".venv,__pycache__,.git,build,dist,*.pyc,*.lock"
