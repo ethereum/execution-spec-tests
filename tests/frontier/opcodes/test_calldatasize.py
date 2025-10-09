@@ -26,7 +26,7 @@ def test_calldatasize(
     args_size: int,
     pre: Alloc,
     calldata_source: str,
-):
+) -> None:
     """
     Test `CALLDATASIZE` opcode.
 

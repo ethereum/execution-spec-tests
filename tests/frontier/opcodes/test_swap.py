@@ -28,7 +28,7 @@ from ethereum_test_tools import StateTestFiller, Storage, Transaction
     ids=lambda op: str(op),
 )
 @pytest.mark.valid_from("Frontier")
-def test_swap(state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: Op):
+def test_swap(state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: Op) -> None:
     """
     The set of `SWAP*` opcodes swaps the top of the stack with a specific
     element.
@@ -102,7 +102,7 @@ def test_stack_underflow(
     fork: Fork,
     pre: Alloc,
     swap_opcode: Op,
-):
+) -> None:
     """
     A test to ensure that the stack underflow when there are not enough
     elements for the `SWAP*` opcode to operate.

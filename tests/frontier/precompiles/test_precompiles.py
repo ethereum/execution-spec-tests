@@ -57,7 +57,7 @@ def precompile_addresses(fork: Fork) -> Iterator[Tuple[Address, bool]]:
 @pytest.mark.parametrize_by_fork("address,precompile_exists", precompile_addresses)
 def test_precompiles(
     state_test: StateTestFiller, address: Address, precompile_exists: bool, pre: Alloc
-):
+) -> None:
     """
     Tests the behavior of precompiled contracts in the Ethereum state test.
 

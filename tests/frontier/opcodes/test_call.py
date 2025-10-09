@@ -22,7 +22,7 @@ def test_call_large_offset_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     CALL with ret_offset larger than memory size and ret_size zero Then do an
     MSTORE in that offset to see if memory was expanded in CALL.
@@ -89,7 +89,7 @@ def test_call_memory_expands_on_early_revert(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     When CALL reverts early (e.g. because of not enough balance by the sender),
     memory should be expanded anyway. We check this with an MSTORE.
@@ -172,7 +172,7 @@ def test_call_large_args_offset_size_zero(
     pre: Alloc,
     fork: Fork,
     call_opcode: Op,
-):
+) -> None:
     """
     Test xCALL with an extremely large args_offset and args_size set to zero.
     Since the size is zero, the large offset should not cause a revert.

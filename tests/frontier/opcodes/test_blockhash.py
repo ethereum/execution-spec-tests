@@ -14,7 +14,7 @@ from ethereum_test_tools import Opcodes as Op
 
 
 @pytest.mark.valid_from("Frontier")
-def test_genesis_hash_available(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_genesis_hash_available(blockchain_test: BlockchainTestFiller, pre: Alloc) -> None:
     """
     Verify BLOCKHASH returns genesis and block 1 hashes.
 

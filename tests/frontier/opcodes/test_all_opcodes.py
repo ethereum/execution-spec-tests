@@ -54,7 +54,7 @@ def prepare_suffix(opcode: Opcode) -> Bytecode:
     pr=["https://github.com/ethereum/execution-spec-tests/pull/748"],
 )
 @pytest.mark.valid_from("Frontier")
-def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork) -> None:
     """
     Test each possible opcode on the fork with a single contract that calls
     each opcode in succession. Check that each subcall passes if the opcode is
@@ -110,7 +110,7 @@ def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
 
 
 @pytest.mark.valid_from("Cancun")
-def test_cover_revert(state_test: StateTestFiller, pre: Alloc):
+def test_cover_revert(state_test: StateTestFiller, pre: Alloc) -> None:
     """Cover state revert from original tests for the coverage script."""
     tx = Transaction(
         sender=pre.fund_eoa(),

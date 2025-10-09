@@ -35,7 +35,7 @@ def test_dup(
     fork: str,
     dup_opcode: Op,
     pre: Alloc,
-):
+) -> None:
     """
     Test the DUP1-DUP16 opcodes.
 

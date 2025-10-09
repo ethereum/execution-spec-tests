@@ -117,7 +117,7 @@ def test_call_identity_precompile(
     call_succeeds: bool,
     tx_gas_limit: int,
     contract_balance: int,
-):
+) -> None:
     """
     Test identity precompile RETURNDATA is sized correctly based on the input
     size.
@@ -193,7 +193,7 @@ def test_call_identity_precompile_large_params(
     memory_values: Tuple[int, ...],
     call_succeeds: bool,
     tx_gas_limit: int,
-):
+) -> None:
     """Test identity precompile when out of gas occurs."""
     env = Environment()
     storage = Storage()

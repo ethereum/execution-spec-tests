@@ -23,7 +23,7 @@ class Operation(Enum):
     SUICIDE = 1
     SUICIDE_TO_ITSELF = 2
 
-    def __int__(self):
+    def __int__(self) -> int:
         """Convert to int."""
         return int(self.value)
 
@@ -52,7 +52,7 @@ def test_create_suicide_during_transaction_create(
     create_opcode: Op,
     operation: Operation,
     transaction_create: bool,
-):
+) -> None:
     """Contract init code calls suicide then measures different metrics."""
     if create_opcode != Op.CREATE and transaction_create:
         pytest.skip(f"Excluded: {create_opcode} with transaction_create=True")

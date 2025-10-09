@@ -144,7 +144,7 @@ def test_calldatacopy(
     pre: Alloc,
     code_address_storage: Account,
     to_address_storage: Account | None,
-):
+) -> None:
     """
     Test `CALLDATACOPY` opcode.
 

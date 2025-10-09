@@ -32,7 +32,7 @@ def test_precompile_absence(
     pre: Alloc,
     fork: Fork,
     calldata_size: int,
-):
+) -> None:
     """
     Test that addresses close to zero are not precompiles unless active in the
     fork.
