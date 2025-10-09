@@ -32,7 +32,7 @@ import json
 import os
 from enum import Enum
 from itertools import count
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import pytest
 
@@ -288,7 +288,7 @@ def test_valid_inputs(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Test valid sanity precompile calls that are expected to succeed.
 
@@ -342,7 +342,7 @@ def test_invalid_inputs(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Test invalid precompile calls.
 
@@ -361,7 +361,7 @@ def test_invalid_inputs(
     )
 
 
-def kzg_point_evaluation_vector_from_dict(data: dict):
+def kzg_point_evaluation_vector_from_dict(data: dict) -> Any:
     """Create a KZGPointEvaluation from a dictionary."""
     if "input" not in data:
         raise ValueError("Missing 'input' key in data")
@@ -455,7 +455,7 @@ def test_external_vectors(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Test precompile calls using external test vectors compiled from different
     sources.
@@ -492,7 +492,7 @@ def test_call_opcode_types(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Test calling the Point Evaluation Precompile with different call types, gas
     and parameter configuration.
@@ -534,7 +534,7 @@ def test_tx_entry_point(
     call_gas: int,
     pre: Alloc,
     proof_correct: bool,
-):
+) -> None:
     """
     Test calling the Point Evaluation Precompile directly as transaction entry
     point, and measure the gas consumption.
@@ -619,7 +619,7 @@ def test_precompile_before_fork(
     pre: Alloc,
     tx: Transaction,
     precompile_caller_address: Address,
-):
+) -> None:
     """
     Test calling the Point Evaluation Precompile before the appropriate fork.
     """
@@ -674,7 +674,7 @@ def test_precompile_during_fork(
     precompile_caller_address: Address,
     precompile_input: bytes,
     sender: EOA,
-):
+) -> None:
     """
     Test calling the Point Evaluation Precompile during the appropriate fork.
     """

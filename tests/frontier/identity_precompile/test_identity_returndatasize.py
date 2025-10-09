@@ -36,7 +36,7 @@ def test_identity_precompile_returndata(
     args_size: int,
     output_size: int,
     expected_returndatasize: int,
-):
+) -> None:
     """
     Test identity precompile RETURNDATA is sized correctly based on the input
     size.

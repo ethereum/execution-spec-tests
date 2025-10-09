@@ -25,7 +25,7 @@ class BaseStaticTest(BaseModel):
     format_name: ClassVar[str] = ""
 
     @classmethod
-    def __pydantic_init_subclass__(cls, **kwargs):
+    def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         """
         Register all subclasses of BaseStaticTest with a static test format
         name set as possible static test format.

@@ -1,13 +1,14 @@
 """Pytest configuration for state tests."""
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
 DEFAULT_BENCHMARK_FORK = "Prague"
 
 
-def pytest_generate_tests(metafunc):
+def pytest_generate_tests(metafunc: Any) -> None:
     """
     Add default valid_from marker to state tests without explicit fork
     specification.
@@ -23,7 +24,7 @@ def pytest_generate_tests(metafunc):
             metafunc.definition.add_marker(pytest.mark.valid_from(DEFAULT_BENCHMARK_FORK))
 
 
-def pytest_collection_modifyitems(config, items):
+def pytest_collection_modifyitems(config: Any, items: Any) -> None:
     """Manage stateful test markers and filtering."""
     state_dir = Path(__file__).parent
     gen_docs = config.getoption("--gen-docs", default=False)
@@ -58,7 +59,7 @@ def pytest_collection_modifyitems(config, items):
         items.pop(i)
 
 
-def _add_stateful_markers_for_docs(items, state_dir):
+def _add_stateful_markers_for_docs(items: Any, state_dir: Any) -> None:
     """Add stateful markers for documentation generation."""
     for item in items:
         item_path = Path(item.fspath)

@@ -54,7 +54,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         pytest.param(b"\x08\xc3\x79\xa0", id="Error(string)"),
     ],
 )
-def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes):
+def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes) -> None:
     """Verifies proper handling of REVERT in initcode."""
     env = Environment()
     revert_size = len(revert)
@@ -113,7 +113,7 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
 @pytest.mark.parametrize("tx_initcode_count", [1, 255, 256])
 def test_txcreate_invalid_hash(
     state_test: StateTestFiller, pre: Alloc, tx_initcode_count: int, initcode_hash: Hash
-):
+) -> None:
     """Verifies proper handling of REVERT in initcode."""
     env = Environment()
 
@@ -143,10 +143,7 @@ def test_txcreate_invalid_hash(
 
 
 @pytest.mark.with_all_evm_code_types
-def test_initcode_aborts(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
+def test_initcode_aborts(state_test: StateTestFiller, pre: Alloc) -> None:
     """Verifies correct handling of a halt in EOF initcode."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -198,7 +195,7 @@ def test_txcreate_deploy_sizes(
     state_test: StateTestFiller,
     pre: Alloc,
     target_deploy_size: int,
-):
+) -> None:
     """
     Verify a mix of runtime contract sizes.
 
@@ -280,7 +277,7 @@ def test_txcreate_deploy_sizes(
         pytest.param(0x10000 + 1, id="over64k"),
     ],
 )
-def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_size: int):
+def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_size: int) -> None:
     """
     Exercises a number of auxdata size violations, and one maxcode success.
     """
@@ -353,7 +350,7 @@ def test_txcreate_insufficient_stipend(
     state_test: StateTestFiller,
     pre: Alloc,
     value: int,
-):
+) -> None:
     """
     Exercises an TXCREATE that fails because the calling account does not have
     enough ether to pay the stipend.
@@ -393,7 +390,7 @@ def test_txcreate_insufficient_stipend(
 
 
 @pytest.mark.with_all_evm_code_types
-def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork) -> None:
     """
     Exercises an TXCREATE when there is not enough gas for the constant charge.
     """
@@ -451,7 +448,7 @@ def test_insufficient_gas_memory_expansion(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     Exercises TXCREATE when the memory for auxdata has not been expanded but is
     requested.
@@ -507,7 +504,7 @@ def test_insufficient_returncode_auxdata_gas(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     Exercises a RETURNCODE when there is not enough gas for the initcode
     charge.
@@ -586,7 +583,7 @@ def test_static_flag_txcreate(
     opcode: Op,
     endowment: int,
     initcode: Container,
-):
+) -> None:
     """Verifies correct handling of the static call flag with TXCREATE."""
     env = Environment()
     initcode_hash = initcode.hash
@@ -643,7 +640,7 @@ def test_eof_txcreate_msg_depth(
     pre: Alloc,
     who_fails: int,
     evm_code_type: EVMCodeType,
-):
+) -> None:
     """
     Test TXCREATE handles msg depth limit correctly (1024).
     NOTE: due to block gas limit and the 63/64th rule this limit is
@@ -757,7 +754,7 @@ def test_eof_txcreate_msg_depth(
 def test_reentrant_txcreate(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies a reentrant TXCREATE case, where EIP-161 prevents conflict via
     nonce bump.
@@ -845,7 +842,7 @@ def test_invalid_container_deployment(
     fork: Fork,
     pre: Alloc,
     reason: str,
-):
+) -> None:
     """
     Verify contract is not deployed when an invalid container deployment is
     attempted.

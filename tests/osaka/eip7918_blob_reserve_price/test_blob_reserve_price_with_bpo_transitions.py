@@ -543,7 +543,7 @@ def test_reserve_price_at_transition(
     parent_block: Block,
     transition_block: Block,
     env: Environment,
-):
+) -> None:
     """
     Test reserve price mechanism across various block base fee and excess blob
     gas scenarios.

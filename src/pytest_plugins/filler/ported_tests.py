@@ -38,6 +38,7 @@ from typing import List, Set
 from urllib.parse import urlparse
 
 import pytest
+from _pytest.terminal import TerminalReporter
 
 
 def convert_to_filled(file_path: str) -> str | None:
@@ -58,7 +59,7 @@ def convert_to_filled(file_path: str) -> str | None:
     return path
 
 
-def pytest_addoption(parser: pytest.Parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     ported_from_group = parser.getgroup(
         "ported_from", "Arguments for showing ported_from marker information"
@@ -109,7 +110,7 @@ def pytest_addoption(parser: pytest.Parser):
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """Register the plugin if the CLI option is provided."""
     if config.getoption("show_ported_from"):
         config.pluginmanager.register(PortedFromDisplay(config), "ported-from-display")
@@ -118,7 +119,7 @@ def pytest_configure(config):
 class PortedFromDisplay:
     """Pytest plugin class for displaying ported_from marker information."""
 
-    def __init__(self, config) -> None:
+    def __init__(self, config: pytest.Config) -> None:
         """Initialize the plugin with the given pytest config."""
         self.config = config
         self.show_mode = config.getoption("show_ported_from")
@@ -132,7 +133,7 @@ class PortedFromDisplay:
         session: pytest.Session,
         config: pytest.Config,
         items: List[pytest.Item],
-    ):
+    ) -> object:
         """Extract ported_from information from collected test items."""
         yield
 
@@ -190,11 +191,16 @@ class PortedFromDisplay:
                 print(line)
 
     @pytest.hookimpl(tryfirst=True)
-    def pytest_runtestloop(self, session):
+    def pytest_runtestloop(self, session: pytest.Session) -> bool:
         """Skip test execution, only show ported_from information."""
         return True
 
-    def pytest_terminal_summary(self, terminalreporter, exitstatus, config):
+    def pytest_terminal_summary(
+        self,
+        terminalreporter: TerminalReporter,
+        exitstatus: int,
+        config: pytest.Config,
+    ) -> None:
         """Add a summary line."""
         if config.getoption("verbose") < 0:
             return

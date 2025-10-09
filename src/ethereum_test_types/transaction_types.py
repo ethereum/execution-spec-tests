@@ -89,7 +89,7 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar], Signabl
         return self.magic.to_bytes(1, byteorder="big")
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
-    def duplicate_v_as_y_parity(self, serializer):
+    def duplicate_v_as_y_parity(self, serializer: Any) -> Any:
         """
         Add a duplicate 'yParity' field (same as `v`) in JSON fixtures.
 
@@ -115,7 +115,7 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
         super().model_post_init(__context)
         self.sign()
 
-    def sign(self: "AuthorizationTuple"):
+    def sign(self: "AuthorizationTuple") -> None:
         """Signs the authorization tuple with a private key."""
         signature_bytes: bytes | None = None
         rlp_signing_bytes = self.rlp_signing_bytes()
@@ -221,7 +221,7 @@ class TransactionFixtureConverter(TransactionValidateToAsEmptyString):
     """
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
-    def serialize_to_as_empty_string(self, serializer):
+    def serialize_to_as_empty_string(self, serializer: Any) -> Any:
         """
         Serialize the `to` field as the empty string if the model value is
         None.
@@ -238,7 +238,7 @@ class TransactionTransitionToolConverter(TransactionValidateToAsEmptyString):
     """
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
-    def serialize_to_as_none(self, serializer):
+    def serialize_to_as_none(self, serializer: Any) -> Any:
         """
         Serialize the `to` field as `None` if the model value is None.
 
@@ -298,7 +298,7 @@ class Transaction(
     class InvalidFeePaymentError(Exception):
         """Transaction described more than one fee payment type."""
 
-        def __str__(self):
+        def __str__(self) -> str:
             """Print exception string."""
             return "only one type of fee payment field can be used in a single tx"
 
@@ -308,11 +308,11 @@ class Transaction(
         account.
         """
 
-        def __str__(self):
+        def __str__(self) -> str:
             """Print exception string."""
             return "can't define both 'signature' and 'private_key'"
 
-    def model_post_init(self, __context):
+    def model_post_init(self, __context: Any) -> None:
         """Ensure transaction has no conflicting properties."""
         super().model_post_init(__context)
 
@@ -326,17 +326,17 @@ class Transaction(
         if "ty" not in self.model_fields_set:
             # Try to deduce transaction type from included fields
             if self.initcodes is not None:
-                self.ty = 6
+                self.ty = HexNumber(6)
             elif self.authorization_list is not None:
-                self.ty = 4
+                self.ty = HexNumber(4)
             elif self.max_fee_per_blob_gas is not None or self.blob_versioned_hashes is not None:
-                self.ty = 3
+                self.ty = HexNumber(3)
             elif self.max_fee_per_gas is not None or self.max_priority_fee_per_gas is not None:
-                self.ty = 2
+                self.ty = HexNumber(2)
             elif self.access_list is not None:
-                self.ty = 1
+                self.ty = HexNumber(1)
             else:
-                self.ty = 0
+                self.ty = HexNumber(0)
 
         if "v" in self.model_fields_set and self.secret_key is not None:
             raise Transaction.InvalidSignaturePrivateKeyError()
@@ -350,22 +350,22 @@ class Transaction(
 
         # Set default values for fields that are required for certain tx types
         if self.ty <= 1 and self.gas_price is None:
-            self.gas_price = TransactionDefaults.gas_price
+            self.gas_price = HexNumber(TransactionDefaults.gas_price)
         if self.ty >= 1 and self.access_list is None:
             self.access_list = []
         if self.ty < 1:
             assert self.access_list is None, "access_list must be None"
 
         if self.ty >= 2 and self.max_fee_per_gas is None:
-            self.max_fee_per_gas = TransactionDefaults.max_fee_per_gas
+            self.max_fee_per_gas = HexNumber(TransactionDefaults.max_fee_per_gas)
         if self.ty >= 2 and self.max_priority_fee_per_gas is None:
-            self.max_priority_fee_per_gas = TransactionDefaults.max_priority_fee_per_gas
+            self.max_priority_fee_per_gas = HexNumber(TransactionDefaults.max_priority_fee_per_gas)
         if self.ty < 2:
             assert self.max_fee_per_gas is None, "max_fee_per_gas must be None"
             assert self.max_priority_fee_per_gas is None, "max_priority_fee_per_gas must be None"
 
         if self.ty == 3 and self.max_fee_per_blob_gas is None:
-            self.max_fee_per_blob_gas = 1
+            self.max_fee_per_blob_gas = HexNumber(1)
         if self.ty != 3:
             assert self.blob_versioned_hashes is None, "blob_versioned_hashes must be None"
             assert self.max_fee_per_blob_gas is None, "max_fee_per_blob_gas must be None"
@@ -410,7 +410,7 @@ class Transaction(
             + bytes([v])
         )
 
-    def sign(self: "Transaction"):
+    def sign(self: "Transaction") -> None:
         """Signs the authorization tuple with a private key."""
         signature_bytes: bytes | None = None
         rlp_signing_bytes = self.rlp_signing_bytes()

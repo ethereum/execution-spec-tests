@@ -19,7 +19,7 @@ from .gen_test_doc.page_props import EipChecklistPageProps
 logger = logging.getLogger("mkdocs")
 
 
-def pytest_addoption(parser: pytest.Parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options for checklist generation."""
     group = parser.getgroup("checklist", "EIP checklist generation options")
     group.addoption(
@@ -63,7 +63,7 @@ WARNINGS_LINE = "<!-- WARNINGS LINE -->"
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):  # noqa: D103
+def pytest_configure(config: pytest.Config) -> None:  # noqa: D103
     config.pluginmanager.register(EIPChecklistCollector(), "eip-checklist-collector")
 
 
@@ -261,7 +261,7 @@ class EIP:
                 warnings.append(warning)
         return warnings
 
-    def mark_not_applicable(self):
+    def mark_not_applicable(self) -> None:
         """Read the not-applicable items from the EIP."""
         if self.path is None:
             return
@@ -289,7 +289,7 @@ class EIP:
                 for id_covered in ids:
                     self.items[id_covered].not_applicable_reason = reason
 
-    def mark_external_coverage(self):
+    def mark_external_coverage(self) -> None:
         """Read the externally covered items from the EIP."""
         if self.path is None:
             return
@@ -364,7 +364,7 @@ class EIP:
 class EIPChecklistCollector:
     """Collects and manages EIP checklist items from test markers."""
 
-    def __init__(self: "EIPChecklistCollector"):
+    def __init__(self: "EIPChecklistCollector") -> None:
         """Initialize the EIP checklist collector."""
         self.eips: Dict[int, EIP] = {}
 
@@ -441,12 +441,14 @@ class EIPChecklistCollector:
                         eip.add_covered_test(id_covered, item.nodeid)
 
     @pytest.hookimpl(tryfirst=True)
-    def pytest_runtestloop(self, session):
+    def pytest_runtestloop(self, session: pytest.Session) -> bool:
         """Skip test execution, only generate checklists."""
         session.testscollected = 0
         return True
 
-    def pytest_collection_modifyitems(self, config: pytest.Config, items: List[pytest.Item]):
+    def pytest_collection_modifyitems(
+        self, config: pytest.Config, items: List[pytest.Item]
+    ) -> None:
         """Collect checklist markers during test collection."""
         for item in items:
             eip = self.get_eip_from_item(item)

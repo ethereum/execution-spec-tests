@@ -1,5 +1,7 @@
 """Test the help plugin."""
 
+from typing import Any
+
 import pytest
 
 FILL_TEST_ARGS = (
@@ -16,7 +18,7 @@ FILL_TEST_ARGS = (
 
 
 @pytest.mark.parametrize("help_flag", ["--fill-help"])
-def test_local_arguments_present_in_fill_help(pytester, help_flag):
+def test_local_arguments_present_in_fill_help(pytester: Any, help_flag: str) -> None:
     """
     Test that locally defined command-line flags appear in the help if our
     custom help flag is used.
@@ -42,7 +44,9 @@ CONSUME_TEST_ARGS = (
         ("engine", "--consume-help"),
     ],
 )
-def test_local_arguments_present_in_base_consume_help(pytester, help_flag, command):
+def test_local_arguments_present_in_base_consume_help(
+    pytester: Any, help_flag: str, command: str
+) -> None:
     """
     Test that locally defined command-line flags appear in the help for consume
     subcommands.

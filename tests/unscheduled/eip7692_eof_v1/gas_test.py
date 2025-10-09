@@ -39,7 +39,7 @@ def gas_test(
     out_of_gas_testing: bool = True,
     *,
     prelude_code: Bytecode | None = None,
-):
+) -> None:
     """
     Create State Test to check the gas cost of a sequence of EOF code.
 

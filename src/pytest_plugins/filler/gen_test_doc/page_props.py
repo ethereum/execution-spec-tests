@@ -21,7 +21,7 @@ from jinja2 import Environment
 from ethereum_test_tools import Opcodes
 
 
-def apply_name_filters(input_string: str):
+def apply_name_filters(input_string: str) -> str:
     """
     Apply a list of capitalizations/regexes to names used in titles & nav
     menus.
@@ -132,7 +132,7 @@ class PagePropsBase:
         path = top_level_nav_entry / Path(*self.path.parts[1:]).with_suffix("")
         return nav_path_to_sanitized_str_tuple(path)
 
-    def write_page(self, file_opener: FileOpener, jinja2_env: Environment):
+    def write_page(self, file_opener: FileOpener, jinja2_env: Environment) -> None:
         """Write the page to the target directory."""
         template = jinja2_env.get_template(self.template)
         rendered_content = template.render(**asdict(self))
@@ -158,7 +158,7 @@ class EipChecklistPageProps(PagePropsBase):
         """Get the target output file for this page."""
         return self.path
 
-    def write_page(self, file_opener: FileOpener, jinja2_env: Environment):
+    def write_page(self, file_opener: FileOpener, jinja2_env: Environment) -> None:
         """Write the page to the target directory."""
         with file_opener.open(self.target_output_file, "w") as destination:
             destination.write("\n".join(self.lines))
@@ -203,12 +203,12 @@ class FunctionPageProps(PagePropsBase):
         """Get the target output file for this page."""
         return self.path.with_suffix("") / f"{self.title}.md"
 
-    def nav_entry(self, top_level_nav_entry) -> tuple:
+    def nav_entry(self, top_level_nav_entry: str) -> tuple:
         """Get the mkdocs navigation entry for this page."""
         nav_path_prefix = super().nav_entry(top_level_nav_entry)  # already sanitized
         return (*nav_path_prefix, f"<code>{self.title}</code>")
 
-    def write_page(self, file_opener: FileOpener, jinja2_env: Environment):
+    def write_page(self, file_opener: FileOpener, jinja2_env: Environment) -> None:
         """
         Test functions also get a static HTML page with parametrized test
         cases.
@@ -296,7 +296,7 @@ class MarkdownPageProps(PagePropsBase):
         """Get the target output file for this page."""
         return self.path
 
-    def write_page(self, file_opener: FileOpener, jinja2_env: Environment):
+    def write_page(self, file_opener: FileOpener, jinja2_env: Environment) -> None:
         """
         Write the page to the target directory.
 

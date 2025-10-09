@@ -36,7 +36,7 @@ def test_create2_return_data(
     return_type_in_create: Op,
     pre: Alloc,
     state_test: StateTestFiller,
-):
+) -> None:
     """
     Validate that create2 return data does not interfere with previously
     existing memory.

@@ -1,6 +1,6 @@
 """Ethereum General State Test filler static test spec parser."""
 
-from typing import Callable, ClassVar, List, Self, Set, Union
+from typing import Any, Callable, ClassVar, List, Self, Set, Union
 
 import pytest
 from _pytest.mark.structures import ParameterSet
@@ -39,7 +39,7 @@ class StateStaticTest(BaseStaticTest):
 
     model_config = ConfigDict(extra="forbid")
 
-    def model_post_init(self, context):
+    def model_post_init(self, context: Any) -> None:
         """Initialize StateStaticTest."""
         super().model_post_init(context)
 
@@ -153,7 +153,7 @@ class StateStaticTest(BaseStaticTest):
             d: int,
             g: int,
             v: int,
-        ):
+        ) -> None:
             for expect in self.expect:
                 if expect.has_index(d, g, v):
                     if fork in expect.network:
@@ -169,12 +169,13 @@ class StateStaticTest(BaseStaticTest):
                         )
                         tx = self.transaction.get_transaction(tags, d, g, v, exception)
                         post = expect.result.resolve(tags)
-                        return state_test(
+                        state_test(
                             env=env,
                             pre=pre,
                             post=post,
                             tx=tx,
                         )
+                        return
             pytest.fail(f"Expectation not found for d={d}, g={g}, v={v}, fork={fork}")
 
         if self.info and self.info.pytest_marks:

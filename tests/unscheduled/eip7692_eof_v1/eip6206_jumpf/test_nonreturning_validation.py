@@ -30,7 +30,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
     "outputs",
     [0, 1, 0x7F, 0x81, 0xFF],
 )
-def test_first_section_returning(eof_test: EOFTestFiller, code: Bytecode, outputs: int):
+def test_first_section_returning(eof_test: EOFTestFiller, code: Bytecode, outputs: int) -> None:
     """
     Test EOF validation failing because the first section is not non-returning.
     """
@@ -63,7 +63,7 @@ def test_first_section_returning(eof_test: EOFTestFiller, code: Bytecode, output
 )
 def test_first_section_with_inputs(
     eof_test: EOFTestFiller, code: Bytecode, inputs: int, outputs: int
-):
+) -> None:
     """
     Test EOF validation failing because the first section has non-zero number
     of inputs.
@@ -98,7 +98,7 @@ def test_first_section_with_inputs(
         pytest.param(Section.Code(Op.PUSH0 + Op.RJUMP[-3], code_outputs=1), id="rjump1"),
     ],
 )
-def test_returning_section_not_returning(eof_test: EOFTestFiller, code_section: Section):
+def test_returning_section_not_returning(eof_test: EOFTestFiller, code_section: Section) -> None:
     """
     Test EOF validation failing due to returning section with no RETF or
     JUMPF-to-returning.
@@ -124,7 +124,7 @@ def test_returning_section_not_returning(eof_test: EOFTestFiller, code_section: 
         ),
     ],
 )
-def test_returning_section_returncode(eof_test: EOFTestFiller, code_section: Section):
+def test_returning_section_returncode(eof_test: EOFTestFiller, code_section: Section) -> None:
     """
     Test EOF validation failing because a returning section has no RETF or
     JUMPF-to-returning - RETURNCODE version.
@@ -155,7 +155,7 @@ code_prefix = pytest.mark.parametrize(
 
 @first
 @code_prefix
-def test_retf_in_nonreturning(eof_test: EOFTestFiller, first: bool, code_prefix: Bytecode):
+def test_retf_in_nonreturning(eof_test: EOFTestFiller, first: bool, code_prefix: Bytecode) -> None:
     """
     Test EOF validation failing due to non-returning section with the RETF
     instruction.
@@ -172,7 +172,9 @@ def test_retf_in_nonreturning(eof_test: EOFTestFiller, first: bool, code_prefix:
 
 @first
 @code_prefix
-def test_jumpf_in_nonreturning(eof_test: EOFTestFiller, first: bool, code_prefix: Bytecode):
+def test_jumpf_in_nonreturning(
+    eof_test: EOFTestFiller, first: bool, code_prefix: Bytecode
+) -> None:
     """
     Test EOF validation failing due to non-returning section with the JUMPF
     instruction.
@@ -257,6 +259,6 @@ def test_jumpf_in_nonreturning(eof_test: EOFTestFiller, first: bool, code_prefix
     ],
     ids=lambda x: x.name,
 )
-def test_callf_to_nonreturning(eof_test: EOFTestFiller, container: Container):
+def test_callf_to_nonreturning(eof_test: EOFTestFiller, container: Container) -> None:
     """Test EOF validation failing due to CALLF to non-returning section."""
     eof_test(container=container, expect_exception=EOFException.CALLF_TO_NON_RETURNING)

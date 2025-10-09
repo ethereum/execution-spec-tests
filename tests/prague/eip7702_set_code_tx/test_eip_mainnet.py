@@ -27,7 +27,7 @@ def test_eip_7702(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """Test the executing a simple SSTORE in a set-code transaction."""
     storage = Storage()
     sender = pre.fund_eoa()

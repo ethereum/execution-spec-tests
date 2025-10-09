@@ -72,7 +72,7 @@ def order_fixture(input_path: Path, output_path: Path) -> None:
         json.dump(data, f, indent=4)
 
 
-def process_directory(input_dir: Path, output_dir: Path):
+def process_directory(input_dir: Path, output_dir: Path) -> None:
     """
     Process a directory.
 
@@ -114,11 +114,11 @@ def process_directory(input_dir: Path, output_dir: Path):
     required=True,
     help="The output directory",
 )
-def order_fixtures(input_dir, output_dir):
+def order_fixtures(input_dir: str, output_dir: str) -> None:
     """Order json fixture by key recursively from the input directory."""
-    input_dir = Path(input_dir)
-    output_dir = Path(output_dir)
-    process_directory(input_dir, output_dir)
+    input_dir_path = Path(input_dir)
+    output_dir_path = Path(output_dir)
+    process_directory(input_dir_path, output_dir_path)
 
 
 if __name__ == "__main__":

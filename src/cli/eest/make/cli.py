@@ -17,7 +17,7 @@ from .commands import create_default_env, test
 
 
 @click.group(short_help="Generate project files.")
-def make():
+def make() -> None:
     """Generate project files."""
     pass
 

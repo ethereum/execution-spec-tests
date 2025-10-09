@@ -5,7 +5,7 @@ import os
 import sysconfig
 from pathlib import Path
 from shutil import which
-from typing import Dict, List
+from typing import Dict, List, Type
 
 import pytest
 from pydantic import TypeAdapter
@@ -20,7 +20,9 @@ DEFAULT_EVM_T8N_BINARY_NAME = "ethereum-spec-evm-resolver"
 
 
 @pytest.fixture(autouse=True)
-def monkeypatch_path_for_entry_points(monkeypatch):
+def monkeypatch_path_for_entry_points(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """
     Monkeypatch the PATH to add the "bin" directory where entrypoints are
     installed.
@@ -91,7 +93,9 @@ def test_calc_state_root(
 
 @pytest.mark.parametrize("evm_tool", [ExecutionSpecsTransitionTool])
 @pytest.mark.parametrize("binary_arg", ["no_binary_arg", "path_type", "str_type"])
-def test_evm_tool_binary_arg(evm_tool, binary_arg):
+def test_evm_tool_binary_arg(
+    evm_tool: Type[ExecutionSpecsTransitionTool], binary_arg: str
+) -> None:
     """Test the `evm_tool` binary argument."""
     if binary_arg == "no_binary_arg":
         evm_tool().version()
@@ -99,13 +103,17 @@ def test_evm_tool_binary_arg(evm_tool, binary_arg):
     elif binary_arg == "path_type":
         evm_bin = which(DEFAULT_EVM_T8N_BINARY_NAME)
         if not evm_bin:
-            # typing: Path can not take None; but if it is None, we may as well
-            # fail explicitly.
-            raise Exception("Failed to find `{DEFAULT_EVM_T8N_BINARY_NAME}` in the PATH via which")
+            # typing: Path can not take None; but if None, we may
+            # as well fail explicitly.
+            raise Exception(
+                f"Failed to find `{DEFAULT_EVM_T8N_BINARY_NAME}` in the PATH via which"
+            )
         evm_tool(binary=Path(evm_bin)).version()
         return
     elif binary_arg == "str_type":
-        evm_tool(binary=str(which(DEFAULT_EVM_T8N_BINARY_NAME))).version()
+        evm_bin_str = which(DEFAULT_EVM_T8N_BINARY_NAME)
+        if evm_bin_str:
+            evm_tool(binary=Path(evm_bin_str)).version()
         return
     raise Exception("unknown test parameter")
 

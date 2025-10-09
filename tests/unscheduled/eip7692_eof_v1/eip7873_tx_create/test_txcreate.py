@@ -43,7 +43,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 @pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize("tx_initcode_count", [1, 255, 256])
-def test_simple_txcreate(state_test: StateTestFiller, pre: Alloc, tx_initcode_count: int):
+def test_simple_txcreate(state_test: StateTestFiller, pre: Alloc, tx_initcode_count: int) -> None:
     """Verifies a simple TXCREATE case."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -66,7 +66,7 @@ def test_simple_txcreate(state_test: StateTestFiller, pre: Alloc, tx_initcode_co
 def test_txcreate_then_dataload(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies that a contract returned with auxdata does not overwrite the
     parent data.
@@ -112,7 +112,11 @@ def test_txcreate_then_dataload(
 
 
 @pytest.mark.with_all_evm_code_types
-def test_txcreate_then_call(state_test: StateTestFiller, pre: Alloc, evm_code_type: EVMCodeType):
+def test_txcreate_then_call(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    evm_code_type: EVMCodeType,
+) -> None:
     """
     Verifies a simple TXCREATE case, and then calls the deployed contract.
     """
@@ -175,7 +179,11 @@ def test_txcreate_then_call(state_test: StateTestFiller, pre: Alloc, evm_code_ty
         pytest.param(b"aabbccddeeffgghhii", id="extra"),
     ],
 )
-def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_bytes: bytes):
+def test_auxdata_variations(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    auxdata_bytes: bytes,
+) -> None:
     """Verifies that auxdata bytes are correctly handled in RETURNCODE."""
     env = Environment()
     auxdata_size = len(auxdata_bytes)
@@ -231,7 +239,7 @@ def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_byt
 
 
 @pytest.mark.with_all_evm_code_types
-def test_calldata(state_test: StateTestFiller, pre: Alloc):
+def test_calldata(state_test: StateTestFiller, pre: Alloc) -> None:
     """Verifies CALLDATA passing through TXCREATE."""
     env = Environment()
 
@@ -295,7 +303,7 @@ def test_txcreate_in_initcode(
     outer_create_opcode: Op,
     inner_create_opcode: Op,
     outer_create_reverts: bool,
-):
+) -> None:
     """
     Verifies an TXCREATE occurring within initcode creates that contract.
 
@@ -389,7 +397,7 @@ def test_return_data_cleared(
     state_test: StateTestFiller,
     pre: Alloc,
     evm_code_type: EVMCodeType,
-):
+) -> None:
     """
     Verifies the return data is not reused from a extcall but is cleared upon
     TXCREATE.
@@ -452,7 +460,7 @@ def test_return_data_cleared(
 def test_address_collision(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Tests address collision."""
     env = Environment(
         gas_limit=300_000_000_000,
@@ -503,7 +511,7 @@ def test_address_collision(
 def test_txcreate_revert_eof_returndata(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies the return data is not being deployed, even if happens to be valid
     EOF.
@@ -572,7 +580,7 @@ def test_txcreate_context(
     pre: Alloc,
     destination_code: Bytecode,
     expected_result: str,
-):
+) -> None:
     """Test TXCREATE's initcode context instructions."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -647,7 +655,7 @@ def test_txcreate_context(
 def test_txcreate_memory_context(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies an TXCREATE frame enjoys a separate EVM memory from its caller
     frame.
@@ -696,7 +704,7 @@ def test_txcreate_memory_context(
 def test_short_data_subcontainer(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Deploy a subcontainer where the data is "short" and filled by deployment
     code.

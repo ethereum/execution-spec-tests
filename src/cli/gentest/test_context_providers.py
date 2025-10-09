@@ -44,7 +44,8 @@ class StateTestProvider(Provider):
     transaction_response: Optional[TransactionByHashResponse] = None
     state: Optional[Dict[str, Dict]] = None
 
-    def _make_rpc_calls(self):
+    def _make_rpc_calls(self) -> None:
+        """Make RPC calls to fetch transaction and block data."""
         request = RPCRequest()
         print(
             f"Perform tx request: eth_get_transaction_by_hash({self.transaction_hash})",
@@ -56,7 +57,8 @@ class StateTestProvider(Provider):
         self.state = request.debug_trace_call(self.transaction_response)
 
         print("Perform eth_get_block_by_number", file=stderr)
-        self.block = request.eth_get_block_by_number(self.transaction_response.block_number)
+        assert self.transaction_response.block_number is not None
+        self.block = request.eth_get_block_by_number(int(self.transaction_response.block_number))
 
         print("Generate py test", file=stderr)
 

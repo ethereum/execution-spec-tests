@@ -101,7 +101,7 @@ class UTCFormatter(logging.Formatter):
     suffix.
     """
 
-    def formatTime(self, record, datefmt=None):  # noqa: D102,N802
+    def formatTime(self, record: LogRecord, datefmt: str | None = None) -> str:  # noqa: D102,N802
         # camelcase required
         dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
         return dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] + "+00:00"
@@ -235,7 +235,7 @@ def configure_logging(
 # ==========================================================================
 
 
-def pytest_addoption(parser):  # noqa: D103
+def pytest_addoption(parser: pytest.Parser) -> None:  # noqa: D103
     logging_group = parser.getgroup(
         "logging", "Arguments related to logging from test fixtures and tests."
     )
@@ -270,7 +270,7 @@ def get_log_stem(argv0: str, argv1: Optional[str]) -> str:
     return "-".join(name_parts)
 
 
-def pytest_configure_node(node):
+def pytest_configure_node(node: Any) -> None:
     """Initialize a variable for use in the worker (xdist hook)."""
     potential_subcommand = None
     if len(sys.argv) > 1:
@@ -332,7 +332,7 @@ def pytest_terminal_summary(terminalreporter: TerminalReporter) -> None:
         terminalreporter.write_sep("-", f"Log file: {eest_log_file_path.resolve()}", yellow=True)
 
 
-def log_only_to_file(level: int, msg: str, *args) -> None:
+def log_only_to_file(level: int, msg: str, *args: Any) -> None:
     """Log a message only to the file handler, bypassing stdout."""
     if not file_handler:
         return

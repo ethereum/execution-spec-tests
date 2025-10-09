@@ -37,7 +37,7 @@ class Merge(Paris):
     pass
 
 
-def pytest_addoption(parser: pytest.Parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add witness command-line options to pytest."""
     witness_group = parser.getgroup("witness", "Arguments for witness functionality")
     witness_group.addoption(
@@ -53,7 +53,7 @@ def pytest_addoption(parser: pytest.Parser):
     )
 
 
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """
     Pytest hook called after command line options have been parsed.
 

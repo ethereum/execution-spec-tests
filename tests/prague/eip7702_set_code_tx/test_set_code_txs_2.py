@@ -38,7 +38,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7702.version
 
 
 @pytest.mark.valid_from("Prague")
-def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Tx -> call -> pointer A -> contract A -> pointer B -> contract loop C.
 
@@ -94,7 +94,7 @@ def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Prague")
-def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Tx -> call -> pointer A -> pointer B.
 
@@ -138,7 +138,7 @@ def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Prague")
-def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc) -> None:
     """
     Tx -> call -> pointer A -> contract.
 
@@ -200,7 +200,7 @@ def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Prague")
-def test_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: Alloc) -> None:
     """
     Check extcode* operations on pointer before and after pointer is set.
 
@@ -333,7 +333,7 @@ def test_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: Alloc)
 @pytest.mark.valid_from("Prague")
 def test_call_to_precompile_in_pointer_context(
     state_test: StateTestFiller, pre: Alloc, precompile: int
-):
+) -> None:
     """
     Tx -> call -> pointer A -> precompile contract.
 
@@ -405,7 +405,7 @@ def test_call_to_precompile_in_pointer_context(
 
 @pytest.mark.with_all_precompiles
 @pytest.mark.valid_from("Prague")
-def test_pointer_to_precompile(state_test: StateTestFiller, pre: Alloc, precompile: int):
+def test_pointer_to_precompile(state_test: StateTestFiller, pre: Alloc, precompile: int) -> None:
     """
     Tx -> call -> pointer A -> precompile contract.
 
@@ -535,7 +535,7 @@ def test_gas_diff_pointer_vs_direct_call(
     access_list_rule: AccessListCall,
     pointer_definition: PointerDefinition,
     access_list_to: AccessListTo,
-):
+) -> None:
     """
     Check the gas difference when calling the contract directly vs as a pointer
     Combine with AccessList and AuthTuple gas reductions scenarios.
@@ -736,7 +736,7 @@ def test_pointer_call_followed_by_direct_call(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     If we first call by pointer then direct call, will the call/sload be hot
     The direct call will warm because pointer access marks it warm But the
@@ -815,7 +815,7 @@ def test_pointer_call_followed_by_direct_call(
 
 
 @pytest.mark.valid_from("Prague")
-def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Tx -> call -> pointer A -> static -> static violation.
 
@@ -862,7 +862,7 @@ def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Prague")
-def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc):
+def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Tx -> staticcall -> pointer A -> static violation.
 
@@ -909,7 +909,7 @@ def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("EOFv1")
-def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Tx -> call -> pointer A -> EOF.
 
@@ -955,7 +955,7 @@ def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Prague")
-def test_pointer_to_static_reentry(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_to_static_reentry(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Tx call -> pointer A -> static -> code -> pointer A -> static violation
     Verify that static context is active when called under pointer.
@@ -1028,7 +1028,7 @@ def test_pointer_to_static_reentry(state_test: StateTestFiller, pre: Alloc):
 )
 def test_contract_storage_to_pointer_with_storage(
     state_test: StateTestFiller, pre: Alloc, call_type: Op
-):
+) -> None:
     """
     Tx call -> contract with storage -> pointer A with storage ->
     storage/tstorage modify.
@@ -1133,7 +1133,7 @@ class ReentryAction(IntEnum):
 
 
 @pytest.mark.valid_from("Prague")
-def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Check operations when reenter the pointer again.
 
@@ -1240,7 +1240,7 @@ def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Prague")
-def test_eoa_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
+def test_eoa_init_as_pointer(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     It was agreed before that senders don't have code.
 
@@ -1273,7 +1273,7 @@ def test_eoa_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
 @pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Macros.OOG])
 def test_call_pointer_to_created_from_create_after_oog_call_again(
     state_test: StateTestFiller, pre: Alloc, call_return: Op
-):
+) -> None:
     """
     Set pointer to account that we are about to create.
 
@@ -1390,7 +1390,7 @@ def test_pointer_reverts(
     second_revert: bool,
     final_revert: bool,
     call_order: CallOrder,
-):
+) -> None:
     """Pointer do operations then revert."""
     sender = pre.fund_eoa()
     pointer = pre.fund_eoa()
@@ -1486,7 +1486,7 @@ def test_double_auth(
     pre: Alloc,
     first_delegation: DelegationTo,
     second_delegation: DelegationTo,
-):
+) -> None:
     """Only the last auth works, but first auth still charges the gas."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -1574,7 +1574,7 @@ def test_double_auth(
 def test_pointer_resets_an_empty_code_account_with_storage(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     So in Block1 we create a sender with empty code, but non empty storage
     using pointers.
@@ -1746,7 +1746,7 @@ def test_set_code_type_tx_pre_fork(
     state_test: StateTestFiller,
     pre: Alloc,
     tx_value: int,
-):
+) -> None:
     """
     Reject blocks with set code type transactions before the Prague fork.
 
@@ -1803,7 +1803,7 @@ def test_delegation_replacement_call_previous_contract(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     Test setting the code of an EOA that already has delegation, calling the
     previous delegated contract. Previous contract shouldn't be warm when doing

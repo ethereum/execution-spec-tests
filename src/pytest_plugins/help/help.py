@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest for specific help commands."""
     help_group = parser.getgroup("help_options", "Help options for different commands")
     help_group.addoption(
@@ -64,7 +64,7 @@ def pytest_addoption(parser):
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """
     Handle specific help flags by displaying the corresponding help message.
     """
@@ -144,12 +144,12 @@ def pytest_configure(config):
         )
 
 
-def show_specific_help(config, expected_ini, substrings):
+def show_specific_help(config: pytest.Config, expected_ini: str, substrings: list[str]) -> None:
     """
     Print help options filtered by specific substrings from the given
     configuration.
     """
-    pytest_ini = Path(config.inifile)
+    pytest_ini = Path(config.inifile)  # type: ignore
     if pytest_ini.name != expected_ini:
         raise ValueError(
             f"Unexpected {expected_ini}!={pytest_ini.name} file option generating help."
@@ -157,7 +157,8 @@ def show_specific_help(config, expected_ini, substrings):
 
     test_parser = argparse.ArgumentParser()
     for group in config._parser.optparser._action_groups:
-        if any(substring in group.title for substring in substrings):
+        title: str | None = group.title
+        if title and any(substring in title for substring in substrings):
             new_group = test_parser.add_argument_group(group.title, group.description)
             for action in group._group_actions:
                 kwargs = {

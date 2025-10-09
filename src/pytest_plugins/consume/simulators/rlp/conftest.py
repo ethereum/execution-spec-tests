@@ -21,9 +21,9 @@ pytest_plugins = (
 )
 
 
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """Set the supported fixture formats for the rlp simulator."""
-    config._supported_fixture_formats = [BlockchainFixture.format_name]
+    config.supported_fixture_formats = [BlockchainFixture]  # type: ignore[attr-defined]
 
 
 @pytest.fixture(scope="module")
@@ -45,12 +45,12 @@ def blocks_rlp(fixture: BlockchainFixture) -> List[Bytes]:
 
 
 @pytest.fixture(scope="function")
-def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> List[io.BufferedReader]:
+def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> list[io.BufferedReader]:
     """
     Convert the RLP-encoded blocks of the current test fixture to buffered
     readers.
     """
-    block_rlp_files = []
+    block_rlp_files: list[io.BufferedReader] = []
     for _, block_rlp in enumerate(blocks_rlp):
         block_rlp_stream = io.BytesIO(block_rlp)
         block_rlp_files.append(io.BufferedReader(cast(io.RawIOBase, block_rlp_stream)))

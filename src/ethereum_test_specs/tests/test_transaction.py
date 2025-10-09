@@ -19,7 +19,7 @@ from .helpers import remove_info_metadata
         pytest.param("simple_type_0", Transaction(), Shanghai),
     ],
 )
-def test_transaction_test_filling(name: str, tx: Transaction, fork: Fork):
+def test_transaction_test_filling(name: str, tx: Transaction, fork: Fork) -> None:
     """Test the transaction test filling."""
     generated_fixture = TransactionTest(tx=tx.with_signature_and_sender()).generate(
         t8n=None,  # type: ignore

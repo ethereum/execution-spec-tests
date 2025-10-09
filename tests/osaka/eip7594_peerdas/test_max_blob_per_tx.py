@@ -36,13 +36,13 @@ def env() -> Environment:
 
 
 @pytest.fixture
-def sender(pre: Alloc):
+def sender(pre: Alloc) -> Address:
     """Sender account with sufficient balance for blob transactions."""
     return pre.fund_eoa(amount=10**18)
 
 
 @pytest.fixture
-def destination(pre: Alloc):
+def destination(pre: Alloc) -> Address:
     """Destination account for blob transactions."""
     return pre.fund_eoa(amount=0)
 
@@ -59,7 +59,7 @@ def tx(
     destination: Address,
     blob_gas_price: int,
     blob_count: int,
-):
+) -> Transaction:
     """Blob transaction fixture."""
     return Transaction(
         ty=3,
@@ -88,7 +88,7 @@ def test_valid_max_blobs_per_tx(
     pre: Alloc,
     env: Environment,
     tx: Transaction,
-):
+) -> None:
     """
     Test that transactions with blob count from 1 to MAX_BLOBS_PER_TX are
     accepted. Verifies that individual transactions can contain up to the
@@ -120,7 +120,7 @@ def test_invalid_max_blobs_per_tx(
     env: Environment,
     tx: Transaction,
     blob_count: int,
-):
+) -> None:
     """
     Test that transactions exceeding MAX_BLOBS_PER_TX are rejected. Verifies
     that individual transactions cannot contain more than the maximum allowed
@@ -155,7 +155,7 @@ def test_max_blobs_per_tx_fork_transition(
     pre: Alloc,
     tx: Transaction,
     blob_count: int,
-):
+) -> None:
     """Test `MAX_BLOBS_PER_TX` limit enforcement across fork transition."""
     expected_exception = (
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED

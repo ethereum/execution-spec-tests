@@ -7,12 +7,12 @@ from ..pytest_commands.execute import execute
 
 
 @pytest.fixture
-def runner():
+def runner() -> CliRunner:
     """Provide a Click CliRunner for invoking command-line interfaces."""
     return CliRunner()
 
 
-def test_execute_help_shows_subcommand_docstrings(runner):
+def test_execute_help_shows_subcommand_docstrings(runner: CliRunner) -> None:
     """Test that execute --help shows sub-command docstrings."""
     result = runner.invoke(execute, ["--help"])
     assert result.exit_code == 0
@@ -28,7 +28,7 @@ def test_execute_help_shows_subcommand_docstrings(runner):
     assert "Recover funds from test executions" in result.output
 
 
-def test_execute_subcommands_have_help_text():
+def test_execute_subcommands_have_help_text() -> None:
     """Test that execute sub-commands have proper help text defined."""
     from ..pytest_commands.execute import hive, recover, remote
 

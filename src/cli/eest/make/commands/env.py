@@ -8,8 +8,11 @@ from config.env import ENV_PATH, Config
 from ...quotes import get_quote
 
 
-@click.command(short_help="Generate the default environment file (env.yaml).", name="env")
-def create_default_env():
+@click.command(
+    short_help="Generate the default environment file (env.yaml).",
+    name="env",
+)
+def create_default_env() -> None:
     """
     CLI command to generate the default environment file (env.yaml).
 

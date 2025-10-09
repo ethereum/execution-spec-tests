@@ -66,7 +66,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 def test_returning_jumpf(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """Test cases for JUMPF instruction validation in a returning sections."""
     eof_test(container=container, expect_exception=EOFException.INVALID_NON_RETURNING_FLAG)
 
@@ -110,7 +110,7 @@ def test_returning_jumpf(
 def test_invalid_code_section_index(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Test cases for JUMPF instructions with invalid target code section index.
     """
@@ -119,7 +119,7 @@ def test_invalid_code_section_index(
 
 def test_returning_section_aborts_jumpf(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     Test EOF container validation where in the same code section we have
     returning and nonreturning terminating instructions.
@@ -142,7 +142,7 @@ def test_returning_section_aborts_jumpf(
 
 
 @pytest.mark.parametrize("stack_height", [512, 513, 1023])
-def test_jumpf_self_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
+def test_jumpf_self_stack_overflow(eof_test: EOFTestFiller, stack_height: int) -> None:
     """
     Test JUMPF instruction jumping to itself causing validation time stack
     overflow.
@@ -166,7 +166,7 @@ def test_jumpf_self_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
 @pytest.mark.parametrize("stack_height", [1, 2, 512, 513, 1023])
 def test_jumpf_other_stack_overflow(
     eof_test: EOFTestFiller, stack_height: int, stack_height_other: int
-):
+) -> None:
     """
     Test JUMPF instruction jumping to other section causing validation time
     stack overflow.
@@ -192,7 +192,9 @@ def test_jumpf_other_stack_overflow(
 
 @pytest.mark.parametrize("code_inputs", [0, 3])
 @pytest.mark.parametrize("stack_height", [0, 2, 3, 4])
-def test_jumpf_to_non_returning(eof_test: EOFTestFiller, stack_height: int, code_inputs: int):
+def test_jumpf_to_non_returning(
+    eof_test: EOFTestFiller, stack_height: int, code_inputs: int
+) -> None:
     """Test JUMPF jumping to a non-returning function."""
     container = Container(
         sections=[
@@ -209,7 +211,7 @@ def test_jumpf_to_non_returning(eof_test: EOFTestFiller, stack_height: int, code
 
 
 @pytest.mark.parametrize("code_inputs", [0, 1, 3, 5])
-def test_jumpf_to_non_returning_variable_stack(eof_test: EOFTestFiller, code_inputs: int):
+def test_jumpf_to_non_returning_variable_stack(eof_test: EOFTestFiller, code_inputs: int) -> None:
     """
     Test JUMPF jumping to a non-returning function with stack depending on
     RJUMPI.
@@ -234,7 +236,7 @@ def test_jumpf_to_non_returning_variable_stack(eof_test: EOFTestFiller, code_inp
 @pytest.mark.parametrize("stack_height", [0, 1, 2, 3, 4, 5])
 def test_jumpf_to_returning(
     eof_test: EOFTestFiller, code_inputs: int, code_outputs: int, stack_height: int
-):
+) -> None:
     """Test JUMPF jumping to a returning function."""
     exceptions = []
     if code_inputs > stack_height or (stack_height - code_inputs + code_outputs) < 2:
@@ -276,7 +278,7 @@ def test_jumpf_to_returning_variable_stack_1(
     code_inputs: int,
     code_outputs: int,
     stack_increase: int,
-):
+) -> None:
     """
     Test JUMPF with variable stack jumping to a returning function increasing
     the stack.
@@ -318,7 +320,7 @@ def test_jumpf_to_returning_variable_stack_2(
     code_inputs: int,
     code_outputs: int,
     stack_decrease: int,
-):
+) -> None:
     """
     Test JUMPF with variable stack jumping to a returning function decreasing
     the stack.
@@ -352,7 +354,7 @@ def test_jumpf_to_returning_variable_stack_2(
     )
 
 
-def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
+def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller) -> None:
     """
     Test JUMPF with variable stack jumping to a returning function increasing
     the stack.
@@ -480,6 +482,6 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
     ],
     ids=lambda x: x.name,
 )
-def test_jumpf_stack_underflow_examples(eof_test: EOFTestFiller, container: Container):
+def test_jumpf_stack_underflow_examples(eof_test: EOFTestFiller, container: Container) -> None:
     """Test JUMPF instruction causing validation time stack underflow."""
     eof_test(container=container, expect_exception=EOFException.STACK_UNDERFLOW)

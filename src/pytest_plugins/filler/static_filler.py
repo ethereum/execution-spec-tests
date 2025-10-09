@@ -8,7 +8,7 @@ import itertools
 import json
 import warnings
 from pathlib import Path
-from typing import Any, Callable, Dict, Generator, List, Tuple, Type
+from typing import Any, Callable, Dict, Generator, List, Self, Tuple, Type
 
 import pytest
 import yaml
@@ -110,7 +110,7 @@ def get_all_combinations_from_parametrize_marks(
     return all_argument_names, all_value_combinations
 
 
-def pytest_collect_file(file_path: Path, parent) -> pytest.Collector | None:
+def pytest_collect_file(file_path: Path, parent: Module) -> pytest.Collector | None:
     """
     Pytest hook that collects test cases from static files and fills them into
     test fixtures.
@@ -301,7 +301,7 @@ class FillerTestItem(pytest.Item):
 
     def __init__(
         self,
-        *args,
+        *args: Any,
         original_name: str,
         func: Callable,
         params: Dict[str, Any],
@@ -309,8 +309,8 @@ class FillerTestItem(pytest.Item):
         fork: Fork,
         fixture_format: Type[BaseFixture],
         marks: List[pytest.Mark],
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the filler test item."""
         super().__init__(*args, **kwargs)
         self.originalname = original_name
@@ -325,31 +325,34 @@ class FillerTestItem(pytest.Item):
             else:
                 self.add_marker(marker)  # type: ignore
 
-    def setup(self):
+    def setup(self) -> None:
         """Resolve and apply fixtures before test execution."""
         self._fixtureinfo = self.session._fixturemanager.getfixtureinfo(
             self,
             None,
             None,
         )
-        request = TopRequest(self, _ispytest=True)
+        request = TopRequest(
+            self,  # type: ignore[arg-type]
+            _ispytest=True,
+        )
         for fixture_name in self.fixturenames:
             if fixture_name == "request":
                 self.params[fixture_name] = request
             else:
                 self.params[fixture_name] = request.getfixturevalue(fixture_name)
 
-    def runtest(self):
+    def runtest(self) -> None:
         """Execute the test logic for this specific static test."""
         self.func(**self.params)
 
-    def reportinfo(self):
+    def reportinfo(self) -> Tuple[Path, int, str]:
         """Provide information for test reporting."""
         return self.fspath, 0, f"Static file test: {self.name}"
 
 
 @pytest.fixture
-def yul(fork: Fork, request: pytest.FixtureRequest):
+def yul(fork: Fork, request: pytest.FixtureRequest) -> Type[Yul]:
     """
     Fixture that allows contract code to be defined with Yul code.
 
@@ -384,7 +387,8 @@ def yul(fork: Fork, request: pytest.FixtureRequest):
             )
 
     class YulWrapper(Yul):
-        def __new__(cls, *args, **kwargs):
-            return super(YulWrapper, cls).__new__(cls, *args, **kwargs, fork=solc_target_fork)
+        def __new__(cls, *args: Any, **kwargs: Any) -> Self:
+            kwargs["fork"] = solc_target_fork
+            return super(YulWrapper, cls).__new__(cls, *args, **kwargs)
 
     return YulWrapper

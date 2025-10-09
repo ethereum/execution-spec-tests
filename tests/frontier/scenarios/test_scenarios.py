@@ -183,8 +183,8 @@ def test_scenarios(
     pre: Alloc,
     debug: ScenarioDebug,
     test_program: ScenarioTestProgram,
-    scenarios,
-):
+    scenarios: List[Scenario],
+) -> None:
     """
     Test given operation in different scenarios Verify that it's return value
     equal to expected result on every scenario, that is valid for the given

@@ -3,7 +3,7 @@
 import json
 from enum import StrEnum
 from pathlib import Path
-from typing import Dict, Generator, List, Protocol
+from typing import Any, Callable, Dict, Generator, List, Protocol
 
 import pytest
 
@@ -33,7 +33,7 @@ class SystemContractTestType(StrEnum):
     REVERT_ERROR = "system_contract_reverts"
     EXCEPTION_ERROR = "system_contract_throws"
 
-    def param(self):
+    def param(self) -> Any:
         """Return the parameter for the test."""
         return pytest.param(
             self,
@@ -91,7 +91,7 @@ def generate_system_contract_deploy_test(
     expected_deploy_address: Address,
     fail_on_empty_code: bool,
     expected_system_contract_storage: Dict | None = None,
-):
+) -> Callable[[SystemContractDeployTestFunction], Callable]:
     """
     Generate a test that verifies the correct deployment of a system contract.
 
@@ -154,7 +154,7 @@ def generate_system_contract_deploy_test(
     if "sender" in tx_json:
         assert deploy_tx.sender == Address(tx_json["sender"])
 
-    def decorator(func: SystemContractDeployTestFunction):
+    def decorator(func: SystemContractDeployTestFunction) -> Callable:
         @pytest.mark.parametrize(
             "has_balance",
             [
@@ -183,7 +183,7 @@ def generate_system_contract_deploy_test(
             pre: Alloc,
             test_type: DeploymentTestType,
             fork: Fork,
-        ):
+        ) -> None:
             assert deployer_address is not None
             assert deploy_tx.created_contract == expected_deploy_address
             blocks: List[Block] = []
@@ -287,7 +287,7 @@ def generate_system_contract_deploy_test(
 def generate_system_contract_error_test(
     *,
     max_gas_limit: int,
-):
+) -> Callable[[SystemContractDeployTestFunction], Callable]:
     """
     Generate a test that verifies the correct behavior when a system contract
     fails execution.
@@ -301,7 +301,7 @@ def generate_system_contract_error_test(
 
     """
 
-    def decorator(func: SystemContractDeployTestFunction):
+    def decorator(func: SystemContractDeployTestFunction) -> Callable:
         @pytest.mark.parametrize("test_type", [v.param() for v in SystemContractTestType])
         @pytest.mark.execute(pytest.mark.skip(reason="modifies pre-alloc"))
         def wrapper(
@@ -310,7 +310,7 @@ def generate_system_contract_error_test(
             test_type: SystemContractTestType,
             system_contract: Address,
             fork: Fork,
-        ):
+        ) -> None:
             modified_system_contract_code = Bytecode()
 
             # Depending on the test case, we need to modify the system contract

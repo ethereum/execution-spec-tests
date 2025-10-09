@@ -30,8 +30,12 @@ class TransactionPost(BaseExecute):
     )
 
     def execute(
-        self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None, request: FixtureRequest
-    ):
+        self,
+        fork: Fork,
+        eth_rpc: EthRPC,
+        engine_rpc: EngineRPC | None,
+        request: FixtureRequest,
+    ) -> None:
         """Execute the format."""
         assert not any(tx.ty == 3 for block in self.blocks for tx in block), (
             "Transaction type 3 is not supported in execute mode."

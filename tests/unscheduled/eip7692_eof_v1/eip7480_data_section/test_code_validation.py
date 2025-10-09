@@ -22,9 +22,9 @@ smallest_runtime_subcontainer = Container(
 )
 
 
-def container_name(c: Container):
+def container_name(c: Container) -> str:
     """Return the name of the container for use in pytest ids."""
-    if hasattr(c, "name"):
+    if hasattr(c, "name") and c.name is not None:
         return c.name
     else:
         return c.__class__.__name__
@@ -109,7 +109,7 @@ def container_name(c: Container):
 def test_valid_containers_with_data_section(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """Test EOF validation of valid containers with data sections."""
     assert container.validity_error is None, (
         f"Valid container with validity error: {container.validity_error}"
@@ -230,7 +230,7 @@ def test_valid_containers_with_data_section(
 def test_invalid_containers_with_data_section(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """Test EOF validation of invalid containers with data sections."""
     assert container.validity_error is not None, "Invalid container without validity error"
     eof_test(
@@ -279,6 +279,6 @@ def test_invalid_containers_with_data_section(
 def test_dataloadn_truncated_immediate(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """Test cases for DATALOADN instructions with truncated immediate bytes."""
     eof_test(container=container, expect_exception=EOFException.TRUNCATED_INSTRUCTION)

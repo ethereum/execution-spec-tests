@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from typing import Any, Generator
 
 import pytest
 from click.testing import CliRunner
@@ -10,7 +11,7 @@ from click.testing import CliRunner
 from ..order_fixtures import order_fixtures, process_directory
 
 
-def create_temp_json_file(directory, name, content):
+def create_temp_json_file(directory: Path, name: str, content: dict[str, Any]) -> Path:
     """Create a temporary JSON file with specified content."""
     file_path = directory / name
     with file_path.open("w") as f:
@@ -19,13 +20,13 @@ def create_temp_json_file(directory, name, content):
 
 
 @pytest.fixture
-def input_output_dirs():
+def input_output_dirs() -> Generator[tuple[Path, Path], None, None]:
     """Create temporary input and output directories."""
     with TemporaryDirectory() as input_dir, TemporaryDirectory() as output_dir:
         yield Path(input_dir), Path(output_dir)
 
 
-def test_order_fixture(input_output_dirs):
+def test_order_fixture(input_output_dirs: tuple[Path, Path]) -> None:
     """Test sorting a single JSON fixture."""
     input_dir, output_dir = input_output_dirs
     create_temp_json_file(input_dir, "test.json", {"z": 0, "a": [3, 2, 1]})
@@ -42,7 +43,7 @@ def test_order_fixture(input_output_dirs):
     assert output_content == expected_output
 
 
-def test_cli_invocation(input_output_dirs):
+def test_cli_invocation(input_output_dirs: tuple[Path, Path]) -> None:
     """Test the CLI interface."""
     runner = CliRunner()
     input_dir, output_dir = input_output_dirs
@@ -56,7 +57,7 @@ def test_cli_invocation(input_output_dirs):
     assert (output_dir / "test.json").exists()
 
 
-def test_input_is_file_instead_of_directory():
+def test_input_is_file_instead_of_directory() -> None:
     """
     Test the CLI interface when the input path is a file, not a directory.
     """
@@ -71,7 +72,7 @@ def test_input_is_file_instead_of_directory():
         assert "Error: Invalid value for '--input'" in result.output
 
 
-def test_input_directory_does_not_exist():
+def test_input_directory_does_not_exist() -> None:
     """Test the CLI interface when the input directory does not exist."""
     runner = CliRunner()
     with TemporaryDirectory() as temp_dir:

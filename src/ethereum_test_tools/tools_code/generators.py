@@ -1,7 +1,9 @@
 """Code generating classes and functions."""
 
 from dataclasses import dataclass
-from typing import List, SupportsBytes
+from typing import Any, List, SupportsBytes
+
+from typing_extensions import Self
 
 from ethereum_test_base_types import Bytes
 from ethereum_test_types import ceiling_division
@@ -48,7 +50,7 @@ class Initcode(Bytecode):
         initcode_prefix_execution_gas: int = 0,
         padding_byte: int = 0x00,
         name: str = "",
-    ):
+    ) -> Self:
         """
         Generate legacy initcode that inits a contract with the specified code.
         The initcode can be padded to a specified length for testing purposes.
@@ -161,7 +163,7 @@ class CodeGasMeasure(Bytecode):
         extra_stack_items: int = 0,
         sstore_key: int | Bytes = 0,
         stop: bool = True,
-    ):
+    ) -> Self:
         """Assemble the bytecode that measures gas usage."""
         res = Op.GAS + code + Op.GAS
         # We need to swap and pop for each extra stack item that remained from
@@ -195,7 +197,7 @@ class Conditional(Bytecode):
         if_true: Bytecode | Op | None = None,
         if_false: Bytecode | Op | None = None,
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
-    ):
+    ) -> Self:
         """
         Assemble the conditional bytecode by generating the necessary jump and
         jumpdest opcodes surrounding the condition and the two possible
@@ -244,7 +246,7 @@ class While(Bytecode):
         body: Bytecode | Op,
         condition: Bytecode | Op | None = None,
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
-    ):
+    ) -> Self:
         """
         Assemble the loop bytecode.
 
@@ -294,7 +296,7 @@ class CalldataCase(Case):
     optionally `position`) and may not be set directly.
     """
 
-    def __init__(self, value: int | str | Bytecode, position: int = 0, **kwargs):
+    def __init__(self, value: int | str | Bytecode, position: int = 0, **kwargs: Any) -> None:
         """Generate the condition base on `value` and `position`."""
         condition = Op.EQ(Op.CALLDATALOAD(position), value)
         super().__init__(condition=condition, **kwargs)
@@ -338,7 +340,7 @@ class Switch(Bytecode):
         default_action: Bytecode | Op | None = None,
         cases: List[Case],
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
-    ):
+    ) -> Self:
         """
         Assemble the bytecode by looping over the list of cases and adding the
         necessary [R]JUMPI and JUMPDEST opcodes in order to replicate

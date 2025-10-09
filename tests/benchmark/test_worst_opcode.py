@@ -49,7 +49,7 @@ def test_worst_log_opcodes(
     fixed_offset: bool,
     non_zero_data: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many LOG opcodes as possible."""
     max_code_size = fork.max_code_size()
 

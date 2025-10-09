@@ -1,6 +1,6 @@
 """CLI entry point for the `fill` pytest-based command."""
 
-from typing import List
+from typing import Any, List
 
 import click
 
@@ -12,7 +12,7 @@ from .watcher import FileWatcher
 class FillCommand(PytestCommand):
     """Pytest command for the fill operation."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """Initialize fill command with processors."""
         super().__init__(
             config_file="pytest-fill.ini",
@@ -247,7 +247,7 @@ class PhilCommand(FillCommand):
     }
 )
 @common_pytest_options
-def fill(pytest_args: List[str], **kwargs) -> None:
+def fill(pytest_args: List[str], **kwargs: Any) -> None:
     """Entry point for the fill command."""
     del kwargs
 
@@ -261,7 +261,7 @@ def fill(pytest_args: List[str], **kwargs) -> None:
     }
 )
 @common_pytest_options
-def phil(pytest_args: List[str], **kwargs) -> None:
+def phil(pytest_args: List[str], **kwargs: Any) -> None:
     """Friendly alias for the fill command."""
     del kwargs
 

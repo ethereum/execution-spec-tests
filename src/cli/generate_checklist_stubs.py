@@ -6,7 +6,7 @@ from pathlib import Path
 import click
 
 
-def has_nested_classes(obj) -> bool:
+def has_nested_classes(obj: type) -> bool:
     """Check if an object has nested classes with _path attribute."""
     for attr_name in dir(obj):
         if attr_name.startswith("_"):
@@ -17,7 +17,7 @@ def has_nested_classes(obj) -> bool:
     return False
 
 
-def generate_class_stub(obj, class_name: str, indent: int = 0) -> list[str]:
+def generate_class_stub(obj: type, class_name: str, indent: int = 0) -> list[str]:
     """Generate stub for a class and its nested classes."""
     lines = []
     spaces = "    " * indent

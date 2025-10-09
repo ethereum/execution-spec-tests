@@ -66,7 +66,7 @@ class ReleaseTag:
         """Check if the release string is in the correct format."""
         return "@" in release_string
 
-    def __eq__(self, value) -> bool:
+    def __eq__(self, value: object) -> bool:
         """
         Check if the release descriptor matches the string value.
 

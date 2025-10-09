@@ -1,11 +1,12 @@
 """Utility module with helper functions for versioning."""
 
 import re
+from typing import Union
 
 from git import InvalidGitRepositoryError, Repo
 
 
-def get_current_commit_hash_or_tag(repo_path=".", shorten_hash=False):
+def get_current_commit_hash_or_tag(repo_path: str = ".", shorten_hash: bool = False) -> str:
     """
     Get the latest commit tag or commit hash from the repository.
 
@@ -29,7 +30,9 @@ def get_current_commit_hash_or_tag(repo_path=".", shorten_hash=False):
         return "Not a git repository; this should only be seen in framework tests."
 
 
-def generate_github_url(file_path, branch_or_commit_or_tag="main", line_number=""):
+def generate_github_url(
+    file_path: str, branch_or_commit_or_tag: str = "main", line_number: Union[str, int] = ""
+) -> str:
     """Generate a permalink to a source file in Github."""
     base_url = "https://github.com"
     username = "ethereum"

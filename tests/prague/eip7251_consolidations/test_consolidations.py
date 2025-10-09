@@ -661,7 +661,7 @@ def test_consolidation_requests(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],
     pre: Alloc,
-):
+) -> None:
     """Test making a consolidation request to the beacon chain."""
     blockchain_test(
         genesis_environment=Environment(),
@@ -862,7 +862,7 @@ def test_consolidation_requests_negative(
     requests: List[ConsolidationRequestInteractionBase],
     block_body_override_requests: List[ConsolidationRequest],
     exception: BlockException,
-):
+) -> None:
     """
     Test blocks where the requests list and the actual consolidation requests
     that happened in the block's transactions do not match.

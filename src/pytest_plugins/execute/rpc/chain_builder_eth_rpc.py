@@ -5,10 +5,11 @@ submitted.
 
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, Iterator, List
 
 from filelock import FileLock
 from pydantic import RootModel
+from typing_extensions import Self
 
 from ethereum_test_base_types import HexNumber
 from ethereum_test_forks import Fork
@@ -33,27 +34,27 @@ class HashList(RootModel[List[Hash]]):
 
     root: List[Hash]
 
-    def append(self, item: Hash):
+    def append(self, item: Hash) -> None:
         """Append an item to the list."""
         self.root.append(item)
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear the list."""
         self.root.clear()
 
-    def remove(self, item: Hash):
+    def remove(self, item: Hash) -> None:
         """Remove an item from the list."""
         self.root.remove(item)
 
-    def __contains__(self, item: Hash):
+    def __contains__(self, item: Hash) -> bool:
         """Check if an item is in the list."""
         return item in self.root
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Get the length of the list."""
         return len(self.root)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Hash]:  # type: ignore
         """Iterate over the list."""
         return iter(self.root)
 
@@ -63,27 +64,27 @@ class AddressList(RootModel[List[Address]]):
 
     root: List[Address]
 
-    def append(self, item: Address):
+    def append(self, item: Address) -> None:
         """Append an item to the list."""
         self.root.append(item)
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear the list."""
         self.root.clear()
 
-    def remove(self, item: Address):
+    def remove(self, item: Address) -> None:
         """Remove an item from the list."""
         self.root.remove(item)
 
-    def __contains__(self, item: Address):
+    def __contains__(self, item: Address) -> bool:
         """Check if an item is in the list."""
         return item in self.root
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Get the length of the list."""
         return len(self.root)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Address]:  # type: ignore
         """Iterate over the list."""
         return iter(self.root)
 
@@ -109,7 +110,7 @@ class PendingTxHashes:
         self.pending_tx_hashes = None
         self.lock = None
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Lock the pending hashes file and load it."""
         assert self.lock is None, "Lock already acquired"
         self.lock = FileLock(self.pending_hashes_lock, timeout=-1)
@@ -122,7 +123,7 @@ class PendingTxHashes:
             self.pending_tx_hashes = HashList([])
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type: object, exc_value: object, traceback: object) -> None:
         """Flush the pending hashes to the file and release the lock."""
         assert self.lock is not None, "Lock not acquired"
         assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
@@ -132,36 +133,37 @@ class PendingTxHashes:
         self.lock = None
         self.pending_tx_hashes = None
 
-    def append(self, tx_hash: Hash):
+    def append(self, tx_hash: Hash) -> None:
         """Add a transaction hash to the pending list."""
         assert self.lock is not None, "Lock not acquired"
         assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         self.pending_tx_hashes.append(tx_hash)
 
-    def clear(self):
+    def clear(self) -> None:
         """Remove a transaction hash from the pending list."""
         assert self.lock is not None, "Lock not acquired"
+        assert self.pending_tx_hashes is not None
         self.pending_tx_hashes.clear()
 
-    def remove(self, tx_hash: Hash):
+    def remove(self, tx_hash: Hash) -> None:
         """Remove a transaction hash from the pending list."""
         assert self.lock is not None, "Lock not acquired"
         assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         self.pending_tx_hashes.remove(tx_hash)
 
-    def __contains__(self, tx_hash: Hash):
+    def __contains__(self, tx_hash: Hash) -> bool:
         """Check if a transaction hash is in the pending list."""
         assert self.lock is not None, "Lock not acquired"
         assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         return tx_hash in self.pending_tx_hashes
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Get the number of pending transaction hashes."""
         assert self.lock is not None, "Lock not acquired"
         assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         return len(self.pending_tx_hashes)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Hash]:
         """Iterate over the pending transaction hashes."""
         assert self.lock is not None, "Lock not acquired"
         assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
@@ -217,6 +219,7 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
                 base_error_file.touch()  # Assume error
                 # Get the head block hash
                 head_block = self.get_block_by_number("latest")
+                assert head_block is not None
                 # Send initial forkchoice updated
                 forkchoice_state = ForkchoiceState(
                     head_block_hash=head_block["hash"],
@@ -239,10 +242,11 @@ class ChainBuilderEthRPC(BaseEthRPC, namespace="eth"):
                 base_error_file.unlink()  # Success
                 base_file.touch()
 
-    def generate_block(self: "ChainBuilderEthRPC"):
+    def generate_block(self: "ChainBuilderEthRPC") -> None:
         """Generate a block using the Engine API."""
         # Get the head block hash
         head_block = self.get_block_by_number("latest")
+        assert head_block is not None
 
         forkchoice_state = ForkchoiceState(
             head_block_hash=head_block["hash"],
@@ -430,7 +434,7 @@ class PendingTransactionHandler:
         self.chain_builder_eth_rpc = chain_builder_eth_rpc
         self.block_generation_interval = block_generation_interval
 
-    def handle(self):
+    def handle(self) -> None:
         """
         Handle pending transactions and generate blocks if necessary.
 

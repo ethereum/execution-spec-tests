@@ -12,7 +12,7 @@ from os.path import realpath
 from pathlib import Path
 
 import pytest
-from pytest_metadata.plugin import metadata_key  # type: ignore
+from pytest_metadata.plugin import metadata_key
 
 CURRENT_FOLDER = Path(realpath(__file__)).parent
 
@@ -82,7 +82,9 @@ def pytest_report_header(config: pytest.Config, start_path: Path) -> str:
 
 
 @pytest.fixture(scope="session", autouse=True)
-def output_metadata_dir_with_teardown(request):
+def output_metadata_dir_with_teardown(
+    request: pytest.FixtureRequest,
+) -> object:
     """
     Session-scoped fixture that attempts to retrieve the filler's
     "output_metadata_dir" fixture value and copies the EELS resolutions

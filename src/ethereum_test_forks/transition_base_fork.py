@@ -1,7 +1,7 @@
 """Base objects used to define transition forks."""
 
 from inspect import signature
-from typing import Callable, List, Type
+from typing import Any, Callable, List, Type
 
 from .base_fork import BaseFork
 
@@ -30,10 +30,12 @@ def base_fork_abstract_methods() -> List[str]:
     return list(BaseFork.__abstractmethods__)
 
 
-def transition_fork(to_fork: Type[BaseFork], at_block: int = 0, at_timestamp: int = 0):
+def transition_fork(
+    to_fork: Type[BaseFork], at_block: int = 0, at_timestamp: int = 0
+) -> Callable[[Type[BaseFork]], Type[TransitionBaseClass]]:
     """Mark a class as a transition fork."""
 
-    def decorator(cls) -> Type[TransitionBaseClass]:
+    def decorator(cls: Type[Any]) -> Type[TransitionBaseClass]:
         transition_name = cls.__name__
         from_fork = cls.__bases__[0]
         assert issubclass(from_fork, BaseFork)
@@ -57,17 +59,17 @@ def transition_fork(to_fork: Type[BaseFork], at_block: int = 0, at_timestamp: in
         NewTransitionClass.name = lambda: transition_name  # type: ignore
 
         def make_transition_method(
-            base_method: Callable,
-            from_fork_method: Callable,
-            to_fork_method: Callable,
-        ):
+            base_method: Callable[..., Any],
+            from_fork_method: Callable[..., Any],
+            to_fork_method: Callable[..., Any],
+        ) -> classmethod:
             base_method_parameters = signature(base_method).parameters
 
             def transition_method(
-                cls,
+                cls: Type[Any],
                 block_number: int = ALWAYS_TRANSITIONED_BLOCK_NUMBER,
                 timestamp: int = ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
-            ):
+            ) -> Any:
                 del cls
 
                 kwargs = {}

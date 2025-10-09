@@ -312,7 +312,7 @@ def test_migrated_valid_invalid(
     eof_test: EOFTestFiller,
     eof_code: Container,
     exception: EOFExceptionInstanceOrList | None,
-):
+) -> None:
     """Verify EOF container construction and exception."""
     eof_test(
         container=eof_code,

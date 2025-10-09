@@ -154,7 +154,7 @@ def test_tx_intrinsic_gas(
     data: Bytes,
     access_list: List[AccessList],
     below_intrinsic: bool,
-):
+) -> None:
     """Transaction intrinsic gas calculation on EIP2930."""
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     intrinsic_gas_cost = intrinsic_gas_cost_calculator(calldata=data, access_list=access_list)

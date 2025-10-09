@@ -520,7 +520,7 @@ def eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
 def test_fork_config_from_fork(
     eth_config: EthConfigResponse,
     expected_eth_config: EthConfigResponse,
-):
+) -> None:
     """Test the `fork_config_from_fork` function."""
     current_config, next_config = (eth_config.current, eth_config.next)
     assert current_config.model_dump(
@@ -609,7 +609,7 @@ def test_fork_ids(
     expected_current_fork_id: ForkHash,
     expected_next_fork_id: ForkHash | None,
     expected_last_fork_id: ForkHash | None,
-):
+) -> None:
     """Test various configurations of fork Ids for different timestamps."""
     assert expected_current_fork_id == eth_config.current.fork_id, (
         f"Unexpected current fork id: {eth_config.current.fork_id} != {expected_current_fork_id}"

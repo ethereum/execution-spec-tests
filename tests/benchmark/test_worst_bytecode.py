@@ -51,7 +51,7 @@ def test_worst_bytecode_single_opcode(
     opcode: Op,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test a block execution where a single opcode execution maxes out the gas
     limit, and the opcodes access a huge amount of contract code.
@@ -250,7 +250,7 @@ def test_worst_initcode_jumpdest_analysis(
     fork: Fork,
     pattern: Bytecode,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test the jumpdest analysis performance of the initcode.
 
@@ -357,7 +357,7 @@ def test_worst_create(
     non_zero_data: bool,
     value: int,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test the CREATE and CREATE2 performance with different configurations.
     """
@@ -449,7 +449,7 @@ def test_worst_creates_collisions(
     fork: Fork,
     opcode: Op,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test the CREATE and CREATE2 collisions performance."""
     # We deploy a "proxy contract" which is the contract that will be called in
     # a loop using all the gas in the block. This "proxy contract" is the one

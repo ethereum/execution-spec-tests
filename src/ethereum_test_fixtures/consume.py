@@ -3,7 +3,7 @@
 import datetime
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import List, Optional, TextIO
+from typing import Iterator, List, Optional, TextIO
 
 from pydantic import BaseModel, RootModel
 
@@ -33,7 +33,7 @@ class FixtureConsumer(ABC):
         fixture_path: Path,
         fixture_name: str | None = None,
         debug_output_path: Path | None = None,
-    ):
+    ) -> None:
         """
         Test the client with the specified fixture using its direct consumer
         interface.
@@ -98,47 +98,47 @@ class TestCases(RootModel):
     root: List[TestCaseIndexFile] | List[TestCaseStream]
     __test__ = False  # stop pytest from collecting this class as a test
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Return the number of test cases in the root list."""
         return len(self.root)
 
-    def __getitem__(self, position):
+    def __getitem__(self, position: int) -> TestCaseIndexFile | TestCaseStream:
         """Retrieve a test case by its index."""
         return self.root[position]
 
-    def __setitem__(self, position, value):
+    def __setitem__(self, position: int, value: TestCaseIndexFile | TestCaseStream) -> None:
         """Set a test case at a particular index."""
-        self.root[position] = value
+        self.root[position] = value  # type: ignore
 
-    def __delitem__(self, position):
+    def __delitem__(self, position: int) -> None:
         """Remove a test case at a particular index."""
         del self.root[position]
 
-    def append(self, item):
+    def append(self, item: TestCaseIndexFile | TestCaseStream) -> None:
         """Append a test case to the root list."""
-        self.root.append(item)
+        self.root.append(item)  # type: ignore
 
-    def insert(self, position, value):
+    def insert(self, position: int, value: TestCaseIndexFile | TestCaseStream) -> None:
         """Insert a test case at a given position."""
-        self.root.insert(position, value)
+        self.root.insert(position, value)  # type: ignore
 
-    def remove(self, value):
+    def remove(self, value: TestCaseIndexFile | TestCaseStream) -> None:
         """Remove a test case from the root list."""
-        self.root.remove(value)
+        self.root.remove(value)  # type: ignore
 
-    def pop(self, position=-1):
+    def pop(self, position: int = -1) -> TestCaseIndexFile | TestCaseStream:
         """Remove and return a test case at the given position."""
         return self.root.pop(position)
 
-    def clear(self):
+    def clear(self) -> None:
         """Remove all items from the root list."""
         self.root.clear()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[TestCaseIndexFile | TestCaseStream]:  # type: ignore [override]
         """Return an iterator for the root list."""
         return iter(self.root)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a string representation of the TestCases object."""
         return f"{self.__class__.__name__}(root={self.root})"
 

@@ -55,7 +55,7 @@ def test_precompile_before_fork(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test P256VERIFY precompiles before the Osaka hard fork is active.
 

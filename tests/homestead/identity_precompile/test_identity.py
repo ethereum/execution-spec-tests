@@ -19,7 +19,7 @@ def test_identity_return_overwrite(
     state_test: StateTestFiller,
     pre: Alloc,
     call_opcode: Op,
-):
+) -> None:
     """
     Test the return data of the identity precompile overwriting its input.
     """
@@ -63,7 +63,7 @@ def test_identity_return_buffer_modify(
     state_test: StateTestFiller,
     pre: Alloc,
     call_opcode: Op,
-):
+) -> None:
     """
     Test the modification of the input range to attempt to modify the return
     buffer.

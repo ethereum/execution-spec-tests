@@ -4,7 +4,7 @@ Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.
 
 from os.path import realpath
 from pathlib import Path
-from typing import Generator
+from typing import Any, Generator
 
 import pytest
 
@@ -39,7 +39,7 @@ def test_system_contract_deployment(
     *,
     fork: Fork,
     pre: Alloc,
-    **kwargs,
+    **kwargs: Any,
 ) -> Generator[Block, None, None]:
     """Verify calling the withdrawals system contract after deployment."""
     sender = pre.fund_eoa()

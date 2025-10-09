@@ -1,5 +1,7 @@
 """Pytest (plugin) definitions local to EIP-4844 tests."""
 
+from typing import Iterable
+
 import pytest
 
 from ethereum_test_forks import Fork
@@ -321,7 +323,7 @@ def non_zero_blob_gas_used_genesis_block(
         for i in range(0, parent_blobs, max_blobs_per_tx)
     ]
 
-    def create_blob_transaction(blob_range):
+    def create_blob_transaction(blob_range: Iterable[int]) -> Transaction:
         return Transaction(
             ty=Spec.BLOB_TX_TYPE,
             sender=sender,

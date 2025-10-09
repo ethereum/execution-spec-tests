@@ -18,7 +18,7 @@ def test_coverage(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     Cover gaps that result from transforming Yul code into our Python opcode
     wrapper bytecode.

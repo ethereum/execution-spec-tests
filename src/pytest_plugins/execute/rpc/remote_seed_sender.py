@@ -7,7 +7,7 @@ from ethereum_test_rpc import EthRPC
 from ethereum_test_types import EOA
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     remote_seed_sender_group = parser.getgroup(
         "remote_seed_sender",
@@ -29,7 +29,7 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="session")
-def seed_sender(request, eth_rpc: EthRPC) -> EOA:
+def seed_sender(request: pytest.FixtureRequest, eth_rpc: EthRPC) -> EOA:
     """Create seed sender account by checking its balance and nonce."""
     rpc_seed_key = Hash(request.config.getoption("rpc_seed_key"))
     # check the nonce through the rpc client

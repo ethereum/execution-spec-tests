@@ -5,7 +5,7 @@ from enum import IntEnum
 from functools import cache
 from hashlib import sha256
 from itertools import count
-from typing import Iterator, List, Literal
+from typing import Any, Iterator, List, Literal
 
 import pytest
 from pydantic import PrivateAttr
@@ -37,7 +37,7 @@ CONTRACT_START_ADDRESS_DEFAULT = 0x1000000000000000000000000000000000001000
 CONTRACT_ADDRESS_INCREMENTS_DEFAULT = 0x100
 
 
-def pytest_addoption(parser: pytest.Parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     pre_alloc_group = parser.getgroup(
         "pre_alloc", "Arguments defining pre-allocation behavior during test filling."
@@ -100,14 +100,14 @@ class Alloc(BaseAlloc):
 
     def __init__(
         self,
-        *args,
+        *args: Any,
         alloc_mode: AllocMode,
         contract_address_iterator: Iterator[Address],
         eoa_iterator: Iterator[EOA],
         fork: Fork,
         evm_code_type: EVMCodeType | None = None,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize allocation with the given properties."""
         super().__init__(*args, **kwargs)
         self._alloc_mode = alloc_mode
@@ -116,7 +116,11 @@ class Alloc(BaseAlloc):
         self._evm_code_type = evm_code_type
         self._fork = fork
 
-    def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
+    def __setitem__(
+        self,
+        address: Address | FixedSizeBytesConvertible,
+        account: Account | None,
+    ) -> None:
         """Set account associated with an address."""
         if self._alloc_mode == AllocMode.STRICT:
             raise ValueError("Cannot set items in strict mode")
@@ -253,7 +257,7 @@ class Alloc(BaseAlloc):
             super().__setitem__(eoa, account)
         return eoa
 
-    def fund_address(self, address: Address, amount: NumberConvertible):
+    def fund_address(self, address: Address, amount: NumberConvertible) -> None:
         """
         Fund an address with a given amount.
 

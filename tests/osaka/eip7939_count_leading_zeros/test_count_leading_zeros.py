@@ -29,7 +29,7 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_7939.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7939.version
 
 
-def clz_parameters():
+def clz_parameters() -> list:
     """Generate all test case parameters."""
     test_cases = []
 
@@ -91,7 +91,7 @@ def test_clz_opcode_scenarios(
     test_id: str,
     value: int,
     expected_clz: int,
-):
+) -> None:
     """
     Test CLZ opcode functionality.
 
@@ -122,7 +122,7 @@ def test_clz_opcode_scenarios(
 
 
 @pytest.mark.valid_from("Osaka")
-def test_clz_gas_cost(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_clz_gas_cost(state_test: StateTestFiller, pre: Alloc, fork: Fork) -> None:
     """Test CLZ opcode gas cost."""
     contract_address = pre.deploy_contract(
         Op.SSTORE(
@@ -157,7 +157,7 @@ def test_clz_gas_cost_boundary(
     fork: Fork,
     bits: int,
     gas_cost_delta: int,
-):
+) -> None:
     """Test CLZ opcode gas cost boundary."""
     code = Op.PUSH32(1 << bits) + Op.CLZ
 
@@ -185,7 +185,7 @@ def test_clz_gas_cost_boundary(
 @EIPChecklist.Opcode.Test.StackUnderflow()
 @EIPChecklist.Opcode.Test.StackComplexOperations.StackHeights.Zero()
 @pytest.mark.valid_from("Osaka")
-def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
+def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Test CLZ opcode with empty stack (should revert due to stack underflow).
     """
@@ -213,7 +213,7 @@ def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
 @EIPChecklist.Opcode.Test.StackComplexOperations.StackHeights.Odd()
 @EIPChecklist.Opcode.Test.StackComplexOperations.StackHeights.Even()
 @pytest.mark.valid_from("Osaka")
-def test_clz_stack_not_overflow(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_clz_stack_not_overflow(state_test: StateTestFiller, pre: Alloc, fork: Fork) -> None:
     """Test CLZ opcode never causes stack overflow."""
     max_stack_items = fork.max_stack_height()
 
@@ -239,7 +239,7 @@ def test_clz_stack_not_overflow(state_test: StateTestFiller, pre: Alloc, fork: F
 
 
 @pytest.mark.valid_from("Osaka")
-def test_clz_push_operation_same_value(state_test: StateTestFiller, pre: Alloc):
+def test_clz_push_operation_same_value(state_test: StateTestFiller, pre: Alloc) -> None:
     """Test CLZ opcode returns the same value via different push operations."""
     storage = {}
 
@@ -273,7 +273,7 @@ def test_clz_push_operation_same_value(state_test: StateTestFiller, pre: Alloc):
 @EIPChecklist.Opcode.Test.ForkTransition.Invalid()
 @EIPChecklist.Opcode.Test.ForkTransition.At()
 @pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
-def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc) -> None:
     """Test CLZ opcode behavior at fork transition."""
     sender = pre.fund_eoa()
     callee_address = pre.deploy_contract(
@@ -356,7 +356,7 @@ def test_clz_jump_operation(
     valid_jump: bool,
     jumpi_condition: bool,
     bits: int,
-):
+) -> None:
     """Test CLZ opcode with valid and invalid jump."""
     if opcode == Op.JUMP and not jumpi_condition:
         pytest.skip("Duplicate case for JUMP.")
@@ -406,7 +406,7 @@ auth_account_start_balance = 0
 def test_clz_from_set_code(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test the address opcode in a set-code transaction."""
     storage = Storage()
     auth_signer = pre.fund_eoa(auth_account_start_balance)
@@ -451,7 +451,9 @@ def test_clz_from_set_code(
 @pytest.mark.valid_from("Osaka")
 @pytest.mark.parametrize("bits", [0, 64, 255])
 @pytest.mark.parametrize("opcode", [Op.CODECOPY, Op.EXTCODECOPY])
-def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+def test_clz_code_copy_operation(
+    state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op
+) -> None:
     """Test CLZ opcode with code copy operation."""
     storage = Storage()
 
@@ -499,7 +501,9 @@ def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: 
 @pytest.mark.valid_from("Osaka")
 @pytest.mark.parametrize("bits", [0, 64, 255])
 @pytest.mark.parametrize("opcode", [Op.CODECOPY, Op.EXTCODECOPY])
-def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+def test_clz_with_memory_operation(
+    state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op
+) -> None:
     """Test CLZ opcode with memory operation."""
     storage = Storage()
 
@@ -550,7 +554,7 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
 
 @EIPChecklist.Opcode.Test.ExecutionContext.Initcode.Behavior.Tx()
 @pytest.mark.valid_from("Osaka")
-def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc):
+def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc) -> None:
     """Test CLZ opcode behavior when creating a contract."""
     bits = [0, 1, 64, 128, 255]
 
@@ -581,7 +585,7 @@ def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc):
 @EIPChecklist.Opcode.Test.ExecutionContext.Initcode.Behavior.Opcode()
 @pytest.mark.valid_from("Osaka")
 @pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
-def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, opcode: Op):
+def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, opcode: Op) -> None:
     """Test CLZ opcode behavior when creating a contract."""
     bits = [0, 1, 64, 128, 255]  # expected values: [255, 254, 191, 127, 0]
 
@@ -645,7 +649,7 @@ class CallingContext:
 )
 def test_clz_call_operation(
     state_test: StateTestFiller, pre: Alloc, opcode: Op, context: CallingContext
-):
+) -> None:
     """Test CLZ opcode with call operation."""
     test_cases = [0, 64, 255]
 

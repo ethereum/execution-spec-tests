@@ -127,7 +127,7 @@ def test_valid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_PAIRING precompile."""
     state_test(
         env=Environment(),
@@ -147,7 +147,7 @@ def test_valid_multi_inf(
     sender: EOA,
     fork: Fork,
     post: dict,
-):
+) -> None:
     """
     Test maximum input given the current environment gas limit for the
     BLS12_PAIRING precompile.
@@ -327,7 +327,7 @@ def test_invalid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Negative tests for the BLS12_PAIRING precompile."""
     state_test(
         env=Environment(),
@@ -347,7 +347,7 @@ def test_invalid_multi_inf(
     sender: EOA,
     fork: Fork,
     post: dict,
-):
+) -> None:
     """
     Test maximum input given the current environment gas limit for the
     BLS12_PAIRING precompile and an invalid tail.
@@ -411,7 +411,7 @@ def test_gas(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_PAIRING precompile gas requirements."""
     state_test(
         env=Environment(),
@@ -444,7 +444,7 @@ def test_call_types(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_PAIRING precompile using different call types."""
     state_test(
         env=Environment(),

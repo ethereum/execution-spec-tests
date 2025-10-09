@@ -3,6 +3,7 @@ Tests that benchmark EVMs in worst-case block scenarios.
 """
 
 import random
+from typing import Generator, Tuple
 
 import pytest
 
@@ -24,7 +25,7 @@ from ethereum_test_vm import Opcodes as Op
 
 
 @pytest.fixture
-def iteration_count(intrinsic_cost: int, gas_benchmark_value: int):
+def iteration_count(intrinsic_cost: int, gas_benchmark_value: int) -> int:
     """
     Calculate the number of iterations based on the gas limit and intrinsic
     cost.
@@ -33,38 +34,38 @@ def iteration_count(intrinsic_cost: int, gas_benchmark_value: int):
 
 
 @pytest.fixture
-def transfer_amount():
+def transfer_amount() -> int:
     """Ether to transfer in each transaction."""
     return 1
 
 
 @pytest.fixture
-def intrinsic_cost(fork: Fork):
+def intrinsic_cost(fork: Fork) -> int:
     """Transaction intrinsic cost."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
     return intrinsic_cost()
 
 
-def get_distinct_sender_list(pre: Alloc):
+def get_distinct_sender_list(pre: Alloc) -> Generator[Address, None, None]:
     """Get a list of distinct sender accounts."""
     while True:
         yield pre.fund_eoa()
 
 
-def get_distinct_receiver_list(pre: Alloc):
+def get_distinct_receiver_list(pre: Alloc) -> Generator[Address, None, None]:
     """Get a list of distinct receiver accounts."""
     while True:
         yield pre.fund_eoa(0)
 
 
-def get_single_sender_list(pre: Alloc):
+def get_single_sender_list(pre: Alloc) -> Generator[Address, None, None]:
     """Get a list of single sender accounts."""
     sender = pre.fund_eoa()
     while True:
         yield sender
 
 
-def get_single_receiver_list(pre: Alloc):
+def get_single_receiver_list(pre: Alloc) -> Generator[Address, None, None]:
     """Get a list of single receiver accounts."""
     receiver = pre.fund_eoa(0)
     while True:
@@ -75,7 +76,7 @@ def get_single_receiver_list(pre: Alloc):
 def ether_transfer_case(
     case_id: str,
     pre: Alloc,
-):
+) -> Tuple[Generator[Address, None, None], Generator[Address, None, None]]:
     """Generate the test parameters based on the case ID."""
     if case_id == "a_to_a":
         """Sending to self."""
@@ -117,12 +118,12 @@ def test_block_full_of_ether_transfers(
     pre: Alloc,
     env: Environment,
     case_id: str,
-    ether_transfer_case,
+    ether_transfer_case: Tuple[Generator[Address, None, None], Generator[Address, None, None]],
     iteration_count: int,
     transfer_amount: int,
     intrinsic_cost: int,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Single test for ether transfer scenarios.
 
@@ -167,13 +168,13 @@ def test_block_full_of_ether_transfers(
 
 
 @pytest.fixture
-def total_cost_floor_per_token():
+def total_cost_floor_per_token() -> int:
     """Total cost floor per token."""
     return 10
 
 
 @pytest.fixture
-def total_cost_standard_per_token():
+def total_cost_standard_per_token() -> int:
     """Total cost floor per token."""
     return 4
 
@@ -186,7 +187,7 @@ def test_block_full_data(
     intrinsic_cost: int,
     total_cost_floor_per_token: int,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test a block with empty payload."""
     # Gas cost calculation based on EIP-7683:
     # (https://eips.ethereum.org/EIPS/eip-7683)
@@ -244,7 +245,7 @@ def test_block_full_access_list_and_data(
     total_cost_standard_per_token: int,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test a block with access lists (60% gas) and calldata (40% gas) using
     random mixed bytes.
@@ -344,7 +345,7 @@ def test_worst_case_auth_block(
     fork: Fork,
     empty_authority: bool,
     zero_delegation: bool,
-):
+) -> None:
     """Test an auth block."""
     gas_costs = fork.gas_costs()
 

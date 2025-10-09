@@ -261,7 +261,7 @@ def test_valid_gas_g1msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_G1MSM discount gas table in full, by expecting the call to
     succeed for all possible input lengths because the appropriate amount of
@@ -295,7 +295,7 @@ def test_invalid_zero_gas_g1msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1MSM precompile calling it with zero gas."""
     state_test(
         env=env,
@@ -320,7 +320,7 @@ def test_invalid_gas_g1msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_G1MSM discount gas table in full, by expecting the call to
     fail for all possible input lengths because the appropriate amount of gas
@@ -354,7 +354,7 @@ def test_invalid_zero_length_g1msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1MSM precompile by passing an input with zero length."""
     state_test(
         env=env,
@@ -385,7 +385,7 @@ def test_invalid_length_g1msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_G1MSM discount gas table in full, by expecting the call to
     fail for all possible input lengths provided because they are too long or
@@ -417,7 +417,7 @@ def test_valid_gas_g2msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_G2MSM discount gas table in full, by expecting the call to
     succeed for all possible input lengths because the appropriate amount of
@@ -451,7 +451,7 @@ def test_invalid_zero_gas_g2msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G2MSM precompile calling it with zero gas."""
     state_test(
         env=env,
@@ -476,7 +476,7 @@ def test_invalid_gas_g2msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_G2MSM discount gas table in full, by expecting the call to
     fail for all possible input lengths because the appropriate amount of gas
@@ -510,7 +510,7 @@ def test_invalid_zero_length_g2msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G2MSM precompile by passing an input with zero length."""
     state_test(
         env=env,
@@ -541,7 +541,7 @@ def test_invalid_length_g2msm(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_G2MSM discount gas table in full, by expecting the call to
     fail for all possible input lengths provided because they are too long or
@@ -571,7 +571,7 @@ def test_valid_gas_pairing(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_PAIRING precompile, by expecting the call to succeed for all
     possible input lengths (up to k == PAIRINGS_TO_TEST).
@@ -604,7 +604,7 @@ def test_invalid_zero_gas_pairing(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_PAIRING precompile calling it with zero gas."""
     state_test(
         env=env,
@@ -627,7 +627,7 @@ def test_invalid_gas_pairing(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_PAIRING precompile, by expecting the call to fail for all
     possible input lengths (up to k == PAIRINGS_TO_TEST) because the
@@ -661,7 +661,7 @@ def test_invalid_zero_length_pairing(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_PAIRING precompile by passing an input with zero length.
     """
@@ -692,7 +692,7 @@ def test_invalid_length_pairing(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_PAIRING precompile, by expecting the call to fail for all
     possible input lengths (up to k == PAIRINGS_TO_TEST) because the incorrect

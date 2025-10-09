@@ -63,7 +63,7 @@ class InvalidRLPMode(Enum):
 def test_empty_authorization_list(
     transaction_test: TransactionTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test sending a transaction with an empty authorization list."""
     tx = Transaction(
         gas_limit=100_000,
@@ -103,7 +103,7 @@ def test_invalid_auth_signature(
     r: int,
     s: int,
     delegate_address: Address,
-):
+) -> None:
     """
     Test sending a transaction where one of the signature elements is out of
     range.
@@ -153,7 +153,7 @@ def test_invalid_tx_invalid_auth_chain_id(
     pre: Alloc,
     auth_chain_id: int,
     delegate_address: Address,
-):
+) -> None:
     """
     Test sending a transaction where the chain id field of an authorization
     overflows the maximum value.
@@ -196,7 +196,7 @@ def test_invalid_tx_invalid_auth_chain_id_encoding(
     pre: Alloc,
     delegate_address: Address,
     auth_chain_id: int,
-):
+) -> None:
     """
     Test sending a transaction where the chain id field of an authorization has
     an incorrect encoding.
@@ -246,7 +246,7 @@ def test_invalid_tx_invalid_nonce(
     pre: Alloc,
     nonce: int,
     delegate_address: Address,
-):
+) -> None:
     """
     Test sending a transaction where the nonce field of an authorization
     overflows the maximum value.
@@ -294,7 +294,7 @@ def test_invalid_tx_invalid_nonce_as_list(
     pre: Alloc,
     nonce: List[int],
     delegate_address: Address,
-):
+) -> None:
     """
     Test sending a transaction where the nonce field of an authorization
     overflows the maximum value.
@@ -336,7 +336,7 @@ def test_invalid_tx_invalid_nonce_encoding(
     transaction_test: TransactionTestFiller,
     pre: Alloc,
     delegate_address: Address,
-):
+) -> None:
     """
     Test sending a transaction where the chain id field of an authorization has
     an incorrect encoding.
@@ -394,7 +394,7 @@ def test_invalid_tx_invalid_address(
     pre: Alloc,
     delegate_address: int,
     address_type: Type[FixedSizeBytes],
-):
+) -> None:
     """
     Test sending a transaction where the address field of an authorization is
     incorrectly serialized.
@@ -438,7 +438,7 @@ def test_invalid_tx_invalid_authorization_tuple_extra_element(
     pre: Alloc,
     delegate_address: Address,
     extra_element_value: int,
-):
+) -> None:
     """
     Test sending a transaction where the authorization tuple field of the
     type-4 transaction is serialized to contain an extra element.
@@ -501,7 +501,7 @@ def test_invalid_tx_invalid_authorization_tuple_missing_element(
     pre: Alloc,
     delegate_address: Address,
     missing_index: int,
-):
+) -> None:
     """
     Test sending a transaction where the authorization tuple field of the
     type-4 transaction is serialized to miss one element.
@@ -552,7 +552,7 @@ def test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes(
     transaction_test: TransactionTestFiller,
     pre: Alloc,
     delegate_address: Address,
-):
+) -> None:
     """
     Test sending a transaction where the authorization tuple field of the
     type-4 transaction is encoded in the outer element as bytes instead of a
@@ -603,7 +603,7 @@ def test_invalid_tx_invalid_rlp_encoding(
     pre: Alloc,
     delegate_address: Address,
     invalid_rlp_mode: InvalidRLPMode,
-):
+) -> None:
     """
     Test sending a transaction type-4 where the RLP encoding of the transaction
     is invalid.

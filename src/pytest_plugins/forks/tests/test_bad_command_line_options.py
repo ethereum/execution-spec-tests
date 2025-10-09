@@ -55,7 +55,7 @@ invalid_cli_option_test_cases = (
     [test_case for _, test_case in invalid_cli_option_test_cases],
     ids=[test_id for test_id, _ in invalid_cli_option_test_cases],
 )
-def test_bad_options(pytester, options, error_string):
+def test_bad_options(pytester: pytest.Pytester, options: tuple, error_string: str) -> None:
     """
     Test that a test with an invalid command-line options:
     - Creates an outcome with exactly one error.

@@ -4,7 +4,7 @@ Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum
 
 from os.path import realpath
 from pathlib import Path
-from typing import Dict
+from typing import Any, Dict, Generator
 
 import pytest
 
@@ -40,8 +40,8 @@ def test_system_contract_deployment(
     pre: Alloc,
     post: Alloc,
     test_type: DeploymentTestType,
-    **kwargs,
-):
+    **kwargs: Any,
+) -> Generator[Block, None, None]:
     """Verify deployment of the block hashes system contract."""
     # Deploy a contract that calls the history contract and verifies the block
     # hashes.

@@ -9,7 +9,7 @@ from hive.client import Client
 from .helpers.timing import TimingData
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Hive simulator specific consume command line options."""
     consume_group = parser.getgroup(
         "consume", "Arguments related to consuming fixtures via a client"
@@ -24,7 +24,7 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="function", autouse=True)
-def total_timing_data(request) -> Generator[TimingData, None, None]:
+def total_timing_data(request: pytest.FixtureRequest) -> Generator[TimingData, None, None]:
     """Record timing data for various stages of executing test case."""
     with TimingData("Total (seconds)") as total_timing_data:
         yield total_timing_data

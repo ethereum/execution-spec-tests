@@ -6,7 +6,7 @@ import math
 import operator
 import random
 from enum import Enum, auto
-from typing import cast
+from typing import Any, cast
 
 import pytest
 from py_ecc.bn128 import G1, G2, multiply
@@ -87,7 +87,7 @@ def test_worst_zero_param(
     opcode: Op,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many zero-parameter opcodes as possible."""
     opcode_sequence = opcode * fork.max_stack_height()
     target_contract_address = pre.deploy_contract(code=opcode_sequence)
@@ -117,7 +117,7 @@ def test_worst_calldatasize(
     fork: Fork,
     calldata_length: int,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many CALLDATASIZE as possible."""
     max_code_size = fork.max_code_size()
 
@@ -151,7 +151,7 @@ def test_worst_callvalue(
     non_zero_value: bool,
     from_origin: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many CALLVALUE opcodes as possible.
 
@@ -217,7 +217,7 @@ def test_worst_returndatasize_nonzero(
     returned_size: int,
     return_data_style: ReturnDataStyle,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block which execute as many RETURNDATASIZE opcodes which
     return a non-zero buffer as possible.
@@ -268,7 +268,7 @@ def test_worst_returndatasize_zero(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many RETURNDATASIZE opcodes as possible with a
     zero buffer.
@@ -304,7 +304,7 @@ def test_worst_msize(
     fork: Fork,
     mem_size: int,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many MSIZE opcodes as possible.
 
@@ -341,7 +341,7 @@ def test_worst_keccak(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many KECCAK256 permutations as possible."""
     # Intrinsic gas cost is paid once.
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
@@ -431,7 +431,7 @@ def test_worst_precompile_only_data_input(
     per_word_dynamic_cost: int,
     bytes_per_unit_of_work: int,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many precompile calls which have a single
     `data` input.
@@ -1332,7 +1332,7 @@ def test_worst_modexp(
     fork: Fork,
     mod_exp_input: ModExpInput,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many calls to the MODEXP (5) precompile as
     possible. All the calls have the same parametrized input.
@@ -1792,7 +1792,7 @@ def test_worst_precompile_fixed_cost(
     precompile_address: Address,
     parameters: list[str] | list[BytesConcatenation] | list[bytes],
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block filled with a precompile with fixed cost."""
     if precompile_address not in fork.precompiles():
         pytest.skip("Precompile not enabled")
@@ -1845,7 +1845,7 @@ def test_worst_jumps(
     state_test: StateTestFiller,
     pre: Alloc,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a JUMP-intensive contract."""
     jumps_code = Op.JUMPDEST + Op.JUMP(Op.PUSH0)
     jumps_address = pre.deploy_contract(jumps_code)
@@ -1868,11 +1868,11 @@ def test_worst_jumpi_fallthrough(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a JUMPI-intensive contract with fallthrough."""
     max_code_size = fork.max_code_size()
 
-    def jumpi_seq():
+    def jumpi_seq() -> Bytecode:
         return Op.JUMPI(Op.PUSH0, Op.PUSH0)
 
     prefix_seq = Op.JUMPDEST
@@ -1903,7 +1903,7 @@ def test_worst_jumpis(
     state_test: StateTestFiller,
     pre: Alloc,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a JUMPI-intensive contract."""
     jumpi_code = Op.JUMPDEST + Op.JUMPI(Op.PUSH0, Op.NUMBER)
     jumpi_address = pre.deploy_contract(jumpi_code)
@@ -1925,7 +1925,7 @@ def test_worst_jumpis(
 def test_worst_jumpdests(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test running a JUMPDEST-intensive contract."""
     benchmark_test(
         pre=pre,
@@ -2089,7 +2089,7 @@ def test_worst_binop_simple(
     fork: Fork,
     opcode_args: tuple[int, int],
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many binary instructions (takes two args,
     produces one value) as possible. The execution starts with two initial
@@ -2127,7 +2127,7 @@ def test_worst_unop(
     opcode: Op,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many unary instructions (takes one arg,
     produces one value) as possible.
@@ -2166,7 +2166,7 @@ def test_worst_tload(
     key_mut: bool,
     val_mut: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many TLOAD calls as possible."""
     max_code_size = fork.max_code_size()
 
@@ -2220,7 +2220,7 @@ def test_worst_tstore(
     key_mut: bool,
     dense_val_mut: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many TSTORE calls as possible."""
     max_code_size = fork.max_code_size()
 
@@ -2261,7 +2261,7 @@ def test_worst_shifts(
     fork: Fork,
     shift_right: Op,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many shift instructions with non-trivial
     arguments. This test generates left-right pairs of shifts to avoid zeroing
@@ -2270,19 +2270,19 @@ def test_worst_shifts(
     """
     max_code_size = fork.max_code_size()
 
-    def to_signed(x):
+    def to_signed(x: int) -> int:
         return x if x < 2**255 else x - 2**256
 
-    def to_unsigned(x):
+    def to_unsigned(x: int) -> int:
         return x if x >= 0 else x + 2**256
 
-    def shr(x, s):
+    def shr(x: int, s: int) -> int:
         return x >> s
 
-    def shl(x, s):
+    def shl(x: int, s: int) -> int:
         return x << s
 
-    def sar(x, s):
+    def sar(x: int, s: int) -> int:
         return to_unsigned(to_signed(x) >> s)
 
     match shift_right:
@@ -2306,7 +2306,7 @@ def test_worst_shifts(
     code_suffix = Op.POP + Op.JUMP(len(shift_amounts) * 2)
     code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
 
-    def select_shift_amount(shift_fn, v):
+    def select_shift_amount(shift_fn: Any, v: Any) -> Any:
         """Select a shift amount that will produce a non-zero result."""
         while True:
             index = rng.randint(0, len(shift_amounts) - 1)
@@ -2356,7 +2356,7 @@ def test_worst_blobhash(
     blob_index: int,
     blobs_present: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many BLOBHASH instructions as possible."""
     max_code_size = fork.max_code_size()
     max_stack_height = fork.max_stack_height()
@@ -2412,7 +2412,7 @@ def test_worst_mod(
     mod_bits: int,
     op: Op,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many MOD instructions with arguments of the
     parametrized range.
@@ -2548,7 +2548,7 @@ def test_worst_memory_access(
     offset_initialized: bool,
     big_memory_expansion: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many memory access instructions as possible.
     """
@@ -2589,7 +2589,7 @@ def test_worst_modarith(
     mod_bits: int,
     op: Op,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many "op" instructions with arguments of the
     parametrized range.
@@ -2692,7 +2692,7 @@ def test_worst_modarith(
 def test_empty_block(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test running an empty block as a baseline for fixed proving costs."""
     blockchain_test(
         pre=pre,
@@ -2707,7 +2707,7 @@ def test_amortized_bn128_pairings(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many BN128 pairings as possible."""
     base_cost = 45_000
     pairing_cost = 34_000
@@ -2770,7 +2770,7 @@ def test_amortized_bn128_pairings(
     )
 
 
-def _generate_bn128_pairs(n: int, seed: int = 0):
+def _generate_bn128_pairs(n: int, seed: int = 0) -> Bytes:
     rng = random.Random(seed)
     calldata = Bytes()
 
@@ -2814,7 +2814,7 @@ def test_worst_calldataload(
     fork: Fork,
     calldata: bytes,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many CALLDATALOAD as possible."""
     max_code_size = fork.max_code_size()
 
@@ -2865,7 +2865,7 @@ def test_worst_swap(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     opcode: Opcode,
-):
+) -> None:
     """Test running a block with as many SWAP as possible."""
     benchmark_test(
         pre=pre,
@@ -2903,7 +2903,7 @@ def test_worst_dup(
     fork: Fork,
     opcode: Op,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many DUP as possible."""
     max_stack_height = fork.max_stack_height()
 
@@ -2975,7 +2975,7 @@ def test_worst_push(
     fork: Fork,
     opcode: Op,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many PUSH as possible."""
     op = opcode[1] if opcode.has_data_portion() else opcode
 
@@ -3029,7 +3029,7 @@ def test_worst_return_revert(
     return_size: int,
     return_non_zero_data: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many RETURN or REVERT as possible."""
     max_code_size = fork.max_code_size()
 
@@ -3076,7 +3076,7 @@ def test_worst_clz_same_input(
     fork: Fork,
     gas_benchmark_value: int,
     env: Environment,
-):
+) -> None:
     """Test running a block with as many CLZ with same input as possible."""
     tx_gas_limit = fork.transaction_gas_limit_cap() or env.gas_limit
 
@@ -3118,7 +3118,7 @@ def test_worst_clz_diff_input(
     fork: Fork,
     gas_benchmark_value: int,
     env: Environment,
-):
+) -> None:
     """
     Test running a block with as many CLZ with different input as possible.
     """

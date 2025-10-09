@@ -10,7 +10,10 @@ import logging
 import re
 import tempfile
 from pathlib import Path
+from typing import Any
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from ..plugin_logging import (
     FAIL_LEVEL,
@@ -26,14 +29,14 @@ from ..plugin_logging import (
 class TestLoggerSetup:
     """Test the basic setup of loggers and custom levels."""
 
-    def test_custom_levels_registered(self):
+    def test_custom_levels_registered(self) -> None:
         """Test that custom log levels are properly registered."""
         assert logging.getLevelName(VERBOSE_LEVEL) == "VERBOSE"
         assert logging.getLevelName(FAIL_LEVEL) == "FAIL"
         assert logging.getLevelName("VERBOSE") == VERBOSE_LEVEL
         assert logging.getLevelName("FAIL") == FAIL_LEVEL
 
-    def test_get_logger(self):
+    def test_get_logger(self) -> None:
         """Test that get_logger returns a properly typed logger."""
         logger = get_logger("test_logger")
         assert isinstance(logger, EESTLogger)
@@ -45,7 +48,7 @@ class TestLoggerSetup:
 class TestEESTLogger:
     """Test the custom logger methods."""
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Set up a logger and string stream for capturing log output."""
         self.log_output = io.StringIO()
         self.logger = get_logger("test_eest_logger")
@@ -60,17 +63,17 @@ class TestEESTLogger:
         self.logger.addHandler(handler)
         self.logger.setLevel(logging.DEBUG)  # Set to lowest possible level for testing
 
-    def test_verbose_method(self):
+    def test_verbose_method(self) -> None:
         """Test the verbose() method logs at the expected level."""
         self.logger.verbose("This is a verbose message")
         assert "VERBOSE: This is a verbose message" in self.log_output.getvalue()
 
-    def test_fail_method(self):
+    def test_fail_method(self) -> None:
         """Test the fail() method logs at the expected level."""
         self.logger.fail("This is a fail message")
         assert "FAIL: This is a fail message" in self.log_output.getvalue()
 
-    def test_standard_methods(self):
+    def test_standard_methods(self) -> None:
         """Test that standard log methods still work."""
         self.logger.debug("Debug message")
         self.logger.info("Info message")
@@ -85,7 +88,7 @@ class TestEESTLogger:
 class TestFormatters:
     """Test the custom log formatters."""
 
-    def test_utc_formatter(self):
+    def test_utc_formatter(self) -> None:
         """Test that UTCFormatter formats timestamps correctly."""
         formatter = UTCFormatter(fmt="%(asctime)s: %(message)s")
         record = logging.makeLogRecord(
@@ -98,7 +101,7 @@ class TestFormatters:
         formatted = formatter.format(record)
         assert re.match(r"2021-01-01 00:00:00\.\d{3}\+00:00: Test message", formatted)
 
-    def test_color_formatter(self, monkeypatch):
+    def test_color_formatter(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test that ColorFormatter adds color codes to the log level."""
         # Create the formatter and test record
         formatter = ColorFormatter(fmt="[%(levelname)s] %(message)s")
@@ -126,7 +129,7 @@ class TestFormatters:
 class TestStandaloneConfiguration:
     """Test the standalone logging configuration function."""
 
-    def test_configure_logging_defaults(self):
+    def test_configure_logging_defaults(self) -> None:
         """Test configure_logging with default parameters."""
         with patch("sys.stdout", new=io.StringIO()):
             # Configure logging with default settings
@@ -142,7 +145,7 @@ class TestStandaloneConfiguration:
             # Should not return a file handler
             assert handler is None
 
-    def test_configure_logging_with_file(self):
+    def test_configure_logging_with_file(self) -> None:
         """Test configure_logging with file output."""
         # Create a temporary directory for log files
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -171,7 +174,7 @@ class TestStandaloneConfiguration:
                     handler.close()
                 logging.getLogger().handlers = []  # Remove all handlers
 
-    def test_configure_logging_with_level(self):
+    def test_configure_logging_with_level(self) -> None:
         """Test configure_logging with custom log level."""
         # Test with string level name
         configure_logging(log_level="DEBUG", log_to_stdout=False)
@@ -192,7 +195,7 @@ class TestStandaloneConfiguration:
 class TestPytestIntegration:
     """Test the pytest integration of the logging module."""
 
-    def test_pytest_configure(self, monkeypatch, tmpdir):
+    def test_pytest_configure(self, monkeypatch: pytest.MonkeyPatch, tmpdir: Any) -> None:
         """Test that pytest_configure sets up logging correctly."""
         from pytest_plugins.custom_logging.plugin_logging import pytest_configure
 
@@ -211,12 +214,12 @@ class TestPytestIntegration:
 
             # Create a mock pytest config
             class MockConfig:
-                def __init__(self):
+                def __init__(self) -> None:
                     self.option = MagicMock()
                     self.option.eest_log_level = logging.INFO
-                    self.workerinput = {}
+                    self.workerinput: dict[str, Any] = {}
 
-                def getoption(self, name):
+                def getoption(self, name: str) -> Any:
                     if name == "eest_log_level":
                         return logging.INFO
 
@@ -226,7 +229,7 @@ class TestPytestIntegration:
 
             # Call pytest_configure
             config = MockConfig()
-            pytest_configure(config)
+            pytest_configure(config)  # type: ignore[arg-type]
 
             # Check that logging is configured
             assert hasattr(config.option, "eest_log_file_path")

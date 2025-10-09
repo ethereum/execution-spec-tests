@@ -11,13 +11,13 @@ test_module_dummy = textwrap.dedent(
     from ethereum_test_tools import Environment
 
     @pytest.mark.valid_at("Istanbul")
-    def test_dummy_collect_only_test(state_test):
+    def test_dummy_collect_only_test(state_test) -> None:
         state_test(env=Environment(), pre={}, post={}, tx=None)
     """
 )
 
 
-def test_collect_only_output(pytester: pytest.Pytester):
+def test_collect_only_output(pytester: pytest.Pytester) -> None:
     """Test that --collect-only option produces expected output."""
     tests_dir = pytester.mkdir("tests")
     istanbul_tests_dir = tests_dir / "istanbul"

@@ -177,7 +177,7 @@ def test_txcreate_validates(
     value: int,
     input_size: int,
     access_list_a: bool,
-):
+) -> None:
     """
     Verifies proper validation of initcode on TXCREATE in various scenarios.
     """

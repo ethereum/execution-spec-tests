@@ -41,7 +41,7 @@ def test_eof_execution(
     state_test: StateTestFiller,
     pre: Alloc,
     container: Container,
-):
+) -> None:
     """Test simple contracts that are expected to succeed on call."""
     env = Environment()
 

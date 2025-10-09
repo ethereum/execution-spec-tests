@@ -1,6 +1,7 @@
 """Pytest configuration for benchmark tests."""
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -9,7 +10,7 @@ from ethereum_test_forks import Fork
 DEFAULT_BENCHMARK_FORK = "Prague"
 
 
-def pytest_generate_tests(metafunc):
+def pytest_generate_tests(metafunc: Any) -> None:
     """
     Modify test generation to enforce default benchmark fork for benchmark
     tests.
@@ -30,7 +31,7 @@ def pytest_generate_tests(metafunc):
             metafunc.definition.add_marker(benchmark_marker)
 
 
-def pytest_collection_modifyitems(config, items):
+def pytest_collection_modifyitems(config: Any, items: Any) -> None:
     """Add the `benchmark` marker to all tests under `./tests/benchmark`."""
     benchmark_dir = Path(__file__).parent
     benchmark_marker = pytest.mark.benchmark

@@ -58,7 +58,7 @@ def test_eofcreate_memory(
     offset_field: str,
     test_arg: int,
     success: bool,
-):
+) -> None:
     """
     Tests auxdata sizes in EOFCREATE including multiple offset conditions.
 

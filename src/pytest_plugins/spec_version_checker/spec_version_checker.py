@@ -22,7 +22,7 @@ GITHUB_TOKEN_HELP = textwrap.dedent(
 )
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add Github token option to pytest command line options."""
     group = parser.getgroup(
         "spec_version_checker", "Arguments defining the EIP spec version checker"
@@ -40,7 +40,7 @@ def pytest_addoption(parser):
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """
     Register the plugin's custom markers and process command-line options.
 
@@ -60,7 +60,7 @@ def pytest_configure(config):
             f"{GITHUB_TOKEN_HELP}"
         )
 
-    config.github_token = github_token
+    config.github_token = github_token  # type: ignore[attr-defined]
 
 
 def get_ref_spec_from_module(
@@ -112,7 +112,7 @@ def is_test_for_an_eip(input_string: str) -> bool:
     return False
 
 
-def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None):
+def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None) -> None:
     """
     Test that the ReferenceSpec object as defined in the test module is not
     outdated when compared to the remote hash from ethereum/EIPs.
@@ -200,7 +200,7 @@ class EIPSpecTestItem(Item):
         return "spec_version_checker", 0, f"{self.name}"
 
 
-def pytest_collection_modifyitems(config: pytest.Config, items: List[Item]):
+def pytest_collection_modifyitems(config: pytest.Config, items: List[Item]) -> None:
     """
     Insert a new test EIPSpecTestItem for every test module with 'eip' in its
     path.

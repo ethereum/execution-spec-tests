@@ -7,7 +7,7 @@ from ethereum_test_base_types import Address
 from ..helpers import compute_create2_address, compute_create_address
 
 
-def test_address():
+def test_address() -> None:
     """Test `ethereum_test.base_types.Address`."""
     assert (
         Address("0x0000000000000000000000000000000000000000")
@@ -63,7 +63,9 @@ def test_address():
         ),
     ],
 )
-def test_compute_create_address(address: str | int, nonce: int, expected_contract_address: str):
+def test_compute_create_address(
+    address: str | int, nonce: int, expected_contract_address: str
+) -> None:
     """
     Test `ethereum_test.helpers.compute_create_address` with some famous
     contracts:
@@ -130,7 +132,7 @@ def test_compute_create2_address(
     salt: str,
     initcode: str,
     expected_contract_address: str,
-):
+) -> None:
     """
     Test `ethereum_test.helpers.compute_create2_address` using the CREATE2 geth
     test cases from:

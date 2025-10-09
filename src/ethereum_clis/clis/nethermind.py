@@ -55,7 +55,7 @@ class Nethtest(EthereumCLI):
         command: Tuple[str, ...],
         result: subprocess.CompletedProcess,
         debug_output_path: Path,
-    ):
+    ) -> None:
         # our assumption is that each command element is a string
         assert all(isinstance(x, str) for x in command), (
             f"Not all elements of 'command' list are strings: {command}"
@@ -140,7 +140,7 @@ class NethtestFixtureConsumer(
     def consume_state_test_file(
         self,
         fixture_path: Path,
-        command: Tuple[str],
+        command: Tuple[str, ...],
         debug_output_path: Optional[Path] = None,
     ) -> Tuple[List[Dict[str, Any]], str]:
         """
@@ -178,7 +178,7 @@ class NethtestFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Consume a single state test.
 
@@ -226,7 +226,7 @@ class NethtestFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """Execute the the fixture at `fixture_path` via `nethtest`."""
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -245,7 +245,7 @@ class NethtestFixtureConsumer(
     def consume_eof_test_file(
         self,
         fixture_path: Path,
-        command: Tuple[str],
+        command: Tuple[str, ...],
         debug_output_path: Optional[Path] = None,
     ) -> Tuple[Dict[Any, Any], str, str]:
         """Consume an entire EOF fixture file."""
@@ -268,7 +268,13 @@ class NethtestFixtureConsumer(
 
         return test_results, result.stdout, result.stderr
 
-    def consume_eof_test(self, command, fixture_path, fixture_name, debug_output_path):
+    def consume_eof_test(
+        self,
+        command: Tuple[str, ...],
+        fixture_path: Path,
+        fixture_name: Optional[str],
+        debug_output_path: Optional[Path],
+    ) -> None:
         """Execute the the EOF fixture at `fixture_path` via `nethtest`."""
         if not self.has_eof_support():
             pytest.skip("This version of nethtest does not support the `--eofTest` flag.")
@@ -277,6 +283,7 @@ class NethtestFixtureConsumer(
             command=command,
             debug_output_path=debug_output_path,
         )
+        assert fixture_name, "fixture_name is required for EOF tests"
         modified_fixture_name = fixture_name.split("::")[-1].replace("\\x", "/x")
         assert modified_fixture_name in file_results, (
             f"Test result for {fixture_name} missing, available stdout:\n{stdout}.\n"
@@ -296,7 +303,7 @@ class NethtestFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Execute the appropriate geth fixture consumer for the fixture at
         `fixture_path`.

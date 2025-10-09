@@ -64,7 +64,7 @@ def test_init_collision_create_tx(
     collision_balance: int,
     collision_code: bytes,
     initcode: Bytecode,
-):
+) -> None:
     """
     Test that a contract creation transaction exceptionally aborts when
     the target address has a non-empty storage, balance, nonce, or code.
@@ -107,7 +107,7 @@ def test_init_collision_create_opcode(
     collision_balance: int,
     collision_code: bytes,
     initcode: Bytecode,
-):
+) -> None:
     """
     Test that a contract creation opcode exceptionally aborts when the target
     address has a non-empty storage, balance, nonce, or code.

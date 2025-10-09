@@ -52,7 +52,7 @@ def test_bal_sstore_and_oog(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
     fails_at_sstore: bool,
-):
+) -> None:
     """
     Ensure BAL handles SSTORE and OOG during SSTORE appropriately.
     """
@@ -127,7 +127,7 @@ def test_bal_sload_and_oog(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
     fails_at_sload: bool,
-):
+) -> None:
     """
     Ensure BAL handles SLOAD and OOG during SLOAD appropriately.
     """
@@ -192,7 +192,7 @@ def test_bal_balance_and_oog(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
     fails_at_balance: bool,
-):
+) -> None:
     """Ensure BAL handles BALANCE and OOG during BALANCE appropriately."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa()
@@ -257,7 +257,7 @@ def test_bal_extcodesize_and_oog(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
     fails_at_extcodesize: bool,
-):
+) -> None:
     """
     Ensure BAL handles EXTCODESIZE and OOG during EXTCODESIZE appropriately.
     """
@@ -328,7 +328,7 @@ def test_bal_call_and_oog(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
     fails_at_call: bool,
-):
+) -> None:
     """Ensure BAL handles CALL and OOG during CALL appropriately."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa()
@@ -398,7 +398,7 @@ def test_bal_delegatecall_and_oog(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
     fails_at_delegatecall: bool,
-):
+) -> None:
     """
     Ensure BAL handles DELEGATECALL and OOG during DELEGATECALL
     appropriately.
@@ -477,7 +477,7 @@ def test_bal_extcodecopy_and_oog(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
     fails_at_extcodecopy: bool,
-):
+) -> None:
     """
     Ensure BAL handles EXTCODECOPY and OOG during EXTCODECOPY appropriately.
     """

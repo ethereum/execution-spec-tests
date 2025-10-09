@@ -63,8 +63,12 @@ class BlobTransaction(BaseExecute):
     nonexisting_blob_hashes: List[Hash] | None = None
 
     def execute(
-        self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None, request: FixtureRequest
-    ):
+        self,
+        fork: Fork,
+        eth_rpc: EthRPC,
+        engine_rpc: EngineRPC | None,
+        request: FixtureRequest,
+    ) -> None:
         """Execute the format."""
         assert engine_rpc is not None, "Engine RPC is required for this format."
         versioned_hashes: Dict[Hash, BlobAndProofV1 | BlobAndProofV2] = {}

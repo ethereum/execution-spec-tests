@@ -77,7 +77,7 @@ def test_warm_coinbase_call_out_of_gas(
     contract_under_test_code: Bytecode,
     call_gas_exact: int,
     use_sufficient_gas: bool,
-):
+) -> None:
     """
     Test that the coinbase is warm by accessing the COINBASE with each
     of the following opcodes.
@@ -212,7 +212,7 @@ def test_warm_coinbase_gas_usage(
     fork: Fork,
     opcode: str,
     code_gas_measure: Bytecode,
-):
+) -> None:
     """
     Test the gas usage of opcodes affected by assuming a warm coinbase.
 

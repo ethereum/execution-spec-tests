@@ -30,7 +30,7 @@ from pytest_plugins.custom_logging import get_logger
 logger = get_logger(__name__)
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     fork_group = parser.getgroup("Forks", "Specify the fork range to generate fixtures for")
     fork_group.addoption(
@@ -158,7 +158,7 @@ class CovariantDescriptor:
     argnames: List[str] = []
     fn: Callable[[Fork], List[Any] | Iterable[Any]] | None = None
 
-    selector: FunctionType | None = None
+    selector: Callable[..., bool] | None = None
     marks: None | pytest.Mark | pytest.MarkDecorator | List[pytest.Mark | pytest.MarkDecorator] = (
         None
     )
@@ -168,7 +168,7 @@ class CovariantDescriptor:
         argnames: List[str] | str,
         fn: Callable[[Fork], List[Any] | Iterable[Any]] | None = None,
         *,
-        selector: FunctionType | None = None,
+        selector: Callable[..., bool] | None = None,
         marks: None
         | pytest.Mark
         | pytest.MarkDecorator
@@ -412,7 +412,7 @@ fork_covariant_decorators: List[Type[CovariantDecorator]] = [
 ]
 
 
-def pytest_configure(config: pytest.Config):
+def pytest_configure(config: pytest.Config) -> None:
     """
     Register the plugin's custom markers and process command-line options.
 
@@ -463,7 +463,7 @@ def pytest_configure(config: pytest.Config):
         """
     )
 
-    def get_fork_option(config, option_name: str, parameter_name: str) -> Set[Fork]:
+    def get_fork_option(config: pytest.Config, option_name: str, parameter_name: str) -> Set[Fork]:
         """Post-process get option to allow for external fork conditions."""
         config_str = config.getoption(option_name)
         try:
@@ -541,7 +541,7 @@ def pytest_configure(config: pytest.Config):
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_report_header(config, start_path):
+def pytest_report_header(config: pytest.Config, start_path: Any) -> List[str]:
     """Pytest hook called to obtain the report header."""
     del start_path
 
@@ -552,11 +552,11 @@ def pytest_report_header(config, start_path):
         (
             bold
             + "Generating fixtures for: "
-            + ", ".join([f.name() for f in sorted(config.selected_fork_set)])
+            + ", ".join([f.name() for f in sorted(config.selected_fork_set)])  # type: ignore[attr-defined]
             + reset
         ),
     ]
-    if all(fork.is_deployed() for fork in config.selected_fork_set):
+    if all(fork.is_deployed() for fork in config.selected_fork_set):  # type: ignore[attr-defined]
         header += [
             (
                 bold + warning + "Only generating fixtures with stable/deployed forks: "
@@ -568,7 +568,7 @@ def pytest_report_header(config, start_path):
 
 
 @pytest.fixture(autouse=True)
-def fork(request):
+def fork(request: pytest.FixtureRequest) -> None:
     """Parametrize test cases by fork."""
     pass
 
@@ -619,7 +619,7 @@ class ValidityMarker(ABC):
         marker_name: str | None = None,
         mutually_exclusive: List[Type["ValidityMarker"]] | None = None,
         flag: bool = False,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         """Register the validity marker subclass."""
         super().__init_subclass__(**kwargs)
@@ -634,7 +634,7 @@ class ValidityMarker(ABC):
             raise ValueError(f"Duplicate validity marker class: {cls}")
         ALL_VALIDITY_MARKERS[marker_name] = cls
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Post-initialize the validity marker."""
         if self.flag:
             return
@@ -731,7 +731,7 @@ class ValidityMarker(ABC):
         return forks & fork_set
 
     @abstractmethod
-    def _process_with_marker_args(self, *args, **kwargs) -> Set[Fork]:
+    def _process_with_marker_args(self, *args: Any, **kwargs: Any) -> Set[Fork]:
         """
         Process the fork arguments as specified for the marker.
 
@@ -766,7 +766,7 @@ class ValidFrom(ValidityMarker):
     after, e.g. London, Paris, Shanghai, Cancun, etc.
     """
 
-    def _process_with_marker_args(self, *fork_args) -> Set[Fork]:
+    def _process_with_marker_args(self, *fork_args: str) -> Set[Fork]:
         """Process the fork arguments."""
         forks: Set[Fork] = self.process_fork_arguments(*fork_args)
         resulting_set: Set[Fork] = set()
@@ -797,7 +797,7 @@ class ValidUntil(ValidityMarker):
     before, e.g. London, Berlin, Istanbul, etc.
     """
 
-    def _process_with_marker_args(self, *fork_args) -> Set[Fork]:
+    def _process_with_marker_args(self, *fork_args: str) -> Set[Fork]:
         """Process the fork arguments."""
         forks: Set[Fork] = self.process_fork_arguments(*fork_args)
         resulting_set: Set[Fork] = set()
@@ -827,7 +827,7 @@ class ValidAt(ValidityMarker):
     forks.
     """
 
-    def _process_with_marker_args(self, *fork_args) -> Set[Fork]:
+    def _process_with_marker_args(self, *fork_args: str) -> Set[Fork]:
         """Process the fork arguments."""
         return self.process_fork_arguments(*fork_args)
 
@@ -891,7 +891,7 @@ class ValidAtTransitionTo(ValidityMarker, mutually_exclusive=[ValidAt, ValidFrom
     """
 
     def _process_with_marker_args(
-        self, *fork_args, subsequent_forks: bool = False, until: str | None = None
+        self, *fork_args: str, subsequent_forks: bool = False, until: str | None = None
     ) -> Set[Fork]:
         """Process the fork arguments."""
         forks: Set[Fork] = self.process_fork_arguments(*fork_args)
@@ -949,7 +949,7 @@ class ValidForBPOForks(ValidityMarker, marker_name="valid_for_bpo_forks", flag=T
         return resulting_set
 
 
-def pytest_generate_tests(metafunc: pytest.Metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """Pytest hook used to dynamically generate test cases."""
     test_name = metafunc.function.__name__
     try:

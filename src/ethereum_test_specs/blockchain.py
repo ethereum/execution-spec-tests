@@ -144,7 +144,7 @@ class Header(CamelModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @model_serializer(mode="wrap", when_used="json")
-    def _serialize_model(self, serializer, info):
+    def _serialize_model(self, serializer: Any, info: Any) -> Dict[str, Any]:
         """Exclude Removable fields from serialization."""
         del info
         data = serializer(self)
@@ -152,7 +152,7 @@ class Header(CamelModel):
 
     @field_validator("withdrawals_root", mode="before")
     @classmethod
-    def validate_withdrawals_root(cls, value):
+    def validate_withdrawals_root(cls, value: Any) -> Any:
         """Convert a list of withdrawals into the withdrawals root hash."""
         if isinstance(value, list):
             return Withdrawal.list_root(value)
@@ -169,7 +169,7 @@ class Header(CamelModel):
             }
         )
 
-    def verify(self, target: FixtureHeader):
+    def verify(self, target: FixtureHeader) -> None:
         """Verify that the header fields from self are as expected."""
         for field_name in self.__class__.model_fields:
             baseline_value = getattr(self, field_name)
@@ -359,7 +359,7 @@ class BuiltBlock(CamelModel):
             transition_tool_exceptions_reliable=transition_tool_exceptions_reliable,
         )
 
-    def verify_block_exception(self, transition_tool_exceptions_reliable: bool):
+    def verify_block_exception(self, transition_tool_exceptions_reliable: bool) -> None:
         """Verify the block exception."""
         got_exception: ExceptionWithMessage | UndefinedException | None = (
             self.result.block_exception
@@ -696,7 +696,9 @@ class BlockchainTest(BaseTest):
 
         return built_block
 
-    def verify_post_state(self, t8n, t8n_state: Alloc, expected_state: Alloc | None = None):
+    def verify_post_state(
+        self, t8n: TransitionTool, t8n_state: Alloc, expected_state: Alloc | None = None
+    ) -> None:
         """Verify post alloc after all block/s or payload/s are generated."""
         try:
             if expected_state:

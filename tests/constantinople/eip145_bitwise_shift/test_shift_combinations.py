@@ -60,7 +60,9 @@ combinations = list(itertools.product(list_of_args, repeat=2))
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/1683"],
 )
-def test_combinations(state_test: StateTestFiller, pre: Alloc, opcode: Op, operation: Callable):
+def test_combinations(
+    state_test: StateTestFiller, pre: Alloc, opcode: Op, operation: Callable
+) -> None:
     """Test bitwise shift combinations."""
     result = Storage()
     address_to = pre.deploy_contract(

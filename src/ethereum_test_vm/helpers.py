@@ -52,7 +52,7 @@ class MemoryVariable(Bytecode):
 
     offset: int
 
-    def __new__(cls, offset: int):
+    def __new__(cls, offset: int) -> "MemoryVariable":
         """
         Instantiate a new EVM memory variable.
 

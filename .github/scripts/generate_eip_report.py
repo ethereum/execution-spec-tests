@@ -8,6 +8,7 @@ import re
 import sys
 import textwrap
 from string import Template
+from typing import List, Tuple
 
 # Report template using textwrap.dedent for clean multiline strings
 REPORT_TEMPLATE = Template(
@@ -49,7 +50,7 @@ REPORT_TEMPLATE = Template(
 )
 
 
-def extract_failures(output):
+def extract_failures(output: str) -> List[Tuple[str, str, str, str, str, str]]:
     """Extract failure information from the output using regex."""
     failures = []
 
@@ -88,7 +89,7 @@ def extract_failures(output):
     return failures
 
 
-def generate_summary_table(failures):
+def generate_summary_table(failures: List[Tuple[str, str, str, str, str, str]]) -> str:
     """Generate a markdown summary table from the failures."""
     rows = []
     for file_path, eip_num, _, eip_link, ref_version, latest_version in failures:
@@ -98,7 +99,7 @@ def generate_summary_table(failures):
     return "\n".join(rows)
 
 
-def main():
+def main() -> None:
     """Generate the report."""
     if len(sys.argv) < 2:
         print("Usage: uv run python generate_eip_report.py <input_file> [output_file]")

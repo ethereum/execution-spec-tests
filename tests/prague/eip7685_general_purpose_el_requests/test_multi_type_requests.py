@@ -332,7 +332,7 @@ def test_valid_multi_type_requests(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
-):
+) -> None:
     """
     Test making a deposit to the beacon chain deposit contract and a withdrawal
     in the same block.
@@ -354,7 +354,7 @@ def test_valid_multi_type_request_from_same_tx(
     pre: Alloc,
     requests: List[DepositRequest | WithdrawalRequest | ConsolidationRequest],
     fork: Fork,
-):
+) -> None:
     """
     Test making a deposit to the beacon chain deposit contract and a withdrawal
     in the same tx.
@@ -638,7 +638,7 @@ def test_invalid_multi_type_requests(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
-):
+) -> None:
     """
     Negative testing for all request types in the same block.
 
@@ -670,7 +670,7 @@ def test_invalid_multi_type_requests_engine(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
-):
+) -> None:
     """
     Negative testing for all request types in the same block with incorrect
     parameters in the Engine API new payload parameters, but with the correct

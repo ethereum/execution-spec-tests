@@ -128,8 +128,8 @@ def main(
     show_common: bool,
     show_missing: bool,
     remove_from_fixture_names: List[str],
-):
-    """Crawl two folders, compare and print the opcode count diffs."""
+) -> None:
+    """Crawl two folders, compare and print opcode count diffs."""
     print(f"Loading opcode counts from {base}...")
     opcode_counts1 = load_all_opcode_counts(base, remove_from_fixture_names)
     print(f"Found {len(opcode_counts1)} fixtures with opcode counts")

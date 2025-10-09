@@ -9,13 +9,19 @@ import json
 import tempfile
 import warnings
 from pathlib import Path
+from typing import Any, Generator
 
 import pytest
 
 from ethereum_clis.ethereum_cli import EthereumCLI
 from ethereum_clis.fixture_consumer_tool import FixtureConsumerTool
 from ethereum_test_base_types import to_json
-from ethereum_test_fixtures import BaseFixture, BlockchainFixture, EOFFixture, StateFixture
+from ethereum_test_fixtures import (
+    BaseFixture,
+    BlockchainFixture,
+    EOFFixture,
+    StateFixture,
+)
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import Fixtures
 from pytest_plugins.consume.consume import FixturesSource
@@ -24,7 +30,7 @@ from pytest_plugins.consume.consume import FixturesSource
 class CollectOnlyCLI(EthereumCLI):
     """A dummy CLI for use with `--collect-only`."""
 
-    def __init__(self):  # noqa: D107
+    def __init__(self) -> None:  # noqa: D107
         pass
 
 
@@ -33,11 +39,11 @@ class CollectOnlyFixtureConsumer(
 ):
     """A dummy fixture consumer for use with `--collect-only`."""
 
-    def consume_fixture(self):  # noqa: D102
+    def consume_fixture(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
         pass
 
 
-def pytest_addoption(parser):  # noqa: D103
+def pytest_addoption(parser: pytest.Parser) -> None:  # noqa: D103
     consume_group = parser.getgroup(
         "consume_direct", "Arguments related to consuming fixtures via a client"
     )
@@ -71,11 +77,8 @@ def pytest_addoption(parser):  # noqa: D103
     )
 
 
-def pytest_configure(config):  # noqa: D103
-    config._supported_fixture_formats = [
-        fixture_format.format_name
-        for fixture_format in [StateFixture, BlockchainFixture, EOFFixture]
-    ]
+def pytest_configure(config: pytest.Config) -> None:  # noqa: D103
+    config.supported_fixture_formats = [StateFixture, BlockchainFixture, EOFFixture]  # type: ignore[attr-defined]
     fixture_consumers = []
     for fixture_consumer_bin_path in config.getoption("fixture_consumer_bin"):
         fixture_consumers.append(
@@ -100,11 +103,13 @@ def pytest_configure(config):  # noqa: D103
         pytest.exit(
             "No fixture consumer binaries provided; please specify a binary path via `--bin`."
         )
-    config.fixture_consumers = fixture_consumers
+    config.fixture_consumers = fixture_consumers  # type: ignore[attr-defined]
 
 
 @pytest.fixture(scope="function")
-def test_dump_dir(request, fixture_path: Path, fixture_name: str) -> Path | None:
+def test_dump_dir(
+    request: pytest.FixtureRequest, fixture_path: Path, fixture_name: str
+) -> Path | None:
     """The directory to write evm debug output to."""
     base_dump_dir = request.config.getoption("base_dump_dir")
     if not base_dump_dir:
@@ -116,7 +121,9 @@ def test_dump_dir(request, fixture_path: Path, fixture_name: str) -> Path | None
 
 
 @pytest.fixture
-def fixture_path(test_case: TestCaseIndexFile | TestCaseStream, fixtures_source: FixturesSource):
+def fixture_path(
+    test_case: TestCaseIndexFile | TestCaseStream, fixtures_source: FixturesSource
+) -> Generator[Path, None, None]:
     """
     Path to the current JSON fixture file.
 
@@ -138,17 +145,17 @@ def fixture_path(test_case: TestCaseIndexFile | TestCaseStream, fixtures_source:
 
 
 @pytest.fixture(scope="function")
-def fixture_name(test_case: TestCaseIndexFile | TestCaseStream):
+def fixture_name(test_case: TestCaseIndexFile | TestCaseStream) -> str:
     """Name of the current fixture."""
     return test_case.id
 
 
-def pytest_generate_tests(metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """Parametrize test cases for every fixture consumer."""
     metafunc.parametrize(
         "fixture_consumer",
         (
             pytest.param(fixture_consumer, id=str(fixture_consumer.__class__.__name__))
-            for fixture_consumer in metafunc.config.fixture_consumers
+            for fixture_consumer in metafunc.config.fixture_consumers  # type: ignore[attr-defined]
         ),
     )

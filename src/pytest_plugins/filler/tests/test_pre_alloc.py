@@ -41,7 +41,7 @@ def create_test_alloc(
     )
 
 
-def test_alloc_deploy_contract_basic():
+def test_alloc_deploy_contract_basic() -> None:
     """Test basic `Alloc.deploy_contract` functionality."""
     pre = create_test_alloc()
 
@@ -70,7 +70,7 @@ def test_alloc_deploy_contract_basic():
     assert len(pre_contract_2_account.code) > 0
 
 
-def test_alloc_deploy_contract_with_balance():
+def test_alloc_deploy_contract_with_balance() -> None:
     """Test `Alloc.deploy_contract` with balance."""
     pre = create_test_alloc()
     balance = 10**18
@@ -82,11 +82,14 @@ def test_alloc_deploy_contract_with_balance():
     assert account.balance == balance
 
 
-def test_alloc_deploy_contract_with_storage():
+def test_alloc_deploy_contract_with_storage() -> None:
     """Test `Alloc.deploy_contract` with storage."""
     pre = create_test_alloc()
     storage = {0: 42, 1: 100}
-    contract = pre.deploy_contract(Op.STOP, storage=storage)
+    contract = pre.deploy_contract(
+        Op.STOP,
+        storage=storage,  # type: ignore
+    )
 
     assert contract in pre
     account = pre[contract]
@@ -96,7 +99,7 @@ def test_alloc_deploy_contract_with_storage():
     assert account.storage[1] == 100
 
 
-def test_alloc_fund_eoa_basic():
+def test_alloc_fund_eoa_basic() -> None:
     """Test basic `Alloc.fund_eoa` functionality."""
     pre = create_test_alloc()
 
@@ -117,7 +120,7 @@ def test_alloc_fund_eoa_basic():
     assert account_2.balance == 2 * 10**18
 
 
-def test_alloc_fund_address():
+def test_alloc_fund_address() -> None:
     """Test `Alloc.fund_address` functionality."""
     pre = create_test_alloc()
     address = Address(0x1234567890123456789012345678901234567890)
@@ -131,7 +134,7 @@ def test_alloc_fund_address():
     assert account.balance == amount
 
 
-def test_alloc_empty_account():
+def test_alloc_empty_account() -> None:
     """Test `Alloc.empty_account` functionality."""
     pre = create_test_alloc()
     empty_addr = pre.empty_account()
@@ -142,7 +145,7 @@ def test_alloc_empty_account():
 
 
 @pytest.mark.parametrize("evm_code_type", [EVMCodeType.LEGACY, EVMCodeType.EOF_V1])
-def test_alloc_deploy_contract_code_types(evm_code_type: EVMCodeType):
+def test_alloc_deploy_contract_code_types(evm_code_type: EVMCodeType) -> None:
     """Test `Alloc.deploy_contract` with different EVM code types."""
     pre = create_test_alloc(evm_code_type=evm_code_type)
 
@@ -162,7 +165,7 @@ def test_alloc_deploy_contract_code_types(evm_code_type: EVMCodeType):
 
 
 @pytest.mark.parametrize("alloc_mode", [AllocMode.STRICT, AllocMode.PERMISSIVE])
-def test_alloc_modes(alloc_mode: AllocMode):
+def test_alloc_modes(alloc_mode: AllocMode) -> None:
     """Test different allocation modes."""
     pre = create_test_alloc(alloc_mode=alloc_mode)
 
@@ -173,7 +176,7 @@ def test_alloc_modes(alloc_mode: AllocMode):
     assert contract in pre
 
 
-def test_global_address_allocation_consistency():
+def test_global_address_allocation_consistency() -> None:
     """Test that address allocation produces consistent results."""
     # Create two alloc instances with same parameters
     pre1 = create_test_alloc()
@@ -197,7 +200,7 @@ def test_global_address_allocation_consistency():
     )
 
 
-def test_alloc_deploy_contract_nonce():
+def test_alloc_deploy_contract_nonce() -> None:
     """Test that deployed contracts have correct nonce."""
     pre = create_test_alloc()
 
@@ -208,7 +211,7 @@ def test_alloc_deploy_contract_nonce():
     assert account.nonce == 1  # Deployed contracts should have nonce 1
 
 
-def test_alloc_fund_eoa_returns_eoa_object():
+def test_alloc_fund_eoa_returns_eoa_object() -> None:
     """Test that fund_eoa returns proper EOA object with private key access."""
     pre = create_test_alloc()
 
@@ -225,7 +228,7 @@ def test_alloc_fund_eoa_returns_eoa_object():
     assert account.balance == 10**18
 
 
-def test_alloc_multiple_contracts_sequential_addresses():
+def test_alloc_multiple_contracts_sequential_addresses() -> None:
     """Test that multiple contracts get sequential addresses."""
     pre = create_test_alloc()
 

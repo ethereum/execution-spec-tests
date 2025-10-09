@@ -1,5 +1,7 @@
 """CLI entry point for the `checklist` pytest-based command."""
 
+from typing import Any
+
 import click
 
 from .fill import FillCommand
@@ -20,7 +22,7 @@ from .fill import FillCommand
     multiple=True,
     help="Generate checklist only for specific EIP(s)",
 )
-def checklist(output: str, eip: tuple, **kwargs) -> None:
+def checklist(output: str, eip: tuple[int, ...], **kwargs: Any) -> None:
     """
     Generate EIP test checklists based on pytest.mark.eip_checklist markers.
 

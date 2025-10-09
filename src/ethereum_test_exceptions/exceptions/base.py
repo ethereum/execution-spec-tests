@@ -58,7 +58,7 @@ class ExceptionBase(Enum):
             return exception
         raise ValueError(f"No such exception in {class_name}: {value}")
 
-    def __contains__(self, exception) -> bool:
+    def __contains__(self, exception: "ExceptionBase") -> bool:
         """Check if provided exception is equal to this."""
         return self == exception
 

@@ -24,7 +24,7 @@ from ..pre_alloc import AddressStubs
         ),
     ],
 )
-def test_address_stubs(input_value: Any, expected: AddressStubs):
+def test_address_stubs(input_value: Any, expected: AddressStubs) -> None:
     """Test the address stubs."""
     assert AddressStubs.model_validate_json_or_file(input_value) == expected
 
@@ -75,7 +75,7 @@ def test_address_stubs_from_files(
     file_name: str,
     file_contents: str,
     expected: AddressStubs,
-):
+) -> None:
     """Test the address stubs."""
     filename = pytester.path.joinpath(file_name)
     filename.write_text(file_contents)

@@ -66,7 +66,7 @@ class TestUseValueInTx:
         return pre.fund_eoa(0)
 
     @pytest.fixture
-    def tx(self, sender: EOA, recipient: EOA):  # noqa: D102
+    def tx(self, sender: EOA, recipient: EOA) -> Transaction:  # noqa: D102
         # Transaction sent from the `sender`, which has 1 wei balance at start
         return Transaction(
             gas_price=ONE_GWEI,
@@ -76,7 +76,7 @@ class TestUseValueInTx:
         )
 
     @pytest.fixture
-    def withdrawal(self, tx: Transaction, sender: EOA):  # noqa: D102
+    def withdrawal(self, tx: Transaction, sender: EOA) -> Withdrawal:  # noqa: D102
         return Withdrawal(
             index=0,
             validator_index=0,
@@ -85,7 +85,7 @@ class TestUseValueInTx:
         )
 
     @pytest.fixture
-    def blocks(self, tx: Transaction, withdrawal: Withdrawal, test_case):  # noqa: D102
+    def blocks(self, tx: Transaction, withdrawal: Withdrawal, test_case: str) -> List[Block]:  # noqa: D102
         if test_case == "tx_in_withdrawals_block":
             return [
                 Block(
@@ -125,7 +125,7 @@ class TestUseValueInTx:
         blockchain_test: BlockchainTestFiller,
         post: dict,
         blocks: List[Block],
-    ):
+    ) -> None:
         """Test sending withdrawal value in a transaction."""
         blockchain_test(pre=pre, post=post, blocks=blocks)
 
@@ -133,7 +133,7 @@ class TestUseValueInTx:
 def test_use_value_in_contract(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test sending value from contract that has not received a withdrawal."""
     sender = pre.fund_eoa()
     recipient = pre.fund_eoa(1)
@@ -185,7 +185,7 @@ def test_use_value_in_contract(
     blockchain_test(pre=pre, post=post, blocks=blocks)
 
 
-def test_balance_within_block(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_balance_within_block(blockchain_test: BlockchainTestFiller, pre: Alloc) -> None:
     """
     Test withdrawal balance increase within the same block in a contract call.
     """
@@ -256,7 +256,7 @@ class TestMultipleWithdrawalsSameAddress:
         return addresses + [Address(2**160 - 1)]
 
     @pytest.fixture
-    def blocks(self, addresses: Address, test_case: str):  # noqa: D102
+    def blocks(self, addresses: Address, test_case: str) -> List[Block]:  # noqa: D102
         if test_case == "single_block":
             # Many repeating withdrawals of the same accounts in the same
             # block.
@@ -299,7 +299,7 @@ class TestMultipleWithdrawalsSameAddress:
         pre: Alloc,
         addresses: List[Address],
         blocks: List[Block],
-    ):
+    ) -> None:
         """
         Test withdrawals to the same address multiple times in the same block.
         """
@@ -317,7 +317,7 @@ class TestMultipleWithdrawalsSameAddress:
 def test_many_withdrawals(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test an unexpected high number of withdrawals in a single block.
     """
@@ -354,7 +354,7 @@ def test_self_destructing_account(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-):
+) -> None:
     """
     Test withdrawals can be done to self-destructed accounts.
 
@@ -413,8 +413,7 @@ def test_newly_created_contract(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     include_value_in_tx: bool,
-    request,
-):
+) -> None:
     """Test withdrawing to a newly created contract."""
     sender = pre.fund_eoa()
     initcode = Op.RETURN(0, 1)
@@ -458,7 +457,7 @@ def test_newly_created_contract(
 def test_no_evm_execution(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test withdrawals don't trigger EVM execution."""
     sender = pre.fund_eoa()
     contracts = [pre.deploy_contract(Op.SSTORE(Op.NUMBER, 1)) for _ in range(4)]
@@ -548,7 +547,7 @@ def test_zero_amount(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     test_case: ZeroAmountTestCases,
-):
+) -> None:
     """
     Test withdrawal scenarios with a zero amount in a single block.
 
@@ -654,7 +653,7 @@ def test_zero_amount(
 def test_large_amount(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test withdrawals that have a large gwei amount.
 
@@ -701,7 +700,7 @@ def test_withdrawing_to_precompiles(
     precompile: int,
     amount: int,
     t8n: TransitionTool,
-):
+) -> None:
     """Test withdrawing to all precompiles for a given fork."""
     sender = pre.fund_eoa()
     post: Dict = {}

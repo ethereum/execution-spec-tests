@@ -1,7 +1,7 @@
 """CLI entry point for the `execute` pytest-based command."""
 
 from pathlib import Path
-from typing import List
+from typing import Any, List
 
 import click
 
@@ -39,7 +39,7 @@ def _create_execute_subcommand(
         context_settings={"ignore_unknown_options": True},
     )
     @common_pytest_options
-    def command(pytest_args: List[str], **_kwargs) -> None:
+    def command(pytest_args: List[str], **_kwargs: Any) -> None:
         pytest_command.execute(list(pytest_args))
 
     command.__doc__ = help_text

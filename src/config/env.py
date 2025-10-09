@@ -67,7 +67,7 @@ class EnvConfig(Config):
     disk into a Config model and then exposes it.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Init for the EnvConfig class."""
         if not ENV_PATH.exists():
             raise FileNotFoundError(

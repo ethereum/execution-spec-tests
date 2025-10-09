@@ -22,7 +22,7 @@ def test_via_rlp(
     timing_data: TimingData,
     eth_rpc: EthRPC,
     fixture: BlockchainFixture,
-):
+) -> None:
     """
     1. Check the client genesis block hash matches
        `fixture.genesis.block_hash`.

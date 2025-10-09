@@ -21,7 +21,7 @@ REFERENCE_SPEC_VERSION = "1eb863b534a5a3e19e9c196ab2a7f3db4bb9da17"
 )
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL])
-def test_tload_calls(state_test: StateTestFiller, pre: Alloc, call_type: Op):
+def test_tload_calls(state_test: StateTestFiller, pre: Alloc, call_type: Op) -> None:
     """
     Ported .json vectors.
 

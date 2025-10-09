@@ -283,7 +283,7 @@ def test_reject_valid_full_blob_in_block_rlp(
     pre: Alloc,
     env: Environment,
     blocks: List[Block],
-):
+) -> None:
     """
     Test valid blob combinations where one or more txs in the block serialized
     version contain a full blob (network version) tx.

@@ -88,7 +88,7 @@ def test_extra_consolidations(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     requests_list: List[ConsolidationRequest],
-):
+) -> None:
     """
     Test how clients were to behave with more than 2 consolidations per block.
     """
@@ -140,10 +140,10 @@ def test_extra_consolidations(
     "system_contract", [Address(Spec_EIP7251.CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS)]
 )
 @pytest.mark.pre_alloc_group("separate", reason="Deploys custom consolidation contract bytecode")
-@generate_system_contract_error_test(
+@generate_system_contract_error_test(  # type: ignore[arg-type]
     max_gas_limit=Spec_EIP7251.SYSTEM_CALL_GAS_LIMIT,
 )
-def test_system_contract_errors():
+def test_system_contract_errors() -> None:
     """
     Test system contract raising different errors when called by the system
     account at the end of the block execution.

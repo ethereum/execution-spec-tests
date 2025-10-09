@@ -41,7 +41,7 @@ def test_bal_7702_delegation_create(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     self_funded: bool,
-):
+) -> None:
     """Ensure BAL captures creation of EOA delegation."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -126,7 +126,7 @@ def test_bal_7702_delegation_update(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     self_funded: bool,
-):
+) -> None:
     """Ensure BAL captures update of existing EOA delegation."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -244,7 +244,7 @@ def test_bal_7702_delegation_clear(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     self_funded: bool,
-):
+) -> None:
     """Ensure BAL captures clearing of EOA delegation."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -352,7 +352,7 @@ def test_bal_7702_delegation_clear(
 def test_bal_7702_delegated_storage_access(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """
     Ensure BAL captures storage operations when calling a delegated
     EIP-7702 account.
@@ -413,7 +413,7 @@ def test_bal_7702_delegated_storage_access(
 def test_bal_7702_invalid_nonce_authorization(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """Ensure BAL handles failed authorization due to wrong nonce."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -470,7 +470,7 @@ def test_bal_7702_invalid_nonce_authorization(
 def test_bal_7702_invalid_chain_id_authorization(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """Ensure BAL handles failed authorization due to wrong chain id."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -535,7 +535,7 @@ def test_bal_7702_delegated_via_call_opcode(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     call_opcode: Op,
-):
+) -> None:
     """
     Ensure BAL captures delegation target when a contract uses *CALL
     opcodes to call a delegated account.

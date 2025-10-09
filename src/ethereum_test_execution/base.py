@@ -23,10 +23,10 @@ class BaseExecute(CamelModel):
     requires_engine_rpc: ClassVar[bool] = False
 
     @classmethod
-    def __pydantic_init_subclass__(cls, **kwargs):
+    def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         """
-        Register all subclasses of BaseExecute with a execute format name set
-        as possible execute formats.
+        Register all subclasses of BaseExecute with a execute format
+        name set as possible execute formats.
         """
         if cls.format_name:
             # Register the new execute format
@@ -34,8 +34,12 @@ class BaseExecute(CamelModel):
 
     @abstractmethod
     def execute(
-        self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None, request: FixtureRequest
-    ):
+        self,
+        fork: Fork,
+        eth_rpc: EthRPC,
+        engine_rpc: EngineRPC | None,
+        request: FixtureRequest,
+    ) -> None:
         """Execute the format."""
         pass
 

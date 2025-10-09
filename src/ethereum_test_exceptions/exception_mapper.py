@@ -82,7 +82,7 @@ class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
             return any(exception in self.exceptions for exception in item)
         return item in self.exceptions
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the string representation of the exception message."""
         return f"[{' | '.join(str(e) for e in self.exceptions)}] {self.message}"
 

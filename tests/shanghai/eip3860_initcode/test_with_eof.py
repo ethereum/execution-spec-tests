@@ -54,7 +54,7 @@ def test_legacy_create_edge_code_size(
     pre: Alloc,
     opcode: Op,
     init_code: Bytecode,
-):
+) -> None:
     """
     Test legacy initcode and deployed code edge cases with EOF enabled.
 

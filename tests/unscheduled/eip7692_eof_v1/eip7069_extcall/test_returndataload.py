@@ -81,7 +81,7 @@ def test_returndatacopy_handling(
     return_data: bytes,
     offset: int,
     size: int,
-):
+) -> None:
     """
     Tests ReturnDataLoad including multiple offset conditions and differing
     legacy vs. eof boundary conditions.
@@ -216,7 +216,7 @@ def test_returndataload_handling(
     opcode: Op,
     return_data: bytes,
     offset: int,
-):
+) -> None:
     """
     Much simpler than returndatacopy, no memory or boosted call.  Returner is
     called and results are stored in storage slot, which is asserted for
@@ -285,7 +285,7 @@ def test_returndatacopy_oob(
     state_test: StateTestFiller,
     pre: Alloc,
     opcode: Op,
-):
+) -> None:
     """
     Extends the RETURNDATACOPY test for correct out-of-bounds behavior, by
     checking if the caller frame's context being EOF or legacy doesn't impact

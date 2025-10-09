@@ -98,7 +98,7 @@ class TransactionTraces(CamelModel):
         return cls.model_validate(trace_dict)
 
     @staticmethod
-    def remove_gas(traces: List[TraceLine]):
+    def remove_gas(traces: List[TraceLine]) -> None:
         """
         Remove the GAS operation opcode result from the stack to make
         comparison possible even if the gas has been pushed to the stack.
@@ -135,7 +135,7 @@ class TransactionTraces(CamelModel):
                 return False
         return True
 
-    def print(self):
+    def print(self) -> None:
         """Print the traces in a readable format."""
         for exec_step, trace in enumerate(self.traces):
             print(f"Step {exec_step}:")
@@ -150,7 +150,7 @@ class Traces(EthereumTestRootModel):
 
     root: List[TransactionTraces]
 
-    def append(self, item: TransactionTraces):
+    def append(self, item: TransactionTraces) -> None:
         """Append the transaction traces to the current list."""
         self.root.append(item)
 
@@ -169,7 +169,7 @@ class Traces(EthereumTestRootModel):
         logger.debug("All traces are equivalent.")
         return True
 
-    def print(self):
+    def print(self) -> None:
         """Print the traces in a readable format."""
         for tx_number, tx in enumerate(self.root):
             print(f"Transaction {tx_number}:")

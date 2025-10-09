@@ -1,6 +1,6 @@
 """Tests for EIP-7928 using the consistent data class pattern."""
 
-from typing import Dict
+from typing import Callable, Dict
 
 import pytest
 
@@ -39,7 +39,7 @@ pytestmark = pytest.mark.valid_from("Amsterdam")
 def test_bal_nonce_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """Ensure BAL captures changes to nonce."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -74,8 +74,8 @@ def test_bal_nonce_changes(
 def test_bal_balance_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    fork,
-):
+    fork: Fork,
+) -> None:
     """Ensure BAL captures changes to balance."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -133,7 +133,7 @@ def test_bal_balance_changes(
 def test_bal_code_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """Ensure BAL captures changes to account code."""
     runtime_code = Op.STOP
     runtime_code_bytes = bytes(runtime_code)
@@ -213,7 +213,7 @@ def test_bal_self_destruct(
     blockchain_test: BlockchainTestFiller,
     self_destruct_in_same_tx: bool,
     pre_funded: bool,
-):
+) -> None:
     """Ensure BAL captures balance changes caused by `SELFDESTRUCT`."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
@@ -363,8 +363,8 @@ def test_bal_self_destruct(
 def test_bal_account_access_target(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    account_access_opcode,
-):
+    account_access_opcode: Callable[[Address], Op],
+) -> None:
     """Ensure BAL captures target address of account access opcodes."""
     alice = pre.fund_eoa()
     target_contract = pre.deploy_contract(code=Op.STOP)
@@ -395,7 +395,7 @@ def test_bal_account_access_target(
 def test_bal_call_with_value_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """
     Ensure BAL captures balance changes from CALL opcode with
     value transfer.
@@ -432,7 +432,7 @@ def test_bal_call_with_value_transfer(
 def test_bal_callcode_with_value_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """
     Ensure BAL captures balance changes from CALLCODE opcode with
     value transfer.
@@ -485,8 +485,8 @@ def test_bal_callcode_with_value_transfer(
 def test_bal_delegated_storage_writes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    delegated_opcode,
-):
+    delegated_opcode: Callable[[Address], Op],
+) -> None:
     """
     Ensure BAL captures delegated storage writes via
     DELEGATECALL and CALLCODE.
@@ -545,8 +545,8 @@ def test_bal_delegated_storage_writes(
 def test_bal_delegated_storage_reads(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    delegated_opcode,
-):
+    delegated_opcode: Callable[[Address], Op],
+) -> None:
     """
     Ensure BAL captures delegated storage reads via
     DELEGATECALL and CALLCODE.
@@ -589,8 +589,8 @@ def test_bal_delegated_storage_reads(
 def test_bal_block_rewards(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    fork,
-):
+    fork: Fork,
+) -> None:
     """Ensure BAL captures fee recipient balance changes from block rewards."""
     alice_initial_balance = 1_000_000
     alice = pre.fund_eoa(amount=alice_initial_balance)
@@ -621,7 +621,7 @@ def test_bal_block_rewards(
 
     genesis_env = Environment(base_fee_per_gas=0x7)
     base_fee_per_gas = fork.base_fee_per_gas_calculator()(
-        parent_base_fee_per_gas=genesis_env.base_fee_per_gas,
+        parent_base_fee_per_gas=int(genesis_env.base_fee_per_gas or 0),
         parent_gas_used=0,
         parent_gas_limit=genesis_env.gas_limit,
     )
@@ -662,7 +662,7 @@ def test_bal_block_rewards(
 def test_bal_2930_account_listed_but_untouched(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """Ensure BAL excludes untouched access list accounts."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa()
@@ -702,8 +702,8 @@ def test_bal_2930_account_listed_but_untouched(
 def test_bal_2930_slot_listed_but_untouched(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    fork,
-):
+    fork: Fork,
+) -> None:
     """Ensure BAL excludes untouched access list storage slots."""
     alice = pre.fund_eoa()
     pure_calculator = pre.deploy_contract(
@@ -755,8 +755,8 @@ def test_bal_2930_slot_listed_but_untouched(
 def test_bal_2930_slot_listed_and_unlisted_writes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    fork,
-):
+    fork: Fork,
+) -> None:
     """
     Ensure BAL includes storage writes regardless of access list presence.
     """
@@ -820,8 +820,8 @@ def test_bal_2930_slot_listed_and_unlisted_writes(
 def test_bal_2930_slot_listed_and_unlisted_reads(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    fork,
-):
+    fork: Fork,
+) -> None:
     """Ensure BAL includes storage reads regardless of access list presence."""
     alice = pre.fund_eoa()
     storage_reader = pre.deploy_contract(
@@ -877,8 +877,8 @@ def test_bal_2930_slot_listed_and_unlisted_reads(
 def test_bal_self_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    fork,
-):
+    fork: Fork,
+) -> None:
     """Test that BAL correctly handles self-transfers."""
     start_balance = 1_000_000
     alice = pre.fund_eoa(amount=start_balance)
@@ -899,7 +899,8 @@ def test_bal_self_transfer(
                     balance_changes=[
                         BalBalanceChange(
                             tx_index=1,
-                            post_balance=start_balance - intrinsic_gas_cost * tx.gas_price,
+                            post_balance=start_balance
+                            - intrinsic_gas_cost * int(tx.gas_price or 0),
                         )
                     ],
                 )
@@ -913,8 +914,8 @@ def test_bal_self_transfer(
 def test_bal_zero_value_transfer(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    fork,
-):
+    fork: Fork,
+) -> None:
     """Test that BAL correctly handles zero-value transfers."""
     start_balance = 1_000_000
     alice = pre.fund_eoa(amount=start_balance)
@@ -934,7 +935,8 @@ def test_bal_zero_value_transfer(
                     balance_changes=[
                         BalBalanceChange(
                             tx_index=1,
-                            post_balance=start_balance - intrinsic_gas_cost * tx.gas_price,
+                            post_balance=start_balance
+                            - intrinsic_gas_cost * int(tx.gas_price or 0),
                         )
                     ],
                 ),
@@ -962,7 +964,7 @@ def test_bal_net_zero_balance_transfer(
     initial_balance: int,
     transfer_amount: int,
     transfer_mechanism: str,
-):
+) -> None:
     """
     Test that BAL does not record balance changes when net change is zero.
 
@@ -1054,7 +1056,7 @@ def test_bal_pure_contract_call(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
-):
+) -> None:
     """Test that BAL captures contract access for pure computation calls."""
     alice = pre.fund_eoa()
     pure_contract = pre.deploy_contract(code=Op.ADD(0x3, 0x2))
@@ -1084,7 +1086,7 @@ def test_bal_noop_storage_write(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
-):
+) -> None:
     """Test that BAL correctly handles no-op storage write."""
     alice = pre.fund_eoa()
     storage_contract = pre.deploy_contract(code=Op.SSTORE(0x01, 0x42), storage={0x01: 0x42})
@@ -1128,7 +1130,7 @@ def test_bal_noop_storage_write(
 )
 def test_bal_aborted_storage_access(
     pre: Alloc, blockchain_test: BlockchainTestFiller, abort_opcode: Op
-):
+) -> None:
     """Ensure BAL captures storage access in aborted transactions correctly."""
     alice = pre.fund_eoa()
     storage_contract = pre.deploy_contract(
@@ -1189,9 +1191,9 @@ def test_bal_aborted_storage_access(
 def test_bal_aborted_account_access(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    account_access_opcode,
+    account_access_opcode: Callable[[Address], Op],
     abort_opcode: Op,
-):
+) -> None:
     """Ensure BAL captures account access in aborted transactions."""
     alice = pre.fund_eoa()
     target_contract = pre.deploy_contract(code=Op.STOP)
@@ -1226,7 +1228,7 @@ def test_bal_aborted_account_access(
 def test_bal_fully_unmutated_account(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """
     Test that BAL captures account that has zero net mutations.
 

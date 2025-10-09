@@ -17,12 +17,12 @@ from ..filler import default_output_directory
 
 
 # flake8: noqa
-def get_all_files_in_directory(base_dir):  # noqa: D103
+def get_all_files_in_directory(base_dir: str) -> list[Path]:  # noqa: D103
     base_path = Path(base_dir)
     return [f.relative_to(os.getcwd()) for f in base_path.rglob("*") if f.is_file()]
 
 
-def count_keys_in_fixture(file_path):  # noqa: D103
+def count_keys_in_fixture(file_path: Path) -> int:  # noqa: D103
     with open(file_path, "r") as f:
         data = json.load(f)
         if not isinstance(data, dict):  # Ensure the loaded data is a dictionary
@@ -40,13 +40,13 @@ test_module_paris = textwrap.dedent(
 
     @pytest.mark.valid_from("Paris")
     @pytest.mark.valid_until("Shanghai")
-    def test_paris_one(state_test):
+    def test_paris_one(state_test) -> None:
         state_test(env=Environment(),
                     pre={TestAddress: Account(balance=1_000_000)}, post={}, tx=Transaction())
 
     @pytest.mark.valid_from("Paris")
     @pytest.mark.valid_until("Shanghai")
-    def test_paris_two(state_test):
+    def test_paris_two(state_test) -> None:
         state_test(env=Environment(),
                     pre={TestAddress: Account(balance=1_000_000)}, post={}, tx=Transaction())
     """
@@ -61,14 +61,14 @@ test_module_shanghai = textwrap.dedent(
 
     @pytest.mark.valid_from("Paris")
     @pytest.mark.valid_until("Shanghai")
-    def test_shanghai_one(state_test):
+    def test_shanghai_one(state_test) -> None:
         state_test(env=Environment(),
                     pre={TestAddress: Account(balance=1_000_000)}, post={}, tx=Transaction())
 
     @pytest.mark.parametrize("x", [1, 2, 3])
     @pytest.mark.valid_from("Paris")
     @pytest.mark.valid_until("Shanghai")
-    def test_shanghai_two(state_test, x):
+    def test_shanghai_two(state_test, x) -> None:
         state_test(env=Environment(),
                     pre={TestAddress: Account(balance=1_000_000)}, post={}, tx=Transaction())
     """
@@ -383,12 +383,12 @@ total_test_count = test_count_paris + test_count_shanghai
     ],
 )
 def test_fixture_output_based_on_command_line_args(
-    testdir,
-    args,
-    expected_fixture_files,
-    expected_fixture_counts,
-    default_t8n,
-):
+    testdir: pytest.Testdir,
+    args: list[str],
+    expected_fixture_files: list[Path],
+    expected_fixture_counts: list[int],
+    default_t8n: TransitionTool,
+) -> None:
     """
     Test:
     - fixture files are created at the expected paths.
@@ -425,6 +425,7 @@ def test_fixture_output_based_on_command_line_args(
     args.append("-v")
     args.append("--no-html")
     args.append("--t8n-server-url")
+    assert default_t8n.server_url is not None
     args.append(default_t8n.server_url)
 
     result = testdir.runpytest(*args)
@@ -440,7 +441,7 @@ def test_fixture_output_based_on_command_line_args(
         output_dir = Path(default_output_directory()).absolute()
     assert output_dir.exists()
 
-    all_files = get_all_files_in_directory(output_dir)
+    all_files = get_all_files_in_directory(str(output_dir))
     meta_dir = os.path.join(output_dir, ".meta")
     assert os.path.exists(meta_dir), f"The directory {meta_dir} does not exist"
 
@@ -464,7 +465,7 @@ def test_fixture_output_based_on_command_line_args(
 
     expected_additional_files = {expected_ini_file, expected_index_file}
     if resolver_file:
-        expected_additional_files.add(expected_resolver_file)
+        expected_additional_files.add(str(expected_resolver_file))
     all_fixtures = [file for file in all_files if file.name not in expected_additional_files]
     for fixture_file, fixture_count in zip(expected_fixture_files, expected_fixture_counts):
         assert fixture_file.exists(), f"{fixture_file} does not exist"
@@ -503,7 +504,7 @@ test_module_environment_variables = textwrap.dedent(
 
     @pytest.mark.parametrize("block_gas_limit", [Environment().gas_limit])
     @pytest.mark.valid_at("Cancun")
-    def test_max_gas_limit(state_test, pre, block_gas_limit):
+    def test_max_gas_limit(state_test, pre, block_gas_limit) -> None:
         env = Environment()
         assert block_gas_limit == {expected_gas_limit}
         tx = Transaction(gas_limit=block_gas_limit, sender=pre.fund_eoa())
@@ -540,13 +541,13 @@ test_module_environment_variables = textwrap.dedent(
     ],
 )
 def test_fill_variables(
-    testdir,
-    args,
-    expected_fixture_files,
-    expected_fixture_counts,
-    expected_gas_limit,
-    default_t8n,
-):
+    testdir: pytest.Testdir,
+    args: list[str],
+    expected_fixture_files: list[Path],
+    expected_fixture_counts: list[int],
+    expected_gas_limit: int,
+    default_t8n: TransitionTool,
+) -> None:
     """
     Test filling tests that depend on variables such as the max block gas limit.
     """
@@ -566,6 +567,7 @@ def test_fill_variables(
     args.append("state_test")
     args.append("--no-html")
     args.append("--t8n-server-url")
+    assert default_t8n.server_url is not None
     args.append(default_t8n.server_url)
     result = testdir.runpytest(*args)
     result.assert_outcomes(
@@ -580,7 +582,7 @@ def test_fill_variables(
         output_dir = Path(default_output_directory()).absolute()
     assert output_dir.exists()
 
-    all_files = get_all_files_in_directory(output_dir)
+    all_files = get_all_files_in_directory(str(output_dir))
     meta_dir = os.path.join(output_dir, ".meta")
     assert os.path.exists(meta_dir), f"The directory {meta_dir} does not exist"
 
@@ -604,7 +606,7 @@ def test_fill_variables(
 
     expected_additional_files = {expected_ini_file, expected_index_file}
     if resolver_file:
-        expected_additional_files.add(expected_resolver_file)
+        expected_additional_files.add(str(expected_resolver_file))
     all_fixtures = [file for file in all_files if file.name not in expected_additional_files]
     for fixture_file, fixture_count in zip(expected_fixture_files, expected_fixture_counts):
         assert fixture_file.exists(), f"{fixture_file} does not exist"

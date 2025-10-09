@@ -183,7 +183,7 @@ def test_valid_mcopy_operations(
     pre: Alloc,
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform MCOPY operations using different offsets and lengths.
 
@@ -212,7 +212,7 @@ def test_mcopy_on_empty_memory(
     pre: Alloc,
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform MCOPY operations on an empty memory, using different offsets and
     lengths.

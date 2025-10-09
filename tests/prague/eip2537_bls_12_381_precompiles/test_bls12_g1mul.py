@@ -137,7 +137,7 @@ def test_valid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1MUL precompile."""
     state_test(
         env=Environment(),
@@ -349,7 +349,7 @@ def test_invalid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Negative tests for the BLS12_G1MUL precompile."""
     state_test(
         env=Environment(),
@@ -381,7 +381,7 @@ def test_gas(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1MUL precompile gas requirements."""
     state_test(
         env=Environment(),
@@ -419,7 +419,7 @@ def test_call_types(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1MUL precompile using different call types."""
     state_test(
         env=Environment(),

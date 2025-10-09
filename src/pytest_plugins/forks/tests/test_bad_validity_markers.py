@@ -213,7 +213,9 @@ invalid_validity_marker_test_cases = (
     [test_case for _, test_case in invalid_validity_marker_test_cases],
     ids=[test_id for test_id, _ in invalid_validity_marker_test_cases],
 )
-def test_invalid_validity_markers(pytester, error_string, test_function):
+def test_invalid_validity_markers(
+    pytester: pytest.Pytester, error_string: str, test_function: str
+) -> None:
     """
     Test that a test with an invalid marker cases:
     - Creates an outcome with exactly one error.

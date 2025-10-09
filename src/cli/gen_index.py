@@ -73,7 +73,7 @@ def count_json_files_exclude_index(start_path: Path) -> int:
     expose_value=True,
     help="Force re-generation of the index file, even if it already exists.",
 )
-def generate_fixtures_index_cli(input_dir: str, quiet_mode: bool, force_flag: bool):
+def generate_fixtures_index_cli(input_dir: str, quiet_mode: bool, force_flag: bool) -> None:
     """
     CLI wrapper to an index of all the fixtures in the specified directory.
     """
@@ -88,10 +88,9 @@ def generate_fixtures_index(
     input_path: Path,
     quiet_mode: bool = False,
     force_flag: bool = False,
-):
+) -> None:
     """
-    Generate an index file (index.json) of all the fixtures in the specified
-    directory.
+    Generate an index file (index.json) of all the fixtures in specified dir.
     """
     total_files = 0
     if not os.path.isdir(input_path):  # caught by click if using via cli

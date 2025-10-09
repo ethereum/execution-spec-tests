@@ -35,7 +35,7 @@ class JSONRPCError(Exception):
     code: int
     message: str
 
-    def __init__(self, code: int | str, message: str, **kwargs):
+    def __init__(self, code: int | str, message: str, **kwargs: Any) -> None:
         """Initialize the JSONRPCError."""
         self.code = int(code)
         self.message = message
@@ -74,7 +74,7 @@ class TransactionByHashResponse(Transaction):
                 del data["gasPrice"]
         return data
 
-    def model_post_init(self, __context):
+    def model_post_init(self, __context: Any) -> None:
         """
         Check that the transaction hash returned by the client matches the one
         calculated by us.
@@ -178,7 +178,7 @@ class GetPayloadResponse(CamelModel):
     execution_requests: List[Bytes] | None = None
 
 
-class GetBlobsResponse(EthereumTestRootModel):
+class GetBlobsResponse(EthereumTestRootModel[List[BlobAndProofV1 | BlobAndProofV2 | None]]):
     """Represents the response of a get blobs request."""
 
     root: List[BlobAndProofV1 | BlobAndProofV2 | None]

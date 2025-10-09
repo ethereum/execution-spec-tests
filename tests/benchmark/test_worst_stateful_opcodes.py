@@ -51,7 +51,7 @@ def test_worst_address_state_cold(
     absent_accounts: bool,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many stateful opcodes accessing cold accounts.
     """
@@ -141,7 +141,7 @@ def test_worst_address_state_warm(
     opcode: Op,
     absent_target: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many stateful opcodes doing warm access for an
     account.
@@ -255,7 +255,7 @@ def test_worst_storage_access_cold(
     env: Environment,
     gas_benchmark_value: int,
     tx_result: TransactionResult,
-):
+) -> None:
     """
     Test running a block with as many cold storage slot accesses as possible.
     """
@@ -399,7 +399,7 @@ def test_worst_storage_access_warm(
     storage_action: StorageAction,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many warm storage slot accesses as possible.
     """
@@ -463,7 +463,7 @@ def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many blockhash accessing oldest allowed block
     as possible.
@@ -495,7 +495,7 @@ def test_worst_selfbalance(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many SELFBALANCE opcodes as possible."""
     max_stack_height = fork.max_stack_height()
 
@@ -536,7 +536,7 @@ def test_worst_extcodecopy_warm(
     pre: Alloc,
     copied_size: int,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block with as many wamr EXTCODECOPY work as possible."""
     copied_contract_address = pre.deploy_contract(
         code=Op.JUMPDEST * copied_size,
@@ -571,7 +571,7 @@ def test_worst_selfdestruct_existing(
     value_bearing: bool,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many SELFDESTRUCTs as possible for existing
     contracts.
@@ -716,7 +716,7 @@ def test_worst_selfdestruct_created(
     fork: Fork,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many SELFDESTRUCTs as possible for deployed
     contracts in the same transaction.
@@ -816,7 +816,7 @@ def test_worst_selfdestruct_initcode(
     fork: Fork,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """
     Test running a block with as many SELFDESTRUCTs as possible executed in
     initcode.

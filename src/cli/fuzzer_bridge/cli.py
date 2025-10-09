@@ -224,7 +224,7 @@ def process_directory_parallel(
     block_strategy: str = "distribute",
     block_time: int = 12,
     random_blocks: bool = False,
-):
+) -> None:
     """Process directory of fuzzer output files with parallel processing."""
     all_fixtures = {}
 
@@ -350,7 +350,7 @@ def process_directory(
     block_strategy: str = "distribute",
     block_time: int = 12,
     random_blocks: bool = False,
-):
+) -> None:
     """Process directory of fuzzer output files."""
     all_fixtures = {}
     file_count = count_json_files(input_dir) if not quiet else 0
@@ -660,7 +660,7 @@ def main(
     block_time: int,
     random_blocks: bool,
     batch: bool,
-):
+) -> None:
     """
     Convert fuzzer output to valid blocktest fixtures.
 

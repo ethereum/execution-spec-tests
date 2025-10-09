@@ -114,7 +114,7 @@ def test_code_section_header_body_mismatch(
     skip_types_header_listing: bool,
     expected_code: str,
     expected_exception: EOFExceptionInstanceOrList | None,
-):
+) -> None:
     """Inconsistent number of code sections (between types and code)."""
     eof_code = Container(
         name="EOF1I0018",

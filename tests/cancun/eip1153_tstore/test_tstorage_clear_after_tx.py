@@ -29,7 +29,7 @@ def test_tstore_clear_after_deployment_tx(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     evm_code_type: EVMCodeType,
-):
+) -> None:
     """
     First creates a contract, which TSTOREs a value 1 in slot 1. After creating
     the contract, a new tx will call this contract, storing TLOAD(1) into slot
@@ -76,7 +76,7 @@ def test_tstore_clear_after_deployment_tx(
 def test_tstore_clear_after_tx(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     First SSTOREs the TLOAD value of key 1 in slot 1. Then, it TSTOREs 1 in
     slot 1. The second tx will re-call the contract. The storage should stay

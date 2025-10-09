@@ -846,7 +846,7 @@ test_cases: List[Tuple[str, Container, str]] = [
     [(x[1], x[2]) for x in test_cases],
     ids=[x[0] for x in test_cases],
 )
-def test_eof_v1_assemble(container: Container, hex_value: str):
+def test_eof_v1_assemble(container: Container, hex_value: str) -> None:
     """Test `ethereum_test.types.code`."""
     expected_string = remove_comments_from_string(hex_value)
     expected_bytes = bytes.fromhex(expected_string.replace(" ", "").replace("\n", ""))
@@ -856,7 +856,7 @@ def test_eof_v1_assemble(container: Container, hex_value: str):
     """
 
 
-def remove_comments_from_string(input_string):
+def remove_comments_from_string(input_string: str) -> str:
     """Remove comments from a string and leave only valid hex characters."""
     # Split the string into individual lines
     lines = input_string.split("\n")
@@ -890,7 +890,7 @@ def remove_comments_from_string(input_string):
     ],
     ids=lambda model: model.__class__.__name__,
 )
-def test_model_copy(model: CopyValidateModel):
+def test_model_copy(model: CopyValidateModel) -> None:
     """Test that the copy method returns a correct copy of the model."""
     assert to_json(model.copy()) == to_json(model)
     assert model.copy().model_fields_set == model.model_fields_set

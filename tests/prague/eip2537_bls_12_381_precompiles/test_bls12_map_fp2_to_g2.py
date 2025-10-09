@@ -78,7 +78,7 @@ def test_valid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_MAP_FP2_TO_G2 precompile."""
     state_test(
         env=Environment(),
@@ -101,7 +101,7 @@ def test_isogeny_kernel_values(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """
     Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note
     this test only exists to align with the G1 test.
@@ -162,7 +162,7 @@ def test_invalid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Negative tests for the BLS12_MAP_FP_TO_G2 precompile."""
     state_test(
         env=Environment(),
@@ -194,7 +194,7 @@ def test_gas(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_MAP_FP_TO_G2 precompile gas requirements."""
     state_test(
         env=Environment(),
@@ -227,7 +227,7 @@ def test_call_types(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_MAP_FP_TO_G2 precompile using different call types."""
     state_test(
         env=Environment(),

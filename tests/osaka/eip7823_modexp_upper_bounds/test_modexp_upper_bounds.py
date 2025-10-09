@@ -265,7 +265,7 @@ def test_modexp_upper_bounds(
     tx: Transaction,
     post: Dict,
     pre: Alloc,
-):
+) -> None:
     """Test the MODEXP precompile input bounds."""
     state_test(pre=pre, tx=tx, post=post)
 
@@ -292,7 +292,7 @@ def test_modexp_upper_bounds_fork_transition(
     precompile_gas: int,
     modexp_input: ModExpInput,
     modexp_expected: bytes,
-):
+) -> None:
     """
     Test MODEXP upper bounds enforcement transition from before to after Osaka
     hard fork.

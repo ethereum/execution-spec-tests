@@ -959,13 +959,13 @@ class TestPydanticModelConversion:
 
     def test_json_serialization(
         self, can_be_deserialized: bool, model_instance: Any, json_repr: str | Dict[str, Any]
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         assert to_json(model_instance) == json_repr
 
     def test_json_deserialization(
         self, can_be_deserialized: bool, model_instance: Any, json_repr: str | Dict[str, Any]
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         if not can_be_deserialized:
             pytest.skip(reason="The model instance in this case can not be deserialized")
@@ -1306,7 +1306,7 @@ class TestPydanticAdaptersConversion:
         adapter: TypeAdapter,
         type_instance: Any,
         json_repr: str | Dict[str, Any],
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         assert (
             adapter.dump_python(
@@ -1324,7 +1324,7 @@ class TestPydanticAdaptersConversion:
         adapter: TypeAdapter,
         type_instance: Any,
         json_repr: str | Dict[str, Any],
-    ):
+    ) -> None:
         """Test that to_json returns the expected JSON for the given object."""
         if not can_be_deserialized:
             pytest.skip(reason="The model instance in this case can not be deserialized")

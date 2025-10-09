@@ -1,6 +1,6 @@
 """Pytest plugin that defines options and fixtures for client exceptions."""
 
-from typing import List
+from typing import Dict, List
 
 import pytest
 from hive.client import ClientType
@@ -13,7 +13,7 @@ from ethereum_test_fixtures import (
 from .helpers.exceptions import EXCEPTION_MAPPERS
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Hive simulator specific consume command line options."""
     consume_group = parser.getgroup(
         "consume", "Arguments related to consuming fixtures via a client"
@@ -31,14 +31,14 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="session")
-def client_exception_mapper_cache():
+def client_exception_mapper_cache() -> Dict[str, ExceptionMapper | None]:
     """Cache for exception mappers by client type."""
     return {}
 
 
 @pytest.fixture(scope="function")
 def client_exception_mapper(
-    client_type: ClientType, client_exception_mapper_cache
+    client_type: ClientType, client_exception_mapper_cache: Dict[str, ExceptionMapper | None]
 ) -> ExceptionMapper | None:
     """Return the exception mapper for the client type, with caching."""
     if client_type.name not in client_exception_mapper_cache:

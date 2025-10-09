@@ -1,6 +1,6 @@
 """Provides various mixins for Pydantic models."""
 
-from typing import Any, Literal
+from typing import Any, List, Literal, Tuple
 
 from pydantic import BaseModel
 
@@ -43,7 +43,7 @@ class ModelCustomizationsMixin:
             )
         return self.model_dump(mode=mode, by_alias=by_alias, exclude_none=exclude_none)
 
-    def __repr_args__(self):
+    def __repr_args__(self) -> Any:
         """
         Generate a list of attribute-value pairs for the object representation.
 
@@ -79,7 +79,7 @@ class ModelCustomizationsMixin:
         # `__repr__` be needed for a specific type, it can added in the match
         # statement below. Otherwise, the default string representation is
         # used.
-        repr_attrs = []
+        repr_attrs: List[Tuple[str, Any]] = []
         for a, v in attrs:
             match v:
                 # Note: The `None` case handles an edge case with transactions

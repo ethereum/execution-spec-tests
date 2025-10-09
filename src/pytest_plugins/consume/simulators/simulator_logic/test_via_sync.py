@@ -53,7 +53,7 @@ def test_blockchain_via_sync(
     client_enode_url: str,
     fixture: BlockchainEngineSyncFixture,
     strict_exception_matching: bool,
-):
+) -> None:
     """
     Test blockchain synchronization between two clients.
 
@@ -99,6 +99,7 @@ def test_blockchain_via_sync(
     with timing_data.time("Verify genesis on client under test"):
         logger.info("Verifying genesis block on client under test...")
         genesis_block = eth_rpc.get_block_by_number(0)
+        assert genesis_block is not None, "genesis_block is None"
         if genesis_block["hash"] != str(fixture.genesis.block_hash):
             expected = fixture.genesis.block_hash
             got = genesis_block["hash"]

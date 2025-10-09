@@ -22,7 +22,11 @@ class UnknownCLIError(Exception):
 class CLINotFoundInPathError(Exception):
     """Exception raised if the specified CLI binary isn't found in the path."""
 
-    def __init__(self, message="The CLI binary was not found in the path", binary=None):
+    def __init__(
+        self,
+        message: str = "The CLI binary was not found in the path",
+        binary: Path | None = None,
+    ) -> None:
         """Initialize the exception."""
         if binary:
             message = f"{message} ({binary})"
@@ -64,17 +68,17 @@ class EthereumCLI:
         self.binary = Path(binary)
 
     @classmethod
-    def register_tool(cls, tool_subclass: Type[Any]):
+    def register_tool(cls, tool_subclass: Type[Any]) -> None:
         """Register a given subclass as tool option."""
         cls.registered_tools.append(tool_subclass)  # raise NotImplementedError
 
     @classmethod
-    def set_default_tool(cls, tool_subclass: Type[Any]):
+    def set_default_tool(cls, tool_subclass: Type[Any]) -> None:
         """Register the default tool subclass."""
         cls.default_tool = tool_subclass
 
     @classmethod
-    def from_binary_path(cls, *, binary_path: Optional[Path], **kwargs) -> Any:
+    def from_binary_path(cls, *, binary_path: Optional[Path] = None, **kwargs: Any) -> Any:
         """
         Instantiate the appropriate CLI subclass derived from the
         CLI's `binary_path`.
@@ -135,8 +139,8 @@ class EthereumCLI:
                     stderr=subprocess.PIPE,
                 )
                 logger.debug(
-                    f"Subprocess:\n\tstdout: {result.stdout}\n\n\n\t"  # type: ignore
-                    f"stderr: {result.stderr}\n\n\n"  # type: ignore
+                    f"Subprocess:\n\tstdout: {result.stdout!r}\n\n\n\t"
+                    f"stderr: {result.stderr!r}\n\n\n"
                 )
 
                 if result.returncode != 0:
