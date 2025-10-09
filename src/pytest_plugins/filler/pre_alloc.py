@@ -244,7 +244,7 @@ class Alloc(BaseAlloc):
                     nonce=nonce,
                     balance=amount,
                     storage=storage if storage is not None else {},
-                    code=DELEGATION_DESIGNATION + bytes(delegation)  # type: ignore
+                    code=DELEGATION_DESIGNATION + bytes(delegation)
                     if delegation is not None
                     else b"",
                 )

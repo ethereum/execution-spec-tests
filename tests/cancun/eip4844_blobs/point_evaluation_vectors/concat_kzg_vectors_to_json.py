@@ -7,7 +7,7 @@ import argparse
 import json
 from pathlib import Path
 
-import yaml  # type: ignore
+import yaml
 
 
 def gather_yaml_data(directory: Path):  # noqa: D103

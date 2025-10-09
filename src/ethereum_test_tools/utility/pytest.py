@@ -133,7 +133,7 @@ def extend_with_defaults(
             raise UnknownParameterInCasesError()
         # Overwrite values in defaults if the parameter is present in the test
         # case values
-        merged_params = {**defaults, **case.values[0]}  # type: ignore
+        merged_params = {**defaults, **case.values[0]}
         cases[i] = pytest.param(*merged_params.values(), id=case.id, marks=case.marks)
 
     return {"argnames": list(defaults), "argvalues": cases, **parametrize_kwargs}

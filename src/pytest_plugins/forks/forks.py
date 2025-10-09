@@ -193,7 +193,7 @@ class CovariantDescriptor:
             else argnames
         )
         self.fn = fn
-        self.selector = selector  # type: ignore[assignment]
+        self.selector = selector
         self.marks = marks
 
     def process_value(
@@ -213,7 +213,7 @@ class CovariantDescriptor:
             parameters_values = [parameters_values]
         marks = self.marks
         if self.selector is None or self.selector(
-            *parameters_values[: self.selector.__code__.co_argcount]  # type: ignore
+            *parameters_values[: self.selector.__code__.co_argcount]
         ):
             if isinstance(marks, FunctionType):
                 marks = marks(*parameters_values[: marks.__code__.co_argcount])
@@ -221,7 +221,7 @@ class CovariantDescriptor:
             if marks is None:
                 marks = []
             elif not isinstance(marks, list):
-                marks = [marks]  # type: ignore
+                marks = [marks]
 
             return pytest.param(*parameters_values, marks=marks)
 

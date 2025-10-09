@@ -54,7 +54,7 @@ def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> List[io.BufferedReader]:
     for _, block_rlp in enumerate(blocks_rlp):
         block_rlp_stream = io.BytesIO(block_rlp)
         block_rlp_files.append(io.BufferedReader(cast(io.RawIOBase, block_rlp_stream)))
-    return block_rlp_files  # type: ignore[return-value]
+    return block_rlp_files
 
 
 @pytest.fixture(scope="function")

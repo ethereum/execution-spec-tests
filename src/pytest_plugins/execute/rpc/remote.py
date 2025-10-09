@@ -137,7 +137,7 @@ def pytest_configure(config: pytest.Config):
 @pytest.fixture(scope="session")
 def engine_rpc(request) -> EngineRPC | None:
     """Execute remote command does not have access to the engine RPC."""
-    return request.config.engine_rpc  # type: ignore
+    return request.config.engine_rpc
 
 
 @pytest.fixture(autouse=True, scope="session")

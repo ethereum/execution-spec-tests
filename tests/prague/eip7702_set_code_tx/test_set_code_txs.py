@@ -1249,7 +1249,7 @@ def test_set_code_address_and_authority_warm_state(
     set_code_to_address = pre.deploy_contract(set_code)
 
     call_opcode = Op.CALL
-    overhead_cost = 3 * len(call_opcode.kwargs)  # type: ignore
+    overhead_cost = 3 * len(call_opcode.kwargs)
     if call_opcode == Op.CALL:
         overhead_cost -= 1  # GAS opcode is less expensive than a PUSH
 

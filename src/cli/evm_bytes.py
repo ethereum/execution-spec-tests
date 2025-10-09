@@ -71,12 +71,12 @@ class OpcodeWithOperands:
 
 
 def process_evm_bytes(evm_bytes: bytes) -> List[OpcodeWithOperands]:  # noqa: D103
-    evm_bytes = bytearray(evm_bytes)
+    evm_bytes_array = bytearray(evm_bytes)
 
     opcodes: List[OpcodeWithOperands] = []
 
-    while evm_bytes:
-        opcode_byte = evm_bytes.pop(0)
+    while evm_bytes_array:
+        opcode_byte = evm_bytes_array.pop(0)
 
         opcode: Op
         for op in Op:
@@ -93,21 +93,21 @@ def process_evm_bytes(evm_bytes: bytes) -> List[OpcodeWithOperands]:  # noqa: D1
                     opcode=opcode,
                     operands=[
                         int.from_bytes(
-                            evm_bytes[: opcode.data_portion_length], "big", signed=signed
+                            evm_bytes_array[: opcode.data_portion_length], "big", signed=signed
                         )
                     ],
                 )
             )
-            evm_bytes = evm_bytes[opcode.data_portion_length :]
+            evm_bytes_array = evm_bytes_array[opcode.data_portion_length :]
         elif opcode == Op.RJUMPV:
-            if len(evm_bytes) == 0:
+            if len(evm_bytes_array) == 0:
                 opcodes.append(OpcodeWithOperands(opcode=opcode))
             else:
-                max_index = evm_bytes.pop(0)
+                max_index = evm_bytes_array.pop(0)
                 operands: List[int] = []
                 for _ in range(max_index + 1):
-                    operands.append(int.from_bytes(evm_bytes[:2], "big", signed=True))
-                    evm_bytes = evm_bytes[2:]
+                    operands.append(int.from_bytes(evm_bytes_array[:2], "big", signed=True))
+                    evm_bytes_array = evm_bytes_array[2:]
                 opcodes.append(OpcodeWithOperands(opcode=opcode, operands=operands))
         else:
             opcodes.append(OpcodeWithOperands(opcode=opcode))

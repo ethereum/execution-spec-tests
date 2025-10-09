@@ -1,6 +1,6 @@
 """test `CALL` opcode."""
 
-import pytest  # type: ignore
+import pytest
 
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (

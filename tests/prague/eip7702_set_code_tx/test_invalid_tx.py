@@ -446,7 +446,7 @@ def test_invalid_tx_invalid_authorization_tuple_extra_element(
     auth_signer = pre.fund_eoa()
 
     class ExtraElementAuthorizationTuple(AuthorizationTuple):
-        extra_element: HexNumber  # type: ignore
+        extra_element: HexNumber
 
         def get_rlp_fields(self) -> List[str]:
             """
