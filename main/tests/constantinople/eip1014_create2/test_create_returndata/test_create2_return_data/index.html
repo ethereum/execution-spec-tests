@@ -28552,7 +28552,7 @@
 
 
 <h1 id="test_create2_return_data"><code>test_create2_return_data()</code><a class="headerlink" href="#test_create2_return_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a5dbabdf9b7becb7f373b5c89b3ea2a153a3c8d4/tests/constantinople/eip1014_create2/test_create_returndata.py#L18"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@a5dbabdf</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4212e87436dfeb623582e6b98c39596ef6fbd3c2/tests/constantinople/eip1014_create2/test_create_returndata.py#L18"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@4212e874</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data --fork Osaka</span>
@@ -28816,7 +28816,7 @@ existing memory.</p>
                 <span class="c1"># check that create 2 didn&#39;t mess up with initial memory space</span>
                 <span class="c1"># declared for return</span>
                 <span class="n">slot_begin_memory_after_create</span><span class="p">:</span> <span class="n">expected_returndatacopy</span><span class="p">,</span>
-            <span class="p">}</span>  <span class="c1"># type: ignore</span>
+            <span class="p">}</span>
         <span class="p">)</span>
     <span class="p">}</span>
 
@@ -28827,7 +28827,7 @@ existing memory.</p>
         <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="p">)</span>
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>

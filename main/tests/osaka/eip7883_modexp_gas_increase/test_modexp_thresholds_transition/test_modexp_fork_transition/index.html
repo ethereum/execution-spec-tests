@@ -28552,7 +28552,7 @@
 
 
 <h1 id="test_modexp_fork_transition"><code>test_modexp_fork_transition()</code><a class="headerlink" href="#test_modexp_fork_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a5dbabdf9b7becb7f373b5c89b3ea2a153a3c8d4/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py#L21"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition@a5dbabdf</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4212e87436dfeb623582e6b98c39596ef6fbd3c2/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py#L21"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition@4212e874</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition --fork Osaka</span>
@@ -28694,7 +28694,7 @@ hard fork.</p>
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">extra_gas</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>
-        <span class="o">+</span> <span class="p">(</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
         <span class="o">+</span> <span class="p">(</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="p">(</span>

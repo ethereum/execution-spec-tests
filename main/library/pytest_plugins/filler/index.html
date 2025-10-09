@@ -33164,7 +33164,7 @@ test collection begins.</p>
     <span class="k">if</span> <span class="p">(</span>
         <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;disable_html&quot;</span><span class="p">)</span>
         <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;htmlpath&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">filling_session</span><span class="o">.</span><span class="n">phase_manager</span><span class="o">.</span><span class="n">current_phase</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">filling_session</span><span class="o">.</span><span class="n">phase_manager</span><span class="o">.</span><span class="n">current_phase</span>
         <span class="o">!=</span> <span class="n">FixtureFillingPhase</span><span class="o">.</span><span class="n">PRE_ALLOC_GENERATION</span>
     <span class="p">):</span>
         <span class="n">config</span><span class="o">.</span><span class="n">option</span><span class="o">.</span><span class="n">htmlpath</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="n">default_html_report_file_path</span><span class="p">()</span>
@@ -35451,7 +35451,7 @@ parametrization occurs in the forks plugin.</p>
         <span class="n">session_instance</span><span class="o">.</span><span class="n">save_pre_alloc_groups</span><span class="p">()</span>
         <span class="k">return</span>
 
-    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;optimize_gas&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;optimize_gas&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
         <span class="n">output_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;optimize_gas_output&quot;</span><span class="p">))</span>
         <span class="n">lock_file_path</span> <span class="o">=</span> <span class="n">output_file</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.lock&quot;</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;gas_optimized_tests&quot;</span><span class="p">)</span>
@@ -36116,7 +36116,7 @@ parametrization occurs in the forks plugin.</p>
                     <span class="n">nonce</span><span class="o">=</span><span class="n">nonce</span><span class="p">,</span>
                     <span class="n">balance</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
                     <span class="n">storage</span><span class="o">=</span><span class="n">storage</span> <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{},</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">DELEGATION_DESIGNATION</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">delegation</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">DELEGATION_DESIGNATION</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">delegation</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">delegation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                     <span class="k">else</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -36592,7 +36592,7 @@ unique EOA will be returned.</p>
                 <span class="n">nonce</span><span class="o">=</span><span class="n">nonce</span><span class="p">,</span>
                 <span class="n">balance</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
                 <span class="n">storage</span><span class="o">=</span><span class="n">storage</span> <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{},</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">DELEGATION_DESIGNATION</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">delegation</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">DELEGATION_DESIGNATION</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">delegation</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">delegation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="k">else</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="p">)</span>
