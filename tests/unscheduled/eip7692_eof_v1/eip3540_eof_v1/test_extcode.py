@@ -25,7 +25,7 @@ REFERENCE_SPEC_VERSION = "90f716078d0b08ce508a1e57803f885cc2f2e15e"
 def test_legacy_calls_eof_sstore(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test EXTCODE* opcodes calling EOF and legacy contracts."""
     env = Environment()
     eof_code = Container.Code(Op.RJUMP[0] + Op.STOP)

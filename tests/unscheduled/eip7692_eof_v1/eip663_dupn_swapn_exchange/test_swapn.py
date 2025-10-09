@@ -25,7 +25,7 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
-def test_swapn_all_valid_immediates(eof_state_test: EOFStateTestFiller):
+def test_swapn_all_valid_immediates(eof_state_test: EOFStateTestFiller) -> None:
     """Test case for all valid SWAPN immediates."""
     n = 256
     values = range(0x500, 0x500 + 257)
@@ -60,7 +60,7 @@ def test_swapn_all_valid_immediates(eof_state_test: EOFStateTestFiller):
 def test_swapn_on_max_stack(
     swapn_operand: int,
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Test case out of bounds SWAPN (max stack)."""
     eof_code = Container(
         sections=[
@@ -88,7 +88,7 @@ def test_swapn_on_max_stack(
 def test_swapn_stack_underflow(
     stack_height: int,
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Test case out of bounds SWAPN (underflow)."""
     eof_code = Container(
         sections=[
@@ -117,7 +117,7 @@ def test_swapn_simple(
     swapn_arg: int,
     pre: Alloc,
     state_test: StateTestFiller,
-):
+) -> None:
     """Test case for simple SWAPN operations."""
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(

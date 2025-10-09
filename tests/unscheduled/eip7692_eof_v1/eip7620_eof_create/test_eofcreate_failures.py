@@ -48,7 +48,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         pytest.param(b"\x08\xc3\x79\xa0", id="Error(string)"),
     ],
 )
-def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes):
+def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes) -> None:
     """Verifies proper handling of REVERT in initcode."""
     env = Environment()
     revert_size = len(revert)
@@ -104,7 +104,7 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
 def test_initcode_aborts(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Verifies correct handling of a halt in EOF initcode."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -171,7 +171,7 @@ def test_eofcreate_deploy_sizes(
     state_test: StateTestFiller,
     pre: Alloc,
     target_deploy_size: int,
-):
+) -> None:
     """
     Verifies a mix of runtime contract sizes mixing success and multiple size
     failure modes.
@@ -261,7 +261,7 @@ def test_eofcreate_deploy_sizes(
 def test_eofcreate_deploy_sizes_tx(
     state_test: StateTestFiller,
     target_deploy_size: int,
-):
+) -> None:
     """
     Verifies a mix of runtime contract sizes mixing success and multiple size
     failure modes where the initcontainer is included in a transaction.
@@ -280,7 +280,7 @@ def test_eofcreate_deploy_sizes_tx(
         pytest.param(0x10000 + 1, id="over64k"),
     ],
 )
-def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_size: int):
+def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_size: int) -> None:
     """
     Exercises a number of auxdata size violations, and one maxcode success.
     """
@@ -357,7 +357,7 @@ def test_eofcreate_insufficient_stipend(
     state_test: StateTestFiller,
     pre: Alloc,
     value: int,
-):
+) -> None:
     """
     Exercises an EOFCREATE that fails because the calling account does not have
     enough ether to pay the stipend.
@@ -404,7 +404,7 @@ def test_eofcreate_insufficient_stipend(
 def test_insufficient_initcode_gas(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Exercises an EOFCREATE when there is not enough gas for the initcode
     charge.
@@ -467,7 +467,7 @@ def test_insufficient_initcode_gas(
 def test_insufficient_gas_memory_expansion(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Exercises EOFCREATE when the memory for auxdata has not been expanded but
     is requested.
@@ -528,7 +528,7 @@ def test_insufficient_gas_memory_expansion(
 def test_insufficient_returncode_auxdata_gas(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Exercises a RETURNCODE when there is not enough gas for the initcode
     charge.
@@ -615,7 +615,7 @@ def test_static_flag_eofcreate(
     opcode: Op,
     endowment: int,
     initcode: Container,
-):
+) -> None:
     """Verifies correct handling of the static call flag with EOFCREATE."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -681,7 +681,7 @@ def test_eof_eofcreate_msg_depth(
     pre: Alloc,
     opcode: Op,
     who_fails: int,
-):
+) -> None:
     """
     Test EOFCREATE handles msg depth limit correctly (1024).
 
@@ -792,7 +792,7 @@ def test_eof_eofcreate_msg_depth(
 def test_reentrant_eofcreate(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies a reentrant EOFCREATE case, where EIP-161 prevents conflict via
     nonce bump.

@@ -30,7 +30,7 @@ def test_jumpf_target_rules(
     eof_state_test: EOFStateTestFiller,
     source_outputs: int,
     target_outputs: int,
-):
+) -> None:
     """
     Validate the target section rules of JUMPF, and execute valid cases. We are
     not testing stack so a lot of the logic is to get correct stack values.
@@ -116,7 +116,7 @@ def test_jumpf_target_rules(
 @pytest.mark.skip("Not implemented")
 def test_jumpf_multi_target_rules(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """
     NOT IMPLEMENTED: Test a section that contains multiple JUMPF to different
     targets with different outputs.

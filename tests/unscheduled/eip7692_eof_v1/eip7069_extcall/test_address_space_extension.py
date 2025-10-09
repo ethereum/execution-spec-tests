@@ -64,7 +64,7 @@ def test_address_space_extension(
     target_address: bytes,
     target_opcode: Op,
     target_account_type: str,
-):
+) -> None:
     """
     Test contacts with possibly extended address and fail if address is too
     large.

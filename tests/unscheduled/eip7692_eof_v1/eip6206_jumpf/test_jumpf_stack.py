@@ -31,7 +31,7 @@ def test_jumpf_stack_non_returning_rules(
     eof_state_test: EOFStateTestFiller,
     target_inputs: int,
     stack_height: int,
-):
+) -> None:
     """
     Tests for JUMPF validation stack rules.  Non-returning section cases. Valid
     cases are executed.
@@ -88,7 +88,7 @@ def test_jumpf_stack_returning_rules(
     target_outputs: int,
     target_inputs: int,
     stack_diff: int,
-):
+) -> None:
     """
     Tests for JUMPF validation stack rules.  Returning section cases. Valid
     cases are executed.
@@ -157,7 +157,7 @@ def test_jumpf_incompatible_outputs(
     target_outputs: int,
     stack_height: int,
     expected_exception: EOFException,
-):
+) -> None:
     """Tests JUMPF into a section with incorrect number of outputs."""
     current_section_outputs = 1
     if (current_section_outputs + target_inputs - target_outputs) != stack_height:
@@ -203,7 +203,7 @@ def test_jumpf_diff_max_stack_height(
     target_outputs: int,
     stack_height: int,
     expected_exception: EOFException,
-):
+) -> None:
     """Tests jumpf with a different max stack height."""
     current_section_outputs = 1
     eof_test(
@@ -251,7 +251,7 @@ def test_jumpf_diff_min_stack_height(
     target_outputs: int,
     stack_height: int,
     expected_exception: EOFException,
-):
+) -> None:
     """Tests jumpf with a different min stack height."""
     current_section_outputs = 1
     eof_test(
@@ -278,7 +278,7 @@ def test_jumpf_diff_min_stack_height(
     )
 
 
-def test_jumpf_self_variadic_stack_overflow(eof_test: EOFTestFiller):
+def test_jumpf_self_variadic_stack_overflow(eof_test: EOFTestFiller) -> None:
     """Test JUMPF calling self causing EOF validation stack overflow."""
     container = Container(
         name="jumpf_stack_overflow_variable_stack_0",
@@ -296,7 +296,7 @@ def test_jumpf_self_variadic_stack_overflow(eof_test: EOFTestFiller):
 @pytest.mark.parametrize("callee_stack_height", [0, 1, 2, 5, 511, 512, 513])
 def test_jumpf_variadic_stack_overflow(
     eof_test: EOFTestFiller, stack_height: int, callee_stack_height: int
-):
+) -> None:
     """
     Test JUMPF stack validation causing stack overflow with variable stack
     height.
@@ -323,7 +323,7 @@ def test_jumpf_variadic_stack_overflow(
 @pytest.mark.parametrize("callee_stack_increase", [0, 1, 2])
 def test_jumpf_with_inputs_stack_overflow(
     eof_test: EOFTestFiller, stack_height: int, callee_stack_increase: int
-):
+) -> None:
     """Test validation of JUMPF with inputs causing stack overflow."""
     container = Container(
         sections=[
@@ -348,7 +348,7 @@ def test_jumpf_with_inputs_stack_overflow(
 @pytest.mark.parametrize("callee_stack_increase", [0, 1, 2])
 def test_jumpf_with_inputs_stack_overflow_variable_stack(
     eof_test: EOFTestFiller, stack_height: int, callee_stack_increase: int
-):
+) -> None:
     """
     Test JUMPF with variable stack depending on RJUMPI calling function with
     inputs.

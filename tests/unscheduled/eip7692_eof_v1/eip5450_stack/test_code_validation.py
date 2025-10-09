@@ -5,7 +5,7 @@ relative jumps.
 
 import itertools
 from enum import Enum, auto, unique
-from typing import Tuple
+from typing import Generator, Tuple, Union
 
 import pytest
 
@@ -13,7 +13,7 @@ from ethereum_test_exceptions.exceptions import EOFException
 from ethereum_test_tools import Account, EOFStateTestFiller, EOFTestFiller
 from ethereum_test_types.eof.v1 import Container, Section
 from ethereum_test_types.eof.v1.constants import MAX_STACK_INCREASE_LIMIT, NON_RETURNING_SECTION
-from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Bytecode, Opcode
 from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
@@ -142,7 +142,7 @@ def rjump_code_with(
     return body, is_backwards, pops, pushes
 
 
-def call_code_with(inputs, outputs, call: Bytecode) -> Bytecode:
+def call_code_with(inputs: int, outputs: int, call: Bytecode) -> Bytecode:
     """
     Generate code snippet with the `call` bytecode provided and its respective
     input/output management.
@@ -266,7 +266,7 @@ def test_rjumps_callf_retf(
     rjump_kind: RjumpKind,
     rjump_section_idx: int,
     rjump_spot: RjumpSpot,
-):
+) -> None:
     """
     Test EOF container validation for EIP-4200 vs EIP-4750 interactions.
 
@@ -382,7 +382,7 @@ def test_rjumps_jumpf_nonreturning(
     rjump_kind: RjumpKind,
     rjump_section_idx: int,
     rjump_spot: RjumpSpot,
-):
+) -> None:
     """
     Test EOF container validation for EIP-4200 vs EIP-6206 interactions on
     non-returning functions.
@@ -455,7 +455,7 @@ def test_rjumps_jumpf_nonreturning(
     eof_test(container=Container(sections=sections), expect_exception=possible_exceptions or None)
 
 
-def gen_stack_underflow_params():
+def gen_stack_underflow_params() -> Generator[tuple[Union[Op, Opcode], int], None, None]:
     """Generate parameters for stack underflow tests."""
     opcodes = sorted(op for op in valid_eof_opcodes if op.min_stack_height > 0) + [
         # Opcodes that have variable min_stack_height
@@ -476,7 +476,7 @@ def gen_stack_underflow_params():
 @pytest.mark.parametrize("op,stack_height", gen_stack_underflow_params())
 def test_all_opcodes_stack_underflow(
     eof_test: EOFTestFiller, op: Op, stack_height: int, spread: int
-):
+) -> None:
     """
     Test EOF validation failing due to stack overflow caused by the specific
     instruction `op`.
@@ -593,7 +593,7 @@ def test_all_opcodes_stack_underflow(
     ],
     ids=lambda x: x.name,
 )
-def test_stack_underflow_examples(eof_test, container):
+def test_stack_underflow_examples(eof_test: EOFTestFiller, container: Container) -> None:
     """
     Test EOF validation failing due to stack underflow at basic instructions.
     """
@@ -605,7 +605,7 @@ def test_stack_underflow_examples(eof_test, container):
 @pytest.mark.parametrize("calldata_2", [0, 1])
 def test_valid_non_constant_stack_examples(
     eof_state_test: EOFStateTestFiller, initial_stack: int, calldata_1: int, calldata_2: int
-):
+) -> None:
     """Test valid containers with non constant stack items."""
     # Stores the number of added items to the stack in storage slot 0
     # calldata_1 == 1: number of items = 2
@@ -646,7 +646,7 @@ def test_valid_non_constant_stack_examples(
 
 
 @pytest.mark.parametrize("num_rjumpi", [MAX_STACK_INCREASE_LIMIT, MAX_STACK_INCREASE_LIMIT + 1])
-def test_stack_range_maximally_broad(eof_test, num_rjumpi: int):
+def test_stack_range_maximally_broad(eof_test: EOFTestFiller, num_rjumpi: int) -> None:
     """Test stack range 0-1023 at final instruction."""
     code = Op.STOP()
     for i in range(0, num_rjumpi):

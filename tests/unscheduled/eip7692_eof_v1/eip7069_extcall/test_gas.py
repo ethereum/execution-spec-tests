@@ -124,7 +124,7 @@ def test_ext_calls_gas(
     warm_gas: int,
     new_account: bool,
     mem_expansion_bytes: int,
-):
+) -> None:
     """
     Tests variations of EXT*CALL gas, both warm and cold, without and with mem
     expansions.
@@ -156,7 +156,7 @@ def test_transfer_gas_is_cleared(
     state_env: Environment,
     opcode: Op,
     value: int,
-):
+) -> None:
     """
     Test that EXT*CALL call doesn't charge for value transfer, even if the
     outer call transferred value.
@@ -199,7 +199,7 @@ def test_late_account_create(
     pre: Alloc,
     state_env: Environment,
     opcode: Op,
-):
+) -> None:
     """
     Test EXTCALL to a non-existent account after another EXT*CALL has called it
     and not created it.

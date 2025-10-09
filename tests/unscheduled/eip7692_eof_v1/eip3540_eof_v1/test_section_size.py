@@ -119,7 +119,7 @@ def test_section_size(
     section_size: SectionSize,
     section_kind: SectionKind,
     exception: EOFExceptionInstanceOrList,
-):
+) -> None:
     """
     Test custom_size is auto, more or less than the actual size of the section.
     """
@@ -197,7 +197,7 @@ def test_truncated_container_without_data(
     eof_test: EOFTestFiller,
     truncation_len: int,
     exception: EOFException,
-):
+) -> None:
     """
     Test takes a semi-valid container and removes some bytes from its tail.
     Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases
@@ -223,7 +223,7 @@ def test_truncated_container_with_data(
     eof_test: EOFTestFiller,
     truncation_len: int,
     exception: EOFException,
-):
+) -> None:
     """
     Test takes a valid container with data and removes some bytes from its
     tail. Migrated from EOFTests/efValidation/EOF1_truncated_section_.json
