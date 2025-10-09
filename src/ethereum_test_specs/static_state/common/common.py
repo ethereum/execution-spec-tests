@@ -3,7 +3,7 @@
 import re
 import subprocess
 import tempfile
-from typing import Any, Dict, List, Mapping, Union
+from typing import Any, Dict, List, Mapping, Tuple, Union
 
 from eth_abi import encode
 from eth_utils import function_signature_to_4byte_selector
@@ -39,7 +39,9 @@ def parse_hex_number(i: str | int) -> int:
     return int(i, 10)
 
 
-def parse_args_from_string_into_array(stream: str, pos: int, delim: str = " "):
+def parse_args_from_string_into_array(
+    stream: str, pos: int, delim: str = " "
+) -> Tuple[List[str], int]:
     """Parse YUL options into array."""
     args = []
     arg = ""
@@ -92,10 +94,10 @@ class CodeInFiller(BaseModel, TagDependentData):
             return {"label": label, "source": source}
         return code
 
-    def model_post_init(self, context):
+    def model_post_init(self, context: Any) -> None:
         """Initialize StateStaticTest."""
         super().model_post_init(context)
-        tag_dependencies = {}
+        tag_dependencies: Dict[str, Tag] = {}
         for tag_type in {ContractTag, SenderTag}:
             for m in tag_type.regex_pattern.finditer(self.source):
                 new_tag = tag_type.model_validate(m.group(0))
@@ -117,7 +119,7 @@ class CodeInFiller(BaseModel, TagDependentData):
 
         compiled_code = ""
 
-        def replace_tags(raw_code, keep_prefix: bool) -> str:
+        def replace_tags(raw_code: str, keep_prefix: bool) -> str:
             for tag in self._dependencies.values():
                 if tag.name not in tags:
                     raise ValueError(f"Tag {tag} not found in tags")
@@ -272,7 +274,7 @@ class AddressTag:
         """Return debug representation."""
         return f"AddressTag(type={self.tag_type}, name={self.tag_name})"
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Check equality based on original string."""
         if isinstance(other, AddressTag):
             return self.original_string == other.original_string
@@ -283,7 +285,9 @@ class AddressTag:
         return hash(self.original_string)
 
     @classmethod
-    def __get_pydantic_core_schema__(cls, source_type: Any, handler) -> core_schema.CoreSchema:
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: Any
+    ) -> core_schema.CoreSchema:
         """Pydantic core schema for AddressTag."""
         return core_schema.str_schema()
 

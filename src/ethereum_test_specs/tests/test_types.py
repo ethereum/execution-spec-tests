@@ -126,6 +126,6 @@ fixture_header_ones = FixtureHeader(
 )
 def test_fixture_header_join(
     fixture_header: FixtureHeader, modifier: Header, fixture_header_expected: FixtureHeader
-):
+) -> None:
     """Test that the join method works as expected."""
     assert modifier.apply(fixture_header) == fixture_header_expected

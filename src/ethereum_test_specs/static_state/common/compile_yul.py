@@ -49,7 +49,9 @@ def safe_solc_command(
     return cmd
 
 
-def compile_yul(source_file: str, evm_version: str | None = None, optimize: str | None = None):
+def compile_yul(
+    source_file: str, evm_version: str | None = None, optimize: str | None = None
+) -> str:
     """
     Compiles a Yul source file using solc and returns the binary
     representation.

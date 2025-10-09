@@ -27,7 +27,10 @@ class DataWithAccessList(CamelModel, TagDependentData):
     access_list: List[AccessListInFiller] | None = None
 
     @field_validator("access_list", mode="before")
-    def convert_keys_to_hash(cls, access_list):  # noqa: N805
+    @classmethod
+    def convert_keys_to_hash(
+        cls, access_list: List[Dict[str, Any]] | None
+    ) -> List[Dict[str, Any]] | None:  # noqa: N805
         """Fix keys."""
         if access_list is None:
             return None
@@ -50,7 +53,7 @@ class DataWithAccessList(CamelModel, TagDependentData):
 
     @model_validator(mode="wrap")
     @classmethod
-    def wrap_data_only(cls, data: Any, handler) -> "DataWithAccessList":
+    def wrap_data_only(cls, data: Any, handler: Any) -> "DataWithAccessList":
         """Wrap data only if it is not a dictionary."""
         if not isinstance(data, dict) and not isinstance(data, DataWithAccessList):
             data = {"data": data}
@@ -63,7 +66,7 @@ class LabeledDataIndex(BaseModel):
     index: int
     label: str | None = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Transform into a string that can be part of a test name."""
         if self.label is not None:
             return self.label
@@ -75,7 +78,7 @@ class LabeledDataList(EthereumTestRootModel):
 
     root: List[DataWithAccessList]
 
-    def __getitem__(self, label_or_index: int | str):
+    def __getitem__(self, label_or_index: int | str) -> DataWithAccessList:
         """Get an item by label or index."""
         if isinstance(label_or_index, int):
             return self.root[label_or_index]
@@ -85,7 +88,7 @@ class LabeledDataList(EthereumTestRootModel):
                     return item
         raise KeyError(f"Label/index {label_or_index} not found in data indexes")
 
-    def __contains__(self, label_or_index: int | str):
+    def __contains__(self, label_or_index: int | str) -> bool:
         """
         Return True if the LabeledDataList contains the given label/index.
         """
@@ -97,7 +100,7 @@ class LabeledDataList(EthereumTestRootModel):
                     return True
         return False
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Return the length of the list."""
         return len(self.root)
 
@@ -131,7 +134,7 @@ class GeneralTransactionInFiller(BaseModel, TagDependentData):
 
     def tag_dependencies(self) -> Mapping[str, Tag]:
         """Get tag dependencies."""
-        tag_dependencies = {}
+        tag_dependencies: Dict[str, Tag] = {}
         if self.data:
             for idx in self.data:
                 data = self.data[idx.index]
@@ -143,7 +146,7 @@ class GeneralTransactionInFiller(BaseModel, TagDependentData):
         return tag_dependencies
 
     @field_validator("to", mode="before")
-    def check_single_key(cls, to):  # noqa: N805
+    def check_single_key(cls, to: Any) -> Any:  # noqa: N805
         """Creation transaction."""
         if to == "":
             to = None

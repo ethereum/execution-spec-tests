@@ -8,7 +8,7 @@ from enum import StrEnum, unique
 from functools import reduce
 from os import path
 from pathlib import Path
-from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
@@ -32,19 +32,21 @@ from ethereum_test_types import Alloc, Environment, Withdrawal
 class HashMismatchExceptionError(Exception):
     """Exception raised when the expected and actual hashes don't match."""
 
-    def __init__(self, expected_hash, actual_hash, message="Hashes do not match"):
+    def __init__(
+        self, expected_hash: str, actual_hash: str, message: str = "Hashes do not match"
+    ) -> None:
         """Initialize the exception with the expected and actual hashes."""
         self.expected_hash = expected_hash
         self.actual_hash = actual_hash
         self.message = message
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the error message."""
         return f"{self.message}: Expected {self.expected_hash}, got {self.actual_hash}"
 
 
-def verify_result(result: Result, env: Environment):
+def verify_result(result: Result, env: Environment) -> None:
     """
     Verify that values in the t8n result match the expected values. Raises
     exception on unexpected values.
@@ -106,7 +108,7 @@ class BaseTest(BaseModel):
         return False
 
     @classmethod
-    def __pydantic_init_subclass__(cls, **kwargs):
+    def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         """
         Register all subclasses of BaseFixture with a fixture format name set
         as possible fixture formats.
@@ -120,7 +122,7 @@ class BaseTest(BaseModel):
         cls: Type[Self],
         *,
         base_test: "BaseTest",
-        **kwargs,
+        **kwargs: Any,
     ) -> Self:
         """Create a test in a different format from a base test."""
         new_instance = cls(
@@ -222,7 +224,7 @@ class BaseTest(BaseModel):
         self,
         *,
         exception: bool,
-    ):
+    ) -> None:
         """Compare the test marker against the outcome of the test."""
         negative_test_marker = self.is_exception_test()
         if negative_test_marker is None:
