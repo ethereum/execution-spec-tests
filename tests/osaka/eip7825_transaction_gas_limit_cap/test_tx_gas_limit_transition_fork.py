@@ -42,7 +42,7 @@ def test_transaction_gas_limit_cap_at_transition(
     pre: Alloc,
     fork: Fork,
     transaction_at_cap: bool,
-):
+) -> None:
     """
     Test transaction gas limit cap behavior at the Osaka transition.
 

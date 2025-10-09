@@ -439,7 +439,7 @@ def test_block_at_rlp_size_limit_boundary(
     fork: Fork,
     block_size_limit: int,
     delta: int,
-):
+) -> None:
     """
     Test the block rlp size limit.
 
@@ -533,7 +533,7 @@ def test_block_at_rlp_limit_with_logs(
     sender: EOA,
     fork: Fork,
     block_size_limit: int,
-):
+) -> None:
     """
     Test that a block at the RLP size limit is valid even when transactions
     emit logs.
@@ -576,7 +576,7 @@ def test_block_at_rlp_limit_with_withdrawals(
     sender: EOA,
     fork: Fork,
     block_size_limit: int,
-):
+) -> None:
     """
     Test that a block at the RLP size limit is valid even when the block
     contains withdrawals.
@@ -644,7 +644,7 @@ def test_fork_transition_block_rlp_limit(
     fork: Fork,
     exceeds_limit_at_fork: bool,
     block_size_limit: int,
-):
+) -> None:
     """
     Test block RLP size limit at fork transition boundary.
 

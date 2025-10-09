@@ -43,7 +43,9 @@ pytestmark = [
 @EIPChecklist.Precompile.Test.CallContexts.Normal()
 @EIPChecklist.Precompile.Test.Inputs.Valid()
 @EIPChecklist.Precompile.Test.Inputs.MaxValues()
-def test_wycheproof_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_wycheproof_valid(
+    state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction
+) -> None:
     """Test P256Verify precompile with Wycheproof test suite (valid cases)."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
@@ -61,7 +63,9 @@ def test_wycheproof_valid(state_test: StateTestFiller, pre: Alloc, post: dict, t
 @EIPChecklist.Precompile.Test.CallContexts.Normal()
 @EIPChecklist.Precompile.Test.Inputs.Invalid()
 @EIPChecklist.Precompile.Test.Inputs.MaxValues()
-def test_wycheproof_invalid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_wycheproof_invalid(
+    state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction
+) -> None:
     """
     Test P256Verify precompile with Wycheproof test suite
     (invalid cases).
@@ -81,7 +85,9 @@ def test_wycheproof_invalid(state_test: StateTestFiller, pre: Alloc, post: dict,
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @EIPChecklist.Precompile.Test.CallContexts.Normal()
 @EIPChecklist.Precompile.Test.Inputs.MaxValues()
-def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_wycheproof_extra(
+    state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction
+) -> None:
     """
     Test P256Verify precompile with Wycheproof test suite
     (mixed valid/invalid cases).
@@ -211,7 +217,7 @@ def test_wycheproof_extra(state_test: StateTestFiller, pre: Alloc, post: dict, t
 )
 @pytest.mark.parametrize("expected_output", [Spec.SUCCESS_RETURN_VALUE], ids=[""])
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
-def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction) -> None:
     """Positive tests for the P256VERIFY precompile."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
@@ -678,7 +684,7 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
 @EIPChecklist.Precompile.Test.InputLengths.Static.TooLong()
 @EIPChecklist.Precompile.Test.OutOfBounds.Max()
 @EIPChecklist.Precompile.Test.OutOfBounds.MaxPlusOne()
-def test_invalid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_invalid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction) -> None:
     """Negative tests for the P256VERIFY precompile."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
@@ -719,7 +725,7 @@ def test_invalid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transa
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @EIPChecklist.Precompile.Test.GasUsage.Constant.Exact()
 @EIPChecklist.Precompile.Test.GasUsage.Constant.Oog()
-def test_gas(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_gas(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction) -> None:
     """Test P256Verify precompile gas requirements."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
@@ -751,7 +757,7 @@ def test_call_types(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test P256Verify precompile using different call types."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
@@ -773,7 +779,7 @@ def test_precompile_as_tx_entry_point(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test P256Verify precompile entry point."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
@@ -796,7 +802,7 @@ def test_precompile_will_return_success_with_tx_value(
     input_data: bytes,
     expected_output: bytes,
     precompile_address: Address,
-):
+) -> None:
     """Test P256Verify precompile will not fail if value is sent."""
     sender = pre.fund_eoa()
     storage = Storage()
@@ -891,7 +897,9 @@ def test_precompile_will_return_success_with_tx_value(
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @EIPChecklist.Precompile.Test.Inputs.Valid()
 @EIPChecklist.Precompile.Test.Inputs.Invalid.Crypto()
-def test_modular_comparison(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
+def test_modular_comparison(
+    state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction
+) -> None:
     """
     Test the modular comparison condition for secp256r1 precompile.
 
@@ -925,7 +933,7 @@ def test_contract_creation_transaction(
     tx: Transaction,
     input_data: bytes,
     expected_output: bytes,
-):
+) -> None:
     """Test the contract creation for the P256VERIFY precompile."""
     sender = pre.fund_eoa()
 
@@ -989,7 +997,7 @@ def test_contract_initcode(
     input_data: bytes,
     expected_output: bytes,
     opcode: Op,
-):
+) -> None:
     """Test P256VERIFY behavior from contract creation."""
     sender = pre.fund_eoa()
 

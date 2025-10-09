@@ -320,7 +320,7 @@ def test_get_blobs(
     blobs_test: BlobsTestFiller,
     pre: Alloc,
     txs: List[NetworkWrappedTransaction | Transaction],
-):
+) -> None:
     """
     Test valid blob combinations where one or more txs in the block serialized
     version contain a full blob (network version) tx.
@@ -338,7 +338,7 @@ def test_get_blobs_nonexisting(
     blobs_test: BlobsTestFiller,
     pre: Alloc,
     txs: List[NetworkWrappedTransaction | Transaction],
-):
+) -> None:
     """
     Test that ensures clients respond with 'null' when at least one requested
     blob is not available.
