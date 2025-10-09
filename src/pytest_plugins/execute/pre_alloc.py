@@ -312,7 +312,6 @@ class Alloc(BaseAlloc):
         deploy_gas_limit = min(deploy_gas_limit * 2, 30_000_000)
         print(f"Deploying contract with gas limit: {deploy_gas_limit}")
 
-        # --- REFRESH SENDER NONCE FROM RPC ---
         self._refresh_sender_nonce()
 
         deploy_tx = Transaction(
