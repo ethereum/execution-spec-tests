@@ -28,7 +28,7 @@ def test_recreate(
     pre: Alloc,
     fork: Fork,
     recreate_on_separate_block: bool,
-):
+) -> None:
     """
     Test that the storage is cleared when a contract is first destructed then
     re-created using CREATE2.
