@@ -211,7 +211,7 @@ class Alloc(BaseAlloc):
         Prefer 'pending' to account for in-flight transactions.
         """
         try:
-            rpc_nonce = self._eth_rpc.get_transaction_count(self._sender, block_number="pending")  # type: ignore
+            rpc_nonce = self._eth_rpc.get_transaction_count(self._sender, block_number="pending")
         except TypeError:
             # If EthRPC.get_transaction_count has no 'block' kwarg
             rpc_nonce = self._eth_rpc.get_transaction_count(self._sender)
