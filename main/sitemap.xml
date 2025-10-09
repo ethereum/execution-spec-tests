@@ -2337,6 +2337,14 @@
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_eip_mainnet/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_eip_mainnet/test_eip_2537/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/vectors/test-vectors/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
@@ -2385,6 +2393,14 @@
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2935_historical_block_hashes_from_state/test_eip_mainnet/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2935_historical_block_hashes_from_state/test_eip_mainnet/test_eip_2935/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
@@ -2406,6 +2422,14 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/test_deposits/test_deposit_negative/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/test_eip_mainnet/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/test_eip_mainnet/test_eip_6110/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
@@ -2442,6 +2466,14 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7002_el_triggerable_withdrawals/test_contract_deployment/test_system_contract_deployment/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7002_el_triggerable_withdrawals/test_eip_mainnet/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7002_el_triggerable_withdrawals/test_eip_mainnet/test_eip_7002/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
@@ -2517,6 +2549,14 @@
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7251_consolidations/test_eip_mainnet/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7251_consolidations/test_eip_mainnet/test_eip_7251/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7251_consolidations/test_modified_consolidation_contract/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
@@ -2538,6 +2578,14 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7623_increase_calldata_cost/spec/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7623_increase_calldata_cost/test_eip_mainnet/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7623_increase_calldata_cost/test_eip_mainnet/test_eip_7623/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
@@ -2626,6 +2674,14 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_calls/test_delegate_call_targets/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_eip_mainnet/</loc>
+         <lastmod>2025-10-09</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_eip_mainnet/test_eip_7702/</loc>
          <lastmod>2025-10-09</lastmod>
     </url>
     <url>
