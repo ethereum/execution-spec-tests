@@ -36380,7 +36380,7 @@ transitions to.</p>
               Bases: <code><span title="Exception">Exception</span></code></p>
 
 
-        <p>Exception raised if the specified CLI binary is not found in the path.</p>
+        <p>Exception raised if the specified CLI binary isn't found in the path.</p>
 
 
 
@@ -36397,12 +36397,8 @@ transitions to.</p>
 <span class="normal">26</span>
 <span class="normal">27</span>
 <span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CLINotFoundInPathError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised if the specified CLI binary is not found in the path.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CLINotFoundInPathError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised if the specified CLI binary isn&#39;t found in the path.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;The CLI binary was not found in the path&quot;</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the exception.&quot;&quot;&quot;</span>
@@ -36438,11 +36434,11 @@ transitions to.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/ethereum_cli.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
 <span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;The CLI binary was not found in the path&quot;</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;The CLI binary was not found in the path&quot;</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the exception.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">binary</span><span class="p">:</span>
         <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">binary</span><span class="si">}</span><span class="s2">)&quot;</span>
