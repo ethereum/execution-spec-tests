@@ -51,7 +51,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7928.version
 def test_bal_invalid_missing_nonce(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL is missing required nonce
     changes.
@@ -93,7 +93,7 @@ def test_bal_invalid_missing_nonce(
 def test_bal_invalid_nonce_value(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL contains incorrect nonce value.
     """
@@ -134,7 +134,7 @@ def test_bal_invalid_nonce_value(
 def test_bal_invalid_storage_value(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL contains incorrect storage
     values.
@@ -197,7 +197,7 @@ def test_bal_invalid_storage_value(
 def test_bal_invalid_tx_order(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL has incorrect transaction
     ordering.
@@ -257,7 +257,7 @@ def test_bal_invalid_tx_order(
 def test_bal_invalid_account(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL contains accounts that don't
     exist.
@@ -308,7 +308,7 @@ def test_bal_invalid_account(
 def test_bal_invalid_duplicate_account(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL contains duplicate account
     entries.
@@ -353,7 +353,7 @@ def test_bal_invalid_duplicate_account(
 def test_bal_invalid_account_order(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL has incorrect account ordering.
     """
@@ -397,7 +397,7 @@ def test_bal_invalid_account_order(
 def test_bal_invalid_complex_corruption(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test complex BAL corruption with multiple transformations."""
     sender = pre.fund_eoa(amount=10**18)
     receiver = pre.fund_eoa(amount=0)
@@ -472,7 +472,7 @@ def test_bal_invalid_complex_corruption(
 def test_bal_invalid_missing_account(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL is missing an entire account.
     """
@@ -516,7 +516,7 @@ def test_bal_invalid_missing_account(
 def test_bal_invalid_balance_value(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test that clients reject blocks where BAL contains incorrect balance value.
     """
