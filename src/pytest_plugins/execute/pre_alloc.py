@@ -204,7 +204,7 @@ class Alloc(BaseAlloc):
         self._node_id = node_id
         self._address_stubs = address_stubs or AddressStubs(root={})
 
-    # --- NEW: always refresh _sender nonce from RPC ("pending") before building any tx
+    # always refresh _sender nonce from RPC ("pending") before building tx
     def _refresh_sender_nonce(self) -> None:
         """
         Synchronize self._sender.nonce with the node's view.
