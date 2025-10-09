@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_reserve_price_various_base_fee_scenarios"><code>test_reserve_price_various_base_fee_scenarios()</code><a class="headerlink" href="#test_reserve_price_various_base_fee_scenarios" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py#L134"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_various_base_fee_scenarios@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py#L134"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_various_base_fee_scenarios@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_reserve_price_various_base_fee_scenarios --fork Osaka</span>
@@ -29298,7 +29298,7 @@ gas scenarios.</p>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test reserve price mechanism across various block base fee and excess blob</span>
 <span class="sd">    gas scenarios.</span>

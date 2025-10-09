@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_recreate"><code>test_recreate()</code><a class="headerlink" href="#test_recreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/constantinople/eip1014_create2/test_recreate.py#L23"><code>tests/constantinople/eip1014_create2/test_recreate.py::test_recreate@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/constantinople/eip1014_create2/test_recreate.py#L23"><code>tests/constantinople/eip1014_create2/test_recreate.py::test_recreate@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/constantinople/eip1014_create2/test_recreate.py::test_recreate --fork Osaka</span>
@@ -29357,7 +29357,7 @@ re-created using CREATE2.</p>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">recreate_on_separate_block</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that the storage is cleared when a contract is first destructed then</span>
 <span class="sd">    re-created using CREATE2.</span>

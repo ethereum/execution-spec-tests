@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_gas_diff_pointer_vs_direct_call"><code>test_gas_diff_pointer_vs_direct_call()</code><a class="headerlink" href="#test_gas_diff_pointer_vs_direct_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L508"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_gas_diff_pointer_vs_direct_call@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L508"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_gas_diff_pointer_vs_direct_call@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_gas_diff_pointer_vs_direct_call --fork Osaka</span>
@@ -29513,7 +29513,7 @@ Combine with AccessList and AuthTuple gas reductions scenarios.</p>
     <span class="n">access_list_rule</span><span class="p">:</span> <span class="n">AccessListCall</span><span class="p">,</span>
     <span class="n">pointer_definition</span><span class="p">:</span> <span class="n">PointerDefinition</span><span class="p">,</span>
     <span class="n">access_list_to</span><span class="p">:</span> <span class="n">AccessListTo</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check the gas difference when calling the contract directly vs as a pointer</span>
 <span class="sd">    Combine with AccessList and AuthTuple gas reductions scenarios.</span>

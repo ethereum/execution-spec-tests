@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_sufficient_balance_blob_tx_pre_fund_tx"><code>test_sufficient_balance_blob_tx_pre_fund_tx()</code><a class="headerlink" href="#test_sufficient_balance_blob_tx_pre_fund_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/cancun/eip4844_blobs/test_blob_txs.py#L708"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/cancun/eip4844_blobs/test_blob_txs.py#L708"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx --fork Osaka</span>
@@ -29363,7 +29363,7 @@ because a funding transaction is prepended in the same block.</p>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check that transaction is accepted when user can exactly afford the blob</span>
 <span class="sd">    gas specified (and max_fee_per_gas would be enough for current block)</span>

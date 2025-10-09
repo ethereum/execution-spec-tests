@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_coverage"><code>test_coverage()</code><a class="headerlink" href="#test_coverage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/homestead/coverage/test_coverage.py#L16"><code>tests/homestead/coverage/test_coverage.py::test_coverage@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/homestead/coverage/test_coverage.py#L16"><code>tests/homestead/coverage/test_coverage.py::test_coverage@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/homestead/coverage/test_coverage.py::test_coverage --fork Osaka</span>
@@ -29334,7 +29334,7 @@ which are not regularly used in python code.</p>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cover gaps that result from transforming Yul code into our Python opcode</span>
 <span class="sd">    wrapper bytecode.</span>

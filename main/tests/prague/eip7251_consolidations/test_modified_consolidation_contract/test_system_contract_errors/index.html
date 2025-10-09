@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_system_contract_errors"><code>test_system_contract_errors()</code><a class="headerlink" href="#test_system_contract_errors" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py#L305"><code>tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py::test_system_contract_errors@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py#L305"><code>tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py::test_system_contract_errors@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7251_consolidations/test_modified_consolidation_contract.py::test_system_contract_errors --fork Osaka</span>
@@ -29281,10 +29281,10 @@ account at the end of the block execution.</p>
     <span class="s2">&quot;system_contract&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="n">Spec_EIP7251</span><span class="o">.</span><span class="n">CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS</span><span class="p">)]</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span><span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Deploys custom consolidation contract bytecode&quot;</span><span class="p">)</span>
-<span class="nd">@generate_system_contract_error_test</span><span class="p">(</span>
+<span class="nd">@generate_system_contract_error_test</span><span class="p">(</span>  <span class="c1"># type: ignore[arg-type]</span>
     <span class="n">max_gas_limit</span><span class="o">=</span><span class="n">Spec_EIP7251</span><span class="o">.</span><span class="n">SYSTEM_CALL_GAS_LIMIT</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_system_contract_errors</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_system_contract_errors</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test system contract raising different errors when called by the system</span>
 <span class="sd">    account at the end of the block execution.</span>

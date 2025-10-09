@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_call_large_args_offset_size_zero"><code>test_call_large_args_offset_size_zero()</code><a class="headerlink" href="#test_call_large_args_offset_size_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/frontier/opcodes/test_call.py#L168"><code>tests/frontier/opcodes/test_call.py::test_call_large_args_offset_size_zero@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/frontier/opcodes/test_call.py#L168"><code>tests/frontier/opcodes/test_call.py::test_call_large_args_offset_size_zero@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call.py::test_call_large_args_offset_size_zero --fork Osaka</span>
@@ -29315,7 +29315,7 @@ Since the size is zero, the large offset should not cause a revert.</p>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test xCALL with an extremely large args_offset and args_size set to zero.</span>
 <span class="sd">    Since the size is zero, the large offset should not cause a revert.</span>

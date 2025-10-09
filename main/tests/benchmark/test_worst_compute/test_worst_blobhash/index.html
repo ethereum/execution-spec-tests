@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_blobhash"><code>test_worst_blobhash()</code><a class="headerlink" href="#test_worst_blobhash" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/benchmark/test_worst_compute.py#L2343"><code>tests/benchmark/test_worst_compute.py::test_worst_blobhash@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/benchmark/test_worst_compute.py#L2343"><code>tests/benchmark/test_worst_compute.py::test_worst_blobhash@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_blobhash -m benchmark</span>
@@ -29333,7 +29333,7 @@
     <span class="n">blob_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">blobs_present</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many BLOBHASH instructions as possible.&quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
     <span class="n">max_stack_height</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_stack_height</span><span class="p">()</span>

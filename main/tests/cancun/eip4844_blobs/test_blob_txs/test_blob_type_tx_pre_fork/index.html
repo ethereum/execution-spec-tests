@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_blob_type_tx_pre_fork"><code>test_blob_type_tx_pre_fork()</code><a class="headerlink" href="#test_blob_type_tx_pre_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/cancun/eip4844_blobs/test_blob_txs.py#L1381"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/cancun/eip4844_blobs/test_blob_txs.py#L1381"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork --fork Osaka</span>
@@ -29345,7 +29345,7 @@ INVALID, due to an invalid block hash.</p>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
     <span class="n">block_error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TransactionException</span> <span class="o">|</span> <span class="n">BlockException</span><span class="p">],</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reject blocks with blob type transactions before Cancun fork.</span>
 

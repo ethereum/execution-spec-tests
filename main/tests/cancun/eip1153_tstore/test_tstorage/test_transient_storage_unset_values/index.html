@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_transient_storage_unset_values"><code>test_transient_storage_unset_values()</code><a class="headerlink" href="#test_transient_storage_unset_values" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/cancun/eip1153_tstore/test_tstorage.py#L34"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_transient_storage_unset_values@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/cancun/eip1153_tstore/test_tstorage.py#L35"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_transient_storage_unset_values@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage.py::test_transient_storage_unset_values --fork Osaka</span>
@@ -29265,8 +29265,7 @@ stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml)",</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
-<span class="normal">35</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
 <span class="normal">38</span>
@@ -29299,7 +29298,8 @@ stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml)",</p>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_transient_storage_unset_values</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_transient_storage_unset_values</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that tload returns zero for unset values. Loading an arbitrary value</span>
 <span class="sd">    is 0 at beginning of transaction: TLOAD(x) is 0.</span>

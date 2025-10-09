@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_recreate_self_destructed_contract_different_txs"><code>test_recreate_self_destructed_contract_different_txs()</code><a class="headerlink" href="#test_recreate_self_destructed_contract_different_txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L505"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_recreate_self_destructed_contract_different_txs@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L505"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_recreate_self_destructed_contract_different_txs@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_recreate_self_destructed_contract_different_txs --fork Osaka</span>
@@ -29412,7 +29412,7 @@ the lapse of multiple transactions.</p>
     <span class="n">recreate_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="c1"># Number of times to call the self-destructing contract in the same tx</span>
     <span class="n">call_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that a contract can be recreated after it has self-destructed, over</span>
 <span class="sd">    the lapse of multiple transactions.</span>

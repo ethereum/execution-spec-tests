@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_set_code_to_self_destructing_account_deployed_in_same_tx"><code>test_set_code_to_self_destructing_account_deployed_in_same_tx()</code><a class="headerlink" href="#test_set_code_to_self_destructing_account_deployed_in_same_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1741"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_destructing_account_deployed_in_same_tx@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1741"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_destructing_account_deployed_in_same_tx@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_destructing_account_deployed_in_same_tx --fork Osaka</span>
@@ -29390,7 +29390,7 @@ calling the set-code address and the deployed in both sequence orders.</p>
     <span class="n">call_set_code_first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">external_sendall_recipient</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test setting the code of an account to an account that contains the</span>
 <span class="sd">    SELFDESTRUCT opcode and was deployed in the same transaction, and test</span>

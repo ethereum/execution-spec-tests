@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_blake2b_gas_limit"><code>test_blake2b_gas_limit()</code><a class="headerlink" href="#test_blake2b_gas_limit" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/istanbul/eip152_blake2/test_blake2.py#L565"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_gas_limit@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/istanbul/eip152_blake2/test_blake2.py#L565"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_gas_limit@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_gas_limit --fork Osaka</span>
@@ -29440,7 +29440,7 @@
     <span class="n">gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">Blake2bInput</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span>
     <span class="n">output</span><span class="p">:</span> <span class="n">ExpectedOutput</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test BLAKE2b precompile with different gas limits.&quot;&quot;&quot;</span>
     <span class="n">account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">blake2b_contract_bytecode</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mh">0xDEADBEEF</span><span class="p">})</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>

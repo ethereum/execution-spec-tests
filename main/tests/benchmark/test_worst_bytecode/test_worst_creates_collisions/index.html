@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_creates_collisions"><code>test_worst_creates_collisions()</code><a class="headerlink" href="#test_worst_creates_collisions" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/benchmark/test_worst_bytecode.py#L439"><code>tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/benchmark/test_worst_bytecode.py#L439"><code>tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions -m benchmark</span>
@@ -29340,7 +29340,7 @@
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the CREATE and CREATE2 collisions performance.&quot;&quot;&quot;</span>
     <span class="c1"># We deploy a &quot;proxy contract&quot; which is the contract that will be called in</span>
     <span class="c1"># a loop using all the gas in the block. This &quot;proxy contract&quot; is the one</span>

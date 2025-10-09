@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_zero_amount"><code>test_zero_amount()</code><a class="headerlink" href="#test_zero_amount" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L542"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_zero_amount@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L541"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_zero_amount@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_zero_amount --fork Osaka</span>
@@ -29276,7 +29276,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">542</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">541</span>
+<span class="normal">542</span>
 <span class="normal">543</span>
 <span class="normal">544</span>
 <span class="normal">545</span>
@@ -29383,8 +29384,7 @@
 <span class="normal">646</span>
 <span class="normal">647</span>
 <span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">649</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;test_case&quot;</span><span class="p">,</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">ZeroAmountTestCases</span><span class="p">),</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="n">case</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">ZeroAmountTestCases</span><span class="p">],</span>
@@ -29393,7 +29393,7 @@
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">test_case</span><span class="p">:</span> <span class="n">ZeroAmountTestCases</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test withdrawal scenarios with a zero amount in a single block.</span>
 

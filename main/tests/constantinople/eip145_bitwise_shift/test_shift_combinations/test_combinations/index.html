@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_combinations"><code>test_combinations()</code><a class="headerlink" href="#test_combinations" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/constantinople/eip145_bitwise_shift/test_shift_combinations.py#L47"><code>tests/constantinople/eip145_bitwise_shift/test_shift_combinations.py::test_combinations@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/constantinople/eip145_bitwise_shift/test_shift_combinations.py#L47"><code>tests/constantinople/eip145_bitwise_shift/test_shift_combinations.py::test_combinations@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/constantinople/eip145_bitwise_shift/test_shift_combinations.py::test_combinations --fork Osaka</span>
@@ -29296,7 +29296,9 @@
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,operation&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">,</span> <span class="n">Spec</span><span class="o">.</span><span class="n">sar</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;sar&quot;</span><span class="p">),</span>
@@ -29312,7 +29314,9 @@
     <span class="p">],</span>
     <span class="n">pr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://github.com/ethereum/execution-spec-tests/pull/1683&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_combinations</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_combinations</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Callable</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test bitwise shift combinations.&quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
     <span class="n">address_to</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
@@ -29404,7 +29408,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Constantinople" data-fixture="state_test">
             <td> 
@@ -29414,7 +29418,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Constantinople" data-fixture="state_test">
             <td> 
@@ -29424,7 +29428,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Constantinople" data-fixture="blockchain_test">
             <td> 
@@ -29434,7 +29438,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Constantinople" data-fixture="blockchain_test">
             <td> 
@@ -29444,7 +29448,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Constantinople" data-fixture="blockchain_test">
             <td> 
@@ -29454,7 +29458,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="ConstantinopleFix" data-fixture="state_test">
             <td> 
@@ -29464,7 +29468,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="ConstantinopleFix" data-fixture="state_test">
             <td> 
@@ -29474,7 +29478,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="ConstantinopleFix" data-fixture="state_test">
             <td> 
@@ -29484,7 +29488,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="ConstantinopleFix" data-fixture="blockchain_test">
             <td> 
@@ -29494,7 +29498,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="ConstantinopleFix" data-fixture="blockchain_test">
             <td> 
@@ -29504,7 +29508,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="ConstantinopleFix" data-fixture="blockchain_test">
             <td> 
@@ -29514,7 +29518,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="state_test">
             <td> 
@@ -29524,7 +29528,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="state_test">
             <td> 
@@ -29534,7 +29538,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="state_test">
             <td> 
@@ -29544,7 +29548,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="blockchain_test">
             <td> 
@@ -29554,7 +29558,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="blockchain_test">
             <td> 
@@ -29564,7 +29568,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="blockchain_test">
             <td> 
@@ -29574,7 +29578,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
@@ -29584,7 +29588,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
@@ -29594,7 +29598,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
@@ -29604,7 +29608,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
@@ -29614,7 +29618,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
@@ -29624,7 +29628,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
@@ -29634,7 +29638,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
@@ -29644,7 +29648,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
@@ -29654,7 +29658,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
@@ -29664,7 +29668,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
@@ -29674,7 +29678,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
@@ -29684,7 +29688,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
@@ -29694,7 +29698,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
@@ -29704,7 +29708,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
@@ -29714,7 +29718,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
@@ -29724,7 +29728,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
@@ -29734,7 +29738,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
@@ -29744,7 +29748,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
@@ -29754,7 +29758,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
@@ -29764,7 +29768,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
@@ -29774,7 +29778,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
@@ -29784,7 +29788,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
@@ -29794,7 +29798,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
@@ -29804,7 +29808,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
@@ -29814,7 +29818,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -29824,7 +29828,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -29834,7 +29838,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -29844,7 +29848,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -29854,7 +29858,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -29864,7 +29868,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -29874,7 +29878,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -29884,7 +29888,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -29894,7 +29898,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -29904,7 +29908,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29914,7 +29918,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29924,7 +29928,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29934,7 +29938,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -29944,7 +29948,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -29954,7 +29958,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -29964,7 +29968,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29974,7 +29978,7 @@
                 </abbr>
             </td>
                         <td>SAR</td>
-                        <td><function Spec.sar at 0x7f5bf6471a80></td>
+                        <td><function Spec.sar at 0x7f18232b5e40></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29984,7 +29988,7 @@
                 </abbr>
             </td>
                         <td>SHL</td>
-                        <td><function Spec.shl at 0x7f5bf6471940></td>
+                        <td><function Spec.shl at 0x7f18232b5d00></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29994,7 +29998,7 @@
                 </abbr>
             </td>
                         <td>SHR</td>
-                        <td><function Spec.shr at 0x7f5bf6471b20></td>
+                        <td><function Spec.shr at 0x7f18232b5ee0></td>
                     </tr>
             </tbody>
 </table>

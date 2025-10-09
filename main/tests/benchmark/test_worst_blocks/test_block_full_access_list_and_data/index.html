@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_block_full_access_list_and_data"><code>test_block_full_access_list_and_data()</code><a class="headerlink" href="#test_block_full_access_list_and_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/benchmark/test_worst_blocks.py#L240"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/benchmark/test_worst_blocks.py#L241"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data -m benchmark</span>
@@ -29258,8 +29258,7 @@ random mixed bytes.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
-<span class="normal">241</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">241</span>
 <span class="normal">242</span>
 <span class="normal">243</span>
 <span class="normal">244</span>
@@ -29352,14 +29351,15 @@ random mixed bytes.</p>
 <span class="normal">331</span>
 <span class="normal">332</span>
 <span class="normal">333</span>
-<span class="normal">334</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
+<span class="normal">334</span>
+<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">total_cost_standard_per_token</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test a block with access lists (60% gas) and calldata (40% gas) using</span>
 <span class="sd">    random mixed bytes.</span>

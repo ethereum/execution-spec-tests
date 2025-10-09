@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_gas_usage"><code>test_gas_usage()</code><a class="headerlink" href="#test_gas_usage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/cancun/eip1153_tstore/test_tstorage.py#L234"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_gas_usage@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/cancun/eip1153_tstore/test_tstorage.py#L235"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_gas_usage@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage.py::test_gas_usage --fork Osaka</span>
@@ -29259,8 +29259,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">234</span>
-<span class="normal">235</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
 <span class="normal">238</span>
@@ -29283,7 +29282,8 @@
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@GasMeasureTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">258</span>
+<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@GasMeasureTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_gas_usage</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -29291,7 +29291,7 @@
     <span class="n">expected_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">overhead_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">extra_stack_items</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that tstore and tload consume the expected gas.&quot;&quot;&quot;</span>
     <span class="n">gas_measure_bytecode</span> <span class="o">=</span> <span class="n">CodeGasMeasure</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">bytecode</span><span class="p">,</span> <span class="n">overhead_cost</span><span class="o">=</span><span class="n">overhead_cost</span><span class="p">,</span> <span class="n">extra_stack_items</span><span class="o">=</span><span class="n">extra_stack_items</span>

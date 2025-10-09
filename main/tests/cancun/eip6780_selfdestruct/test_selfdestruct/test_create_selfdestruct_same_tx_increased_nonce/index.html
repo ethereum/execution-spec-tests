@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_create_selfdestruct_same_tx_increased_nonce"><code>test_create_selfdestruct_same_tx_increased_nonce()</code><a class="headerlink" href="#test_create_selfdestruct_same_tx_increased_nonce" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L1188"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L1188"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce --fork Osaka</span>
@@ -29450,7 +29450,7 @@ creation.</p>
     <span class="n">create_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">call_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">selfdestruct_contract_initial_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verify that a contract can self-destruct if it was created in the same</span>
 <span class="sd">    transaction, even when its nonce has been increased due to contract</span>

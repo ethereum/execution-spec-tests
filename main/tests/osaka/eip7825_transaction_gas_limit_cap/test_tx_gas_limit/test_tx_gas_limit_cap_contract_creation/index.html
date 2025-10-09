@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_tx_gas_limit_cap_contract_creation"><code>test_tx_gas_limit_cap_contract_creation()</code><a class="headerlink" href="#test_tx_gas_limit_cap_contract_creation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L359"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_contract_creation@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L359"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_contract_creation@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_contract_creation --fork Osaka</span>
@@ -29330,7 +29330,7 @@
     <span class="n">total_cost_floor_per_token</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">exceed_tx_gas_limit</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the transaction gas limit cap behavior for contract creation.&quot;&quot;&quot;</span>
     <span class="n">intrinsic_cost</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
     <span class="n">tx_gas_limit_cap</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_gas_limit_cap</span><span class="p">()</span>

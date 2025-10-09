@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_set_code_to_self_caller"><code>test_set_code_to_self_caller()</code><a class="headerlink" href="#test_set_code_to_self_caller" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L632"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_caller@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L632"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_caller@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_caller --fork Osaka</span>
@@ -29337,7 +29337,7 @@
     <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the executing a self-call in a set-code transaction.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;value&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">call_opcode</span><span class="o">.</span><span class="n">kwargs</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Call opcode </span><span class="si">{</span><span class="n">call_opcode</span><span class="si">}</span><span class="s2"> does not support value&quot;</span><span class="p">)</span>

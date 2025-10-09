@@ -29239,7 +29239,7 @@
 
 
 <h1 id="test_push0_contracts"><code>test_push0_contracts()</code><a class="headerlink" href="#test_push0_contracts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/82408b48691b22832c0a206b89eb8a758f8a36f0/tests/shanghai/eip3855_push0/test_push0.py#L31"><code>tests/shanghai/eip3855_push0/test_push0.py::test_push0_contracts@82408b48</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca37419a162757c644c61829331321e36243547b/tests/shanghai/eip3855_push0/test_push0.py#L31"><code>tests/shanghai/eip3855_push0/test_push0.py::test_push0_contracts@ca37419a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3855_push0/test_push0.py::test_push0_contracts --fork Osaka</span>
@@ -29370,7 +29370,7 @@
     <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">contract_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
     <span class="n">expected_storage</span><span class="p">:</span> <span class="n">Account</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests PUSH0 within various deployed contracts.&quot;&quot;&quot;</span>
     <span class="n">push0_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">contract_code</span><span class="p">)</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">push0_contract</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">)</span>
