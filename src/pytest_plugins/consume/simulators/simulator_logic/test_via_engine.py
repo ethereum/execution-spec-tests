@@ -39,7 +39,7 @@ def test_blockchain_via_engine(
     engine_rpc: EngineRPC,
     fixture: BlockchainEngineFixture,
     strict_exception_matching: bool,
-):
+) -> None:
     """
     1. Check the client genesis block hash matches
        `fixture.genesis.block_hash`.
@@ -79,6 +79,7 @@ def test_blockchain_via_engine(
     with timing_data.time("Get genesis block"):
         logger.info("Calling getBlockByNumber to get genesis block...")
         genesis_block = eth_rpc.get_block_by_number(0)
+        assert genesis_block is not None, "genesis_block is None"
         if genesis_block["hash"] != str(fixture.genesis.block_hash):
             expected = fixture.genesis.block_hash
             got = genesis_block["hash"]

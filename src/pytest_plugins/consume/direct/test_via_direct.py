@@ -14,7 +14,7 @@ def test_fixture(
     fixture_consumer: FixtureConsumer,
     fixture_path: Path,
     test_dump_dir: Path | None,
-):
+) -> None:
     """
     Generic test function used to call the fixture consumer with a given
     fixture file path and a fixture name (for a single test run).

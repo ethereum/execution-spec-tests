@@ -24,9 +24,9 @@ pytest_plugins = (
 )
 
 
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """Set the supported fixture formats for the engine simulator."""
-    config._supported_fixture_formats = [BlockchainEngineFixture.format_name]
+    config.supported_fixture_formats = [BlockchainEngineFixture]  # type: ignore[attr-defined]
 
 
 @pytest.fixture(scope="function")

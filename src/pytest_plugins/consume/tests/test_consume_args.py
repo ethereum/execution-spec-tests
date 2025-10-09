@@ -125,7 +125,7 @@ def test_fixtures(pytester: Pytester, fixtures_dir: Path, fill_tests: None) -> L
 
 
 @pytest.fixture(autouse=True)
-def copy_consume_test_paths(pytester: Pytester):
+def copy_consume_test_paths(pytester: Pytester) -> None:
     """Specify and copy the consume test paths to the testdir."""
     local_test_paths = [Path("src/pytest_plugins/consume/direct/test_via_direct.py")]
     for test_path in local_test_paths:

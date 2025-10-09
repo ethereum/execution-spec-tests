@@ -8,7 +8,7 @@ import tarfile
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 from urllib.parse import urlparse
 
 import platformdirs
@@ -17,7 +17,7 @@ import requests
 import rich
 
 from cli.gen_index import generate_fixtures_index
-from ethereum_test_fixtures import BaseFixture
+from ethereum_test_fixtures import BaseFixture, FixtureFormat
 from ethereum_test_fixtures.consume import IndexFile, TestCases
 from ethereum_test_forks import get_forks, get_relative_fork_markers, get_transition_forks
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
@@ -296,7 +296,7 @@ class SimLimitBehavior:
         return cls(pattern=pattern)
 
 
-def pytest_addoption(parser):  # noqa: D103
+def pytest_addoption(parser: pytest.Parser) -> None:  # noqa: D103
     consume_group = parser.getgroup(
         "consume", "Arguments related to consuming fixtures via a client"
     )
@@ -365,7 +365,7 @@ def pytest_addoption(parser):  # noqa: D103
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):  # noqa: D103
+def pytest_configure(config: pytest.Config) -> None:  # noqa: D103
     """
     Pytest hook called after command line options have been parsed and before
     test collection begins.
@@ -377,61 +377,60 @@ def pytest_configure(config):  # noqa: D103
     # Validate --extract-to usage
     if config.option.extract_to_folder is not None and "cache" not in sys.argv:
         pytest.exit("The --extract-to flag is only valid with the 'cache' command.")
-
+    fixtures_source: FixturesSource
     if config.option.fixtures_source is None:
         # NOTE: Setting the default value here is necessary for correct
         # stdin/piping behavior.
-        config.fixtures_source = FixturesSource(
-            input_option=default_input(), path=Path(default_input())
-        )
+        fixtures_source = FixturesSource(input_option=default_input(), path=Path(default_input()))
     else:
         # NOTE: Setting `type=FixturesSource.from_input` in pytest_addoption()
         # causes the option to be evaluated twice which breaks the result of
         # `was_cached`; the work-around is to call it manually here.
-        config.fixtures_source = FixturesSource.from_input(
+        fixtures_source = FixturesSource.from_input(
             config.option.fixtures_source,
             Path(config.option.fixture_cache_folder),
             Path(config.option.extract_to_folder)
             if config.option.extract_to_folder is not None
             else None,
         )
-    config.fixture_source_flags = ["--input", config.fixtures_source.input_option]
+    config.fixtures_source = fixtures_source  # type: ignore[attr-defined]
+    config.fixture_source_flags = ["--input", fixtures_source.input_option]  # type: ignore[attr-defined]
 
-    if "cache" in sys.argv and not config.fixtures_source:
+    if "cache" in sys.argv and not fixtures_source:
         pytest.exit("The --input flag is required when using the cache command.")
 
     if "cache" in sys.argv:
         reason = ""
-        if config.fixtures_source.extract_to_local_path:
+        if fixtures_source.extract_to_local_path:
             reason += "Fixtures downloaded and extracted to specified directory."
-        elif config.fixtures_source.was_cached:
+        elif fixtures_source.was_cached:
             reason += "Fixtures already cached."
-        elif not config.fixtures_source.is_local:
+        elif not fixtures_source.is_local:
             reason += "Fixtures downloaded and cached."
-        reason += f"\nPath: {config.fixtures_source.path}"
-        reason += f"\nInput: {config.fixtures_source.url or config.fixtures_source.path}"
-        if config.fixtures_source.release_page:
-            reason += f"\nRelease page: {config.fixtures_source.release_page}"
+        reason += f"\nPath: {fixtures_source.path}"
+        reason += f"\nInput: {fixtures_source.url or fixtures_source.path}"
+        if fixtures_source.release_page:
+            reason += f"\nRelease page: {fixtures_source.release_page}"
         pytest.exit(
             returncode=0,
             reason=reason,
         )
 
-    if config.fixtures_source.is_stdin:
-        config.test_cases = TestCases.from_stream(sys.stdin)
+    if fixtures_source.is_stdin:
+        config.test_cases = TestCases.from_stream(sys.stdin)  # type: ignore[attr-defined]
         return
-    index_file = config.fixtures_source.path / ".meta" / "index.json"
+    index_file = fixtures_source.path / ".meta" / "index.json"
     index_file.parent.mkdir(parents=True, exist_ok=True)
     if not index_file.exists():
         rich.print(f"Generating index file [bold cyan]{index_file}[/]...")
         generate_fixtures_index(
-            config.fixtures_source.path,
+            fixtures_source.path,
             quiet_mode=False,
             force_flag=False,
         )
 
     index = IndexFile.model_validate_json(index_file.read_text())
-    config.test_cases = index.test_cases
+    config.test_cases = index.test_cases  # type: ignore[attr-defined]
 
     for fixture_format in BaseFixture.formats.values():
         config.addinivalue_line(
@@ -465,14 +464,14 @@ def pytest_configure(config):  # noqa: D103
         config.option.htmlpath = Path(default_html_report_file_path())
 
 
-def pytest_html_report_title(report):
+def pytest_html_report_title(report: Any) -> None:
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Consume Test Report"
 
 
-def pytest_report_header(config):
+def pytest_report_header(config: pytest.Config) -> List[str]:
     """Add the consume version and fixtures source to the report header."""
-    source = config.fixtures_source
+    source = config.fixtures_source  # type: ignore[attr-defined]
     lines = [
         f"consume ref: {get_current_commit_hash_or_tag()}",
         f"fixtures: {source.path}",
@@ -484,17 +483,17 @@ def pytest_report_header(config):
 
 
 @pytest.fixture(scope="session")
-def fixture_source_flags(request) -> List[str]:
+def fixture_source_flags(request: pytest.FixtureRequest) -> List[str]:
     """Return the input flags used to specify the JSON test fixtures source."""
-    return request.config.fixture_source_flags
+    return request.config.fixture_source_flags  # type: ignore[attr-defined]
 
 
 @pytest.fixture(scope="session")
-def fixtures_source(request) -> FixturesSource:  # noqa: D103
-    return request.config.fixtures_source
+def fixtures_source(request: pytest.FixtureRequest) -> FixturesSource:  # noqa: D103
+    return request.config.fixtures_source  # type: ignore[attr-defined]
 
 
-def pytest_generate_tests(metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """
     Generate test cases for every test fixture in all the JSON fixture files
     within the specified fixtures directory, or read from stdin if the
@@ -503,10 +502,13 @@ def pytest_generate_tests(metafunc):
     if "cache" in sys.argv:
         return
 
-    test_cases = metafunc.config.test_cases
+    test_cases = metafunc.config.test_cases  # type: ignore[attr-defined]
+    supported_fixture_formats: List[FixtureFormat] = getattr(
+        metafunc.config, "supported_fixture_formats", []
+    )
     param_list = []
     for test_case in test_cases:
-        if test_case.format.format_name not in metafunc.config._supported_fixture_formats:
+        if test_case.format not in supported_fixture_formats:
             continue
         fork_markers = get_relative_fork_markers(test_case.fork, strict_mode=False)
         param = pytest.param(
@@ -522,6 +524,6 @@ def pytest_generate_tests(metafunc):
     if "client_type" in metafunc.fixturenames:
         metafunc.parametrize(
             "client_type",
-            metafunc.config.hive_execution_clients,
-            ids=[client.name for client in metafunc.config.hive_execution_clients],
+            metafunc.config.hive_execution_clients,  # type: ignore[attr-defined]
+            ids=[client.name for client in metafunc.config.hive_execution_clients],  # type: ignore[attr-defined]
         )
