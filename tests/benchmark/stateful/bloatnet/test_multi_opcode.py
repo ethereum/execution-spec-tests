@@ -61,7 +61,7 @@ def test_bloatnet_balance_extcodesize(
     fork: Fork,
     gas_benchmark_value: int,
     balance_first: bool,
-):
+) -> None:
     """
     BloatNet test using BALANCE + EXTCODESIZE with "on-the-fly" CREATE2
     address generation.
@@ -201,7 +201,7 @@ def test_bloatnet_balance_extcodecopy(
     fork: Fork,
     gas_benchmark_value: int,
     balance_first: bool,
-):
+) -> None:
     """
     BloatNet test using BALANCE + EXTCODECOPY with on-the-fly CREATE2
     address generation.
@@ -350,7 +350,7 @@ def test_bloatnet_balance_extcodehash(
     fork: Fork,
     gas_benchmark_value: int,
     balance_first: bool,
-):
+) -> None:
     """
     BloatNet test using BALANCE + EXTCODEHASH with on-the-fly CREATE2
     address generation.

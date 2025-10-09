@@ -66,7 +66,7 @@ def test_worst_calldatacopy(
     fixed_src_dst: bool,
     non_zero_data: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block filled with CALLDATACOPY executions."""
     if size == 0 and non_zero_data:
         pytest.skip("Non-zero data with size 0 is not applicable.")
@@ -149,7 +149,7 @@ def test_worst_codecopy(
     max_code_size_ratio: float,
     fixed_src_dst: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block filled with CODECOPY executions."""
     max_code_size = fork.max_code_size()
 
@@ -204,7 +204,7 @@ def test_worst_returndatacopy(
     size: int,
     fixed_dst: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block filled with RETURNDATACOPY executions."""
     max_code_size = fork.max_code_size()
 
@@ -289,7 +289,7 @@ def test_worst_mcopy(
     size: int,
     fixed_src_dst: bool,
     gas_benchmark_value: int,
-):
+) -> None:
     """Test running a block filled with MCOPY executions."""
     max_code_size = fork.max_code_size()
 
