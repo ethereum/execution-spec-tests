@@ -310,7 +310,7 @@ class PreAllocFork(PrePreAllocFork):
         return {"test2": "test2"} | super(PreAllocFork, cls).pre_allocation()
 
 
-@transition_fork(to_fork=PreAllocFork, at_timestamp=15_000)  # type: ignore
+@transition_fork(to_fork=PreAllocFork, at_timestamp=15_000)
 class PreAllocTransitionFork(PrePreAllocFork):
     """PrePreAllocFork to PreAllocFork transition at Timestamp 15k."""
 

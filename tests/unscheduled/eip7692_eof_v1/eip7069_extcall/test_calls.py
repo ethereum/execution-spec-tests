@@ -217,10 +217,10 @@ def test_legacy_calls_eof_mstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: LEGACY_CALL_SUCCESS,  # type: ignore
-        slot_returndatasize: len(value_returndata_magic),  # type: ignore
-        slot_returndata: value_returndata_magic,  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: LEGACY_CALL_SUCCESS,
+        slot_returndatasize: len(value_returndata_magic),
+        slot_returndata: value_returndata_magic,
     }
 
     post = {
@@ -345,10 +345,10 @@ def test_eof_calls_eof_mstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: EXTCALL_SUCCESS,  # type: ignore
-        slot_returndatasize: 0x20,  # type: ignore
-        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS,
+        slot_returndatasize: 0x20,
+        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),
     }
 
     post = {
@@ -474,8 +474,8 @@ def test_eof_calls_legacy_sstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: EXTCALL_SUCCESS,  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS,
     }
     destination_storage = {}
 
@@ -541,10 +541,10 @@ def test_eof_calls_legacy_mstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: EXTCALL_SUCCESS,  # type: ignore
-        slot_returndatasize: 0x20,  # type: ignore
-        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS,
+        slot_returndatasize: 0x20,
+        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),
     }
 
     if opcode == Op.EXTDELEGATECALL:
@@ -955,7 +955,7 @@ def test_eof_calls_min_callee_gas(
 
     # `no_oog_gas` is minimum amount of gas_limit which makes the transaction
     # not go oog.
-    push_operations = 3 + len(opcode.kwargs)  # type: ignore
+    push_operations = 3 + len(opcode.kwargs)
     no_oog_gas = (
         21_000
         + 20_000  # SSTORE

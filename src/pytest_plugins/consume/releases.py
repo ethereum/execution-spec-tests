@@ -166,7 +166,7 @@ def is_release_url(input_str: str) -> bool:
 
 def parse_release_information(release_information: List) -> List[ReleaseInformation]:
     """Parse the release information from the Github API."""
-    return Releases.model_validate(release_information).root  # type: ignore
+    return Releases.model_validate(release_information).root
 
 
 def download_release_information(destination_file: Path | None) -> List[ReleaseInformation]:

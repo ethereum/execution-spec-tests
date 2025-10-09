@@ -644,7 +644,7 @@ def test_zero_amount(
         pre=pre,
         # TODO: Fix in BlockchainTest? post: Mapping[str, Account | object]
         # to allow for Account.NONEXISTENT
-        post=post,  # type: ignore
+        post=post,
         blocks=[Block(withdrawals=withdrawals)],
         tag=test_case.value,
     )

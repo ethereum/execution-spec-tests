@@ -105,7 +105,7 @@ def precompile_caller_code(
     )
     if call_type == Op.CALL or call_type == Op.CALLCODE:
         # https://github.com/ethereum/execution-spec-tests/issues/348
-        precompile_caller_code += call_type(  # type: ignore
+        precompile_caller_code += call_type(
             call_gas,
             Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS,
             0x00,
@@ -118,7 +118,7 @@ def precompile_caller_code(
     elif call_type == Op.DELEGATECALL or call_type == Op.STATICCALL:
         # Delegatecall and staticcall use one less argument
         # https://github.com/ethereum/execution-spec-tests/issues/348
-        precompile_caller_code += call_type(  # type: ignore
+        precompile_caller_code += call_type(
             call_gas,
             Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS,
             0x00,

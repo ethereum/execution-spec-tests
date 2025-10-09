@@ -114,7 +114,7 @@ def create_genesis_from_fixture(fixture_path: Path) -> Tuple[FixtureHeader, Allo
         chain_id = int(fixture.config.chain_id)
     else:
         pre_alloc_group = PreAllocGroup.model_validate(fixture_json)
-        genesis = pre_alloc_group.genesis  # type: ignore
+        genesis = pre_alloc_group.genesis
         alloc = pre_alloc_group.pre
 
     return genesis, alloc, chain_id

@@ -669,7 +669,7 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and config.filling_session.phase_manager.current_phase  # type: ignore[attr-defined]
+        and config.filling_session.phase_manager.current_phase
         != FixtureFillingPhase.PRE_ALLOC_GENERATION
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
@@ -1484,7 +1484,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         session_instance.save_pre_alloc_groups()
         return
 
-    if session.config.getoption("optimize_gas", False):  # type: ignore[attr-defined]
+    if session.config.getoption("optimize_gas", False):
         output_file = Path(session.config.getoption("optimize_gas_output"))
         lock_file_path = output_file.with_suffix(".lock")
         assert hasattr(session.config, "gas_optimized_tests")

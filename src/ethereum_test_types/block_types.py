@@ -120,7 +120,7 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     bal_hash: Hash | None = Field(None)
     block_access_lists: Bytes | None = Field(None)
 
-    @computed_field  # type: ignore[misc]
+    @computed_field  # type: ignore[prop-decorator]
     @cached_property
     def parent_hash(self) -> Hash | None:
         """

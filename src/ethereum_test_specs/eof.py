@@ -119,7 +119,7 @@ class EOFExceptionMismatchError(EOFBaseExceptionError):
 
 
 class EOFExceptionWithMessage(
-    ExceptionWithMessage[EOFException]  # type: ignore
+    ExceptionWithMessage[EOFException]
 ):
     """Exception returned from the eof validator with a message."""
 

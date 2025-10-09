@@ -41,7 +41,7 @@ def recursive_sort(item: Dict[str, Any] | List[Any]) -> Dict[str, Any] | List[An
         return dict(sorted((k, recursive_sort(v)) for k, v in item.items()))
     elif isinstance(item, list):
         try:
-            return sorted(cast(List[Any], [recursive_sort(x) for x in item]))
+            return sorted(cast(List[Any], [recursive_sort(x) for x in item]))  # type: ignore[redundant-cast]
         except TypeError:
             # If a TypeError is raised, we might be dealing with a list of
             # dictionaries Sort them based on their string representation

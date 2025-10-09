@@ -9,7 +9,7 @@ import textwrap
 from pathlib import Path
 from typing import ClassVar, Dict, Optional
 
-import requests  # type: ignore
+import requests
 
 from ethereum_test_exceptions import (
     BlockException,

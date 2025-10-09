@@ -871,7 +871,7 @@ def test_fill_blockchain_invalid_txs(
     )
 
     fixture_format: FixtureFormat = (
-        BlockchainEngineFixture if check_hive else BlockchainFixture  # type: ignore
+        BlockchainEngineFixture if check_hive else BlockchainFixture
     )
     generated_fixture = BlockchainTest(
         pre=pre,

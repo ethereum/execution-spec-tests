@@ -2,7 +2,7 @@
 
 import re
 
-from git import InvalidGitRepositoryError, Repo  # type: ignore
+from git import InvalidGitRepositoryError, Repo
 
 
 def get_current_commit_hash_or_tag(repo_path=".", shorten_hash=False):

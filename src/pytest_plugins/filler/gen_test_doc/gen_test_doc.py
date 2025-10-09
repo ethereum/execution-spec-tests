@@ -48,7 +48,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Set, Tuple, cast
 
-import mkdocs_gen_files  # type: ignore
+import mkdocs_gen_files
 import pytest
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from pytest import Item
