@@ -873,7 +873,7 @@ def test_account_warming(
     """
     # Overhead cost is the single push operation required for the address to
     # check.
-    overhead_cost = 3 * len(Op.CALL.kwargs)  # type: ignore
+    overhead_cost = 3 * len(Op.CALL.kwargs)
 
     cold_account_cost = 2600
     warm_account_cost = 100
@@ -1080,7 +1080,7 @@ def test_self_set_code_cost(
 
     slot_call_cost = 1
 
-    overhead_cost = 3 * len(Op.CALL.kwargs)  # type: ignore
+    overhead_cost = 3 * len(Op.CALL.kwargs)
 
     callee_code = CodeGasMeasure(
         code=Op.CALL(gas=0, address=auth_signer),
@@ -1152,7 +1152,7 @@ def test_call_to_pre_authorized_oog(
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     tx_gas_limit = (
         intrinsic_gas_cost_calculator()
-        + len(call_opcode.kwargs) * gas_costs.G_VERY_LOW  # type: ignore
+        + len(call_opcode.kwargs) * gas_costs.G_VERY_LOW
         + (gas_costs.G_COLD_ACCOUNT_ACCESS * 2)
         - 1
     )

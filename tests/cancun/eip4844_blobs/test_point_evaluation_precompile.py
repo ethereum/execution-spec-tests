@@ -145,7 +145,7 @@ def precompile_caller_code(call_opcode: Op, call_gas: int) -> Bytecode:
     precompile_caller_code += Op.SSTORE(
         key_call_return_code,
         # https://github.com/ethereum/execution-spec-tests/issues/348
-        call_opcode(  # type: ignore
+        call_opcode(
             gas=call_gas,
             address=Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS,
             args_offset=0x00,

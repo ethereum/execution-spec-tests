@@ -440,9 +440,7 @@ def pytest_configure(config):  # noqa: D103
         )
 
     # All forked defined within EEST
-    all_forks = {  # type: ignore
-        fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
-    }
+    all_forks = {fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()}
     # Append all forks within the index file (compatibility with
     # `ethereum/tests`)
     all_forks.update(getattr(index, "forks", []))

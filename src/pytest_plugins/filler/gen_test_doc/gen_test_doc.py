@@ -48,7 +48,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Set, Tuple, cast
 
-import mkdocs_gen_files  # type: ignore
+import mkdocs_gen_files  # type: ignore[unused-ignore, import-not-found]
 import pytest
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from pytest import Item
@@ -648,4 +648,4 @@ class TestDocsGenerator:
     def write_pages(self) -> None:
         """Write all pages to the target directory."""
         for page in self.page_props.values():
-            page.write_page(mkdocs_gen_files, self.jinja2_env)  # type: ignore[arg-type]
+            page.write_page(mkdocs_gen_files, self.jinja2_env)  # type: ignore[arg-type, unused-ignore]

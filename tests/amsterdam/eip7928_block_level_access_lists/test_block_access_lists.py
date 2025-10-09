@@ -947,6 +947,109 @@ def test_bal_zero_value_transfer(
     blockchain_test(pre=pre, blocks=[block], post={})
 
 
+@pytest.mark.parametrize(
+    "initial_balance,transfer_amount,transfer_mechanism",
+    [
+        pytest.param(0, 0, "call", id="zero_balance_zero_transfer_call"),
+        pytest.param(0, 0, "selfdestruct", id="zero_balance_zero_transfer_selfdestruct"),
+        pytest.param(1, 1, "call", id="nonzero_balance_net_zero"),
+        pytest.param(100, 50, "call", id="larger_balance_net_zero"),
+    ],
+)
+def test_bal_net_zero_balance_transfer(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    initial_balance: int,
+    transfer_amount: int,
+    transfer_mechanism: str,
+):
+    """
+    Test that BAL does not record balance changes when net change is zero.
+
+    A contract starts with `initial_balance`, receives `transfer_amount`
+    (increasing its balance), then sends `transfer_amount` to a recipient
+    (decreasing its balance back to `initial_balance`). The net change is zero,
+    so BAL should not record any balance changes for this contract.
+
+    The contract verifies this by reading its own balance with SELFBALANCE,
+    storing it in slot 0, then sending that amount to the recipient.
+    """
+    alice = pre.fund_eoa()
+    recipient = pre.fund_eoa(amount=0)
+
+    net_zero_bal_contract_code = (
+        Op.SSTORE(0, Op.SELFBALANCE) + Op.SELFDESTRUCT(recipient)
+        if transfer_mechanism == "selfdestruct"
+        # store current balance in slot 0
+        else (
+            Op.SSTORE(0, Op.SELFBALANCE)
+            # send only the `transfer_amount` received to recipient (net zero)
+            + Op.CALL(0, recipient, Op.CALLVALUE, 0, 0, 0, 0)
+            + Op.STOP
+        )
+    )
+    net_zero_bal_contract = pre.deploy_contract(
+        code=net_zero_bal_contract_code, balance=initial_balance
+    )
+
+    tx = Transaction(
+        sender=alice,
+        to=net_zero_bal_contract,
+        value=transfer_amount,
+        gas_limit=1_000_000,
+        gas_price=0xA,
+    )
+
+    expected_balance_in_slot = initial_balance + transfer_amount
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                net_zero_bal_contract: BalAccountExpectation(
+                    # receives transfer_amount and sends transfer_amount away
+                    # (net-zero change)
+                    balance_changes=[],
+                    storage_reads=[0x00] if expected_balance_in_slot == 0 else [],
+                    storage_changes=[
+                        BalStorageSlot(
+                            slot=0x00,
+                            slot_changes=[
+                                BalStorageChange(tx_index=1, post_value=expected_balance_in_slot)
+                            ],
+                        )
+                    ]
+                    if expected_balance_in_slot > 0
+                    else [],
+                ),
+                # recipient receives transfer_amount
+                recipient: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=transfer_amount)]
+                    if transfer_amount > 0
+                    else [],
+                ),
+            }
+        ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={
+            net_zero_bal_contract: Account(
+                balance=initial_balance,
+                storage={0x00: expected_balance_in_slot} if expected_balance_in_slot > 0 else {},
+            ),
+            recipient: Account(balance=transfer_amount)
+            if transfer_amount > 0
+            else Account.NONEXISTENT,
+        },
+    )
+
+
 def test_bal_pure_contract_call(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,

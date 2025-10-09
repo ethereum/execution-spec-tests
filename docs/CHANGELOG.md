@@ -43,6 +43,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add EIP-7928 successful and OOG single-opcode tests ([#2118](https://github.com/ethereum/execution-spec-tests/pull/2118)).
 - ✨ Add EIP-7928 tests for EIP-2930 interactions ([#2167](https://github.com/ethereum/execution-spec-tests/pull/2167)).
 - ✨ Add EIP-7928 tests for NOOP operations ([#2178](https://github.com/ethereum/execution-spec-tests/pull/2178)).
+- ✨ Add EIP-7928 tests for net-zero balance transfers ([#2280](https://github.com/ethereum/execution-spec-tests/pull/2280)).
 
 ## [v5.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v5.0.0) - 2025-09-05
 

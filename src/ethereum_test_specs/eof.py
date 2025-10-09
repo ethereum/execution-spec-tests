@@ -118,9 +118,7 @@ class EOFExceptionMismatchError(EOFBaseExceptionError):
         super().__init__(message)
 
 
-class EOFExceptionWithMessage(
-    ExceptionWithMessage[EOFException]  # type: ignore
-):
+class EOFExceptionWithMessage(ExceptionWithMessage[EOFException]):
     """Exception returned from the eof validator with a message."""
 
     pass

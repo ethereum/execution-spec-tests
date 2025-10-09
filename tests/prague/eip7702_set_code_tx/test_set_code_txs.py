@@ -266,9 +266,18 @@ def test_set_code_to_non_empty_storage_non_zero_nonce(
     )
 
 
+@pytest.mark.parametrize(
+    "access_list_in_tx",
+    [
+        pytest.param(None, id=""),
+        pytest.param("sender", id="sender_in_access_list"),
+        pytest.param("auth_signer", id="auth_signer_in_access_list"),
+    ],
+)
 def test_set_code_to_sstore_then_sload(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    access_list_in_tx: str | None,
 ):
     """
     Test the executing a simple SSTORE then SLOAD in two separate set-code
@@ -301,6 +310,16 @@ def test_set_code_to_sstore_then_sload(
         sender=sender,
     )
 
+    access_list = (
+        [
+            AccessList(
+                address=sender if access_list_in_tx == "sender" else auth_signer,
+                storage_keys=[Hash(storage_key_1)],
+            )
+        ]
+        if access_list_in_tx
+        else []
+    )
     tx_2 = Transaction(
         gas_limit=100_000,
         to=auth_signer,
@@ -312,6 +331,7 @@ def test_set_code_to_sstore_then_sload(
                 signer=auth_signer,
             ),
         ],
+        access_list=access_list,
         sender=sender,
     )
 
@@ -1249,7 +1269,7 @@ def test_set_code_address_and_authority_warm_state(
     set_code_to_address = pre.deploy_contract(set_code)
 
     call_opcode = Op.CALL
-    overhead_cost = 3 * len(call_opcode.kwargs)  # type: ignore
+    overhead_cost = 3 * len(call_opcode.kwargs)
     if call_opcode == Op.CALL:
         overhead_cost -= 1  # GAS opcode is less expensive than a PUSH
 

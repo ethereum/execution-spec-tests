@@ -39,7 +39,7 @@ def transition_fork(to_fork: Type[BaseFork], at_block: int = 0, at_timestamp: in
         assert issubclass(from_fork, BaseFork)
 
         class NewTransitionClass(
-            cls,  # type: ignore
+            cls,
             TransitionBaseClass,
             BaseFork,
             transition_tool_name=cls._transition_tool_name,

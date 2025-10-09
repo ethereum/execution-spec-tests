@@ -101,7 +101,7 @@ def contract_call_code(call_type: Op, call_value: int, call_gas: int) -> Bytecod
         contract_call_code += Op.SSTORE(
             0x00,  # store the result of the contract call in storage[0]
             # https://github.com/ethereum/execution-spec-tests/issues/348
-            call_type(  # type: ignore
+            call_type(
                 call_gas,
                 Spec.BEACON_ROOTS_ADDRESS,
                 call_value,
@@ -116,7 +116,7 @@ def contract_call_code(call_type: Op, call_value: int, call_gas: int) -> Bytecod
         contract_call_code += Op.SSTORE(
             0x00,
             # https://github.com/ethereum/execution-spec-tests/issues/348
-            call_type(  # type: ignore
+            call_type(
                 call_gas,
                 Spec.BEACON_ROOTS_ADDRESS,
                 args_start,

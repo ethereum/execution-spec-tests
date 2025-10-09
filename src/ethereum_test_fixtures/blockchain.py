@@ -225,7 +225,7 @@ class FixtureHeader(CamelModel):
         """Compute the RLP of the header."""
         return Bytes(eth_rlp.encode(self.rlp_encode_list))
 
-    @computed_field(alias="hash")  # type: ignore[misc]
+    @computed_field(alias="hash")  # type: ignore[prop-decorator]
     @cached_property
     def block_hash(self) -> Hash:
         """Compute the RLP of the header."""
@@ -481,7 +481,7 @@ class FixtureBlockBase(CamelModel):
         None, description="EIP-7928 Block Access List"
     )
 
-    @computed_field(alias="blocknumber")  # type: ignore[misc]
+    @computed_field(alias="blocknumber")  # type: ignore[prop-decorator]
     @cached_property
     def block_number(self) -> Number:
         """Get the block number from the header."""

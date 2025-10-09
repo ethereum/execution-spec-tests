@@ -191,20 +191,18 @@ class EvmoneFixtureConsumerCommon:
             fixture_path=fixture_path,
             debug_output_path=debug_output_path,
         )
-        if not fixture_name:
-            fixture_hint = fixture_path.stem
-        else:
-            fixture_hint = fixture_name
-        assert file_results["tests"] == 1, f"Multiple tests ran for {fixture_hint}"
-        assert file_results["disabled"] == 0, f"Disabled tests for {fixture_hint}"
-        assert file_results["errors"] == 0, f"Errors during test for {fixture_hint}"
-        assert file_results["failures"] == 0, (
-            f"Failures for {fixture_hint}: {self._failure_msg(file_results)}"
-        )
+        assert len(file_results["testsuites"]) < 2, f"Multiple testsuites for {fixture_name}"
+        assert len(file_results["testsuites"]) == 1, f"testsuite for {fixture_name} missing"
+        test_suite = file_results["testsuites"][0]["testsuite"]
 
-        test_name = file_results["testsuites"][0]["testsuite"][0]["name"]
-        assert test_name == fixture_path.stem, (
-            f"Test name mismatch, expected {fixture_path.stem}, got {test_name}"
+        assert fixture_name is not None, "fixture_name must be provided for evmone tests"
+        test_results = [
+            test_result for test_result in test_suite if test_result["name"] == fixture_name
+        ]
+        assert len(test_results) < 2, f"Multiple test results for {fixture_name}"
+        assert len(test_results) == 1, f"Test result for {fixture_name} missing"
+        assert "failures" not in test_results[0], (
+            f"Test failed: {test_results[0]['failures'][0]['failure']}"
         )
 
 

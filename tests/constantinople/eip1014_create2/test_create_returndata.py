@@ -130,7 +130,7 @@ def test_create2_return_data(
                 # check that create 2 didn't mess up with initial memory space
                 # declared for return
                 slot_begin_memory_after_create: expected_returndatacopy,
-            }  # type: ignore
+            }
         )
     }
 
@@ -141,6 +141,6 @@ def test_create2_return_data(
         data=initcode,
         gas_limit=500_000,
         value=0,
-    )  # type: ignore
+    )
 
     state_test(pre=pre, post=post, tx=tx)
