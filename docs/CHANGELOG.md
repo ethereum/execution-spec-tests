@@ -34,6 +34,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🐞 Tighten up validation for empty lists on Block-Level Access List tests ([#2118](https://github.com/ethereum/execution-spec-tests/pull/2118)).
 - ✨ Added the `MemoryVariable` EVM abstraction to generate more readable bytecode when there's heavy use of variables that are stored in memory ([#1609](https://github.com/ethereum/execution-spec-tests/pull/1609)).
 - 🐞 Fix an issue with `test_bal_block_rewards` where the block base fee was wrongfully overridden ([#2262](https://github.com/ethereum/execution-spec-tests/pull/2262)).
+- ✨ Complete EIP checklist for EIP-7934 and update the checklist template to include block-level constraint checks ([#2282](https://github.com/ethereum/execution-spec-tests/pull/2282)).
 
 ### 🧪 Test Cases
 
@@ -44,6 +45,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add EIP-7928 tests for EIP-2930 interactions ([#2167](https://github.com/ethereum/execution-spec-tests/pull/2167)).
 - ✨ Add EIP-7928 tests for NOOP operations ([#2178](https://github.com/ethereum/execution-spec-tests/pull/2178)).
 - ✨ Add EIP-7928 tests for net-zero balance transfers ([#2280](https://github.com/ethereum/execution-spec-tests/pull/2280)).
+- ✨ Add fork transition test cases for EIP-7934 ([#2282](https://github.com/ethereum/execution-spec-tests/pull/2282)).
 
 ## [v5.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v5.0.0) - 2025-09-05
 
