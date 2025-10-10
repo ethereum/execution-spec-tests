@@ -343,7 +343,6 @@ def test_worst_create(
     max_code_size_ratio: float,
     non_zero_data: bool,
     value: int,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test the CREATE and CREATE2 performance with different configurations.
