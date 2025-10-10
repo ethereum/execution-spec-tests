@@ -174,7 +174,6 @@ ignore = [
 "tests/*" = ["ARG001"] # TODO: ethereum/execution-spec-tests#2188
 
 [tool.mypy]
-disable_error_code = ["import-untyped"]
 mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
 files = ["src", "tests"]
 exclude = [
