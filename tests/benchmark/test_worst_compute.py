@@ -1457,7 +1457,7 @@ def test_worst_binop_simple(
 
     setup = Op.CALLDATALOAD(0) + Op.CALLDATALOAD(32) + Op.DUP2 + Op.DUP2
     attack_block = Op.DUP2 + opcode
-    cleanup = Op.POP + Op.POP
+    cleanup = Op.POP + Op.POP + Op.DUP2 + Op.DUP2
     tx = JumpLoopGenerator(
         setup=setup, attack_block=attack_block, cleanup=cleanup
     ).generate_transaction(pre, gas_benchmark_value, fork)
@@ -1483,9 +1483,7 @@ def test_worst_unop(
     benchmark_test(
         pre=pre,
         post={},
-        code_generator=JumpLoopGenerator(
-            setup=Op.PUSH0, attack_block=opcode, cleanup=Op.POP + Op.PUSH0
-        ),
+        code_generator=JumpLoopGenerator(setup=Op.PUSH0, attack_block=opcode),
     )
 
 
