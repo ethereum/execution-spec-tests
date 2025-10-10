@@ -135,6 +135,7 @@ class PortedFromDisplay:
         items: List[pytest.Item],
     ) -> object:
         """Extract ported_from information from collected test items."""
+        del session
         yield
 
         # Only run on master node when using pytest-xdist
@@ -193,6 +194,7 @@ class PortedFromDisplay:
     @pytest.hookimpl(tryfirst=True)
     def pytest_runtestloop(self, session: pytest.Session) -> bool:
         """Skip test execution, only show ported_from information."""
+        del session
         return True
 
     def pytest_terminal_summary(
@@ -202,6 +204,7 @@ class PortedFromDisplay:
         config: pytest.Config,
     ) -> None:
         """Add a summary line."""
+        del exitstatus
         if config.getoption("verbose") < 0:
             return
         mode_desc = "PR URLs" if self.show_mode == "prs" else "static filler paths"

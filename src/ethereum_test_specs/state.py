@@ -180,6 +180,8 @@ class StateTest(BaseTest):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork
+
         if "state_test_only" in [m.name for m in markers]:
             return fixture_format != StateFixture
         return False
@@ -443,6 +445,8 @@ class StateTest(BaseTest):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
+        del fork
+
         if execute_format == TransactionPost:
             # Pass gas validation params for benchmark tests
             # If not benchmark mode, skip gas used validation

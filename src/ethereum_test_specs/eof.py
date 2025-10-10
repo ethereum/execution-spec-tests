@@ -308,6 +308,8 @@ class EOFTest(BaseTest):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork
+
         if "eof_test_only" in [m.name for m in markers]:
             return fixture_format != EOFFixture
         return False
@@ -493,6 +495,7 @@ class EOFTest(BaseTest):
 
     def generate_state_test(self, fork: Fork) -> StateTest:
         """Generate the StateTest filler."""
+        del fork
         return StateTest.from_test(
             base_test=self,
             pre=self.pre,
@@ -639,6 +642,8 @@ class EOFStateTest(EOFTest, Transaction):
 
     def generate_state_test(self, fork: Fork) -> StateTest:
         """Generate the StateTest filler."""
+        del fork
+
         assert self.pre is not None, "pre must be set to generate a StateTest."
         assert self.post is not None, "post must be set to generate a StateTest."
 

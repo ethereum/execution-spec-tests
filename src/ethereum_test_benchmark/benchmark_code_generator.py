@@ -21,7 +21,7 @@ class JumpLoopGenerator(BenchmarkCodeGenerator):
         code = self.generate_repeated_code(self.attack_block, self.setup, fork)
         self._contract_address = pre.deploy_contract(code=code)
 
-    def generate_transaction(self, pre: Alloc, gas_limit: int, fork: Fork) -> Transaction:
+    def generate_transaction(self, pre: Alloc, gas_limit: int) -> Transaction:
         """Generate transaction that executes the looping contract."""
         if not hasattr(self, "_contract_address"):
             raise ValueError("deploy_contracts must be called before generate_transaction")
@@ -68,7 +68,7 @@ class ExtCallGenerator(BenchmarkCodeGenerator):
         caller_code = self.generate_repeated_code(code_sequence, Bytecode(), fork)
         self._contract_address = pre.deploy_contract(code=caller_code)
 
-    def generate_transaction(self, pre: Alloc, gas_limit: int, fork: Fork) -> Transaction:
+    def generate_transaction(self, pre: Alloc, gas_limit: int) -> Transaction:
         """Generate transaction that executes the caller contract."""
         if not hasattr(self, "_contract_address"):
             raise ValueError("deploy_contracts must be called before generate_transaction")

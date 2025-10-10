@@ -35,7 +35,7 @@ class JSONRPCError(Exception):
     code: int
     message: str
 
-    def __init__(self, code: int | str, message: str, **kwargs: Any) -> None:
+    def __init__(self, code: int | str, message: str) -> None:
         """Initialize the JSONRPCError."""
         self.code = int(code)
         self.message = message

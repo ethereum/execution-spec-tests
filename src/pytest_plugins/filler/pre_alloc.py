@@ -158,6 +158,8 @@ class Alloc(BaseAlloc):
         hard-code the contract address. Do NOT use in new tests as it will be
         removed in the future!
         """
+        del stub
+
         if storage is None:
             storage = {}
         if address is not None:
@@ -216,6 +218,8 @@ class Alloc(BaseAlloc):
         If amount is 0, nothing will be added to the pre-alloc but a new and
         unique EOA will be returned.
         """
+        del label
+
         eoa = next(self._eoa_iterator)
         if amount is None:
             amount = self._eoa_fund_amount_default

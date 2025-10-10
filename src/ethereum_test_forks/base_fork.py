@@ -780,6 +780,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         Return fork at the given block number and timestamp. Useful only for
         transition forks, and it's a no-op for normal forks.
         """
+        del block_number, timestamp
         return cls
 
     @classmethod

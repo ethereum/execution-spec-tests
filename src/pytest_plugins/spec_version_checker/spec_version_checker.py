@@ -160,7 +160,7 @@ class EIPSpecTestItem(Item):
           **kwargs: Additional keyword arguments
 
         """
-        super().__init__(name, parent)
+        super().__init__(name, parent, **kwargs)
         self.module = None  # type: ignore
         self.github_token = None
 

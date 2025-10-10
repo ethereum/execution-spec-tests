@@ -679,5 +679,6 @@ class BlockchainEngineSyncFixture(BlockchainEngineFixture):
         markers: List[pytest.Mark],
     ) -> bool:
         """Discard the fixture format based on the provided markers."""
+        del fork
         marker_names = [m.name for m in markers]
         return "verify_sync" not in marker_names

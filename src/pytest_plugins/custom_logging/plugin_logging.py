@@ -103,6 +103,8 @@ class UTCFormatter(logging.Formatter):
 
     def formatTime(self, record: LogRecord, datefmt: str | None = None) -> str:  # noqa: D102,N802
         # camelcase required
+        del datefmt
+
         dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
         return dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] + "+00:00"
 

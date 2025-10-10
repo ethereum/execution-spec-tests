@@ -298,6 +298,7 @@ class PrePreAllocFork(Shanghai):
     @classmethod
     def pre_allocation(cls, *, block_number: int = 0, timestamp: int = 0) -> Dict:
         """Return some starting point for allocation."""
+        del block_number, timestamp
         return {"test": "test"}
 
 
@@ -307,6 +308,7 @@ class PreAllocFork(PrePreAllocFork):
     @classmethod
     def pre_allocation(cls, *, block_number: int = 0, timestamp: int = 0) -> Dict:
         """Add allocation to the pre-existing one from previous fork."""
+        del block_number, timestamp
         return {"test2": "test2"} | super(PreAllocFork, cls).pre_allocation()
 
 

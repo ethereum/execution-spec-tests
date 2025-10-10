@@ -37,6 +37,8 @@ class TransactionPost(BaseExecute):
         request: FixtureRequest,
     ) -> None:
         """Execute the format."""
+        del fork
+        del engine_rpc
         assert not any(tx.ty == 3 for block in self.blocks for tx in block), (
             "Transaction type 3 is not supported in execute mode."
         )

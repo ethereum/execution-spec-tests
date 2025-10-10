@@ -481,7 +481,6 @@ class TestFillBlockchainValidTxs:
     @pytest.fixture
     def blockchain_test_fixture(  # noqa: D102
         self,
-        check_hive: bool,
         fork: Fork,
         pre: Mapping[Any, Any],
         post: Mapping[Any, Any],
@@ -502,7 +501,6 @@ class TestFillBlockchainValidTxs:
     def test_fill_blockchain_valid_txs(  # noqa: D102
         self,
         fork: Fork,
-        check_hive: bool,
         fixture_format: FixtureFormat,
         expected_json_file: str,
         blockchain_test_fixture: BlockchainFixture,

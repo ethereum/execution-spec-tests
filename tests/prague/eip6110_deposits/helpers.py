@@ -186,6 +186,7 @@ class DepositRequest(DepositRequestBase):
 
     def with_source_address(self, source_address: Address) -> "DepositRequest":
         """Return a copy."""
+        del source_address
         return self.copy()
 
 

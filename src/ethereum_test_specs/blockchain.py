@@ -442,6 +442,8 @@ class BlockchainTest(BaseTest):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork
+
         marker_names = [m.name for m in markers]
         if fixture_format != BlockchainFixture and "blockchain_test_only" in marker_names:
             return True
@@ -914,6 +916,8 @@ class BlockchainTest(BaseTest):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
+        del fork
+
         if execute_format == TransactionPost:
             blocks: List[List[Transaction]] = []
             for block in self.blocks:

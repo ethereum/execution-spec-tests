@@ -47,7 +47,7 @@ class BenchmarkCodeGenerator(ABC):
         ...
 
     @abstractmethod
-    def generate_transaction(self, pre: Alloc, gas_limit: int, fork: Fork) -> Transaction:
+    def generate_transaction(self, pre: Alloc, gas_limit: int) -> Transaction:
         """Generate a transaction with the specified gas limit."""
         ...
 
@@ -134,6 +134,8 @@ class BenchmarkTest(BaseTest):
         Discard a fixture format from filling if the
         appropriate marker is used.
         """
+        del fork
+
         if "blockchain_test_only" in [m.name for m in markers]:
             return fixture_format != BlockchainFixture
         if "blockchain_test_engine_only" in [m.name for m in markers]:
@@ -142,6 +144,7 @@ class BenchmarkTest(BaseTest):
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Get the genesis environment for this benchmark test."""
+        del fork
         return self.env
 
     def split_transaction(self, tx: Transaction, gas_limit_cap: int | None) -> List[Transaction]:
@@ -177,7 +180,7 @@ class BenchmarkTest(BaseTest):
 
         self.code_generator.deploy_contracts(self.pre, fork)
         gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
-        benchmark_tx = self.code_generator.generate_transaction(self.pre, gas_limit, fork)
+        benchmark_tx = self.code_generator.generate_transaction(self.pre, gas_limit)
 
         execution_txs = self.split_transaction(benchmark_tx, gas_limit)
         execution_block = Block(txs=execution_txs)
@@ -257,6 +260,8 @@ class BenchmarkTest(BaseTest):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Execute the benchmark test by sending it to the live network."""
+        del fork
+
         if execute_format == TransactionPost:
             return TransactionPost(
                 blocks=[[self.tx]],

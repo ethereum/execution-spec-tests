@@ -108,6 +108,8 @@ class BesuTransitionTool(TransitionTool):
         slow_request: bool = False,
     ) -> TransitionToolOutput:
         """Execute `evm t8n` with the specified arguments."""
+        del slow_request
+
         if not self.process:
             self.start_server()
 
