@@ -15,6 +15,7 @@ from ethereum_test_base_types import (
     Hash,
     HexNumber,
 )
+from ethereum_test_base_types.composite_types import ForkBlobSchedule
 from ethereum_test_exceptions import (
     BlockException,
     ExceptionMapperValidator,
@@ -259,6 +260,15 @@ class TransitionToolInput(CamelModel):
     alloc: Alloc
     txs: List[Transaction]
     env: Environment
+
+
+class TransitionToolCLIInput(CamelModel):
+    """Transition tool CLI input."""
+
+    alloc: Alloc
+    txs: List[Transaction]
+    env: Environment
+    blob_params: ForkBlobSchedule | None = None
 
 
 class TransitionToolOutput(CamelModel):

@@ -40,6 +40,7 @@ class EvmOneTransitionTool(TransitionTool):
     cached_version: Optional[str] = None
     trace: bool
     supports_opcode_count: ClassVar[bool] = True
+    supports_blob_params: ClassVar[bool] = True
 
     def __init__(
         self,
