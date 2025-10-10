@@ -30766,7 +30766,9 @@
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
-<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseFixture</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseFixture</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a base Ethereum test fixture of any type.&quot;&quot;&quot;</span>
 
     <span class="c1"># Base Fixture class properties</span>
@@ -30875,6 +30877,7 @@
 
 <span class="sd">        By default, all fixtures support all forks.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="n">fork</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@classmethod</span>
@@ -30887,6 +30890,7 @@
 <span class="sd">        Discard a fixture format from filling if the appropriate marker is</span>
 <span class="sd">        used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="n">fork</span><span class="p">,</span> <span class="n">markers</span>
         <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -31249,13 +31253,15 @@ as possible fixture formats.</p>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">supports_fork</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return whether the fixture can be generated for the given fork.</span>
 
 <span class="sd">    By default, all fixtures support all forks.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">fork</span>
     <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -31289,8 +31295,7 @@ used.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
-<span class="normal">162</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
@@ -31299,7 +31304,9 @@ used.</p>
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
-<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -31309,6 +31316,7 @@ used.</p>
 <span class="sd">    Discard a fixture format from filling if the appropriate marker is</span>
 <span class="sd">    used.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">fork</span><span class="p">,</span> <span class="n">markers</span>
     <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -31413,9 +31421,7 @@ to the generated test case when filling the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">176</span>
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
@@ -31465,7 +31471,9 @@ to the generated test case when filling the test.</p>
 <span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
-<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LabeledFixtureFormat</span><span class="p">:</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LabeledFixtureFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a fixture format with a custom label.</span>
 
@@ -31547,9 +31555,7 @@ to the generated test case when filling the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
@@ -31562,7 +31568,9 @@ to the generated test case when filling the test.</p>
 <span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="s2">&quot;Type[BaseFixture] | LabeledFixtureFormat&quot;</span><span class="p">,</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -31661,9 +31669,7 @@ fixture format will be compared with the format of the other object.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
@@ -31672,7 +31678,9 @@ fixture format will be compared with the format of the other object.</p>
 <span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
-<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if two labeled fixture formats are equal.</span>
 
@@ -32009,7 +32017,8 @@ duplicating large pre-allocations.</p>
 <span class="normal">680</span>
 <span class="normal">681</span>
 <span class="normal">682</span>
-<span class="normal">683</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineSyncFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixture</span><span class="p">):</span>
+<span class="normal">683</span>
+<span class="normal">684</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineSyncFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Engine Sync specific test fixture information.</span>
 
@@ -32032,6 +32041,7 @@ duplicating large pre-allocations.</p>
         <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Discard the fixture format based on the provided markers.&quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="n">fork</span>
         <span class="n">marker_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]</span>
         <span class="k">return</span> <span class="s2">&quot;verify_sync&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marker_names</span>
 </code></pre></div></td></tr></table></div>
@@ -32075,13 +32085,15 @@ duplicating large pre-allocations.</p>
 <span class="normal">680</span>
 <span class="normal">681</span>
 <span class="normal">682</span>
-<span class="normal">683</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">683</span>
+<span class="normal">684</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard the fixture format based on the provided markers.&quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">fork</span>
     <span class="n">marker_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]</span>
     <span class="k">return</span> <span class="s2">&quot;verify_sync&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marker_names</span>
 </code></pre></div></td></tr></table></div>

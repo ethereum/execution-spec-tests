@@ -35099,7 +35099,8 @@ in memory.</p>
 <span class="normal">345</span>
 <span class="normal">346</span>
 <span class="normal">347</span>
-<span class="normal">348</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Macro</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">348</span>
+<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Macro</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents opcode macro replacement, basically holds bytes.&quot;&quot;&quot;</span>
 
     <span class="n">lambda_operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
@@ -35124,6 +35125,7 @@ in memory.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args_t</span><span class="p">:</span> <span class="n">OpcodeCallArg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform macro operation if any. Otherwise is a no-op.&quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="n">kwargs</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span><span class="p">(</span><span class="o">*</span><span class="n">args_t</span><span class="p">)</span>
 
@@ -35228,8 +35230,10 @@ in memory.</p>
 <span class="normal">345</span>
 <span class="normal">346</span>
 <span class="normal">347</span>
-<span class="normal">348</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args_t</span><span class="p">:</span> <span class="n">OpcodeCallArg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="normal">348</span>
+<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args_t</span><span class="p">:</span> <span class="n">OpcodeCallArg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform macro operation if any. Otherwise is a no-op.&quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">kwargs</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span><span class="p">(</span><span class="o">*</span><span class="n">args_t</span><span class="p">)</span>
 
@@ -35283,8 +35287,7 @@ in memory.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcodes.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5907</span>
-<span class="normal">5908</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5908</span>
 <span class="normal">5909</span>
 <span class="normal">5910</span>
 <span class="normal">5911</span>
@@ -35335,7 +35338,8 @@ in memory.</p>
 <span class="normal">5956</span>
 <span class="normal">5957</span>
 <span class="normal">5958</span>
-<span class="normal">5959</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Macros</span><span class="p">(</span><span class="n">Macro</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">5959</span>
+<span class="normal">5960</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Macros</span><span class="p">(</span><span class="n">Macro</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum containing all macros.&quot;&quot;&quot;</span>
 
     <span class="n">OOG</span> <span class="o">=</span> <span class="n">Macro</span><span class="p">(</span><span class="n">Opcodes</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100000000000</span><span class="p">))</span>
@@ -36683,8 +36687,7 @@ within the test if iteration is needed.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcodes.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 429</span>
-<span class="normal"> 430</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 430</span>
 <span class="normal"> 431</span>
 <span class="normal"> 432</span>
 <span class="normal"> 433</span>
@@ -42091,7 +42094,8 @@ within the test if iteration is needed.</p>
 <span class="normal">5834</span>
 <span class="normal">5835</span>
 <span class="normal">5836</span>
-<span class="normal">5837</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">5837</span>
+<span class="normal">5838</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum containing all known opcodes.</span>
 
@@ -55396,8 +55400,7 @@ dynamic_gas = memory_expansion_cost</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcodes.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5962</span>
-<span class="normal">5963</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5963</span>
 <span class="normal">5964</span>
 <span class="normal">5965</span>
 <span class="normal">5966</span>
@@ -55485,7 +55488,8 @@ dynamic_gas = memory_expansion_cost</p>
 <span class="normal">6048</span>
 <span class="normal">6049</span>
 <span class="normal">6050</span>
-<span class="normal">6051</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UndefinedOpcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">6051</span>
+<span class="normal">6052</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UndefinedOpcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum containing all unknown opcodes (88 at the moment).&quot;&quot;&quot;</span>
 
     <span class="n">OPCODE_0C</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0x0C</span><span class="p">)</span>
