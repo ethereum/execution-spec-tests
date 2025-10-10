@@ -9,6 +9,7 @@ from enum import Enum, auto
 from typing import Any, cast
 
 import pytest
+from _pytest.mark import ParameterSet
 from py_ecc.bn128 import G1, G2, multiply
 
 from ethereum_test_base_types.base_types import Bytes, HexNumber
@@ -20,7 +21,6 @@ from ethereum_test_tools import (
     BenchmarkTestFiller,
     Block,
     Bytecode,
-    Environment,
     Transaction,
     add_kzg_version,
 )
@@ -82,8 +82,6 @@ def test_worst_zero_param(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     opcode: Op,
-    fork: Fork,
-    gas_benchmark_value: int,
 ) -> None:
     """Test running a block with as many zero-parameter opcodes as possible."""
     benchmark_test(
@@ -122,7 +120,6 @@ def test_worst_callvalue(
     fork: Fork,
     non_zero_value: bool,
     from_origin: bool,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test running a block with as many CALLVALUE opcodes as possible.
@@ -180,7 +177,6 @@ def test_worst_returndatasize_nonzero(
     pre: Alloc,
     returned_size: int,
     return_data_style: ReturnDataStyle,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test running a block which execute as many RETURNDATASIZE opcodes which
@@ -215,7 +211,7 @@ def test_worst_returndatasize_nonzero(
 def test_worst_returndatasize_zero(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test running a block with as many RETURNDATASIZE opcodes as possible with
     a zero buffer.
@@ -395,7 +391,7 @@ def test_worst_precompile_only_data_input(
     )
 
 
-def create_modexp_test_cases():
+def create_modexp_test_cases() -> list[ParameterSet]:
     """Create test cases for the MODEXP precompile."""
     test_cases = [
         # (base, exponent, modulus, test_id)
@@ -1195,7 +1191,6 @@ def test_worst_precompile_fixed_cost(
     fork: Fork,
     precompile_address: Address,
     parameters: list[str] | list[BytesConcatenation] | list[bytes],
-    gas_benchmark_value: int,
 ) -> None:
     """Test running a block filled with a precompile with fixed cost."""
     if precompile_address not in fork.precompiles():
@@ -1546,7 +1541,7 @@ def test_worst_tstore(
     pre: Alloc,
     key_mut: bool,
     dense_val_mut: bool,
-):
+) -> None:
     """Test running a block with as many TSTORE calls as possible."""
     init_key = 42
     setup = Op.PUSH1(init_key)
@@ -1825,7 +1820,7 @@ def test_worst_memory_access(
     offset: int,
     offset_initialized: bool,
     big_memory_expansion: bool,
-):
+) -> None:
     """
     Test running a block with as many memory access instructions as
     possible.
@@ -2070,12 +2065,18 @@ def test_worst_calldataload(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     calldata: bytes,
-):
+    gas_benchmark_value: int,
+    fork: Fork,
+) -> None:
     """Test running a block with as many CALLDATALOAD as possible."""
+    tx = JumpLoopGenerator(setup=Op.PUSH0, attack_block=Op.CALLDATALOAD).generate_transaction(
+        pre, gas_benchmark_value, fork
+    )
+    tx.data = Bytes(calldata)
     benchmark_test(
         pre=pre,
         post={},
-        code_generator=JumpLoopGenerator(setup=Op.PUSH0, attack_block=Op.CALLDATALOAD),
+        tx=tx,
     )
 
 
@@ -2141,7 +2142,7 @@ def test_worst_dup(
     pre: Alloc,
     fork: Fork,
     opcode: Op,
-):
+) -> None:
     """Test running a block with as many DUP as possible."""
     max_stack_height = fork.max_stack_height()
 
@@ -2200,7 +2201,7 @@ def test_worst_push(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     opcode: Op,
-):
+) -> None:
     """Test running a block with as many PUSH as possible."""
     benchmark_test(
         pre=pre,
@@ -2232,7 +2233,6 @@ def test_worst_return_revert(
     opcode: Op,
     return_size: int,
     return_non_zero_data: bool,
-    gas_benchmark_value: int,
 ) -> None:
     """Test running a block with as many RETURN or REVERT as possible."""
     max_code_size = fork.max_code_size()
@@ -2268,9 +2268,6 @@ def test_worst_return_revert(
 def test_worst_clz_same_input(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    fork: Fork,
-    gas_benchmark_value: int,
-    env: Environment,
 ) -> None:
     """Test running a block with as many CLZ with same input as possible."""
     magic_value = 248  # CLZ(248) = 248
@@ -2287,8 +2284,7 @@ def test_worst_clz_diff_input(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     fork: Fork,
-    env: Environment,
-):
+) -> None:
     """
     Test running a block with as many CLZ with different input as
     possible.

@@ -139,7 +139,7 @@ def test_worst_address_state_warm(
     pre: Alloc,
     opcode: Op,
     absent_target: bool,
-):
+) -> None:
     """
     Test running a block with as many stateful opcodes doing warm access
     for an account.
@@ -376,7 +376,7 @@ def test_worst_storage_access_warm(
     storage_action: StorageAction,
     gas_benchmark_value: int,
     env: Environment,
-):
+) -> None:
     """
     Test running a block with as many warm storage slot accesses as
     possible.
@@ -441,7 +441,7 @@ def test_worst_blockhash(
     fork: Fork,
     gas_benchmark_value: int,
     tx_gas_limit_cap: int,
-):
+) -> None:
     """
     Test running a block with as many blockhash accessing oldest allowed block
     as possible.
@@ -483,7 +483,7 @@ def test_worst_blockhash(
 def test_worst_selfbalance(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Test running a block with as many SELFBALANCE opcodes as possible."""
     benchmark_test(
         pre=pre,

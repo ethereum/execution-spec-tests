@@ -44,7 +44,7 @@ def test_worst_log_opcodes(
     size: int,
     fixed_offset: bool,
     non_zero_data: bool,
-):
+) -> None:
     """Test running a block with as many LOG opcodes as possible."""
     setup = Bytecode()
 

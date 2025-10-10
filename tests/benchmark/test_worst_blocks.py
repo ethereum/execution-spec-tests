@@ -18,7 +18,6 @@ from ethereum_test_tools import (
     BenchmarkTestFiller,
     Block,
     BlockchainTestFiller,
-    Environment,
     Hash,
     Transaction,
 )
@@ -117,13 +116,11 @@ def ether_transfer_case(
 def test_block_full_of_ether_transfers(
     benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
-    env: Environment,
     case_id: str,
     ether_transfer_case: Tuple[Generator[Address, None, None], Generator[Address, None, None]],
     iteration_count: int,
     transfer_amount: int,
     intrinsic_cost: int,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Single test for ether transfer scenarios.
@@ -183,8 +180,7 @@ def calldata_generator(
     gas_amount: int,
     zero_byte: int,
     total_cost_floor_per_token: int,
-    total_cost_standard_per_token: int,
-):
+) -> bytes:
     """Calculate the calldata based on the gas amount and zero byte."""
     # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
     #
@@ -228,7 +224,7 @@ def test_block_full_data(
     tx_gas_limit_cap: int,
     total_cost_standard_per_token: int,
     fork: Fork,
-):
+) -> None:
     """Test a block with empty payload."""
     iteration_count = math.ceil(gas_benchmark_value / tx_gas_limit_cap)
 
@@ -241,7 +237,6 @@ def test_block_full_data(
             gas_available,
             zero_byte,
             total_cost_floor_per_token,
-            total_cost_standard_per_token,
         )
 
         total_gas_used += fork.transaction_intrinsic_cost_calculator()(calldata=data)
@@ -272,7 +267,7 @@ def test_block_full_access_list_and_data(
     fork: Fork,
     gas_benchmark_value: int,
     tx_gas_limit_cap: int,
-):
+) -> None:
     """
     Test a block with access lists (60% gas) and calldata (40% gas) using
     random mixed bytes.

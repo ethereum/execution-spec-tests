@@ -155,7 +155,7 @@ def test_worst_codecopy(
     fork: Fork,
     max_code_size_ratio: float,
     fixed_src_dst: bool,
-):
+) -> None:
     """Test running a block filled with CODECOPY executions."""
     max_code_size = fork.max_code_size()
 
@@ -212,7 +212,7 @@ def test_worst_returndatacopy(
     pre: Alloc,
     size: int,
     fixed_dst: bool,
-):
+) -> None:
     """Test running a block filled with RETURNDATACOPY executions."""
     # Create the contract that will RETURN the data that will be used for
     # RETURNDATACOPY.
@@ -278,7 +278,7 @@ def test_worst_mcopy(
     pre: Alloc,
     size: int,
     fixed_src_dst: bool,
-):
+) -> None:
     """Test running a block filled with MCOPY executions."""
     src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
     attack_block = Op.MCOPY(src_dst, src_dst, size)
