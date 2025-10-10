@@ -6,7 +6,6 @@ import pytest
 
 from ethereum_test_benchmark.benchmark_code_generator import JumpLoopGenerator
 from ethereum_test_tools import (
-    Alloc,
     BenchmarkTestFiller,
     Bytecode,
 )
@@ -38,7 +37,6 @@ from ethereum_test_vm import Opcodes as Op
 @pytest.mark.parametrize("fixed_offset", [True, False])
 def test_worst_log_opcodes(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     opcode: Opcode,
     zeros_topic: bool,
     size: int,
@@ -68,7 +66,5 @@ def test_worst_log_opcodes(
     attack_block = Op.DUP1 * topic_count + size_op + offset + opcode
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )

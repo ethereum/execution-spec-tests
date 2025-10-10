@@ -96,7 +96,7 @@ def test_worst_calldatacopy(
     )
 
     code_address = JumpLoopGenerator(setup=setup, attack_block=attack_block).deploy_contracts(
-        pre, fork
+        pre=pre, fork=fork
     )
 
     tx_target = code_address
@@ -115,7 +115,7 @@ def test_worst_calldatacopy(
         )
 
         tx_target = JumpLoopGenerator(setup=setup, attack_block=attack_block).deploy_contracts(
-            pre, fork
+            pre=pre, fork=fork
         )
 
     tx = Transaction(
@@ -125,11 +125,7 @@ def test_worst_calldatacopy(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 @pytest.mark.parametrize(
@@ -166,7 +162,7 @@ def test_worst_codecopy(
     attack_block = Op.CODECOPY(src_dst, src_dst, Op.DUP1)  # DUP1 copies size.
 
     code = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_repeated_code(
-        repeated_code=attack_block, setup=setup, cleanup=Bytecode(), fork=fork
+        repeated_code=attack_block, setup=setup, fork=fork
     )
 
     # The code generated above is not guaranteed to be of max_code_size, so
@@ -184,11 +180,7 @@ def test_worst_codecopy(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 @pytest.mark.parametrize(
@@ -249,8 +241,6 @@ def test_worst_returndatacopy(
     # generate fresh returndata to continue calling RETURNDATACOPY.
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(
             setup=returndata_gen, attack_block=attack_block, cleanup=returndata_gen
         ),
@@ -275,7 +265,6 @@ def test_worst_returndatacopy(
 )
 def test_worst_mcopy(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     size: int,
     fixed_src_dst: bool,
 ) -> None:
@@ -289,8 +278,6 @@ def test_worst_mcopy(
         else Bytecode()
     )
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(
             setup=mem_touch, attack_block=attack_block, cleanup=mem_touch
         ),

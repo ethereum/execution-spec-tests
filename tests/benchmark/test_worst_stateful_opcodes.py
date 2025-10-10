@@ -109,7 +109,6 @@ def test_worst_address_state_cold(
     blocks.append(Block(txs=[op_tx]))
 
     benchmark_test(
-        pre=pre,
         post=post,
         blocks=blocks,
     )
@@ -156,7 +155,6 @@ def test_worst_address_state_warm(
     setup = Op.MSTORE(0, target_addr)
     attack_block = Op.POP(opcode(address=Op.MLOAD(0)))
     benchmark_test(
-        pre=pre,
         post=post,
         code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )
@@ -353,8 +351,6 @@ def test_worst_storage_access_cold(
     blocks.append(Block(txs=[op_tx]))
 
     benchmark_test(
-        pre=pre,
-        post={},
         blocks=blocks,
         expected_benchmark_gas_used=(
             total_gas_used if tx_result != TransactionResult.OUT_OF_GAS else gas_benchmark_value
@@ -428,11 +424,7 @@ def test_worst_storage_access_warm(
     )
     blocks.append(Block(txs=[op_tx]))
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        blocks=blocks,
-    )
+    benchmark_test(blocks=blocks)
 
 
 def test_worst_blockhash(
@@ -449,10 +441,8 @@ def test_worst_blockhash(
     # Create 256 dummy blocks to fill the blockhash window.
     blocks = [Block()] * 256
 
-    code = ExtCallGenerator(setup=Bytecode(), attack_block=Op.BLOCKHASH(1)).generate_repeated_code(
+    code = ExtCallGenerator(attack_block=Op.BLOCKHASH(1)).generate_repeated_code(
         repeated_code=Op.BLOCKHASH(1),
-        setup=Bytecode(),
-        cleanup=Bytecode(),
         fork=fork,
     )
 
@@ -473,22 +463,22 @@ def test_worst_blockhash(
     blocks.append(Block(txs=txs))
 
     benchmark_test(
-        pre=pre,
-        post={},
         blocks=blocks,
         expected_benchmark_gas_used=gas_benchmark_value,
     )
 
 
+@pytest.mark.parametrize("contract_balance", [0, 1])
 def test_worst_selfbalance(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
+    contract_balance: int,
 ) -> None:
     """Test running a block with as many SELFBALANCE opcodes as possible."""
     benchmark_test(
-        pre=pre,
-        post={},
-        code_generator=ExtCallGenerator(setup=Bytecode(), attack_block=Op.SELFBALANCE),
+        code_generator=ExtCallGenerator(
+            attack_block=Op.SELFBALANCE,
+            contract_balance=contract_balance,
+        ),
     )
 
 
@@ -525,11 +515,7 @@ def test_worst_extcodecopy_warm(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 @pytest.mark.parametrize("value_bearing", [True, False])
@@ -666,7 +652,6 @@ def test_worst_selfdestruct_existing(
         deployed_contract_addresses.append(deployed_contract_address)
 
     benchmark_test(
-        pre=pre,
         post=post,
         blocks=[
             Block(txs=[contracts_deployment_tx]),
