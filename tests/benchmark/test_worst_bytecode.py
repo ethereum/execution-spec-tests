@@ -15,7 +15,6 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Bytecode,
-    Bytes,
     Environment,
     Hash,
     Transaction,
@@ -246,10 +245,8 @@ def test_worst_bytecode_single_opcode(
 )
 def test_worst_initcode_jumpdest_analysis(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     fork: Fork,
     pattern: Bytecode,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test the jumpdest analysis performance of the initcode.
@@ -298,15 +295,12 @@ def test_worst_initcode_jumpdest_analysis(
 
     setup = code_prepare_initcode + Op.PUSH0
 
-    tx = JumpLoopGenerator(
-        setup=setup, attack_block=attack_block, cleanup=Bytecode()
-    ).generate_transaction(pre, gas_benchmark_value, fork)
-    tx.data = Bytes(tx_data)
-
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=setup,
+            attack_block=attack_block,
+            tx_kwargs={"data": tx_data},
+        ),
     )
 
 
@@ -408,7 +402,7 @@ def test_worst_create(
     )
 
     code = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_repeated_code(
-        repeated_code=attack_block, setup=setup, cleanup=Bytecode(), fork=fork
+        repeated_code=attack_block, setup=setup, fork=fork
     )
 
     tx = Transaction(
@@ -417,11 +411,7 @@ def test_worst_create(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 @pytest.mark.parametrize(
@@ -483,7 +473,5 @@ def test_worst_creates_collisions(
             pre.deploy_contract(address=addr, code=Op.INVALID)
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )

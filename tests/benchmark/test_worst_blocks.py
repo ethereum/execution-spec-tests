@@ -252,8 +252,6 @@ def test_block_full_data(
         )
 
     benchmark_test(
-        pre=pre,
-        post={},
         blocks=[Block(txs=txs)],
         expected_benchmark_gas_used=total_gas_used,
     )
@@ -361,8 +359,6 @@ def test_block_full_access_list_and_data(
         )
 
     benchmark_test(
-        pre=pre,
-        post={},
         blocks=[Block(txs=txs)],
         expected_benchmark_gas_used=total_gas_used,
     )

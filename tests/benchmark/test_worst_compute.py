@@ -6,13 +6,13 @@ import math
 import operator
 import random
 from enum import Enum, auto
-from typing import Any, cast
+from typing import Any, Dict, cast
 
 import pytest
 from _pytest.mark import ParameterSet
 from py_ecc.bn128 import G1, G2, multiply
 
-from ethereum_test_base_types.base_types import Bytes, HexNumber
+from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_benchmark import ExtCallGenerator, JumpLoopGenerator
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
@@ -87,28 +87,21 @@ def test_worst_zero_param(
     benchmark_test(
         pre=pre,
         post={},
-        code_generator=ExtCallGenerator(setup=Bytecode(), attack_block=opcode),
+        code_generator=ExtCallGenerator(attack_block=opcode),
     )
 
 
 @pytest.mark.parametrize("calldata_length", [0, 1_000, 10_000])
 def test_worst_calldatasize(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
-    fork: Fork,
     calldata_length: int,
-    gas_benchmark_value: int,
 ) -> None:
     """Test running a block with as many CALLDATASIZE as possible."""
-    tx = JumpLoopGenerator(
-        setup=Bytecode(), attack_block=Op.POP(Op.CALLDATASIZE), cleanup=Bytecode()
-    ).generate_transaction(pre, gas_benchmark_value, fork)
-    tx.data = Bytes(b"\x00" * calldata_length)
-
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            attack_block=Op.POP(Op.CALLDATASIZE),
+            tx_kwargs={"data": b"\x00" * calldata_length},
+        ),
     )
 
 
@@ -128,9 +121,9 @@ def test_worst_callvalue(
     value. The `from_origin` parameter controls whether the call frame is the
     immediate from the transaction or a previous CALL.
     """
-    code_address = JumpLoopGenerator(
-        setup=Bytecode(), attack_block=Op.POP(Op.CALLVALUE), cleanup=Bytecode()
-    ).deploy_contracts(pre, fork)
+    code_address = JumpLoopGenerator(attack_block=Op.POP(Op.CALLVALUE)).deploy_contracts(
+        pre=pre, fork=fork
+    )
 
     if from_origin:
         tx_to = code_address
@@ -148,11 +141,7 @@ def test_worst_callvalue(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 class ReturnDataStyle(Enum):
@@ -202,58 +191,41 @@ def test_worst_returndatasize_nonzero(
         )
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=setup, attack_block=Op.POP(Op.RETURNDATASIZE)),
     )
 
 
-def test_worst_returndatasize_zero(
-    benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
-) -> None:
+def test_worst_returndatasize_zero(benchmark_test: BenchmarkTestFiller) -> None:
     """
     Test running a block with as many RETURNDATASIZE opcodes as possible with
     a zero buffer.
     """
     benchmark_test(
-        pre=pre,
-        post={},
-        code_generator=ExtCallGenerator(setup=Bytecode(), attack_block=Op.RETURNDATASIZE),
+        code_generator=ExtCallGenerator(attack_block=Op.RETURNDATASIZE),
     )
 
 
 @pytest.mark.parametrize("mem_size", [0, 1, 1_000, 100_000, 1_000_000])
 def test_worst_msize(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
-    fork: Fork,
     mem_size: int,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test running a block with as many MSIZE opcodes as possible.
 
     The `mem_size` parameter indicates by how much the memory is expanded.
     """
-    generator = ExtCallGenerator(
-        setup=Op.MLOAD(Op.CALLVALUE) + Op.POP,
-        attack_block=Op.MSIZE,
-    )
-    generator.deploy_contracts(pre, fork)
-    tx = generator.generate_transaction(pre, gas_benchmark_value, fork)
-    tx.value = HexNumber(mem_size)
-
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=ExtCallGenerator(
+            setup=Op.MLOAD(Op.CALLVALUE) + Op.POP,
+            attack_block=Op.MSIZE,
+            tx_kwargs={"value": mem_size},
+        ),
     )
 
 
 def test_worst_keccak(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
 ) -> None:
@@ -306,12 +278,9 @@ def test_worst_keccak(
     # suboptimal for the
     # attack, whenever this is fixed adjust accordingly.
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(
             setup=Op.PUSH20[optimal_input_length],
             attack_block=Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1)),
-            cleanup=Bytecode(),
         ),
     )
 
@@ -326,7 +295,6 @@ def test_worst_keccak(
 )
 def test_worst_precompile_only_data_input(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     fork: Fork,
     address: Address,
     static_cost: int,
@@ -383,8 +351,6 @@ def test_worst_precompile_only_data_input(
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, address, 0, optimal_input_length, 0, 0))
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(
             setup=Op.CODECOPY(0, 0, optimal_input_length), attack_block=attack_block
         ),
@@ -736,10 +702,7 @@ def create_modexp_test_cases() -> list[ParameterSet]:
 )
 def test_worst_modexp(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
-    fork: Fork,
     mod_exp_input: ModExpInput,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test running a block with as many calls to the MODEXP (5) precompile as
@@ -748,16 +711,12 @@ def test_worst_modexp(
     attack_block = Op.POP(
         Op.STATICCALL(Op.GAS, 0x5, Op.PUSH0, Op.CALLDATASIZE, Op.PUSH0, Op.PUSH0)
     )
-
-    tx = JumpLoopGenerator(
-        setup=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE), attack_block=attack_block
-    ).generate_transaction(pre, gas_benchmark_value, fork)
-    tx.data = Bytes(bytes(mod_exp_input).rstrip(b"\x00"))
-
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE),
+            attack_block=attack_block,
+            tx_kwargs={"data": bytes(mod_exp_input).rstrip(b"\x00")},
+        ),
     )
 
 
@@ -1187,7 +1146,6 @@ def test_worst_modexp(
 )
 def test_worst_precompile_fixed_cost(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     fork: Fork,
     precompile_address: Address,
     parameters: list[str] | list[BytesConcatenation] | list[bytes],
@@ -1226,8 +1184,6 @@ def test_worst_precompile_fixed_cost(
     )
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )
 
@@ -1242,24 +1198,15 @@ def test_worst_jumps(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 def test_worst_jumpi_fallthrough(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
 ) -> None:
     """Test running a JUMPI-intensive contract with fallthrough."""
     benchmark_test(
-        pre=pre,
-        post={},
-        code_generator=JumpLoopGenerator(
-            setup=Bytecode(), attack_block=Op.JUMPI(Op.PUSH0, Op.PUSH0)
-        ),
+        code_generator=JumpLoopGenerator(attack_block=Op.JUMPI(Op.PUSH0, Op.PUSH0)),
     )
 
 
@@ -1273,23 +1220,14 @@ def test_worst_jumpis(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 def test_worst_jumpdests(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
 ) -> None:
     """Test running a JUMPDEST-intensive contract."""
-    benchmark_test(
-        pre=pre,
-        post={},
-        code_generator=JumpLoopGenerator(attack_block=Op.JUMPDEST),
-    )
+    benchmark_test(code_generator=JumpLoopGenerator(attack_block=Op.JUMPDEST))
 
 
 DEFAULT_BINOP_ARGS = (
@@ -1442,11 +1380,8 @@ DEFAULT_BINOP_ARGS = (
 )
 def test_worst_binop_simple(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     opcode: Op,
-    fork: Fork,
     opcode_args: tuple[int, int],
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test running a block with as many binary instructions (takes two args,
@@ -1458,22 +1393,19 @@ def test_worst_binop_simple(
     setup = Op.CALLDATALOAD(0) + Op.CALLDATALOAD(32) + Op.DUP2 + Op.DUP2
     attack_block = Op.DUP2 + opcode
     cleanup = Op.POP + Op.POP + Op.DUP2 + Op.DUP2
-    tx = JumpLoopGenerator(
-        setup=setup, attack_block=attack_block, cleanup=cleanup
-    ).generate_transaction(pre, gas_benchmark_value, fork)
-    tx.data = Bytes(tx_data)
-
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=setup,
+            attack_block=attack_block,
+            cleanup=cleanup,
+            tx_kwargs={"data": tx_data},
+        ),
     )
 
 
 @pytest.mark.parametrize("opcode", [Op.ISZERO, Op.NOT])
 def test_worst_unop(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     opcode: Op,
 ) -> None:
     """
@@ -1481,8 +1413,6 @@ def test_worst_unop(
     produces one value) as possible.
     """
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=Op.PUSH0, attack_block=opcode),
     )
 
@@ -1494,11 +1424,8 @@ def test_worst_unop(
 @pytest.mark.parametrize("val_mut", [True, False])
 def test_worst_tload(
     benchmark_test: BenchmarkTestFiller,
-    fork: Fork,
-    pre: Alloc,
     key_mut: bool,
     val_mut: bool,
-    gas_benchmark_value: int,
 ) -> None:
     """Test running a block with as many TLOAD calls as possible."""
     start_key = 41
@@ -1519,16 +1446,17 @@ def test_worst_tload(
         attack_block = Op.POP(Op.TLOAD(Op.CALLVALUE))
 
     cleanup = code_key_mut + code_val_mut
-
-    tx = JumpLoopGenerator(
-        setup=setup, attack_block=attack_block, cleanup=cleanup
-    ).generate_transaction(pre, gas_benchmark_value, fork)
-    tx.value = HexNumber(start_key if not key_mut and val_mut else 0)
+    tx_value = start_key if not key_mut and val_mut else 0
 
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=setup,
+            attack_block=attack_block,
+            cleanup=cleanup,
+            tx_kwargs={
+                "value": tx_value,
+            },
+        ),
     )
 
 
@@ -1536,7 +1464,6 @@ def test_worst_tload(
 @pytest.mark.parametrize("dense_val_mut", [True, False])
 def test_worst_tstore(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     key_mut: bool,
     dense_val_mut: bool,
 ) -> None:
@@ -1554,8 +1481,6 @@ def test_worst_tstore(
     cleanup = Op.POP + Op.GAS if key_mut else Bytecode()
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block, cleanup=cleanup),
     )
 
@@ -1639,11 +1564,7 @@ def test_worst_shifts(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 @pytest.mark.parametrize(
@@ -1658,31 +1579,24 @@ def test_worst_shifts(
 def test_worst_blobhash(
     fork: Fork,
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     blob_index: int,
     blobs_present: bool,
-    gas_benchmark_value: int,
 ) -> None:
     """Test running a block with as many BLOBHASH instructions as possible."""
-    tx = ExtCallGenerator(
-        setup=Bytecode(), attack_block=Op.BLOBHASH(blob_index)
-    ).generate_transaction(pre, gas_benchmark_value, fork)
-
+    tx_kwargs: Dict[str, Any] = {}
     if blobs_present > 0:
-        tx.ty = HexNumber(TransactionType.BLOB_TRANSACTION)
-        tx.max_fee_per_blob_gas = HexNumber(fork.min_base_fee_per_blob_gas())
-        tx.max_fee_per_gas = HexNumber(1000)
-        tx.max_priority_fee_per_gas = HexNumber(0)
-        tx.access_list = []
-        tx.blob_versioned_hashes = add_kzg_version(
+        tx_kwargs["ty"] = TransactionType.BLOB_TRANSACTION
+        tx_kwargs["max_fee_per_blob_gas"] = fork.min_base_fee_per_blob_gas()
+        tx_kwargs["blob_versioned_hashes"] = add_kzg_version(
             [i.to_bytes() * 32 for i in range(blobs_present)],
             BlobsSpec.BLOB_COMMITMENT_VERSION_KZG,
         )
 
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=ExtCallGenerator(
+            attack_block=Op.BLOBHASH(blob_index),
+            tx_kwargs=tx_kwargs,
+        ),
     )
 
 
@@ -1690,11 +1604,8 @@ def test_worst_blobhash(
 @pytest.mark.parametrize("op", [Op.MOD, Op.SMOD])
 def test_worst_mod(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
-    fork: Fork,
     mod_bits: int,
     op: Op,
-    gas_benchmark_value: int,
 ) -> None:
     """
     Test running a block with as many MOD instructions with arguments of the
@@ -1793,17 +1704,13 @@ def test_worst_mod(
         Op.CALLDATALOAD(0) + sum(make_dup(len(numerators) - i) + op for i in indexes) + Op.POP
     )
 
-    tx = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_transaction(
-        pre, gas_benchmark_value, fork
-    )
-
     input_value = initial_mod if not should_negate else neg(initial_mod)
-    tx.data = Bytes(input_value.to_bytes(32, byteorder="big"))
-
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=setup,
+            attack_block=attack_block,
+            tx_kwargs={"data": input_value.to_bytes(32, byteorder="big")},
+        ),
     )
 
 
@@ -1813,7 +1720,6 @@ def test_worst_mod(
 @pytest.mark.parametrize("big_memory_expansion", [True, False])
 def test_worst_memory_access(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     opcode: Op,
     offset: int,
     offset_initialized: bool,
@@ -1830,8 +1736,6 @@ def test_worst_memory_access(
     attack_block = Op.POP(Op.MLOAD(Op.DUP1)) if opcode == Op.MLOAD else opcode(Op.DUP2, Op.DUP2)
 
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=setup, attack_block=attack_block),
     )
 
@@ -1938,21 +1842,14 @@ def test_worst_modarith(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)
 
 
 def test_empty_block(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
 ) -> None:
     """Test running an empty block as a baseline for fixed proving costs."""
     benchmark_test(
-        pre=pre,
-        post={},
         blocks=[Block(txs=[])],
         expected_benchmark_gas_used=0,
     )
@@ -1960,7 +1857,6 @@ def test_empty_block(
 
 def test_amortized_bn128_pairings(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
 ) -> None:
@@ -2009,15 +1905,12 @@ def test_amortized_bn128_pairings(
     setup = Op.CALLDATACOPY(size=Op.CALLDATASIZE)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, 0x08, 0, Op.CALLDATASIZE, 0, 0))
 
-    tx = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_transaction(
-        pre, gas_benchmark_value, fork
-    )
-    tx.data = _generate_bn128_pairs(optimal_per_call_num_pairings, 42)
-
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=setup,
+            attack_block=attack_block,
+            tx_kwargs={"data": _generate_bn128_pairs(optimal_per_call_num_pairings, 42)},
+        ),
     )
 
 
@@ -2061,20 +1954,15 @@ def _generate_bn128_pairs(n: int, seed: int = 0) -> Bytes:
 )
 def test_worst_calldataload(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     calldata: bytes,
-    gas_benchmark_value: int,
-    fork: Fork,
 ) -> None:
     """Test running a block with as many CALLDATALOAD as possible."""
-    tx = JumpLoopGenerator(setup=Op.PUSH0, attack_block=Op.CALLDATALOAD).generate_transaction(
-        pre, gas_benchmark_value, fork
-    )
-    tx.data = Bytes(calldata)
     benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(
+            setup=Op.PUSH0,
+            attack_block=Op.CALLDATALOAD,
+            tx_kwargs={"data": calldata},
+        ),
     )
 
 
@@ -2101,13 +1989,10 @@ def test_worst_calldataload(
 )
 def test_worst_swap(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     opcode: Opcode,
 ) -> None:
     """Test running a block with as many SWAP as possible."""
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(
             attack_block=opcode, setup=Op.PUSH0 * opcode.min_stack_height
         ),
@@ -2151,9 +2036,7 @@ def test_worst_dup(
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
 
     benchmark_test(
-        pre=pre,
-        post={},
-        code_generator=JumpLoopGenerator(setup=Bytecode(), attack_block=attack_block),
+        code_generator=JumpLoopGenerator(attack_block=attack_block),
     )
 
 
@@ -2197,15 +2080,12 @@ def test_worst_dup(
 )
 def test_worst_push(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
     opcode: Op,
 ) -> None:
     """Test running a block with as many PUSH as possible."""
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=ExtCallGenerator(
-            setup=Bytecode(), attack_block=opcode[1] if opcode.has_data_portion() else opcode
+            attack_block=opcode[1] if opcode.has_data_portion() else opcode
         ),
     )
 
@@ -2256,23 +2136,15 @@ def test_worst_return_revert(
     attack_block = Op.POP(Op.STATICCALL(address=target_contract_address))
 
     benchmark_test(
-        pre=pre,
-        post={},
-        code_generator=JumpLoopGenerator(setup=Bytecode(), attack_block=attack_block),
+        code_generator=JumpLoopGenerator(attack_block=attack_block),
     )
 
 
 @pytest.mark.valid_from("Osaka")
-def test_worst_clz_same_input(
-    benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
-) -> None:
+def test_worst_clz_same_input(benchmark_test: BenchmarkTestFiller) -> None:
     """Test running a block with as many CLZ with same input as possible."""
     magic_value = 248  # CLZ(248) = 248
-
     benchmark_test(
-        pre=pre,
-        post={},
         code_generator=JumpLoopGenerator(setup=Op.PUSH1(magic_value), attack_block=Op.CLZ),
     )
 
@@ -2311,8 +2183,4 @@ def test_worst_clz_diff_input(
         sender=pre.fund_eoa(),
     )
 
-    benchmark_test(
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+    benchmark_test(tx=tx)

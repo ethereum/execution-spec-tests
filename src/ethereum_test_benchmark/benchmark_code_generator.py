@@ -3,46 +3,42 @@ Benchmark code generator classes for creating
 optimized bytecode patterns.
 """
 
+from dataclasses import dataclass
+
 from ethereum_test_base_types import Address
 from ethereum_test_forks import Fork
 from ethereum_test_specs.benchmark import BenchmarkCodeGenerator
-from ethereum_test_types import Alloc, Transaction
-from ethereum_test_vm import Bytecode
+from ethereum_test_types import Alloc
 from ethereum_test_vm.opcodes import Opcodes as Op
 
 
+@dataclass(kw_only=True)
 class JumpLoopGenerator(BenchmarkCodeGenerator):
     """Generates bytecode that loops execution using JUMP operations."""
 
-    def deploy_contracts(self, pre: Alloc, fork: Fork) -> Address:
+    def deploy_contracts(self, *, pre: Alloc, fork: Fork) -> Address:
         """Deploy the looping contract."""
         # Benchmark Test Structure:
         # setup + JUMPDEST +
         # attack + attack + ... + attack +
         # cleanup + JUMP(setup_length)
-        code = self.generate_repeated_code(self.attack_block, self.setup, self.cleanup, fork)
+        code = self.generate_repeated_code(
+            repeated_code=self.attack_block, setup=self.setup, cleanup=self.cleanup, fork=fork
+        )
         self._contract_address = pre.deploy_contract(code=code)
         return self._contract_address
 
-    def generate_transaction(self, pre: Alloc, gas_limit: int) -> Transaction:
-        """Generate transaction that executes the looping contract."""
-        if not hasattr(self, "_contract_address"):
-            self.deploy_contracts(pre, fork)
 
-        return Transaction(
-            to=self._contract_address,
-            gas_limit=gas_limit,
-            sender=pre.fund_eoa(),
-        )
-
-
+@dataclass(kw_only=True)
 class ExtCallGenerator(BenchmarkCodeGenerator):
     """
     Generates bytecode that fills the contract to
     maximum allowed code size.
     """
 
-    def deploy_contracts(self, pre: Alloc, fork: Fork) -> Address:
+    contract_balance: int = 0
+
+    def deploy_contracts(self, *, pre: Alloc, fork: Fork) -> Address:
         """Deploy both target and caller contracts."""
         # Benchmark Test Structure:
         # There are two contracts:
@@ -56,7 +52,8 @@ class ExtCallGenerator(BenchmarkCodeGenerator):
 
         # Deploy target contract that contains the actual attack block
         self._target_contract_address = pre.deploy_contract(
-            code=self.setup + self.attack_block * max_iterations
+            code=self.setup + self.attack_block * max_iterations,
+            balance=self.contract_balance,
         )
 
         # Create caller contract that repeatedly calls the target contract
@@ -68,17 +65,8 @@ class ExtCallGenerator(BenchmarkCodeGenerator):
         # JUMP(setup_length)
         code_sequence = Op.POP(Op.STATICCALL(Op.GAS, self._target_contract_address, 0, 0, 0, 0))
 
-        caller_code = self.generate_repeated_code(code_sequence, Bytecode(), self.cleanup, fork)
+        caller_code = self.generate_repeated_code(
+            repeated_code=code_sequence, cleanup=self.cleanup, fork=fork
+        )
         self._contract_address = pre.deploy_contract(code=caller_code)
         return self._contract_address
-
-    def generate_transaction(self, pre: Alloc, gas_limit: int) -> Transaction:
-        """Generate transaction that executes the caller contract."""
-        if not hasattr(self, "_contract_address"):
-            self.deploy_contracts(pre, fork)
-
-        return Transaction(
-            to=self._contract_address,
-            gas_limit=gas_limit,
-            sender=pre.fund_eoa(),
-        )
