@@ -66,7 +66,9 @@ class BenchmarkCodeGenerator(ABC):
         available_space = max_code_size - overhead
         max_iterations = available_space // len(repeated_code)
 
-        code = setup + Op.JUMPDEST + repeated_code * max_iterations + cleanup + Op.JUMP(len(setup))
+        # TODO: Unify the PUSH0 and PUSH1 usage.
+        code = setup + Op.JUMPDEST + repeated_code * max_iterations + cleanup
+        code += Op.JUMP(len(setup)) if len(setup) > 0 else Op.PUSH0 + Op.JUMP
         self._validate_code_size(code, fork)
 
         return code

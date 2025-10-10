@@ -166,7 +166,7 @@ def test_worst_codecopy(
     attack_block = Op.CODECOPY(src_dst, src_dst, Op.DUP1)  # DUP1 copies size.
 
     code = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_repeated_code(
-        attack_block, Bytecode(), Bytecode(), fork
+        repeated_code=attack_block, setup=setup, cleanup=Bytecode(), fork=fork
     )
 
     # The code generated above is not guaranteed to be of max_code_size, so
