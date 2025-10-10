@@ -20,8 +20,8 @@ from ethereum_test_types.block_access_list import (
     BlockAccessListExpectation,
 )
 from ethereum_test_vm import Opcodes as Op
-from tests.prague.eip7702_set_code_tx.spec import Spec as Spec7702
 
+from ...prague.eip7702_set_code_tx.spec import Spec as Spec7702
 from .spec import ref_spec_7928
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7928.git_path
