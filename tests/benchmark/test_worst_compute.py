@@ -101,7 +101,7 @@ def test_worst_calldatasize(
 ) -> None:
     """Test running a block with as many CALLDATASIZE as possible."""
     tx = JumpLoopGenerator(
-        setup=Bytecode(), attack_block=Op.POP(Op.CALLDATASIZE)
+        setup=Bytecode(), attack_block=Op.POP(Op.CALLDATASIZE), cleanup=Bytecode()
     ).generate_transaction(pre, gas_benchmark_value, fork)
     tx.data = Bytes(b"\x00" * calldata_length)
 

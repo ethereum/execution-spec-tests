@@ -408,7 +408,7 @@ def test_worst_create(
     )
 
     code = JumpLoopGenerator(setup=setup, attack_block=attack_block).generate_repeated_code(
-        attack_block, Bytecode(), Bytecode(), fork
+        repeated_code=attack_block, setup=setup, cleanup=Bytecode(), fork=fork
     )
 
     tx = Transaction(
