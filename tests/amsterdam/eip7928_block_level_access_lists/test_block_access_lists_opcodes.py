@@ -233,7 +233,7 @@ def test_bal_balance_and_oog(
             account_expectations={
                 balance_checker: BalAccountExpectation.empty(),
                 # Bob should only appear in BAL if BALANCE succeeded
-                **({} if fails_at_balance else {bob: BalAccountExpectation.empty()}),
+                **({bob: None} if fails_at_balance else {bob: BalAccountExpectation.empty()}),
             }
         ),
     )
@@ -303,7 +303,7 @@ def test_bal_extcodesize_and_oog(
                 codesize_checker: BalAccountExpectation.empty(),
                 # Target should only appear if EXTCODESIZE succeeded
                 **(
-                    {}
+                    {target_contract: None}
                     if fails_at_extcodesize
                     else {target_contract: BalAccountExpectation.empty()}
                 ),
@@ -375,7 +375,7 @@ def test_bal_call_and_oog(
             account_expectations={
                 call_contract: BalAccountExpectation.empty(),
                 # Bob should only appear if CALL succeeded
-                **({} if fails_at_call else {bob: BalAccountExpectation.empty()}),
+                **({bob: None} if fails_at_call else {bob: BalAccountExpectation.empty()}),
             }
         ),
     )
@@ -450,7 +450,7 @@ def test_bal_delegatecall_and_oog(
                 delegatecall_contract: BalAccountExpectation.empty(),
                 # Target should only appear if DELEGATECALL succeeded
                 **(
-                    {}
+                    {target_contract: None}
                     if fails_at_delegatecall
                     else {target_contract: BalAccountExpectation.empty()}
                 ),
@@ -504,9 +504,10 @@ def test_bal_extcodecopy_and_oog(
 
     # Costs:
     # - 4 PUSH operations = G_VERY_LOW * 4
-    # - EXTCODECOPY cold = G_COLD_ACCOUNT_ACCESS + G_COPY (base cost)
+    # - EXTCODECOPY cold = G_COLD_ACCOUNT_ACCESS + (G_COPY * words)
+    #   where words = ceil32(size) // 32 = ceil32(0) // 32 = 0
     push_cost = gas_costs.G_VERY_LOW * 4
-    extcodecopy_cold_cost = gas_costs.G_COLD_ACCOUNT_ACCESS + gas_costs.G_COPY
+    extcodecopy_cold_cost = gas_costs.G_COLD_ACCOUNT_ACCESS  # + (G_COPY * 0) = 0
     tx_gas_limit = intrinsic_gas_cost + push_cost + extcodecopy_cold_cost
 
     if fails_at_extcodecopy:
@@ -526,7 +527,7 @@ def test_bal_extcodecopy_and_oog(
                 extcodecopy_contract: BalAccountExpectation.empty(),
                 # Target should only appear if EXTCODECOPY succeeded
                 **(
-                    {}
+                    {target_contract: None}
                     if fails_at_extcodecopy
                     else {target_contract: BalAccountExpectation.empty()}
                 ),
