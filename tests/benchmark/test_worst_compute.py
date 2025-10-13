@@ -217,9 +217,9 @@ def test_worst_msize(
     """
     benchmark_test(
         code_generator=ExtCallGenerator(
-            setup=Op.MLOAD(Op.CALLVALUE) + Op.POP,
+            setup=Op.MLOAD(Op.SELFBALANCE) + Op.POP,
             attack_block=Op.MSIZE,
-            tx_kwargs={"value": mem_size},
+            contract_balance=mem_size,
         ),
     )
 

@@ -107,6 +107,7 @@ class BenchmarkTest(BaseTest):
     pre: Alloc = Field(default_factory=Alloc)
     post: Alloc = Field(default_factory=Alloc)
     tx: Transaction | None = None
+    setup_blocks: List[Block] | None = None
     blocks: List[Block] | None = None
     block_exception: (
         List[TransactionException | BlockException] | TransactionException | BlockException | None
@@ -233,6 +234,12 @@ class BenchmarkTest(BaseTest):
             raise ValueError(
                 f"Exactly one must be set, but got {len(set_props)}: {', '.join(set_props)}"
             )
+
+        if self.setup_blocks is not None:
+            if self.blocks is not None:
+                self.blocks.insert(0, *self.setup_blocks)
+            else:
+                self.blocks = self.setup_blocks
 
         if self.code_generator is not None:
             generated_blocks = self.generate_blocks_from_code_generator(fork)
