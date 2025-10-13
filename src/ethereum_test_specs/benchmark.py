@@ -3,13 +3,13 @@
 import math
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
 from pydantic import ConfigDict, Field
 
 from ethereum_clis import TransitionTool
-from ethereum_test_base_types import HexNumber
+from ethereum_test_base_types import Address, HexNumber
 from ethereum_test_exceptions import BlockException, TransactionException
 from ethereum_test_execution import (
     BaseExecute,
@@ -40,19 +40,34 @@ class BenchmarkCodeGenerator(ABC):
 
     attack_block: Bytecode
     setup: Bytecode = field(default_factory=Bytecode)
+    cleanup: Bytecode = field(default_factory=Bytecode)
+    tx_kwargs: Dict[str, Any] = field(default_factory=dict)
+    _contract_address: Address | None = None
 
     @abstractmethod
-    def deploy_contracts(self, pre: Alloc, fork: Fork) -> None:
+    def deploy_contracts(self, *, pre: Alloc, fork: Fork) -> Address:
         """Deploy any contracts needed for the benchmark."""
         ...
 
-    @abstractmethod
-    def generate_transaction(self, pre: Alloc, gas_limit: int) -> Transaction:
-        """Generate a transaction with the specified gas limit."""
-        ...
+    def generate_transaction(self, *, pre: Alloc, gas_benchmark_value: int) -> Transaction:
+        """Generate transaction that executes the looping contract."""
+        assert self._contract_address is not None
+        if "gas_limit" not in self.tx_kwargs:
+            self.tx_kwargs["gas_limit"] = gas_benchmark_value
+
+        return Transaction(
+            to=self._contract_address,
+            sender=pre.fund_eoa(),
+            **self.tx_kwargs,
+        )
 
     def generate_repeated_code(
-        self, repeated_code: Bytecode, setup: Bytecode, fork: Fork
+        self,
+        *,
+        repeated_code: Bytecode,
+        setup: Bytecode | None = None,
+        cleanup: Bytecode | None = None,
+        fork: Fork,
     ) -> Bytecode:
         """
         Calculate the maximum number of iterations that
@@ -60,12 +75,17 @@ class BenchmarkCodeGenerator(ABC):
         """
         assert len(repeated_code) > 0, "repeated_code cannot be empty"
         max_code_size = fork.max_code_size()
-
-        overhead = len(setup) + len(Op.JUMPDEST) + len(Op.JUMP(len(setup)))
+        if setup is None:
+            setup = Bytecode()
+        if cleanup is None:
+            cleanup = Bytecode()
+        overhead = len(setup) + len(Op.JUMPDEST) + len(cleanup) + len(Op.JUMP(len(setup)))
         available_space = max_code_size - overhead
         max_iterations = available_space // len(repeated_code)
 
-        code = setup + Op.JUMPDEST + repeated_code * max_iterations + Op.JUMP(len(setup))
+        # TODO: Unify the PUSH0 and PUSH1 usage.
+        code = setup + Op.JUMPDEST + repeated_code * max_iterations + cleanup
+        code += Op.JUMP(len(setup)) if len(setup) > 0 else Op.PUSH0 + Op.JUMP
         self._validate_code_size(code, fork)
 
         return code
@@ -84,9 +104,10 @@ class BenchmarkTest(BaseTest):
 
     model_config = ConfigDict(extra="forbid")
 
-    pre: Alloc
+    pre: Alloc = Field(default_factory=Alloc)
     post: Alloc = Field(default_factory=Alloc)
     tx: Transaction | None = None
+    setup_blocks: List[Block] = Field(default_factory=list)
     blocks: List[Block] | None = None
     block_exception: (
         List[TransactionException | BlockException] | TransactionException | BlockException | None
@@ -114,6 +135,14 @@ class BenchmarkTest(BaseTest):
         "blockchain_test_engine_only": "Only generate a blockchain test engine fixture",
         "blockchain_test_only": "Only generate a blockchain test fixture",
     }
+
+    def model_post_init(self, __context: Any, /) -> None:
+        """
+        Model post-init to assert that the custom pre-allocation was
+        provided and the default was not used.
+        """
+        super().model_post_init(__context)
+        assert "pre" in self.model_fields_set, "pre allocation was not provided"
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -178,9 +207,11 @@ class BenchmarkTest(BaseTest):
         if self.code_generator is None:
             raise Exception("Code generator is not set")
 
-        self.code_generator.deploy_contracts(self.pre, fork)
+        self.code_generator.deploy_contracts(pre=self.pre, fork=fork)
         gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
-        benchmark_tx = self.code_generator.generate_transaction(self.pre, gas_limit)
+        benchmark_tx = self.code_generator.generate_transaction(
+            pre=self.pre, gas_benchmark_value=gas_limit
+        )
 
         execution_txs = self.split_transaction(benchmark_tx, gas_limit)
         execution_block = Block(txs=execution_txs)
@@ -204,39 +235,34 @@ class BenchmarkTest(BaseTest):
                 f"Exactly one must be set, but got {len(set_props)}: {', '.join(set_props)}"
             )
 
+        blocks: List[Block] = self.setup_blocks
+
         if self.code_generator is not None:
             generated_blocks = self.generate_blocks_from_code_generator(fork)
-            return BlockchainTest.from_test(
-                base_test=self,
-                genesis_environment=self.env,
-                pre=self.pre,
-                post=self.post,
-                blocks=generated_blocks,
-            )
+            blocks += generated_blocks
+
         elif self.blocks is not None:
-            return BlockchainTest.from_test(
-                base_test=self,
-                genesis_environment=self.env,
-                pre=self.pre,
-                post=self.post,
-                blocks=self.blocks,
-            )
+            blocks += self.blocks
+
         elif self.tx is not None:
             gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
 
             transactions = self.split_transaction(self.tx, gas_limit)
 
-            blocks = [Block(txs=transactions)]
+            blocks.append(Block(txs=transactions))
 
-            return BlockchainTest.from_test(
-                base_test=self,
-                pre=self.pre,
-                post=self.post,
-                blocks=blocks,
-                genesis_environment=self.env,
-            )
         else:
-            raise ValueError("Cannot create BlockchainTest without transactions or blocks")
+            raise ValueError(
+                "Cannot create BlockchainTest without a code generator, transactions, or blocks"
+            )
+
+        return BlockchainTest.from_test(
+            base_test=self,
+            genesis_environment=self.env,
+            pre=self.pre,
+            post=self.post,
+            blocks=blocks,
+        )
 
     def generate(
         self,
