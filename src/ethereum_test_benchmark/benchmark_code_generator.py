@@ -46,9 +46,14 @@ class ExtCallGenerator(BenchmarkCodeGenerator):
         #    but not loop (e.g. PUSH)
         # 2. The loop contract that calls the target contract in a loop
 
-        max_iterations = min(
-            fork.max_stack_height(), fork.max_code_size() // len(self.attack_block)
-        )
+        pushed_stack_items = self.attack_block.pushed_stack_items
+        popped_stack_items = self.attack_block.popped_stack_items
+        stack_delta = pushed_stack_items - popped_stack_items
+
+        max_iterations = fork.max_code_size() // len(self.attack_block)
+
+        if stack_delta > 0:
+            max_iterations = min(fork.max_stack_height() // stack_delta, max_iterations)
 
         # Deploy target contract that contains the actual attack block
         self._target_contract_address = pre.deploy_contract(
