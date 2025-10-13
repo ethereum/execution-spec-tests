@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_blobhash"><code>test_worst_blobhash()</code><a class="headerlink" href="#test_worst_blobhash" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L2343"><code>tests/benchmark/test_worst_compute.py::test_worst_blobhash@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1570"><code>tests/benchmark/test_worst_compute.py::test_worst_blobhash@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_blobhash -m benchmark</span>
@@ -29257,67 +29257,37 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2343</span>
-<span class="normal">2344</span>
-<span class="normal">2345</span>
-<span class="normal">2346</span>
-<span class="normal">2347</span>
-<span class="normal">2348</span>
-<span class="normal">2349</span>
-<span class="normal">2350</span>
-<span class="normal">2351</span>
-<span class="normal">2352</span>
-<span class="normal">2353</span>
-<span class="normal">2354</span>
-<span class="normal">2355</span>
-<span class="normal">2356</span>
-<span class="normal">2357</span>
-<span class="normal">2358</span>
-<span class="normal">2359</span>
-<span class="normal">2360</span>
-<span class="normal">2361</span>
-<span class="normal">2362</span>
-<span class="normal">2363</span>
-<span class="normal">2364</span>
-<span class="normal">2365</span>
-<span class="normal">2366</span>
-<span class="normal">2367</span>
-<span class="normal">2368</span>
-<span class="normal">2369</span>
-<span class="normal">2370</span>
-<span class="normal">2371</span>
-<span class="normal">2372</span>
-<span class="normal">2373</span>
-<span class="normal">2374</span>
-<span class="normal">2375</span>
-<span class="normal">2376</span>
-<span class="normal">2377</span>
-<span class="normal">2378</span>
-<span class="normal">2379</span>
-<span class="normal">2380</span>
-<span class="normal">2381</span>
-<span class="normal">2382</span>
-<span class="normal">2383</span>
-<span class="normal">2384</span>
-<span class="normal">2385</span>
-<span class="normal">2386</span>
-<span class="normal">2387</span>
-<span class="normal">2388</span>
-<span class="normal">2389</span>
-<span class="normal">2390</span>
-<span class="normal">2391</span>
-<span class="normal">2392</span>
-<span class="normal">2393</span>
-<span class="normal">2394</span>
-<span class="normal">2395</span>
-<span class="normal">2396</span>
-<span class="normal">2397</span>
-<span class="normal">2398</span>
-<span class="normal">2399</span>
-<span class="normal">2400</span>
-<span class="normal">2401</span>
-<span class="normal">2402</span>
-<span class="normal">2403</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1570</span>
+<span class="normal">1571</span>
+<span class="normal">1572</span>
+<span class="normal">1573</span>
+<span class="normal">1574</span>
+<span class="normal">1575</span>
+<span class="normal">1576</span>
+<span class="normal">1577</span>
+<span class="normal">1578</span>
+<span class="normal">1579</span>
+<span class="normal">1580</span>
+<span class="normal">1581</span>
+<span class="normal">1582</span>
+<span class="normal">1583</span>
+<span class="normal">1584</span>
+<span class="normal">1585</span>
+<span class="normal">1586</span>
+<span class="normal">1587</span>
+<span class="normal">1588</span>
+<span class="normal">1589</span>
+<span class="normal">1590</span>
+<span class="normal">1591</span>
+<span class="normal">1592</span>
+<span class="normal">1593</span>
+<span class="normal">1594</span>
+<span class="normal">1595</span>
+<span class="normal">1596</span>
+<span class="normal">1597</span>
+<span class="normal">1598</span>
+<span class="normal">1599</span>
+<span class="normal">1600</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blob_index, blobs_present&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no blobs&quot;</span><span class="p">),</span>
@@ -29328,62 +29298,32 @@
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_blobhash</span><span class="p">(</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">blob_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">blobs_present</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many BLOBHASH instructions as possible.&quot;&quot;&quot;</span>
-    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-    <span class="n">max_stack_height</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_stack_height</span><span class="p">()</span>
-
-    <span class="c1"># Contract that contains a collection of BLOBHASH instructions.</span>
-    <span class="n">opcode_sequence</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">BLOBHASH</span><span class="p">(</span><span class="n">blob_index</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_stack_height</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">opcode_sequence</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
-
-    <span class="n">target_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">opcode_sequence</span><span class="p">)</span>
-
-    <span class="c1"># Contract that contains a loop of STATICCALLs to the target contract.</span>
-    <span class="n">calldata</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
-    <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">target_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
-
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
-
-    <span class="c1"># Create blob transaction if blobs are present.</span>
-    <span class="n">tx_type</span> <span class="o">=</span> <span class="n">TransactionType</span><span class="o">.</span><span class="n">LEGACY</span>
-    <span class="n">blob_versioned_hashes</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">max_fee_per_blob_gas</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tx_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">blobs_present</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">tx_type</span> <span class="o">=</span> <span class="n">TransactionType</span><span class="o">.</span><span class="n">BLOB_TRANSACTION</span>
-        <span class="n">max_fee_per_blob_gas</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">min_base_fee_per_blob_gas</span><span class="p">()</span>
-        <span class="n">blob_versioned_hashes</span> <span class="o">=</span> <span class="n">add_kzg_version</span><span class="p">(</span>
+        <span class="n">tx_kwargs</span><span class="p">[</span><span class="s2">&quot;ty&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransactionType</span><span class="o">.</span><span class="n">BLOB_TRANSACTION</span>
+        <span class="n">tx_kwargs</span><span class="p">[</span><span class="s2">&quot;max_fee_per_blob_gas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">min_base_fee_per_blob_gas</span><span class="p">()</span>
+        <span class="n">tx_kwargs</span><span class="p">[</span><span class="s2">&quot;blob_versioned_hashes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_kzg_version</span><span class="p">(</span>
             <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">()</span> <span class="o">*</span> <span class="mi">32</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blobs_present</span><span class="p">)],</span>
             <span class="n">BlobsSpec</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">ty</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="n">max_fee_per_blob_gas</span><span class="p">,</span>
-        <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">blob_versioned_hashes</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">ExtCallGenerator</span><span class="p">(</span>
+            <span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">BLOBHASH</span><span class="p">(</span><span class="n">blob_index</span><span class="p">),</span>
+            <span class="n">tx_kwargs</span><span class="o">=</span><span class="n">tx_kwargs</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_blobhash.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29412,8 +29352,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29432,51 +29371,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-no blobs]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-no blobs]">
-                    ...fork_Prague-state_test-no blobs
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-one blob and accessed]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-one blob and accessed]">
-                    ...fork_Prague-state_test-one blob and accessed
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-one blob but access non-existent index]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-one blob but access non-existent index]">
-                    ...fork_Prague-state_test-one blob but access non-existent index
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-six blobs, access latest]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-state_test-six blobs, access latest]">
-                    ...fork_Prague-state_test-six blobs, access latest
-                </abbr>
-            </td>
-                        <td>5</td>
-                        <td>6</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-no blobs]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-no blobs]">
-                    ...fork_Prague-blockchain_test_from_state_test-no blobs
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-no blobs]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-no blobs]">
+                    ...fork_Prague-blockchain_test-no blobs
                 </abbr>
             </td>
                         <td>0</td>
@@ -29485,8 +29384,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-one blob and accessed]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-one blob and accessed]">
-                    ...fork_Prague-blockchain_test_from_state_test-one blob and accessed
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-one blob and accessed]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-one blob and accessed]">
+                    ...fork_Prague-blockchain_test-one blob and accessed
                 </abbr>
             </td>
                         <td>0</td>
@@ -29495,8 +29394,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-one blob but access non-existent index]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-one blob but access non-existent index]">
-                    ...fork_Prague-blockchain_test_from_state_test-one blob but access non-existent index
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-one blob but access non-existent index]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-one blob but access non-existent index]">
+                    ...fork_Prague-blockchain_test-one blob but access non-existent index
                 </abbr>
             </td>
                         <td>1</td>
@@ -29505,48 +29404,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-six blobs, access latest]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test_from_state_test-six blobs, access latest]">
-                    ...fork_Prague-blockchain_test_from_state_test-six blobs, access latest
-                </abbr>
-            </td>
-                        <td>5</td>
-                        <td>6</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-no blobs]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-no blobs]">
-                    ...fork_Osaka-state_test-no blobs
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-one blob and accessed]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-one blob and accessed]">
-                    ...fork_Osaka-state_test-one blob and accessed
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-one blob but access non-existent index]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-one blob but access non-existent index]">
-                    ...fork_Osaka-state_test-one blob but access non-existent index
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-six blobs, access latest]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-state_test-six blobs, access latest]">
-                    ...fork_Osaka-state_test-six blobs, access latest
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-six blobs, access latest]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Prague-blockchain_test-six blobs, access latest]">
+                    ...fork_Prague-blockchain_test-six blobs, access latest
                 </abbr>
             </td>
                         <td>5</td>
@@ -29555,8 +29414,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-no blobs]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-no blobs]">
-                    ...fork_Osaka-blockchain_test_from_state_test-no blobs
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-no blobs]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-no blobs]">
+                    ...fork_Osaka-blockchain_test-no blobs
                 </abbr>
             </td>
                         <td>0</td>
@@ -29565,8 +29424,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-one blob and accessed]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-one blob and accessed]">
-                    ...fork_Osaka-blockchain_test_from_state_test-one blob and accessed
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-one blob and accessed]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-one blob and accessed]">
+                    ...fork_Osaka-blockchain_test-one blob and accessed
                 </abbr>
             </td>
                         <td>0</td>
@@ -29575,8 +29434,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-one blob but access non-existent index]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-one blob but access non-existent index]">
-                    ...fork_Osaka-blockchain_test_from_state_test-one blob but access non-existent index
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-one blob but access non-existent index]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-one blob but access non-existent index]">
+                    ...fork_Osaka-blockchain_test-one blob but access non-existent index
                 </abbr>
             </td>
                         <td>1</td>
@@ -29585,8 +29444,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-six blobs, access latest]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test_from_state_test-six blobs, access latest]">
-                    ...fork_Osaka-blockchain_test_from_state_test-six blobs, access latest
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-six blobs, access latest]" title="tests/benchmark/test_worst_compute.py::test_worst_blobhash[fork_Osaka-blockchain_test-six blobs, access latest]">
+                    ...fork_Osaka-blockchain_test-six blobs, access latest
                 </abbr>
             </td>
                         <td>5</td>

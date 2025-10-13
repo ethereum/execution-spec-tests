@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_jumpdests"><code>test_worst_jumpdests()</code><a class="headerlink" href="#test_worst_jumpdests" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L1924"><code>tests/benchmark/test_worst_compute.py::test_worst_jumpdests@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1226"><code>tests/benchmark/test_worst_compute.py::test_worst_jumpdests@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_jumpdests -m benchmark</span>
@@ -29257,27 +29257,15 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1924</span>
-<span class="normal">1925</span>
-<span class="normal">1926</span>
-<span class="normal">1927</span>
-<span class="normal">1928</span>
-<span class="normal">1929</span>
-<span class="normal">1930</span>
-<span class="normal">1931</span>
-<span class="normal">1932</span>
-<span class="normal">1933</span>
-<span class="normal">1934</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_worst_jumpdests</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1226</span>
+<span class="normal">1227</span>
+<span class="normal">1228</span>
+<span class="normal">1229</span>
+<span class="normal">1230</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_jumpdests</span><span class="p">(</span>
     <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a JUMPDEST-intensive contract.&quot;&quot;&quot;</span>
-    <span class="n">benchmark_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span><span class="p">),</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

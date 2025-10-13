@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_callvalue"><code>test_worst_callvalue()</code><a class="headerlink" href="#test_worst_callvalue" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L145"><code>tests/benchmark/test_worst_compute.py::test_worst_callvalue@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L108"><code>tests/benchmark/test_worst_compute.py::test_worst_callvalue@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_callvalue -m benchmark</span>
@@ -29260,63 +29260,50 @@ immediate from the transaction or a previous CALL.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;non_zero_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;non_zero_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;from_origin&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_callvalue</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">non_zero_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">from_origin</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test running a block with as many CALLVALUE opcodes as possible.</span>
@@ -29325,15 +29312,9 @@ immediate from the transaction or a previous CALL.</p>
 <span class="sd">    value. The `from_origin` parameter controls whether the call frame is the</span>
 <span class="sd">    immediate from the transaction or a previous CALL.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
-    <span class="n">iter_loop</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">)</span>
-    <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span>
-    <span class="n">code_iter_len</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">iter_loop</span><span class="p">)</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">iter_loop</span> <span class="o">*</span> <span class="n">code_iter_len</span> <span class="o">+</span> <span class="n">code_suffix</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+    <span class="n">code_address</span> <span class="o">=</span> <span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">))</span><span class="o">.</span><span class="n">deploy_contracts</span><span class="p">(</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">from_origin</span><span class="p">:</span>
         <span class="n">tx_to</span> <span class="o">=</span> <span class="n">code_address</span>
@@ -29347,22 +29328,17 @@ immediate from the transaction or a previous CALL.</p>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">tx_to</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="n">non_zero_value</span> <span class="ow">and</span> <span class="n">from_origin</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_callvalue.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29391,8 +29367,7 @@ immediate from the transaction or a previous CALL.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29411,51 +29386,11 @@ immediate from the transaction or a previous CALL.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_True-non_zero_value_True]">
-                    ...fork_Prague-state_test-from_origin_True-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_True-non_zero_value_False]">
-                    ...fork_Prague-state_test-from_origin_True-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_False-non_zero_value_True]">
-                    ...fork_Prague-state_test-from_origin_False-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-state_test-from_origin_False-non_zero_value_False]">
-                    ...fork_Prague-state_test-from_origin_False-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_True-non_zero_value_True]">
-                    ...fork_Prague-blockchain_test_from_state_test-from_origin_True-non_zero_value_True
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_True-non_zero_value_True]">
+                    ...fork_Prague-blockchain_test-from_origin_True-non_zero_value_True
                 </abbr>
             </td>
                         <td>True</td>
@@ -29464,8 +29399,8 @@ immediate from the transaction or a previous CALL.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_True-non_zero_value_False]">
-                    ...fork_Prague-blockchain_test_from_state_test-from_origin_True-non_zero_value_False
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_True-non_zero_value_False]">
+                    ...fork_Prague-blockchain_test-from_origin_True-non_zero_value_False
                 </abbr>
             </td>
                         <td>True</td>
@@ -29474,8 +29409,8 @@ immediate from the transaction or a previous CALL.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_False-non_zero_value_True]">
-                    ...fork_Prague-blockchain_test_from_state_test-from_origin_False-non_zero_value_True
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_False-non_zero_value_True]">
+                    ...fork_Prague-blockchain_test-from_origin_False-non_zero_value_True
                 </abbr>
             </td>
                         <td>False</td>
@@ -29484,48 +29419,8 @@ immediate from the transaction or a previous CALL.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test_from_state_test-from_origin_False-non_zero_value_False]">
-                    ...fork_Prague-blockchain_test_from_state_test-from_origin_False-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_True-non_zero_value_True]">
-                    ...fork_Osaka-state_test-from_origin_True-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_True-non_zero_value_False]">
-                    ...fork_Osaka-state_test-from_origin_True-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_False-non_zero_value_True]">
-                    ...fork_Osaka-state_test-from_origin_False-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-state_test-from_origin_False-non_zero_value_False]">
-                    ...fork_Osaka-state_test-from_origin_False-non_zero_value_False
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Prague-blockchain_test-from_origin_False-non_zero_value_False]">
+                    ...fork_Prague-blockchain_test-from_origin_False-non_zero_value_False
                 </abbr>
             </td>
                         <td>False</td>
@@ -29534,8 +29429,8 @@ immediate from the transaction or a previous CALL.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_True-non_zero_value_True]">
-                    ...fork_Osaka-blockchain_test_from_state_test-from_origin_True-non_zero_value_True
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_True-non_zero_value_True]">
+                    ...fork_Osaka-blockchain_test-from_origin_True-non_zero_value_True
                 </abbr>
             </td>
                         <td>True</td>
@@ -29544,8 +29439,8 @@ immediate from the transaction or a previous CALL.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_True-non_zero_value_False]">
-                    ...fork_Osaka-blockchain_test_from_state_test-from_origin_True-non_zero_value_False
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_True-non_zero_value_False]">
+                    ...fork_Osaka-blockchain_test-from_origin_True-non_zero_value_False
                 </abbr>
             </td>
                         <td>True</td>
@@ -29554,8 +29449,8 @@ immediate from the transaction or a previous CALL.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_False-non_zero_value_True]">
-                    ...fork_Osaka-blockchain_test_from_state_test-from_origin_False-non_zero_value_True
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_False-non_zero_value_True]">
+                    ...fork_Osaka-blockchain_test-from_origin_False-non_zero_value_True
                 </abbr>
             </td>
                         <td>False</td>
@@ -29564,8 +29459,8 @@ immediate from the transaction or a previous CALL.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test_from_state_test-from_origin_False-non_zero_value_False]">
-                    ...fork_Osaka-blockchain_test_from_state_test-from_origin_False-non_zero_value_False
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Osaka-blockchain_test-from_origin_False-non_zero_value_False]">
+                    ...fork_Osaka-blockchain_test-from_origin_False-non_zero_value_False
                 </abbr>
             </td>
                         <td>False</td>

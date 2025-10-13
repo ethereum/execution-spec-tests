@@ -29177,7 +29177,7 @@
 
 
 <h1 id="test-worst-compute">Test Worst Compute<a class="headerlink" href="#test-worst-compute" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L64"><code>tests/benchmark/test_worst_compute.py@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L61"><code>tests/benchmark/test_worst_compute.py@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py -m benchmark</span>
@@ -29225,80 +29225,80 @@
 <tbody>
 <tr>
 <td><a href="test_worst_zero_param/"><code>test_worst_zero_param</code></a></td>
-<td>state_test</td>
-<td>14</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many zero-parameter opcodes as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_calldatasize/"><code>test_worst_calldatasize</code></a></td>
-<td>state_test</td>
-<td>3</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many CALLDATASIZE as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_callvalue/"><code>test_worst_callvalue</code></a></td>
-<td>state_test</td>
-<td>4</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many CALLVALUE opcodes as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_returndatasize_nonzero/"><code>test_worst_returndatasize_nonzero</code></a></td>
-<td>state_test</td>
-<td>6</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block which execute as many RETURNDATASIZE opcodes which</td>
 </tr>
 <tr>
 <td><a href="test_worst_returndatasize_zero/"><code>test_worst_returndatasize_zero</code></a></td>
-<td>state_test</td>
-<td>1</td>
-<td>Test running a block with as many RETURNDATASIZE opcodes as possible with a</td>
+<td>benchmark_test</td>
+<td>0</td>
+<td>Test running a block with as many RETURNDATASIZE opcodes as possible with</td>
 </tr>
 <tr>
 <td><a href="test_worst_msize/"><code>test_worst_msize</code></a></td>
-<td>state_test</td>
-<td>5</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many MSIZE opcodes as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_keccak/"><code>test_worst_keccak</code></a></td>
-<td>state_test</td>
-<td>1</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many KECCAK256 permutations as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_precompile_only_data_input/"><code>test_worst_precompile_only_data_input</code></a></td>
-<td>state_test</td>
-<td>3</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many precompile calls which have a single</td>
 </tr>
 <tr>
 <td><a href="test_worst_modexp/"><code>test_worst_modexp</code></a></td>
-<td>state_test</td>
-<td>89</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many calls to the MODEXP (5) precompile as</td>
 </tr>
 <tr>
 <td><a href="test_worst_precompile_fixed_cost/"><code>test_worst_precompile_fixed_cost</code></a></td>
-<td>state_test</td>
-<td>33</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block filled with a precompile with fixed cost.</td>
 </tr>
 <tr>
 <td><a href="test_worst_jumps/"><code>test_worst_jumps</code></a></td>
-<td>state_test</td>
-<td>1</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a JUMP-intensive contract.</td>
 </tr>
 <tr>
 <td><a href="test_worst_jumpi_fallthrough/"><code>test_worst_jumpi_fallthrough</code></a></td>
-<td>state_test</td>
-<td>1</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a JUMPI-intensive contract with fallthrough.</td>
 </tr>
 <tr>
 <td><a href="test_worst_jumpis/"><code>test_worst_jumpis</code></a></td>
-<td>state_test</td>
-<td>1</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a JUMPI-intensive contract.</td>
 </tr>
 <tr>
@@ -29309,74 +29309,74 @@
 </tr>
 <tr>
 <td><a href="test_worst_binop_simple/"><code>test_worst_binop_simple</code></a></td>
-<td>state_test</td>
-<td>23</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many binary instructions (takes two args,</td>
 </tr>
 <tr>
 <td><a href="test_worst_unop/"><code>test_worst_unop</code></a></td>
-<td>state_test</td>
-<td>2</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many unary instructions (takes one arg,</td>
 </tr>
 <tr>
 <td><a href="test_worst_tload/"><code>test_worst_tload</code></a></td>
-<td>state_test</td>
-<td>4</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many TLOAD calls as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_tstore/"><code>test_worst_tstore</code></a></td>
-<td>state_test</td>
-<td>4</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many TSTORE calls as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_shifts/"><code>test_worst_shifts</code></a></td>
-<td>state_test</td>
-<td>2</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many shift instructions with non-trivial</td>
 </tr>
 <tr>
 <td><a href="test_worst_blobhash/"><code>test_worst_blobhash</code></a></td>
-<td>state_test</td>
-<td>4</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many BLOBHASH instructions as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_mod/"><code>test_worst_mod</code></a></td>
-<td>state_test</td>
-<td>8</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many MOD instructions with arguments of the</td>
 </tr>
 <tr>
 <td><a href="test_worst_memory_access/"><code>test_worst_memory_access</code></a></td>
-<td>state_test</td>
-<td>36</td>
-<td>Test running a block with as many memory access instructions as possible.</td>
+<td>benchmark_test</td>
+<td>0</td>
+<td>Test running a block with as many memory access instructions as</td>
 </tr>
 <tr>
 <td><a href="test_worst_modarith/"><code>test_worst_modarith</code></a></td>
-<td>state_test</td>
-<td>8</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many "op" instructions with arguments of the</td>
 </tr>
 <tr>
 <td><a href="test_empty_block/"><code>test_empty_block</code></a></td>
-<td>blockchain_test</td>
-<td>1</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running an empty block as a baseline for fixed proving costs.</td>
 </tr>
 <tr>
 <td><a href="test_amortized_bn128_pairings/"><code>test_amortized_bn128_pairings</code></a></td>
-<td>state_test</td>
-<td>1</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many BN128 pairings as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_calldataload/"><code>test_worst_calldataload</code></a></td>
-<td>state_test</td>
-<td>3</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many CALLDATALOAD as possible.</td>
 </tr>
 <tr>
@@ -29387,33 +29387,33 @@
 </tr>
 <tr>
 <td><a href="test_worst_dup/"><code>test_worst_dup</code></a></td>
-<td>state_test</td>
-<td>16</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many DUP as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_push/"><code>test_worst_push</code></a></td>
-<td>state_test</td>
-<td>33</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many PUSH as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_return_revert/"><code>test_worst_return_revert</code></a></td>
-<td>state_test</td>
-<td>10</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many RETURN or REVERT as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_clz_same_input/"><code>test_worst_clz_same_input</code></a></td>
-<td>blockchain_test</td>
-<td>1</td>
+<td>benchmark_test</td>
+<td>0</td>
 <td>Test running a block with as many CLZ with same input as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_clz_diff_input/"><code>test_worst_clz_diff_input</code></a></td>
-<td>blockchain_test</td>
-<td>1</td>
-<td>Test running a block with as many CLZ with different input as possible.</td>
+<td>benchmark_test</td>
+<td>0</td>
+<td>Test running a block with as many CLZ with different input as</td>
 </tr>
 </tbody>
 </table>

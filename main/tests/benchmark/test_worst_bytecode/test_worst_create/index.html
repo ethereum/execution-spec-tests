@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_create"><code>test_worst_create()</code><a class="headerlink" href="#test_worst_create" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_bytecode.py#L326"><code>tests/benchmark/test_worst_bytecode.py::test_worst_create@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_bytecode.py#L307"><code>tests/benchmark/test_worst_bytecode.py::test_worst_create@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_bytecode.py::test_worst_create -m benchmark</span>
@@ -29257,7 +29257,26 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">326</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
 <span class="normal">327</span>
 <span class="normal">328</span>
 <span class="normal">329</span>
@@ -29345,29 +29364,7 @@
 <span class="normal">411</span>
 <span class="normal">412</span>
 <span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">414</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
@@ -29393,14 +29390,13 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_create</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">max_code_size_ratio</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">non_zero_data</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test the CREATE and CREATE2 performance with different configurations.</span>
@@ -29438,7 +29434,7 @@
     <span class="c1"># ...</span>
     <span class="c1"># JUMP(#)</span>
     <span class="c1"># ```</span>
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">setup</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">PUSH3</span><span class="p">(</span><span class="n">code_size</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>
@@ -29449,7 +29445,7 @@
 
     <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
         <span class="c1"># For CREATE2, we provide an initial salt.</span>
-        <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">setup</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
     <span class="n">attack_block</span> <span class="o">=</span> <span class="p">(</span>
         <span class="c1"># For CREATE:</span>
@@ -29464,26 +29460,24 @@
         <span class="c1"># - DUP3 is targeting the EXTCODESIZE value pushed in code_prefix.</span>
         <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP3</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span>
     <span class="p">)</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">)</span><span class="o">.</span><span class="n">generate_repeated_code</span><span class="p">(</span>
+        <span class="n">repeated_code</span><span class="o">=</span><span class="n">attack_block</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span>
+    <span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="c1"># Set enough balance in the pre-alloc for `value &gt; 0` configurations.</span>
         <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">1_000_000_000</span> <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_create.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29512,8 +29506,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29534,251 +29527,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes without value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes without value-opcode_CREATE]">
-                    ...fork_Prague-state_test-0 bytes without value-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes without value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes without value-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0 bytes without value-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes with value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes with value-opcode_CREATE]">
-                    ...fork_Prague-state_test-0 bytes with value-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes with value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0 bytes with value-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0 bytes with value-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-0.25x max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0.25x max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-0.25x max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.25x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0.25x max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-0.50x max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0.50x max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-0.50x max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.50x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0.50x max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-0.75x max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0.75x max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-0.75x max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-0.75x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-0.75x max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-state_test-max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-state_test-max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-state_test-max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes without value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes without value-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0 bytes without value-opcode_CREATE
                 </abbr>
             </td>
                         <td>0</td>
@@ -29789,8 +29542,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes without value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes without value-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0 bytes without value-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0</td>
@@ -29801,8 +29554,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes with value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes with value-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0 bytes with value-opcode_CREATE
                 </abbr>
             </td>
                         <td>0</td>
@@ -29813,8 +29566,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes with value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0 bytes with value-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0 bytes with value-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0</td>
@@ -29825,8 +29578,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -29837,8 +29590,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -29849,8 +29602,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0.25x max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -29861,8 +29614,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.25x max code size with zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0.25x max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -29873,8 +29626,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -29885,8 +29638,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -29897,8 +29650,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0.50x max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -29909,8 +29662,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.50x max code size with zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0.50x max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -29921,8 +29674,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -29933,8 +29686,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -29945,8 +29698,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-0.75x max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -29957,8 +29710,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-0.75x max code size with zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-0.75x max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -29969,8 +29722,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>1.0</td>
@@ -29981,8 +29734,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>1.0</td>
@@ -29993,8 +29746,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with zero data-opcode_CREATE]">
+                    ...fork_Prague-blockchain_test-max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>1.0</td>
@@ -30005,248 +29758,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes without value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes without value-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0 bytes without value-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes without value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes without value-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0 bytes without value-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes with value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes with value-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0 bytes with value-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes with value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0 bytes with value-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0 bytes with value-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0.25x max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0.25x max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0.25x max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.25x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0.25x max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.25</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0.50x max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0.50x max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0.50x max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.50x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0.50x max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.5</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0.75x max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0.75x max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-0.75x max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-0.75x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-0.75x max code size with zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>0.75</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-max code size with non-zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-max code size with non-zero data-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-state_test-max code size with zero data-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>1.0</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-state_test-max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-state_test-max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Prague-blockchain_test-max code size with zero data-opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test-max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>1.0</td>
@@ -30257,8 +29770,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes without value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes without value-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0 bytes without value-opcode_CREATE
                 </abbr>
             </td>
                         <td>0</td>
@@ -30269,8 +29782,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0 bytes without value-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes without value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes without value-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0 bytes without value-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0</td>
@@ -30281,8 +29794,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes with value-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes with value-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0 bytes with value-opcode_CREATE
                 </abbr>
             </td>
                         <td>0</td>
@@ -30293,8 +29806,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0 bytes with value-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes with value-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0 bytes with value-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0 bytes with value-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0</td>
@@ -30305,8 +29818,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -30317,8 +29830,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.25x max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0.25x max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -30329,8 +29842,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0.25x max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -30341,8 +29854,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.25x max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.25x max code size with zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0.25x max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.25</td>
@@ -30353,8 +29866,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -30365,8 +29878,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.50x max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0.50x max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -30377,8 +29890,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0.50x max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -30389,8 +29902,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.50x max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.50x max code size with zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0.50x max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.5</td>
@@ -30401,8 +29914,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -30413,8 +29926,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.75x max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0.75x max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -30425,8 +29938,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-0.75x max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -30437,8 +29950,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-0.75x max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-0.75x max code size with zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-0.75x max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>0.75</td>
@@ -30449,8 +29962,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with non-zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with non-zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-max code size with non-zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>1.0</td>
@@ -30461,8 +29974,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-max code size with non-zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with non-zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with non-zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-max code size with non-zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>1.0</td>
@@ -30473,8 +29986,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with zero data-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with zero data-opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test-max code size with zero data-opcode_CREATE
                 </abbr>
             </td>
                         <td>1.0</td>
@@ -30485,8 +29998,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-max code size with zero data-opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with zero data-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_create[fork_Osaka-blockchain_test-max code size with zero data-opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test-max code size with zero data-opcode_CREATE2
                 </abbr>
             </td>
                         <td>1.0</td>

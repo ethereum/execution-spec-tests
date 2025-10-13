@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_storage_access_cold"><code>test_worst_storage_access_cold()</code><a class="headerlink" href="#test_worst_storage_access_cold" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_stateful_opcodes.py#L202"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_stateful_opcodes.py#L178"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold -m benchmark</span>
@@ -29257,7 +29257,31 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
@@ -29412,35 +29436,7 @@
 <span class="normal">354</span>
 <span class="normal">355</span>
 <span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span>
-<span class="normal">363</span>
-<span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">357</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;storage_action,tx_result&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -29488,7 +29484,7 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_storage_access_cold</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">storage_action</span><span class="p">:</span> <span class="n">StorageAction</span><span class="p">,</span>
@@ -29502,7 +29498,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
-    <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
 
     <span class="n">loop_cost</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span>  <span class="c1"># All accesses are always cold</span>
     <span class="k">if</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">:</span>
@@ -29552,7 +29547,7 @@
         <span class="p">)</span>
 
     <span class="n">num_target_slots</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">prefix_cost</span> <span class="o">-</span> <span class="n">suffix_cost</span>
+        <span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">prefix_cost</span> <span class="o">-</span> <span class="n">suffix_cost</span>
     <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
     <span class="k">if</span> <span class="n">tx_result</span> <span class="o">==</span> <span class="n">TransactionResult</span><span class="o">.</span><span class="n">OUT_OF_GAS</span><span class="p">:</span>
         <span class="c1"># Add an extra slot to make it run out-of-gas</span>
@@ -29610,18 +29605,15 @@
 
     <span class="n">op_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">attack_gas_limit</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
     <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">op_tx</span><span class="p">]))</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
         <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
-        <span class="n">exclude_full_post_state_in_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">expected_benchmark_gas_used</span><span class="o">=</span><span class="p">(</span>
-            <span class="n">total_gas_used</span> <span class="k">if</span> <span class="n">tx_result</span> <span class="o">!=</span> <span class="n">TransactionResult</span><span class="o">.</span><span class="n">OUT_OF_GAS</span> <span class="k">else</span> <span class="n">attack_gas_limit</span>
+            <span class="n">total_gas_used</span> <span class="k">if</span> <span class="n">tx_result</span> <span class="o">!=</span> <span class="n">TransactionResult</span><span class="o">.</span><span class="n">OUT_OF_GAS</span> <span class="k">else</span> <span class="n">gas_benchmark_value</span>
         <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -29629,7 +29621,7 @@
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_storage_access_cold.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29686,8 +29678,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>1</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29697,8 +29689,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>2</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29708,8 +29700,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>2</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29719,8 +29711,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>2</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29730,8 +29722,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>3</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29741,8 +29733,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>3</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29752,8 +29744,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>3</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29763,8 +29755,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>1</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29774,8 +29766,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>2</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29785,8 +29777,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>2</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29796,8 +29788,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>2</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29807,8 +29799,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>3</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29818,8 +29810,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>3</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -29829,8 +29821,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>3</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29840,8 +29832,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>1</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29851,8 +29843,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>2</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29862,8 +29854,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>2</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29873,8 +29865,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>2</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29884,8 +29876,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>3</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29895,8 +29887,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>3</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29906,8 +29898,8 @@
                 </abbr>
             </td>
                         <td>True</td>
-                        <td>3</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29917,8 +29909,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>1</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29928,8 +29920,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>2</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29939,8 +29931,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>2</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29950,8 +29942,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>2</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29961,8 +29953,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>3</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29972,8 +29964,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>3</td>
-                        <td>3</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29983,8 +29975,8 @@
                 </abbr>
             </td>
                         <td>False</td>
-                        <td>3</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
             </tbody>
 </table>

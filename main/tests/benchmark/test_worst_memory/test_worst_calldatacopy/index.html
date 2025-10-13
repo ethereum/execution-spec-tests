@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_calldatacopy"><code>test_worst_calldatacopy()</code><a class="headerlink" href="#test_worst_calldatacopy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_memory.py#L30"><code>tests/benchmark/test_worst_memory.py::test_worst_calldatacopy@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_memory.py#L31"><code>tests/benchmark/test_worst_memory.py::test_worst_calldatacopy@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_memory.py::test_worst_calldatacopy -m benchmark</span>
@@ -29257,8 +29257,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_memory.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
-<span class="normal"> 31</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
 <span class="normal"> 34</span>
@@ -29352,7 +29351,10 @@
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
-<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;origin&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">CallDataOrigin</span><span class="o">.</span><span class="n">TRANSACTION</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;transaction&quot;</span><span class="p">),</span>
@@ -29383,7 +29385,7 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_calldatacopy</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">origin</span><span class="p">:</span> <span class="n">CallDataOrigin</span><span class="p">,</span>
@@ -29408,16 +29410,20 @@
 
     <span class="c1"># We create the contract that will be doing the CALLDATACOPY multiple</span>
     <span class="c1"># times.</span>
-    <span class="c1"># If `non_zero_data` is True, we leverage CALLDATASIZE for the copy length.</span>
-    <span class="c1"># Otherwise, since we don&#39;t send zero data explicitly via calldata, PUSH</span>
-    <span class="c1"># the target size and use DUP1 to copy it.</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH3</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1"># If `non_zero_data` is True, we leverage CALLDATASIZE for the copy</span>
+    <span class="c1"># length. Otherwise, since we</span>
+    <span class="c1"># don&#39;t send zero data explicitly via calldata, PUSH the target size and</span>
+    <span class="c1"># use DUP1 to copy it.</span>
+    <span class="n">setup</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH3</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
     <span class="n">src_dst</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">fixed_src_dst</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span>
         <span class="n">src_dst</span><span class="p">,</span> <span class="n">src_dst</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
     <span class="p">)</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="n">code_address</span> <span class="o">=</span> <span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">)</span><span class="o">.</span><span class="n">deploy_contracts</span><span class="p">(</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span>
+    <span class="p">)</span>
 
     <span class="n">tx_target</span> <span class="o">=</span> <span class="n">code_address</span>
 
@@ -29426,15 +29432,17 @@
     <span class="k">if</span> <span class="n">origin</span> <span class="o">==</span> <span class="n">CallDataOrigin</span><span class="o">.</span><span class="n">CALL</span><span class="p">:</span>
         <span class="c1"># If `non_zero_data` is False we leverage just using zeroed memory.</span>
         <span class="c1"># Otherwise, we copy the calldata received from the transaction.</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">setup</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="k">else</span> <span class="n">Bytecode</span><span class="p">()</span>
         <span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
         <span class="n">arg_size</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span> <span class="k">if</span> <span class="n">non_zero_data</span> <span class="k">else</span> <span class="n">size</span>
-        <span class="n">code</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span>
+        <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span>
             <span class="n">address</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span> <span class="n">args_offset</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">args_size</span><span class="o">=</span><span class="n">arg_size</span>
         <span class="p">)</span>
-        <span class="n">code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">tx_target</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+
+        <span class="n">tx_target</span> <span class="o">=</span> <span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">)</span><span class="o">.</span><span class="n">deploy_contracts</span><span class="p">(</span>
+            <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span>
+        <span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">tx_target</span><span class="p">,</span>
@@ -29443,17 +29451,13 @@
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_calldatacopy.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29482,8 +29486,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29504,1541 +29507,773 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>100</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>100</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>10240</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>10240</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>1048576</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Prague-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>100</td>
+                        <td>auto(_auto_null)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>100</td>
+                        <td>auto(_auto_null)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>10240</td>
+                        <td>auto(_auto_null)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-call
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>10240</td>
+                        <td>auto(_auto_null)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>1048576</td>
+                        <td>auto(_auto_null)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]">
+                    ...fork_Prague-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-call
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>1048576</td>
+                        <td>auto(_auto_null)</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-10KiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_True-1MiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>100</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>100</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>10240</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-10KiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>10240</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>1048576</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_True-fixed_src_dst_False-1MiB-call
                 </abbr>
             </td>
                         <td>True</td>
                         <td>False</td>
                         <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>0</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>100</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-10KiB-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>10240</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_True-1MiB-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>True</td>
                         <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>0</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>100</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>100</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>10240</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-10KiB-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>10240</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>1048576</td>
-                        <td>1</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Prague-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]">
+                    ...fork_Osaka-blockchain_test-non_zero_data_False-fixed_src_dst_False-1MiB-call
                 </abbr>
             </td>
                         <td>False</td>
                         <td>False</td>
                         <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Osaka-state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-0 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-100 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-10KiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_True-1MiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-0 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-100 bytes-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-10KiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_True-fixed_src_dst_False-1MiB-call
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-0 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-100 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-10KiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_True-1MiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1048576</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-0 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-100 bytes-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>100</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-10KiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>10240</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-transaction
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]" title="tests/benchmark/test_worst_memory.py::test_worst_calldatacopy[fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call]">
-                    ...fork_Osaka-blockchain_test_from_state_test-non_zero_data_False-fixed_src_dst_False-1MiB-call
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1048576</td>
-                        <td>2</td>
+                        <td>auto(_auto_null)</td>
                     </tr>
             </tbody>
 </table>

@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_block_full_of_ether_transfers"><code>test_block_full_of_ether_transfers()</code><a class="headerlink" href="#test_block_full_of_ether_transfers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_blocks.py#L112"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_blocks.py#L112"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers -m benchmark</span>
@@ -29315,23 +29315,18 @@
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;case_id&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="s2">&quot;a_to_a&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_diff_acc&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_diff_acc&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_of_ether_transfers</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">case_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">ether_transfer_case</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Generator</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]],</span>
     <span class="n">iteration_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">transfer_amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Single test for ether transfer scenarios.</span>
@@ -29367,8 +29362,7 @@
         <span class="k">else</span> <span class="p">{</span><span class="n">receiver</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">)</span> <span class="k">for</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">balance</span> <span class="ow">in</span> <span class="n">balances</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
     <span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post_state</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
@@ -29379,7 +29373,7 @@
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_block_full_of_ether_transfers.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">

@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_clz_same_input"><code>test_worst_clz_same_input()</code><a class="headerlink" href="#test_worst_clz_same_input" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L3072"><code>tests/benchmark/test_worst_compute.py::test_worst_clz_same_input@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L2143"><code>tests/benchmark/test_worst_compute.py::test_worst_clz_same_input@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_clz_same_input -m benchmark</span>
@@ -29257,84 +29257,18 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3072</span>
-<span class="normal">3073</span>
-<span class="normal">3074</span>
-<span class="normal">3075</span>
-<span class="normal">3076</span>
-<span class="normal">3077</span>
-<span class="normal">3078</span>
-<span class="normal">3079</span>
-<span class="normal">3080</span>
-<span class="normal">3081</span>
-<span class="normal">3082</span>
-<span class="normal">3083</span>
-<span class="normal">3084</span>
-<span class="normal">3085</span>
-<span class="normal">3086</span>
-<span class="normal">3087</span>
-<span class="normal">3088</span>
-<span class="normal">3089</span>
-<span class="normal">3090</span>
-<span class="normal">3091</span>
-<span class="normal">3092</span>
-<span class="normal">3093</span>
-<span class="normal">3094</span>
-<span class="normal">3095</span>
-<span class="normal">3096</span>
-<span class="normal">3097</span>
-<span class="normal">3098</span>
-<span class="normal">3099</span>
-<span class="normal">3100</span>
-<span class="normal">3101</span>
-<span class="normal">3102</span>
-<span class="normal">3103</span>
-<span class="normal">3104</span>
-<span class="normal">3105</span>
-<span class="normal">3106</span>
-<span class="normal">3107</span>
-<span class="normal">3108</span>
-<span class="normal">3109</span>
-<span class="normal">3110</span>
-<span class="normal">3111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_worst_clz_same_input</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2143</span>
+<span class="normal">2144</span>
+<span class="normal">2145</span>
+<span class="normal">2146</span>
+<span class="normal">2147</span>
+<span class="normal">2148</span>
+<span class="normal">2149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_worst_clz_same_input</span><span class="p">(</span><span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many CLZ with same input as possible.&quot;&quot;&quot;</span>
-    <span class="n">tx_gas_limit</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_gas_limit_cap</span><span class="p">()</span> <span class="ow">or</span> <span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span>
-
     <span class="n">magic_value</span> <span class="o">=</span> <span class="mi">248</span>  <span class="c1"># CLZ(248) = 248</span>
-
-    <span class="n">calldata</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">magic_value</span><span class="p">)</span>
-    <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CLZ</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
-
-    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-    <span class="n">tx_count</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span> <span class="o">//</span> <span class="n">tx_gas_limit</span>
-    <span class="n">remainder_gas</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span> <span class="o">%</span> <span class="n">tx_gas_limit</span>
-
-    <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas_limit</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tx_count</span> <span class="k">else</span> <span class="n">remainder_gas</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tx_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="p">]</span>
-
-    <span class="n">blockchain_test</span><span class="p">(</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">magic_value</span><span class="p">),</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CLZ</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

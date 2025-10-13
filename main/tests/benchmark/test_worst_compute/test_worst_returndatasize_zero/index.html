@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_returndatasize_zero"><code>test_worst_returndatasize_zero()</code><a class="headerlink" href="#test_worst_returndatasize_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L266"><code>tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L198"><code>tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero -m benchmark</span>
@@ -29252,81 +29252,33 @@
 <a id="tests.benchmark.test_worst_compute.test_worst_returndatasize_zero"></a>
     <div class="doc doc-contents first">
 
-        <p>Test running a block with as many RETURNDATASIZE opcodes as possible with a
-zero buffer.</p>
+        <p>Test running a block with as many RETURNDATASIZE opcodes as possible with
+a zero buffer.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_returndatasize_zero</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_returndatasize_zero</span><span class="p">(</span><span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test running a block with as many RETURNDATASIZE opcodes as possible with a</span>
-<span class="sd">    zero buffer.</span>
+<span class="sd">    Test running a block with as many RETURNDATASIZE opcodes as possible with</span>
+<span class="sd">    a zero buffer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
-    <span class="n">dummy_contract_call</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
-
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">dummy_contract_call</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
-    <span class="n">iter_loop</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
-    <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">code_iter_len</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">iter_loop</span><span class="p">)</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">iter_loop</span> <span class="o">*</span> <span class="n">code_iter_len</span> <span class="o">+</span> <span class="n">code_suffix</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">code</span><span class="p">)),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">ExtCallGenerator</span><span class="p">(</span><span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29355,8 +29307,7 @@ zero buffer.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29373,35 +29324,19 @@ zero buffer.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Prague-state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Prague-state_test]">
-                    ...fork_Prague-state_test
-                </abbr>
-            </td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Prague-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Prague-blockchain_test_from_state_test]">
-                    ...fork_Prague-blockchain_test_from_state_test
-                </abbr>
-            </td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Osaka-state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Prague-blockchain_test]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Prague-blockchain_test]">
+                    ...fork_Prague-blockchain_test
                 </abbr>
             </td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Osaka-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Osaka-blockchain_test]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_zero[fork_Osaka-blockchain_test]">
+                    ...fork_Osaka-blockchain_test
                 </abbr>
             </td>
                     </tr>

@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_modarith"><code>test_worst_modarith()</code><a class="headerlink" href="#test_worst_modarith" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L2583"><code>tests/benchmark/test_worst_compute.py::test_worst_modarith@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1743"><code>tests/benchmark/test_worst_compute.py::test_worst_modarith@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_modarith -m benchmark</span>
@@ -29268,116 +29268,112 @@ remains in the range as long as possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2583</span>
-<span class="normal">2584</span>
-<span class="normal">2585</span>
-<span class="normal">2586</span>
-<span class="normal">2587</span>
-<span class="normal">2588</span>
-<span class="normal">2589</span>
-<span class="normal">2590</span>
-<span class="normal">2591</span>
-<span class="normal">2592</span>
-<span class="normal">2593</span>
-<span class="normal">2594</span>
-<span class="normal">2595</span>
-<span class="normal">2596</span>
-<span class="normal">2597</span>
-<span class="normal">2598</span>
-<span class="normal">2599</span>
-<span class="normal">2600</span>
-<span class="normal">2601</span>
-<span class="normal">2602</span>
-<span class="normal">2603</span>
-<span class="normal">2604</span>
-<span class="normal">2605</span>
-<span class="normal">2606</span>
-<span class="normal">2607</span>
-<span class="normal">2608</span>
-<span class="normal">2609</span>
-<span class="normal">2610</span>
-<span class="normal">2611</span>
-<span class="normal">2612</span>
-<span class="normal">2613</span>
-<span class="normal">2614</span>
-<span class="normal">2615</span>
-<span class="normal">2616</span>
-<span class="normal">2617</span>
-<span class="normal">2618</span>
-<span class="normal">2619</span>
-<span class="normal">2620</span>
-<span class="normal">2621</span>
-<span class="normal">2622</span>
-<span class="normal">2623</span>
-<span class="normal">2624</span>
-<span class="normal">2625</span>
-<span class="normal">2626</span>
-<span class="normal">2627</span>
-<span class="normal">2628</span>
-<span class="normal">2629</span>
-<span class="normal">2630</span>
-<span class="normal">2631</span>
-<span class="normal">2632</span>
-<span class="normal">2633</span>
-<span class="normal">2634</span>
-<span class="normal">2635</span>
-<span class="normal">2636</span>
-<span class="normal">2637</span>
-<span class="normal">2638</span>
-<span class="normal">2639</span>
-<span class="normal">2640</span>
-<span class="normal">2641</span>
-<span class="normal">2642</span>
-<span class="normal">2643</span>
-<span class="normal">2644</span>
-<span class="normal">2645</span>
-<span class="normal">2646</span>
-<span class="normal">2647</span>
-<span class="normal">2648</span>
-<span class="normal">2649</span>
-<span class="normal">2650</span>
-<span class="normal">2651</span>
-<span class="normal">2652</span>
-<span class="normal">2653</span>
-<span class="normal">2654</span>
-<span class="normal">2655</span>
-<span class="normal">2656</span>
-<span class="normal">2657</span>
-<span class="normal">2658</span>
-<span class="normal">2659</span>
-<span class="normal">2660</span>
-<span class="normal">2661</span>
-<span class="normal">2662</span>
-<span class="normal">2663</span>
-<span class="normal">2664</span>
-<span class="normal">2665</span>
-<span class="normal">2666</span>
-<span class="normal">2667</span>
-<span class="normal">2668</span>
-<span class="normal">2669</span>
-<span class="normal">2670</span>
-<span class="normal">2671</span>
-<span class="normal">2672</span>
-<span class="normal">2673</span>
-<span class="normal">2674</span>
-<span class="normal">2675</span>
-<span class="normal">2676</span>
-<span class="normal">2677</span>
-<span class="normal">2678</span>
-<span class="normal">2679</span>
-<span class="normal">2680</span>
-<span class="normal">2681</span>
-<span class="normal">2682</span>
-<span class="normal">2683</span>
-<span class="normal">2684</span>
-<span class="normal">2685</span>
-<span class="normal">2686</span>
-<span class="normal">2687</span>
-<span class="normal">2688</span>
-<span class="normal">2689</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1743</span>
+<span class="normal">1744</span>
+<span class="normal">1745</span>
+<span class="normal">1746</span>
+<span class="normal">1747</span>
+<span class="normal">1748</span>
+<span class="normal">1749</span>
+<span class="normal">1750</span>
+<span class="normal">1751</span>
+<span class="normal">1752</span>
+<span class="normal">1753</span>
+<span class="normal">1754</span>
+<span class="normal">1755</span>
+<span class="normal">1756</span>
+<span class="normal">1757</span>
+<span class="normal">1758</span>
+<span class="normal">1759</span>
+<span class="normal">1760</span>
+<span class="normal">1761</span>
+<span class="normal">1762</span>
+<span class="normal">1763</span>
+<span class="normal">1764</span>
+<span class="normal">1765</span>
+<span class="normal">1766</span>
+<span class="normal">1767</span>
+<span class="normal">1768</span>
+<span class="normal">1769</span>
+<span class="normal">1770</span>
+<span class="normal">1771</span>
+<span class="normal">1772</span>
+<span class="normal">1773</span>
+<span class="normal">1774</span>
+<span class="normal">1775</span>
+<span class="normal">1776</span>
+<span class="normal">1777</span>
+<span class="normal">1778</span>
+<span class="normal">1779</span>
+<span class="normal">1780</span>
+<span class="normal">1781</span>
+<span class="normal">1782</span>
+<span class="normal">1783</span>
+<span class="normal">1784</span>
+<span class="normal">1785</span>
+<span class="normal">1786</span>
+<span class="normal">1787</span>
+<span class="normal">1788</span>
+<span class="normal">1789</span>
+<span class="normal">1790</span>
+<span class="normal">1791</span>
+<span class="normal">1792</span>
+<span class="normal">1793</span>
+<span class="normal">1794</span>
+<span class="normal">1795</span>
+<span class="normal">1796</span>
+<span class="normal">1797</span>
+<span class="normal">1798</span>
+<span class="normal">1799</span>
+<span class="normal">1800</span>
+<span class="normal">1801</span>
+<span class="normal">1802</span>
+<span class="normal">1803</span>
+<span class="normal">1804</span>
+<span class="normal">1805</span>
+<span class="normal">1806</span>
+<span class="normal">1807</span>
+<span class="normal">1808</span>
+<span class="normal">1809</span>
+<span class="normal">1810</span>
+<span class="normal">1811</span>
+<span class="normal">1812</span>
+<span class="normal">1813</span>
+<span class="normal">1814</span>
+<span class="normal">1815</span>
+<span class="normal">1816</span>
+<span class="normal">1817</span>
+<span class="normal">1818</span>
+<span class="normal">1819</span>
+<span class="normal">1820</span>
+<span class="normal">1821</span>
+<span class="normal">1822</span>
+<span class="normal">1823</span>
+<span class="normal">1824</span>
+<span class="normal">1825</span>
+<span class="normal">1826</span>
+<span class="normal">1827</span>
+<span class="normal">1828</span>
+<span class="normal">1829</span>
+<span class="normal">1830</span>
+<span class="normal">1831</span>
+<span class="normal">1832</span>
+<span class="normal">1833</span>
+<span class="normal">1834</span>
+<span class="normal">1835</span>
+<span class="normal">1836</span>
+<span class="normal">1837</span>
+<span class="normal">1838</span>
+<span class="normal">1839</span>
+<span class="normal">1840</span>
+<span class="normal">1841</span>
+<span class="normal">1842</span>
+<span class="normal">1843</span>
+<span class="normal">1844</span>
+<span class="normal">1845</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;op&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDMOD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MULMOD</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_modarith</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">mod_bits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -29476,17 +29472,13 @@ remains in the range as long as possible.</p>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_modarith.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29515,8 +29507,7 @@ remains in the range as long as possible.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29535,91 +29526,11 @@ remains in the range as long as possible.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_255]">
-                    ...fork_Prague-state_test-op_ADDMOD-mod_bits_255
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_191]">
-                    ...fork_Prague-state_test-op_ADDMOD-mod_bits_191
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>191</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_127]">
-                    ...fork_Prague-state_test-op_ADDMOD-mod_bits_127
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>127</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_ADDMOD-mod_bits_63]">
-                    ...fork_Prague-state_test-op_ADDMOD-mod_bits_63
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>63</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_255]">
-                    ...fork_Prague-state_test-op_MULMOD-mod_bits_255
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_191]">
-                    ...fork_Prague-state_test-op_MULMOD-mod_bits_191
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>191</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_127]">
-                    ...fork_Prague-state_test-op_MULMOD-mod_bits_127
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>127</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-state_test-op_MULMOD-mod_bits_63]">
-                    ...fork_Prague-state_test-op_MULMOD-mod_bits_63
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>63</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_255]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_255]">
+                    ...fork_Prague-blockchain_test-op_ADDMOD-mod_bits_255
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29628,8 +29539,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_191]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_191]">
+                    ...fork_Prague-blockchain_test-op_ADDMOD-mod_bits_191
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29638,8 +29549,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_127]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_127]">
+                    ...fork_Prague-blockchain_test-op_ADDMOD-mod_bits_127
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29648,8 +29559,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_63]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_ADDMOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_ADDMOD-mod_bits_63]">
+                    ...fork_Prague-blockchain_test-op_ADDMOD-mod_bits_63
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29658,8 +29569,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_255]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_255]">
+                    ...fork_Prague-blockchain_test-op_MULMOD-mod_bits_255
                 </abbr>
             </td>
                         <td>MULMOD</td>
@@ -29668,8 +29579,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_191]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_191]">
+                    ...fork_Prague-blockchain_test-op_MULMOD-mod_bits_191
                 </abbr>
             </td>
                         <td>MULMOD</td>
@@ -29678,8 +29589,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_127]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_127]">
+                    ...fork_Prague-blockchain_test-op_MULMOD-mod_bits_127
                 </abbr>
             </td>
                         <td>MULMOD</td>
@@ -29688,88 +29599,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_63]">
-                    ...fork_Prague-blockchain_test_from_state_test-op_MULMOD-mod_bits_63
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>63</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_255]">
-                    ...fork_Osaka-state_test-op_ADDMOD-mod_bits_255
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_191]">
-                    ...fork_Osaka-state_test-op_ADDMOD-mod_bits_191
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>191</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_127]">
-                    ...fork_Osaka-state_test-op_ADDMOD-mod_bits_127
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>127</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_ADDMOD-mod_bits_63]">
-                    ...fork_Osaka-state_test-op_ADDMOD-mod_bits_63
-                </abbr>
-            </td>
-                        <td>ADDMOD</td>
-                        <td>63</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_255]">
-                    ...fork_Osaka-state_test-op_MULMOD-mod_bits_255
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_191]">
-                    ...fork_Osaka-state_test-op_MULMOD-mod_bits_191
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>191</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_127]">
-                    ...fork_Osaka-state_test-op_MULMOD-mod_bits_127
-                </abbr>
-            </td>
-                        <td>MULMOD</td>
-                        <td>127</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-state_test-op_MULMOD-mod_bits_63]">
-                    ...fork_Osaka-state_test-op_MULMOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Prague-blockchain_test-op_MULMOD-mod_bits_63]">
+                    ...fork_Prague-blockchain_test-op_MULMOD-mod_bits_63
                 </abbr>
             </td>
                         <td>MULMOD</td>
@@ -29778,8 +29609,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_255]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_255]">
+                    ...fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_255
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29788,8 +29619,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_191]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_191]">
+                    ...fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_191
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29798,8 +29629,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_127]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_127]">
+                    ...fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_127
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29808,8 +29639,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_63]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_ADDMOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_63]">
+                    ...fork_Osaka-blockchain_test-op_ADDMOD-mod_bits_63
                 </abbr>
             </td>
                         <td>ADDMOD</td>
@@ -29818,8 +29649,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_255]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_255]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_255]">
+                    ...fork_Osaka-blockchain_test-op_MULMOD-mod_bits_255
                 </abbr>
             </td>
                         <td>MULMOD</td>
@@ -29828,8 +29659,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_191]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_191]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_191]">
+                    ...fork_Osaka-blockchain_test-op_MULMOD-mod_bits_191
                 </abbr>
             </td>
                         <td>MULMOD</td>
@@ -29838,8 +29669,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_127]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_127]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_127]">
+                    ...fork_Osaka-blockchain_test-op_MULMOD-mod_bits_127
                 </abbr>
             </td>
                         <td>MULMOD</td>
@@ -29848,8 +29679,8 @@ remains in the range as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_63]">
-                    ...fork_Osaka-blockchain_test_from_state_test-op_MULMOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_63]" title="tests/benchmark/test_worst_compute.py::test_worst_modarith[fork_Osaka-blockchain_test-op_MULMOD-mod_bits_63]">
+                    ...fork_Osaka-blockchain_test-op_MULMOD-mod_bits_63
                 </abbr>
             </td>
                         <td>MULMOD</td>

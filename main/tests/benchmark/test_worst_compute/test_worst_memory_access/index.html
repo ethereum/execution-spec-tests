@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_memory_access"><code>test_worst_memory_access()</code><a class="headerlink" href="#test_worst_memory_access" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L2538"><code>tests/benchmark/test_worst_compute.py::test_worst_memory_access@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1717"><code>tests/benchmark/test_worst_compute.py::test_worst_memory_access@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_memory_access -m benchmark</span>
@@ -29252,102 +29252,65 @@
 <a id="tests.benchmark.test_worst_compute.test_worst_memory_access"></a>
     <div class="doc doc-contents first">
 
-        <p>Test running a block with as many memory access instructions as possible.</p>
+        <p>Test running a block with as many memory access instructions as
+possible.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2538</span>
-<span class="normal">2539</span>
-<span class="normal">2540</span>
-<span class="normal">2541</span>
-<span class="normal">2542</span>
-<span class="normal">2543</span>
-<span class="normal">2544</span>
-<span class="normal">2545</span>
-<span class="normal">2546</span>
-<span class="normal">2547</span>
-<span class="normal">2548</span>
-<span class="normal">2549</span>
-<span class="normal">2550</span>
-<span class="normal">2551</span>
-<span class="normal">2552</span>
-<span class="normal">2553</span>
-<span class="normal">2554</span>
-<span class="normal">2555</span>
-<span class="normal">2556</span>
-<span class="normal">2557</span>
-<span class="normal">2558</span>
-<span class="normal">2559</span>
-<span class="normal">2560</span>
-<span class="normal">2561</span>
-<span class="normal">2562</span>
-<span class="normal">2563</span>
-<span class="normal">2564</span>
-<span class="normal">2565</span>
-<span class="normal">2566</span>
-<span class="normal">2567</span>
-<span class="normal">2568</span>
-<span class="normal">2569</span>
-<span class="normal">2570</span>
-<span class="normal">2571</span>
-<span class="normal">2572</span>
-<span class="normal">2573</span>
-<span class="normal">2574</span>
-<span class="normal">2575</span>
-<span class="normal">2576</span>
-<span class="normal">2577</span>
-<span class="normal">2578</span>
-<span class="normal">2579</span>
-<span class="normal">2580</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">])</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1717</span>
+<span class="normal">1718</span>
+<span class="normal">1719</span>
+<span class="normal">1720</span>
+<span class="normal">1721</span>
+<span class="normal">1722</span>
+<span class="normal">1723</span>
+<span class="normal">1724</span>
+<span class="normal">1725</span>
+<span class="normal">1726</span>
+<span class="normal">1727</span>
+<span class="normal">1728</span>
+<span class="normal">1729</span>
+<span class="normal">1730</span>
+<span class="normal">1731</span>
+<span class="normal">1732</span>
+<span class="normal">1733</span>
+<span class="normal">1734</span>
+<span class="normal">1735</span>
+<span class="normal">1736</span>
+<span class="normal">1737</span>
+<span class="normal">1738</span>
+<span class="normal">1739</span>
+<span class="normal">1740</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;offset&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;offset_initialized&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;big_memory_expansion&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_memory_access</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">offset_initialized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">big_memory_expansion</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test running a block with as many memory access instructions as possible.</span>
+<span class="sd">    Test running a block with as many memory access instructions as</span>
+<span class="sd">    possible.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
     <span class="n">mem_exp_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">big_memory_expansion</span> <span class="k">else</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="n">offset_set_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="mi">43</span><span class="p">)</span> <span class="k">if</span> <span class="n">offset_initialized</span> <span class="k">else</span> <span class="n">Bytecode</span><span class="p">()</span>
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">mem_exp_code</span> <span class="o">+</span> <span class="n">offset_set_code</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+    <span class="n">setup</span> <span class="o">=</span> <span class="n">mem_exp_code</span> <span class="o">+</span> <span class="n">offset_set_code</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
 
-    <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">))</span> <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span> <span class="k">else</span> <span class="n">opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">)</span>
 
-    <span class="n">loop_iter</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">))</span> <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span> <span class="k">else</span> <span class="n">opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">)</span>
-
-    <span class="n">code_body_len</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">loop_iter</span><span class="p">)</span>
-    <span class="n">code_body</span> <span class="o">=</span> <span class="n">loop_iter</span> <span class="o">*</span> <span class="n">code_body_len</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">code_body</span> <span class="o">+</span> <span class="n">code_suffix</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_memory_access.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29376,8 +29339,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29398,443 +29360,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -29845,8 +29375,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -29857,8 +29387,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -29869,8 +29399,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -29881,8 +29411,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -29893,8 +29423,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -29905,8 +29435,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -29917,8 +29447,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -29929,8 +29459,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -29941,8 +29471,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -29953,8 +29483,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -29965,8 +29495,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -29977,8 +29507,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -29989,8 +29519,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30001,8 +29531,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30013,8 +29543,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -30025,8 +29555,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30037,8 +29567,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30049,8 +29579,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30061,8 +29591,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30073,8 +29603,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30085,8 +29615,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30097,8 +29627,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30109,8 +29639,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30121,8 +29651,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30133,8 +29663,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30145,8 +29675,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30157,8 +29687,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30169,8 +29699,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30181,8 +29711,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30193,8 +29723,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30205,8 +29735,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30217,8 +29747,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30229,8 +29759,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30241,8 +29771,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30253,440 +29783,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Prague-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>31</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>0</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>MSTORE8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MLOAD</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>31</td>
-                        <td>MSTORE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]">
+                    ...fork_Prague-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30697,8 +29795,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -30709,8 +29807,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30721,8 +29819,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30733,8 +29831,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -30745,8 +29843,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30757,8 +29855,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30769,8 +29867,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -30781,8 +29879,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30793,8 +29891,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_True-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30805,8 +29903,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -30817,8 +29915,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30829,8 +29927,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30841,8 +29939,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -30853,8 +29951,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30865,8 +29963,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30877,8 +29975,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>True</td>
@@ -30889,8 +29987,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>True</td>
@@ -30901,8 +29999,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_True-offset_initialized_False-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>True</td>
@@ -30913,8 +30011,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30925,8 +30023,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30937,8 +30035,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30949,8 +30047,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30961,8 +30059,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -30973,8 +30071,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -30985,8 +30083,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -30997,8 +30095,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -31009,8 +30107,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_True-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -31021,8 +30119,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -31033,8 +30131,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -31045,8 +30143,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_0-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -31057,8 +30155,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -31069,8 +30167,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -31081,8 +30179,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_1-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>
@@ -31093,8 +30191,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MLOAD
                 </abbr>
             </td>
                         <td>False</td>
@@ -31105,8 +30203,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE
                 </abbr>
             </td>
                         <td>False</td>
@@ -31117,8 +30215,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]" title="tests/benchmark/test_worst_compute.py::test_worst_memory_access[fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8]">
+                    ...fork_Osaka-blockchain_test-big_memory_expansion_False-offset_initialized_False-offset_31-opcode_MSTORE8
                 </abbr>
             </td>
                         <td>False</td>

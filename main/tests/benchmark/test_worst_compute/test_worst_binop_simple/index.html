@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_binop_simple"><code>test_worst_binop_simple()</code><a class="headerlink" href="#test_worst_binop_simple" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L1943"><code>tests/benchmark/test_worst_compute.py::test_worst_binop_simple@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1239"><code>tests/benchmark/test_worst_compute.py::test_worst_binop_simple@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_binop_simple -m benchmark</span>
@@ -29259,184 +29259,171 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1943</span>
-<span class="normal">1944</span>
-<span class="normal">1945</span>
-<span class="normal">1946</span>
-<span class="normal">1947</span>
-<span class="normal">1948</span>
-<span class="normal">1949</span>
-<span class="normal">1950</span>
-<span class="normal">1951</span>
-<span class="normal">1952</span>
-<span class="normal">1953</span>
-<span class="normal">1954</span>
-<span class="normal">1955</span>
-<span class="normal">1956</span>
-<span class="normal">1957</span>
-<span class="normal">1958</span>
-<span class="normal">1959</span>
-<span class="normal">1960</span>
-<span class="normal">1961</span>
-<span class="normal">1962</span>
-<span class="normal">1963</span>
-<span class="normal">1964</span>
-<span class="normal">1965</span>
-<span class="normal">1966</span>
-<span class="normal">1967</span>
-<span class="normal">1968</span>
-<span class="normal">1969</span>
-<span class="normal">1970</span>
-<span class="normal">1971</span>
-<span class="normal">1972</span>
-<span class="normal">1973</span>
-<span class="normal">1974</span>
-<span class="normal">1975</span>
-<span class="normal">1976</span>
-<span class="normal">1977</span>
-<span class="normal">1978</span>
-<span class="normal">1979</span>
-<span class="normal">1980</span>
-<span class="normal">1981</span>
-<span class="normal">1982</span>
-<span class="normal">1983</span>
-<span class="normal">1984</span>
-<span class="normal">1985</span>
-<span class="normal">1986</span>
-<span class="normal">1987</span>
-<span class="normal">1988</span>
-<span class="normal">1989</span>
-<span class="normal">1990</span>
-<span class="normal">1991</span>
-<span class="normal">1992</span>
-<span class="normal">1993</span>
-<span class="normal">1994</span>
-<span class="normal">1995</span>
-<span class="normal">1996</span>
-<span class="normal">1997</span>
-<span class="normal">1998</span>
-<span class="normal">1999</span>
-<span class="normal">2000</span>
-<span class="normal">2001</span>
-<span class="normal">2002</span>
-<span class="normal">2003</span>
-<span class="normal">2004</span>
-<span class="normal">2005</span>
-<span class="normal">2006</span>
-<span class="normal">2007</span>
-<span class="normal">2008</span>
-<span class="normal">2009</span>
-<span class="normal">2010</span>
-<span class="normal">2011</span>
-<span class="normal">2012</span>
-<span class="normal">2013</span>
-<span class="normal">2014</span>
-<span class="normal">2015</span>
-<span class="normal">2016</span>
-<span class="normal">2017</span>
-<span class="normal">2018</span>
-<span class="normal">2019</span>
-<span class="normal">2020</span>
-<span class="normal">2021</span>
-<span class="normal">2022</span>
-<span class="normal">2023</span>
-<span class="normal">2024</span>
-<span class="normal">2025</span>
-<span class="normal">2026</span>
-<span class="normal">2027</span>
-<span class="normal">2028</span>
-<span class="normal">2029</span>
-<span class="normal">2030</span>
-<span class="normal">2031</span>
-<span class="normal">2032</span>
-<span class="normal">2033</span>
-<span class="normal">2034</span>
-<span class="normal">2035</span>
-<span class="normal">2036</span>
-<span class="normal">2037</span>
-<span class="normal">2038</span>
-<span class="normal">2039</span>
-<span class="normal">2040</span>
-<span class="normal">2041</span>
-<span class="normal">2042</span>
-<span class="normal">2043</span>
-<span class="normal">2044</span>
-<span class="normal">2045</span>
-<span class="normal">2046</span>
-<span class="normal">2047</span>
-<span class="normal">2048</span>
-<span class="normal">2049</span>
-<span class="normal">2050</span>
-<span class="normal">2051</span>
-<span class="normal">2052</span>
-<span class="normal">2053</span>
-<span class="normal">2054</span>
-<span class="normal">2055</span>
-<span class="normal">2056</span>
-<span class="normal">2057</span>
-<span class="normal">2058</span>
-<span class="normal">2059</span>
-<span class="normal">2060</span>
-<span class="normal">2061</span>
-<span class="normal">2062</span>
-<span class="normal">2063</span>
-<span class="normal">2064</span>
-<span class="normal">2065</span>
-<span class="normal">2066</span>
-<span class="normal">2067</span>
-<span class="normal">2068</span>
-<span class="normal">2069</span>
-<span class="normal">2070</span>
-<span class="normal">2071</span>
-<span class="normal">2072</span>
-<span class="normal">2073</span>
-<span class="normal">2074</span>
-<span class="normal">2075</span>
-<span class="normal">2076</span>
-<span class="normal">2077</span>
-<span class="normal">2078</span>
-<span class="normal">2079</span>
-<span class="normal">2080</span>
-<span class="normal">2081</span>
-<span class="normal">2082</span>
-<span class="normal">2083</span>
-<span class="normal">2084</span>
-<span class="normal">2085</span>
-<span class="normal">2086</span>
-<span class="normal">2087</span>
-<span class="normal">2088</span>
-<span class="normal">2089</span>
-<span class="normal">2090</span>
-<span class="normal">2091</span>
-<span class="normal">2092</span>
-<span class="normal">2093</span>
-<span class="normal">2094</span>
-<span class="normal">2095</span>
-<span class="normal">2096</span>
-<span class="normal">2097</span>
-<span class="normal">2098</span>
-<span class="normal">2099</span>
-<span class="normal">2100</span>
-<span class="normal">2101</span>
-<span class="normal">2102</span>
-<span class="normal">2103</span>
-<span class="normal">2104</span>
-<span class="normal">2105</span>
-<span class="normal">2106</span>
-<span class="normal">2107</span>
-<span class="normal">2108</span>
-<span class="normal">2109</span>
-<span class="normal">2110</span>
-<span class="normal">2111</span>
-<span class="normal">2112</span>
-<span class="normal">2113</span>
-<span class="normal">2114</span>
-<span class="normal">2115</span>
-<span class="normal">2116</span>
-<span class="normal">2117</span>
-<span class="normal">2118</span>
-<span class="normal">2119</span>
-<span class="normal">2120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1239</span>
+<span class="normal">1240</span>
+<span class="normal">1241</span>
+<span class="normal">1242</span>
+<span class="normal">1243</span>
+<span class="normal">1244</span>
+<span class="normal">1245</span>
+<span class="normal">1246</span>
+<span class="normal">1247</span>
+<span class="normal">1248</span>
+<span class="normal">1249</span>
+<span class="normal">1250</span>
+<span class="normal">1251</span>
+<span class="normal">1252</span>
+<span class="normal">1253</span>
+<span class="normal">1254</span>
+<span class="normal">1255</span>
+<span class="normal">1256</span>
+<span class="normal">1257</span>
+<span class="normal">1258</span>
+<span class="normal">1259</span>
+<span class="normal">1260</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span>
+<span class="normal">1264</span>
+<span class="normal">1265</span>
+<span class="normal">1266</span>
+<span class="normal">1267</span>
+<span class="normal">1268</span>
+<span class="normal">1269</span>
+<span class="normal">1270</span>
+<span class="normal">1271</span>
+<span class="normal">1272</span>
+<span class="normal">1273</span>
+<span class="normal">1274</span>
+<span class="normal">1275</span>
+<span class="normal">1276</span>
+<span class="normal">1277</span>
+<span class="normal">1278</span>
+<span class="normal">1279</span>
+<span class="normal">1280</span>
+<span class="normal">1281</span>
+<span class="normal">1282</span>
+<span class="normal">1283</span>
+<span class="normal">1284</span>
+<span class="normal">1285</span>
+<span class="normal">1286</span>
+<span class="normal">1287</span>
+<span class="normal">1288</span>
+<span class="normal">1289</span>
+<span class="normal">1290</span>
+<span class="normal">1291</span>
+<span class="normal">1292</span>
+<span class="normal">1293</span>
+<span class="normal">1294</span>
+<span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span>
+<span class="normal">1300</span>
+<span class="normal">1301</span>
+<span class="normal">1302</span>
+<span class="normal">1303</span>
+<span class="normal">1304</span>
+<span class="normal">1305</span>
+<span class="normal">1306</span>
+<span class="normal">1307</span>
+<span class="normal">1308</span>
+<span class="normal">1309</span>
+<span class="normal">1310</span>
+<span class="normal">1311</span>
+<span class="normal">1312</span>
+<span class="normal">1313</span>
+<span class="normal">1314</span>
+<span class="normal">1315</span>
+<span class="normal">1316</span>
+<span class="normal">1317</span>
+<span class="normal">1318</span>
+<span class="normal">1319</span>
+<span class="normal">1320</span>
+<span class="normal">1321</span>
+<span class="normal">1322</span>
+<span class="normal">1323</span>
+<span class="normal">1324</span>
+<span class="normal">1325</span>
+<span class="normal">1326</span>
+<span class="normal">1327</span>
+<span class="normal">1328</span>
+<span class="normal">1329</span>
+<span class="normal">1330</span>
+<span class="normal">1331</span>
+<span class="normal">1332</span>
+<span class="normal">1333</span>
+<span class="normal">1334</span>
+<span class="normal">1335</span>
+<span class="normal">1336</span>
+<span class="normal">1337</span>
+<span class="normal">1338</span>
+<span class="normal">1339</span>
+<span class="normal">1340</span>
+<span class="normal">1341</span>
+<span class="normal">1342</span>
+<span class="normal">1343</span>
+<span class="normal">1344</span>
+<span class="normal">1345</span>
+<span class="normal">1346</span>
+<span class="normal">1347</span>
+<span class="normal">1348</span>
+<span class="normal">1349</span>
+<span class="normal">1350</span>
+<span class="normal">1351</span>
+<span class="normal">1352</span>
+<span class="normal">1353</span>
+<span class="normal">1354</span>
+<span class="normal">1355</span>
+<span class="normal">1356</span>
+<span class="normal">1357</span>
+<span class="normal">1358</span>
+<span class="normal">1359</span>
+<span class="normal">1360</span>
+<span class="normal">1361</span>
+<span class="normal">1362</span>
+<span class="normal">1363</span>
+<span class="normal">1364</span>
+<span class="normal">1365</span>
+<span class="normal">1366</span>
+<span class="normal">1367</span>
+<span class="normal">1368</span>
+<span class="normal">1369</span>
+<span class="normal">1370</span>
+<span class="normal">1371</span>
+<span class="normal">1372</span>
+<span class="normal">1373</span>
+<span class="normal">1374</span>
+<span class="normal">1375</span>
+<span class="normal">1376</span>
+<span class="normal">1377</span>
+<span class="normal">1378</span>
+<span class="normal">1379</span>
+<span class="normal">1380</span>
+<span class="normal">1381</span>
+<span class="normal">1382</span>
+<span class="normal">1383</span>
+<span class="normal">1384</span>
+<span class="normal">1385</span>
+<span class="normal">1386</span>
+<span class="normal">1387</span>
+<span class="normal">1388</span>
+<span class="normal">1389</span>
+<span class="normal">1390</span>
+<span class="normal">1391</span>
+<span class="normal">1392</span>
+<span class="normal">1393</span>
+<span class="normal">1394</span>
+<span class="normal">1395</span>
+<span class="normal">1396</span>
+<span class="normal">1397</span>
+<span class="normal">1398</span>
+<span class="normal">1399</span>
+<span class="normal">1400</span>
+<span class="normal">1401</span>
+<span class="normal">1402</span>
+<span class="normal">1403</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,opcode_args&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span>
@@ -29579,47 +29566,34 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">param</span><span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">param</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_binop_simple</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode_args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test running a block with as many binary instructions (takes two args,</span>
 <span class="sd">    produces one value) as possible. The execution starts with two initial</span>
 <span class="sd">    values on the stack, and the stack is balanced by the DUP2 instruction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
     <span class="n">tx_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">opcode_args</span><span class="p">)</span>
 
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
-    <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span>
-    <span class="n">code_body_len</span> <span class="o">=</span> <span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">)</span>
-    <span class="n">code_body</span> <span class="o">=</span> <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span> <span class="o">+</span> <span class="n">opcode</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">code_body_len</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">code_body</span> <span class="o">+</span> <span class="n">code_suffix</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_code_size</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">),</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">tx_data</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">setup</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span>
+    <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span> <span class="o">+</span> <span class="n">opcode</span>
+    <span class="n">cleanup</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span>
+            <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span>
+            <span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">,</span>
+            <span class="n">cleanup</span><span class="o">=</span><span class="n">cleanup</span><span class="p">,</span>
+            <span class="n">tx_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">tx_data</span><span class="p">},</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_binop_simple.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29648,8 +29622,7 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29668,241 +29641,11 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_ADD-]">
-                    ...fork_Prague-state_test-opcode_ADD-
-                </abbr>
-            </td>
-                        <td>ADD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_MUL-]">
-                    ...fork_Prague-state_test-opcode_MUL-
-                </abbr>
-            </td>
-                        <td>MUL</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SUB-]">
-                    ...fork_Prague-state_test-opcode_SUB-
-                </abbr>
-            </td>
-                        <td>SUB</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-0]">
-                    ...fork_Prague-state_test-opcode_DIV-0
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 340282366920938463463374607431768211507)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-1]">
-                    ...fork_Prague-state_test-opcode_DIV-1
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-0]">
-                    ...fork_Prague-state_test-opcode_SDIV-0
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-1]">
-                    ...fork_Prague-state_test-opcode_SDIV-1
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_MOD-]">
-                    ...fork_Prague-state_test-opcode_MOD-
-                </abbr>
-            </td>
-                        <td>MOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SMOD-]">
-                    ...fork_Prague-state_test-opcode_SMOD-
-                </abbr>
-            </td>
-                        <td>SMOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_EXP-]">
-                    ...fork_Prague-state_test-opcode_EXP-
-                </abbr>
-            </td>
-                        <td>EXP</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 115792089237316195423570985008687907853269984665640564039457584007913129639935)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SIGNEXTEND-]">
-                    ...fork_Prague-state_test-opcode_SIGNEXTEND-
-                </abbr>
-            </td>
-                        <td>SIGNEXTEND</td>
-                        <td>(3, 4292532954)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_LT-]">
-                    ...fork_Prague-state_test-opcode_LT-
-                </abbr>
-            </td>
-                        <td>LT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_GT-]">
-                    ...fork_Prague-state_test-opcode_GT-
-                </abbr>
-            </td>
-                        <td>GT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SLT-]">
-                    ...fork_Prague-state_test-opcode_SLT-
-                </abbr>
-            </td>
-                        <td>SLT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SGT-]">
-                    ...fork_Prague-state_test-opcode_SGT-
-                </abbr>
-            </td>
-                        <td>SGT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_EQ-]">
-                    ...fork_Prague-state_test-opcode_EQ-
-                </abbr>
-            </td>
-                        <td>EQ</td>
-                        <td>(1, 1)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_AND-]">
-                    ...fork_Prague-state_test-opcode_AND-
-                </abbr>
-            </td>
-                        <td>AND</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_OR-]">
-                    ...fork_Prague-state_test-opcode_OR-
-                </abbr>
-            </td>
-                        <td>OR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_XOR-]">
-                    ...fork_Prague-state_test-opcode_XOR-
-                </abbr>
-            </td>
-                        <td>XOR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_BYTE-]">
-                    ...fork_Prague-state_test-opcode_BYTE-
-                </abbr>
-            </td>
-                        <td>BYTE</td>
-                        <td>(31, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SHL-]">
-                    ...fork_Prague-state_test-opcode_SHL-
-                </abbr>
-            </td>
-                        <td>SHL</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SHR-]">
-                    ...fork_Prague-state_test-opcode_SHR-
-                </abbr>
-            </td>
-                        <td>SHR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SAR-]">
-                    ...fork_Prague-state_test-opcode_SAR-
-                </abbr>
-            </td>
-                        <td>SAR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_ADD-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_ADD-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_ADD-]">
+                    ...fork_Prague-blockchain_test-opcode_ADD-
                 </abbr>
             </td>
                         <td>ADD</td>
@@ -29911,8 +29654,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_MUL-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_MUL-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_MUL-]">
+                    ...fork_Prague-blockchain_test-opcode_MUL-
                 </abbr>
             </td>
                         <td>MUL</td>
@@ -29921,8 +29664,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SUB-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SUB-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SUB-]">
+                    ...fork_Prague-blockchain_test-opcode_SUB-
                 </abbr>
             </td>
                         <td>SUB</td>
@@ -29931,8 +29674,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-0]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DIV-0
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_DIV-0]">
+                    ...fork_Prague-blockchain_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -29941,8 +29684,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-1]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DIV-1
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_DIV-1]">
+                    ...fork_Prague-blockchain_test-opcode_DIV-1
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -29951,8 +29694,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-0]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SDIV-0
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SDIV-0]">
+                    ...fork_Prague-blockchain_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
@@ -29961,8 +29704,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-1]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SDIV-1
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SDIV-1]">
+                    ...fork_Prague-blockchain_test-opcode_SDIV-1
                 </abbr>
             </td>
                         <td>SDIV</td>
@@ -29971,8 +29714,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_MOD-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_MOD-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_MOD-]">
+                    ...fork_Prague-blockchain_test-opcode_MOD-
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -29981,8 +29724,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SMOD-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SMOD-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SMOD-]">
+                    ...fork_Prague-blockchain_test-opcode_SMOD-
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -29991,8 +29734,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_EXP-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_EXP-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_EXP-]">
+                    ...fork_Prague-blockchain_test-opcode_EXP-
                 </abbr>
             </td>
                         <td>EXP</td>
@@ -30001,8 +29744,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SIGNEXTEND-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SIGNEXTEND-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SIGNEXTEND-]">
+                    ...fork_Prague-blockchain_test-opcode_SIGNEXTEND-
                 </abbr>
             </td>
                         <td>SIGNEXTEND</td>
@@ -30011,8 +29754,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_LT-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_LT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_LT-]">
+                    ...fork_Prague-blockchain_test-opcode_LT-
                 </abbr>
             </td>
                         <td>LT</td>
@@ -30021,8 +29764,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_GT-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_GT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_GT-]">
+                    ...fork_Prague-blockchain_test-opcode_GT-
                 </abbr>
             </td>
                         <td>GT</td>
@@ -30031,8 +29774,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SLT-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SLT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SLT-]">
+                    ...fork_Prague-blockchain_test-opcode_SLT-
                 </abbr>
             </td>
                         <td>SLT</td>
@@ -30041,8 +29784,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SGT-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SGT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SGT-]">
+                    ...fork_Prague-blockchain_test-opcode_SGT-
                 </abbr>
             </td>
                         <td>SGT</td>
@@ -30051,8 +29794,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_EQ-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_EQ-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_EQ-]">
+                    ...fork_Prague-blockchain_test-opcode_EQ-
                 </abbr>
             </td>
                         <td>EQ</td>
@@ -30061,8 +29804,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_AND-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_AND-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_AND-]">
+                    ...fork_Prague-blockchain_test-opcode_AND-
                 </abbr>
             </td>
                         <td>AND</td>
@@ -30071,8 +29814,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_OR-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_OR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_OR-]">
+                    ...fork_Prague-blockchain_test-opcode_OR-
                 </abbr>
             </td>
                         <td>OR</td>
@@ -30081,8 +29824,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_XOR-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_XOR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_XOR-]">
+                    ...fork_Prague-blockchain_test-opcode_XOR-
                 </abbr>
             </td>
                         <td>XOR</td>
@@ -30091,8 +29834,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_BYTE-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_BYTE-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_BYTE-]">
+                    ...fork_Prague-blockchain_test-opcode_BYTE-
                 </abbr>
             </td>
                         <td>BYTE</td>
@@ -30101,8 +29844,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SHL-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SHL-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SHL-]">
+                    ...fork_Prague-blockchain_test-opcode_SHL-
                 </abbr>
             </td>
                         <td>SHL</td>
@@ -30111,8 +29854,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SHR-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SHR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SHR-]">
+                    ...fork_Prague-blockchain_test-opcode_SHR-
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -30121,238 +29864,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SAR-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SAR-
-                </abbr>
-            </td>
-                        <td>SAR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_ADD-]">
-                    ...fork_Osaka-state_test-opcode_ADD-
-                </abbr>
-            </td>
-                        <td>ADD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_MUL-]">
-                    ...fork_Osaka-state_test-opcode_MUL-
-                </abbr>
-            </td>
-                        <td>MUL</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SUB-]">
-                    ...fork_Osaka-state_test-opcode_SUB-
-                </abbr>
-            </td>
-                        <td>SUB</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-0]">
-                    ...fork_Osaka-state_test-opcode_DIV-0
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 340282366920938463463374607431768211507)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-1]">
-                    ...fork_Osaka-state_test-opcode_DIV-1
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-0]">
-                    ...fork_Osaka-state_test-opcode_SDIV-0
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-1]">
-                    ...fork_Osaka-state_test-opcode_SDIV-1
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_MOD-]">
-                    ...fork_Osaka-state_test-opcode_MOD-
-                </abbr>
-            </td>
-                        <td>MOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SMOD-]">
-                    ...fork_Osaka-state_test-opcode_SMOD-
-                </abbr>
-            </td>
-                        <td>SMOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_EXP-]">
-                    ...fork_Osaka-state_test-opcode_EXP-
-                </abbr>
-            </td>
-                        <td>EXP</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 115792089237316195423570985008687907853269984665640564039457584007913129639935)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SIGNEXTEND-]">
-                    ...fork_Osaka-state_test-opcode_SIGNEXTEND-
-                </abbr>
-            </td>
-                        <td>SIGNEXTEND</td>
-                        <td>(3, 4292532954)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_LT-]">
-                    ...fork_Osaka-state_test-opcode_LT-
-                </abbr>
-            </td>
-                        <td>LT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_GT-]">
-                    ...fork_Osaka-state_test-opcode_GT-
-                </abbr>
-            </td>
-                        <td>GT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SLT-]">
-                    ...fork_Osaka-state_test-opcode_SLT-
-                </abbr>
-            </td>
-                        <td>SLT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SGT-]">
-                    ...fork_Osaka-state_test-opcode_SGT-
-                </abbr>
-            </td>
-                        <td>SGT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_EQ-]">
-                    ...fork_Osaka-state_test-opcode_EQ-
-                </abbr>
-            </td>
-                        <td>EQ</td>
-                        <td>(1, 1)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_AND-]">
-                    ...fork_Osaka-state_test-opcode_AND-
-                </abbr>
-            </td>
-                        <td>AND</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_OR-]">
-                    ...fork_Osaka-state_test-opcode_OR-
-                </abbr>
-            </td>
-                        <td>OR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_XOR-]">
-                    ...fork_Osaka-state_test-opcode_XOR-
-                </abbr>
-            </td>
-                        <td>XOR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_BYTE-]">
-                    ...fork_Osaka-state_test-opcode_BYTE-
-                </abbr>
-            </td>
-                        <td>BYTE</td>
-                        <td>(31, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SHL-]">
-                    ...fork_Osaka-state_test-opcode_SHL-
-                </abbr>
-            </td>
-                        <td>SHL</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SHR-]">
-                    ...fork_Osaka-state_test-opcode_SHR-
-                </abbr>
-            </td>
-                        <td>SHR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SAR-]">
-                    ...fork_Osaka-state_test-opcode_SAR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test-opcode_SAR-]">
+                    ...fork_Prague-blockchain_test-opcode_SAR-
                 </abbr>
             </td>
                         <td>SAR</td>
@@ -30361,8 +29874,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_ADD-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_ADD-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_ADD-]">
+                    ...fork_Osaka-blockchain_test-opcode_ADD-
                 </abbr>
             </td>
                         <td>ADD</td>
@@ -30371,8 +29884,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_MUL-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_MUL-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_MUL-]">
+                    ...fork_Osaka-blockchain_test-opcode_MUL-
                 </abbr>
             </td>
                         <td>MUL</td>
@@ -30381,8 +29894,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SUB-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SUB-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SUB-]">
+                    ...fork_Osaka-blockchain_test-opcode_SUB-
                 </abbr>
             </td>
                         <td>SUB</td>
@@ -30391,8 +29904,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-0]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DIV-0
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_DIV-0]">
+                    ...fork_Osaka-blockchain_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -30401,8 +29914,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-1]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DIV-1
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_DIV-1]">
+                    ...fork_Osaka-blockchain_test-opcode_DIV-1
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -30411,8 +29924,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-0]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-0
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SDIV-0]">
+                    ...fork_Osaka-blockchain_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
@@ -30421,8 +29934,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-1]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-1
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SDIV-1]">
+                    ...fork_Osaka-blockchain_test-opcode_SDIV-1
                 </abbr>
             </td>
                         <td>SDIV</td>
@@ -30431,8 +29944,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_MOD-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_MOD-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_MOD-]">
+                    ...fork_Osaka-blockchain_test-opcode_MOD-
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -30441,8 +29954,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SMOD-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SMOD-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SMOD-]">
+                    ...fork_Osaka-blockchain_test-opcode_SMOD-
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -30451,8 +29964,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_EXP-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_EXP-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_EXP-]">
+                    ...fork_Osaka-blockchain_test-opcode_EXP-
                 </abbr>
             </td>
                         <td>EXP</td>
@@ -30461,8 +29974,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SIGNEXTEND-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SIGNEXTEND-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SIGNEXTEND-]">
+                    ...fork_Osaka-blockchain_test-opcode_SIGNEXTEND-
                 </abbr>
             </td>
                         <td>SIGNEXTEND</td>
@@ -30471,8 +29984,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_LT-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_LT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_LT-]">
+                    ...fork_Osaka-blockchain_test-opcode_LT-
                 </abbr>
             </td>
                         <td>LT</td>
@@ -30481,8 +29994,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_GT-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_GT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_GT-]">
+                    ...fork_Osaka-blockchain_test-opcode_GT-
                 </abbr>
             </td>
                         <td>GT</td>
@@ -30491,8 +30004,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SLT-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SLT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SLT-]">
+                    ...fork_Osaka-blockchain_test-opcode_SLT-
                 </abbr>
             </td>
                         <td>SLT</td>
@@ -30501,8 +30014,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SGT-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SGT-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SGT-]">
+                    ...fork_Osaka-blockchain_test-opcode_SGT-
                 </abbr>
             </td>
                         <td>SGT</td>
@@ -30511,8 +30024,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_EQ-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_EQ-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_EQ-]">
+                    ...fork_Osaka-blockchain_test-opcode_EQ-
                 </abbr>
             </td>
                         <td>EQ</td>
@@ -30521,8 +30034,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_AND-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_AND-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_AND-]">
+                    ...fork_Osaka-blockchain_test-opcode_AND-
                 </abbr>
             </td>
                         <td>AND</td>
@@ -30531,8 +30044,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_OR-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_OR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_OR-]">
+                    ...fork_Osaka-blockchain_test-opcode_OR-
                 </abbr>
             </td>
                         <td>OR</td>
@@ -30541,8 +30054,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_XOR-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_XOR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_XOR-]">
+                    ...fork_Osaka-blockchain_test-opcode_XOR-
                 </abbr>
             </td>
                         <td>XOR</td>
@@ -30551,8 +30064,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_BYTE-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_BYTE-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_BYTE-]">
+                    ...fork_Osaka-blockchain_test-opcode_BYTE-
                 </abbr>
             </td>
                         <td>BYTE</td>
@@ -30561,8 +30074,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SHL-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SHL-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SHL-]">
+                    ...fork_Osaka-blockchain_test-opcode_SHL-
                 </abbr>
             </td>
                         <td>SHL</td>
@@ -30571,8 +30084,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SHR-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SHR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SHR-]">
+                    ...fork_Osaka-blockchain_test-opcode_SHR-
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -30581,8 +30094,8 @@ values on the stack, and the stack is balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SAR-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SAR-
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test-opcode_SAR-]">
+                    ...fork_Osaka-blockchain_test-opcode_SAR-
                 </abbr>
             </td>
                         <td>SAR</td>

@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_selfbalance"><code>test_worst_selfbalance()</code><a class="headerlink" href="#test_worst_selfbalance" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_stateful_opcodes.py#L493"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_stateful_opcodes.py#L450"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance -m benchmark</span>
@@ -29257,73 +29257,35 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_selfbalance</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;contract_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_worst_selfbalance</span><span class="p">(</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
+    <span class="n">contract_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many SELFBALANCE opcodes as possible.&quot;&quot;&quot;</span>
-    <span class="n">max_stack_height</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_stack_height</span><span class="p">()</span>
-
-    <span class="n">code_sequence</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SELFBALANCE</span> <span class="o">*</span> <span class="n">max_stack_height</span>
-    <span class="n">target_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code_sequence</span><span class="p">)</span>
-
-    <span class="n">calldata</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
-    <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">target_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">ExtCallGenerator</span><span class="p">(</span>
+            <span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SELFBALANCE</span><span class="p">,</span>
+            <span class="n">contract_balance</span><span class="o">=</span><span class="n">contract_balance</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29352,8 +29314,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29367,40 +29328,45 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>contract_balance</th>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-state_test]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-state_test]">
-                    ...fork_Prague-state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test-contract_balance_0]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test-contract_balance_0]">
+                    ...fork_Prague-blockchain_test-contract_balance_0
                 </abbr>
             </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test_from_state_test]">
-                    ...fork_Prague-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test-contract_balance_1]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test-contract_balance_1]">
+                    ...fork_Prague-blockchain_test-contract_balance_1
                 </abbr>
             </td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-state_test]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
-                </abbr>
-            </td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test-contract_balance_0]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test-contract_balance_0]">
+                    ...fork_Osaka-blockchain_test-contract_balance_0
                 </abbr>
             </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test-contract_balance_1]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test-contract_balance_1]">
+                    ...fork_Osaka-blockchain_test-contract_balance_1
+                </abbr>
+            </td>
+                        <td>1</td>
                     </tr>
             </tbody>
 </table>

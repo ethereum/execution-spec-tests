@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_jumpi_fallthrough"><code>test_worst_jumpi_fallthrough()</code><a class="headerlink" href="#test_worst_jumpi_fallthrough" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L1866"><code>tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1204"><code>tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough -m benchmark</span>
@@ -29257,79 +29257,25 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1866</span>
-<span class="normal">1867</span>
-<span class="normal">1868</span>
-<span class="normal">1869</span>
-<span class="normal">1870</span>
-<span class="normal">1871</span>
-<span class="normal">1872</span>
-<span class="normal">1873</span>
-<span class="normal">1874</span>
-<span class="normal">1875</span>
-<span class="normal">1876</span>
-<span class="normal">1877</span>
-<span class="normal">1878</span>
-<span class="normal">1879</span>
-<span class="normal">1880</span>
-<span class="normal">1881</span>
-<span class="normal">1882</span>
-<span class="normal">1883</span>
-<span class="normal">1884</span>
-<span class="normal">1885</span>
-<span class="normal">1886</span>
-<span class="normal">1887</span>
-<span class="normal">1888</span>
-<span class="normal">1889</span>
-<span class="normal">1890</span>
-<span class="normal">1891</span>
-<span class="normal">1892</span>
-<span class="normal">1893</span>
-<span class="normal">1894</span>
-<span class="normal">1895</span>
-<span class="normal">1896</span>
-<span class="normal">1897</span>
-<span class="normal">1898</span>
-<span class="normal">1899</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_jumpi_fallthrough</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1204</span>
+<span class="normal">1205</span>
+<span class="normal">1206</span>
+<span class="normal">1207</span>
+<span class="normal">1208</span>
+<span class="normal">1209</span>
+<span class="normal">1210</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_worst_jumpi_fallthrough</span><span class="p">(</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a JUMPI-intensive contract with fallthrough.&quot;&quot;&quot;</span>
-    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">jumpi_seq</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)</span>
-
-    <span class="n">prefix_seq</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
-    <span class="n">suffix_seq</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)</span>
-    <span class="n">bytes_per_seq</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">jumpi_seq</span><span class="p">())</span>
-    <span class="n">seqs_per_call</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix_seq</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix_seq</span><span class="p">))</span> <span class="o">//</span> <span class="n">bytes_per_seq</span>
-
-    <span class="c1"># Create and deploy the jumpi-intensive contract</span>
-    <span class="n">jumpis_code</span> <span class="o">=</span> <span class="n">prefix_seq</span> <span class="o">+</span> <span class="n">jumpi_seq</span><span class="p">()</span> <span class="o">*</span> <span class="n">seqs_per_call</span> <span class="o">+</span> <span class="n">suffix_seq</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">jumpis_code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
-
-    <span class="n">jumpis_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">jumpis_code</span><span class="p">))</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">jumpis_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">attack_block</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29358,8 +29304,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29376,35 +29321,19 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Prague-state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Prague-state_test]">
-                    ...fork_Prague-state_test
-                </abbr>
-            </td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Prague-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Prague-blockchain_test_from_state_test]">
-                    ...fork_Prague-blockchain_test_from_state_test
-                </abbr>
-            </td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Osaka-state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Prague-blockchain_test]" title="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Prague-blockchain_test]">
+                    ...fork_Prague-blockchain_test
                 </abbr>
             </td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Osaka-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Osaka-blockchain_test]" title="tests/benchmark/test_worst_compute.py::test_worst_jumpi_fallthrough[fork_Osaka-blockchain_test]">
+                    ...fork_Osaka-blockchain_test
                 </abbr>
             </td>
                     </tr>

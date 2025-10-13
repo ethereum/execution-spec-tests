@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_precompile_only_data_input"><code>test_worst_precompile_only_data_input()</code><a class="headerlink" href="#test_worst_precompile_only_data_input" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L417"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L288"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input -m benchmark</span>
@@ -29258,87 +29258,76 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;address,static_cost,per_word_dynamic_cost,bytes_per_unit_of_work&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x02</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SHA2-256&quot;</span><span class="p">),</span>
@@ -29347,8 +29336,7 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_precompile_only_data_input</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">static_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -29402,29 +29390,19 @@
             <span class="n">max_work</span> <span class="o">=</span> <span class="n">total_work</span>
             <span class="n">optimal_input_length</span> <span class="o">=</span> <span class="n">input_length</span>
 
-    <span class="n">calldata</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CODECOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">optimal_input_length</span><span class="p">)</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">optimal_input_length</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
 
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span>
+            <span class="n">setup</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CODECOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">optimal_input_length</span><span class="p">),</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_precompile_only_data_input.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29453,8 +29431,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29475,47 +29452,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-state_test-SHA2-256]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-state_test-SHA2-256]">
-                    ...fork_Prague-state_test-SHA2-256
-                </abbr>
-            </td>
-                        <td>2</td>
-                        <td>60</td>
-                        <td>12</td>
-                        <td>64</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-state_test-RIPEMD-160]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-state_test-RIPEMD-160]">
-                    ...fork_Prague-state_test-RIPEMD-160
-                </abbr>
-            </td>
-                        <td>3</td>
-                        <td>600</td>
-                        <td>120</td>
-                        <td>64</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-state_test-IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-state_test-IDENTITY]">
-                    ...fork_Prague-state_test-IDENTITY
-                </abbr>
-            </td>
-                        <td>4</td>
-                        <td>15</td>
-                        <td>3</td>
-                        <td>1</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test_from_state_test-SHA2-256]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test_from_state_test-SHA2-256]">
-                    ...fork_Prague-blockchain_test_from_state_test-SHA2-256
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test-SHA2-256]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test-SHA2-256]">
+                    ...fork_Prague-blockchain_test-SHA2-256
                 </abbr>
             </td>
                         <td>2</td>
@@ -29526,8 +29467,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test_from_state_test-RIPEMD-160]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test_from_state_test-RIPEMD-160]">
-                    ...fork_Prague-blockchain_test_from_state_test-RIPEMD-160
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test-RIPEMD-160]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test-RIPEMD-160]">
+                    ...fork_Prague-blockchain_test-RIPEMD-160
                 </abbr>
             </td>
                         <td>3</td>
@@ -29538,44 +29479,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test_from_state_test-IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test_from_state_test-IDENTITY]">
-                    ...fork_Prague-blockchain_test_from_state_test-IDENTITY
-                </abbr>
-            </td>
-                        <td>4</td>
-                        <td>15</td>
-                        <td>3</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-state_test-SHA2-256]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-state_test-SHA2-256]">
-                    ...fork_Osaka-state_test-SHA2-256
-                </abbr>
-            </td>
-                        <td>2</td>
-                        <td>60</td>
-                        <td>12</td>
-                        <td>64</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-state_test-RIPEMD-160]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-state_test-RIPEMD-160]">
-                    ...fork_Osaka-state_test-RIPEMD-160
-                </abbr>
-            </td>
-                        <td>3</td>
-                        <td>600</td>
-                        <td>120</td>
-                        <td>64</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-state_test-IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-state_test-IDENTITY]">
-                    ...fork_Osaka-state_test-IDENTITY
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test-IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Prague-blockchain_test-IDENTITY]">
+                    ...fork_Prague-blockchain_test-IDENTITY
                 </abbr>
             </td>
                         <td>4</td>
@@ -29586,8 +29491,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test_from_state_test-SHA2-256]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test_from_state_test-SHA2-256]">
-                    ...fork_Osaka-blockchain_test_from_state_test-SHA2-256
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test-SHA2-256]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test-SHA2-256]">
+                    ...fork_Osaka-blockchain_test-SHA2-256
                 </abbr>
             </td>
                         <td>2</td>
@@ -29598,8 +29503,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test_from_state_test-RIPEMD-160]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test_from_state_test-RIPEMD-160]">
-                    ...fork_Osaka-blockchain_test_from_state_test-RIPEMD-160
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test-RIPEMD-160]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test-RIPEMD-160]">
+                    ...fork_Osaka-blockchain_test-RIPEMD-160
                 </abbr>
             </td>
                         <td>3</td>
@@ -29610,8 +29515,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test_from_state_test-IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test_from_state_test-IDENTITY]">
-                    ...fork_Osaka-blockchain_test_from_state_test-IDENTITY
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test-IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input[fork_Osaka-blockchain_test-IDENTITY]">
+                    ...fork_Osaka-blockchain_test-IDENTITY
                 </abbr>
             </td>
                         <td>4</td>

@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_block_full_data"><code>test_block_full_data()</code><a class="headerlink" href="#test_block_full_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_blocks.py#L182"><code>tests/benchmark/test_worst_blocks.py::test_block_full_data@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_blocks.py#L216"><code>tests/benchmark/test_worst_blocks.py::test_block_full_data@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_data -m benchmark</span>
@@ -29257,41 +29257,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
@@ -29313,69 +29279,73 @@
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
-<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;zero_byte&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;zero_byte&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_data</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">zero_byte</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">total_cost_floor_per_token</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_gas_limit_cap</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">total_cost_standard_per_token</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test a block with empty payload.&quot;&quot;&quot;</span>
-    <span class="c1"># Gas cost calculation based on EIP-7683:</span>
-    <span class="c1"># (https://eips.ethereum.org/EIPS/eip-7683)</span>
-    <span class="c1">#</span>
-    <span class="c1">#   tx.gasUsed = 21000 + max(</span>
-    <span class="c1">#       STANDARD_TOKEN_COST * tokens_in_calldata</span>
-    <span class="c1">#       + execution_gas_used</span>
-    <span class="c1">#       + isContractCreation * (32000 +</span>
-    <span class="c1">#                                 INITCODE_WORD_COST * words(calldata)),</span>
-    <span class="c1">#       TOTAL_COST_FLOOR_PER_TOKEN * tokens_in_calldata)</span>
-    <span class="c1">#</span>
-    <span class="c1"># Simplified in this test case:</span>
-    <span class="c1"># - No execution gas used (no opcodes are executed)</span>
-    <span class="c1"># - Not a contract creation (no initcode)</span>
-    <span class="c1">#</span>
-    <span class="c1"># Therefore:</span>
-    <span class="c1">#   max_token_cost = max(STANDARD_TOKEN_COST, TOTAL_COST_FLOOR_PER_TOKEN)</span>
-    <span class="c1">#   tx.gasUsed = 21000 + tokens_in_calldata * max_token_cost</span>
-    <span class="c1">#</span>
-    <span class="c1"># Since max(STANDARD_TOKEN_COST, TOTAL_COST_FLOOR_PER_TOKEN) = 10:</span>
-    <span class="c1">#   tx.gasUsed = 21000 + tokens_in_calldata * 10</span>
-    <span class="c1">#</span>
-    <span class="c1"># Token accounting:</span>
-    <span class="c1">#   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes</span>
-    <span class="c1">#</span>
-    <span class="c1"># So we calculate how many bytes we can fit into calldata based on</span>
-    <span class="c1"># available gas.</span>
+    <span class="n">iteration_count</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">gas_benchmark_value</span> <span class="o">/</span> <span class="n">tx_gas_limit_cap</span><span class="p">)</span>
 
-    <span class="n">gas_available</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">intrinsic_cost</span>
+    <span class="n">gas_remaining</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
+    <span class="n">total_gas_used</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">txs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iteration_count</span><span class="p">):</span>
+        <span class="n">gas_available</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tx_gas_limit_cap</span><span class="p">,</span> <span class="n">gas_remaining</span><span class="p">)</span> <span class="o">-</span> <span class="n">intrinsic_cost</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">calldata_generator</span><span class="p">(</span>
+            <span class="n">gas_available</span><span class="p">,</span>
+            <span class="n">zero_byte</span><span class="p">,</span>
+            <span class="n">total_cost_floor_per_token</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="c1"># Calculate the token_in_calldata</span>
-    <span class="n">max_tokens_in_calldata</span> <span class="o">=</span> <span class="n">gas_available</span> <span class="o">//</span> <span class="n">total_cost_floor_per_token</span>
-    <span class="c1"># Calculate the number of bytes that can be stored in the calldata</span>
-    <span class="n">num_of_bytes</span> <span class="o">=</span> <span class="n">max_tokens_in_calldata</span> <span class="k">if</span> <span class="n">zero_byte</span> <span class="k">else</span> <span class="n">max_tokens_in_calldata</span> <span class="o">//</span> <span class="mi">4</span>
-    <span class="n">byte_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">zero_byte</span> <span class="k">else</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xff</span><span class="s2">&quot;</span>
+        <span class="n">total_gas_used</span> <span class="o">+=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()(</span><span class="n">calldata</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">gas_remaining</span> <span class="o">-=</span> <span class="n">gas_available</span> <span class="o">+</span> <span class="n">intrinsic_cost</span>
 
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">byte_data</span> <span class="o">*</span> <span class="n">num_of_bytes</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
+        <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Transaction</span><span class="p">(</span>
+                <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_available</span> <span class="o">+</span> <span class="n">intrinsic_cost</span><span class="p">,</span>
+                <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
+        <span class="n">expected_benchmark_gas_used</span><span class="o">=</span><span class="n">total_gas_used</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_block_full_data.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29404,8 +29374,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29423,29 +29392,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-state_test-zero_byte_True]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-state_test-zero_byte_True]">
-                    ...fork_Prague-state_test-zero_byte_True
-                </abbr>
-            </td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-state_test-zero_byte_False]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-state_test-zero_byte_False]">
-                    ...fork_Prague-state_test-zero_byte_False
-                </abbr>
-            </td>
-                        <td>False</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test_from_state_test-zero_byte_True]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test_from_state_test-zero_byte_True]">
-                    ...fork_Prague-blockchain_test_from_state_test-zero_byte_True
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test-zero_byte_True]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test-zero_byte_True]">
+                    ...fork_Prague-blockchain_test-zero_byte_True
                 </abbr>
             </td>
                         <td>True</td>
@@ -29453,26 +29404,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test_from_state_test-zero_byte_False]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test_from_state_test-zero_byte_False]">
-                    ...fork_Prague-blockchain_test_from_state_test-zero_byte_False
-                </abbr>
-            </td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-state_test-zero_byte_True]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-state_test-zero_byte_True]">
-                    ...fork_Osaka-state_test-zero_byte_True
-                </abbr>
-            </td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-state_test-zero_byte_False]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-state_test-zero_byte_False]">
-                    ...fork_Osaka-state_test-zero_byte_False
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test-zero_byte_False]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Prague-blockchain_test-zero_byte_False]">
+                    ...fork_Prague-blockchain_test-zero_byte_False
                 </abbr>
             </td>
                         <td>False</td>
@@ -29480,8 +29413,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test_from_state_test-zero_byte_True]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test_from_state_test-zero_byte_True]">
-                    ...fork_Osaka-blockchain_test_from_state_test-zero_byte_True
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test-zero_byte_True]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test-zero_byte_True]">
+                    ...fork_Osaka-blockchain_test-zero_byte_True
                 </abbr>
             </td>
                         <td>True</td>
@@ -29489,8 +29422,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test_from_state_test-zero_byte_False]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test_from_state_test-zero_byte_False]">
-                    ...fork_Osaka-blockchain_test_from_state_test-zero_byte_False
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test-zero_byte_False]" title="tests/benchmark/test_worst_blocks.py::test_block_full_data[fork_Osaka-blockchain_test-zero_byte_False]">
+                    ...fork_Osaka-blockchain_test-zero_byte_False
                 </abbr>
             </td>
                         <td>False</td>

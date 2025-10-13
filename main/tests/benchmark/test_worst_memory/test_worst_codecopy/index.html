@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_codecopy"><code>test_worst_codecopy()</code><a class="headerlink" href="#test_worst_codecopy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_memory.py#L128"><code>tests/benchmark/test_worst_memory.py::test_worst_codecopy@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_memory.py#L131"><code>tests/benchmark/test_worst_memory.py::test_worst_codecopy@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_memory.py::test_worst_codecopy -m benchmark</span>
@@ -29257,10 +29257,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_memory.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
@@ -29310,7 +29307,9 @@
 <span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
-<span class="normal">181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;max_code_size_ratio&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;0 bytes&quot;</span><span class="p">),</span>
@@ -29328,48 +29327,47 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_codecopy</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">max_code_size_ratio</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">fixed_src_dst</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block filled with CODECOPY executions.&quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 
     <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_code_size</span> <span class="o">*</span> <span class="n">max_code_size_ratio</span><span class="p">)</span>
 
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">setup</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
     <span class="n">src_dst</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">fixed_src_dst</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CODECOPY</span><span class="p">(</span><span class="n">src_dst</span><span class="p">,</span> <span class="n">src_dst</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">)</span>  <span class="c1"># DUP1 copies size.</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
 
-    <span class="c1"># The code generated above is not guaranteed to be of max_code_size, so we</span>
-    <span class="c1"># pad it since a test parameter targets CODECOPYing a contract with max</span>
-    <span class="c1"># code size. Padded bytecode values are not relevant.</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">)</span><span class="o">.</span><span class="n">generate_repeated_code</span><span class="p">(</span>
+        <span class="n">repeated_code</span><span class="o">=</span><span class="n">attack_block</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span>
+    <span class="p">)</span>
+
+    <span class="c1"># The code generated above is not guaranteed to be of max_code_size, so</span>
+    <span class="c1"># we pad it since</span>
+    <span class="c1"># a test parameter targets CODECOPYing a contract with max code size.</span>
+    <span class="c1"># Padded bytecode values</span>
+    <span class="c1"># are not relevant.</span>
+    <span class="n">code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_code_size</span><span class="p">,</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not equal to max code size </span><span class="si">{</span><span class="n">max_code_size</span><span class="si">}</span><span class="s2">.&quot;</span>
     <span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_codecopy.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29398,8 +29396,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29418,111 +29415,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0 bytes]">
-                    ...fork_Prague-state_test-fixed_src_dst_True-0 bytes
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0.25x max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_True-0.25x max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0.25</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0.50x max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_True-0.50x max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0.5</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-0.75x max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_True-0.75x max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0.75</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_True-max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_True-max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>1.0</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0 bytes]">
-                    ...fork_Prague-state_test-fixed_src_dst_False-0 bytes
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0.25x max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_False-0.25x max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0.25</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0.50x max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_False-0.50x max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0.5</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-0.75x max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_False-0.75x max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0.75</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-state_test-fixed_src_dst_False-max code size]">
-                    ...fork_Prague-state_test-fixed_src_dst_False-max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>1.0</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0 bytes]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0 bytes
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0 bytes]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_True-0 bytes
                 </abbr>
             </td>
                         <td>True</td>
@@ -29531,8 +29428,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.25x max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.25x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0.25x max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_True-0.25x max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29541,8 +29438,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.50x max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.50x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0.50x max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_True-0.50x max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29551,8 +29448,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.75x max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-0.75x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-0.75x max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_True-0.75x max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29561,8 +29458,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_True-max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_True-max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_True-max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29571,8 +29468,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0 bytes]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0 bytes
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0 bytes]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_False-0 bytes
                 </abbr>
             </td>
                         <td>False</td>
@@ -29581,8 +29478,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.25x max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.25x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0.25x max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_False-0.25x max code size
                 </abbr>
             </td>
                         <td>False</td>
@@ -29591,8 +29488,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.50x max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.50x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0.50x max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_False-0.50x max code size
                 </abbr>
             </td>
                         <td>False</td>
@@ -29601,8 +29498,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.75x max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-0.75x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-0.75x max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_False-0.75x max code size
                 </abbr>
             </td>
                         <td>False</td>
@@ -29611,108 +29508,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-max code size]">
-                    ...fork_Prague-blockchain_test_from_state_test-fixed_src_dst_False-max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>1.0</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0 bytes]">
-                    ...fork_Osaka-state_test-fixed_src_dst_True-0 bytes
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0.25x max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_True-0.25x max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0.25</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0.50x max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_True-0.50x max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0.5</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-0.75x max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_True-0.75x max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>0.75</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_True-max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_True-max code size
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>1.0</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0 bytes]">
-                    ...fork_Osaka-state_test-fixed_src_dst_False-0 bytes
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0.25x max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_False-0.25x max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0.25</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0.50x max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_False-0.50x max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0.5</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-0.75x max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_False-0.75x max code size
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>0.75</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-state_test-fixed_src_dst_False-max code size]">
-                    ...fork_Osaka-state_test-fixed_src_dst_False-max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Prague-blockchain_test-fixed_src_dst_False-max code size]">
+                    ...fork_Prague-blockchain_test-fixed_src_dst_False-max code size
                 </abbr>
             </td>
                         <td>False</td>
@@ -29721,8 +29518,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0 bytes]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0 bytes
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0 bytes]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_True-0 bytes
                 </abbr>
             </td>
                         <td>True</td>
@@ -29731,8 +29528,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.25x max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.25x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0.25x max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_True-0.25x max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29741,8 +29538,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.50x max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.50x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0.50x max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_True-0.50x max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29751,8 +29548,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.75x max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-0.75x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-0.75x max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_True-0.75x max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29761,8 +29558,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_True-max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_True-max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_True-max code size
                 </abbr>
             </td>
                         <td>True</td>
@@ -29771,8 +29568,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0 bytes]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0 bytes
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0 bytes]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0 bytes]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_False-0 bytes
                 </abbr>
             </td>
                         <td>False</td>
@@ -29781,8 +29578,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.25x max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.25x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0.25x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0.25x max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_False-0.25x max code size
                 </abbr>
             </td>
                         <td>False</td>
@@ -29791,8 +29588,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.50x max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.50x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0.50x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0.50x max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_False-0.50x max code size
                 </abbr>
             </td>
                         <td>False</td>
@@ -29801,8 +29598,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.75x max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-0.75x max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0.75x max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-0.75x max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_False-0.75x max code size
                 </abbr>
             </td>
                         <td>False</td>
@@ -29811,8 +29608,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-max code size]">
-                    ...fork_Osaka-blockchain_test_from_state_test-fixed_src_dst_False-max code size
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-max code size]" title="tests/benchmark/test_worst_memory.py::test_worst_codecopy[fork_Osaka-blockchain_test-fixed_src_dst_False-max code size]">
+                    ...fork_Osaka-blockchain_test-fixed_src_dst_False-max code size
                 </abbr>
             </td>
                         <td>False</td>

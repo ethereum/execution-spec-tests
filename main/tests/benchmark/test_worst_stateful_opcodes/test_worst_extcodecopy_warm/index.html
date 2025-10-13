@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_extcodecopy_warm"><code>test_worst_extcodecopy_warm()</code><a class="headerlink" href="#test_worst_extcodecopy_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_stateful_opcodes.py#L526"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_stateful_opcodes.py#L464"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm -m benchmark</span>
@@ -29257,44 +29257,40 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;copied_size&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;512&quot;</span><span class="p">),</span>
@@ -29303,7 +29299,7 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_extcodecopy_warm</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">copied_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -29327,17 +29323,13 @@
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_extcodecopy_warm.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29366,8 +29358,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29385,38 +29376,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-state_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-state_test-512]">
-                    ...fork_Prague-state_test-512
-                </abbr>
-            </td>
-                        <td>512</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-state_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-state_test-1KiB]">
-                    ...fork_Prague-state_test-1KiB
-                </abbr>
-            </td>
-                        <td>1024</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-state_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-state_test-5KiB]">
-                    ...fork_Prague-state_test-5KiB
-                </abbr>
-            </td>
-                        <td>5120</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test_from_state_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test_from_state_test-512]">
-                    ...fork_Prague-blockchain_test_from_state_test-512
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test-512]">
+                    ...fork_Prague-blockchain_test-512
                 </abbr>
             </td>
                         <td>512</td>
@@ -29424,8 +29388,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test_from_state_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test_from_state_test-1KiB]">
-                    ...fork_Prague-blockchain_test_from_state_test-1KiB
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test-1KiB]">
+                    ...fork_Prague-blockchain_test-1KiB
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29433,35 +29397,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test_from_state_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test_from_state_test-5KiB]">
-                    ...fork_Prague-blockchain_test_from_state_test-5KiB
-                </abbr>
-            </td>
-                        <td>5120</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-state_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-state_test-512]">
-                    ...fork_Osaka-state_test-512
-                </abbr>
-            </td>
-                        <td>512</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-state_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-state_test-1KiB]">
-                    ...fork_Osaka-state_test-1KiB
-                </abbr>
-            </td>
-                        <td>1024</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-state_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-state_test-5KiB]">
-                    ...fork_Osaka-state_test-5KiB
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Prague-blockchain_test-5KiB]">
+                    ...fork_Prague-blockchain_test-5KiB
                 </abbr>
             </td>
                         <td>5120</td>
@@ -29469,8 +29406,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test_from_state_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test_from_state_test-512]">
-                    ...fork_Osaka-blockchain_test_from_state_test-512
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test-512]">
+                    ...fork_Osaka-blockchain_test-512
                 </abbr>
             </td>
                         <td>512</td>
@@ -29478,8 +29415,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test_from_state_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test_from_state_test-1KiB]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1KiB
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test-1KiB]">
+                    ...fork_Osaka-blockchain_test-1KiB
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29487,8 +29424,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test_from_state_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test_from_state_test-5KiB]">
-                    ...fork_Osaka-blockchain_test_from_state_test-5KiB
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Osaka-blockchain_test-5KiB]">
+                    ...fork_Osaka-blockchain_test-5KiB
                 </abbr>
             </td>
                         <td>5120</td>

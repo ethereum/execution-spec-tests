@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_unop"><code>test_worst_unop()</code><a class="headerlink" href="#test_worst_unop" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L2123"><code>tests/benchmark/test_worst_compute.py::test_worst_unop@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1406"><code>tests/benchmark/test_worst_compute.py::test_worst_unop@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_unop -m benchmark</span>
@@ -29258,75 +29258,35 @@ produces one value) as possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2123</span>
-<span class="normal">2124</span>
-<span class="normal">2125</span>
-<span class="normal">2126</span>
-<span class="normal">2127</span>
-<span class="normal">2128</span>
-<span class="normal">2129</span>
-<span class="normal">2130</span>
-<span class="normal">2131</span>
-<span class="normal">2132</span>
-<span class="normal">2133</span>
-<span class="normal">2134</span>
-<span class="normal">2135</span>
-<span class="normal">2136</span>
-<span class="normal">2137</span>
-<span class="normal">2138</span>
-<span class="normal">2139</span>
-<span class="normal">2140</span>
-<span class="normal">2141</span>
-<span class="normal">2142</span>
-<span class="normal">2143</span>
-<span class="normal">2144</span>
-<span class="normal">2145</span>
-<span class="normal">2146</span>
-<span class="normal">2147</span>
-<span class="normal">2148</span>
-<span class="normal">2149</span>
-<span class="normal">2150</span>
-<span class="normal">2151</span>
-<span class="normal">2152</span>
-<span class="normal">2153</span>
-<span class="normal">2154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span><span class="p">])</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1406</span>
+<span class="normal">1407</span>
+<span class="normal">1408</span>
+<span class="normal">1409</span>
+<span class="normal">1410</span>
+<span class="normal">1411</span>
+<span class="normal">1412</span>
+<span class="normal">1413</span>
+<span class="normal">1414</span>
+<span class="normal">1415</span>
+<span class="normal">1416</span>
+<span class="normal">1417</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_unop</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test running a block with as many unary instructions (takes one arg,</span>
 <span class="sd">    produces one value) as possible.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
-
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># Start with the arg 0.</span>
-    <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span>
-    <span class="n">code_body_len</span> <span class="o">=</span> <span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">)</span>
-    <span class="n">code_body</span> <span class="o">=</span> <span class="n">opcode</span> <span class="o">*</span> <span class="n">code_body_len</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">code_body</span> <span class="o">+</span> <span class="n">code_suffix</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_code_size</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">attack_block</span><span class="o">=</span><span class="n">opcode</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_unop.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29355,8 +29315,7 @@ produces one value) as possible.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29374,29 +29333,11 @@ produces one value) as possible.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_ISZERO]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_ISZERO]">
-                    ...fork_Prague-state_test-opcode_ISZERO
-                </abbr>
-            </td>
-                        <td>ISZERO</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_NOT]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_NOT]">
-                    ...fork_Prague-state_test-opcode_NOT
-                </abbr>
-            </td>
-                        <td>NOT</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_ISZERO]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_ISZERO]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_ISZERO
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_ISZERO]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_ISZERO]">
+                    ...fork_Prague-blockchain_test-opcode_ISZERO
                 </abbr>
             </td>
                         <td>ISZERO</td>
@@ -29404,26 +29345,8 @@ produces one value) as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_NOT]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_NOT]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_NOT
-                </abbr>
-            </td>
-                        <td>NOT</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_ISZERO]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_ISZERO]">
-                    ...fork_Osaka-state_test-opcode_ISZERO
-                </abbr>
-            </td>
-                        <td>ISZERO</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_NOT]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_NOT]">
-                    ...fork_Osaka-state_test-opcode_NOT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_NOT]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_NOT]">
+                    ...fork_Prague-blockchain_test-opcode_NOT
                 </abbr>
             </td>
                         <td>NOT</td>
@@ -29431,8 +29354,8 @@ produces one value) as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_ISZERO]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_ISZERO]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_ISZERO
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_ISZERO]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_ISZERO]">
+                    ...fork_Osaka-blockchain_test-opcode_ISZERO
                 </abbr>
             </td>
                         <td>ISZERO</td>
@@ -29440,8 +29363,8 @@ produces one value) as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_NOT]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_NOT]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_NOT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_NOT]" title="tests/benchmark/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_NOT]">
+                    ...fork_Osaka-blockchain_test-opcode_NOT
                 </abbr>
             </td>
                         <td>NOT</td>

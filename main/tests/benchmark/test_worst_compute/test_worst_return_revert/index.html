@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_return_revert"><code>test_worst_return_revert()</code><a class="headerlink" href="#test_worst_return_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L3010"><code>tests/benchmark/test_worst_compute.py::test_worst_return_revert@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L2093"><code>tests/benchmark/test_worst_compute.py::test_worst_return_revert@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_return_revert -m benchmark</span>
@@ -29257,66 +29257,54 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3010</span>
-<span class="normal">3011</span>
-<span class="normal">3012</span>
-<span class="normal">3013</span>
-<span class="normal">3014</span>
-<span class="normal">3015</span>
-<span class="normal">3016</span>
-<span class="normal">3017</span>
-<span class="normal">3018</span>
-<span class="normal">3019</span>
-<span class="normal">3020</span>
-<span class="normal">3021</span>
-<span class="normal">3022</span>
-<span class="normal">3023</span>
-<span class="normal">3024</span>
-<span class="normal">3025</span>
-<span class="normal">3026</span>
-<span class="normal">3027</span>
-<span class="normal">3028</span>
-<span class="normal">3029</span>
-<span class="normal">3030</span>
-<span class="normal">3031</span>
-<span class="normal">3032</span>
-<span class="normal">3033</span>
-<span class="normal">3034</span>
-<span class="normal">3035</span>
-<span class="normal">3036</span>
-<span class="normal">3037</span>
-<span class="normal">3038</span>
-<span class="normal">3039</span>
-<span class="normal">3040</span>
-<span class="normal">3041</span>
-<span class="normal">3042</span>
-<span class="normal">3043</span>
-<span class="normal">3044</span>
-<span class="normal">3045</span>
-<span class="normal">3046</span>
-<span class="normal">3047</span>
-<span class="normal">3048</span>
-<span class="normal">3049</span>
-<span class="normal">3050</span>
-<span class="normal">3051</span>
-<span class="normal">3052</span>
-<span class="normal">3053</span>
-<span class="normal">3054</span>
-<span class="normal">3055</span>
-<span class="normal">3056</span>
-<span class="normal">3057</span>
-<span class="normal">3058</span>
-<span class="normal">3059</span>
-<span class="normal">3060</span>
-<span class="normal">3061</span>
-<span class="normal">3062</span>
-<span class="normal">3063</span>
-<span class="normal">3064</span>
-<span class="normal">3065</span>
-<span class="normal">3066</span>
-<span class="normal">3067</span>
-<span class="normal">3068</span>
-<span class="normal">3069</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2093</span>
+<span class="normal">2094</span>
+<span class="normal">2095</span>
+<span class="normal">2096</span>
+<span class="normal">2097</span>
+<span class="normal">2098</span>
+<span class="normal">2099</span>
+<span class="normal">2100</span>
+<span class="normal">2101</span>
+<span class="normal">2102</span>
+<span class="normal">2103</span>
+<span class="normal">2104</span>
+<span class="normal">2105</span>
+<span class="normal">2106</span>
+<span class="normal">2107</span>
+<span class="normal">2108</span>
+<span class="normal">2109</span>
+<span class="normal">2110</span>
+<span class="normal">2111</span>
+<span class="normal">2112</span>
+<span class="normal">2113</span>
+<span class="normal">2114</span>
+<span class="normal">2115</span>
+<span class="normal">2116</span>
+<span class="normal">2117</span>
+<span class="normal">2118</span>
+<span class="normal">2119</span>
+<span class="normal">2120</span>
+<span class="normal">2121</span>
+<span class="normal">2122</span>
+<span class="normal">2123</span>
+<span class="normal">2124</span>
+<span class="normal">2125</span>
+<span class="normal">2126</span>
+<span class="normal">2127</span>
+<span class="normal">2128</span>
+<span class="normal">2129</span>
+<span class="normal">2130</span>
+<span class="normal">2131</span>
+<span class="normal">2132</span>
+<span class="normal">2133</span>
+<span class="normal">2134</span>
+<span class="normal">2135</span>
+<span class="normal">2136</span>
+<span class="normal">2137</span>
+<span class="normal">2138</span>
+<span class="normal">2139</span>
+<span class="normal">2140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">],</span>
 <span class="p">)</span>
@@ -29331,13 +29319,12 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_return_revert</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">return_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">return_non_zero_data</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many RETURN or REVERT as possible.&quot;&quot;&quot;</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
@@ -29360,28 +29347,17 @@
         <span class="n">code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">executable_code</span><span class="p">))</span>
     <span class="n">target_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
 
-    <span class="n">calldata</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">target_contract_address</span><span class="p">))</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
 
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_return_revert.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29410,8 +29386,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29431,121 +29406,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-empty-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-empty-opcode_RETURN]">
-                    ...fork_Prague-state_test-empty-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-empty-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-empty-opcode_REVERT]">
-                    ...fork_Prague-state_test-empty-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of non-zero data-opcode_RETURN]">
-                    ...fork_Prague-state_test-1KiB of non-zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>True</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of non-zero data-opcode_REVERT]">
-                    ...fork_Prague-state_test-1KiB of non-zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>True</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of zero data-opcode_RETURN]">
-                    ...fork_Prague-state_test-1KiB of zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>False</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1KiB of zero data-opcode_REVERT]">
-                    ...fork_Prague-state_test-1KiB of zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>False</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of non-zero data-opcode_RETURN]">
-                    ...fork_Prague-state_test-1MiB of non-zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>True</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of non-zero data-opcode_REVERT]">
-                    ...fork_Prague-state_test-1MiB of non-zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>True</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of zero data-opcode_RETURN]">
-                    ...fork_Prague-state_test-1MiB of zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>False</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-state_test-1MiB of zero data-opcode_REVERT]">
-                    ...fork_Prague-state_test-1MiB of zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>False</td>
-                        <td>REVERT</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-empty-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-empty-opcode_RETURN]">
-                    ...fork_Prague-blockchain_test_from_state_test-empty-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-empty-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-empty-opcode_RETURN]">
+                    ...fork_Prague-blockchain_test-empty-opcode_RETURN
                 </abbr>
             </td>
                         <td>0</td>
@@ -29555,8 +29420,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-empty-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-empty-opcode_REVERT]">
-                    ...fork_Prague-blockchain_test_from_state_test-empty-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-empty-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-empty-opcode_REVERT]">
+                    ...fork_Prague-blockchain_test-empty-opcode_REVERT
                 </abbr>
             </td>
                         <td>0</td>
@@ -29566,8 +29431,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of non-zero data-opcode_RETURN]">
-                    ...fork_Prague-blockchain_test_from_state_test-1KiB of non-zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of non-zero data-opcode_RETURN]">
+                    ...fork_Prague-blockchain_test-1KiB of non-zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29577,8 +29442,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of non-zero data-opcode_REVERT]">
-                    ...fork_Prague-blockchain_test_from_state_test-1KiB of non-zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of non-zero data-opcode_REVERT]">
+                    ...fork_Prague-blockchain_test-1KiB of non-zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29588,8 +29453,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of zero data-opcode_RETURN]">
-                    ...fork_Prague-blockchain_test_from_state_test-1KiB of zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of zero data-opcode_RETURN]">
+                    ...fork_Prague-blockchain_test-1KiB of zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29599,8 +29464,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1KiB of zero data-opcode_REVERT]">
-                    ...fork_Prague-blockchain_test_from_state_test-1KiB of zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1KiB of zero data-opcode_REVERT]">
+                    ...fork_Prague-blockchain_test-1KiB of zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29610,8 +29475,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of non-zero data-opcode_RETURN]">
-                    ...fork_Prague-blockchain_test_from_state_test-1MiB of non-zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of non-zero data-opcode_RETURN]">
+                    ...fork_Prague-blockchain_test-1MiB of non-zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1048576</td>
@@ -29621,8 +29486,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of non-zero data-opcode_REVERT]">
-                    ...fork_Prague-blockchain_test_from_state_test-1MiB of non-zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of non-zero data-opcode_REVERT]">
+                    ...fork_Prague-blockchain_test-1MiB of non-zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1048576</td>
@@ -29632,8 +29497,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of zero data-opcode_RETURN]">
-                    ...fork_Prague-blockchain_test_from_state_test-1MiB of zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of zero data-opcode_RETURN]">
+                    ...fork_Prague-blockchain_test-1MiB of zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1048576</td>
@@ -29643,118 +29508,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test_from_state_test-1MiB of zero data-opcode_REVERT]">
-                    ...fork_Prague-blockchain_test_from_state_test-1MiB of zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>False</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-empty-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-empty-opcode_RETURN]">
-                    ...fork_Osaka-state_test-empty-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-empty-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-empty-opcode_REVERT]">
-                    ...fork_Osaka-state_test-empty-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>False</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of non-zero data-opcode_RETURN]">
-                    ...fork_Osaka-state_test-1KiB of non-zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>True</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of non-zero data-opcode_REVERT]">
-                    ...fork_Osaka-state_test-1KiB of non-zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>True</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of zero data-opcode_RETURN]">
-                    ...fork_Osaka-state_test-1KiB of zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>False</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1KiB of zero data-opcode_REVERT]">
-                    ...fork_Osaka-state_test-1KiB of zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1024</td>
-                        <td>False</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of non-zero data-opcode_RETURN]">
-                    ...fork_Osaka-state_test-1MiB of non-zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>True</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of non-zero data-opcode_REVERT]">
-                    ...fork_Osaka-state_test-1MiB of non-zero data-opcode_REVERT
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>True</td>
-                        <td>REVERT</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of zero data-opcode_RETURN]">
-                    ...fork_Osaka-state_test-1MiB of zero data-opcode_RETURN
-                </abbr>
-            </td>
-                        <td>1048576</td>
-                        <td>False</td>
-                        <td>RETURN</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-state_test-1MiB of zero data-opcode_REVERT]">
-                    ...fork_Osaka-state_test-1MiB of zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Prague-blockchain_test-1MiB of zero data-opcode_REVERT]">
+                    ...fork_Prague-blockchain_test-1MiB of zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1048576</td>
@@ -29764,8 +29519,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-empty-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-empty-opcode_RETURN]">
-                    ...fork_Osaka-blockchain_test_from_state_test-empty-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-empty-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-empty-opcode_RETURN]">
+                    ...fork_Osaka-blockchain_test-empty-opcode_RETURN
                 </abbr>
             </td>
                         <td>0</td>
@@ -29775,8 +29530,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-empty-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-empty-opcode_REVERT]">
-                    ...fork_Osaka-blockchain_test_from_state_test-empty-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-empty-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-empty-opcode_REVERT]">
+                    ...fork_Osaka-blockchain_test-empty-opcode_REVERT
                 </abbr>
             </td>
                         <td>0</td>
@@ -29786,8 +29541,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of non-zero data-opcode_RETURN]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1KiB of non-zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of non-zero data-opcode_RETURN]">
+                    ...fork_Osaka-blockchain_test-1KiB of non-zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29797,8 +29552,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of non-zero data-opcode_REVERT]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1KiB of non-zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of non-zero data-opcode_REVERT]">
+                    ...fork_Osaka-blockchain_test-1KiB of non-zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29808,8 +29563,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of zero data-opcode_RETURN]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1KiB of zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of zero data-opcode_RETURN]">
+                    ...fork_Osaka-blockchain_test-1KiB of zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29819,8 +29574,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1KiB of zero data-opcode_REVERT]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1KiB of zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1KiB of zero data-opcode_REVERT]">
+                    ...fork_Osaka-blockchain_test-1KiB of zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1024</td>
@@ -29830,8 +29585,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of non-zero data-opcode_RETURN]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1MiB of non-zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of non-zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of non-zero data-opcode_RETURN]">
+                    ...fork_Osaka-blockchain_test-1MiB of non-zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1048576</td>
@@ -29841,8 +29596,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of non-zero data-opcode_REVERT]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1MiB of non-zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of non-zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of non-zero data-opcode_REVERT]">
+                    ...fork_Osaka-blockchain_test-1MiB of non-zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1048576</td>
@@ -29852,8 +29607,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of zero data-opcode_RETURN]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1MiB of zero data-opcode_RETURN
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of zero data-opcode_RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of zero data-opcode_RETURN]">
+                    ...fork_Osaka-blockchain_test-1MiB of zero data-opcode_RETURN
                 </abbr>
             </td>
                         <td>1048576</td>
@@ -29863,8 +29618,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test_from_state_test-1MiB of zero data-opcode_REVERT]">
-                    ...fork_Osaka-blockchain_test_from_state_test-1MiB of zero data-opcode_REVERT
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of zero data-opcode_REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_return_revert[fork_Osaka-blockchain_test-1MiB of zero data-opcode_REVERT]">
+                    ...fork_Osaka-blockchain_test-1MiB of zero data-opcode_REVERT
                 </abbr>
             </td>
                         <td>1048576</td>

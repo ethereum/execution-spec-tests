@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_dup"><code>test_worst_dup()</code><a class="headerlink" href="#test_worst_dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L2879"><code>tests/benchmark/test_worst_compute.py::test_worst_dup@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L2002"><code>tests/benchmark/test_worst_compute.py::test_worst_dup@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_dup -m benchmark</span>
@@ -29257,59 +29257,45 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2879</span>
-<span class="normal">2880</span>
-<span class="normal">2881</span>
-<span class="normal">2882</span>
-<span class="normal">2883</span>
-<span class="normal">2884</span>
-<span class="normal">2885</span>
-<span class="normal">2886</span>
-<span class="normal">2887</span>
-<span class="normal">2888</span>
-<span class="normal">2889</span>
-<span class="normal">2890</span>
-<span class="normal">2891</span>
-<span class="normal">2892</span>
-<span class="normal">2893</span>
-<span class="normal">2894</span>
-<span class="normal">2895</span>
-<span class="normal">2896</span>
-<span class="normal">2897</span>
-<span class="normal">2898</span>
-<span class="normal">2899</span>
-<span class="normal">2900</span>
-<span class="normal">2901</span>
-<span class="normal">2902</span>
-<span class="normal">2903</span>
-<span class="normal">2904</span>
-<span class="normal">2905</span>
-<span class="normal">2906</span>
-<span class="normal">2907</span>
-<span class="normal">2908</span>
-<span class="normal">2909</span>
-<span class="normal">2910</span>
-<span class="normal">2911</span>
-<span class="normal">2912</span>
-<span class="normal">2913</span>
-<span class="normal">2914</span>
-<span class="normal">2915</span>
-<span class="normal">2916</span>
-<span class="normal">2917</span>
-<span class="normal">2918</span>
-<span class="normal">2919</span>
-<span class="normal">2920</span>
-<span class="normal">2921</span>
-<span class="normal">2922</span>
-<span class="normal">2923</span>
-<span class="normal">2924</span>
-<span class="normal">2925</span>
-<span class="normal">2926</span>
-<span class="normal">2927</span>
-<span class="normal">2928</span>
-<span class="normal">2929</span>
-<span class="normal">2930</span>
-<span class="normal">2931</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2002</span>
+<span class="normal">2003</span>
+<span class="normal">2004</span>
+<span class="normal">2005</span>
+<span class="normal">2006</span>
+<span class="normal">2007</span>
+<span class="normal">2008</span>
+<span class="normal">2009</span>
+<span class="normal">2010</span>
+<span class="normal">2011</span>
+<span class="normal">2012</span>
+<span class="normal">2013</span>
+<span class="normal">2014</span>
+<span class="normal">2015</span>
+<span class="normal">2016</span>
+<span class="normal">2017</span>
+<span class="normal">2018</span>
+<span class="normal">2019</span>
+<span class="normal">2020</span>
+<span class="normal">2021</span>
+<span class="normal">2022</span>
+<span class="normal">2023</span>
+<span class="normal">2024</span>
+<span class="normal">2025</span>
+<span class="normal">2026</span>
+<span class="normal">2027</span>
+<span class="normal">2028</span>
+<span class="normal">2029</span>
+<span class="normal">2030</span>
+<span class="normal">2031</span>
+<span class="normal">2032</span>
+<span class="normal">2033</span>
+<span class="normal">2034</span>
+<span class="normal">2035</span>
+<span class="normal">2036</span>
+<span class="normal">2037</span>
+<span class="normal">2038</span>
+<span class="normal">2039</span>
+<span class="normal">2040</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">),</span>
@@ -29331,43 +29317,29 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_dup</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
-    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many DUP as possible.&quot;&quot;&quot;</span>
     <span class="n">max_stack_height</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_stack_height</span><span class="p">()</span>
 
     <span class="n">min_stack_height</span> <span class="o">=</span> <span class="n">opcode</span><span class="o">.</span><span class="n">min_stack_height</span>
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">min_stack_height</span>
-    <span class="n">opcode_sequence</span> <span class="o">=</span> <span class="n">opcode</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_stack_height</span> <span class="o">-</span> <span class="n">min_stack_height</span><span class="p">)</span>
-    <span class="n">target_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code_prefix</span> <span class="o">+</span> <span class="n">opcode_sequence</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">min_stack_height</span> <span class="o">+</span> <span class="n">opcode</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_stack_height</span> <span class="o">-</span> <span class="n">min_stack_height</span><span class="p">)</span>
+    <span class="n">target_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
 
-    <span class="n">calldata</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">target_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">code_generator</span><span class="o">=</span><span class="n">JumpLoopGenerator</span><span class="p">(</span><span class="n">attack_block</span><span class="o">=</span><span class="n">attack_block</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_dup.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29396,8 +29368,7 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29415,155 +29386,11 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP1]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP1]">
-                    ...fork_Prague-state_test-opcode_DUP1
-                </abbr>
-            </td>
-                        <td>DUP1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP2]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP2]">
-                    ...fork_Prague-state_test-opcode_DUP2
-                </abbr>
-            </td>
-                        <td>DUP2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP3]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP3]">
-                    ...fork_Prague-state_test-opcode_DUP3
-                </abbr>
-            </td>
-                        <td>DUP3</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP4]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP4]">
-                    ...fork_Prague-state_test-opcode_DUP4
-                </abbr>
-            </td>
-                        <td>DUP4</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP5]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP5]">
-                    ...fork_Prague-state_test-opcode_DUP5
-                </abbr>
-            </td>
-                        <td>DUP5</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP6]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP6]">
-                    ...fork_Prague-state_test-opcode_DUP6
-                </abbr>
-            </td>
-                        <td>DUP6</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP7]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP7]">
-                    ...fork_Prague-state_test-opcode_DUP7
-                </abbr>
-            </td>
-                        <td>DUP7</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP8]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP8]">
-                    ...fork_Prague-state_test-opcode_DUP8
-                </abbr>
-            </td>
-                        <td>DUP8</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP9]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP9]">
-                    ...fork_Prague-state_test-opcode_DUP9
-                </abbr>
-            </td>
-                        <td>DUP9</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP10]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP10]">
-                    ...fork_Prague-state_test-opcode_DUP10
-                </abbr>
-            </td>
-                        <td>DUP10</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP11]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP11]">
-                    ...fork_Prague-state_test-opcode_DUP11
-                </abbr>
-            </td>
-                        <td>DUP11</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP12]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP12]">
-                    ...fork_Prague-state_test-opcode_DUP12
-                </abbr>
-            </td>
-                        <td>DUP12</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP13]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP13]">
-                    ...fork_Prague-state_test-opcode_DUP13
-                </abbr>
-            </td>
-                        <td>DUP13</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP14]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP14]">
-                    ...fork_Prague-state_test-opcode_DUP14
-                </abbr>
-            </td>
-                        <td>DUP14</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP15]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP15]">
-                    ...fork_Prague-state_test-opcode_DUP15
-                </abbr>
-            </td>
-                        <td>DUP15</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP16]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-state_test-opcode_DUP16]">
-                    ...fork_Prague-state_test-opcode_DUP16
-                </abbr>
-            </td>
-                        <td>DUP16</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP1]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP1]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP1
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP1]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP1]">
+                    ...fork_Prague-blockchain_test-opcode_DUP1
                 </abbr>
             </td>
                         <td>DUP1</td>
@@ -29571,8 +29398,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP2]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP2]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP2]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP2]">
+                    ...fork_Prague-blockchain_test-opcode_DUP2
                 </abbr>
             </td>
                         <td>DUP2</td>
@@ -29580,8 +29407,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP3]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP3]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP3
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP3]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP3]">
+                    ...fork_Prague-blockchain_test-opcode_DUP3
                 </abbr>
             </td>
                         <td>DUP3</td>
@@ -29589,8 +29416,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP4]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP4]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP4
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP4]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP4]">
+                    ...fork_Prague-blockchain_test-opcode_DUP4
                 </abbr>
             </td>
                         <td>DUP4</td>
@@ -29598,8 +29425,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP5]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP5]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP5
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP5]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP5]">
+                    ...fork_Prague-blockchain_test-opcode_DUP5
                 </abbr>
             </td>
                         <td>DUP5</td>
@@ -29607,8 +29434,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP6]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP6]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP6
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP6]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP6]">
+                    ...fork_Prague-blockchain_test-opcode_DUP6
                 </abbr>
             </td>
                         <td>DUP6</td>
@@ -29616,8 +29443,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP7]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP7]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP7
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP7]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP7]">
+                    ...fork_Prague-blockchain_test-opcode_DUP7
                 </abbr>
             </td>
                         <td>DUP7</td>
@@ -29625,8 +29452,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP8]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP8]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP8]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP8]">
+                    ...fork_Prague-blockchain_test-opcode_DUP8
                 </abbr>
             </td>
                         <td>DUP8</td>
@@ -29634,8 +29461,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP9]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP9]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP9
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP9]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP9]">
+                    ...fork_Prague-blockchain_test-opcode_DUP9
                 </abbr>
             </td>
                         <td>DUP9</td>
@@ -29643,8 +29470,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP10]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP10]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP10
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP10]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP10]">
+                    ...fork_Prague-blockchain_test-opcode_DUP10
                 </abbr>
             </td>
                         <td>DUP10</td>
@@ -29652,8 +29479,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP11]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP11]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP11
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP11]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP11]">
+                    ...fork_Prague-blockchain_test-opcode_DUP11
                 </abbr>
             </td>
                         <td>DUP11</td>
@@ -29661,8 +29488,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP12]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP12]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP12
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP12]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP12]">
+                    ...fork_Prague-blockchain_test-opcode_DUP12
                 </abbr>
             </td>
                         <td>DUP12</td>
@@ -29670,8 +29497,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP13]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP13]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP13
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP13]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP13]">
+                    ...fork_Prague-blockchain_test-opcode_DUP13
                 </abbr>
             </td>
                         <td>DUP13</td>
@@ -29679,8 +29506,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP14]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP14]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP14
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP14]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP14]">
+                    ...fork_Prague-blockchain_test-opcode_DUP14
                 </abbr>
             </td>
                         <td>DUP14</td>
@@ -29688,8 +29515,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP15]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP15]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP15
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP15]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP15]">
+                    ...fork_Prague-blockchain_test-opcode_DUP15
                 </abbr>
             </td>
                         <td>DUP15</td>
@@ -29697,152 +29524,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP16]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test_from_state_test-opcode_DUP16]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DUP16
-                </abbr>
-            </td>
-                        <td>DUP16</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP1]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP1]">
-                    ...fork_Osaka-state_test-opcode_DUP1
-                </abbr>
-            </td>
-                        <td>DUP1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP2]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP2]">
-                    ...fork_Osaka-state_test-opcode_DUP2
-                </abbr>
-            </td>
-                        <td>DUP2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP3]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP3]">
-                    ...fork_Osaka-state_test-opcode_DUP3
-                </abbr>
-            </td>
-                        <td>DUP3</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP4]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP4]">
-                    ...fork_Osaka-state_test-opcode_DUP4
-                </abbr>
-            </td>
-                        <td>DUP4</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP5]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP5]">
-                    ...fork_Osaka-state_test-opcode_DUP5
-                </abbr>
-            </td>
-                        <td>DUP5</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP6]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP6]">
-                    ...fork_Osaka-state_test-opcode_DUP6
-                </abbr>
-            </td>
-                        <td>DUP6</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP7]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP7]">
-                    ...fork_Osaka-state_test-opcode_DUP7
-                </abbr>
-            </td>
-                        <td>DUP7</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP8]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP8]">
-                    ...fork_Osaka-state_test-opcode_DUP8
-                </abbr>
-            </td>
-                        <td>DUP8</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP9]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP9]">
-                    ...fork_Osaka-state_test-opcode_DUP9
-                </abbr>
-            </td>
-                        <td>DUP9</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP10]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP10]">
-                    ...fork_Osaka-state_test-opcode_DUP10
-                </abbr>
-            </td>
-                        <td>DUP10</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP11]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP11]">
-                    ...fork_Osaka-state_test-opcode_DUP11
-                </abbr>
-            </td>
-                        <td>DUP11</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP12]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP12]">
-                    ...fork_Osaka-state_test-opcode_DUP12
-                </abbr>
-            </td>
-                        <td>DUP12</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP13]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP13]">
-                    ...fork_Osaka-state_test-opcode_DUP13
-                </abbr>
-            </td>
-                        <td>DUP13</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP14]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP14]">
-                    ...fork_Osaka-state_test-opcode_DUP14
-                </abbr>
-            </td>
-                        <td>DUP14</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP15]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP15]">
-                    ...fork_Osaka-state_test-opcode_DUP15
-                </abbr>
-            </td>
-                        <td>DUP15</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP16]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-state_test-opcode_DUP16]">
-                    ...fork_Osaka-state_test-opcode_DUP16
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP16]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Prague-blockchain_test-opcode_DUP16]">
+                    ...fork_Prague-blockchain_test-opcode_DUP16
                 </abbr>
             </td>
                         <td>DUP16</td>
@@ -29850,8 +29533,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP1]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP1]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP1
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP1]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP1]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP1
                 </abbr>
             </td>
                         <td>DUP1</td>
@@ -29859,8 +29542,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP2]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP2
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP2]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP2]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP2
                 </abbr>
             </td>
                         <td>DUP2</td>
@@ -29868,8 +29551,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP3]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP3]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP3
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP3]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP3]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP3
                 </abbr>
             </td>
                         <td>DUP3</td>
@@ -29877,8 +29560,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP4]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP4]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP4
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP4]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP4]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP4
                 </abbr>
             </td>
                         <td>DUP4</td>
@@ -29886,8 +29569,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP5]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP5]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP5
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP5]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP5]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP5
                 </abbr>
             </td>
                         <td>DUP5</td>
@@ -29895,8 +29578,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP6]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP6]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP6
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP6]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP6]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP6
                 </abbr>
             </td>
                         <td>DUP6</td>
@@ -29904,8 +29587,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP7]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP7]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP7
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP7]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP7]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP7
                 </abbr>
             </td>
                         <td>DUP7</td>
@@ -29913,8 +29596,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP8]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP8]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP8
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP8]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP8]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP8
                 </abbr>
             </td>
                         <td>DUP8</td>
@@ -29922,8 +29605,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP9]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP9]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP9
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP9]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP9]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP9
                 </abbr>
             </td>
                         <td>DUP9</td>
@@ -29931,8 +29614,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP10]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP10]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP10
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP10]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP10]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP10
                 </abbr>
             </td>
                         <td>DUP10</td>
@@ -29940,8 +29623,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP11]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP11]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP11
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP11]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP11]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP11
                 </abbr>
             </td>
                         <td>DUP11</td>
@@ -29949,8 +29632,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP12]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP12]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP12
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP12]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP12]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP12
                 </abbr>
             </td>
                         <td>DUP12</td>
@@ -29958,8 +29641,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP13]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP13]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP13
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP13]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP13]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP13
                 </abbr>
             </td>
                         <td>DUP13</td>
@@ -29967,8 +29650,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP14]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP14]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP14
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP14]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP14]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP14
                 </abbr>
             </td>
                         <td>DUP14</td>
@@ -29976,8 +29659,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP15]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP15]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP15
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP15]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP15]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP15
                 </abbr>
             </td>
                         <td>DUP15</td>
@@ -29985,8 +29668,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP16]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test_from_state_test-opcode_DUP16]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DUP16
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP16]" title="tests/benchmark/test_worst_compute.py::test_worst_dup[fork_Osaka-blockchain_test-opcode_DUP16]">
+                    ...fork_Osaka-blockchain_test-opcode_DUP16
                 </abbr>
             </td>
                         <td>DUP16</td>

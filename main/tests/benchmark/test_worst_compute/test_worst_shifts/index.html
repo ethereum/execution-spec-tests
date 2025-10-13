@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_shifts"><code>test_worst_shifts()</code><a class="headerlink" href="#test_worst_shifts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_compute.py#L2257"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_compute.py#L1488"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_shifts -m benchmark</span>
@@ -29260,92 +29260,88 @@ pool of 15 values on the stack.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2257</span>
-<span class="normal">2258</span>
-<span class="normal">2259</span>
-<span class="normal">2260</span>
-<span class="normal">2261</span>
-<span class="normal">2262</span>
-<span class="normal">2263</span>
-<span class="normal">2264</span>
-<span class="normal">2265</span>
-<span class="normal">2266</span>
-<span class="normal">2267</span>
-<span class="normal">2268</span>
-<span class="normal">2269</span>
-<span class="normal">2270</span>
-<span class="normal">2271</span>
-<span class="normal">2272</span>
-<span class="normal">2273</span>
-<span class="normal">2274</span>
-<span class="normal">2275</span>
-<span class="normal">2276</span>
-<span class="normal">2277</span>
-<span class="normal">2278</span>
-<span class="normal">2279</span>
-<span class="normal">2280</span>
-<span class="normal">2281</span>
-<span class="normal">2282</span>
-<span class="normal">2283</span>
-<span class="normal">2284</span>
-<span class="normal">2285</span>
-<span class="normal">2286</span>
-<span class="normal">2287</span>
-<span class="normal">2288</span>
-<span class="normal">2289</span>
-<span class="normal">2290</span>
-<span class="normal">2291</span>
-<span class="normal">2292</span>
-<span class="normal">2293</span>
-<span class="normal">2294</span>
-<span class="normal">2295</span>
-<span class="normal">2296</span>
-<span class="normal">2297</span>
-<span class="normal">2298</span>
-<span class="normal">2299</span>
-<span class="normal">2300</span>
-<span class="normal">2301</span>
-<span class="normal">2302</span>
-<span class="normal">2303</span>
-<span class="normal">2304</span>
-<span class="normal">2305</span>
-<span class="normal">2306</span>
-<span class="normal">2307</span>
-<span class="normal">2308</span>
-<span class="normal">2309</span>
-<span class="normal">2310</span>
-<span class="normal">2311</span>
-<span class="normal">2312</span>
-<span class="normal">2313</span>
-<span class="normal">2314</span>
-<span class="normal">2315</span>
-<span class="normal">2316</span>
-<span class="normal">2317</span>
-<span class="normal">2318</span>
-<span class="normal">2319</span>
-<span class="normal">2320</span>
-<span class="normal">2321</span>
-<span class="normal">2322</span>
-<span class="normal">2323</span>
-<span class="normal">2324</span>
-<span class="normal">2325</span>
-<span class="normal">2326</span>
-<span class="normal">2327</span>
-<span class="normal">2328</span>
-<span class="normal">2329</span>
-<span class="normal">2330</span>
-<span class="normal">2331</span>
-<span class="normal">2332</span>
-<span class="normal">2333</span>
-<span class="normal">2334</span>
-<span class="normal">2335</span>
-<span class="normal">2336</span>
-<span class="normal">2337</span>
-<span class="normal">2338</span>
-<span class="normal">2339</span>
-<span class="normal">2340</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1488</span>
+<span class="normal">1489</span>
+<span class="normal">1490</span>
+<span class="normal">1491</span>
+<span class="normal">1492</span>
+<span class="normal">1493</span>
+<span class="normal">1494</span>
+<span class="normal">1495</span>
+<span class="normal">1496</span>
+<span class="normal">1497</span>
+<span class="normal">1498</span>
+<span class="normal">1499</span>
+<span class="normal">1500</span>
+<span class="normal">1501</span>
+<span class="normal">1502</span>
+<span class="normal">1503</span>
+<span class="normal">1504</span>
+<span class="normal">1505</span>
+<span class="normal">1506</span>
+<span class="normal">1507</span>
+<span class="normal">1508</span>
+<span class="normal">1509</span>
+<span class="normal">1510</span>
+<span class="normal">1511</span>
+<span class="normal">1512</span>
+<span class="normal">1513</span>
+<span class="normal">1514</span>
+<span class="normal">1515</span>
+<span class="normal">1516</span>
+<span class="normal">1517</span>
+<span class="normal">1518</span>
+<span class="normal">1519</span>
+<span class="normal">1520</span>
+<span class="normal">1521</span>
+<span class="normal">1522</span>
+<span class="normal">1523</span>
+<span class="normal">1524</span>
+<span class="normal">1525</span>
+<span class="normal">1526</span>
+<span class="normal">1527</span>
+<span class="normal">1528</span>
+<span class="normal">1529</span>
+<span class="normal">1530</span>
+<span class="normal">1531</span>
+<span class="normal">1532</span>
+<span class="normal">1533</span>
+<span class="normal">1534</span>
+<span class="normal">1535</span>
+<span class="normal">1536</span>
+<span class="normal">1537</span>
+<span class="normal">1538</span>
+<span class="normal">1539</span>
+<span class="normal">1540</span>
+<span class="normal">1541</span>
+<span class="normal">1542</span>
+<span class="normal">1543</span>
+<span class="normal">1544</span>
+<span class="normal">1545</span>
+<span class="normal">1546</span>
+<span class="normal">1547</span>
+<span class="normal">1548</span>
+<span class="normal">1549</span>
+<span class="normal">1550</span>
+<span class="normal">1551</span>
+<span class="normal">1552</span>
+<span class="normal">1553</span>
+<span class="normal">1554</span>
+<span class="normal">1555</span>
+<span class="normal">1556</span>
+<span class="normal">1557</span>
+<span class="normal">1558</span>
+<span class="normal">1559</span>
+<span class="normal">1560</span>
+<span class="normal">1561</span>
+<span class="normal">1562</span>
+<span class="normal">1563</span>
+<span class="normal">1564</span>
+<span class="normal">1565</span>
+<span class="normal">1566</span>
+<span class="normal">1567</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_shifts</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">shift_right</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
@@ -29422,17 +29418,13 @@ pool of 15 values on the stack.</p>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">benchmark_test</span><span class="p">(</span><span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_worst_shifts.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29461,8 +29453,7 @@ pool of 15 values on the stack.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29480,29 +29471,11 @@ pool of 15 values on the stack.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SHR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SHR]">
-                    ...fork_Prague-state_test-shift_right_SHR
-                </abbr>
-            </td>
-                        <td>SHR</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SAR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SAR]">
-                    ...fork_Prague-state_test-shift_right_SAR
-                </abbr>
-            </td>
-                        <td>SAR</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SHR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SHR]">
-                    ...fork_Prague-blockchain_test_from_state_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SHR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SHR]">
+                    ...fork_Prague-blockchain_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -29510,26 +29483,8 @@ pool of 15 values on the stack.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SAR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SAR]">
-                    ...fork_Prague-blockchain_test_from_state_test-shift_right_SAR
-                </abbr>
-            </td>
-                        <td>SAR</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SHR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SHR]">
-                    ...fork_Osaka-state_test-shift_right_SHR
-                </abbr>
-            </td>
-                        <td>SHR</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SAR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SAR]">
-                    ...fork_Osaka-state_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SAR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SAR]">
+                    ...fork_Prague-blockchain_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>
@@ -29537,8 +29492,8 @@ pool of 15 values on the stack.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SHR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SHR]">
-                    ...fork_Osaka-blockchain_test_from_state_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SHR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SHR]">
+                    ...fork_Osaka-blockchain_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -29546,8 +29501,8 @@ pool of 15 values on the stack.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SAR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SAR]">
-                    ...fork_Osaka-blockchain_test_from_state_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SAR]" title="tests/benchmark/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SAR]">
+                    ...fork_Osaka-blockchain_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>

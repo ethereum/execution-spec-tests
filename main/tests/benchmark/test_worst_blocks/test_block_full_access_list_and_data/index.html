@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_block_full_access_list_and_data"><code>test_block_full_access_list_and_data()</code><a class="headerlink" href="#test_block_full_access_list_and_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/67f596d742475971ac18ecaba9efc7e527b66585/tests/benchmark/test_worst_blocks.py#L241"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@67f596d7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/131adfeae6dbf6c89f15208a4344459d5331feb2/tests/benchmark/test_worst_blocks.py#L260"><code>tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data@131adfea</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data -m benchmark</span>
@@ -29258,26 +29258,7 @@ random mixed bytes.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
 <span class="normal">263</span>
@@ -29352,107 +29333,146 @@ random mixed bytes.</p>
 <span class="normal">332</span>
 <span class="normal">333</span>
 <span class="normal">334</span>
-<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_access_list_and_data</span><span class="p">(</span>
+    <span class="n">benchmark_test</span><span class="p">:</span> <span class="n">BenchmarkTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">total_cost_standard_per_token</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_gas_limit_cap</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test a block with access lists (60% gas) and calldata (40% gas) using</span>
 <span class="sd">    random mixed bytes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
-    <span class="n">gas_available</span> <span class="o">=</span> <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_cost</span>
+    <span class="n">iteration_count</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">gas_benchmark_value</span> <span class="o">/</span> <span class="n">tx_gas_limit_cap</span><span class="p">)</span>
 
-    <span class="c1"># Split available gas: 60% for access lists, 40% for calldata</span>
-    <span class="n">gas_for_access_list</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">gas_available</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">)</span>
-    <span class="n">gas_for_calldata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">gas_available</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">gas_remaining</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
+    <span class="n">total_gas_used</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="c1"># Access list gas costs from fork&#39;s gas_costs</span>
-    <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
-    <span class="n">gas_per_address</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_ACCESS_LIST_ADDRESS</span>
-    <span class="n">gas_per_storage_key</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_ACCESS_LIST_STORAGE</span>
+    <span class="n">txs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iteration_count</span><span class="p">):</span>
+        <span class="n">gas_available</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tx_gas_limit_cap</span><span class="p">,</span> <span class="n">gas_remaining</span><span class="p">)</span> <span class="o">-</span> <span class="n">intrinsic_cost</span>
 
-    <span class="c1"># Calculate number of storage keys we can fit</span>
-    <span class="n">gas_after_address</span> <span class="o">=</span> <span class="n">gas_for_access_list</span> <span class="o">-</span> <span class="n">gas_per_address</span>
-    <span class="n">num_storage_keys</span> <span class="o">=</span> <span class="n">gas_after_address</span> <span class="o">//</span> <span class="n">gas_per_storage_key</span>
+        <span class="c1"># Split available gas: 60% for access lists, 40% for calldata</span>
+        <span class="n">gas_for_access_list</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">gas_available</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">gas_for_calldata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">gas_available</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
 
-    <span class="c1"># Create access list with 1 address and many storage keys</span>
-    <span class="n">access_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="s2">&quot;0x1234567890123456789012345678901234567890&quot;</span><span class="p">)</span>
-    <span class="n">storage_keys</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_storage_keys</span><span class="p">):</span>
-        <span class="c1"># Generate random-looking storage keys</span>
-        <span class="n">storage_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Hash</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="c1"># Access list gas costs from fork&#39;s gas_costs</span>
+        <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+        <span class="n">gas_per_address</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_ACCESS_LIST_ADDRESS</span>
+        <span class="n">gas_per_storage_key</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_ACCESS_LIST_STORAGE</span>
 
-    <span class="n">access_list</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">AccessList</span><span class="p">(</span>
-            <span class="n">address</span><span class="o">=</span><span class="n">access_address</span><span class="p">,</span>
-            <span class="n">storage_keys</span><span class="o">=</span><span class="n">storage_keys</span><span class="p">,</span>
+        <span class="c1"># Calculate number of storage keys we can fit</span>
+        <span class="n">gas_after_address</span> <span class="o">=</span> <span class="n">gas_for_access_list</span> <span class="o">-</span> <span class="n">gas_per_address</span>
+        <span class="n">num_storage_keys</span> <span class="o">=</span> <span class="n">gas_after_address</span> <span class="o">//</span> <span class="n">gas_per_storage_key</span>
+
+        <span class="c1"># Create access list with 1 address and many storage keys</span>
+        <span class="n">access_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="s2">&quot;0x1234567890123456789012345678901234567890&quot;</span><span class="p">)</span>
+        <span class="n">storage_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_storage_keys</span><span class="p">):</span>
+            <span class="c1"># Generate random-looking storage keys</span>
+            <span class="n">storage_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Hash</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="n">access_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">AccessList</span><span class="p">(</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">access_address</span><span class="p">,</span>
+                <span class="n">storage_keys</span><span class="o">=</span><span class="n">storage_keys</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Calculate calldata with 29% of gas for zero bytes and 71% for</span>
+        <span class="c1"># non-zero bytes</span>
+        <span class="c1"># Token accounting: tokens_in_calldata = zero_bytes + 4 *</span>
+        <span class="c1"># non_zero_bytes</span>
+        <span class="c1"># We want to split the gas budget:</span>
+        <span class="c1"># - 29% of gas_for_calldata for zero bytes</span>
+        <span class="c1"># - 71% of gas_for_calldata for non-zero bytes</span>
+
+        <span class="n">max_tokens_in_calldata</span> <span class="o">=</span> <span class="n">gas_for_calldata</span> <span class="o">//</span> <span class="n">total_cost_standard_per_token</span>
+
+        <span class="c1"># Calculate how many tokens to allocate to each type</span>
+        <span class="n">tokens_for_zero_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_tokens_in_calldata</span> <span class="o">*</span> <span class="mf">0.29</span><span class="p">)</span>
+        <span class="n">tokens_for_non_zero_bytes</span> <span class="o">=</span> <span class="n">max_tokens_in_calldata</span> <span class="o">-</span> <span class="n">tokens_for_zero_bytes</span>
+
+        <span class="c1"># Convert tokens to actual byte counts</span>
+        <span class="c1"># Zero bytes: 1 token per byte</span>
+        <span class="c1"># Non-zero bytes: 4 tokens per byte</span>
+        <span class="n">num_zero_bytes</span> <span class="o">=</span> <span class="n">tokens_for_zero_bytes</span>  <span class="c1"># 1 token = 1 zero byte</span>
+        <span class="n">num_non_zero_bytes</span> <span class="o">=</span> <span class="n">tokens_for_non_zero_bytes</span> <span class="o">//</span> <span class="mi">4</span>  <span class="c1"># 4 tokens = 1 non-zero byte</span>
+
+        <span class="c1"># Create calldata with mixed bytes</span>
+        <span class="n">calldata</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
+
+        <span class="c1"># Add zero bytes</span>
+        <span class="n">calldata</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="n">num_zero_bytes</span><span class="p">)</span>
+
+        <span class="c1"># Add non-zero bytes (random values from 0x01 to 0xff)</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># For reproducibility</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_non_zero_bytes</span><span class="p">):</span>
+            <span class="n">calldata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+
+        <span class="c1"># Shuffle the bytes to mix zero and non-zero bytes</span>
+        <span class="n">calldata_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">calldata</span><span class="p">)</span>
+        <span class="n">rng</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">calldata_list</span><span class="p">)</span>
+        <span class="n">shuffled_calldata</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">calldata_list</span><span class="p">)</span>
+
+        <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Transaction</span><span class="p">(</span>
+                <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">shuffled_calldata</span><span class="p">,</span>
+                <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_available</span> <span class="o">+</span> <span class="n">intrinsic_cost</span><span class="p">,</span>
+                <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+                <span class="n">access_list</span><span class="o">=</span><span class="n">access_list</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="p">)</span>
-    <span class="p">]</span>
 
-    <span class="c1"># Calculate calldata with 29% of gas for zero bytes and 71% for non-zero</span>
-    <span class="c1"># bytes</span>
-    <span class="c1"># Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes</span>
-    <span class="c1"># We want to split the gas budget:</span>
-    <span class="c1"># - 29% of gas_for_calldata for zero bytes</span>
-    <span class="c1"># - 71% of gas_for_calldata for non-zero bytes</span>
-
-    <span class="n">max_tokens_in_calldata</span> <span class="o">=</span> <span class="n">gas_for_calldata</span> <span class="o">//</span> <span class="n">total_cost_standard_per_token</span>
-
-    <span class="c1"># Calculate how many tokens to allocate to each type</span>
-    <span class="n">tokens_for_zero_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_tokens_in_calldata</span> <span class="o">*</span> <span class="mf">0.29</span><span class="p">)</span>
-    <span class="n">tokens_for_non_zero_bytes</span> <span class="o">=</span> <span class="n">max_tokens_in_calldata</span> <span class="o">-</span> <span class="n">tokens_for_zero_bytes</span>
-
-    <span class="c1"># Convert tokens to actual byte counts</span>
-    <span class="c1"># Zero bytes: 1 token per byte</span>
-    <span class="c1"># Non-zero bytes: 4 tokens per byte</span>
-    <span class="n">num_zero_bytes</span> <span class="o">=</span> <span class="n">tokens_for_zero_bytes</span>  <span class="c1"># 1 token = 1 zero byte</span>
-    <span class="c1"># 4 tokens = 1 non-zero byte</span>
-    <span class="n">num_non_zero_bytes</span> <span class="o">=</span> <span class="n">tokens_for_non_zero_bytes</span> <span class="o">//</span> <span class="mi">4</span>
-
-    <span class="c1"># Create calldata with mixed bytes</span>
-    <span class="n">calldata</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
-
-    <span class="c1"># Add zero bytes</span>
-    <span class="n">calldata</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="n">num_zero_bytes</span><span class="p">)</span>
-
-    <span class="c1"># Add non-zero bytes (random values from 0x01 to 0xff)</span>
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># For reproducibility</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_non_zero_bytes</span><span class="p">):</span>
-        <span class="n">calldata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
-
-    <span class="c1"># Shuffle the bytes to mix zero and non-zero bytes</span>
-    <span class="n">calldata_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">calldata</span><span class="p">)</span>
-    <span class="n">rng</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">calldata_list</span><span class="p">)</span>
-    <span class="n">shuffled_calldata</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">calldata_list</span><span class="p">)</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">shuffled_calldata</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">attack_gas_limit</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-        <span class="n">access_list</span><span class="o">=</span><span class="n">access_list</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-        <span class="n">expected_benchmark_gas_used</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()(</span>
+        <span class="n">gas_remaining</span> <span class="o">-=</span> <span class="n">gas_for_access_list</span> <span class="o">+</span> <span class="n">intrinsic_cost</span>
+        <span class="n">total_gas_used</span> <span class="o">+=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()(</span>
             <span class="n">calldata</span><span class="o">=</span><span class="n">shuffled_calldata</span><span class="p">,</span>
             <span class="n">access_list</span><span class="o">=</span><span class="n">access_list</span><span class="p">,</span>
-        <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="n">benchmark_test</span><span class="p">(</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
+        <span class="n">expected_benchmark_gas_used</span><span class="o">=</span><span class="n">total_gas_used</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>This test case is only parametrized by fork.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -29481,8 +29501,7 @@ random mixed bytes.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="state_test" selected>state_test</option>
-                                <option value="blockchain_test" >blockchain_test</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -29499,35 +29518,19 @@ random mixed bytes.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Prague-state_test]" title="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Prague-state_test]">
-                    ...fork_Prague-state_test
-                </abbr>
-            </td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Prague-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Prague-blockchain_test_from_state_test]">
-                    ...fork_Prague-blockchain_test_from_state_test
-                </abbr>
-            </td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Osaka-state_test]" title="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Prague-blockchain_test]" title="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Prague-blockchain_test]">
+                    ...fork_Prague-blockchain_test
                 </abbr>
             </td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Osaka-blockchain_test_from_state_test]" title="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Osaka-blockchain_test]" title="tests/benchmark/test_worst_blocks.py::test_block_full_access_list_and_data[fork_Osaka-blockchain_test]">
+                    ...fork_Osaka-blockchain_test
                 </abbr>
             </td>
                     </tr>
