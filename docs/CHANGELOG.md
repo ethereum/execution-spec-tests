@@ -19,6 +19,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🧪 Test Cases
 
 - 🐞Fix BALs opcode OOG test vectors by updating the Amsterdam commit hash in specs and validating appropriately on the testing side ([#2293](https://github.com/ethereum/execution-spec-tests/pull/2293)).
+- ✨Fix test vector for BALs SSTORE with OOG by pointing to updated specs; add new boundary conditions cases for SSTORE w/ OOG ([#2297](https://github.com/ethereum/execution-spec-tests/pull/2297)).
 
 ## [v5.3.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v5.3.0) - 2025-10-09
 
