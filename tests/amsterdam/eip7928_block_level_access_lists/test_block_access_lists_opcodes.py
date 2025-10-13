@@ -14,6 +14,8 @@ These tests ensure out-of-gas operations are not recorded in BAL,
 preventing consensus issues.
 """
 
+from enum import Enum
+
 import pytest
 
 from ethereum_test_forks import Fork
@@ -44,28 +46,45 @@ REFERENCE_SPEC_VERSION = ref_spec_7928.version
 pytestmark = pytest.mark.valid_from("Amsterdam")
 
 
+class OutOfGasAt(Enum):
+    """
+    Enumeration of specific gas boundaries where OOG can occur.
+    """
+
+    EIP_2200_STIPEND = "oog_at_eip2200_stipend"
+    EIP_2200_STIPEND_PLUS_1 = "oog_at_eip2200_stipend_plus_1"
+    EXACT_GAS_MINUS_1 = "oog_at_exact_gas_minus_1"
+
+
 @pytest.mark.parametrize(
-    "fails_at_sstore", [True, False], ids=["oog_at_sstore", "successful_sstore"]
+    "out_of_gas_at",
+    [
+        OutOfGasAt.EIP_2200_STIPEND,
+        OutOfGasAt.EIP_2200_STIPEND_PLUS_1,
+        OutOfGasAt.EXACT_GAS_MINUS_1,
+        None,  # no oog, successful sstore
+    ],
+    ids=lambda x: x.value if x else "successful_sstore",
 )
 def test_bal_sstore_and_oog(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
-    fails_at_sstore: bool,
+    out_of_gas_at: OutOfGasAt | None,
 ) -> None:
     """
-    Ensure BAL handles SSTORE and OOG during SSTORE appropriately.
+    Test BAL recording with SSTORE at various OOG boundaries and success.
+
+    1. OOG at EIP-2200 stipend check & implicit SLOAD -> no BAL changes
+    2. OOG post EIP-2200 stipend check & implicit SLOAD -> storage read in BAL
+    3. OOG at exact gas minus 1 -> storage read in BAL
+    4. exact gas (success) -> storage write in BAL
     """
     alice = pre.fund_eoa()
     gas_costs = fork.gas_costs()
 
     # Create contract that attempts SSTORE to cold storage slot 0x01
-    storage_contract_code = Bytecode(
-        Op.PUSH1(0x42)  # Value to store
-        + Op.PUSH1(0x01)  # Storage slot (cold)
-        + Op.SSTORE  # Store value in slot - this will OOG
-        + Op.STOP
-    )
+    storage_contract_code = Bytecode(Op.SSTORE(0x01, 0x42))
 
     storage_contract = pre.deploy_contract(code=storage_contract_code)
 
@@ -75,13 +94,24 @@ def test_bal_sstore_and_oog(
     # Costs:
     # - PUSH1 (value and slot) = G_VERY_LOW * 2
     # - SSTORE cold (to zero slot) = G_STORAGE_SET + G_COLD_SLOAD
-    sstore_cold_cost = gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
+    sload_cost = gas_costs.G_COLD_SLOAD
+    sstore_cost = gas_costs.G_STORAGE_SET
+    sstore_cold_cost = sstore_cost + sload_cost
     push_cost = gas_costs.G_VERY_LOW * 2
-    tx_gas_limit = intrinsic_gas_cost + push_cost + sstore_cold_cost
+    stipend = gas_costs.G_CALL_STIPEND
 
-    if fails_at_sstore:
-        # subtract 1 gas to ensure OOG at SSTORE
-        tx_gas_limit -= 1
+    if out_of_gas_at == OutOfGasAt.EIP_2200_STIPEND:
+        # 2300 after PUSHes (fails stipend check: 2300 <= 2300)
+        tx_gas_limit = intrinsic_gas_cost + push_cost + stipend
+    elif out_of_gas_at == OutOfGasAt.EIP_2200_STIPEND_PLUS_1:
+        # 2301 after PUSHes (passes stipend, does SLOAD, fails charge_gas)
+        tx_gas_limit = intrinsic_gas_cost + push_cost + stipend + 1
+    elif out_of_gas_at == OutOfGasAt.EXACT_GAS_MINUS_1:
+        # fail at charge_gas() at exact gas - 1 (boundary condition)
+        tx_gas_limit = intrinsic_gas_cost + push_cost + sstore_cold_cost - 1
+    else:
+        # exact gas for successful SSTORE
+        tx_gas_limit = intrinsic_gas_cost + push_cost + sstore_cold_cost
 
     tx = Transaction(
         sender=alice,
@@ -89,19 +119,28 @@ def test_bal_sstore_and_oog(
         gas_limit=tx_gas_limit,
     )
 
+    # Storage read recorded only if we pass the stipend check and reach
+    # implicit SLOAD (STIPEND_PLUS_1 and EXACT_GAS_MINUS_1)
+    expect_storage_read = out_of_gas_at in (
+        OutOfGasAt.EIP_2200_STIPEND_PLUS_1,
+        OutOfGasAt.EXACT_GAS_MINUS_1,
+    )
+    expect_storage_write = out_of_gas_at is None
+
     block = Block(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
                 storage_contract: BalAccountExpectation(
-                    storage_changes=[]
-                    if fails_at_sstore
-                    else [
+                    storage_changes=[
                         BalStorageSlot(
                             slot=0x01,
                             slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)],
                         ),
                     ]
+                    if expect_storage_write
+                    else [],
+                    storage_reads=[0x01] if expect_storage_read else [],
                 )
             }
         ),
@@ -112,7 +151,7 @@ def test_bal_sstore_and_oog(
         blocks=[block],
         post={
             alice: Account(nonce=1),
-            storage_contract: Account(storage={} if fails_at_sstore else {0x01: 0x42}),
+            storage_contract: Account(storage={0x01: 0x42} if expect_storage_write else {}),
         },
     )
 

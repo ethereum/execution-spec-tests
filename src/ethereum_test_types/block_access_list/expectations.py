@@ -350,7 +350,9 @@ class BlockAccessListExpectation(CamelModel):
 
             # Check if explicitly set to empty but actual has values
             if not expected_list and actual_list:
-                raise AssertionError(f"Expected {field_name} to be empty but found {actual_list}")
+                raise BlockAccessListValidationError(
+                    f"Expected {field_name} to be empty but found {actual_list}"
+                )
 
             if field_name == "storage_reads":
                 # storage_reads is a simple list of StorageKey
@@ -365,7 +367,7 @@ class BlockAccessListExpectation(CamelModel):
                         actual_idx += 1
 
                     if not found:
-                        raise AssertionError(
+                        raise BlockAccessListValidationError(
                             f"Storage read {expected_read} not found or not in correct order. "
                             f"Actual reads: {actual_list}"
                         )
@@ -403,7 +405,7 @@ class BlockAccessListExpectation(CamelModel):
                                         slot_actual_idx += 1
 
                                     if not slot_found:
-                                        raise AssertionError(
+                                        raise BlockAccessListValidationError(
                                             f"Storage change {expected_change} not found "
                                             f"or not in correct order in slot "
                                             f"{expected_slot.slot}. "
@@ -416,7 +418,7 @@ class BlockAccessListExpectation(CamelModel):
                         actual_idx += 1
 
                     if not found:
-                        raise AssertionError(
+                        raise BlockAccessListValidationError(
                             f"Storage slot {expected_slot.slot} not found "
                             f"or not in correct order. Actual slots: "
                             f"{[s.slot for s in actual_list]}"
@@ -453,7 +455,7 @@ class BlockAccessListExpectation(CamelModel):
                         actual_idx += 1
 
                     if not found:
-                        raise AssertionError(
+                        raise BlockAccessListValidationError(
                             f"{item_type.capitalize()} change {exp_tuple} not found "
                             f"or not in correct order. Actual changes: {actual_tuples}"
                         )
