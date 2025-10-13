@@ -31,7 +31,7 @@ from ethereum_test_vm import Opcodes as Op
 
 # TODO: add test which writes to already existing storage
 @pytest.mark.valid_from("Frontier")
-def test_xen_approve(
+def test_xen_approve_set_only(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
 ):
