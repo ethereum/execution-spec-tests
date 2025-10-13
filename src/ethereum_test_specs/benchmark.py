@@ -107,7 +107,7 @@ class BenchmarkTest(BaseTest):
     pre: Alloc = Field(default_factory=Alloc)
     post: Alloc = Field(default_factory=Alloc)
     tx: Transaction | None = None
-    setup_blocks: List[Block] | None = None
+    setup_blocks: List[Block] = Field(default_factory=list)
     blocks: List[Block] | None = None
     block_exception: (
         List[TransactionException | BlockException] | TransactionException | BlockException | None
@@ -235,45 +235,34 @@ class BenchmarkTest(BaseTest):
                 f"Exactly one must be set, but got {len(set_props)}: {', '.join(set_props)}"
             )
 
-        if self.setup_blocks is not None:
-            if self.blocks is not None:
-                self.blocks.insert(0, *self.setup_blocks)
-            else:
-                self.blocks = self.setup_blocks
+        blocks: List[Block] = self.setup_blocks
 
         if self.code_generator is not None:
             generated_blocks = self.generate_blocks_from_code_generator(fork)
-            return BlockchainTest.from_test(
-                base_test=self,
-                genesis_environment=self.env,
-                pre=self.pre,
-                post=self.post,
-                blocks=generated_blocks,
-            )
+            blocks += generated_blocks
+
         elif self.blocks is not None:
-            return BlockchainTest.from_test(
-                base_test=self,
-                genesis_environment=self.env,
-                pre=self.pre,
-                post=self.post,
-                blocks=self.blocks,
-            )
+            blocks += self.blocks
+
         elif self.tx is not None:
             gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
 
             transactions = self.split_transaction(self.tx, gas_limit)
 
-            blocks = [Block(txs=transactions)]
+            blocks.append(Block(txs=transactions))
 
-            return BlockchainTest.from_test(
-                base_test=self,
-                pre=self.pre,
-                post=self.post,
-                blocks=blocks,
-                genesis_environment=self.env,
-            )
         else:
-            raise ValueError("Cannot create BlockchainTest without transactions or blocks")
+            raise ValueError(
+                "Cannot create BlockchainTest without a code generator, transactions, or blocks"
+            )
+
+        return BlockchainTest.from_test(
+            base_test=self,
+            genesis_environment=self.env,
+            pre=self.pre,
+            post=self.post,
+            blocks=blocks,
+        )
 
     def generate(
         self,
