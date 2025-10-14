@@ -28,6 +28,69 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Macros as Om
 from ethereum_test_vm import Opcodes as Op
 
+# TODO
+# Modularize each test, there is too much duplicated code now
+# Identify more scenarios
+# Rewrite tests to support the gas benchmark target
+# Check if some helper methods or contract patterns should be extracted for further mainnet use
+# for other target contracts (such as ERC20 contracts).
+
+
+@pytest.mark.valid_from("Frontier")
+def test_xen_read_balance_nonexisting(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+):
+    """
+    Reads balanceOf(address) starting from the index specified in the first 32 bytes of the
+    tx calldata (0 if no calldata provided) and keeps reading balanceOf(address) where this
+    address is incremented by one each loop. The tx will OOG, as only state reads and
+    no state writes are relevant in this scenario.
+    This test attempts to read as many non-existent storage slots as possible.
+    """
+    attack_gas_limit = (
+        60_000_000  # TODO: currently hardcoded, should be read from `gas_benchmark_value`
+    )
+    xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
+
+    fn_signature_balance_of = bytes.fromhex(
+        "70A08231"
+    )  # Function selector of `balanceOf(address)`
+    # The code below will OOG and will keep incrementing the address read by one each time
+    # The start address can be set in the first 32 bytes of the calldata
+    # NOTE: empty calldata thus starts at address 0
+    balance_of_loop = (
+        Om.MSTORE(fn_signature_balance_of)
+        + Op.MSTORE(4, Op.CALLDATALOAD(0))
+        + While(
+            body=Op.MSTORE(
+                4, Op.DUP1
+            )  # Put a copy of the topmost stack item in memory (this is the target address)
+            + Op.CALL(address=xen_contract, args_offset=0, args_size=4 + 32)
+            + Op.ADD,  # Add the status of the CALL
+        )
+    )
+
+    approval_spammer_contract = pre.deploy_contract(code=balance_of_loop)
+
+    attack_tx = Transaction(
+        to=approval_spammer_contract,
+        gas_limit=attack_gas_limit,
+        # data=calldata, Use empty calldata, start at address 0
+        # NOTE: if different storage slots have to be read across different transactions
+        # then calldata has to be used to set the correct start addresses
+        sender=pre.fund_eoa(),
+    )
+
+    blocks = [Block(txs=[attack_tx])]
+
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=blocks,
+        skip_gas_used_validation=True,
+    )
+
 
 # TODO: add test which writes to already existing storage
 @pytest.mark.valid_from("Frontier")
