@@ -202,7 +202,9 @@ class TransitionTool(EthereumCLI):
                 fork_name = self.fork.fork_at(
                     block_number=self.env.number, timestamp=self.env.timestamp
                 ).name()
-                return self.blob_schedule[fork_name]
+                # Only return blob params if this fork has them
+                if fork_name in self.blob_schedule.root:
+                    return self.blob_schedule[fork_name]
             return None
 
         def __post_init__(self) -> None:
