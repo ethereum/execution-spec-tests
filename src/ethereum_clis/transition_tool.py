@@ -168,26 +168,32 @@ class TransitionTool(EthereumCLI):
         reward: int
         blob_schedule: BlobSchedule | None
         state_test: bool = False
-        t8n_tool: Optional["TransitionTool"] = None
 
         @property
         def fork_name(self) -> str:
+            """Return the fork name."""
+            return self.fork.transition_tool_name(
+                block_number=self.env.number,
+                timestamp=self.env.timestamp,
+            )
+
+        @property
+        def fork_name_if_supports_blob_params(self) -> str:
             """Return the fork name."""
             fork = self.fork.fork_at(
                 block_number=self.env.number,
                 timestamp=self.env.timestamp,
             )
 
-            # For tools that support blob_params (evmone),
-            # return base fork for BPO forks.
-            if fork.bpo_fork() and self.t8n_tool and self.t8n_tool.supports_blob_params:
+            # For tools that support blob_params, return base fork for BPO
+            # forks.
+            if fork.bpo_fork():
                 return fork.non_bpo_ancestor().transition_tool_name()
-
-            # For tools that don't (like EELS), return actual fork name
-            return self.fork.transition_tool_name(
-                block_number=self.env.number,
-                timestamp=self.env.timestamp,
-            )
+            else:
+                return self.fork.transition_tool_name(
+                    block_number=self.env.number,
+                    timestamp=self.env.timestamp,
+                )
 
         @property
         def blob_params(self) -> ForkBlobSchedule | None:
@@ -255,7 +261,9 @@ class TransitionTool(EthereumCLI):
         args = [
             str(self.binary),
             "--state.fork",
-            t8n_data.fork_name,
+            t8n_data.fork_name_if_supports_blob_params
+            if self.supports_blob_params
+            else t8n_data.fork_name,
             "--input.alloc",
             input_paths["alloc"],
             "--input.env",
