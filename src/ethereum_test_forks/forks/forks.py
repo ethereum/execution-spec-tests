@@ -1979,18 +1979,6 @@ class BPO1(Osaka, bpo_fork=True):
     """Mainnet BPO1 fork - Blob Parameter Only fork 1."""
 
     @classmethod
-    def transition_tool_name(cls, *, block_number: int = 0, timestamp: int = 0) -> str:
-        """
-        Return fork name as it's meant to be passed to the transition tool for
-        execution.
-        """
-        return (
-            cls.fork_at(block_number=block_number, timestamp=timestamp)
-            .non_bpo_ancestor()
-            .transition_tool_name()
-        )
-
-    @classmethod
     def blob_base_fee_update_fraction(cls, *, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the blob base fee update fraction for BPO1."""
         del block_number, timestamp

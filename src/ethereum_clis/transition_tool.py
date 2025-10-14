@@ -30,7 +30,6 @@ from .cli_types import (
     Traces,
     TransactionReceipt,
     TransactionTraces,
-    TransitionToolCLIInput,
     TransitionToolContext,
     TransitionToolInput,
     TransitionToolOutput,
@@ -169,10 +168,22 @@ class TransitionTool(EthereumCLI):
         reward: int
         blob_schedule: BlobSchedule | None
         state_test: bool = False
+        t8n_tool: Optional["TransitionTool"] = None
 
         @property
         def fork_name(self) -> str:
             """Return the fork name."""
+            fork = self.fork.fork_at(
+                block_number=self.env.number,
+                timestamp=self.env.timestamp,
+            )
+
+            # For tools that support blob_params (evmone),
+            # return base fork for BPO forks.
+            if fork.bpo_fork() and self.t8n_tool and self.t8n_tool.supports_blob_params:
+                return fork.non_bpo_ancestor().transition_tool_name()
+
+            # For tools that don't (like EELS), return actual fork name
             return self.fork.transition_tool_name(
                 block_number=self.env.number,
                 timestamp=self.env.timestamp,
@@ -199,14 +210,6 @@ class TransitionTool(EthereumCLI):
                 alloc=self.alloc,
                 txs=self.txs,
                 env=self.env,
-            )
-
-        def to_cli_input(self) -> TransitionToolCLIInput:
-            """Convert the data to a TransitionToolCLIInput object."""
-            return TransitionToolCLIInput(
-                alloc=self.alloc,
-                txs=self.txs,
-                env=self.env,
                 blob_params=self.blob_params,
             )
 
@@ -217,7 +220,6 @@ class TransitionTool(EthereumCLI):
                     fork=self.fork_name,
                     chain_id=self.chain_id,
                     reward=self.reward,
-                    blob_schedule=self.blob_schedule,
                 ),
                 input=self.to_input(),
             )
@@ -236,7 +238,7 @@ class TransitionTool(EthereumCLI):
         os.mkdir(os.path.join(temp_dir.name, "input"))
         os.mkdir(os.path.join(temp_dir.name, "output"))
 
-        input_contents = t8n_data.to_cli_input().model_dump(mode="json", **model_dump_config)
+        input_contents = t8n_data.to_input().model_dump(mode="json", **model_dump_config)
 
         input_paths = {
             k: os.path.join(temp_dir.name, "input", f"{k}.json") for k in input_contents.keys()
@@ -448,6 +450,7 @@ class TransitionTool(EthereumCLI):
                         tx.model_dump(mode="json", **model_dump_config)
                         for tx in request_data.input.txs
                     ],
+                    "input/blob_params.json": request_data.input.blob_params,
                     "request_info.txt": request_info,
                 },
             )

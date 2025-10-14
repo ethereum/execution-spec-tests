@@ -7,7 +7,6 @@ from typing import Annotated, Any, Dict, List, Self
 from pydantic import Field, PlainSerializer, PlainValidator
 
 from ethereum_test_base_types import (
-    BlobSchedule,
     Bloom,
     Bytes,
     CamelModel,
@@ -260,14 +259,6 @@ class TransitionToolInput(CamelModel):
     alloc: Alloc
     txs: List[Transaction]
     env: Environment
-
-
-class TransitionToolCLIInput(CamelModel):
-    """Transition tool CLI input."""
-
-    alloc: Alloc
-    txs: List[Transaction]
-    env: Environment
     blob_params: ForkBlobSchedule | None = None
 
 
@@ -285,7 +276,6 @@ class TransitionToolContext(CamelModel):
     fork: str
     chain_id: int = Field(..., alias="chainid")
     reward: int
-    blob_schedule: BlobSchedule | None
 
 
 class TransitionToolRequest(CamelModel):
