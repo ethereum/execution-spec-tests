@@ -36916,7 +36916,9 @@ way.</p>
 <span class="normal">456</span>
 <span class="normal">457</span>
 <span class="normal">458</span>
-<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockAccessListExpectation</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockAccessListExpectation</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block Access List expectation model for test writing.</span>
 
@@ -37171,7 +37173,9 @@ way.</p>
 
             <span class="c1"># Check if explicitly set to empty but actual has values</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">expected_list</span> <span class="ow">and</span> <span class="n">actual_list</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> to be empty but found </span><span class="si">{</span><span class="n">actual_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BlockAccessListValidationError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> to be empty but found </span><span class="si">{</span><span class="n">actual_list</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;storage_reads&quot;</span><span class="p">:</span>
                 <span class="c1"># storage_reads is a simple list of StorageKey</span>
@@ -37186,7 +37190,7 @@ way.</p>
                         <span class="n">actual_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                        <span class="k">raise</span> <span class="n">BlockAccessListValidationError</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">&quot;Storage read </span><span class="si">{</span><span class="n">expected_read</span><span class="si">}</span><span class="s2"> not found or not in correct order. &quot;</span>
                             <span class="sa">f</span><span class="s2">&quot;Actual reads: </span><span class="si">{</span><span class="n">actual_list</span><span class="si">}</span><span class="s2">&quot;</span>
                         <span class="p">)</span>
@@ -37224,7 +37228,7 @@ way.</p>
                                         <span class="n">slot_actual_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
                                     <span class="k">if</span> <span class="ow">not</span> <span class="n">slot_found</span><span class="p">:</span>
-                                        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                                        <span class="k">raise</span> <span class="n">BlockAccessListValidationError</span><span class="p">(</span>
                                             <span class="sa">f</span><span class="s2">&quot;Storage change </span><span class="si">{</span><span class="n">expected_change</span><span class="si">}</span><span class="s2"> not found &quot;</span>
                                             <span class="sa">f</span><span class="s2">&quot;or not in correct order in slot &quot;</span>
                                             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_slot</span><span class="o">.</span><span class="n">slot</span><span class="si">}</span><span class="s2">. &quot;</span>
@@ -37237,7 +37241,7 @@ way.</p>
                         <span class="n">actual_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                        <span class="k">raise</span> <span class="n">BlockAccessListValidationError</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">&quot;Storage slot </span><span class="si">{</span><span class="n">expected_slot</span><span class="o">.</span><span class="n">slot</span><span class="si">}</span><span class="s2"> not found &quot;</span>
                             <span class="sa">f</span><span class="s2">&quot;or not in correct order. Actual slots: &quot;</span>
                             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">slot</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">actual_list</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -37274,7 +37278,7 @@ way.</p>
                         <span class="n">actual_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                        <span class="k">raise</span> <span class="n">BlockAccessListValidationError</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_type</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> change </span><span class="si">{</span><span class="n">exp_tuple</span><span class="si">}</span><span class="s2"> not found &quot;</span>
                             <span class="sa">f</span><span class="s2">&quot;or not in correct order. Actual changes: </span><span class="si">{</span><span class="n">actual_tuples</span><span class="si">}</span><span class="s2">&quot;</span>
                         <span class="p">)</span>
