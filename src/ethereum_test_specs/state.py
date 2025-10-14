@@ -116,6 +116,7 @@ class StateTest(BaseTest):
                 reward=0,  # Reward on state tests is always zero
                 blob_schedule=fork.blob_schedule(),
                 state_test=True,
+                t8n_tool=t8n,
             ),
             debug_output_path=self.get_next_transition_tool_output_path(),
             slow_request=self.is_tx_gas_heavy_test(),
@@ -301,6 +302,7 @@ class StateTest(BaseTest):
                 reward=0,  # Reward on state tests is always zero
                 blob_schedule=fork.blob_schedule(),
                 state_test=True,
+                t8n_tool=t8n,
             ),
             debug_output_path=self.get_next_transition_tool_output_path(),
             slow_request=self.is_tx_gas_heavy_test(),
