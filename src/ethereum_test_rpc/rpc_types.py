@@ -40,12 +40,11 @@ class JSONRPCError(Exception):
         """Initialize the JSONRPCError."""
         self.code = int(code)
         self.message = message
-        if data:
-            self.data = data
+        self.data = data
 
     def __str__(self) -> str:
         """Return string representation of the JSONRPCError."""
-        if self.data:
+        if self.data is not None:
             return f"JSONRPCError(code={self.code}, message={self.message}, data={self.data})"
 
         return f"JSONRPCError(code={self.code}, message={self.message})"
