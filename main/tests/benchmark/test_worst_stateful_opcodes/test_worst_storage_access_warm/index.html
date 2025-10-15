@@ -29237,7 +29237,7 @@
 
 
 <h1 id="test_worst_storage_access_warm"><code>test_worst_storage_access_warm()</code><a class="headerlink" href="#test_worst_storage_access_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7d469c3e06fbf9b127fca8557f1177f33d2b6eb0/tests/benchmark/test_worst_stateful_opcodes.py#L360"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_warm@7d469c3e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bf1eda41292c559796a38e36971259a646425725/tests/benchmark/test_worst_stateful_opcodes.py#L361"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_warm@bf1eda41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_warm -m benchmark</span>
@@ -29258,8 +29258,7 @@ possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">360</span>
-<span class="normal">361</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
 <span class="normal">364</span>
@@ -29324,7 +29323,11 @@ possible.</p>
 <span class="normal">423</span>
 <span class="normal">424</span>
 <span class="normal">425</span>
-<span class="normal">426</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;storage_action&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">StorageAction</span><span class="o">.</span><span class="n">READ</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SLOAD&quot;</span><span class="p">),</span>
@@ -29372,23 +29375,26 @@ possible.</p>
         <span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSIZE</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">sender_addr</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-    <span class="n">setup_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">creation_code</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">sender_addr</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">setup_tx</span><span class="p">]))</span>
+
+    <span class="k">with</span> <span class="n">TestPhaseManager</span><span class="o">.</span><span class="n">setup</span><span class="p">():</span>
+        <span class="n">sender_addr</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
+        <span class="n">setup_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+            <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">creation_code</span><span class="p">,</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">sender_addr</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">setup_tx</span><span class="p">]))</span>
 
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">sender_addr</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">op_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-    <span class="p">)</span>
-    <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">op_tx</span><span class="p">]))</span>
+    <span class="k">with</span> <span class="n">TestPhaseManager</span><span class="o">.</span><span class="n">execution</span><span class="p">():</span>
+        <span class="n">op_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">op_tx</span><span class="p">]))</span>
 
     <span class="n">benchmark_test</span><span class="p">(</span><span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
