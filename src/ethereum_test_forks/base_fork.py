@@ -829,6 +829,17 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         return base_class
 
     @classmethod
+    def non_bpo_ancestor(cls) -> Type["BaseFork"]:
+        """Return the nearest non-BPO ancestor fork."""
+        ancestor = cls
+        while ancestor.bpo_fork():
+            parent = ancestor.parent()
+            if parent is None:
+                break
+            ancestor = parent
+        return ancestor
+
+    @classmethod
     def children(cls) -> Set[Type["BaseFork"]]:
         """Return the children forks."""
         return set(cls._children)

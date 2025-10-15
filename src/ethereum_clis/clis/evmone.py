@@ -40,6 +40,7 @@ class EvmOneTransitionTool(TransitionTool):
     cached_version: Optional[str] = None
     trace: bool
     supports_opcode_count: ClassVar[bool] = True
+    supports_blob_params: ClassVar[bool] = True
 
     def __init__(
         self,
@@ -329,6 +330,7 @@ class EvmoneExceptionMapper(ExceptionMapper):
         ),
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
         TransactionException.NONCE_MISMATCH_TOO_HIGH: "nonce too high",
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: "max gas limit exceeded",
         # TODO EVMONE needs to differentiate when the section is missing in the
         # header or body
         EOFException.MISSING_STOP_OPCODE: "err: no_terminating_instruction",

@@ -19,6 +19,7 @@ from requests.exceptions import ReadTimeout
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_base_types import BlobSchedule
+from ethereum_test_base_types.composite_types import ForkBlobSchedule
 from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_forks import Fork
 from ethereum_test_forks.helpers import get_development_forks, get_forks
@@ -75,6 +76,7 @@ class TransitionTool(EthereumCLI):
     supports_opcode_count: ClassVar[bool] = False
 
     supports_xdist: ClassVar[bool] = True
+    supports_blob_params: ClassVar[bool] = False
 
     @abstractmethod
     def __init__(
@@ -175,6 +177,36 @@ class TransitionTool(EthereumCLI):
                 timestamp=self.env.timestamp,
             )
 
+        @property
+        def fork_name_if_supports_blob_params(self) -> str:
+            """Return the fork name."""
+            fork = self.fork.fork_at(
+                block_number=self.env.number,
+                timestamp=self.env.timestamp,
+            )
+
+            # For tools that support blob_params, return base fork for BPO
+            # forks.
+            if fork.bpo_fork():
+                return fork.non_bpo_ancestor().transition_tool_name()
+            else:
+                return self.fork.transition_tool_name(
+                    block_number=self.env.number,
+                    timestamp=self.env.timestamp,
+                )
+
+        @property
+        def blob_params(self) -> ForkBlobSchedule | None:
+            """Return the blob parameters for the current fork."""
+            if self.blob_schedule:
+                fork_name = self.fork.fork_at(
+                    block_number=self.env.number, timestamp=self.env.timestamp
+                ).name()
+                # Only return blob params if this fork has them
+                if fork_name in self.blob_schedule.root:
+                    return self.blob_schedule[fork_name]
+            return None
+
         def __post_init__(self) -> None:
             """Modify the reward if the environment number is 0."""
             if self.env.number == 0:
@@ -186,6 +218,7 @@ class TransitionTool(EthereumCLI):
                 alloc=self.alloc,
                 txs=self.txs,
                 env=self.env,
+                blob_params=self.blob_params,
             )
 
         def get_request_data(self) -> TransitionToolRequest:
@@ -195,7 +228,6 @@ class TransitionTool(EthereumCLI):
                     fork=self.fork_name,
                     chain_id=self.chain_id,
                     reward=self.reward,
-                    blob_schedule=self.blob_schedule,
                 ),
                 input=self.to_input(),
             )
@@ -231,7 +263,9 @@ class TransitionTool(EthereumCLI):
         args = [
             str(self.binary),
             "--state.fork",
-            t8n_data.fork_name,
+            t8n_data.fork_name_if_supports_blob_params
+            if self.supports_blob_params
+            else t8n_data.fork_name,
             "--input.alloc",
             input_paths["alloc"],
             "--input.env",
@@ -256,6 +290,13 @@ class TransitionTool(EthereumCLI):
                 [
                     "--opcode.count",
                     "opcodes.json",
+                ]
+            )
+        if self.supports_blob_params and input_paths.get("blobParams"):
+            args.extend(
+                [
+                    "--input.blobParams",
+                    input_paths["blobParams"],
                 ]
             )
 
@@ -419,6 +460,7 @@ class TransitionTool(EthereumCLI):
                         tx.model_dump(mode="json", **model_dump_config)
                         for tx in request_data.input.txs
                     ],
+                    "input/blob_params.json": request_data.input.blob_params,
                     "request_info.txt": request_info,
                 },
             )

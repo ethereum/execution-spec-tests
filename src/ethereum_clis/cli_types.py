@@ -7,7 +7,6 @@ from typing import Annotated, Any, Dict, List, Self
 from pydantic import Field, PlainSerializer, PlainValidator
 
 from ethereum_test_base_types import (
-    BlobSchedule,
     Bloom,
     Bytes,
     CamelModel,
@@ -15,6 +14,7 @@ from ethereum_test_base_types import (
     Hash,
     HexNumber,
 )
+from ethereum_test_base_types.composite_types import ForkBlobSchedule
 from ethereum_test_exceptions import (
     BlockException,
     ExceptionMapperValidator,
@@ -259,6 +259,7 @@ class TransitionToolInput(CamelModel):
     alloc: Alloc
     txs: List[Transaction]
     env: Environment
+    blob_params: ForkBlobSchedule | None = None
 
 
 class TransitionToolOutput(CamelModel):
@@ -275,7 +276,6 @@ class TransitionToolContext(CamelModel):
     fork: str
     chain_id: int = Field(..., alias="chainid")
     reward: int
-    blob_schedule: BlobSchedule | None
 
 
 class TransitionToolRequest(CamelModel):
