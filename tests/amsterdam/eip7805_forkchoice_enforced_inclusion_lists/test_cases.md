@@ -3,7 +3,7 @@
 | Function Name | Goal | Setup | Expectation | Status |
 |---------------|------|-------|-------------|--------|
 | **Inclusion List Building** |
-| `test_il_builder_creates_valid_list_from_txs` | Ensure the IL builder can build a valid `InclusionList` from the mempool. | Alice and Bob sumbit valid transactions to the mempool | The builder MUST produce a structurally valid `InclusionList`. The list must be properly encoded. | 🟡 Planned |
+| `test_il_builder_creates_valid_list_from_txs` | Ensure the IL builder can build a valid `InclusionList` from the mempool. | Alice and Bob submit valid transactions to the mempool | The builder MUST produce a structurally valid `InclusionList`. The list must be properly encoded. | 🟡 Planned |
 | `test_il_builder_respects_size_limit` | Ensure the IL builder does not create a list that exceeds the `MAX_BYTES_PER_INCLUSION_LIST` limit. | Provide the builder with more transactions than can fit within the size limit. | The builder MUST create an `InclusionList` that is less than or equal to the size limit. It MUST NOT produce an oversized list. | 🟡 Planned |
 | **Block Validation** |
 | `test_block_validation_accepts_empty_il` | Verify the EL correctly validates a payload with an empty Inclusion List. | The EL receives a payload with an empty `inclusion_list`. | The payload MUST be considered valid. | 🟡 Planned |
