@@ -24,6 +24,7 @@ from ethereum_test_tools import (
     compute_create2_address,
     compute_create_address,
 )
+from ethereum_test_types import TestPhaseManager
 from ethereum_test_vm import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -405,23 +406,26 @@ def test_worst_storage_access_warm(
         )
         + Op.RETURN(0, Op.MSIZE)
     )
-    sender_addr = pre.fund_eoa()
-    setup_tx = Transaction(
-        to=None,
-        gas_limit=env.gas_limit,
-        data=creation_code,
-        sender=sender_addr,
-    )
-    blocks.append(Block(txs=[setup_tx]))
+
+    with TestPhaseManager.setup():
+        sender_addr = pre.fund_eoa()
+        setup_tx = Transaction(
+            to=None,
+            gas_limit=env.gas_limit,
+            data=creation_code,
+            sender=sender_addr,
+        )
+        blocks.append(Block(txs=[setup_tx]))
 
     contract_address = compute_create_address(address=sender_addr, nonce=0)
 
-    op_tx = Transaction(
-        to=contract_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-    blocks.append(Block(txs=[op_tx]))
+    with TestPhaseManager.execution():
+        op_tx = Transaction(
+            to=contract_address,
+            gas_limit=gas_benchmark_value,
+            sender=pre.fund_eoa(),
+        )
+        blocks.append(Block(txs=[op_tx]))
 
     benchmark_test(blocks=blocks)
 
