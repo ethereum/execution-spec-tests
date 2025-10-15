@@ -53,7 +53,11 @@ class TransactionPost(BaseExecute):
                 tx = tx.with_signature_and_sender()
                 to_address = tx.to
                 label = to_address.label if isinstance(to_address, Address) else None
-                phase = "testing" if tx.test_phase == "execution" else "setup"
+                phase = (
+                    "testing"
+                    if (tx.test_phase == "execution" or tx.test_phase is None)
+                    else "setup"
+                )
                 tx.metadata = TransactionTestMetadata(
                     test_id=request.node.nodeid,
                     phase=phase,

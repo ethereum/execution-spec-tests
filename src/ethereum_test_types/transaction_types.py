@@ -38,7 +38,7 @@ from pytest_plugins.custom_logging import get_logger
 from .account_types import EOA
 from .blob_types import Blob
 from .chain_config_types import ChainConfigDefaults
-from .phase_manager import TestPhaseManager
+from .phase_manager import TestPhase, TestPhaseManager
 from .receipt_types import TransactionReceipt
 from .utils import int_to_bytes, keccak256
 
@@ -293,12 +293,8 @@ class Transaction(
     zero: ClassVar[Literal[0]] = 0
 
     metadata: TransactionTestMetadata | None = Field(None, exclude=True)
-    test_phase: str | None = Field(
-        default_factory=lambda: (
-            phase.value
-            if (phase := TestPhaseManager.get_current_phase()) is not None
-            else "execution"
-        )
+    test_phase: TestPhase | None = Field(
+        default_factory=TestPhaseManager.get_current_phase, exclude=True
     )
 
     model_config = ConfigDict(validate_assignment=True)

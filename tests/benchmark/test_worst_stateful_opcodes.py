@@ -422,7 +422,6 @@ def test_worst_storage_access_warm(
     with TestPhaseManager.execution():
         op_tx = Transaction(
             to=contract_address,
-            gas_limit=attack_gas_limit,
             sender=pre.fund_eoa(),
         )
         blocks.append(Block(txs=[op_tx]))
