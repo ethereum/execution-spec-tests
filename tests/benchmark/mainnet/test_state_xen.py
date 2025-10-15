@@ -37,10 +37,7 @@ from ethereum_test_vm import Opcodes as Op
 
 
 @pytest.mark.valid_from("Frontier")
-def test_xen_read_balance_nonexisting(
-    blockchain_test: BlockchainTestFiller,
-    pre: Alloc,
-):
+def test_xen_read_balance_nonexisting(blockchain_test: BlockchainTestFiller, pre: Alloc): None
     """
     Reads balanceOf(address) starting from the index specified in the first 32 bytes of the
     tx calldata (0 if no calldata provided) and keeps reading balanceOf(address) where this
@@ -542,6 +539,224 @@ def test_xen_claimrank_and_mint(
         + Op.CALL(
             address=(xen_contract),
             args_size=len(calldata_claim_mint_reward),
+        )
+        + Om.MSTORE(calldata_claim_rank, offset=0)
+        + Op.CALL(
+            address=(xen_contract),
+            args_size=len(calldata_claim_rank),
+        )
+    )
+
+    # claimRank(1) and deposits the code to claimMintReward() if this contract is called
+    # + claimRank(1) again
+    initcode = (
+        Om.MSTORE(calldata_claim_rank, offset=0)
+        + Op.CALL(
+            address=(xen_contract),
+            args_size=len(calldata_claim_rank),
+        )
+        + Om.MSTORE(after_initcode_callata, offset=0)
+        + Op.RETURN(0, len(after_initcode_callata))
+    )
+
+    # Template code that will be used to deploy a large number of contracts.
+    initcode_address = pre.deploy_contract(code=initcode)
+
+    # `claimMintReward()` as the performance test.
+
+    factory_code = (
+        Op.EXTCODECOPY(
+            address=initcode_address,
+            dest_offset=0,
+            offset=0,
+            size=Op.EXTCODESIZE(initcode_address),
+        )
+        + Op.MSTORE(
+            0,
+            Op.CREATE2(
+                offset=0,
+                size=Op.EXTCODESIZE(initcode_address),
+                salt=Op.SLOAD(0),
+            ),
+        )
+        + Op.SSTORE(0, Op.ADD(Op.SLOAD(0), 1))
+        + Op.RETURN(0, 32)
+    )
+
+    factory_address = pre.deploy_contract(code=factory_code)
+
+    factory_gas_threshold = 400_000
+
+    factory_caller_code = While(
+        body=Op.POP(Op.CALL(address=factory_address)),
+        condition=Op.GT(Op.GAS, factory_gas_threshold),
+    )
+    factory_caller_address = pre.deploy_contract(code=factory_caller_code)
+
+    sender = pre.fund_eoa()
+
+    gas_threshold = 400_000
+
+    code = (
+        # Setup memory for later CREATE2 address generation loop.
+        # 0xFF+[Address(20bytes)]+[seed(32bytes)]+[initcode keccak(32bytes)]
+        Op.MSTORE(0, factory_address)
+        + Op.MSTORE8(32 - 20 - 1, 0xFF)
+        + Op.MSTORE(32, 0)  # NOTE: this memory location is used as start index of the contracts.
+        + Op.MSTORE(64, initcode.keccak256())
+        # Main loop
+        + While(
+            body=Op.POP(Op.CALL(address=Op.SHA3(32 - 20 - 1, 85)))
+            + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
+            # Loop over `CALLDATALOAD` contracts
+            condition=Op.GT(Op.GAS, gas_threshold),
+        )
+        + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+    )
+    assert len(code) <= fork.max_code_size()
+
+    # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
+    code_addr = pre.deploy_contract(code=code, storage={0: 1})
+
+    post = {
+        code_addr: Account(storage={0: 42}),  # Check for successful execution.
+    }
+    # deployed_contract_addresses = []
+    # for i in range(num_contracts):
+    #    deployed_contract_address = compute_create2_address(
+    #        address=factory_address,
+    #        salt=i,
+    ##        initcode=initcode,
+    #   )
+    #    post[deployed_contract_address] = Account(nonce=1)
+    #    deployed_contract_addresses.append(deployed_contract_address)
+
+    blocks = []
+    for _ in range(10):  # Check how much of these we need
+        contracts_deployment_tx = Transaction(
+            to=factory_caller_address,
+            gas_limit=attack_gas_limit,
+            sender=sender,
+        )
+        blocks.append(Block(txs=[contracts_deployment_tx]))
+
+    fn_signature_approve = bytes.fromhex("095EA7B3")
+    usdt_contract = 0xDAC17F958D2EE523A2206206994597C13D831EC7  # Used in intermediate blocks to attempt to bust te cache
+    usdt_approve_spammer_code = (
+        Om.MSTORE(fn_signature_approve)
+        + Op.MSTORE(4 + 32, 1)
+        + Op.SLOAD(0)
+        + While(
+            body=Op.MSTORE(
+                4, Op.DUP1
+            )  # Put a copy of the topmost stack item in memory (this is the target address)
+            + Op.CALL(address=usdt_contract, args_offset=0, args_size=4 + 32 + 32)
+            + Op.ADD,  # Add the status of the CALL
+            # (this should always be 1 unless the `gas_threshold` is too low) to the stack item
+            # The address and thus target storage slot changes!
+            # + Op.MSTORE(4 + 32, Op.SUB(Op.MLOAD(4 + 34), Op.GAS)),
+            condition=Op.GT(Op.GAS, gas_threshold),
+        )
+        + Op.PUSH1(0)
+        + Op.SSTORE
+    )
+    # Set storage to value 1 to avoid paying 20k on the update
+    usdt_approve_spammer_contract = pre.deploy_contract(
+        code=usdt_approve_spammer_code, storage={0: 1}
+    )
+
+    spam_count = 200
+
+    for _ in range(spam_count):
+        # NOTE: USDC does not allow changing the approval value. It first has to be
+        # set to zero before it changes. We therefore flood USDC with approvals in an
+        # attempt to bust the cache
+        spam_tx = Transaction(
+            to=usdt_approve_spammer_contract,
+            gas_limit=attack_gas_limit // 2,
+            sender=sender,
+            max_priority_fee_per_gas=100,
+            max_fee_per_gas=10000,
+        )
+        blocks.append(Block(txs=[spam_tx]))
+
+    # for _ in range(24*60*60):
+    #    blocks.append(Block(txs=[Transaction(sender=sender,to=sender, nonce=sender_nonce)]))
+    #    sender_nonce = sender_nonce + 1
+
+    opcode_tx = Transaction(
+        to=code_addr,
+        gas_limit=attack_gas_limit,
+        sender=sender,
+    )
+
+    attack_block = Block(
+        txs=[opcode_tx],
+        # NOTE: timestamp has no effect in `uv execute remote`. Forcing test to produce 24*60*60 blocks.
+        # It is guaranteed that the timestamp increases each block, so each block will at least move time
+        # by a second.
+        # Set timestamp such that XEN bond matures
+        # See `MIN_TERM` constant in XEN source
+        # timestamp=timestamp + 3_600 * 24,
+    )
+    blocks.append(attack_block)
+
+    blockchain_test(
+        pre=pre,
+        post=post,
+        blocks=blocks,
+        exclude_full_post_state_in_output=True,
+        skip_gas_used_validation=True,
+    )
+
+
+@pytest.mark.valid_from("Frontier")
+def test_xen_claimrank_and_share_mint(
+    blockchain_test: BlockchainTestFiller,
+    fork: Fork,
+    pre: Alloc,
+    env: Environment,
+    gas_benchmark_value: int,
+):
+    """XEN scenario mimicking mainnet slow blocks, e.g. tx 0xc155aff9732f6ad9409339d28ba841b14dd181884450b3c0274672b17f2fa59a"""
+    # NOTE: the XEN tests are currently hardcoded against a gas limit.
+    # To expand this to read from `gas_benchmark_value`, we need to calculate the necessary
+    # amount of `num_xen` based on that gas limit (which is a complex formula as this is based
+    # on the gas used by the XEN contract)
+    attack_gas_limit = 60_000_000  # TODO: also run me for 100M.
+    # fee_recipient = pre.fund_eoa(amount=1)
+
+    # timestamp to use for the initial block. Timestamp of later blocks are manually added/changed.
+    # timestamp = 12 TODO: disabled, this is likely not part of EEST to support
+    # A special CL has to perform edited newPayloads such that we can edit the timestamp
+
+    # NOTE: these contracts MUST be specified for this test to work
+    # TODO: check how/if EEST enforces this
+    xen_contract = 0x06450DEE7FD2FB8E39061434BABCFC05599A6FB8
+    # NOTE: from the test perspective this contract should not be specified
+    # However, the XEN contract needs the Math contract. If this is not provided, the transaction
+    # will likely revert ("fail"). This is not what we want. We want state bloat!
+    #    pre.deploy_contract("", label="MATH_CONTRACT")
+
+    # This is after (!!) deployment (so step 2, not 1): claimMintRewardAndShare(x, 100)
+    # TODO: use another target address
+    # NOTE: this sends 100% of the minted tokens to this address. Play around with sending half of the tokens
+    # then the other half gets awarded to self.
+    # Most likely: this specific input (100% to one account) will trigger SSTORE(x, 0) on a non-existing slot
+    # This in particular, especially because it happens a lot in this block, might cause these slow blocks
+
+    calldata_claim_mint_reward_and_share = bytes.fromhex(
+        "1c56030500000000000000000000000006b1767503aec0d3e827cd27bb016f00f1cec8620000000000000000000000000000000000000000000000000000000000000064"
+    )
+    # Calldata for claimRank(1)
+    calldata_claim_rank = bytes.fromhex(
+        "9ff054df0000000000000000000000000000000000000000000000000000000000000001"
+    )
+    after_initcode_callata = (
+        Om.MSTORE(calldata_claim_mint_reward_and_share, offset=0)
+        + Op.CALL(
+            address=(xen_contract),
+            args_size=len(calldata_claim_mint_reward_and_share),
         )
         + Om.MSTORE(calldata_claim_rank, offset=0)
         + Op.CALL(
