@@ -13,9 +13,6 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: "lack of funds",
         TransactionException.INITCODE_SIZE_EXCEEDED: "create initcode size limit",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "gas price is less than basefee",
-        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
-            "blob gas price is greater than max fee per blob gas"
-        ),
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
             "priority fee is greater than max fee"
         ),
@@ -41,6 +38,9 @@ class RethExceptionMapper(ExceptionMapper):
     }
     mapping_regex = {
         TransactionException.NONCE_MISMATCH_TOO_LOW: r"nonce \d+ too low, expected \d+",
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
+            r"blob gas price \(\d+\) is greater than max fee per blob gas \(\d+\)"
+        ),
         TransactionException.INTRINSIC_GAS_TOO_LOW: (
             r"call gas cost \(\d+\) exceeds the gas limit \(\d+\)"
         ),
