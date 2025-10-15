@@ -34,14 +34,20 @@ class JSONRPCError(Exception):
 
     code: int
     message: str
+    data: str | None
 
-    def __init__(self, code: int | str, message: str) -> None:
+    def __init__(self, code: int | str, message: str, data: str | None = None) -> None:
         """Initialize the JSONRPCError."""
         self.code = int(code)
         self.message = message
+        if data:
+            self.data = data
 
     def __str__(self) -> str:
         """Return string representation of the JSONRPCError."""
+        if self.data:
+            return f"JSONRPCError(code={self.code}, message={self.message}, data={self.data})"
+
         return f"JSONRPCError(code={self.code}, message={self.message})"
 
 
