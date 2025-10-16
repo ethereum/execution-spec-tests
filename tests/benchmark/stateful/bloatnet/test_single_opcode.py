@@ -50,23 +50,72 @@ ALLOWANCE_SELECTOR = 0xDD62ED3E  # allowance(address,address)
 #   - Tests client's sparse storage handling efficiency
 
 
+# SSTORE BENCHMARK ARCHITECTURE:
+#
+#   [Pre-deployed ERC20 Contract] ──── Storage slots for allowances
+#           │
+#           │  approve(spender, amount)
+#           │    → SSTORE(keccak256(spender || slot), amount)
+#           │
+#   [Attack Contract]
+#       ──CALL──► ERC20.approve(counter_as_spender, counter_as_amount)
+#           │
+#           └─► Loop(i=0 to N):
+#                 1. Use counter as both spender address and amount
+#                 2. CALL approve(counter, counter) → forces cold SSTORE
+#                 3. Writes to new allowance slots in sparse storage
+#
+# WHY IT STRESSES CLIENTS:
+#   - Each approve() call forces an SSTORE to a new storage slot
+#   - Storage slot = keccak256(
+#       msg.sender || keccak256(spender || allowances_slot)
+#     )
+#   - Sequential counter ensures unique storage locations
+#   - Tests client's ability to handle many storage writes
+#   - Simulates real-world contract state accumulation over time
+
+
 @pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("num_contracts", [1, 5, 10, 20, 100])
 def test_sload_empty_erc20_balanceof(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
     address_stubs,
+    num_contracts: int,
+    request,
 ):
     """
-    BloatNet SLOAD benchmark using ERC20 balanceOf queries on random addresses.
+    BloatNet SLOAD benchmark using ERC20 balanceOf queries on random
+    addresses.
 
     This test:
-    1. Auto-discovers ERC20 contracts from stubs (pattern: erc20_contract_*)
-    2. Splits gas budget evenly across all discovered contracts
-    3. Queries balanceOf() incrementally starting by 0 and increasing by 1.
-    (thus forcing SLOADs to non-existing addresses.)
+    1. Filters stubs matching test name prefix
+       (e.g., test_sload_empty_erc20_balanceof_*)
+    2. Uses first N contracts based on num_contracts parameter
+    3. Splits gas budget evenly across the selected contracts
+    4. Queries balanceOf() incrementally starting by 0 and increasing by 1
+       (thus forcing SLOADs to non-existing addresses)
     """
+    # Extract test function name for stub filtering
+    test_name = request.node.name.split("[")[0]  # Remove parametrization suffix
+
+    # Filter stubs that match the test name prefix
+    matching_stubs = [
+        stub_name for stub_name in address_stubs.root.keys() if stub_name.startswith(test_name)
+    ]
+
+    # Validate we have enough stubs
+    if len(matching_stubs) < num_contracts:
+        pytest.fail(
+            f"Not enough matching stubs for test '{test_name}'. "
+            f"Required: {num_contracts}, Found: {len(matching_stubs)}. "
+            f"Matching stubs: {matching_stubs}"
+        )
+
+    # Select first N stubs
+    selected_stubs = matching_stubs[:num_contracts]
     gas_costs = fork.gas_costs()
 
     # Calculate gas costs
@@ -97,18 +146,16 @@ def test_sload_empty_erc20_balanceof(
         # RETURN costs 0 gas
     )
 
-    num_contracts = len(address_stubs.root)
-
     # Calculate gas budget per contract and calls per contract
     available_gas = gas_benchmark_value - intrinsic_gas
     gas_per_contract = available_gas // num_contracts
     calls_per_contract = int(gas_per_contract // cost_per_iteration)
 
-    # Deploy all discovered ERC20 contracts using stubs
+    # Deploy selected ERC20 contracts using stubs
     # In execute mode: stubs point to already-deployed contracts on chain
     # In fill mode: empty bytecode is deployed as placeholder
     erc20_addresses = []
-    for stub_name in address_stubs.root:
+    for stub_name in selected_stubs:
         addr = pre.deploy_contract(
             code=Bytecode(),  # Required parameter, ignored for stubs in execute mode
             stub=stub_name,
@@ -178,28 +225,49 @@ def test_sload_empty_erc20_balanceof(
 
 
 @pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("num_contracts", [1, 5, 10, 20, 100])
 def test_sstore_erc20_approve(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
     address_stubs,
+    num_contracts: int,
+    request,
 ):
     """
     BloatNet SSTORE benchmark using ERC20 approve to write to storage.
 
     This test:
-    1. Auto-discovers ERC20 contracts from stubs (pattern: erc20_contract_*)
-    2. Splits gas budget evenly across all discovered contracts
-    3. Calls approve(spender, amount) incrementally (counter as spender)
-    4. Forces SSTOREs to allowance mapping storage slots
+    1. Filters stubs matching test name prefix
+       (e.g., test_sstore_erc20_approve_*)
+    2. Uses first N contracts based on num_contracts parameter
+    3. Splits gas budget evenly across the selected contracts
+    4. Calls approve(spender, amount) incrementally (counter as spender)
+    5. Forces SSTOREs to allowance mapping storage slots
     """
+    # Extract test function name for stub filtering
+    test_name = request.node.name.split("[")[0]  # Remove parametrization suffix
+
+    # Filter stubs that match the test name prefix
+    matching_stubs = [
+        stub_name for stub_name in address_stubs.root.keys() if stub_name.startswith(test_name)
+    ]
+
+    # Validate we have enough stubs
+    if len(matching_stubs) < num_contracts:
+        pytest.fail(
+            f"Not enough matching stubs for test '{test_name}'. "
+            f"Required: {num_contracts}, Found: {len(matching_stubs)}. "
+            f"Matching stubs: {matching_stubs}"
+        )
+
+    # Select first N stubs
+    selected_stubs = matching_stubs[:num_contracts]
     gas_costs = fork.gas_costs()
 
     # Calculate gas costs
     intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
-
-    num_contracts = len(address_stubs.root)
 
     # Per-contract fixed overhead (setup + teardown)
     memory_expansion_cost = 15  # Memory expansion to 160 bytes (5 words)
@@ -260,9 +328,9 @@ def test_sstore_erc20_approve(
     total_iterations_possible = available_gas_for_iterations // cost_per_iteration
     calls_per_contract = total_iterations_possible // num_contracts
 
-    # Deploy all discovered ERC20 contracts using stubs
+    # Deploy selected ERC20 contracts using stubs
     erc20_addresses = []
-    for stub_name in address_stubs.root:
+    for stub_name in selected_stubs:
         addr = pre.deploy_contract(
             code=Bytecode(),
             stub=stub_name,
