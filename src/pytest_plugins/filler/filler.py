@@ -63,7 +63,7 @@ def print_migration_warning(terminalreporter: Any = None) -> None:
         "⚠️  IMPORTANT: Repository Migration in Progress - 'The Weld' ⚠️",
         "=" * 80,
         "",
-        "This repository is being merged into ethereum/execution-specs during the",
+        "This repository is being merged into ethereum/execution-specs (EELS) during the",
         "week of October 20-24, 2025.",
         "",
         "📅 Timeline:",
