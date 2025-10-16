@@ -6,6 +6,45 @@
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![License](https://img.shields.io/github/license/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/blob/main/LICENSE)
 
+---
+
+## ⚠️ IMPORTANT: Repository Migration in Progress - "The Weld"
+
+**This repository is being merged into [ethereum/execution-specs](https://github.com/ethereum/execution-specs) during the week of October 20-24, 2025.**
+
+### What's Happening?
+
+All functionality from [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) (spec tests, test frameworks, and tooling) is moving to [ethereum/execution-specs](https://github.com/ethereum/execution-specs) to streamline spec and test development. For background, see our [blog post](https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/).
+
+### Timeline
+
+**Week of October 13-17, 2025:**
+
+- **EEST:** Closing remaining PRs and porting issues to EELS. **New PRs will not be accepted after this week.**
+- **EELS:** Finalizing BPO t8n changes to ensure test filling works for upcoming hard forks.
+
+**Week of October 20-24, 2025:**
+
+- **October 20:** Kickstart with a dry-run migration.
+- **October 20-24:** Fix CI and fixture building/release issues that arise.
+- **October 24 (ETA):** Weld finalized. All development moves to [ethereum/execution-specs](https://github.com/ethereum/execution-specs).
+
+### What This Means for You
+
+- **Spec Contributors:** Continue working in [ethereum/execution-specs](https://github.com/ethereum/execution-specs) as usual.
+- **Test Contributors:**
+    - **Until October 20:** Open draft PRs in [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) as you have been.
+    - **After October 24 (Weld Complete):** Close any open draft PRs in EEST and reopen them in [ethereum/execution-specs](https://github.com/ethereum/execution-specs). All future test development happens in EELS.
+- **Client Teams:** Test fixture releases will continue from [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) as usual. No changes to your consumption workflow.
+
+### Questions?
+
+We will reach out with specific guidance as needed. For urgent questions, please contact the STEEL team.
+
+---
+
+## About
+
 The full execution-spec-tests documentation can be found [here](https://eest.ethereum.org/main/).
 
 **Note:** All of [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) functionality (i.e., the spec tests, test frameworks and tooling) will move to [ethereum/execution-specs](https://github.com/ethereum/execution-specs) in Q4 2025 to streamline spec and test development. For more information please see our [blog post](https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/). For now, please continue contributing to both [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and [ethereum/execution-specs](https://github.com/ethereum/execution-specs) as you previously have - we will reach out to you if and when need be!
