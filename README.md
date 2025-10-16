@@ -1,10 +1,48 @@
-# Execution Spec Tests
+
+# ⚠️ IMPORTANT: Repository Migration in Progress - "The Weld"
+
+**This repository is being merged into [ethereum/execution-specs](https://github.com/ethereum/execution-specs) during the week of October 20-24, 2025.**
+
+## What's Happening?
+
+All functionality from [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) (spec tests, test frameworks, and tooling) is moving to [ethereum/execution-specs](https://github.com/ethereum/execution-specs) to streamline spec and test development. For background, see our [blog post](https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/).
+
+## Timeline
+
+**Week of October 13-17, 2025:**
+
+- **execution-spec-tests (EEST):** Closing remaining PRs and porting issues to EELS. **New PRs will not be accepted after this week.**
+- **execution-specs (EELS):** Finalizing BPO t8n changes to ensure test filling works for upcoming hard forks.
+
+**Week of October 20-24, 2025:**
+
+- **October 20:** Kickstart with a dry-run migration.
+- **October 20-24:** Fix CI and fixture building/release issues that arise.
+- **October 24 (ETA):** Weld finalized. All development moves to [ethereum/execution-specs](https://github.com/ethereum/execution-specs).
+
+## What This Means for You
+
+- **Spec Contributors:** Continue working in [ethereum/execution-specs](https://github.com/ethereum/execution-specs) as usual.
+- **Test Contributors:**
+    - **Until October 20:** Open draft PRs in [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) as you have been.
+    - **After October 24 (Weld Complete):** Close any open draft PRs in EEST and reopen them in [ethereum/execution-specs](https://github.com/ethereum/execution-specs). All future test development happens in EELS.
+- **Client Teams:** Test fixture releases will continue from [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) as usual. No changes to your consumption workflow.
+
+### Questions?
+
+We will reach out with specific guidance as needed. For urgent questions, please contact the STEEL team.
+
+---
+
+## Execution Spec Tests
 
 [![latest version](https://img.shields.io/github/v/release/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/releases/latest)
 ![Python Versions](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![License](https://img.shields.io/github/license/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/blob/main/LICENSE)
+
+## About
 
 The full execution-spec-tests documentation can be found [here](https://eest.ethereum.org/main/).
 
