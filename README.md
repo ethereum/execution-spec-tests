@@ -12,7 +12,7 @@ All functionality from [ethereum/execution-spec-tests](https://github.com/ethere
 **Week of October 13-17, 2025:**
 
 - **execution-spec-tests (EEST):** Closing remaining PRs and porting issues to EELS. **New PRs will not be accepted after this week.**
-- **EELS:** Finalizing BPO t8n changes to ensure test filling works for upcoming hard forks.
+- **execution-specs (EELS):** Finalizing BPO t8n changes to ensure test filling works for upcoming hard forks.
 
 **Week of October 20-24, 2025:**
 
