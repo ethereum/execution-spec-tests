@@ -46,7 +46,7 @@ def print_migration_warning(terminalreporter: Any = None) -> None:
         "  • Oct 24 (ETA): Weld finalized - all development moves to EELS",
         "",
         "👉 What This Means:",
-        "  • Test Contributors: After Oct 24, reopen draft PRs in ethereum/execution-specs",
+        "  • Test Contributors: After Oct 24, reopen draft PRs in EELS",
         "  • All future test development happens in EELS after completion",
         "  • Fixture releases continue as usual during transition",
         "",
