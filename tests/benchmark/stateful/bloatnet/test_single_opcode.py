@@ -84,8 +84,8 @@ def test_sload_empty_erc20_balanceof(
     gas_benchmark_value: int,
     address_stubs,
     num_contracts: int,
-    request,
-):
+    request: pytest.FixtureRequest,
+) -> None:
     """
     BloatNet SLOAD benchmark using ERC20 balanceOf queries on random
     addresses.
@@ -233,8 +233,8 @@ def test_sstore_erc20_approve(
     gas_benchmark_value: int,
     address_stubs,
     num_contracts: int,
-    request,
-):
+    request: pytest.FixtureRequest,
+) -> None:
     """
     BloatNet SSTORE benchmark using ERC20 approve to write to storage.
 
