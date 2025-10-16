@@ -283,9 +283,8 @@ class FillerFile(pytest.File):
                                     marks=marks,
                                 )
             except Exception as e:
+                # Fail fast: code after pytest.fail would be unreachable
                 pytest.fail(f"Error loading file {self.path} as a test: {e}")
-                warnings.warn(f"Error loading file {self.path} as a test: {e}", stacklevel=1)
-                return
 
 
 class FillerTestItem(pytest.Item):
