@@ -33,7 +33,7 @@ from ethereum_test_types.trie import keccak256
 from ....custom_logging import get_logger
 from ..helpers.exceptions import GenesisBlockMismatchExceptionError
 from ..helpers.timing import TimingData
-from .helpers.block_building import (
+from ..production.helpers.block_building import (
     wait_for_payload_ready,
     wait_for_transaction_in_mempool,
 )
