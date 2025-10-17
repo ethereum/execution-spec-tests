@@ -93,4 +93,5 @@ class EthrexExceptionMapper(ExceptionMapper):
         BlockException.INVALID_BLOCK_HASH: (r"Invalid block hash. Expected \w+, got \w+"),
         BlockException.GASLIMIT_PRICE_PRODUCT_OVERFLOW: (r"Invalid transaction: Gas limit price product overflow*"),
         BlockException.RLP_BLOCK_LIMIT_EXCEEDED: (r"Maximum block size exceeded.*"),
+        BlockException.GAS_LIMIT_EXCEEDS_MAXIMUM: (r"Invalid transaction: Transaction gas limit exceeds maximum.*"),
     }
