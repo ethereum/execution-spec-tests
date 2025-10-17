@@ -216,13 +216,16 @@ def test_blockchain_via_production(
                 # Step 3: Poll until block is built
                 with payload_timing.time("Wait for block building"):
                     logger.info("Waiting for client to build block...")
+                    # Give client time to select transactions from mempool
+                    # Most clients need at least 1-2 seconds to build a proper block
+                    time.sleep(3.0)
                     try:
                         built_payload_response = wait_for_payload_ready(
                             engine_rpc=engine_rpc,
                             payload_id=payload_id,
                             new_payload_version=payload.new_payload_version,
-                            timeout=5.0,
-                            poll_interval=0.1,
+                            timeout=10.0,
+                            poll_interval=0.5,
                         )
                         logger.info("Block building complete!")
                     except TimeoutError as e:
