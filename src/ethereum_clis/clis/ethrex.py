@@ -90,4 +90,5 @@ class EthrexExceptionMapper(ExceptionMapper):
         BlockException.RLP_STRUCTURES_ENCODING: (r"Error decoding field '\D+' of type \w+.*"),
         BlockException.INCORRECT_EXCESS_BLOB_GAS: (r".* Excess blob gas is incorrect"),
         BlockException.INVALID_BLOCK_HASH: (r"Invalid block hash. Expected \w+, got \w+"),
+        BlockException.GASLIMIT_PRICE_PRODUCT_OVERFLOW: (r"Invalid transaction: Gas limit price product overflow*"),
     }
