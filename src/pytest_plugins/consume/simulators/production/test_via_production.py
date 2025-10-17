@@ -146,29 +146,52 @@ def test_blockchain_via_production(
 
                     logger.info(f"Transaction confirmed in mempool: {tx_hash}")
 
-                    # Step 2: Request block building
-                    with payload_timing.time("engine_forkchoiceUpdated (request build)"):
-                        logger.info("Requesting block building...")
+                # Step 2: Request block building
+                with payload_timing.time("engine_forkchoiceUpdated (request build)"):
+                    logger.info("Requesting block building...")
 
-                        # Get current head
-                        head_block = eth_rpc.get_block_by_number("latest")
-                        assert head_block is not None
+                    # Get current head
+                    head_block = eth_rpc.get_block_by_number("latest")
+                    assert head_block is not None
 
-                        # Get parent_beacon_block_root from payload params if present (Cancun+)
-                        # params[0] = execution_payload
-                        # params[1] = expected_blob_versioned_hashes (if blobs present)
-                        # params[2] = parent_beacon_block_root (Cancun+)
-                        parent_beacon_block_root = None
-                        if len(payload.params) >= 3:
-                            parent_beacon_block_root = payload.params[2]
+                    # Get parent_beacon_block_root from payload params if present (Cancun+)
+                    # params[0] = execution_payload
+                    # params[1] = expected_blob_versioned_hashes (if blobs present)
+                    # params[2] = parent_beacon_block_root (Cancun+)
+                    parent_beacon_block_root = None
+                    if len(payload.params) >= 3:
+                        parent_beacon_block_root = payload.params[2]
 
-                        # Create payload attributes to trigger building
+                    # Create payload attributes to trigger building
+                    # Handle different fork versions:
+                    # - PayloadAttributesV1 (Paris): no withdrawals, no parent_beacon_block_root
+                    # - PayloadAttributesV2 (Shanghai): has withdrawals, no parent_beacon_block_root
+                    # - PayloadAttributesV3 (Cancun+): has withdrawals, has parent_beacon_block_root
+
+                    # Build PayloadAttributes conditionally based on available fields
+                    if parent_beacon_block_root is not None:
+                        # Cancun+ (V3): has parent_beacon_block_root
+                        payload_attributes = PayloadAttributes(
+                            timestamp=expected_execution_payload.timestamp,
+                            prev_randao=expected_execution_payload.prev_randao,
+                            suggested_fee_recipient=expected_execution_payload.fee_recipient,
+                            withdrawals=getattr(expected_execution_payload, "withdrawals", None),
+                            parent_beacon_block_root=parent_beacon_block_root,
+                        )
+                    elif hasattr(expected_execution_payload, "withdrawals"):
+                        # Shanghai (V2): has withdrawals but no parent_beacon_block_root
                         payload_attributes = PayloadAttributes(
                             timestamp=expected_execution_payload.timestamp,
                             prev_randao=expected_execution_payload.prev_randao,
                             suggested_fee_recipient=expected_execution_payload.fee_recipient,
                             withdrawals=expected_execution_payload.withdrawals,
-                            parent_beacon_block_root=parent_beacon_block_root,
+                        )
+                    else:
+                        # Paris (V1): no withdrawals, no parent_beacon_block_root
+                        payload_attributes = PayloadAttributes(
+                            timestamp=expected_execution_payload.timestamp,
+                            prev_randao=expected_execution_payload.prev_randao,
+                            suggested_fee_recipient=expected_execution_payload.fee_recipient,
                         )
 
                     forkchoice_response = engine_rpc.forkchoice_updated(
@@ -255,15 +278,59 @@ def test_blockchain_via_production(
                 with payload_timing.time(f"engine_newPayloadV{payload.new_payload_version}"):
                     logger.info("Submitting built block back to client...")
 
-                    new_payload_args = [built_execution_payload]
-                    if built_payload_response.blobs_bundle is not None:
-                        new_payload_args.append(
+                    # Reconstruct newPayload args with the BUILT execution payload
+                    # but keep other params (blob hashes, parent beacon block root, execution requests)
+                    # from the original fixture
+                    if payload.new_payload_version == 1:
+                        # V1 (Paris): Just execution payload
+                        new_payload_args = [built_execution_payload]
+                    elif payload.new_payload_version == 2:
+                        # V2 (Shanghai): Just execution payload (withdrawals are inside it)
+                        new_payload_args = [built_execution_payload]
+                    elif payload.new_payload_version == 3:
+                        # V3 (Cancun): execution_payload, blob_hashes, parent_beacon_block_root
+                        blob_hashes = (
                             built_payload_response.blobs_bundle.blob_versioned_hashes()
+                            if built_payload_response.blobs_bundle is not None
+                            else []
                         )
-                    if parent_beacon_block_root is not None:
-                        new_payload_args.append(parent_beacon_block_root)
-                    if built_payload_response.execution_requests is not None:
-                        new_payload_args.append(built_payload_response.execution_requests)
+                        pbr = (
+                            payload.params[2]
+                            if len(payload.params) >= 3
+                            else parent_beacon_block_root
+                        )
+                        new_payload_args = [
+                            built_execution_payload,
+                            blob_hashes,
+                            pbr,  # parent_beacon_block_root from fixture
+                        ]
+                    elif payload.new_payload_version in [4, 5]:
+                        # V4/V5 (Prague/Osaka): + execution_requests
+                        blob_hashes = (
+                            built_payload_response.blobs_bundle.blob_versioned_hashes()
+                            if built_payload_response.blobs_bundle is not None
+                            else []
+                        )
+                        execution_requests = (
+                            built_payload_response.execution_requests
+                            if built_payload_response.execution_requests is not None
+                            else []
+                        )
+                        pbr = (
+                            payload.params[2]
+                            if len(payload.params) >= 3
+                            else parent_beacon_block_root
+                        )
+                        new_payload_args = [
+                            built_execution_payload,
+                            blob_hashes,
+                            pbr,  # parent_beacon_block_root from fixture
+                            execution_requests,
+                        ]
+                    else:
+                        raise LoggedError(
+                            f"Unsupported newPayload version: {payload.new_payload_version}"
+                        )
 
                     new_payload_response = engine_rpc.new_payload(
                         *new_payload_args,
