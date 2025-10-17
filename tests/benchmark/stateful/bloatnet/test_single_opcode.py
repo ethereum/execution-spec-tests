@@ -122,8 +122,8 @@ def test_sload_empty_erc20_balanceof(
     # Calculate gas costs
     intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
 
-    # Cost per iteration (attack contract overhead + balanceOf call)
-    cost_per_iteration = (
+    # Fixed overhead per iteration (loop mechanics, independent of warm/cold)
+    loop_overhead = (
         # Attack contract loop overhead
         gas_costs.G_VERY_LOW * 2  # MLOAD counter (3*2)
         + gas_costs.G_VERY_LOW * 2  # MSTORE selector (3*2)
@@ -132,25 +132,34 @@ def test_sload_empty_erc20_balanceof(
         + gas_costs.G_BASE * 3  # SUB + MLOAD + MSTORE for counter decrement (2*3)
         + gas_costs.G_BASE * 2  # ISZERO * 2 for loop condition (2*2)
         + gas_costs.G_MID  # JUMPI (8)
-        # CALL to ERC20 contract
-        + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm CALL to same contract (100)
-        # Inside ERC20 balanceOf
-        + gas_costs.G_VERY_LOW  # PUSH4 selector (3)
+    )
+
+    # ERC20 internal gas (same for all calls)
+    erc20_internal_gas = (
+        gas_costs.G_VERY_LOW  # PUSH4 selector (3)
         + gas_costs.G_BASE  # EQ selector match (2)
         + gas_costs.G_MID  # JUMPI to function (8)
         + gas_costs.G_JUMPDEST  # JUMPDEST at function start (1)
         + gas_costs.G_VERY_LOW * 2  # CALLDATALOAD arg (3*2)
         + gas_costs.G_KECCAK_256  # keccak256 static (30)
         + gas_costs.G_KECCAK_256_WORD * 2  # keccak256 dynamic for 64 bytes (2*6)
-        + gas_costs.G_COLD_SLOAD  # Cold SLOAD (2100)
+        + gas_costs.G_COLD_SLOAD  # Cold SLOAD - always cold for random addresses (2100)
         + gas_costs.G_VERY_LOW * 3  # MSTORE result + RETURN setup (3*3)
         # RETURN costs 0 gas
     )
 
-    # Calculate gas budget per contract and calls per contract
+    # Calculate gas budget per contract
     available_gas = gas_benchmark_value - intrinsic_gas
     gas_per_contract = available_gas // num_contracts
-    calls_per_contract = int(gas_per_contract // cost_per_iteration)
+
+    # For each contract: first call is COLD (2600), subsequent are WARM (100)
+    # Solve for calls_per_contract:
+    # gas_per_contract = cold_call + (calls-1) * warm_call
+    # Simplifies to: gas = cold_warm_diff + calls * warm_call_cost
+    warm_call_cost = loop_overhead + gas_costs.G_WARM_ACCOUNT_ACCESS + erc20_internal_gas
+    cold_warm_diff = gas_costs.G_COLD_ACCOUNT_ACCESS - gas_costs.G_WARM_ACCOUNT_ACCESS
+
+    calls_per_contract = int((gas_per_contract - cold_warm_diff) // warm_call_cost)
 
     # Deploy selected ERC20 contracts using stubs
     # In execute mode: stubs point to already-deployed contracts on chain
@@ -283,16 +292,14 @@ def test_sstore_erc20_approve(
         + gas_costs.G_BASE  # POP to clean up counter at end (2)
     )  # = 38
 
-    # Cost per iteration (attack contract operations + ERC20 execution)
-    cost_per_iteration = (
+    # Fixed overhead per iteration (loop mechanics, independent of warm/cold)
+    loop_overhead = (
         # Attack contract loop body operations
         gas_costs.G_VERY_LOW  # MSTORE selector at memory[32] (3)
         + gas_costs.G_LOW  # MLOAD counter (5)
         + gas_costs.G_VERY_LOW  # MSTORE spender at memory[64] (3)
         + gas_costs.G_LOW  # MLOAD counter (5)
         + gas_costs.G_VERY_LOW  # MSTORE amount at memory[96] (3)
-        # CALL to ERC20 contract
-        + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm CALL base cost (100)
         + gas_costs.G_BASE  # POP call result (2)
         # Counter decrement: MSTORE(0, SUB(MLOAD(0), 1))
         + gas_costs.G_LOW  # MLOAD counter (5)
@@ -304,8 +311,13 @@ def test_sstore_erc20_approve(
         + gas_costs.G_BASE  # ISZERO (2)
         + gas_costs.G_BASE  # ISZERO (2)
         + gas_costs.G_MID  # JUMPI back to loop start (8)
-        # Inside ERC20 approve function
-        + gas_costs.G_VERY_LOW  # PUSH4 selector (3)
+    )
+
+    # ERC20 internal gas (same for all calls)
+    # Note: SSTORE cost is 22100 for cold slot, zero-to-non-zero
+    # (20000 base + 2100 cold access)
+    erc20_internal_gas = (
+        gas_costs.G_VERY_LOW  # PUSH4 selector (3)
         + gas_costs.G_BASE  # EQ selector match (2)
         + gas_costs.G_MID  # JUMPI to function (8)
         + gas_costs.G_JUMPDEST  # JUMPDEST at function start (1)
@@ -313,21 +325,28 @@ def test_sstore_erc20_approve(
         + gas_costs.G_VERY_LOW  # CALLDATALOAD amount (3)
         + gas_costs.G_KECCAK_256  # keccak256 static (30)
         + gas_costs.G_KECCAK_256_WORD * 2  # keccak256 dynamic for 64 bytes (12)
-        + gas_costs.G_STORAGE_SET  # SSTORE to zero slot (20000)
+        + gas_costs.G_COLD_SLOAD  # Cold SLOAD for allowance check (2100)
+        + gas_costs.G_STORAGE_SET  # SSTORE base cost (20000)
+        + gas_costs.G_COLD_SLOAD  # Additional cold storage access (2100)
         + gas_costs.G_VERY_LOW  # PUSH1 1 for return value (3)
         + gas_costs.G_VERY_LOW  # MSTORE return value (3)
         + gas_costs.G_VERY_LOW  # PUSH1 32 for return size (3)
         + gas_costs.G_VERY_LOW  # PUSH1 0 for return offset (3)
         # RETURN costs 0 gas
-    )  # = 20,226
+    )
 
     # Calculate total gas needed
     total_overhead = intrinsic_gas + (overhead_per_contract * num_contracts)
     available_gas_for_iterations = gas_benchmark_value - total_overhead
 
-    # Calculate calls per contract
-    total_iterations_possible = available_gas_for_iterations // cost_per_iteration
-    calls_per_contract = total_iterations_possible // num_contracts
+    # For each contract: first call is COLD (2600), subsequent are WARM (100)
+    # Solve for calls per contract accounting for cold/warm transition
+    warm_call_cost = loop_overhead + gas_costs.G_WARM_ACCOUNT_ACCESS + erc20_internal_gas
+    cold_warm_diff = gas_costs.G_COLD_ACCOUNT_ACCESS - gas_costs.G_WARM_ACCOUNT_ACCESS
+
+    # Per contract: gas_available = cold_warm_diff + calls * warm_call_cost
+    gas_per_contract = available_gas_for_iterations // num_contracts
+    calls_per_contract = int((gas_per_contract - cold_warm_diff) // warm_call_cost)
 
     # Deploy selected ERC20 contracts using stubs
     erc20_addresses = []
@@ -342,7 +361,7 @@ def test_sstore_erc20_approve(
     print(
         f"Total gas budget: {gas_benchmark_value / 1_000_000:.1f}M gas. "
         f"Intrinsic: {intrinsic_gas}, Overhead per contract: {overhead_per_contract}, "
-        f"Cost per iteration: {cost_per_iteration}. "
+        f"Warm call cost: {warm_call_cost}. "
         f"{calls_per_contract} approve calls per contract ({num_contracts} contracts)."
     )
 

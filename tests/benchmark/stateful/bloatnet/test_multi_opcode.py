@@ -19,6 +19,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_vm import Bytecode
 from ethereum_test_vm import Opcodes as Op
+from pytest_plugins.execute.pre_alloc import AddressStubs
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/bloatnet.md"
 REFERENCE_SPEC_VERSION = "1.0"
@@ -473,6 +474,7 @@ APPROVE_SELECTOR = 0x095EA7B3  # approve(address,uint256)
 
 
 @pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("num_contracts", [1, 5, 10, 20, 100])
 @pytest.mark.parametrize(
     "sload_percent,sstore_percent",
     [
@@ -486,31 +488,51 @@ def test_mixed_sload_sstore(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-    address_stubs,
+    address_stubs: AddressStubs,
+    num_contracts: int,
     sload_percent: int,
     sstore_percent: int,
-):
+    request: pytest.FixtureRequest,
+) -> None:
     """
     BloatNet mixed SLOAD/SSTORE benchmark with configurable operation ratios.
 
     This test:
-    1. Auto-discovers ERC20 contracts from stubs
-    2. Divides gas budget evenly across all contracts
-    3. For each contract, divides gas into SLOAD and SSTORE portions by
+    1. Filters stubs matching test name prefix
+       (e.g., test_mixed_sload_sstore_*)
+    2. Uses first N contracts based on num_contracts parameter
+    3. Divides gas budget evenly across all selected contracts
+    4. For each contract, divides gas into SLOAD and SSTORE portions by
        percentage
-    4. Executes balanceOf (SLOAD) and approve (SSTORE) calls per the ratio
-    5. Stresses clients with combined read/write operations on large
+    5. Executes balanceOf (SLOAD) and approve (SSTORE) calls per the ratio
+    6. Stresses clients with combined read/write operations on large
        contracts
     """
+    # Extract test function name for stub filtering
+    test_name = request.node.name.split("[")[0]  # Remove parametrization suffix
+
+    # Filter stubs that match the test name prefix
+    matching_stubs = [
+        stub_name for stub_name in address_stubs.root.keys() if stub_name.startswith(test_name)
+    ]
+
+    # Validate we have enough stubs
+    if len(matching_stubs) < num_contracts:
+        pytest.fail(
+            f"Not enough matching stubs for test '{test_name}'. "
+            f"Required: {num_contracts}, Found: {len(matching_stubs)}. "
+            f"Matching stubs: {matching_stubs}"
+        )
+
+    # Select first N stubs
+    selected_stubs = matching_stubs[:num_contracts]
     gas_costs = fork.gas_costs()
 
     # Calculate gas costs
     intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
 
-    num_contracts = len(address_stubs.root)
-
-    # Cost per SLOAD iteration (balanceOf call)
-    sload_cost_per_iteration = (
+    # Fixed overhead for SLOAD loop
+    sload_loop_overhead = (
         # Attack contract loop overhead
         gas_costs.G_VERY_LOW * 2  # MLOAD counter (3*2)
         + gas_costs.G_VERY_LOW * 2  # MSTORE selector (3*2)
@@ -519,30 +541,29 @@ def test_mixed_sload_sstore(
         + gas_costs.G_BASE * 3  # SUB + MLOAD + MSTORE for counter decrement (2*3)
         + gas_costs.G_BASE * 2  # ISZERO * 2 for loop condition (2*2)
         + gas_costs.G_MID  # JUMPI (8)
-        # CALL to ERC20 contract
-        + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm CALL to same contract (100)
-        # Inside ERC20 balanceOf
-        + gas_costs.G_VERY_LOW  # PUSH4 selector (3)
+    )
+
+    # ERC20 balanceOf internal gas
+    sload_erc20_internal = (
+        gas_costs.G_VERY_LOW  # PUSH4 selector (3)
         + gas_costs.G_BASE  # EQ selector match (2)
         + gas_costs.G_MID  # JUMPI to function (8)
         + gas_costs.G_JUMPDEST  # JUMPDEST at function start (1)
         + gas_costs.G_VERY_LOW * 2  # CALLDATALOAD arg (3*2)
         + gas_costs.G_KECCAK_256  # keccak256 static (30)
         + gas_costs.G_KECCAK_256_WORD * 2  # keccak256 dynamic for 64 bytes (2*6)
-        + gas_costs.G_COLD_SLOAD  # Cold SLOAD (2100)
+        + gas_costs.G_COLD_SLOAD  # Cold SLOAD - always cold for random addresses (2100)
         + gas_costs.G_VERY_LOW * 3  # MSTORE result + RETURN setup (3*3)
     )
 
-    # Cost per SSTORE iteration (approve call)
-    sstore_cost_per_iteration = (
+    # Fixed overhead for SSTORE loop
+    sstore_loop_overhead = (
         # Attack contract loop body operations
         gas_costs.G_VERY_LOW  # MSTORE selector at memory[32] (3)
         + gas_costs.G_LOW  # MLOAD counter (5)
         + gas_costs.G_VERY_LOW  # MSTORE spender at memory[64] (3)
         + gas_costs.G_LOW  # MLOAD counter (5)
         + gas_costs.G_VERY_LOW  # MSTORE amount at memory[96] (3)
-        # CALL to ERC20 contract
-        + gas_costs.G_WARM_ACCOUNT_ACCESS  # Warm CALL base cost (100)
         + gas_costs.G_BASE  # POP call result (2)
         # Counter decrement
         + gas_costs.G_LOW  # MLOAD counter (5)
@@ -554,8 +575,12 @@ def test_mixed_sload_sstore(
         + gas_costs.G_BASE  # ISZERO (2)
         + gas_costs.G_BASE  # ISZERO (2)
         + gas_costs.G_MID  # JUMPI back to loop start (8)
-        # Inside ERC20 approve function
-        + gas_costs.G_VERY_LOW  # PUSH4 selector (3)
+    )
+
+    # ERC20 approve internal gas
+    # Cold SSTORE: 22100 = 20000 base + 2100 cold access
+    sstore_erc20_internal = (
+        gas_costs.G_VERY_LOW  # PUSH4 selector (3)
         + gas_costs.G_BASE  # EQ selector match (2)
         + gas_costs.G_MID  # JUMPI to function (8)
         + gas_costs.G_JUMPDEST  # JUMPDEST at function start (1)
@@ -563,7 +588,9 @@ def test_mixed_sload_sstore(
         + gas_costs.G_VERY_LOW  # CALLDATALOAD amount (3)
         + gas_costs.G_KECCAK_256  # keccak256 static (30)
         + gas_costs.G_KECCAK_256_WORD * 2  # keccak256 dynamic for 64 bytes (12)
-        + gas_costs.G_STORAGE_SET  # SSTORE to zero slot (20000)
+        + gas_costs.G_COLD_SLOAD  # Cold SLOAD for allowance check (2100)
+        + gas_costs.G_STORAGE_SET  # SSTORE base cost (20000)
+        + gas_costs.G_COLD_SLOAD  # Additional cold storage access (2100)
         + gas_costs.G_VERY_LOW  # PUSH1 1 for return value (3)
         + gas_costs.G_VERY_LOW  # MSTORE return value (3)
         + gas_costs.G_VERY_LOW  # PUSH1 32 for return size (3)
@@ -578,13 +605,21 @@ def test_mixed_sload_sstore(
     sload_gas_per_contract = (gas_per_contract * sload_percent) // 100
     sstore_gas_per_contract = (gas_per_contract * sstore_percent) // 100
 
-    # Calculate calls per contract per operation
-    sload_calls_per_contract = int(sload_gas_per_contract // sload_cost_per_iteration)
-    sstore_calls_per_contract = int(sstore_gas_per_contract // sstore_cost_per_iteration)
+    # Account for cold/warm transitions in CALL costs
+    # First SLOAD call is COLD (2600), rest are WARM (100)
+    sload_warm_cost = sload_loop_overhead + gas_costs.G_WARM_ACCOUNT_ACCESS + sload_erc20_internal
+    cold_warm_diff = gas_costs.G_COLD_ACCOUNT_ACCESS - gas_costs.G_WARM_ACCOUNT_ACCESS
+    sload_calls_per_contract = int((sload_gas_per_contract - cold_warm_diff) // sload_warm_cost)
 
-    # Deploy all discovered ERC20 contracts using stubs
+    # First SSTORE call is COLD (2600), rest are WARM (100)
+    sstore_warm_cost = (
+        sstore_loop_overhead + gas_costs.G_WARM_ACCOUNT_ACCESS + sstore_erc20_internal
+    )
+    sstore_calls_per_contract = int((sstore_gas_per_contract - cold_warm_diff) // sstore_warm_cost)
+
+    # Deploy selected ERC20 contracts using stubs
     erc20_addresses = []
-    for stub_name in address_stubs.root:
+    for stub_name in selected_stubs:
         addr = pre.deploy_contract(
             code=Bytecode(),
             stub=stub_name,
