@@ -20,6 +20,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_vm import Bytecode
 from ethereum_test_vm import Opcodes as Op
+from pytest_plugins.execute.pre_alloc import AddressStubs
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/bloatnet.md"
 REFERENCE_SPEC_VERSION = "1.0"
@@ -82,7 +83,7 @@ def test_sload_empty_erc20_balanceof(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-    address_stubs,
+    address_stubs: AddressStubs,
     num_contracts: int,
     request: pytest.FixtureRequest,
 ) -> None:
@@ -231,7 +232,7 @@ def test_sstore_erc20_approve(
     pre: Alloc,
     fork: Fork,
     gas_benchmark_value: int,
-    address_stubs,
+    address_stubs: AddressStubs,
     num_contracts: int,
     request: pytest.FixtureRequest,
 ) -> None:
