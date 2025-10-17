@@ -49,7 +49,7 @@ def get_command_logic_test_paths(command_name: str) -> List[Path]:
         ]
     elif command_name == "production":
         command_logic_test_paths = [
-            base_path / "simulators" / "production" / "test_via_production.py"
+            base_path / "simulators" / "simulator_logic" / "test_via_production.py"
         ]
     elif command_name == "direct":
         command_logic_test_paths = [base_path / "direct" / "test_via_direct.py"]
