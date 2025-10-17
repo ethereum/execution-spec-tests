@@ -54,25 +54,41 @@ class LoggedError(Exception):
         logger.fail(str(self))
 
 
-def get_payload_version_for_fork(fork: Fork, new_payload_version: int) -> int:
+def get_payload_version_for_fork(fork: Fork) -> int:
     """
-    Determine the correct getPayload version based on the fork.
+    Return the correct engine_getPayloadVX version for the given fork.
 
-    Engine API versioning is complex:
-    - Paris → Cancun: versions match (V1, V2, V3)
-    - Prague: forkchoiceV3, getPayloadV4, newPayloadV4
-    - Osaka: forkchoiceV3, getPayloadV5, newPayloadV4
+    Engine API versioning diverged starting with Prague:
+
+    Fork      | forkchoiceUpdated | getPayload | newPayload | Why?
+    ----------|-------------------|------------|------------|-----
+    Paris     | V1                | V1         | V1         | All match
+    Shanghai  | V2                | V2         | V2         | All match
+    Cancun    | V3                | V3         | V3         | All match
+    Prague    | V3                | V4         | V4         | +execution requests
+    Osaka     | V3                | V5         | V4         | Changed blobs bundle
+
+    The key rules:
+    - forkchoiceUpdated only increments when PayloadAttributes changes
+    - getPayload increments when response structure changes
+    - newPayload increments when request structure changes
+
+    For Osaka specifically:
+    - BlobsBundleV1 → BlobsBundleV2 (changed proofs)
+    - Therefore getPayloadV4 explicitly REJECTS Osaka timestamps
+    - MUST use getPayloadV5 for Osaka
     """
-    # Check fork by name since we need exact fork matching
-    fork_name = fork.__class__.__name__
-
-    if fork_name == "Osaka" or "Osaka" in fork_name:
+    fork_name = str(fork)
+    if "Osaka" in fork_name or "Amsterdam" in fork_name or "BPO" in fork_name:
         return 5
-    elif fork_name == "Prague" or "Prague" in fork_name:
+    elif "Prague" in fork_name:
         return 4
-    # For Cancun and earlier, getPayload version = newPayload version
+    elif "Cancun" in fork_name:
+        return 3
+    elif "Shanghai" in fork_name:
+        return 2
     else:
-        return new_payload_version
+        return 1
 
 
 def test_blockchain_via_production(
