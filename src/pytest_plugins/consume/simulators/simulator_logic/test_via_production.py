@@ -146,6 +146,11 @@ def test_blockchain_via_production(
 
                     logger.info(f"Transaction confirmed in mempool: {tx_hash}")
 
+                    # Give the client additional time for the transaction to be
+                    # processed into the pending pool that the block builder uses.
+                    logger.info("Waiting for transaction to be processed into pending pool...")
+                    time.sleep(2.0)
+
                 # Step 2: Request block building
                 with payload_timing.time("engine_forkchoiceUpdated (request build)"):
                     logger.info("Requesting block building...")
