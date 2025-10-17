@@ -8,11 +8,14 @@ where the validation path worked but production path failed.
 Flow:
 1. Initialize client with genesis
 2. Send transaction to mempool via eth_sendRawTransaction
-3. Request block building via engine_forkchoiceUpdated (with payload_attributes)
-4. Retrieve built block via engine_getPayload
-5. Submit block via engine_newPayload (verify client accepts its own work)
-6. Finalize via engine_forkchoiceUpdated
+3. Verify transaction is in mempool
+4. Request block building via engine_forkchoiceUpdated (with payload_attributes)
+5. Poll until block is built
+6. Retrieve built block via engine_getPayload
 7. Verify block matches expected state/gas/etc from fixture
+8. Submit block via engine_newPayload (verify client accepts its own work)
+9. Finalize via engine_forkchoiceUpdated
+10. Verify transaction executed successfully
 """
 
 import time
@@ -30,6 +33,10 @@ from ethereum_test_types.trie import keccak256
 from ....custom_logging import get_logger
 from ..helpers.exceptions import GenesisBlockMismatchExceptionError
 from ..helpers.timing import TimingData
+from .helpers.block_building import (
+    wait_for_payload_ready,
+    wait_for_transaction_in_mempool,
+)
 
 logger = get_logger(__name__)
 
@@ -115,47 +122,54 @@ def test_blockchain_via_production(
                 expected_execution_payload = payload.params[0]
                 transactions = expected_execution_payload.transactions
 
-                # Check transaction count
-                if len(transactions) == 0:
-                    logger.info("Payload has no transactions, skipping...")
-                    continue
-                elif len(transactions) != 1:
-                    raise LoggedError(
-                        f"Production simulator requires exactly 1 transaction per payload, "
-                        f"got {len(transactions)}"
-                    )
+                # Single transaction check (enforced by conftest filtering)
+                assert len(transactions) == 1, (
+                    "Production simulator requires exactly 1 transaction per payload "
+                    "(should be filtered by conftest)"
+                )
 
                 tx_rlp = transactions[0]
 
-                # Step 1: Send transaction to mempool
-                with payload_timing.time("eth_sendRawTransaction"):
+                # Step 1: Send transaction to mempool and verify it's there
+                with payload_timing.time("eth_sendRawTransaction + mempool verification"):
                     logger.info("Sending transaction to mempool...")
                     tx_hash = eth_rpc.send_raw_transaction(tx_rlp)
-                    logger.info(f"Transaction sent to mempool: {tx_hash}")
+                    logger.info(f"Transaction sent: {tx_hash}")
 
-                # Step 2: Request block building
-                with payload_timing.time("engine_forkchoiceUpdated (request build)"):
-                    logger.info("Requesting block building...")
+                    # Wait for transaction to appear in mempool
+                    logger.info("Verifying transaction is in mempool...")
+                    if not wait_for_transaction_in_mempool(eth_rpc, tx_hash, timeout=5):
+                        raise LoggedError(
+                            f"Transaction {tx_hash} not in mempool after 5s. "
+                            f"Client may not be accepting transactions."
+                        )
 
-                    # Get current head
-                    head_block = eth_rpc.get_block_by_number("latest")
-                    assert head_block is not None
+                    logger.info(f"Transaction confirmed in mempool: {tx_hash}")
 
-                    # Create payload attributes to trigger building
-                    payload_attributes = PayloadAttributes(
-                        timestamp=expected_execution_payload.timestamp,
-                        prev_randao=expected_execution_payload.prev_randao,
-                        suggested_fee_recipient=expected_execution_payload.fee_recipient,
-                        withdrawals=expected_execution_payload.withdrawals,
-                        parent_beacon_block_root=expected_execution_payload.parent_beacon_block_root,
-                        # Add blob schedule fields if present (Osaka+)
-                        target_blobs_per_block=getattr(
-                            expected_execution_payload, "target_blobs_per_block", None
-                        ),
-                        max_blobs_per_block=getattr(
-                            expected_execution_payload, "max_blobs_per_block", None
-                        ),
-                    )
+                    # Step 2: Request block building
+                    with payload_timing.time("engine_forkchoiceUpdated (request build)"):
+                        logger.info("Requesting block building...")
+
+                        # Get current head
+                        head_block = eth_rpc.get_block_by_number("latest")
+                        assert head_block is not None
+
+                        # Get parent_beacon_block_root from payload params if present (Cancun+)
+                        # params[0] = execution_payload
+                        # params[1] = expected_blob_versioned_hashes (if blobs present)
+                        # params[2] = parent_beacon_block_root (Cancun+)
+                        parent_beacon_block_root = None
+                        if len(payload.params) >= 3:
+                            parent_beacon_block_root = payload.params[2]
+
+                        # Create payload attributes to trigger building
+                        payload_attributes = PayloadAttributes(
+                            timestamp=expected_execution_payload.timestamp,
+                            prev_randao=expected_execution_payload.prev_randao,
+                            suggested_fee_recipient=expected_execution_payload.fee_recipient,
+                            withdrawals=expected_execution_payload.withdrawals,
+                            parent_beacon_block_root=parent_beacon_block_root,
+                        )
 
                     forkchoice_response = engine_rpc.forkchoice_updated(
                         forkchoice_state=ForkchoiceState(
@@ -176,25 +190,29 @@ def test_blockchain_via_production(
 
                     logger.info(f"Block building requested, payload_id: {payload_id}")
 
-                # Step 3: Wait a bit for block to be built
+                # Step 3: Poll until block is built
                 with payload_timing.time("Wait for block building"):
-                    # Give client time to build the block
-                    # Adjust this based on client behavior
-                    time.sleep(0.5)
+                    logger.info("Waiting for client to build block...")
+                    try:
+                        built_payload_response = wait_for_payload_ready(
+                            engine_rpc=engine_rpc,
+                            payload_id=payload_id,
+                            new_payload_version=payload.new_payload_version,
+                            timeout=5.0,
+                            poll_interval=0.1,
+                        )
+                        logger.info("Block building complete!")
+                    except TimeoutError as e:
+                        raise LoggedError(
+                            f"Block not ready after timeout. "
+                            f"Check if client is actually building blocks. "
+                            f"Error: {e}"
+                        ) from e
 
-                # Step 4: Get the built payload
-                with payload_timing.time(f"engine_getPayloadV{payload.new_payload_version}"):
-                    logger.info("Getting built payload...")
+                # Step 4: Verify the built block
+                built_execution_payload = built_payload_response.execution_payload
+                logger.info(f"Got built block: {built_execution_payload.block_hash}")
 
-                    built_payload_response = engine_rpc.get_payload(
-                        payload_id=payload_id,
-                        version=payload.new_payload_version,
-                    )
-
-                    built_execution_payload = built_payload_response.execution_payload
-                    logger.info(f"Got built block: {built_execution_payload.block_hash}")
-
-                # Step 5: Verify the built block
                 with payload_timing.time("Verify built block"):
                     logger.info("Verifying built block against fixture expectations...")
 
@@ -203,16 +221,22 @@ def test_blockchain_via_production(
                         Hash(keccak256(tx)) for tx in built_execution_payload.transactions
                     ]
                     if tx_hash not in built_tx_hashes:
-                        raise LoggedError(f"Built block doesn't contain our transaction {tx_hash}")
+                        raise LoggedError(
+                            f"Built block doesn't contain our transaction {tx_hash}. "
+                            f"Found transactions: {built_tx_hashes}"
+                        )
 
                     # Check gas used matches expectations
                     expected_gas = expected_execution_payload.gas_used
                     actual_gas = built_execution_payload.gas_used
                     if actual_gas != expected_gas:
+                        gas_diff = actual_gas - expected_gas
                         raise LoggedError(
-                            f"Gas mismatch: expected {expected_gas}, got {actual_gas}. "
+                            f"Gas mismatch: expected {expected_gas}, got {actual_gas} "
+                            f"(diff: {gas_diff:+d}). "
                             f"This indicates the client's block building code has issues "
-                            f"(like the Erigon InitializeBlockExecution bug)."
+                            f"(like the Erigon InitializeBlockExecution bug). "
+                            f"Expected gas includes system contract initialization."
                         )
 
                     # Check state root matches
@@ -221,12 +245,13 @@ def test_blockchain_via_production(
                     if actual_state_root != expected_state_root:
                         raise LoggedError(
                             f"State root mismatch: expected {expected_state_root}, "
-                            f"got {actual_state_root}"
+                            f"got {actual_state_root}. "
+                            f"Client's state transition during block building is incorrect."
                         )
 
                     logger.info("Built block verification passed!")
 
-                # Step 6: Submit the built block back to client (sanity check)
+                # Step 5: Submit the built block back to client (sanity check)
                 with payload_timing.time(f"engine_newPayloadV{payload.new_payload_version}"):
                     logger.info("Submitting built block back to client...")
 
@@ -235,10 +260,8 @@ def test_blockchain_via_production(
                         new_payload_args.append(
                             built_payload_response.blobs_bundle.blob_versioned_hashes()
                         )
-                    if expected_execution_payload.parent_beacon_block_root is not None:
-                        new_payload_args.append(
-                            expected_execution_payload.parent_beacon_block_root
-                        )
+                    if parent_beacon_block_root is not None:
+                        new_payload_args.append(parent_beacon_block_root)
                     if built_payload_response.execution_requests is not None:
                         new_payload_args.append(built_payload_response.execution_requests)
 
@@ -249,10 +272,14 @@ def test_blockchain_via_production(
 
                     if new_payload_response.status != PayloadStatusEnum.VALID:
                         raise LoggedError(
-                            f"Client rejected its own built block: {new_payload_response.status}"
+                            f"Client rejected its own built block! "
+                            f"Status: {new_payload_response.status}, "
+                            f"Validation error: {new_payload_response.validation_error}"
                         )
 
-                # Step 7: Finalize the block
+                    logger.info("Client accepted its own built block!")
+
+                # Step 6: Finalize the block
                 with payload_timing.time(
                     f"engine_forkchoiceUpdatedV{payload.forkchoice_updated_version} (finalize)"
                 ):
@@ -272,5 +299,26 @@ def test_blockchain_via_production(
                         )
 
                     logger.info("Block finalized successfully!")
+
+                # Step 7: Verify transaction executed successfully
+                with payload_timing.time("Verify transaction execution"):
+                    logger.info("Checking transaction receipt...")
+                    receipt = eth_rpc.get_transaction_receipt(tx_hash)
+
+                    if receipt is None:
+                        raise LoggedError(
+                            f"No receipt for transaction {tx_hash}. "
+                            f"Transaction may not have been included in the finalized block."
+                        )
+
+                    if receipt["status"] != "0x1":
+                        raise LoggedError(
+                            f"Transaction {tx_hash} reverted (status: {receipt['status']})! "
+                            f"This indicates the production code failed to initialize properly "
+                            f"(like the Erigon bug with beacon roots not being initialized). "
+                            f"The transaction expected system contracts to be ready."
+                        )
+
+                    logger.info("Transaction executed successfully!")
 
         logger.info("All blocks produced and verified successfully!")
