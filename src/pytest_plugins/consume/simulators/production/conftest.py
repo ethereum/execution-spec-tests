@@ -30,65 +30,65 @@ def pytest_configure(config: pytest.Config) -> None:
     config.supported_fixture_formats = [BlockchainEngineFixture]  # type: ignore[attr-defined]
 
 
-# def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
-#     """
-#     Filter out tests that don't meet production simulator requirements.
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """
+    Filter out tests that don't meet production simulator requirements.
 
-#     Requirements:
-#     - Must have exactly one transaction per payload (no multi-tx blocks)
-#     - Payload must be valid (we're testing production, not validation)
-#     """
-#     for item in items:
-#         if not hasattr(item, "callspec"):
-#             continue
+    Requirements:
+    - Must have exactly one transaction per payload (no multi-tx blocks)
+    - Payload must be valid (we're testing production, not validation)
+    """
+    for item in items:
+        if not hasattr(item, "callspec"):
+            continue
 
-#         # Only process if this is a production test
-#         if "test_blockchain_via_production" not in item.nodeid:
-#             continue
+        # Only process if this is a production test
+        if "test_blockchain_via_production" not in item.nodeid:
+            continue
 
-#         # Get the fixture from parameters
-#         fixture = item.callspec.params.get("fixture")
-#         if not isinstance(fixture, BlockchainEngineFixture):
-#             continue
+        # Get the fixture from parameters
+        fixture = item.callspec.params.get("fixture")
+        if not isinstance(fixture, BlockchainEngineFixture):
+            continue
 
-#         # Filter: only single-transaction payloads
-#         has_multi_tx_payload = False
-#         has_invalid_payload = False
-#         has_zero_tx_payload = False
+        # Filter: only single-transaction payloads
+        has_multi_tx_payload = False
+        has_invalid_payload = False
+        has_zero_tx_payload = False
 
-#         for payload in fixture.payloads:
-#             # Count transactions in this payload
-#             tx_count = len(payload.params[0].transactions)
+        for payload in fixture.payloads:
+            # Count transactions in this payload
+            tx_count = len(payload.params[0].transactions)
 
-#             if tx_count == 0:
-#                 has_zero_tx_payload = True
-#                 break
+            if tx_count == 0:
+                has_zero_tx_payload = True
+                break
 
-#             if tx_count > 1:
-#                 has_multi_tx_payload = True
-#                 break
+            if tx_count > 1:
+                has_multi_tx_payload = True
+                break
 
-#             # Skip invalid payloads (we test production, not validation)
-#             if not payload.valid():
-#                 has_invalid_payload = True
-#                 break
+            # Skip invalid payloads (we test production, not validation)
+            if not payload.valid():
+                has_invalid_payload = True
+                break
 
-#         if has_zero_tx_payload:
-#             item.add_marker(
-#                 pytest.mark.skip(
-#                     reason="Production simulator: zero-transaction payloads not supported"
-#                 )
-#             )
-#         elif has_multi_tx_payload:
-#             item.add_marker(
-#                 pytest.mark.skip(
-#                     reason="Production simulator: multi-transaction payloads not supported"
-#                 )
-#             )
-#         elif has_invalid_payload:
-#             item.add_marker(
-#                 pytest.mark.skip(reason="Production simulator: only tests valid block production")
-#             )
+        if has_zero_tx_payload:
+            item.add_marker(
+                pytest.mark.skip(
+                    reason="Production simulator: zero-transaction payloads not supported"
+                )
+            )
+        elif has_multi_tx_payload:
+            item.add_marker(
+                pytest.mark.skip(
+                    reason="Production simulator: multi-transaction payloads not supported"
+                )
+            )
+        elif has_invalid_payload:
+            item.add_marker(
+                pytest.mark.skip(reason="Production simulator: only tests valid block production")
+            )
 
 
 @pytest.fixture(scope="function")
