@@ -22,7 +22,6 @@ import time
 
 from ethereum_test_base_types import Hash
 from ethereum_test_fixtures import BlockchainEngineFixture
-from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.rpc_types import (
     ForkchoiceState,
@@ -54,38 +53,27 @@ class LoggedError(Exception):
         logger.fail(str(self))
 
 
-def get_payload_version_for_fork(fork: Fork) -> int:
+def _get_payload_version(fork_str: str) -> int:
     """
-    Return the correct engine_getPayloadVX version for the given fork.
+    Determine correct getPayload version based on fork name.
 
-    Engine API versioning diverged starting with Prague:
+    CRITICAL: Osaka requires getPayloadV5, Prague requires V4!
 
-    Fork      | forkchoiceUpdated | getPayload | newPayload | Why?
-    ----------|-------------------|------------|------------|-----
-    Paris     | V1                | V1         | V1         | All match
-    Shanghai  | V2                | V2         | V2         | All match
-    Cancun    | V3                | V3         | V3         | All match
-    Prague    | V3                | V4         | V4         | +execution requests
-    Osaka     | V3                | V5         | V4         | Changed blobs bundle
-
-    The key rules:
-    - forkchoiceUpdated only increments when PayloadAttributes changes
-    - getPayload increments when response structure changes
-    - newPayload increments when request structure changes
-
-    For Osaka specifically:
-    - BlobsBundleV1 → BlobsBundleV2 (changed proofs)
-    - Therefore getPayloadV4 explicitly REJECTS Osaka timestamps
-    - MUST use getPayloadV5 for Osaka
+    Fork      | forkchoiceUpdated | getPayload | newPayload
+    ----------|-------------------|------------|-----------
+    Paris     | V1                | V1         | V1
+    Shanghai  | V2                | V2         | V2
+    Cancun    | V3                | V3         | V3
+    Prague    | V3                | V4         | V4
+    Osaka     | V3                | V5         | V4
     """
-    fork_name = str(fork)
-    if "Osaka" in fork_name or "Amsterdam" in fork_name or "BPO" in fork_name:
+    if "Osaka" in fork_str or "Amsterdam" in fork_str or "BPO" in fork_str:
         return 5
-    elif "Prague" in fork_name:
+    elif "Prague" in fork_str:
         return 4
-    elif "Cancun" in fork_name:
+    elif "Cancun" in fork_str:
         return 3
-    elif "Shanghai" in fork_name:
+    elif "Shanghai" in fork_str:
         return 2
     else:
         return 1
@@ -148,12 +136,10 @@ def test_blockchain_via_production(
                 got_genesis_block=genesis_block,
             )
 
-    # Get payload version
-    get_payload_version = get_payload_version_for_fork(
-        fixture.fork, fixture.payloads[0].new_payload_version
-    )
+    fork_str = str(fixture.fork)
+    get_payload_version = _get_payload_version(fork_str)
     logger.info(
-        f"Fork: {fixture.fork}, "
+        f"Fork: {fork_str}, "
         f"Using getPayloadV{get_payload_version}, "
         f"newPayloadV{fixture.payloads[0].new_payload_version}, "
         f"forkchoiceUpdatedV{fixture.payloads[0].forkchoice_updated_version}"
