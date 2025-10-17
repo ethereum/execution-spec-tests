@@ -298,8 +298,6 @@ def test_sstore_erc20_approve(
         gas_costs.G_VERY_LOW  # MSTORE selector at memory[32] (3)
         + gas_costs.G_LOW  # MLOAD counter (5)
         + gas_costs.G_VERY_LOW  # MSTORE spender at memory[64] (3)
-        + gas_costs.G_LOW  # MLOAD counter (5)
-        + gas_costs.G_VERY_LOW  # MSTORE amount at memory[96] (3)
         + gas_costs.G_BASE  # POP call result (2)
         # Counter decrement: MSTORE(0, SUB(MLOAD(0), 1))
         + gas_costs.G_LOW  # MLOAD counter (5)
@@ -380,13 +378,13 @@ def test_sstore_erc20_approve(
             + While(
                 condition=Op.MLOAD(32) + Op.ISZERO + Op.ISZERO,  # Continue while counter > 0
                 body=(
-                    # Store spender address at memory[64] (use counter)
+                    # Store spender at memory[64] (counter as spender/amount)
                     Op.MSTORE(offset=64, value=Op.MLOAD(32))
-                    # Store amount at memory[96] (use counter as amount)
-                    + Op.MSTORE(offset=96, value=Op.MLOAD(32))
                     # Call approve(spender, amount) on ERC20 contract
-                    # args_offset=28 reads: selector from MEM[28:32] + spender
-                    # from MEM[32:64] + amount from MEM[64:96]
+                    # args_offset=28 reads: selector from MEM[28:32] +
+                    # spender from MEM[32:64] + amount from MEM[64:96]
+                    # Note: counter at MEM[32:64] is reused as spender,
+                    # and value at MEM[64:96] serves as the amount
                     + Op.CALL(
                         address=erc20_address,
                         value=0,
