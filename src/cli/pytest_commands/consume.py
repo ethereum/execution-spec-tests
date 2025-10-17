@@ -47,6 +47,10 @@ def get_command_logic_test_paths(command_name: str) -> List[Path]:
         command_logic_test_paths = [
             base_path / "simulators" / "simulator_logic" / "test_via_sync.py"
         ]
+    elif command_name == "production":
+        command_logic_test_paths = [
+            base_path / "simulators" / "production" / "test_via_production.py"
+        ]
     elif command_name == "direct":
         command_logic_test_paths = [base_path / "direct" / "test_via_direct.py"]
     else:
@@ -113,6 +117,12 @@ def engine() -> None:
 @consume_command(is_hive=True)
 def sync() -> None:
     """Client consumes via the Engine API with sync testing."""
+    pass
+
+
+@consume_command(is_hive=True)
+def production() -> None:
+    """Client builds blocks from mempool transactions (tests block production)."""
     pass
 
 
