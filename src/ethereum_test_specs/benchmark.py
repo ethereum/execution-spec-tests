@@ -218,8 +218,8 @@ class BenchmarkTest(BaseTest):
 
         return [execution_block]
 
-    def generate_blockchain_test(self, fork: Fork) -> BlockchainTest:
-        """Create a BlockchainTest from this BenchmarkTest."""
+    def generate_blocks(self, fork: Fork) -> List[Block]:
+        """Generate blocks from the test properties."""
         set_props = [
             name
             for name, val in [
@@ -251,11 +251,11 @@ class BenchmarkTest(BaseTest):
 
             blocks.append(Block(txs=transactions))
 
-        else:
-            raise ValueError(
-                "Cannot create BlockchainTest without a code generator, transactions, or blocks"
-            )
+        return blocks
 
+    def generate_blockchain_test(self, fork: Fork) -> BlockchainTest:
+        """Create a BlockchainTest from this BenchmarkTest."""
+        blocks = self.generate_blocks(fork)
         return BlockchainTest.from_test(
             base_test=self,
             genesis_environment=self.env,
@@ -286,11 +286,12 @@ class BenchmarkTest(BaseTest):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Execute the benchmark test by sending it to the live network."""
-        del fork
-
         if execute_format == TransactionPost:
+            blocks: List[List[Transaction]] = [
+                list(block.txs) for block in self.generate_blocks(fork)
+            ]
             return TransactionPost(
-                blocks=[[self.tx]],
+                blocks=blocks,
                 post=self.post,
             )
         raise Exception(f"Unsupported execute format: {execute_format}")

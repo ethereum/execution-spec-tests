@@ -50,7 +50,6 @@ def test_worst_address_state_cold(
     fork: Fork,
     opcode: Op,
     absent_accounts: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ) -> None:
     """
@@ -86,7 +85,7 @@ def test_worst_address_state_cold(
 
         setup_tx = Transaction(
             to=factory_address,
-            gas_limit=env.gas_limit,
+            gas_limit=20 * gas_benchmark_value,
             sender=pre.fund_eoa(),
         )
         blocks.append(Block(txs=[setup_tx]))
@@ -334,7 +333,7 @@ def test_worst_storage_access_cold(
     sender_addr = pre.fund_eoa()
     setup_tx = Transaction(
         to=None,
-        gas_limit=env.gas_limit,
+        gas_limit=20 * gas_benchmark_value,
         data=creation_code,
         sender=sender_addr,
     )
@@ -411,7 +410,7 @@ def test_worst_storage_access_warm(
         sender_addr = pre.fund_eoa()
         setup_tx = Transaction(
             to=None,
-            gas_limit=env.gas_limit,
+            gas_limit=20 * gas_benchmark_value,
             data=creation_code,
             sender=sender_addr,
         )
@@ -432,10 +431,7 @@ def test_worst_storage_access_warm(
 
 def test_worst_blockhash(
     benchmark_test: BenchmarkTestFiller,
-    pre: Alloc,
-    fork: Fork,
     gas_benchmark_value: int,
-    tx_gas_limit_cap: int,
 ) -> None:
     """
     Test running a block with as many blockhash accessing oldest allowed block
@@ -507,7 +503,6 @@ def test_worst_selfdestruct_existing(
     fork: Fork,
     pre: Alloc,
     value_bearing: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ) -> None:
     """
@@ -588,7 +583,7 @@ def test_worst_selfdestruct_existing(
 
     contracts_deployment_tx = Transaction(
         to=factory_caller_address,
-        gas_limit=env.gas_limit,
+        gas_limit=20 * gas_benchmark_value,
         data=Hash(num_contracts),
         sender=pre.fund_eoa(),
     )
@@ -814,7 +809,6 @@ def test_worst_selfdestruct_initcode(
     code_tx = Transaction(
         to=code_addr,
         gas_limit=gas_benchmark_value,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
 
