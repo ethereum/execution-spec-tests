@@ -22,6 +22,7 @@ import time
 
 from ethereum_test_base_types import Hash
 from ethereum_test_fixtures import BlockchainEngineFixture
+from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.rpc_types import (
     ForkchoiceState,
@@ -51,6 +52,27 @@ class LoggedError(Exception):
         """Initialize the exception and log the failure."""
         super().__init__(*args)
         logger.fail(str(self))
+
+
+def get_payload_version_for_fork(fork: Fork, new_payload_version: int) -> int:
+    """
+    Determine the correct getPayload version based on the fork.
+
+    Engine API versioning is complex:
+    - Paris → Cancun: versions match (V1, V2, V3)
+    - Prague: forkchoiceV3, getPayloadV4, newPayloadV4
+    - Osaka: forkchoiceV3, getPayloadV5, newPayloadV4
+    """
+    # Check fork by name since we need exact fork matching
+    fork_name = fork.__class__.__name__
+
+    if fork_name == "Osaka" or "Osaka" in fork_name:
+        return 5
+    elif fork_name == "Prague" or "Prague" in fork_name:
+        return 4
+    # For Cancun and earlier, getPayload version = newPayload version
+    else:
+        return new_payload_version
 
 
 def test_blockchain_via_production(
@@ -109,6 +131,17 @@ def test_blockchain_via_production(
                 expected_header=fixture.genesis,
                 got_genesis_block=genesis_block,
             )
+
+    # Get payload version
+    get_payload_version = get_payload_version_for_fork(
+        fixture.fork, fixture.payloads[0].new_payload_version
+    )
+    logger.info(
+        f"Fork: {fixture.fork}, "
+        f"Using getPayloadV{get_payload_version}, "
+        f"newPayloadV{fixture.payloads[0].new_payload_version}, "
+        f"forkchoiceUpdatedV{fixture.payloads[0].forkchoice_updated_version}"
+    )
 
     # Process each payload by having client BUILD the block
     with timing_data.time("Block production") as total_production_timing:
@@ -228,7 +261,7 @@ def test_blockchain_via_production(
                         built_payload_response = wait_for_payload_ready(
                             engine_rpc=engine_rpc,
                             payload_id=payload_id,
-                            new_payload_version=payload.new_payload_version,
+                            get_payload_version=get_payload_version,
                             timeout=10.0,
                             poll_interval=0.5,
                         )

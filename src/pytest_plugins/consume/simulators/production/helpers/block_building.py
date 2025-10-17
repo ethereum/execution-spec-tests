@@ -34,7 +34,7 @@ def wait_for_transaction_in_mempool(
 def wait_for_payload_ready(
     engine_rpc: Any,
     payload_id: Bytes,
-    new_payload_version: int,
+    get_payload_version: int,
     timeout: float = 5.0,
     poll_interval: float = 0.1,
 ) -> Any:
@@ -51,7 +51,7 @@ def wait_for_payload_ready(
         try:
             built_payload_response = engine_rpc.get_payload(
                 payload_id=payload_id,
-                version=new_payload_version,
+                version=get_payload_version,
             )
             return built_payload_response
         except Exception as e:
