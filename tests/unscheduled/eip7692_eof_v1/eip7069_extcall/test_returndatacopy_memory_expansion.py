@@ -216,7 +216,7 @@ def test_returndatacopy_memory_expansion(
     pre: Alloc,
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform RETURNDATACOPY operations that expand the memory, and verify the
     gas it costs.
@@ -271,7 +271,7 @@ def test_returndatacopy_huge_memory_expansion(
     pre: Mapping[str, Account],
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform RETURNDATACOPY operations that expand the memory by huge amounts,
     and verify that it correctly runs out of gas.

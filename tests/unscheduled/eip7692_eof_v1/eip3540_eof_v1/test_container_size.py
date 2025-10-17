@@ -25,7 +25,7 @@ VALID_CONTAINER = Container(sections=[Section.Code(code=Op.STOP)])
 def test_max_size(
     eof_test: EOFTestFiller,
     over_limit: int,
-):
+) -> None:
     """Verify EOF container valid at maximum size, invalid above."""
     # Expand the minimal EOF code by more noop code, reaching the desired
     # target container size.
@@ -52,7 +52,7 @@ def test_max_size(
 def test_above_max_size_raw(
     eof_test: EOFTestFiller,
     size: int,
-):
+) -> None:
     """
     Verify EOF container invalid above maximum size, regardless of header
     contents.
@@ -104,7 +104,7 @@ def test_above_max_size_raw(
 def test_section_after_end_of_container(
     eof_test: EOFTestFiller,
     code: Container,
-):
+) -> None:
     """
     Verify EOF container is invalid if any of sections declares above container
     size.

@@ -8,7 +8,7 @@ from ..state import FixtureEnvironment, FixtureTransaction, StateFixture
 from ..transaction import FixtureResult, TransactionFixture
 
 
-def test_json_dict():
+def test_json_dict() -> None:
     """Test that the json_dict property does not include the info field."""
     fixture = TransactionFixture(
         txbytes="0x1234",
@@ -44,7 +44,7 @@ def test_json_dict():
         ),
     ],
 )
-def test_base_fixtures_parsing(fixture: BaseFixture):
+def test_base_fixtures_parsing(fixture: BaseFixture) -> None:
     """Test that the Fixtures generic model can validate any fixture format."""
     fixture.fill_info(
         "t8n-version",

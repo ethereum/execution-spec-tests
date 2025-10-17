@@ -29,7 +29,7 @@ Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) a
 === "All platforms"
 
     ```console
-    git clone https://github.com/ethereum/execution-spec-tests
+    git clone --depth 1 https://github.com/ethereum/execution-spec-tests
     cd execution-spec-tests
     uv python install 3.12
     uv python pin 3.12

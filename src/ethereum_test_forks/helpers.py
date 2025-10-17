@@ -25,7 +25,7 @@ class InvalidForkError(Exception):
     incompatible.
     """
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         """Initialize the InvalidForkError exception."""
         super().__init__(message)
 
@@ -323,7 +323,9 @@ class ForkRangeDescriptor(BaseModel):
 
     @model_validator(mode="wrap")
     @classmethod
-    def validate_fork_range_descriptor(cls, v: Any, handler: ValidatorFunctionWrapHandler):
+    def validate_fork_range_descriptor(
+        cls, v: Any, handler: ValidatorFunctionWrapHandler
+    ) -> "ForkRangeDescriptor":
         """
         Validate the fork range descriptor from a string.
 

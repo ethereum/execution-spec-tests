@@ -58,7 +58,7 @@ def test_extcalls_inputdata(
     memory: bytes,
     offset: int,
     length: int,
-):
+) -> None:
     """
     Tests call data into EXTCALL including multiple offset conditions.
 
@@ -145,7 +145,7 @@ def test_extdelegatecall_inputdata(
     memory: bytes,
     offset: int,
     length: int,
-):
+) -> None:
     """
     Tests call data into EXTDELEGATECALL including multiple offset conditions.
 
@@ -229,7 +229,7 @@ def test_extstaticcall_inputdata(
     memory: bytes,
     offset: int,
     length: int,
-):
+) -> None:
     """
     Tests call data into EXTSTATICCALL including multiple offset conditions.
 
@@ -309,7 +309,7 @@ def test_calldata_remains_after_subcall(
     state_test: StateTestFiller,
     pre: Alloc,
     opcode: Op,
-):
+) -> None:
     """
     Tests call data remains after a call to another contract.
 
@@ -491,7 +491,7 @@ def test_extcalls_input_offset(
     offset_field: str,
     test_arg: int,
     success: bool,
-):
+) -> None:
     """
     Tests call data into EXT*CALL including multiple offset conditions.
 

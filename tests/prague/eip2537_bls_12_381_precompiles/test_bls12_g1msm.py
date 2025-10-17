@@ -87,12 +87,13 @@ pytestmark = [
         ),
     ],
 )
+@pytest.mark.slow()
 def test_valid(
     state_test: StateTestFiller,
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test valid calls to the BLS12_G1MSM precompile."""
     state_test(
         env=Environment(),
@@ -214,7 +215,7 @@ def test_invalid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test invalid calls to the BLS12_G1MSM precompile."""
     state_test(
         env=Environment(),
@@ -247,12 +248,13 @@ def test_invalid(
         ),
     ],
 )
+@pytest.mark.slow()
 def test_call_types(
     state_test: StateTestFiller,
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1MSM precompile using different call types."""
     state_test(
         env=Environment(),

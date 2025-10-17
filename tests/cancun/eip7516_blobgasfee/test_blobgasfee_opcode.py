@@ -52,7 +52,7 @@ def caller_code(
     callee_address: Address,
 ) -> Bytecode:
     """Bytecode used to call the bytecode containing the BLOBBASEFEE opcode."""
-    return Op.SSTORE(Op.NUMBER, Op.CALL(gas=call_gas, address=callee_address))
+    return Op.SSTORE(Op.SELFBALANCE, Op.CALL(gas=call_gas, address=callee_address))
 
 
 @pytest.fixture
@@ -65,7 +65,7 @@ def caller_pre_storage() -> Storage:
 
 
 @pytest.fixture
-def caller_address(pre: Alloc, caller_code: Bytecode, caller_pre_storage) -> Address:
+def caller_address(pre: Alloc, caller_code: Bytecode, caller_pre_storage: Storage) -> Address:
     """
     Address of the account containing the bytecode that calls the test
     contract.
@@ -83,6 +83,7 @@ def tx(pre: Alloc, caller_address: Address) -> Transaction:
         sender=pre.fund_eoa(),
         gas_limit=1_000_000,
         to=caller_address,
+        value=1,
     )
 
 
@@ -101,7 +102,7 @@ def test_blobbasefee_stack_overflow(
     callee_address: Address,
     tx: Transaction,
     call_fails: bool,
-):
+) -> None:
     """
     Tests that the BLOBBASEFEE opcode produces a stack overflow by using it
     repeatedly.
@@ -137,7 +138,7 @@ def test_blobbasefee_out_of_gas(
     callee_address: Address,
     tx: Transaction,
     call_fails: bool,
-):
+) -> None:
     """Tests that the BLOBBASEFEE opcode fails with insufficient gas."""
     post = {
         caller_address: Account(
@@ -163,7 +164,7 @@ def test_blobbasefee_before_fork(
     caller_address: Address,
     callee_address: Address,
     tx: Transaction,
-):
+) -> None:
     """
     Tests that the BLOBBASEFEE opcode results on exception when called before
     the fork.
@@ -203,7 +204,7 @@ def test_blobbasefee_during_fork(
     caller_address: Address,
     callee_address: Address,
     tx: Transaction,
-):
+) -> None:
     """
     Tests that the BLOBBASEFEE opcode results on exception when called before
     the fork and succeeds when called after the fork.

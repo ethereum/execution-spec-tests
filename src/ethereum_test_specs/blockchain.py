@@ -4,7 +4,7 @@ from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Tuple, Type
 
 import pytest
-from pydantic import ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, field_validator, model_serializer
 
 from ethereum_clis import BlockExceptionWithMessage, Result, TransitionTool
 from ethereum_test_base_types import (
@@ -141,19 +141,18 @@ class Header(CamelModel):
     engine_api_error_code=EngineAPIError.InvalidParams, ) ```
     """
 
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        # explicitly set Removable items to None so they are not included in
-        # the serialization (in combination with exclude_None=True in
-        # model.dump()).
-        json_encoders={
-            Removable: lambda x: None,
-        },
-    )
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    @model_serializer(mode="wrap", when_used="json")
+    def _serialize_model(self, serializer: Any, info: Any) -> Dict[str, Any]:
+        """Exclude Removable fields from serialization."""
+        del info
+        data = serializer(self)
+        return {k: v for k, v in data.items() if not isinstance(v, Removable)}
 
     @field_validator("withdrawals_root", mode="before")
     @classmethod
-    def validate_withdrawals_root(cls, value):
+    def validate_withdrawals_root(cls, value: Any) -> Any:
         """Convert a list of withdrawals into the withdrawals root hash."""
         if isinstance(value, list):
             return Withdrawal.list_root(value)
@@ -170,7 +169,7 @@ class Header(CamelModel):
             }
         )
 
-    def verify(self, target: FixtureHeader):
+    def verify(self, target: FixtureHeader) -> None:
         """Verify that the header fields from self are as expected."""
         for field_name in self.__class__.model_fields:
             baseline_value = getattr(self, field_name)
@@ -360,7 +359,7 @@ class BuiltBlock(CamelModel):
             transition_tool_exceptions_reliable=transition_tool_exceptions_reliable,
         )
 
-    def verify_block_exception(self, transition_tool_exceptions_reliable: bool):
+    def verify_block_exception(self, transition_tool_exceptions_reliable: bool) -> None:
         """Verify the block exception."""
         got_exception: ExceptionWithMessage | UndefinedException | None = (
             self.result.block_exception
@@ -443,6 +442,8 @@ class BlockchainTest(BaseTest):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork
+
         marker_names = [m.name for m in markers]
         if fixture_format != BlockchainFixture and "blockchain_test_only" in marker_names:
             return True
@@ -525,12 +526,18 @@ class BlockchainTest(BaseTest):
                 env=env,
                 fork=fork,
                 chain_id=self.chain_id,
-                reward=fork.get_reward(env.number, env.timestamp),
+                reward=fork.get_reward(block_number=env.number, timestamp=env.timestamp),
                 blob_schedule=fork.blob_schedule(),
             ),
             debug_output_path=self.get_next_transition_tool_output_path(),
             slow_request=self.is_tx_gas_heavy_test(),
         )
+
+        if transition_tool_output.result.opcode_count is not None:
+            if self._opcode_count is None:
+                self._opcode_count = transition_tool_output.result.opcode_count
+            else:
+                self._opcode_count += transition_tool_output.result.opcode_count
 
         # One special case of the invalid transactions is the blob gas used,
         # since this value is not included in the transition tool result, but
@@ -538,7 +545,11 @@ class BlockchainTest(BaseTest):
         # executing the block by simply counting the type-3 txs, we need to set
         # the correct value by default.
         blob_gas_used: int | None = None
-        if (blob_gas_per_blob := fork.blob_gas_per_blob(env.number, env.timestamp)) > 0:
+        if (
+            blob_gas_per_blob := fork.blob_gas_per_blob(
+                block_number=env.number, timestamp=env.timestamp
+            )
+        ) > 0:
             blob_gas_used = blob_gas_per_blob * count_blobs(txs)
 
         header = FixtureHeader(
@@ -576,7 +587,7 @@ class BlockchainTest(BaseTest):
                 )
 
         requests_list: List[Bytes] | None = None
-        if fork.header_requests_required(header.number, header.timestamp):
+        if fork.header_requests_required(block_number=header.number, timestamp=header.timestamp):
             assert transition_tool_output.result.requests is not None, (
                 "Requests are required for this block"
             )
@@ -595,7 +606,7 @@ class BlockchainTest(BaseTest):
             header.requests_hash = Hash(Requests(requests_lists=list(block.requests)))
             requests_list = block.requests
 
-        if fork.header_bal_hash_required(header.number, header.timestamp):
+        if fork.header_bal_hash_required(block_number=header.number, timestamp=header.timestamp):
             assert transition_tool_output.result.block_access_list is not None, (
                 "Block access list is required for this block but was not provided "
                 "by the transition tool"
@@ -687,7 +698,9 @@ class BlockchainTest(BaseTest):
 
         return built_block
 
-    def verify_post_state(self, t8n, t8n_state: Alloc, expected_state: Alloc | None = None):
+    def verify_post_state(
+        self, t8n: TransitionTool, t8n_state: Alloc, expected_state: Alloc | None = None
+    ) -> None:
         """Verify post alloc after all block/s or payload/s are generated."""
         try:
             if expected_state:
@@ -743,6 +756,9 @@ class BlockchainTest(BaseTest):
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
         self.verify_post_state(t8n, t8n_state=alloc)
+        info = {}
+        if self._opcode_count is not None:
+            info["opcode_count"] = self._opcode_count.model_dump()
         return BlockchainFixture(
             fork=fork,
             genesis=genesis.header,
@@ -757,6 +773,7 @@ class BlockchainTest(BaseTest):
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
                 chain_id=self.chain_id,
             ),
+            info=info,
         )
 
     def make_hive_fixture(
@@ -799,7 +816,7 @@ class BlockchainTest(BaseTest):
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
         fcu_version = fork.engine_forkchoice_updated_version(
-            built_block.header.number, built_block.header.timestamp
+            block_number=built_block.header.number, timestamp=built_block.header.timestamp
         )
         assert fcu_version is not None, (
             "A hive fixture was requested but no forkchoice update is defined."
@@ -809,6 +826,9 @@ class BlockchainTest(BaseTest):
         self.verify_post_state(t8n, t8n_state=alloc)
 
         # Create base fixture data, common to all fixture formats
+        info = {}
+        if self._opcode_count is not None:
+            info["opcode_count"] = self._opcode_count.model_dump()
         fixture_data = {
             "fork": fork,
             "genesis": genesis.header,
@@ -822,6 +842,7 @@ class BlockchainTest(BaseTest):
                 chain_id=self.chain_id,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
             ),
+            "info": info,
         }
 
         # Add format-specific fields
@@ -895,13 +916,22 @@ class BlockchainTest(BaseTest):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
+        del fork
+
         if execute_format == TransactionPost:
             blocks: List[List[Transaction]] = []
             for block in self.blocks:
                 blocks += [block.txs]
+            # Pass gas validation params for benchmark tests
+            # If not benchmark mode, skip gas used validation
+            if self._operation_mode != OpMode.BENCHMARKING:
+                self.skip_gas_used_validation = True
+
             return TransactionPost(
                 blocks=blocks,
                 post=self.post,
+                expected_benchmark_gas_used=self.expected_benchmark_gas_used,
+                skip_gas_used_validation=self.skip_gas_used_validation,
             )
         raise Exception(f"Unsupported execute format: {execute_format}")
 

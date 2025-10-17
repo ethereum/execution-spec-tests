@@ -435,7 +435,7 @@ def gas_test_parameter_args(
     include_data: bool = True,
     include_pre_authorized: bool = True,
     execution_gas_allowance: bool = False,
-):
+) -> dict:
     """
     Return the parametrize decorator that can be used in all gas test
     functions.
@@ -753,6 +753,7 @@ def gas_test_parameter_args(
 @pytest.mark.parametrize(
     **gas_test_parameter_args(include_pre_authorized=False, execution_gas_allowance=True)
 )
+@pytest.mark.slow()
 def test_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -762,7 +763,7 @@ def test_gas_cost(
     data: bytes,
     access_list: List[AccessList],
     sender: EOA,
-):
+) -> None:
     """
     Test gas at the execution start of a set-code transaction in multiple
     scenarios.
@@ -865,14 +866,14 @@ def test_account_warming(
     data: bytes,
     sender: EOA,
     check_delegated_account_first: bool,
-):
+) -> None:
     """
     Test warming of the authority and authorized accounts for set-code
     transactions.
     """
     # Overhead cost is the single push operation required for the address to
     # check.
-    overhead_cost = 3 * len(Op.CALL.kwargs)  # type: ignore
+    overhead_cost = 3 * len(Op.CALL.kwargs)
 
     cold_account_cost = 2600
     warm_account_cost = 100
@@ -1027,7 +1028,7 @@ def test_intrinsic_gas_cost(
     access_list: List[AccessList],
     sender: EOA,
     valid: bool,
-):
+) -> None:
     """
     Test sending a transaction with the exact intrinsic gas required and also
     insufficient gas.
@@ -1070,7 +1071,7 @@ def test_self_set_code_cost(
     state_test: StateTestFiller,
     pre: Alloc,
     pre_authorized: bool,
-):
+) -> None:
     """Test set to code account access cost when it delegates to itself."""
     if pre_authorized:
         auth_signer = pre.fund_eoa(0, delegation="Self")
@@ -1079,7 +1080,7 @@ def test_self_set_code_cost(
 
     slot_call_cost = 1
 
-    overhead_cost = 3 * len(Op.CALL.kwargs)  # type: ignore
+    overhead_cost = 3 * len(Op.CALL.kwargs)
 
     callee_code = CodeGasMeasure(
         code=Op.CALL(gas=0, address=auth_signer),
@@ -1126,7 +1127,7 @@ def test_call_to_pre_authorized_oog(
     pre: Alloc,
     fork: Fork,
     call_opcode: Op,
-):
+) -> None:
     """
     Test additional cost of delegation contract access in call instructions.
     """
@@ -1151,7 +1152,7 @@ def test_call_to_pre_authorized_oog(
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     tx_gas_limit = (
         intrinsic_gas_cost_calculator()
-        + len(call_opcode.kwargs) * gas_costs.G_VERY_LOW  # type: ignore
+        + len(call_opcode.kwargs) * gas_costs.G_VERY_LOW
         + (gas_costs.G_COLD_ACCOUNT_ACCESS * 2)
         - 1
     )

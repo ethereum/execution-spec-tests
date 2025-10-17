@@ -89,7 +89,7 @@ def test_withdrawal_requests_during_fork(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],
     pre: Alloc,
-):
+) -> None:
     """
     Test making a withdrawal request to the beacon chain at the time of the
     fork.
@@ -104,7 +104,7 @@ def test_withdrawal_requests_during_fork(
     )
 
     with open(Path(realpath(__file__)).parent / "contract_deploy_tx.json", mode="r") as f:
-        deploy_tx = Transaction.model_validate_json(f.read()).with_signature_and_sender()  # type: ignore
+        deploy_tx = Transaction.model_validate_json(f.read()).with_signature_and_sender()
 
     deployer_address = deploy_tx.sender
     assert deployer_address is not None

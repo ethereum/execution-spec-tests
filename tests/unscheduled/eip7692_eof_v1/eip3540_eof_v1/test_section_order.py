@@ -34,7 +34,7 @@ class CasePosition(Enum):
 
 
 def get_expected_code_exception(
-    section_kind, section_test, test_position
+    section_kind: SectionKind, section_test: SectionTest, test_position: CasePosition
 ) -> tuple[str, EOFExceptionInstanceOrList | None]:
     """
     Verification vectors with code and exception based on test combinations.
@@ -150,10 +150,10 @@ def test_section_order(
     section_kind: SectionKind,
     section_test: SectionTest,
     test_position: CasePosition,
-):
+) -> None:
     """Test sections order and it appearance in body and header."""
 
-    def calculate_skip_flag(kind, position) -> bool:
+    def calculate_skip_flag(kind: SectionKind, position: CasePosition) -> bool:
         return (
             False
             if (section_kind != kind)
@@ -165,7 +165,7 @@ def test_section_order(
             )
         )
 
-    def make_section_order(kind) -> List[Section]:
+    def make_section_order(kind: SectionKind) -> List[Section]:
         if section_test != SectionTest.WRONG_ORDER:
             return [section_type, section_code, section_data]
         if kind == SectionKind.TYPE:
@@ -231,7 +231,7 @@ def test_container_section_order(
     eof_test: EOFTestFiller,
     container_position: int,
     test_position: CasePosition,
-):
+) -> None:
     """
     Test containers section being out of order in the header and/or body. This
     extends and follows the convention of the test_section_order() for the
@@ -265,7 +265,7 @@ def test_container_section_order(
         ),
     )
 
-    def get_expected_exception():
+    def get_expected_exception() -> EOFExceptionInstanceOrList | None:
         match container_position, test_position:
             case 2, _:
                 return None  # Valid containers section position
@@ -282,6 +282,8 @@ def test_container_section_order(
                 return EOFException.MISSING_CODE_HEADER
             case 3, CasePosition.HEADER | CasePosition.BODY_AND_HEADER:
                 return EOFException.MISSING_TERMINATOR
+            case _:
+                return None
 
     eof_test(
         container=eof_code,

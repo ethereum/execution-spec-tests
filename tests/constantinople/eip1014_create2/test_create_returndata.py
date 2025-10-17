@@ -28,6 +28,7 @@ REFERENCE_SPEC_VERSION = ref_spec_1014.version
 @pytest.mark.parametrize("create_type", [Op.CREATE, Op.CREATE2])
 @pytest.mark.parametrize("return_type", [Op.RETURN, Op.REVERT])
 @pytest.mark.parametrize("return_type_in_create", [Op.RETURN, Op.REVERT])
+@pytest.mark.slow()
 def test_create2_return_data(
     call_return_size: int,
     create_type: Op,
@@ -35,7 +36,7 @@ def test_create2_return_data(
     return_type_in_create: Op,
     pre: Alloc,
     state_test: StateTestFiller,
-):
+) -> None:
     """
     Validate that create2 return data does not interfere with previously
     existing memory.
@@ -129,7 +130,7 @@ def test_create2_return_data(
                 # check that create 2 didn't mess up with initial memory space
                 # declared for return
                 slot_begin_memory_after_create: expected_returndatacopy,
-            }  # type: ignore
+            }
         )
     }
 
@@ -140,6 +141,6 @@ def test_create2_return_data(
         data=initcode,
         gas_limit=500_000,
         value=0,
-    )  # type: ignore
+    )
 
     state_test(pre=pre, post=post, tx=tx)

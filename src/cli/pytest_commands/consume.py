@@ -60,7 +60,9 @@ def consume() -> None:
     pass
 
 
-def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], click.Command]:
+def consume_command(
+    is_hive: bool = False,
+) -> Callable[[Callable[..., Any]], click.Command]:
     """Generate a consume sub-command."""
 
     def decorator(func: Callable[..., Any]) -> click.Command:
@@ -75,7 +77,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
         )
         @common_pytest_options
         @functools.wraps(func)
-        def command(pytest_args: List[str], **kwargs) -> None:
+        def command(pytest_args: List[str], **kwargs: Any) -> None:
             del kwargs
 
             consume_cmd = create_consume_command(
@@ -118,7 +120,7 @@ def sync() -> None:
     context_settings={"ignore_unknown_options": True},
 )
 @common_pytest_options
-def cache(pytest_args: List[str], **kwargs) -> None:
+def cache(pytest_args: List[str], **kwargs: Any) -> None:
     """Consume command to cache test fixtures."""
     del kwargs
 

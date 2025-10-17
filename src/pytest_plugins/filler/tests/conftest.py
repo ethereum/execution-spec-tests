@@ -7,7 +7,9 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def monkeypatch_path_for_entry_points(monkeypatch):
+def monkeypatch_path_for_entry_points(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """
     Monkeypatch the PATH to add the "bin" directory where entrypoints are
     installed.

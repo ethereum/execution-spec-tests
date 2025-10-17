@@ -276,7 +276,7 @@ class GenesisConfig(CamelModel):
 
     @model_validator(mode="before")
     @classmethod
-    def preprocess_fork_times_blocks(cls, data: Any):
+    def preprocess_fork_times_blocks(cls, data: Any) -> Any:
         """
         Pre-process the dictionary to put fork block numbers and times in the
         correct format.

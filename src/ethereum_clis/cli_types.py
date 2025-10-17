@@ -4,10 +4,9 @@ import json
 from pathlib import Path
 from typing import Annotated, Any, Dict, List, Self
 
-from pydantic import Field
+from pydantic import Field, PlainSerializer, PlainValidator
 
 from ethereum_test_base_types import (
-    BlobSchedule,
     Bloom,
     Bytes,
     CamelModel,
@@ -15,6 +14,7 @@ from ethereum_test_base_types import (
     Hash,
     HexNumber,
 )
+from ethereum_test_base_types.composite_types import ForkBlobSchedule
 from ethereum_test_exceptions import (
     BlockException,
     ExceptionMapperValidator,
@@ -29,6 +29,7 @@ from ethereum_test_types import (
     Transaction,
     TransactionReceipt,
 )
+from ethereum_test_vm import Opcode, Opcodes
 from pytest_plugins.custom_logging import get_logger
 
 logger = get_logger(__name__)
@@ -97,7 +98,7 @@ class TransactionTraces(CamelModel):
         return cls.model_validate(trace_dict)
 
     @staticmethod
-    def remove_gas(traces: List[TraceLine]):
+    def remove_gas(traces: List[TraceLine]) -> None:
         """
         Remove the GAS operation opcode result from the stack to make
         comparison possible even if the gas has been pushed to the stack.
@@ -134,7 +135,7 @@ class TransactionTraces(CamelModel):
                 return False
         return True
 
-    def print(self):
+    def print(self) -> None:
         """Print the traces in a readable format."""
         for exec_step, trace in enumerate(self.traces):
             print(f"Step {exec_step}:")
@@ -149,7 +150,7 @@ class Traces(EthereumTestRootModel):
 
     root: List[TransactionTraces]
 
-    def append(self, item: TransactionTraces):
+    def append(self, item: TransactionTraces) -> None:
         """Append the transaction traces to the current list."""
         self.root.append(item)
 
@@ -168,11 +169,58 @@ class Traces(EthereumTestRootModel):
         logger.debug("All traces are equivalent.")
         return True
 
-    def print(self):
+    def print(self) -> None:
         """Print the traces in a readable format."""
         for tx_number, tx in enumerate(self.root):
             print(f"Transaction {tx_number}:")
             tx.print()
+
+
+_opcode_synonyms = {
+    "KECCAK256": "SHA3",
+}
+
+
+class UndefinedOpcode(HexNumber):
+    """Undefined opcode."""
+
+    pass
+
+
+def validate_opcode(obj: Any) -> Opcodes | Opcode | UndefinedOpcode:
+    """Validate an opcode from a string."""
+    if isinstance(obj, (Opcode, Opcodes, UndefinedOpcode)):
+        return obj
+    if isinstance(obj, str):
+        if obj.startswith("0x"):
+            return UndefinedOpcode(obj)
+        if obj in _opcode_synonyms:
+            obj = _opcode_synonyms[obj]
+        for op in Opcodes:
+            if str(op) == obj:
+                return op
+    raise Exception(f"Unable to validate {obj} (type={type(obj)})")
+
+
+class OpcodeCount(EthereumTestRootModel):
+    """Opcode count returned from the evm tool."""
+
+    root: Dict[
+        Annotated[
+            Opcodes | UndefinedOpcode,
+            PlainValidator(validate_opcode),
+            PlainSerializer(lambda o: str(o)),
+        ],
+        int,
+    ]
+
+    def __add__(self, other: Self) -> Self:
+        """Add two instances of opcode count dictionaries."""
+        assert isinstance(other, OpcodeCount), f"Incompatible type {type(other)}"
+        new_dict = self.model_dump() | other.model_dump()
+        for match_key in self.root.keys() & other.root.keys():
+            new_dict[match_key] = self.root[match_key] + other.root[match_key]
+        return self.__class__(new_dict)
 
 
 class Result(CamelModel):
@@ -202,6 +250,7 @@ class Result(CamelModel):
         BlockExceptionWithMessage | UndefinedException | None, ExceptionMapperValidator
     ] = None
     traces: Traces | None = None
+    opcode_count: OpcodeCount | None = None
 
 
 class TransitionToolInput(CamelModel):
@@ -210,6 +259,7 @@ class TransitionToolInput(CamelModel):
     alloc: Alloc
     txs: List[Transaction]
     env: Environment
+    blob_params: ForkBlobSchedule | None = None
 
 
 class TransitionToolOutput(CamelModel):
@@ -226,7 +276,6 @@ class TransitionToolContext(CamelModel):
     fork: str
     chain_id: int = Field(..., alias="chainid")
     reward: int
-    blob_schedule: BlobSchedule | None
 
 
 class TransitionToolRequest(CamelModel):

@@ -27,7 +27,7 @@ class UnexpectedExecutionSuccessError(Exception):
     Exception used when the transaction expected to fail succeeded instead.
     """
 
-    def __init__(self, execution_context: ExecutionContext, **kwargs):
+    def __init__(self, execution_context: ExecutionContext, **kwargs: Any) -> None:
         """Initialize the unexpected success exception."""
         message = (
             f"\nUnexpected success for {execution_context.value} ({kwargs}):"
@@ -46,8 +46,8 @@ class UnexpectedExecutionFailError(Exception):
         execution_context: ExecutionContext,
         message: str,
         exception: ExceptionWithMessage | UndefinedException,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the exception."""
         message = (
             f"Unexpected fail for {execution_context.value} ({kwargs}):"
@@ -68,8 +68,8 @@ class UndefinedExecutionExceptionError(Exception):
         execution_context: ExecutionContext,
         want_exception: ExceptionBase | List[ExceptionBase],
         got_exception: UndefinedException,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the exception."""
         message = (
             f"Exception mismatch on {execution_context.value} ({kwargs}):"
@@ -94,8 +94,8 @@ class ExecutionExceptionMismatchError(Exception):
         want_exception: ExceptionBase | List[ExceptionBase],
         got_exception: ExceptionWithMessage,
         got_message: str,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the exception."""
         message = (
             f"Exception mismatch on {execution_context.value} ({kwargs}):"
@@ -207,8 +207,8 @@ class TransactionExceptionInfo(ExceptionInfo):
         self,
         tx: Transaction,
         tx_index: int,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the exception."""
         super().__init__(
             execution_context=ExecutionContext.TRANSACTION,
@@ -224,8 +224,8 @@ class BlockExceptionInfo(ExceptionInfo):
     def __init__(
         self,
         block_number: int,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the exception."""
         super().__init__(
             execution_context=ExecutionContext.BLOCK,
@@ -238,7 +238,7 @@ def verify_transaction_receipt(
     transaction_index: int,
     expected_receipt: TransactionReceipt | None,
     actual_receipt: TransactionReceipt | None,
-):
+) -> None:
     """
     Verify the actual receipt against the expected one.
 
@@ -302,7 +302,7 @@ def verify_block(
     | None,
     got_exception: ExceptionWithMessage | UndefinedException | None,
     transition_tool_exceptions_reliable: bool,
-):
+) -> None:
     """Verify the block exception against the expected one."""
     info = BlockExceptionInfo(
         block_number=block_number,

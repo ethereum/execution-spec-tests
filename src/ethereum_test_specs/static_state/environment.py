@@ -2,7 +2,7 @@
 
 from typing import Any, Dict
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from ethereum_test_base_types import Address
 from ethereum_test_types import Environment
@@ -26,10 +26,7 @@ class EnvironmentInStateTestFiller(BaseModel):
 
     current_excess_blob_gas: ValueInFiller | None = Field(None, alias="currentExcessBlobGas")
 
-    class Config:
-        """Model Config."""
-
-        extra = "forbid"
+    model_config = ConfigDict(extra="forbid")
 
     @model_validator(mode="after")
     def check_fields(self) -> "EnvironmentInStateTestFiller":

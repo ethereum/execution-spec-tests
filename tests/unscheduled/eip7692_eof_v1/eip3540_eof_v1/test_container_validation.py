@@ -136,7 +136,7 @@ VALID_CONTAINER = Container(sections=[Section.Code(code=Op.STOP)])
 def test_valid_containers(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """Test various types of valid containers."""
     assert container.validity_error is None, (
         f"Valid container with validity error: {container.validity_error}"
@@ -1175,7 +1175,7 @@ def test_valid_containers(
 def test_invalid_containers(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """Test invalid containers."""
     assert container.validity_error is not None, "Invalid container without validity error"
     eof_test(
@@ -1192,7 +1192,7 @@ def test_invalid_containers(
 def test_magic_validation(
     eof_test: EOFTestFiller,
     magic: tuple[int, int],
-):
+) -> None:
     """Verify EOF container 2-byte magic."""
     code = bytearray(bytes(VALID_CONTAINER))
     code[0:2] = magic
@@ -1206,7 +1206,7 @@ def test_magic_validation(
 def test_version_validation(
     eof_test: EOFTestFiller,
     version: int,
-):
+) -> None:
     """Verify EOF container version."""
     code = bytearray(bytes(VALID_CONTAINER))
     code[2] = version
@@ -1222,7 +1222,7 @@ def test_single_code_section(
     eof_test: EOFTestFiller,
     plus_data: bool,
     plus_container: bool,
-):
+) -> None:
     """Verify EOF container single code section."""
     sections = [Section.Code(Op.RETURNCODE[0](0, 0) if plus_container else Op.STOP)]
     if plus_container:
@@ -1253,7 +1253,7 @@ def test_max_code_sections(
     eof_test: EOFTestFiller,
     plus_data: bool,
     plus_container: bool,
-):
+) -> None:
     """Verify EOF container maximum number of code sections."""
     if plus_container:
         sections = [

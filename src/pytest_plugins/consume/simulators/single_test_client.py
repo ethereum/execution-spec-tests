@@ -68,7 +68,7 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
 @pytest.fixture(scope="function")
 def genesis_header(fixture: BlockchainFixtureCommon) -> FixtureHeader:
     """Provide the genesis header from the shared pre-state group."""
-    return fixture.genesis  # type: ignore
+    return fixture.genesis
 
 
 @pytest.fixture(scope="function")

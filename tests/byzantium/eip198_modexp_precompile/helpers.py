@@ -61,7 +61,7 @@ class ModExpInput(TestParameterGroup):
         )
         return Bytes(length.to_bytes(32, "big"))
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
         """Generate input for the MODEXP precompile."""
         if self.raw_input is not None:
             return self.raw_input

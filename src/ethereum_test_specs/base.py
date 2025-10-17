@@ -8,13 +8,14 @@ from enum import StrEnum, unique
 from functools import reduce
 from os import path
 from pathlib import Path
-from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
+from ethereum_clis.cli_types import OpcodeCount
 from ethereum_test_base_types import to_hex
 from ethereum_test_execution import BaseExecute, ExecuteFormat, LabeledExecuteFormat
 from ethereum_test_fixtures import (
@@ -31,19 +32,21 @@ from ethereum_test_types import Alloc, Environment, Withdrawal
 class HashMismatchExceptionError(Exception):
     """Exception raised when the expected and actual hashes don't match."""
 
-    def __init__(self, expected_hash, actual_hash, message="Hashes do not match"):
+    def __init__(
+        self, expected_hash: str, actual_hash: str, message: str = "Hashes do not match"
+    ) -> None:
         """Initialize the exception with the expected and actual hashes."""
         self.expected_hash = expected_hash
         self.actual_hash = actual_hash
         self.message = message
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the error message."""
         return f"{self.message}: Expected {self.expected_hash}, got {self.actual_hash}"
 
 
-def verify_result(result: Result, env: Environment):
+def verify_result(result: Result, env: Environment) -> None:
     """
     Verify that values in the t8n result match the expected values. Raises
     exception on unexpected values.
@@ -75,6 +78,7 @@ class BaseTest(BaseModel):
     _operation_mode: OpMode | None = PrivateAttr(None)
     _gas_optimization: int | None = PrivateAttr(None)
     _gas_optimization_max_gas_limit: int | None = PrivateAttr(None)
+    _opcode_count: OpcodeCount | None = PrivateAttr(None)
 
     expected_benchmark_gas_used: int | None = None
     skip_gas_used_validation: bool = False
@@ -101,10 +105,11 @@ class BaseTest(BaseModel):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork, fixture_format, markers
         return False
 
     @classmethod
-    def __pydantic_init_subclass__(cls, **kwargs):
+    def __pydantic_init_subclass__(cls, **kwargs: Any) -> None:
         """
         Register all subclasses of BaseFixture with a fixture format name set
         as possible fixture formats.
@@ -118,7 +123,7 @@ class BaseTest(BaseModel):
         cls: Type[Self],
         *,
         base_test: "BaseTest",
-        **kwargs,
+        **kwargs: Any,
     ) -> Self:
         """Create a test in a different format from a base test."""
         new_instance = cls(
@@ -130,6 +135,7 @@ class BaseTest(BaseModel):
         )
         new_instance._request = base_test._request
         new_instance._operation_mode = base_test._operation_mode
+        new_instance._opcode_count = base_test._opcode_count
         return new_instance
 
     @classmethod
@@ -143,6 +149,7 @@ class BaseTest(BaseModel):
         Discard an execute format from executing if the appropriate marker is
         used.
         """
+        del execute_format, fork, markers
         return False
 
     @abstractmethod
@@ -163,6 +170,7 @@ class BaseTest(BaseModel):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
+        del fork
         raise Exception(f"Unsupported execute format: {execute_format}")
 
     @classmethod
@@ -219,7 +227,7 @@ class BaseTest(BaseModel):
         self,
         *,
         exception: bool,
-    ):
+    ) -> None:
         """Compare the test marker against the outcome of the test."""
         negative_test_marker = self.is_exception_test()
         if negative_test_marker is None:

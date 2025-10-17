@@ -38,7 +38,7 @@ class Blake2bInput(TestParameterGroup):
     t_1: int | Bytes = SpecTestVectors.BLAKE2_OFFSET_COUNTER_1
     f: bool | int = True
 
-    def create_blake2b_tx_data(self):
+    def create_blake2b_tx_data(self) -> bytes:
         """Generate input for the BLAKE2b precompile."""
         _rounds = self.rounds.to_bytes(length=self.rounds_length, byteorder="big")
         _t_0 = (

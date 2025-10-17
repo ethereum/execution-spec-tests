@@ -39,6 +39,7 @@ class BlobsTest(BaseTest):
         fixture_format: FixtureFormat,
     ) -> BaseFixture:
         """Generate the list of test fixtures."""
+        del t8n, fork
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
     def execute(
@@ -48,6 +49,8 @@ class BlobsTest(BaseTest):
         execute_format: ExecuteFormat,
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
+        del fork
+
         if execute_format == BlobTransaction:
             return BlobTransaction(
                 txs=self.txs, nonexisting_blob_hashes=self.nonexisting_blob_hashes

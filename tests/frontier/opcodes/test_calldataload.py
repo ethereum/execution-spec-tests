@@ -48,7 +48,7 @@ def test_calldataload(
     pre: Alloc,
     expected_storage: Account,
     calldata_source: str,
-):
+) -> None:
     """
     Test `CALLDATALOAD` opcode.
 

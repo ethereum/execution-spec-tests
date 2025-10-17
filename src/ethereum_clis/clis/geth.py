@@ -72,7 +72,6 @@ class GethExceptionMapper(ExceptionMapper):
         TransactionException.INITCODE_SIZE_EXCEEDED: "max initcode size exceeded",
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
         TransactionException.NONCE_MISMATCH_TOO_HIGH: "nonce too high",
-        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "unable to parse deposit data",
         BlockException.INCORRECT_BLOB_GAS_USED: "blob gas used mismatch",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: "invalid excessBlobGas",
         BlockException.INVALID_VERSIONED_HASHES: "invalid number of versionedHashes",
@@ -92,6 +91,23 @@ class GethExceptionMapper(ExceptionMapper):
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
         BlockException.INVALID_GAS_USED_ABOVE_LIMIT: r"invalid gasUsed: have \d+, gasLimit \d+",
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+            r"invalid requests hash|failed to parse deposit logs"
+        ),
+        # Geth does not validate the sizes or offsets of the deposit
+        # contract logs. As a workaround we have set
+        # INVALID_DEPOSIT_EVENT_LAYOUT equal to INVALID_REQUESTS.
+        #
+        # Although this is out of spec, it is understood that this
+        # will not cause an issue so long as the mainnet/testnet
+        # deposit contracts don't change.
+        #
+        # The offsets are checked second and the sizes are checked
+        # third within the `is_valid_deposit_event_data` function:
+        # https://eips.ethereum.org/EIPS/eip-6110#block-validity
+        #
+        # EELS definition for `is_valid_deposit_event_data`:
+        # https://github.com/ethereum/execution-specs/blob/5ddb904fa7ba27daeff423e78466744c51e8cb6a/src/ethereum/forks/prague/requests.py#L51
     }
 
 
@@ -129,7 +145,7 @@ class GethEvm(EthereumCLI):
         result: subprocess.CompletedProcess,
         fixture_path: Path,
         debug_output_path: Path,
-    ):
+    ) -> None:
         # our assumption is that each command element is a string
         assert all(isinstance(x, str) for x in command), (
             f"Not all elements of 'command' list are strings: {command}"
@@ -218,7 +234,7 @@ class GethFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Consume a single blockchain test.
 
@@ -313,7 +329,7 @@ class GethFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Consume a single state test.
 
@@ -346,7 +362,7 @@ class GethFixtureConsumer(
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
-    ):
+    ) -> None:
         """
         Execute the appropriate geth fixture consumer for the fixture at
         `fixture_path`.

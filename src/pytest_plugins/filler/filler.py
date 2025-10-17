@@ -20,7 +20,7 @@ import xdist
 from _pytest.compat import NotSetType
 from _pytest.terminal import TerminalReporter
 from filelock import FileLock
-from pytest_metadata.plugin import metadata_key  # type: ignore
+from pytest_metadata.plugin import metadata_key
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_clis import TransitionTool
@@ -53,6 +53,45 @@ from ..shared.helpers import (
 )
 from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
 from .fixture_output import FixtureOutput
+
+
+def print_migration_warning(terminalreporter: Any = None) -> None:
+    """Print migration warning about repository merge."""
+    lines = [
+        "",
+        "=" * 80,
+        "⚠️  IMPORTANT: Repository Migration in Progress - 'The Weld' ⚠️",
+        "=" * 80,
+        "",
+        "This repository is being merged into ethereum/execution-specs (EELS) during the",
+        "week of October 20-24, 2025.",
+        "",
+        "📅 Timeline:",
+        "  • Week of Oct 13-17: Closing PRs, porting issues to EELS",
+        "  • Week of Oct 20-24: Migration week - fixing CI and fixture building",
+        "  • Oct 24 (ETA): Weld finalized - all development moves to EELS",
+        "",
+        "👉 What This Means:",
+        "  • Test Contributors: After Oct 24, reopen draft PRs in ethereum/execution-specs",
+        "  • All future test development happens in EELS after completion",
+        "  • Fixture releases continue as usual during transition",
+        "",
+        "For details: https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/",
+        "=" * 80,
+        "",
+    ]
+
+    if terminalreporter:
+        for line in lines:
+            if "⚠️" in line or "IMPORTANT" in line:
+                terminalreporter.write_line(line, bold=True, yellow=True)
+            elif line.startswith("="):
+                terminalreporter.write_line(line, yellow=True)
+            else:
+                terminalreporter.write_line(line)
+    else:
+        for line in lines:
+            print(line)
 
 
 @dataclass(kw_only=True)
@@ -408,7 +447,7 @@ def default_html_report_file_path() -> str:
     return ".meta/report_fill.html"
 
 
-def pytest_addoption(parser: pytest.Parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     evm_group = parser.getgroup("evm", "Arguments defining evm executable behavior")
     evm_group.addoption(
@@ -630,7 +669,7 @@ def pytest_addoption(parser: pytest.Parser):
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     """
     Pytest hook called after command line options have been parsed and before
     test collection begins.
@@ -645,16 +684,22 @@ def pytest_configure(config):
        called before the pytest-html plugin's pytest_configure to ensure that
        it uses the modified `htmlpath` option.
     """
+    if not is_help_or_collectonly_mode(config):
+        print_migration_warning()
     # Register custom markers
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
 
     # Initialize fixture output configuration
-    config.fixture_output = FixtureOutput.from_config(config)
+    config.fixture_output = FixtureOutput.from_config(  # type: ignore[attr-defined]
+        config
+    )
 
     # Initialize filling session
-    config.filling_session = FillingSession.from_config(config)
+    config.filling_session = FillingSession.from_config(  # type: ignore[attr-defined]
+        config
+    )
 
     if is_help_or_collectonly_mode(config):
         return
@@ -662,7 +707,9 @@ def pytest_configure(config):
     try:
         # Check whether the directory exists and is not empty; if --clean is
         # set, it will delete it
-        config.fixture_output.create_directories(is_master=not hasattr(config, "workerinput"))
+        config.fixture_output.create_directories(  # type: ignore[attr-defined]
+            is_master=not hasattr(config, "workerinput")
+        )
     except ValueError as e:
         pytest.exit(str(e), returncode=pytest.ExitCode.USAGE_ERROR)
 
@@ -672,17 +719,22 @@ def pytest_configure(config):
         and config.filling_session.phase_manager.current_phase  # type: ignore[attr-defined]
         != FixtureFillingPhase.PRE_ALLOC_GENERATION
     ):
-        config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
+        config.option.htmlpath = (
+            config.fixture_output.directory  # type: ignore[attr-defined]
+            / default_html_report_file_path()
+        )
 
-    config.gas_optimized_tests = {}
+    config.gas_optimized_tests = {}  # type: ignore[attr-defined]
     if config.getoption("optimize_gas", False):
         if config.getoption("optimize_gas_post_processing"):
-            config.op_mode = OpMode.OPTIMIZE_GAS_POST_PROCESSING
+            config.op_mode = (  # type: ignore[attr-defined]
+                OpMode.OPTIMIZE_GAS_POST_PROCESSING
+            )
         else:
-            config.op_mode = OpMode.OPTIMIZE_GAS
+            config.op_mode = OpMode.OPTIMIZE_GAS  # type: ignore[attr-defined]
 
-    config.collect_traces = config.getoption("evm_collect_traces") or config.getoption(
-        "optimize_gas", False
+    config.collect_traces = (  # type: ignore[attr-defined]
+        config.getoption("evm_collect_traces") or config.getoption("optimize_gas", False)
     )
 
     # Instantiate the transition tool here to check that the binary path/trace
@@ -712,7 +764,7 @@ def pytest_configure(config):
             "use -n=0.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
-    config.t8n = t8n
+    config.t8n = t8n  # type: ignore[attr-defined]
 
     if "Tools" not in config.stash[metadata_key]:
         config.stash[metadata_key]["Tools"] = {
@@ -730,16 +782,16 @@ def pytest_configure(config):
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_report_header(config: pytest.Config):
+def pytest_report_header(config: pytest.Config) -> List[str]:
     """Add lines to pytest's console output header."""
     if is_help_or_collectonly_mode(config):
-        return
+        return []
     t8n_version = config.stash[metadata_key]["Tools"]["t8n"]
     return [(f"{t8n_version}")]
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_report_teststatus(report, config: pytest.Config):
+def pytest_report_teststatus(report: Any, config: pytest.Config) -> tuple[str, str, str] | None:
     """
     Modify test results in pytest's terminal output.
 
@@ -754,12 +806,15 @@ def pytest_report_teststatus(report, config: pytest.Config):
     """
     if config.fixture_output.is_stdout:  # type: ignore[attr-defined]
         return report.outcome, "", report.outcome.upper()
+    return None
 
 
 @pytest.hookimpl(hookwrapper=True, trylast=True)
 def pytest_terminal_summary(
-    terminalreporter: TerminalReporter, exitstatus: int, config: pytest.Config
-):
+    terminalreporter: TerminalReporter,
+    exitstatus: int,
+    config: pytest.Config,
+) -> Generator[None, None, None]:
     """
     Modify pytest's terminal summary to emphasize that no tests were ran.
 
@@ -771,6 +826,7 @@ def pytest_terminal_summary(
     yield
     if config.fixture_output.is_stdout or hasattr(config, "workerinput"):  # type: ignore[attr-defined]
         return
+    print_migration_warning(terminalreporter)
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (pre-allocation group generation)
@@ -814,19 +870,19 @@ def pytest_terminal_summary(
             )
 
 
-def pytest_metadata(metadata):
+def pytest_metadata(metadata: Any) -> None:
     """Add or remove metadata to/from the pytest report."""
     metadata.pop("JAVA_HOME", None)
 
 
-def pytest_html_results_table_header(cells):
+def pytest_html_results_table_header(cells: Any) -> None:
     """Customize the table headers of the HTML report table."""
     cells.insert(3, '<th class="sortable" data-column-type="fixturePath">JSON Fixture File</th>')
     cells.insert(4, '<th class="sortable" data-column-type="evmDumpDir">EVM Dump Dir</th>')
     del cells[-1]  # Remove the "Links" column
 
 
-def pytest_html_results_table_row(report, cells):
+def pytest_html_results_table_row(report: Any, cells: Any) -> None:
     """Customize the table rows of the HTML report table."""
     if hasattr(report, "user_properties"):
         user_props = dict(report.user_properties)
@@ -859,7 +915,7 @@ def pytest_html_results_table_row(report, cells):
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(item: Any, call: Any) -> Generator[None, None, None]:
     """
     Make each test's fixture json path available to the test report via
     user_properties.
@@ -867,7 +923,7 @@ def pytest_runtest_makereport(item, call):
     This hook is called when each test is run and a report is being made.
     """
     outcome = yield
-    report = outcome.get_result()
+    report = outcome.get_result()  # type: ignore[attr-defined]
 
     if call.when == "call":
         if hasattr(item.config, "fixture_path_absolute") and hasattr(
@@ -892,7 +948,7 @@ def pytest_runtest_makereport(item, call):
                 report.user_properties.append(("evm_dump_dir", "N/A"))
 
 
-def pytest_html_report_title(report):
+def pytest_html_report_title(report: Any) -> None:
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Fill Test Report"
 
@@ -1082,7 +1138,7 @@ def dump_dir_parameter_level(
     return evm_dump_dir
 
 
-def get_fixture_collection_scope(fixture_name, config):
+def get_fixture_collection_scope(fixture_name: str, config: pytest.Config) -> str:
     """
     Return the appropriate scope to write fixture JSON files.
 
@@ -1090,15 +1146,17 @@ def get_fixture_collection_scope(fixture_name, config):
     """
     del fixture_name
 
-    if config.fixture_output.is_stdout:
+    if config.fixture_output.is_stdout:  # type: ignore[attr-defined]
         return "session"
-    if config.fixture_output.single_fixture_per_file:
+    if (
+        config.fixture_output.single_fixture_per_file  # type: ignore
+    ):
         return "function"
     return "module"
 
 
 @pytest.fixture(autouse=True, scope="module")
-def reference_spec(request) -> None | ReferenceSpec:
+def reference_spec(request: pytest.FixtureRequest) -> None | ReferenceSpec:
     """
     Pytest fixture that returns the reference spec defined in a module.
 
@@ -1109,7 +1167,7 @@ def reference_spec(request) -> None | ReferenceSpec:
     return None
 
 
-@pytest.fixture(scope=get_fixture_collection_scope)
+@pytest.fixture(scope=get_fixture_collection_scope)  # type: ignore[arg-type]
 def fixture_collector(
     request: pytest.FixtureRequest,
     do_fixture_verification: bool,
@@ -1191,7 +1249,7 @@ def fixture_source_url(
     return github_url
 
 
-def base_test_parametrizer(cls: Type[BaseTest]):
+def base_test_parametrizer(cls: Type[BaseTest]) -> Any:
     """
     Generate pytest.fixture for a given BaseTest subclass.
 
@@ -1216,8 +1274,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         test_case_description: str,
         fixture_source_url: str,
         gas_benchmark_value: int,
-        witness_generator,
-    ):
+        witness_generator: Any,
+    ) -> Any:
         """
         Fixture used to instantiate an auto-fillable BaseTest object from
         within a test function.
@@ -1239,7 +1297,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
             fork = request.node.fork
 
         class BaseTestWrapper(cls):  # type: ignore
-            def __init__(self, *args, **kwargs):
+            def __init__(self, *args: Any, **kwargs: Any) -> None:
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
                 if "pre" not in kwargs:
                     kwargs["pre"] = pre
@@ -1253,7 +1311,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
-                self._operation_mode = request.config.op_mode
+                self._operation_mode = (
+                    request.config.op_mode  # type: ignore[attr-defined]
+                )
                 if (
                     self._operation_mode == OpMode.OPTIMIZE_GAS
                     or self._operation_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
@@ -1289,10 +1349,14 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     )
                 finally:
                     if (
-                        request.config.op_mode == OpMode.OPTIMIZE_GAS
-                        or request.config.op_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                        request.config.op_mode  # type: ignore[attr-defined]
+                        == OpMode.OPTIMIZE_GAS
+                        or request.config.op_mode  # type: ignore[attr-defined]
+                        == OpMode.OPTIMIZE_GAS_POST_PROCESSING
                     ):
-                        gas_optimized_tests = request.config.gas_optimized_tests
+                        gas_optimized_tests = (
+                            request.config.gas_optimized_tests  # type: ignore
+                        )
                         assert gas_optimized_tests is not None
                         # Force adding something to the list, even if it's
                         # None, to keep track of failed tests in the output
@@ -1350,7 +1414,7 @@ for cls in BaseTest.spec_types.values():
     globals()[cls.pytest_parameter_name()] = base_test_parametrizer(cls)
 
 
-def pytest_generate_tests(metafunc: pytest.Metafunc):
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """
     Pytest hook used to dynamically generate test cases for each fixture format
     a given test spec supports.
@@ -1379,7 +1443,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
 
 def pytest_collection_modifyitems(
     config: pytest.Config, items: List[pytest.Item | pytest.Function]
-):
+) -> None:
     """
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
     can't be used in the Hive Pyspec Simulator.
@@ -1466,7 +1530,7 @@ def pytest_collection_modifyitems(
         items.pop(i)
 
 
-def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
+def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
     """
     Perform session finish tasks.
 
@@ -1484,7 +1548,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         session_instance.save_pre_alloc_groups()
         return
 
-    if session.config.getoption("optimize_gas", False):  # type: ignore[attr-defined]
+    if session.config.getoption("optimize_gas", False):
         output_file = Path(session.config.getoption("optimize_gas_output"))
         lock_file_path = output_file.with_suffix(".lock")
         assert hasattr(session.config, "gas_optimized_tests")

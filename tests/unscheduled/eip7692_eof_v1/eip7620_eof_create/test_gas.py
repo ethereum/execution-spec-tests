@@ -35,7 +35,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 EOFCREATE_GAS = 32000
 
 
-def make_factory(initcode: Container):
+def make_factory(initcode: Container) -> Container:
     """Wrap initcontainer into a minimal runtime container."""
     return Container(
         name="Factory Subcontainer",
@@ -118,7 +118,7 @@ def test_eofcreate_gas(
     initcode: Container,
     initcode_execution_cost: int,
     runtime: Container,
-):
+) -> None:
     """Tests variations of EOFCREATE gas."""
     deployed_code_cost = 200 * len(runtime) if runtime else 0
 

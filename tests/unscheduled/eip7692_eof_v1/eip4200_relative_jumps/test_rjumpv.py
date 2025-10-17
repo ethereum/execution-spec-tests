@@ -41,7 +41,7 @@ def test_rjumpv_condition(
     eof_state_test: EOFStateTestFiller,
     calldata: int,
     table_size: int,
-):
+) -> None:
     """Test RJUMPV contract switching based on external input."""
     value_fall_through = 0xFFFF
     value_base = 0x1000  # Force a `PUSH2` instruction to be used on all targets
@@ -79,7 +79,7 @@ def test_rjumpv_condition(
 
 def test_rjumpv_forwards(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """EOF1V4200_0008 (Valid) EOF with RJUMPV table size 1 (Positive)."""
     eof_state_test(
         container=Container(
@@ -101,7 +101,7 @@ def test_rjumpv_forwards(
 
 def test_rjumpv_backwards(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """EOF1V4200_0009 (Valid) EOF with RJUMPV table size 1 (Negative)."""
     eof_state_test(
         container=Container(
@@ -123,7 +123,7 @@ def test_rjumpv_backwards(
 
 def test_rjumpv_backwards_onto_dup(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Backwards jumpv vector onto a dup."""
     container = Container.Code(
         code=(Op.PUSH0 + Op.DUP1 + Op.RJUMPV[-5] + Op.STOP),
@@ -138,7 +138,7 @@ def test_rjumpv_backwards_onto_dup(
 def test_rjumpv_backwards_large_table(
     eof_test: EOFTestFiller,
     length: int,
-):
+) -> None:
     """Backwards jump vector with a large table."""
     jump_table = [0] * length
     jump_table += [length * -2 - 6]
@@ -153,7 +153,7 @@ def test_rjumpv_backwards_large_table(
 
 def test_rjumpv_zero(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """EOF1V4200_0010 (Valid) EOF with RJUMPV table size 1 (Zero)."""
     eof_state_test(
         container=Container(
@@ -172,7 +172,7 @@ def test_rjumpv_zero(
 
 def test_rjumpv_size_3(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """EOF1V4200_0011 (Valid) EOF with RJUMPV table size 3."""
     eof_state_test(
         container=Container(
@@ -199,7 +199,7 @@ def test_rjumpv_size_3(
 def test_rjumpv_full_table(
     eof_state_test: EOFStateTestFiller,
     target: int,
-):
+) -> None:
     """
     EOF1V4200_0012/13/14/15 (Valid) EOF with RJUMPV table size 256 (target
     parameterized).
@@ -222,7 +222,7 @@ def test_rjumpv_full_table(
 
 def test_rjumpv_max_forwards(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """
     EOF1V4200_0016 (Valid) EOF with RJUMPV containing the maximum offset
     (32767).
@@ -245,7 +245,7 @@ def test_rjumpv_max_forwards(
 
 def test_rjumpv_truncated_empty(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0027 (Invalid) EOF code containing RJUMPV with max_index 0 but no
     immediates.
@@ -274,7 +274,7 @@ def test_rjumpv_truncated(
     eof_test: EOFTestFiller,
     branches: int,
     byte_count_last_branch: int,
-):
+) -> None:
     """EOF1I4200_0028/29/30 (Invalid) EOF code containing truncated RJUMPV."""
     rjumpv_bytes = int.to_bytes(branches - 1, 1, "big")
     rjumpv_bytes += b"\0" * ((2 * (branches - 1)) + byte_count_last_branch)
@@ -297,7 +297,7 @@ def test_rjumpv_into_header(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """
     EOF1I4200_0031 (Invalid) EOF code containing RJUMPV with target outside
     code bounds (Jumping into header).
@@ -331,7 +331,7 @@ def test_rjumpv_before_container(
     table_size: int,
     invalid_index: int,
     offset: int,
-):
+) -> None:
     """
     EOF1I4200_0032 (Invalid) EOF code containing RJUMPV with target outside
     code bounds (Jumping to before code begin).
@@ -363,7 +363,7 @@ def test_rjumpv_into_data(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """
     EOF1I4200_0033 (Invalid) EOF code containing RJUMPV with target outside
     code bounds (Jumping into data section).
@@ -396,7 +396,7 @@ def test_rjumpv_after_container(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """
     EOF1I4200_0034 (Invalid) EOF code containing RJUMPV with target outside
     code bounds (Jumping to after code end).
@@ -428,7 +428,7 @@ def test_rjumpv_at_end(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """
     EOF1I4200_0035 (Invalid) EOF code containing RJUMPV with target outside
     code bounds (Jumping to code end).
@@ -466,7 +466,7 @@ def test_rjumpv_into_self_data_portion(
     table_size: int,
     invalid_index: int,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0036 (Invalid) EOF code containing RJUMPV with target same RJUMPV
     immediate.
@@ -500,7 +500,7 @@ def test_rjumpv_into_self(
     table_size: int,
     invalid_index: int,
     stack_height_spread: int,
-):
+) -> None:
     """
     EOF code containing RJUMPV targeting itself. This can never be valid
     because this is backward jump and RJUMPV consumes one stack item.
@@ -538,7 +538,7 @@ def test_rjumpv_into_stack_height_diff(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """
     EOF code containing RJUMPV with target instruction that causes stack height
     difference.
@@ -570,7 +570,7 @@ def test_rjumpv_into_stack_underflow(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """
     EOF code containing RJUMPV with target instruction that cause stack
     underflow.
@@ -597,7 +597,7 @@ def test_rjumpv_into_stack_underflow(
 def test_rjumpv_skips_stack_underflow(
     eof_test: EOFTestFiller,
     table_size: int,
-):
+) -> None:
     """
     EOF code containing RJUMPV where the default path produces a stack
     underflow.
@@ -631,7 +631,7 @@ def test_rjumpv_into_rjump(
     table_size: int,
     invalid_index: int,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0037 (Invalid) EOF code containing RJUMPV with target RJUMP
     immediate.
@@ -674,7 +674,7 @@ def test_rjumpv_into_rjumpi(
     table_size: int,
     invalid_index: int,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0038 (Invalid) EOF code containing RJUMPV with target RJUMPI
     immediate.
@@ -718,7 +718,7 @@ def test_rjumpv_into_push_1(
     jump: JumpDirection,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """
     EOF1I4200_0039 (Invalid) EOF code containing RJUMPV with target PUSH1
     immediate.
@@ -806,7 +806,7 @@ def test_rjumpv_into_push_n(
     table_size: int,
     invalid_index: int,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0039 (Invalid) EOF code containing RJUMPV with target PUSHN
     immediate.
@@ -862,7 +862,7 @@ def test_rjumpv_into_rjumpv(
     target_table_size: int,
     invalid_index: int,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0040 (Invalid) EOF code containing RJUMPV with target other
     RJUMPV immediate.
@@ -906,7 +906,7 @@ def test_rjumpv_into_callf(
     table_size: int,
     invalid_index: int,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0041 (Invalid) EOF code containing RJUMPV with target CALLF
     immediate.
@@ -942,7 +942,7 @@ def test_rjumpv_into_dupn(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """EOF code containing RJUMPV with target DUPN immediate."""
     invalid_destination = 1
     jump_table = [0 for _ in range(table_size)]
@@ -977,7 +977,7 @@ def test_rjumpv_into_swapn(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """EOF code containing RJUMPV with target SWAPN immediate."""
     invalid_destination = 1
     jump_table = [0 for _ in range(table_size)]
@@ -1012,7 +1012,7 @@ def test_rjumpv_into_exchange(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """EOF code containing RJUMPV with target EXCHANGE immediate."""
     invalid_destination = 1
     jump_table = [0 for _ in range(table_size)]
@@ -1048,7 +1048,7 @@ def test_rjumpv_into_eofcreate(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """EOF code containing RJUMPV with target EOFCREATE immediate."""
     invalid_destination = 1
     jump_table = [0 for _ in range(table_size)]
@@ -1089,7 +1089,7 @@ def test_rjumpv_into_returncode(
     eof_test: EOFTestFiller,
     table_size: int,
     invalid_index: int,
-):
+) -> None:
     """EOF code containing RJUMPV with target RETURNCODE immediate."""
     invalid_destination = 1
     jump_table = [0 for _ in range(table_size)]
@@ -1120,7 +1120,7 @@ def test_rjumpv_into_returncode(
 
 def test_rjumpv_backwards_reference_only(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF code containing instructions only reachable by backwards RJUMPV."""
     rjumpv_len = len(Op.RJUMPV[0])
     container = Container.Code(
@@ -1140,7 +1140,7 @@ def test_rjumpv_backwards_reference_only(
 
 def test_rjumpv_at_the_end(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation 4.i:
     This implies that the last instruction may be a terminating instruction or
@@ -1160,7 +1160,7 @@ def test_rjumpv_at_the_end(
 
 def test_rjumpv_backwards_min_stack_wrong(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Backwards rjumpv where min_stack does not match."""
     container = Container.Code(
         code=(
@@ -1182,7 +1182,7 @@ def test_rjumpv_backwards_min_stack_wrong(
 
 def test_rjumpv_rjumpi_backwards_min_stack_wrong(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Backwards rjumpv rjumpi where min_stack does not match."""
     container = Container.Code(
         code=(
@@ -1204,7 +1204,7 @@ def test_rjumpv_rjumpi_backwards_min_stack_wrong(
 
 def test_double_rjumpv(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Two RJUMPVs, causing the min stack to underflow."""
     container = Container.Code(
         code=(Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[6] + Op.PUSH0 + Op.PUSH0 + Op.RJUMPV[0] + Op.RETURN),
@@ -1584,7 +1584,7 @@ def test_double_rjumpv(
 def test_rjumpv_valid_forward(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Validate a valid code section containing at least one forward RJUMPV. These
     tests exercise the stack height validation.
@@ -1723,7 +1723,7 @@ def test_rjumpv_valid_forward(
 def test_rjumpv_valid_backward(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Validate a valid code section containing at least one backward RJUMPV.
     These tests exercise the stack height validation.
@@ -1887,7 +1887,7 @@ def test_rjumpv_valid_backward(
 def test_rjumpv_backward_invalid_max_stack_height(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Validate a code section containing at least one backward RJUMPV invalid
     because of the incorrect max stack height.

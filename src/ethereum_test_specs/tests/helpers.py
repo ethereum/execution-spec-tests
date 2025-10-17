@@ -1,7 +1,9 @@
 """Helper methods used in the spec tests."""
 
+from typing import Any, Dict
 
-def remove_info_metadata(fixture_json):  # noqa: D103
+
+def remove_info_metadata(fixture_json: Dict[str, Any]) -> None:  # noqa: D103
     for t in fixture_json:
         if "_info" in fixture_json[t]:
             info_keys = list(fixture_json[t]["_info"].keys())

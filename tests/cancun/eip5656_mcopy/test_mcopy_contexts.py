@@ -127,12 +127,12 @@ def caller_bytecode(
 
 
 @pytest.fixture
-def caller_address(pre: Alloc, caller_bytecode) -> Address:  # noqa: D103
+def caller_address(pre: Alloc, caller_bytecode: Bytecode) -> Address:  # noqa: D103
     return pre.deploy_contract(caller_bytecode)
 
 
 @pytest.fixture
-def callee_address(pre: Alloc, callee_bytecode) -> Address:  # noqa: D103
+def callee_address(pre: Alloc, callee_bytecode: Bytecode) -> Address:  # noqa: D103
     return pre.deploy_contract(callee_bytecode)
 
 
@@ -170,7 +170,7 @@ def test_no_memory_corruption_on_upper_call_stack_levels(
     pre: Alloc,
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform a subcall with any of the following opcodes, which uses MCOPY
     during its execution, and verify that the caller's memory is unaffected.
@@ -196,7 +196,7 @@ def test_no_memory_corruption_on_upper_create_stack_levels(
     pre: Alloc,
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform a subcall with any of the following opcodes, which uses MCOPY
     during its execution, and verify that the caller's memory is unaffected:

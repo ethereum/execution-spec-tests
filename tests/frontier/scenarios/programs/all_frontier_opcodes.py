@@ -479,6 +479,7 @@ class ProgramAllFrontierOpcodes(ScenarioTestProgram):
 
     def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
         """Test code."""
+        del pre, fork
         return make_all_opcode_program()
 
     @cached_property

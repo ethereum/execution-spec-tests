@@ -8,13 +8,29 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch consume direct",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-c",
+                "${workspaceFolder}/src/cli/pytest_commands/pytest_ini_files/pytest-consume.ini",
+                "src/pytest_plugins/consume/direct/test_via_direct.py",
+                "--bin",
+                "${input:evmBinary}",
+                "--input",
+                "${input:fixturePath}"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "name": "Launch fill --until choose fork",
             "type": "debugpy",
             "request": "launch",
             "module": "pytest",
             "args": [
                 "-c",
-                "pytest.ini",
+                "${workspaceFolder}/src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini",
                 "--until",
                 "${input:fork}",
                 "--evm-bin",
@@ -30,7 +46,7 @@
             "module": "pytest",
             "args": [
                 "-c",
-                "pytest.ini",
+                "${workspaceFolder}/src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini",
                 "--until",
                 "Cancun",
                 "--evm-bin",
@@ -48,7 +64,7 @@
             "module": "pytest",
             "args": [
                 "-c",
-                "pytest.ini",
+                "${workspaceFolder}/src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini",
                 "--until",
                 "Cancun",
                 "--evm-bin",
@@ -64,7 +80,7 @@
             "module": "pytest",
             "args": [
                 "-c",
-                "pytest.ini",
+                "${workspaceFolder}/src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini",
                 "--until",
                 "Prague",
                 "--evm-bin",
@@ -128,6 +144,12 @@
             "id": "testPathOrId",
             "description": "Enter a test path string or id to provide to pytest -k",
             "default": "test_"
+        },
+        {
+            "type": "promptString",
+            "id": "fixturePath",
+            "description": "Enter a fixture path",
+            "default": "${workspaceFolder}/fixtures"
         }
     ]
 }

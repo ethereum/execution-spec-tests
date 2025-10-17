@@ -31,7 +31,7 @@ class Vector(BaseModel):
 
     model_config = ConfigDict(alias_generator=to_pascal)
 
-    def to_pytest_param(self):
+    def to_pytest_param(self) -> Any:
         """
         Convert the test vector to a tuple that can be used as a parameter in a
         pytest test.
@@ -48,7 +48,7 @@ class FailVector(BaseModel):
 
     model_config = ConfigDict(alias_generator=to_pascal)
 
-    def to_pytest_param(self):
+    def to_pytest_param(self) -> Any:
         """
         Convert the test vector to a tuple that can be used as a parameter in a
         pytest test.
@@ -234,7 +234,7 @@ class BLSPointGenerator:
         return None
 
     @classmethod
-    def multiply_by_cofactor(cls, point: Any, is_g2: bool = False):
+    def multiply_by_cofactor(cls, point: Any, is_g2: bool = False) -> Any:
         """
         Multiply a point by the cofactor to ensure it's in the correct r-order
         subgroup. Used for creating points in the correct r-order subgroup when

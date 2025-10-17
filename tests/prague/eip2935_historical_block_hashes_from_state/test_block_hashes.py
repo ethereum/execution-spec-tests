@@ -108,7 +108,7 @@ def test_block_hashes_history_at_transition(
     pre: Alloc,
     blocks_before_fork: int,
     blocks_after_fork: int,
-):
+) -> None:
     """
     Tests that block hashes are stored correctly at the system contract address
     after the fork transition. Block hashes are stored incrementally at the
@@ -228,7 +228,7 @@ def test_block_hashes_history(
     pre: Alloc,
     block_count: int,
     check_contract_first: bool,
-):
+) -> None:
     """
     Tests that block hashes are stored correctly at the system contract address
     after the fork transition. Block hashes are stored incrementally at the
@@ -323,7 +323,7 @@ def test_block_hashes_history(
 @pytest.mark.with_all_call_opcodes
 def test_block_hashes_call_opcodes(
     blockchain_test: BlockchainTestFiller, pre: Alloc, call_opcode: Op
-):
+) -> None:
     """
     Test that the call opcodes can be used to call the history contract and get
     the block hashes.
@@ -386,7 +386,7 @@ def test_invalid_history_contract_calls(
     pre: Alloc,
     block_number: int,
     reverts: bool,
-):
+) -> None:
     """
     Test calling the history contract with invalid block numbers, such as
     blocks from the future or overflowing block numbers.
@@ -453,7 +453,7 @@ def test_invalid_history_contract_calls_input_size(
     pre: Alloc,
     reverts: bool,
     args_size: int,
-):
+) -> None:
     """Test calling the history contract with invalid input sizes."""
     storage = Storage()
 

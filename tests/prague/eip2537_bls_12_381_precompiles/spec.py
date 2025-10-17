@@ -54,7 +54,7 @@ class PointG1(BytesConcatenation):
         """Convert point to bytes."""
         return self.x.to_bytes(64, byteorder="big") + self.y.to_bytes(64, byteorder="big")
 
-    def __neg__(self):
+    def __neg__(self) -> "PointG1":
         """Negates the point."""
         return PointG1(self.x, Spec.P - self.y)
 
@@ -86,7 +86,7 @@ class PointG2(BytesConcatenation):
             + self.y[1].to_bytes(64, byteorder="big")
         )
 
-    def __neg__(self):
+    def __neg__(self) -> "PointG2":
         """Negates the point."""
         return PointG2(self.x, (Spec.P - self.y[0], Spec.P - self.y[1]))
 

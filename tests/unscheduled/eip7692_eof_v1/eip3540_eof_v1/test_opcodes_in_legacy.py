@@ -58,7 +58,7 @@ eof_opcode_blocks = [
     "code",
     eof_opcode_blocks,
 )
-def test_opcodes_in_legacy(state_test: StateTestFiller, pre: Alloc, code: Opcodes):
+def test_opcodes_in_legacy(state_test: StateTestFiller, pre: Alloc, code: Opcodes) -> None:
     """Test all EOF only opcodes in legacy contracts and expects failure."""
     env = Environment()
 
@@ -96,7 +96,7 @@ def test_opcodes_in_legacy(state_test: StateTestFiller, pre: Alloc, code: Opcode
     "code",
     eof_opcode_blocks,
 )
-def test_opcodes_in_create_tx(state_test: StateTestFiller, pre: Alloc, code: Opcodes):
+def test_opcodes_in_create_tx(state_test: StateTestFiller, pre: Alloc, code: Opcodes) -> None:
     """Test all EOF only opcodes in create tx and expects failure."""
     env = Environment()
 
@@ -140,7 +140,7 @@ def test_opcodes_in_create_operation(
     pre: Alloc,
     code: Opcodes,
     legacy_create_opcode: Opcodes,
-):
+) -> None:
     """Test opcodes in create operation."""
     env = Environment()
 
@@ -188,7 +188,7 @@ def test_opcodes_in_eof_calling_legacy(
     pre: Alloc,
     code: Opcodes,
     ext_call_opcode: Op,
-):
+) -> None:
     """Test all opcodes in eof calling legacy and expects failure."""
     env = Environment()
 

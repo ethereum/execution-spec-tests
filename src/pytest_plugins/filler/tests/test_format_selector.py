@@ -10,13 +10,13 @@ from ..filler import FormatSelector, PhaseManager
 class TestFormatSelector:
     """Test cases for FormatSelector class."""
 
-    def test_init(self):
+    def test_init(self) -> None:
         """Test basic initialization."""
         phase_manager = PhaseManager(current_phase=FixtureFillingPhase.FILL)
         format_selector = FormatSelector(phase_manager=phase_manager, generate_all_formats=False)
         assert format_selector.phase_manager is phase_manager
 
-    def test_should_generate_pre_alloc_phase_with_pre_alloc_format(self):
+    def test_should_generate_pre_alloc_phase_with_pre_alloc_format(self) -> None:
         """Test pre-alloc phase with format that supports pre-alloc."""
         phase_manager = PhaseManager(current_phase=FixtureFillingPhase.PRE_ALLOC_GENERATION)
         format_selector = FormatSelector(phase_manager=phase_manager, generate_all_formats=False)
@@ -35,7 +35,7 @@ class TestFormatSelector:
 
         assert format_selector.should_generate(format_with_pre_alloc)
 
-    def test_should_generate_pre_alloc_phase_without_pre_alloc_format(self):
+    def test_should_generate_pre_alloc_phase_without_pre_alloc_format(self) -> None:
         """Test pre-alloc phase with format that doesn't support pre-alloc."""
         phase_manager = PhaseManager(current_phase=FixtureFillingPhase.PRE_ALLOC_GENERATION)
         format_selector = FormatSelector(phase_manager=phase_manager, generate_all_formats=False)
@@ -48,7 +48,7 @@ class TestFormatSelector:
 
         assert not format_selector.should_generate(format_without_pre_alloc)
 
-    def test_should_generate_single_phase_fill_only_format(self):
+    def test_should_generate_single_phase_fill_only_format(self) -> None:
         """Test single-phase fill with fill-only format."""
         phase_manager = PhaseManager(current_phase=FixtureFillingPhase.FILL)
         format_selector = FormatSelector(phase_manager=phase_manager, generate_all_formats=False)
@@ -61,7 +61,7 @@ class TestFormatSelector:
 
         assert format_selector.should_generate(fill_only_format)
 
-    def test_should_generate_single_phase_pre_alloc_format(self):
+    def test_should_generate_single_phase_pre_alloc_format(self) -> None:
         """Test single-phase fill with format that supports pre-alloc."""
         phase_manager = PhaseManager(current_phase=FixtureFillingPhase.FILL)
         format_selector = FormatSelector(phase_manager=phase_manager, generate_all_formats=False)
@@ -81,7 +81,7 @@ class TestFormatSelector:
         # phase
         assert not format_selector.should_generate(format_with_pre_alloc)
 
-    def test_should_generate_phase2_with_pre_alloc_format(self):
+    def test_should_generate_phase2_with_pre_alloc_format(self) -> None:
         """
         Test phase 2 (after pre-alloc) with format that supports pre-alloc.
         """
@@ -105,7 +105,7 @@ class TestFormatSelector:
         # Should generate in phase 2
         assert format_selector.should_generate(format_with_pre_alloc)
 
-    def test_should_generate_phase2_without_pre_alloc_format(self):
+    def test_should_generate_phase2_without_pre_alloc_format(self) -> None:
         """Test phase 2 (after pre-alloc) with fill-only format."""
         phase_manager = PhaseManager(
             current_phase=FixtureFillingPhase.FILL,
@@ -122,7 +122,7 @@ class TestFormatSelector:
         # Should not generate because it doesn't need pre-alloc
         assert not format_selector.should_generate(fill_only_format)
 
-    def test_should_generate_phase2_with_generate_all(self):
+    def test_should_generate_phase2_with_generate_all(self) -> None:
         """Test phase 2 with --generate-all-formats flag."""
         phase_manager = PhaseManager(
             current_phase=FixtureFillingPhase.FILL,
@@ -150,7 +150,7 @@ class TestFormatSelector:
         assert format_selector.should_generate(fill_only_format)
         assert format_selector.should_generate(format_with_pre_alloc)
 
-    def test_should_generate_labeled_format(self):
+    def test_should_generate_labeled_format(self) -> None:
         """Test with LabeledFixtureFormat wrapper."""
         phase_manager = PhaseManager(current_phase=FixtureFillingPhase.FILL)
         format_selector = FormatSelector(phase_manager=phase_manager, generate_all_formats=False)
@@ -168,14 +168,14 @@ class TestFormatSelector:
 
         assert format_selector.should_generate(labeled_format)
 
-    def test_comprehensive_scenarios(self):
+    def test_comprehensive_scenarios(self) -> None:
         """
         Test comprehensive scenarios covering all phase and format
         combinations.
         """
         # Test matrix: (current_phase, previous_phases, format_phases,
         # generate_all) -> expected
-        test_cases: List[  # type: ignore[annotation-unchecked]
+        test_cases: List[
             Tuple[
                 FixtureFillingPhase, Set[FixtureFillingPhase], Set[FixtureFillingPhase], bool, bool
             ]

@@ -26,7 +26,7 @@ REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
-def test_exchange_all_valid_immediates(eof_state_test: EOFStateTestFiller):
+def test_exchange_all_valid_immediates(eof_state_test: EOFStateTestFiller) -> None:
     """Test case for all valid EXCHANGE immediates."""
     n = 256
     s = 34
@@ -79,7 +79,7 @@ def test_exchange_stack_underflow(
     stack_height: int,
     x: int,
     y: int,
-):
+) -> None:
     """Test case the EXCHANGE causing stack underflow."""
     eof_code = Container(
         sections=[
@@ -109,7 +109,7 @@ def test_exchange_simple(
     extra_stack: int,
     pre: Alloc,
     state_test: StateTestFiller,
-):
+) -> None:
     """Test case for simple EXCHANGE operations."""
     sender = pre.fund_eoa()
     stack_height = m_arg + n_arg + 2 + extra_stack

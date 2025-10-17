@@ -207,7 +207,7 @@ def test_valid(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1ADD precompile."""
     state_test(
         env=Environment(),
@@ -386,12 +386,13 @@ def test_valid(
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
+@pytest.mark.slow()
 def test_invalid(
     state_test: StateTestFiller,
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Negative tests for the BLS12_G1ADD precompile."""
     state_test(
         env=Environment(),
@@ -423,7 +424,7 @@ def test_gas(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1ADD precompile gas requirements."""
     state_test(
         env=Environment(),
@@ -461,7 +462,7 @@ def test_call_types(
     pre: Alloc,
     post: dict,
     tx: Transaction,
-):
+) -> None:
     """Test the BLS12_G1ADD precompile using different call types."""
     state_test(
         env=Environment(),

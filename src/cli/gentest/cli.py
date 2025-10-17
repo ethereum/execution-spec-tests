@@ -20,10 +20,9 @@ from .test_context_providers import StateTestProvider
 @click.command()
 @click.argument("transaction_hash")
 @click.argument("output_file", type=click.File("w", lazy=True))
-def generate(transaction_hash: str, output_file: TextIO):
+def generate(transaction_hash: str, output_file: TextIO) -> None:
     """
-    Extract a transaction and required state from a network to make a
-    blockchain test out of it.
+    Extract a transaction and state from network to make blockchain test.
 
     TRANSACTION_HASH is the hash of the transaction to be used.
 

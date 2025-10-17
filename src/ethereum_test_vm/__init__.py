@@ -2,7 +2,7 @@
 
 from .bytecode import Bytecode
 from .evm_types import EVMCodeType
-from .helpers import call_return_code
+from .helpers import MemoryVariable, call_return_code
 from .opcodes import Macro, Macros, Opcode, OpcodeCallArg, Opcodes, UndefinedOpcodes
 
 __all__ = (
@@ -10,6 +10,7 @@ __all__ = (
     "EVMCodeType",
     "Macro",
     "Macros",
+    "MemoryVariable",
     "Opcode",
     "OpcodeCallArg",
     "Opcodes",

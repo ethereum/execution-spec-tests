@@ -79,7 +79,7 @@ data_portion_opcodes = {op for op in all_opcodes if op.has_data_portion()}
 def test_all_opcodes_in_container(
     eof_test: EOFTestFiller,
     opcode: Opcode,
-):
+) -> None:
     """
     Test all opcodes inside valid container 257 because 0x5B is duplicated.
     """
@@ -139,7 +139,7 @@ def test_invalid_opcodes_after_stop(
     eof_test: EOFTestFiller,
     opcode: Opcode,
     terminating_opcode: Opcode,
-):
+) -> None:
     """
     Test that an invalid opcode placed after STOP (terminating instruction)
     invalidates EOF.
@@ -186,7 +186,7 @@ def test_invalid_opcodes_after_stop(
 def test_all_invalid_terminating_opcodes(
     eof_test: EOFTestFiller,
     opcode: Opcode,
-):
+) -> None:
     """Test all opcodes that are invalid as the last opcode in a container."""
     if opcode.has_data_portion():
         # Add the appropriate data portion to the opcode by using the get_item
@@ -229,7 +229,7 @@ def test_all_invalid_terminating_opcodes(
 def test_all_unreachable_terminating_opcodes_after_stop(
     eof_test: EOFTestFiller,
     opcode: Opcode,
-):
+) -> None:
     """Test all terminating opcodes after stop."""
     match opcode:
         case Op.STOP:
@@ -280,7 +280,7 @@ def test_all_unreachable_terminating_opcodes_after_stop(
 def test_all_unreachable_terminating_opcodes_before_stop(
     eof_test: EOFTestFiller,
     opcode: Opcode,
-):
+) -> None:
     """Test all opcodes terminating opcodes before."""
     match opcode:
         case Op.RETF:
@@ -345,7 +345,7 @@ def test_all_opcodes_stack_overflow(
     eof_test: EOFTestFiller,
     opcode: Opcode,
     exception: EOFException,
-):
+) -> None:
     """
     Test stack overflow on all opcodes that push more items than they pop.
     """
@@ -413,7 +413,7 @@ def test_truncated_data_portion_opcodes(
     opcode: Opcode,
     truncate_all: bool,
     compute_max_stack_height: bool,
-):
+) -> None:
     """
     Test that an instruction with data portion and truncated immediate bytes
     (therefore a terminating instruction is also missing) invalidates EOF.

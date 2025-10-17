@@ -5,7 +5,18 @@ import warnings
 from pathlib import Path
 from shutil import which
 from subprocess import CompletedProcess
-from typing import Annotated, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
+from typing import (
+    Annotated,
+    Any,
+    Callable,
+    ClassVar,
+    Dict,
+    Generator,
+    List,
+    Optional,
+    Sequence,
+    Type,
+)
 
 import pytest
 from pydantic import Field, TypeAdapter
@@ -47,12 +58,12 @@ existing_tests: Dict[Bytes, str] = {}
 class EOFBaseExceptionError(Exception):
     """Base exception class for exceptions raised when verifying EOF code."""
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         """Initialize the exception with the message."""
         super().__init__(message)
 
     @staticmethod
-    def format_code(code: Bytes, max_length=60) -> str:
+    def format_code(code: Bytes, max_length: int = 60) -> str:
         """
         Avoid printing long bytecode strings in the terminal upon test failure.
         """
@@ -118,9 +129,7 @@ class EOFExceptionMismatchError(EOFBaseExceptionError):
         super().__init__(message)
 
 
-class EOFExceptionWithMessage(
-    ExceptionWithMessage[EOFException]  # type: ignore
-):
+class EOFExceptionWithMessage(ExceptionWithMessage[EOFException]):
     """Exception returned from the eof validator with a message."""
 
     pass
@@ -136,7 +145,7 @@ class EOFParse:
 
     binary: Path
 
-    def __new__(cls):
+    def __new__(cls) -> "EOFParse":
         """Make EOF binary a singleton."""
         if not hasattr(cls, "instance"):
             cls.instance = super(EOFParse, cls).__new__(cls)
@@ -299,6 +308,8 @@ class EOFTest(BaseTest):
         Discard a fixture format from filling if the appropriate marker is
         used.
         """
+        del fork
+
         if "eof_test_only" in [m.name for m in markers]:
             return fixture_format != EOFFixture
         return False
@@ -308,7 +319,7 @@ class EOFTest(BaseTest):
         """Workaround for pytest parameter name."""
         return "eof_test"
 
-    def model_post_init(self, __context):
+    def model_post_init(self, __context: Any) -> None:
         """Prepare the test exception based on the container."""
         if self.container.validity_error is not None:
             if self.expect_exception is not None:
@@ -316,7 +327,7 @@ class EOFTest(BaseTest):
                     f"Container validity error {self.container.validity_error} "
                     f"does not match expected exception {self.expect_exception}."
                 )
-            self.expect_exception = self.container.validity_error
+            self.expect_exception = self.container.validity_error  # type: ignore[assignment]
             assert self.deployed_container is None, (
                 "deployed_container must be None for invalid containers."
             )
@@ -385,7 +396,9 @@ class EOFTest(BaseTest):
 
         return fixture
 
-    def verify_result(self, result: CompletedProcess, expected_result: Result, code: Bytes):
+    def verify_result(
+        self, result: CompletedProcess, expected_result: Result, code: Bytes
+    ) -> None:
         """
         Check that the reported exception string matches the expected error.
         """
@@ -482,6 +495,7 @@ class EOFTest(BaseTest):
 
     def generate_state_test(self, fork: Fork) -> StateTest:
         """Generate the StateTest filler."""
+        del fork
         return StateTest.from_test(
             base_test=self,
             pre=self.pre,
@@ -496,7 +510,7 @@ class EOFTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         fixture_format: FixtureFormat,
-        **_,
+        **_: Any,
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         if fixture_format == EOFFixture:
@@ -573,7 +587,7 @@ class EOFStateTest(EOFTest, Transaction):
         """Workaround for pytest parameter name."""
         return "eof_state_test"
 
-    def model_post_init(self, __context):
+    def model_post_init(self, __context: Any) -> None:
         """Prepare the transaction parameters required to fill the test."""
         assert self.pre is not None, "pre must be set to generate a StateTest."
 
@@ -589,7 +603,7 @@ class EOFStateTest(EOFTest, Transaction):
             self.to = self.pre.deploy_contract(
                 Op.TXCREATE(tx_initcode_hash=initcode.hash) + Op.STOP
             )
-            self.initcodes = [initcode]
+            self.initcodes = [initcode]  # type: ignore[list-item]
 
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
@@ -601,7 +615,7 @@ class EOFStateTest(EOFTest, Transaction):
             self.to = self.pre.deploy_contract(
                 Op.TXCREATE(tx_initcode_hash=self.container.hash) + Op.STOP
             )
-            self.initcodes = [self.container]
+            self.initcodes = [self.container]  # type: ignore[list-item]
 
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
@@ -612,7 +626,7 @@ class EOFStateTest(EOFTest, Transaction):
             self.to = self.pre.deploy_contract(
                 Op.TXCREATE(tx_initcode_hash=self.container.hash) + Op.STOP
             )
-            self.initcodes = [self.container]
+            self.initcodes = [self.container]  # type: ignore[list-item]
 
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
@@ -628,6 +642,8 @@ class EOFStateTest(EOFTest, Transaction):
 
     def generate_state_test(self, fork: Fork) -> StateTest:
         """Generate the StateTest filler."""
+        del fork
+
         assert self.pre is not None, "pre must be set to generate a StateTest."
         assert self.post is not None, "post must be set to generate a StateTest."
 
@@ -645,7 +661,7 @@ class EOFStateTest(EOFTest, Transaction):
         t8n: TransitionTool,
         fork: Fork,
         fixture_format: FixtureFormat,
-        **_,
+        **_: Any,
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         if fixture_format == EOFFixture:

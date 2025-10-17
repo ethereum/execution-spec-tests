@@ -45,7 +45,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 def test_simple_eofcreate(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Verifies a simple EOFCREATE case."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -75,7 +75,7 @@ def test_simple_eofcreate(
 def test_eofcreate_then_dataload(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies that a contract returned with auxdata does not overwrite the
     parent data.
@@ -126,7 +126,7 @@ def test_eofcreate_then_dataload(
 def test_eofcreate_then_call(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies a simple EOFCREATE case, and then calls the deployed contract.
     """
@@ -194,7 +194,7 @@ def test_eofcreate_then_call(
         pytest.param(b"aabbccddeeffgghhii", id="extra"),
     ],
 )
-def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_bytes: bytes):
+def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_bytes: bytes) -> None:
     """Verifies that auxdata bytes are correctly handled in RETURNCODE."""
     env = Environment()
     auxdata_size = len(auxdata_bytes)
@@ -256,7 +256,7 @@ def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_byt
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-def test_calldata(state_test: StateTestFiller, pre: Alloc):
+def test_calldata(state_test: StateTestFiller, pre: Alloc) -> None:
     """Verifies CALLDATA passing through EOFCREATE."""
     env = Environment()
 
@@ -318,7 +318,7 @@ def test_calldata(state_test: StateTestFiller, pre: Alloc):
 def test_eofcreate_in_initcode(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies an EOFCREATE occurring within initcode creates that contract.
     """
@@ -374,7 +374,7 @@ def test_eofcreate_in_initcode(
 def test_eofcreate_in_initcode_reverts(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies an EOFCREATE occurring in an initcode is rolled back when the
     initcode reverts.
@@ -431,7 +431,7 @@ def test_eofcreate_in_initcode_reverts(
 def test_return_data_cleared(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies the return data is not reused from a extcall but is cleared upon
     eofcreate.
@@ -497,7 +497,7 @@ def test_return_data_cleared(
 def test_address_collision(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """Tests address collision."""
     env = Environment(
         gas_limit=300_000_000_000,
@@ -554,7 +554,7 @@ def test_address_collision(
 def test_eofcreate_revert_eof_returndata(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies the return data is not being deployed, even if happens to be valid
     EOF.
@@ -615,7 +615,7 @@ def test_eofcreate_revert_eof_returndata(
 def test_eofcreate_invalid_index(
     eof_test: EOFTestFiller,
     index: int,
-):
+) -> None:
     """EOFCREATE referring non-existent container section index."""
     container = Container.Code(code=Op.EOFCREATE[index](0, 0, 0, 0) + Op.STOP)
     if index != 0:
@@ -629,7 +629,7 @@ def test_eofcreate_invalid_index(
 
 def test_eofcreate_invalid_truncated_immediate(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOFCREATE instruction with missing immediate byte."""
     eof_test(
         container=Container(
@@ -655,7 +655,7 @@ def test_eofcreate_truncated_container(
     eof_test: EOFTestFiller,
     data_len: int,
     data_section_size: int,
-):
+) -> None:
     """
     EOFCREATE instruction targeting a container with truncated data section.
     """
@@ -694,7 +694,7 @@ def test_eofcreate_context(
     pre: Alloc,
     destination_code: Bytecode,
     expected_result: str,
-):
+) -> None:
     """Test EOFCREATE's initcode context instructions."""
     env = Environment()
     sender = pre.fund_eoa()
@@ -767,7 +767,7 @@ def test_eofcreate_context(
 def test_eofcreate_memory_context(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Verifies an EOFCREATE frame enjoys a separate EVM memory from its caller
     frame.

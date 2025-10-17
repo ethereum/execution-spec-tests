@@ -4,7 +4,7 @@
 
 from enum import Enum, unique
 from pprint import pprint
-from typing import List
+from typing import Any, List
 
 import pytest
 
@@ -46,13 +46,13 @@ class PytestParameterEnum(Enum):
     The test case ID is set as the enum name converted to lowercase.
     """
 
-    def __init__(self, value):
+    def __init__(self, value: dict[str, Any]) -> None:
         """Initialize the enum value."""
         assert isinstance(value, dict)
         assert "description" in value
         self._value_ = value
 
-    def param(self, names: List[str]):
+    def param(self, names: List[str]) -> Any:
         """Return the `pytest.param` value for this test case."""
         value = self._value_
         if "pytest_marks" in value:
@@ -79,12 +79,12 @@ class PytestParameterEnum(Enum):
         return sorted([k for k in self._value_.keys() if k not in self.special_keywords()])
 
     @property
-    def description(self):
+    def description(self) -> str:
         """Returns the description of this test case."""
         return self._value_["description"]
 
     @classmethod
-    def parametrize(cls):
+    def parametrize(cls) -> Any:
         """Return decorator to parametrize a test with this enum."""
         names = None
         for test_case_names in [test_case.names() for test_case in cls]:

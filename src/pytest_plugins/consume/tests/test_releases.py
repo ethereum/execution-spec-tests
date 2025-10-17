@@ -51,7 +51,7 @@ def test_release_parsing(
     release_name: str,
     expected_release_download_url: str,
     release_information: List[ReleaseInformation],
-):
+) -> None:
     """Test release parsing."""
     assert (
         "https://github.com/ethereum/execution-spec-tests/releases/download/"

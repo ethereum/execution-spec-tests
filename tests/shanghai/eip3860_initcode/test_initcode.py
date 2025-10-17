@@ -130,7 +130,7 @@ def test_contract_creating_tx(
     post: Alloc,
     sender: EOA,
     initcode: Initcode,
-):
+) -> None:
     """
     Test creating a contract with initcode that is on/over the allowed limit.
     """
@@ -339,6 +339,7 @@ class TestContractCreationGasUsage:
             return Alloc({create_contract_address: Account(code=initcode.deploy_code)})
         return Alloc({create_contract_address: Account.NONEXISTENT})
 
+    @pytest.mark.slow()
     def test_gas_usage(
         self,
         state_test: StateTestFiller,
@@ -346,7 +347,7 @@ class TestContractCreationGasUsage:
         pre: Alloc,
         post: Alloc,
         tx: Transaction,
-    ):
+    ) -> None:
         """
         Test transaction and contract creation using different gas limits.
         """
@@ -501,6 +502,7 @@ class TestCreateInitcode:
         return ceiling_division(len(initcode), 32) * gas_costs.G_KECCAK_256_WORD
 
     @pytest.mark.xdist_group(name="bigmem")
+    @pytest.mark.slow()
     def test_create_opcode_initcode(
         self,
         state_test: StateTestFiller,
@@ -515,7 +517,7 @@ class TestCreateInitcode:
         contract_creation_gas_cost: int,
         initcode_word_cost: int,
         create2_word_cost: int,
-    ):
+    ) -> None:
         """
         Test contract creation with valid and invalid initcode lengths.
 

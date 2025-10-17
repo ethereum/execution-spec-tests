@@ -207,7 +207,7 @@ def analyze_pre_alloc_folder(folder: Path) -> Dict:
     }
 
 
-def display_stats(stats: Dict, console: Console, verbose: int = 0):
+def display_stats(stats: Dict, console: Console, verbose: int = 0) -> None:
     """Display statistics in a formatted way."""
     # Overall summary
     console.print("\n[bold cyan]Pre-Allocation Statistics Summary[/bold cyan]")
@@ -473,7 +473,7 @@ def display_stats(stats: Dict, console: Console, verbose: int = 0):
     count=True,
     help="Show verbose output (-v for warnings, -vv for all groups)",
 )
-def main(pre_alloc_folder: Path, verbose: int):
+def main(pre_alloc_folder: Path, verbose: int) -> None:
     """
     Display statistics about pre-allocation groups.
 

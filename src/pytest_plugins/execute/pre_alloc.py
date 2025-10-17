@@ -3,7 +3,7 @@
 from itertools import count
 from pathlib import Path
 from random import randint
-from typing import Dict, Generator, Iterator, List, Literal, Self, Tuple
+from typing import Any, Dict, Generator, Iterator, List, Literal, Self, Tuple
 
 import pytest
 import yaml
@@ -40,7 +40,6 @@ from ethereum_test_types.eof.v1 import Container
 from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 
 MAX_BYTECODE_SIZE = 24576
-
 MAX_INITCODE_SIZE = MAX_BYTECODE_SIZE * 2
 
 
@@ -90,7 +89,7 @@ class AddressStubs(EthereumTestRootModel[Dict[str, Address]]):
         return cls.model_validate_json(json_data_or_path)
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     pre_alloc_group = parser.getgroup(
         "pre_alloc", "Arguments defining pre-allocation behavior during test execution"
@@ -130,7 +129,7 @@ def pytest_addoption(parser):
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_report_header(config):
+def pytest_report_header(config: pytest.Config) -> list[str]:
     """Pytest hook called to obtain the report header."""
     bold = "\033[1m"
     reset = "\033[39;49m"
@@ -142,7 +141,9 @@ def pytest_report_header(config):
 
 
 @pytest.fixture(scope="session")
-def address_stubs(request) -> AddressStubs | None:
+def address_stubs(
+    request: pytest.FixtureRequest,
+) -> AddressStubs | None:
     """
     Return an address stubs object.
 
@@ -152,13 +153,13 @@ def address_stubs(request) -> AddressStubs | None:
 
 
 @pytest.fixture(scope="session")
-def skip_cleanup(request) -> bool:
+def skip_cleanup(request: pytest.FixtureRequest) -> bool:
     """Return whether to skip cleanup phase after each test."""
     return request.config.getoption("skip_cleanup")
 
 
 @pytest.fixture(scope="session")
-def eoa_iterator(request) -> Iterator[EOA]:
+def eoa_iterator(request: pytest.FixtureRequest) -> Iterator[EOA]:
     """Return an iterator that generates EOAs."""
     eoa_start = request.config.getoption("eoa_iterator_start")
     print(f"Starting EOA index: {hex(eoa_start)}")
@@ -181,7 +182,7 @@ class Alloc(BaseAlloc):
 
     def __init__(
         self,
-        *args,
+        *args: Any,
         fork: Fork,
         sender: EOA,
         eth_rpc: EthRPC,
@@ -191,8 +192,8 @@ class Alloc(BaseAlloc):
         evm_code_type: EVMCodeType | None = None,
         node_id: str = "",
         address_stubs: AddressStubs | None = None,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         """Initialize the pre-alloc with the given parameters."""
         super().__init__(*args, **kwargs)
         self._fork = fork
@@ -205,12 +206,32 @@ class Alloc(BaseAlloc):
         self._node_id = node_id
         self._address_stubs = address_stubs or AddressStubs(root={})
 
-    def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
+    # always refresh _sender nonce from RPC ("pending") before building tx
+    def _refresh_sender_nonce(self) -> None:
+        """
+        Synchronize self._sender.nonce with the node's view.
+        Prefer 'pending' to account for in-flight transactions.
+        """
+        try:
+            rpc_nonce = self._eth_rpc.get_transaction_count(self._sender, block_number="pending")
+        except TypeError:
+            # If EthRPC.get_transaction_count has no 'block' kwarg
+            rpc_nonce = self._eth_rpc.get_transaction_count(self._sender)
+        self._sender.nonce = Number(rpc_nonce)
+
+    def __setitem__(
+        self,
+        address: Address | FixedSizeBytesConvertible,
+        account: Account | None,
+    ) -> None:
         """Set account associated with an address."""
         raise ValueError("Tests are not allowed to set pre-alloc items in execute mode")
 
     def code_pre_processor(
-        self, code: Bytecode | Container, *, evm_code_type: EVMCodeType | None
+        self,
+        code: Bytecode | Container,
+        *,
+        evm_code_type: EVMCodeType | None,
     ) -> Bytecode | Container:
         """Pre-processes the code before setting it."""
         if evm_code_type is None:
@@ -293,12 +314,14 @@ class Alloc(BaseAlloc):
             f"initcode too large {len(initcode)} > {MAX_INITCODE_SIZE}"
         )
 
-        calldata_gas_calculator = self._fork.calldata_gas_calculator()
+        calldata_gas_calculator = self._fork.calldata_gas_calculator(block_number=0, timestamp=0)
         deploy_gas_limit += calldata_gas_calculator(data=initcode)
 
         # Limit the gas limit
         deploy_gas_limit = min(deploy_gas_limit * 2, 30_000_000)
         print(f"Deploying contract with gas limit: {deploy_gas_limit}")
+
+        self._refresh_sender_nonce()
 
         deploy_tx = Transaction(
             sender=self._sender,
@@ -362,6 +385,9 @@ class Alloc(BaseAlloc):
                         sum(Op.SSTORE(key, value) for key, value in storage.root.items()) + Op.STOP
                     )
                 )
+
+                self._refresh_sender_nonce()
+
                 set_storage_tx = Transaction(
                     sender=self._sender,
                     to=eoa,
@@ -385,6 +411,8 @@ class Alloc(BaseAlloc):
                 )
                 self._eth_rpc.send_transaction(set_storage_tx)
                 self._txs.append(set_storage_tx)
+
+            self._refresh_sender_nonce()
 
             if delegation is not None:
                 if not isinstance(delegation, Address) and delegation == "Self":
@@ -426,6 +454,8 @@ class Alloc(BaseAlloc):
 
         else:
             if Number(amount) > 0:
+                self._refresh_sender_nonce()
+
                 fund_tx = Transaction(
                     sender=self._sender,
                     to=eoa,
@@ -452,13 +482,15 @@ class Alloc(BaseAlloc):
         self._funded_eoa.append(eoa)
         return eoa
 
-    def fund_address(self, address: Address, amount: NumberConvertible):
+    def fund_address(self, address: Address, amount: NumberConvertible) -> None:
         """
         Fund an address with a given amount.
 
         If the address is already present in the pre-alloc the amount will be
         added to its existing balance.
         """
+        self._refresh_sender_nonce()
+
         fund_tx = Transaction(
             sender=self._sender,
             to=address,
@@ -548,6 +580,12 @@ def pre(
     request: pytest.FixtureRequest,
 ) -> Generator[Alloc, None, None]:
     """Return default pre allocation for all tests (Empty alloc)."""
+    # FIXME: Static tests dont have a fork so we need to get it from the node.
+    actual_fork = fork
+    if actual_fork is None:
+        assert hasattr(request.node, "fork")
+        actual_fork = request.node.fork
+
     # Record the starting balance of the sender
     sender_test_starting_balance = eth_rpc.get_balance(sender_key)
 

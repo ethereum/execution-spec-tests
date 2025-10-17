@@ -23,7 +23,7 @@ def count_json_files_exclude_index(start_path: Path) -> int:
     return json_file_count
 
 
-def check_json(json_file_path: Path):
+def check_json(json_file_path: Path) -> None:
     """
     Check all fixtures in the specified json file:
     1. Load the json file into a pydantic model. This checks there are no
@@ -50,11 +50,15 @@ def check_json(json_file_path: Path):
             )
         if "hash" in fixture.info and fixture.info["hash"] != original_hash:
             info_hash = fixture.info["hash"]
+            info_hash_str = str(info_hash) if not isinstance(info_hash, str) else info_hash
             raise HashMismatchExceptionError(
                 original_hash,
-                fixture.info["hash"],
-                message=f"Fixture info['hash'] does not match calculated hash for {fixture_name}:"
-                f"'{info_hash}' != '{original_hash}'",
+                info_hash_str,
+                message=(
+                    f"Fixture info['hash'] does not match calculated "
+                    f"hash for {fixture_name}: '{info_hash}' != "
+                    f"'{original_hash}'"
+                ),
             )
 
 
@@ -86,9 +90,9 @@ def check_json(json_file_path: Path):
     expose_value=True,
     help="Stop and raise any exceptions encountered while checking fixtures.",
 )
-def check_fixtures(input_str: str, quiet_mode: bool, stop_on_error: bool):
+def check_fixtures(input_str: str, quiet_mode: bool, stop_on_error: bool) -> bool:
     """
-    Perform some checks on the fixtures contained in the specified directory.
+    Perform checks on fixtures in the specified directory.
     """
     input_path = Path(input_str)
     success = True

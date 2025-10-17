@@ -10,9 +10,10 @@ import pytest
 
 # Example 1: Test that deploys beacon root contract with hardcoded deployer
 @pytest.mark.pre_alloc_group(
-    "separate", reason="Deploys beacon root contract using actual hardcoded deployer address"
+    "separate",
+    reason="Deploys beacon root contract using actual hardcoded deployer address",
 )
-def test_beacon_root_contract_deployment():
+def test_beacon_root_contract_deployment() -> None:
     """
     Test beacon root contract deployment with the official deployer address.
     """
@@ -24,9 +25,10 @@ def test_beacon_root_contract_deployment():
 
 # Example 2: Test with custom consolidation contract
 @pytest.mark.pre_alloc_group(
-    "custom_consolidation", reason="Deploys custom consolidation contract with different bytecode"
+    "custom_consolidation",
+    reason="Deploys custom consolidation contract with different bytecode",
 )
-def test_custom_consolidation_contract():
+def test_custom_consolidation_contract() -> None:
     """Test that deploys a modified consolidation contract."""
     # This test deploys a consolidation contract with custom bytecode that
     # differs from the standard implementation, requiring isolation from other
@@ -36,9 +38,10 @@ def test_custom_consolidation_contract():
 
 # Example 3: Group related tests that need custom contracts
 @pytest.mark.pre_alloc_group(
-    "custom_consolidation", reason="Uses same custom consolidation contract setup"
+    "custom_consolidation",
+    reason="Uses same custom consolidation contract setup",
 )
-def test_custom_consolidation_edge_cases():
+def test_custom_consolidation_edge_cases() -> None:
     """Test edge cases with the custom consolidation contract."""
     # This test can share the pre-allocation with
     # test_custom_consolidation_contract since they both use the same custom
@@ -47,7 +50,7 @@ def test_custom_consolidation_edge_cases():
 
 
 # Example 4: Test without marker - uses default grouping
-def test_normal_consolidation():
+def test_normal_consolidation() -> None:
     """Test that uses standard consolidation contract and default grouping."""
     # This test uses dynamic allocation and standard contracts,
     # so it can be grouped normally with other tests

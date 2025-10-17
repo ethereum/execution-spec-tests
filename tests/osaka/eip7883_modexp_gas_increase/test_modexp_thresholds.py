@@ -5,7 +5,7 @@ Tests for ModExp gas cost increase in
 [EIP-7883: ModExp Gas Cost Increase](https://eips.ethereum.org/EIPS/eip-7883).
 """
 
-from typing import Dict
+from typing import Dict, Generator
 
 import pytest
 
@@ -39,12 +39,13 @@ REFERENCE_SPEC_VERSION = ref_spec_7883.version
 @EIPChecklist.Precompile.Test.InputLengths.Dynamic.Valid()
 @EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Berlin")
+@pytest.mark.slow()
 def test_vectors_from_eip(
     state_test: StateTestFiller,
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """Test ModExp gas cost using the test vectors from EIP-7883."""
     state_test(
         pre=pre,
@@ -65,7 +66,7 @@ def test_vectors_from_legacy_tests(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """Test ModExp gas cost using the test vectors from legacy tests."""
     state_test(
         pre=pre,
@@ -107,7 +108,7 @@ def test_modexp_invalid_inputs(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """Test ModExp gas cost with invalid inputs."""
     state_test(
         pre=pre,
@@ -171,7 +172,7 @@ def test_modexp_boundary_inputs(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """Test ModExp boundary inputs."""
     state_test(
         pre=pre,
@@ -205,7 +206,7 @@ def test_modexp_call_operations(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """Test ModExp call related operations with EIP-7883."""
     state_test(
         pre=pre,
@@ -255,7 +256,7 @@ def test_modexp_gas_usage_contract_wrapper(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Test ModExp gas cost with different gas modifiers using contract wrapper
     calls.
@@ -310,7 +311,7 @@ def test_modexp_used_in_transaction_entry_points(
     modexp_input: bytes,
     tx_gas_limit: int,
     call_values: int,
-):
+) -> None:
     """
     Test ModExp using in transaction entry points with different precompile gas
     modifiers.
@@ -344,7 +345,7 @@ def test_contract_creation_transaction(
     tx: Transaction,
     modexp_input: bytes,
     modexp_expected: bytes,
-):
+) -> None:
     """Test the contract creation for the ModExp precompile."""
     sender = pre.fund_eoa()
 
@@ -408,7 +409,7 @@ def test_contract_initcode(
     modexp_input: bytes,
     modexp_expected: bytes,
     opcode: Op,
-):
+) -> None:
     """Test ModExp behavior from contract creation."""
     sender = pre.fund_eoa()
 
@@ -463,7 +464,7 @@ def test_contract_initcode(
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
-def create_modexp_variable_gas_test_cases():
+def create_modexp_variable_gas_test_cases() -> Generator:
     """
     Create test cases for ModExp variable gas cost testing.
 
@@ -655,7 +656,7 @@ def test_modexp_variable_gas_cost(
     tx: Transaction,
     fork: Fork,
     post: Dict,
-):
+) -> None:
     """Test ModExp variable gas cost."""
     if fork >= Osaka:  # Check that gas used defined in table is accurate
         assert (gas_usage is None) or (precompile_gas >= gas_usage), "inconsistent gas usage"
@@ -674,7 +675,9 @@ def test_modexp_variable_gas_cost(
     ],
 )
 @pytest.mark.valid_from("Berlin")
-def test_modexp_variable_gas_cost_exceed_tx_gas_cap(state_test, pre, tx, post):
+def test_modexp_variable_gas_cost_exceed_tx_gas_cap(
+    state_test: StateTestFiller, pre: Alloc, tx: Transaction, post: Dict
+) -> None:
     """
     Test ModExp variable gas cost. Inputs with an expected gas cost over the
     EIP-7825 tx gas cap.

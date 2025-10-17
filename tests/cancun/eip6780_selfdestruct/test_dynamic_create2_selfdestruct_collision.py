@@ -47,7 +47,7 @@ def test_dynamic_create2_selfdestruct_collision(
     call_create2_contract_at_the_end: bool,
     pre: Alloc,
     state_test: StateTestFiller,
-):
+) -> None:
     """
     Dynamic Create2->Suicide->Create2 collision scenario.
 
@@ -230,7 +230,7 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
     call_create2_contract_at_the_end: bool,
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """
     Dynamic Create2->Suicide->Create2 collision scenario.
 
@@ -474,7 +474,7 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     recreate_on_first_tx: bool,
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-):
+) -> None:
     """
     Dynamic Create2->Suicide->Create2 collision scenario over multiple
     transactions.

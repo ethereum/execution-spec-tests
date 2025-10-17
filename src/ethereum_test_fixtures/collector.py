@@ -188,7 +188,7 @@ class FixtureCollector:
     def _get_consume_direct_dump_dir(
         self,
         info: TestInfo,
-    ):
+    ) -> Path | None:
         """
         Directory to dump the current test function's fixture.json and fixture
         verification debug output.

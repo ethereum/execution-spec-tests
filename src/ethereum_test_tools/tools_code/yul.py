@@ -9,6 +9,7 @@ from subprocess import CompletedProcess, run
 from typing import Optional, Type
 
 from semver import Version
+from typing_extensions import Self
 
 from ethereum_test_forks import Fork
 from ethereum_test_vm import Bytecode
@@ -74,7 +75,7 @@ class Yul(Bytecode):
         source: str,
         fork: Optional[Fork] = None,
         binary: Optional[Path | str] = None,
-    ):
+    ) -> Self:
         """Compile Yul source code into bytecode."""
         solc = Solc(binary)
         evm_version = fork.solc_name() if fork else None

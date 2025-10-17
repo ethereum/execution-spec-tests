@@ -187,7 +187,7 @@ def test_fork_parametrizer(
     fork_parametrizers: List[ForkParametrizer],
     expected_names: List[str],
     expected_parameter_sets: List[ParameterSet],
-):
+) -> None:
     """
     Test the fork parametrizer correctly parametrizes using the fork name.
     """

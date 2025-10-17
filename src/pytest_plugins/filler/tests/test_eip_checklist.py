@@ -2,9 +2,10 @@
 
 import re
 import textwrap
+from typing import Any
 
 
-def test_eip_checklist_collection(testdir):
+def test_eip_checklist_collection(testdir: Any) -> None:
     """Test that checklist markers are collected correctly."""
     # Create the test in an EIP-specific directory
     tests_dir = testdir.mkdir("tests")
@@ -25,12 +26,12 @@ def test_eip_checklist_collection(testdir):
 
             @pytest.mark.valid_at("Prague")
             @EIPChecklist.TransactionType.Test.IntrinsicValidity.GasLimit.Exact()
-            def test_exact_gas(state_test: StateTestFiller):
+            def test_exact_gas(state_test: StateTestFiller) -> None:
                 pass
 
             @pytest.mark.valid_at("Prague")
             @EIPChecklist.TransactionType.Test.Signature.Invalid.V.Two(eip=[2930])
-            def test_invalid_v(state_test: StateTestFiller):
+            def test_invalid_v(state_test: StateTestFiller) -> None:
                 pass
             """
         )
@@ -59,7 +60,7 @@ def test_eip_checklist_collection(testdir):
             REFERENCE_SPEC_VERSION = "N/A"
 
             @pytest.mark.valid_at("Berlin")
-            def test_berlin_one(state_test: StateTestFiller):
+            def test_berlin_one(state_test: StateTestFiller) -> None:
                 pass
             """
         )

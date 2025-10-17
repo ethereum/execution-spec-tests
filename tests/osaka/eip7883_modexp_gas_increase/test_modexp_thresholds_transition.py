@@ -39,7 +39,7 @@ def test_modexp_fork_transition(
     tx_gas_limit: int,
     modexp_input: ModExpInput,
     modexp_expected: bytes,
-):
+) -> None:
     """
     Test ModExp gas cost transition from EIP-7883 before and after the Osaka
     hard fork.
@@ -52,7 +52,7 @@ def test_modexp_fork_transition(
     gas_costs = fork.gas_costs()
     extra_gas = (
         gas_costs.G_WARM_ACCOUNT_ACCESS
-        + (gas_costs.G_VERY_LOW * (len(Op.CALL.kwargs) - 2))  # type: ignore
+        + (gas_costs.G_VERY_LOW * (len(Op.CALL.kwargs) - 2))
         + (gas_costs.G_BASE * 3)
     )
     code = (

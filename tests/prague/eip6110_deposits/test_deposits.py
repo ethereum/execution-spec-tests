@@ -318,7 +318,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                             signature=0x03,
                             index=i,
                         )
-                        for i in range(500)
+                        for i in range(450)
                     ],
                     tx_gas_limit=16_777_216,
                 ),
@@ -490,7 +490,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                             index=i,
                             valid=False,
                         )
-                        for i in range(500)
+                        for i in range(450)
                     ],
                     tx_gas_limit=10_000_000,
                 ),
@@ -922,7 +922,7 @@ def test_deposit(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
-):
+) -> None:
     """Test making a deposit to the beacon chain deposit contract."""
     total_gas_limit = sum(tx.gas_limit for tx in blocks[0].txs)
     env = Environment()
@@ -1184,7 +1184,7 @@ def test_deposit_negative(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     blocks: List[Block],
-):
+) -> None:
     """
     Test producing a block with the incorrect deposits in the body of the
     block, and/or Engine API payload.

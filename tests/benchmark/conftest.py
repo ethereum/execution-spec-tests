@@ -1,6 +1,7 @@
 """Pytest configuration for benchmark tests."""
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -9,7 +10,7 @@ from ethereum_test_forks import Fork
 DEFAULT_BENCHMARK_FORK = "Prague"
 
 
-def pytest_generate_tests(metafunc):
+def pytest_generate_tests(metafunc: Any) -> None:
     """
     Modify test generation to enforce default benchmark fork for benchmark
     tests.
@@ -30,7 +31,7 @@ def pytest_generate_tests(metafunc):
             metafunc.definition.add_marker(benchmark_marker)
 
 
-def pytest_collection_modifyitems(config, items):
+def pytest_collection_modifyitems(config: Any, items: Any) -> None:
     """Add the `benchmark` marker to all tests under `./tests/benchmark`."""
     benchmark_dir = Path(__file__).parent
     benchmark_marker = pytest.mark.benchmark
@@ -38,8 +39,10 @@ def pytest_collection_modifyitems(config, items):
 
     if gen_docs:
         for item in items:
-            if benchmark_dir in Path(item.fspath).parents and not item.get_closest_marker(
-                "benchmark"
+            if (
+                benchmark_dir in Path(item.fspath).parents
+                and not item.get_closest_marker("benchmark")
+                and not item.get_closest_marker("stateful")
             ):
                 item.add_marker(benchmark_marker)
         return
@@ -47,12 +50,18 @@ def pytest_collection_modifyitems(config, items):
     marker_expr = config.getoption("-m", default="")
     run_benchmarks = (
         marker_expr and "benchmark" in marker_expr and "not benchmark" not in marker_expr
-    ) or config.getoption("--gas-benchmark-values", default=None)
+    )
+    run_stateful_tests = (
+        marker_expr and "stateful" in marker_expr and "not stateful" not in marker_expr
+    )
 
     items_for_removal = []
     for i, item in enumerate(items):
         is_in_benchmark_dir = benchmark_dir in Path(item.fspath).parents
-        is_benchmark_test = is_in_benchmark_dir or item.get_closest_marker("benchmark")
+        has_stateful_marker = item.get_closest_marker("stateful")
+        is_benchmark_test = (
+            is_in_benchmark_dir and not has_stateful_marker
+        ) or item.get_closest_marker("benchmark")
 
         if is_benchmark_test:
             if is_in_benchmark_dir and not item.get_closest_marker("benchmark"):
@@ -60,6 +69,8 @@ def pytest_collection_modifyitems(config, items):
             if not run_benchmarks:
                 items_for_removal.append(i)
         elif run_benchmarks:
+            items_for_removal.append(i)
+        elif is_in_benchmark_dir and has_stateful_marker and not run_stateful_tests:
             items_for_removal.append(i)
 
     for i in reversed(items_for_removal):

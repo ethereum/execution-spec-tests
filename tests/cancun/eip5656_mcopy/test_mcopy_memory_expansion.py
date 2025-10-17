@@ -218,7 +218,7 @@ def test_mcopy_memory_expansion(
     pre: Alloc,
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform MCOPY operations that expand the memory, and verify the gas it
     costs to do so.
@@ -281,7 +281,7 @@ def test_mcopy_huge_memory_expansion(
     pre: Mapping[str, Account],
     post: Mapping[str, Account],
     tx: Transaction,
-):
+) -> None:
     """
     Perform MCOPY operations that expand the memory by huge amounts, and verify
     that it correctly runs out of gas.

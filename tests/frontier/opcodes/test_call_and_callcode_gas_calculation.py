@@ -159,7 +159,7 @@ def test_value_transfer_gas_calculation(
     pre: Alloc,
     caller_tx: Transaction,
     post: Dict[str, Account],
-):
+) -> None:
     """
     Tests the nested CALL/CALLCODE opcode gas consumption with a positive value
     transfer.

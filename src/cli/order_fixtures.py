@@ -41,7 +41,7 @@ def recursive_sort(item: Dict[str, Any] | List[Any]) -> Dict[str, Any] | List[An
         return dict(sorted((k, recursive_sort(v)) for k, v in item.items()))
     elif isinstance(item, list):
         try:
-            return sorted(cast(List[Any], [recursive_sort(x) for x in item]))
+            return sorted(cast(List[Any], [recursive_sort(x) for x in item]))  # type: ignore[redundant-cast]
         except TypeError:
             # If a TypeError is raised, we might be dealing with a list of
             # dictionaries Sort them based on their string representation
@@ -72,7 +72,7 @@ def order_fixture(input_path: Path, output_path: Path) -> None:
         json.dump(data, f, indent=4)
 
 
-def process_directory(input_dir: Path, output_dir: Path):
+def process_directory(input_dir: Path, output_dir: Path) -> None:
     """
     Process a directory.
 
@@ -114,11 +114,11 @@ def process_directory(input_dir: Path, output_dir: Path):
     required=True,
     help="The output directory",
 )
-def order_fixtures(input_dir, output_dir):
+def order_fixtures(input_dir: str, output_dir: str) -> None:
     """Order json fixture by key recursively from the input directory."""
-    input_dir = Path(input_dir)
-    output_dir = Path(output_dir)
-    process_directory(input_dir, output_dir)
+    input_dir_path = Path(input_dir)
+    output_dir_path = Path(output_dir)
+    process_directory(input_dir_path, output_dir_path)
 
 
 if __name__ == "__main__":

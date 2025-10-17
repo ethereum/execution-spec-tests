@@ -328,12 +328,12 @@ from ..opcodes import Opcodes as Op
         ),
     ],
 )
-def test_opcodes(opcodes: bytes, expected: bytes):
+def test_opcodes(opcodes: bytes, expected: bytes) -> None:
     """Test that the `opcodes` are transformed into bytecode as expected."""
     assert bytes(opcodes) == expected
 
 
-def test_opcodes_repr():
+def test_opcodes_repr() -> None:
     """Test that the `repr` of an `Op` is the same as its name."""
     assert f"{Op.CALL}" == "CALL"
     assert f"{Op.DELEGATECALL}" == "DELEGATECALL"
@@ -343,7 +343,7 @@ def test_opcodes_repr():
     assert f"{Op.DATALOADN[1]}" == "DATALOADN_0x0001"
 
 
-def test_macros():
+def test_macros() -> None:
     """Test opcode and macros interaction."""
     assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
     for opcode in Op:
@@ -398,7 +398,7 @@ def test_bytecode_properties(
     expected_pushed_items: int,
     expected_max_stack_height: int,
     expected_min_stack_height: int,
-):
+) -> None:
     """Test that the properties of the bytecode are as expected."""
     assert bytecode.popped_stack_items == expected_popped_items, "Popped stack items mismatch"
     assert bytecode.pushed_stack_items == expected_pushed_items, "Pushed stack items mismatch"
@@ -406,7 +406,7 @@ def test_bytecode_properties(
     assert bytecode.min_stack_height == expected_min_stack_height, "Min stack height mismatch"
 
 
-def test_opcode_comparison():
+def test_opcode_comparison() -> None:
     """Test that the opcodes are comparable."""
     assert Op.STOP < Op.ADD
     assert Op.ADD == Op.ADD
@@ -414,7 +414,7 @@ def test_opcode_comparison():
     assert Op.ADD > Op.STOP
 
 
-def test_bytecode_concatenation_with_bytes():
+def test_bytecode_concatenation_with_bytes() -> None:
     """
     Test that the bytecode can be concatenated with bytes.
     Bytes work as verbatim code and don't affect the bytecode properties.
@@ -433,7 +433,7 @@ def test_bytecode_concatenation_with_bytes():
     assert code.terminating == base.terminating
 
 
-def test_opcode_kwargs_validation():
+def test_opcode_kwargs_validation() -> None:
     """Test that invalid keyword arguments raise ValueError."""
     # Test valid kwargs work
     Op.MSTORE(offset=0, value=1)

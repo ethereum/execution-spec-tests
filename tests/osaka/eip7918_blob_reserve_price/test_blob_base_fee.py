@@ -145,7 +145,7 @@ def test_reserve_price_various_base_fee_scenarios(
     pre: Alloc,
     block: Block,
     post: Dict[Address, Account],
-):
+) -> None:
     """
     Test reserve price mechanism across various block base fee and excess blob
     gas scenarios.
@@ -171,7 +171,7 @@ def test_reserve_price_boundary(
     pre: Alloc,
     block: Block,
     post: Dict[Address, Account],
-):
+) -> None:
     """
     Tests the reserve price boundary mechanism. Note the default block base fee
     per gas is 7 (delta is 0). With a non zero delta the block base fee per gas

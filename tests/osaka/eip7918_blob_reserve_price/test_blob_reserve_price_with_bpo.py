@@ -26,7 +26,7 @@ def test_blob_base_fee_with_bpo_transition(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     env: Environment,
-):
+) -> None:
     """Test BPO1 transition with EIP-7918 reserve mechanism."""
     blockchain_test(
         genesis_environment=env,

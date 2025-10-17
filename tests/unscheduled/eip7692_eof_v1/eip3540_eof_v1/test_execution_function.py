@@ -303,7 +303,7 @@ def test_eof_functions_contract_call_succeed(
     state_test: StateTestFiller,
     pre: Alloc,
     container: Container,
-):
+) -> None:
     """Test simple contracts that are simply expected to succeed on call."""
     env = Environment()
 
@@ -336,7 +336,7 @@ def test_eof_functions_contract_call_fail(
     state_test: StateTestFiller,
     pre: Alloc,
     container: Container,
-):
+) -> None:
     """Test simple contracts that are simply expected to fail on call."""
     env = Environment()
 
@@ -367,7 +367,7 @@ def test_eof_functions_contract_call_fail(
 def test_eof_functions_contract_call_within_deep_nested(
     state_test: StateTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Test performing a call within a nested callf and verify correct behavior of
     return stack in calling contract.

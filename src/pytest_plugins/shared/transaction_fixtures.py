@@ -7,12 +7,13 @@ Each fixture can be overridden in test files to customize transaction behavior.
 import pytest
 
 from ethereum_test_base_types import AccessList
+from ethereum_test_forks import Fork
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_types import AuthorizationTuple, Transaction, add_kzg_version
+from ethereum_test_types import EOA, Alloc, AuthorizationTuple, Transaction, add_kzg_version
 
 
 @pytest.fixture
-def type_0_default_transaction(sender):
+def type_0_default_transaction(sender: EOA) -> Transaction:
     """Type 0 (legacy) default transaction available in all forks."""
     return Transaction(
         ty=0,
@@ -25,7 +26,7 @@ def type_0_default_transaction(sender):
 
 
 @pytest.fixture
-def type_1_default_transaction(sender):
+def type_1_default_transaction(sender: EOA) -> Transaction:
     """Type 1 (access list) default transaction introduced in Berlin fork."""
     return Transaction(
         ty=1,
@@ -42,7 +43,7 @@ def type_1_default_transaction(sender):
 
 
 @pytest.fixture
-def type_2_default_transaction(sender):
+def type_2_default_transaction(sender: EOA) -> Transaction:
     """Type 2 (dynamic fee) default transaction introduced in London fork."""
     return Transaction(
         ty=2,
@@ -59,7 +60,7 @@ def type_2_default_transaction(sender):
 
 
 @pytest.fixture
-def type_3_default_transaction(sender):
+def type_3_default_transaction(sender: EOA) -> Transaction:
     """Type 3 (blob) default transaction introduced in Cancun fork."""
     return Transaction(
         ty=3,
@@ -84,7 +85,7 @@ def type_3_default_transaction(sender):
 
 
 @pytest.fixture
-def type_4_default_transaction(sender, pre):
+def type_4_default_transaction(sender: EOA, pre: Alloc) -> Transaction:
     """Type 4 (set code) default transaction introduced in Prague fork."""
     # Create authorized accounts with funds
     auth_signer1 = pre.fund_eoa(amount=10**18)
@@ -123,7 +124,7 @@ def type_4_default_transaction(sender, pre):
 
 
 @pytest.fixture
-def typed_transaction(request, fork):
+def typed_transaction(request: pytest.FixtureRequest, fork: Fork) -> Transaction:
     """
     Fixture that provides a Transaction object based on the parametrized tx
     type.

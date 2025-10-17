@@ -13,6 +13,7 @@ from ethereum_test_tools import (
     Address,
     Alloc,
     AuthorizationTuple,
+    Bytecode,
     Hash,
     StateTestFiller,
     Transaction,
@@ -45,7 +46,7 @@ class BlobhashContext(Enum):
     CREATE2 = "create2"
     INITCODE = "initcode"
 
-    def code(self, *, indexes=Iterable[int]):
+    def code(self, *, indexes: Iterable[int]) -> Bytecode:
         """
         Map opcode context to bytecode that utilizes the BLOBHASH opcode.
 
@@ -71,7 +72,7 @@ class BlobhashContext(Enum):
         self,
         *,
         pre: Alloc,
-        indexes=Iterable[int],
+        indexes: Iterable[int],
     ) -> Address:
         """
         Deploy a contract with the given context and indexes.
@@ -172,7 +173,7 @@ def test_blobhash_opcode_contexts(
     simple_blob_hashes: List[bytes],
     fork: Fork,
     state_test: StateTestFiller,
-):
+) -> None:
     """
     Tests that the `BLOBHASH` opcode functions correctly when called in
     different contexts.
@@ -289,7 +290,7 @@ def test_blobhash_opcode_contexts_tx_types(
     pre: Alloc,
     tx_type: int,
     state_test: StateTestFiller,
-):
+) -> None:
     """
     Tests that the `BLOBHASH` opcode functions correctly when called in
     different contexts.

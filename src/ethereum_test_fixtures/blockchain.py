@@ -8,8 +8,10 @@ from typing import (
     ClassVar,
     List,
     Literal,
+    Self,
     Set,
     Tuple,
+    Type,
     Union,
     cast,
     get_args,
@@ -51,7 +53,7 @@ from .base import BaseFixture, FixtureFillingPhase
 from .common import FixtureAuthorizationTuple, FixtureBlobSchedule
 
 
-def post_state_validator(alternate_field: str | None = None, mode: str = "after"):
+def post_state_validator(alternate_field: str | None = None, mode: str = "after") -> Any:
     """
     Create a validator to ensure exactly one post-state field is provided.
 
@@ -59,9 +61,9 @@ def post_state_validator(alternate_field: str | None = None, mode: str = "after"
     'post_state_diff'). mode: Pydantic validation mode.
     """
 
-    def decorator(cls):
-        @model_validator(mode=mode)
-        def validate_post_state_fields(self):
+    def decorator(cls: Type[Any]) -> Type[Any]:
+        @model_validator(mode=mode)  # type: ignore
+        def validate_post_state_fields(self: Any) -> Any:
             """Ensure exactly one post-state field is provided."""
             if mode == "after":
                 # Determine which fields to check
@@ -103,10 +105,12 @@ class HeaderForkRequirement(str):
 
     def required(self, fork: Fork, block_number: int, timestamp: int) -> bool:
         """Check if the field is required for the given fork."""
-        return getattr(fork, f"header_{self}_required")(block_number, timestamp)
+        return getattr(fork, f"header_{self}_required")(
+            block_number=block_number, timestamp=timestamp
+        )
 
     @classmethod
-    def get_from_annotation(cls, field_hints: Any) -> "HeaderForkRequirement | None":
+    def get_from_annotation(cls, field_hints: Any) -> Self | None:
         """Find the annotation in the field args."""
         if isinstance(field_hints, cls):
             return field_hints
@@ -172,7 +176,7 @@ class FixtureHeader(CamelModel):
 
     fork: Fork | None = Field(None, exclude=True)
 
-    def model_post_init(self, __context):
+    def model_post_init(self, __context: Any) -> None:
         """
         Model post init method used to check for required fields of a given
         fork.
@@ -223,14 +227,14 @@ class FixtureHeader(CamelModel):
         """Compute the RLP of the header."""
         return Bytes(eth_rlp.encode(self.rlp_encode_list))
 
-    @computed_field(alias="hash")  # type: ignore[misc]
+    @computed_field(alias="hash")  # type: ignore[prop-decorator]
     @cached_property
     def block_hash(self) -> Hash:
         """Compute the RLP of the header."""
         return self.rlp.keccak256()
 
     @classmethod
-    def genesis(cls, fork: Fork, env: Environment, state_root: Hash) -> "FixtureHeader":
+    def genesis(cls, fork: Fork, env: Environment, state_root: Hash) -> Self:
         """Get the genesis header for the given fork."""
         environment_values = env.model_dump(exclude_none=True, exclude={"withdrawals"})
         if env.withdrawals is not None:
@@ -238,13 +242,17 @@ class FixtureHeader(CamelModel):
         environment_values["extra_data"] = env.extra_data
         extras = {
             "state_root": state_root,
-            "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
+            "requests_hash": Requests()
+            if fork.header_requests_required(block_number=0, timestamp=0)
+            else None,
             "block_access_list_hash": (
-                BlockAccessList().rlp_hash if fork.header_bal_hash_required(0, 0) else None
+                BlockAccessList().rlp_hash
+                if fork.header_bal_hash_required(block_number=0, timestamp=0)
+                else None
             ),
             "fork": fork,
         }
-        return FixtureHeader(**environment_values, **extras)
+        return cls(**environment_values, **extras)
 
 
 class FixtureExecutionPayload(CamelModel):
@@ -286,7 +294,7 @@ class FixtureExecutionPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         block_access_list: Bytes | None = None,
-    ) -> "FixtureExecutionPayload":
+    ) -> Self:
         """
         Return FixtureExecutionPayload from a FixtureHeader, a list of
         transactions, a list of withdrawals, and an optional block access list.
@@ -353,17 +361,21 @@ class FixtureEngineNewPayload(CamelModel):
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
         block_access_list: Bytes | None = None,
-        **kwargs,
-    ) -> "FixtureEngineNewPayload":
+        **kwargs: Any,
+    ) -> Self:
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
-        new_payload_version = fork.engine_new_payload_version(header.number, header.timestamp)
+        new_payload_version = fork.engine_new_payload_version(
+            block_number=header.number, timestamp=header.timestamp
+        )
         forkchoice_updated_version = fork.engine_forkchoice_updated_version(
-            header.number, header.timestamp
+            block_number=header.number, timestamp=header.timestamp
         )
 
         assert new_payload_version is not None, "Invalid header for engine_newPayload"
 
-        if fork.engine_execution_payload_block_access_list(header.number, header.timestamp):
+        if fork.engine_execution_payload_block_access_list(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             if block_access_list is None:
                 raise ValueError(
                     f"`block_access_list` is required in engine `ExecutionPayload` for >={fork}."
@@ -377,19 +389,25 @@ class FixtureEngineNewPayload(CamelModel):
         )
 
         params: List[Any] = [execution_payload]
-        if fork.engine_new_payload_blob_hashes(header.number, header.timestamp):
+        if fork.engine_new_payload_blob_hashes(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             blob_hashes = Transaction.list_blob_versioned_hashes(transactions)
             if blob_hashes is None:
                 raise ValueError(f"Blob hashes are required for ${fork}.")
             params.append(blob_hashes)
 
-        if fork.engine_new_payload_beacon_root(header.number, header.timestamp):
+        if fork.engine_new_payload_beacon_root(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             parent_beacon_block_root = header.parent_beacon_block_root
             if parent_beacon_block_root is None:
                 raise ValueError(f"Parent beacon block root is required for ${fork}.")
             params.append(parent_beacon_block_root)
 
-        if fork.engine_new_payload_requests(header.number, header.timestamp):
+        if fork.engine_new_payload_requests(
+            block_number=header.number, timestamp=header.timestamp
+        ):
             if requests is None:
                 raise ValueError(f"Requests are required for ${fork}.")
             params.append(requests)
@@ -415,7 +433,7 @@ class FixtureTransaction(TransactionFixtureConverter, TransactionGeneric[ZeroPad
     initcodes: List[Bytes] | None = None
 
     @classmethod
-    def from_transaction(cls, tx: Transaction) -> "FixtureTransaction":
+    def from_transaction(cls, tx: Transaction) -> Self:
         """Return FixtureTransaction from a Transaction."""
         return cls(**tx.model_dump())
 
@@ -427,7 +445,7 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
     """
 
     @classmethod
-    def from_withdrawal(cls, w: WithdrawalGeneric) -> "FixtureWithdrawal":
+    def from_withdrawal(cls, w: WithdrawalGeneric) -> Self:
         """Return FixtureWithdrawal from a Withdrawal."""
         return cls(**w.model_dump())
 
@@ -441,7 +459,7 @@ class WitnessChunk(CamelModel):
     headers: List[str]
 
     @classmethod
-    def parse_witness_chunks(cls, s: str) -> List["WitnessChunk"]:
+    def parse_witness_chunks(cls, s: str) -> List[Self]:
         """
         Parse multiple witness chunks from JSON string.
 
@@ -465,7 +483,7 @@ class FixtureBlockBase(CamelModel):
         None, description="EIP-7928 Block Access List"
     )
 
-    @computed_field(alias="blocknumber")  # type: ignore[misc]
+    @computed_field(alias="blocknumber")  # type: ignore[prop-decorator]
     @cached_property
     def block_number(self) -> Number:
         """Get the block number from the header."""
@@ -661,5 +679,6 @@ class BlockchainEngineSyncFixture(BlockchainEngineFixture):
         markers: List[pytest.Mark],
     ) -> bool:
         """Discard the fixture format based on the provided markers."""
+        del fork
         marker_names = [m.name for m in markers]
         return "verify_sync" not in marker_names

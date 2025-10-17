@@ -17,7 +17,7 @@ RELEASE_PROPS_FILE = "./.github/configs/feature.yaml"
 
 @click.command()
 @click.argument("release", required=True)
-def get_release_props(release):
+def get_release_props(release: str) -> None:
     """Extract the properties from the YAML file for a given release."""
     with open(RELEASE_PROPS_FILE) as f:
         data = yaml.safe_load(f)

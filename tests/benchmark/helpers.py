@@ -5,7 +5,7 @@ from ethereum_test_tools import Bytecode
 from ethereum_test_vm import Opcodes as Op
 
 
-def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode, fork: Fork):
+def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode, fork: Fork) -> Bytecode:
     """Create a code loop that calls a precompile with the given calldata."""
     max_code_size = fork.max_code_size()
 

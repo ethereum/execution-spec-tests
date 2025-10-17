@@ -1766,3 +1766,98 @@ class EIPChecklist:
                     """
 
                     pass
+
+    class BlockLevelConstraint(ChecklistItem):
+        """Block-level validation constraint checklist items."""
+
+        class Test(ChecklistItem):
+            """Test vectors for block-level constraint."""
+
+            class Boundary(ChecklistItem):
+                """Boundary condition tests."""
+
+                class Under(ChecklistItem):
+                    """
+                    Verify that a block with constraint value at limit minus
+                    one is accepted.
+                    """
+
+                    pass
+
+                class Exact(ChecklistItem):
+                    """
+                    Verify that a block with constraint value exactly at
+                    limit is accepted.
+                    """
+
+                    pass
+
+                class Over(ChecklistItem):
+                    """
+                    Verify that a block with constraint value at limit plus
+                    one is rejected.
+                    """
+
+                    pass
+
+            class Content(ChecklistItem):
+                """Content variation tests."""
+
+                class TransactionTypes(ChecklistItem):
+                    """
+                    Verify constraint behavior with all supported
+                    transaction types.
+                    """
+
+                    pass
+
+                class Logs(ChecklistItem):
+                    """
+                    Verify constraint behavior when transactions emit
+                    logs.
+                    """
+
+                    pass
+
+                class Receipts(ChecklistItem):
+                    """
+                    Verify constraint behavior with varying receipt
+                    sizes.
+                    """
+
+                    pass
+
+                class Withdrawals(ChecklistItem):
+                    """
+                    Verify constraint behavior with non-empty withdrawals
+                    list.
+                    """
+
+                    pass
+
+            class ForkTransition(ChecklistItem):
+                """Fork transition tests."""
+
+                class AcceptedBeforeFork(ChecklistItem):
+                    """
+                    Verify that a block before the activation fork is
+                    accepted even when the new constraint is not met.
+                    """
+
+                    pass
+
+                class AcceptedAfterFork(ChecklistItem):
+                    """
+                    Verify that a block after the activation fork is
+                    accepted when the new constraint is met.
+                    """
+
+                    pass
+
+                class RejectedAfterFork(ChecklistItem):
+                    """
+                    Verify that a block after the activation fork is
+                    rejected when the new constraint is not met.
+                    """
+
+                    pass

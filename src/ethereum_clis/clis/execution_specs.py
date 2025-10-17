@@ -82,10 +82,10 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         self.help_string = result.stdout
         self.server_url = server_url
 
-    def start_server(self):
+    def start_server(self) -> None:
         """
-        Start the t8n-server process, extract the port, and leave it running
-        for future reuse.
+        Start the t8n-server process, extract the port, and leave it
+        running for future reuse.
         """
         self.server_dir = TemporaryDirectory()
         self.server_file_path = Path(self.server_dir.name) / "t8n.sock"
@@ -107,7 +107,7 @@ class ExecutionSpecsTransitionTool(TransitionTool):
                 raise Exception("Failed starting ethereum-spec-evm subprocess")
             time.sleep(0)  # yield to other processes
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """Stop the t8n-server process if it was started."""
         if self.process:
             self.process.terminate()

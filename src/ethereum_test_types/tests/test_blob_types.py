@@ -2,6 +2,7 @@
 
 import copy
 import time
+from typing import Any
 
 import pytest
 from filelock import FileLock
@@ -20,7 +21,7 @@ from ethereum_test_forks.forks.transition import (
 from ..blob_types import CACHED_BLOBS_DIRECTORY, Blob, clear_blob_cache
 
 
-def increment_counter(timeout: float = 10):
+def increment_counter(timeout: float = 10) -> int:
     """
     Increment counter in file, creating if doesn't exist.
 
@@ -50,7 +51,7 @@ def increment_counter(timeout: float = 10):
         return new_value
 
 
-def wait_until_counter_reached(target: int, poll_interval: float = 0.1):
+def wait_until_counter_reached(target: int, poll_interval: float = 0.1) -> int:
     """Wait until blob unit test counter reaches target value."""
     file_path = CACHED_BLOBS_DIRECTORY / "blob_unit_test_counter.txt"
     lock_file = file_path.with_suffix(".lock")  # Add lock file path
@@ -81,9 +82,9 @@ def wait_until_counter_reached(target: int, poll_interval: float = 0.1):
 @pytest.mark.parametrize("seed", [0, 10, 100])
 @pytest.mark.parametrize("fork", [Cancun, Prague, Osaka])
 def test_blob_creation_and_writing_and_reading(
-    seed,
-    fork,
-):  # noqa: F811
+    seed: int,
+    fork: Any,
+) -> None:  # noqa: F811
     """
     Generates blobs for different forks and ensures writing to file and reading
     from file works as expected.
@@ -116,9 +117,9 @@ def test_blob_creation_and_writing_and_reading(
 )
 @pytest.mark.parametrize("fork", [Cancun, Prague, Osaka])
 def test_blob_proof_corruption(
-    corruption_mode,
-    fork,
-):
+    corruption_mode: Any,
+    fork: Any,
+) -> None:
     """
     Generates blobs for different forks, corrupts their proofs and ensures that
     the corrupted proof is not equal to the correct proof.
@@ -141,9 +142,9 @@ def test_blob_proof_corruption(
     "fork", [ShanghaiToCancunAtTime15k, CancunToPragueAtTime15k, PragueToOsakaAtTime15k]
 )
 def test_transition_fork_blobs(
-    fork,
-    timestamp,
-):
+    fork: Any,
+    timestamp: int,
+) -> None:
     """
     Generates blobs for transition forks (time 14999 is old fork, time 15000 is
     new fork).

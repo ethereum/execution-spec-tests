@@ -3,7 +3,7 @@ Tests transient storage in reentrancy contexts.
 """
 
 from enum import EnumMeta, unique
-from typing import Dict
+from typing import Any, Dict
 
 import pytest
 
@@ -41,14 +41,14 @@ class DynamicReentrancyTestCases(EnumMeta):
     (these opcodes should share the same behavior).
     """
 
-    def __new__(cls, name, bases, classdict):  # noqa: D102
+    def __new__(cls, name: str, bases: tuple[type, ...], classdict: Any) -> Any:  # noqa: D102
         for opcode in [Op.REVERT, Op.INVALID]:
             if opcode == Op.REVERT:
                 opcode_call = Op.REVERT(0, 0)
                 subcall_gas = Op.GAS()
             elif opcode == Op.INVALID:
                 opcode_call = Op.INVALID()
-                subcall_gas = 0xFFFF
+                subcall_gas = Op.PUSH2(0xFFFF)
             else:
                 raise ValueError(f"Unknown opcode: {opcode}.")
 
@@ -317,7 +317,7 @@ class ReentrancyTestCases(PytestParameterEnum, metaclass=DynamicReentrancyTestCa
 @ReentrancyTestCases.parametrize()
 def test_reentrant_call(
     state_test: StateTestFiller, pre: Alloc, bytecode: Bytecode, expected_storage: Dict
-):
+) -> None:
     """Test transient storage in different reentrancy contexts."""
     env = Environment()
 

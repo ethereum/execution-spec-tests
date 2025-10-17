@@ -9,6 +9,7 @@ from enum import unique
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -31,7 +32,7 @@ pytestmark = [pytest.mark.valid_from("Cancun")]
 code_address = 0x100
 
 
-def test_transient_storage_unset_values(state_test: StateTestFiller, pre: Alloc):
+def test_transient_storage_unset_values(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Test that tload returns zero for unset values. Loading an arbitrary value
     is 0 at beginning of transaction: TLOAD(x) is 0.
@@ -68,7 +69,7 @@ def test_transient_storage_unset_values(state_test: StateTestFiller, pre: Alloc)
     )
 
 
-def test_tload_after_tstore(state_test: StateTestFiller, pre: Alloc):
+def test_tload_after_tstore(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Loading after storing returns the stored value: TSTORE(x, y), TLOAD(x)
     returns y.
@@ -106,7 +107,7 @@ def test_tload_after_tstore(state_test: StateTestFiller, pre: Alloc):
     )
 
 
-def test_tload_after_sstore(state_test: StateTestFiller, pre: Alloc):
+def test_tload_after_sstore(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Loading after storing returns the stored value: TSTORE(x, y), TLOAD(x)
     returns y.
@@ -152,7 +153,7 @@ def test_tload_after_sstore(state_test: StateTestFiller, pre: Alloc):
     )
 
 
-def test_tload_after_tstore_is_zero(state_test: StateTestFiller, pre: Alloc):
+def test_tload_after_tstore_is_zero(state_test: StateTestFiller, pre: Alloc) -> None:
     """
     Test that tload returns zero after tstore is called with zero.
 
@@ -239,7 +240,7 @@ def test_gas_usage(
     expected_gas: int,
     overhead_cost: int,
     extra_stack_items: int,
-):
+) -> None:
     """Test that tstore and tload consume the expected gas."""
     gas_measure_bytecode = CodeGasMeasure(
         code=bytecode, overhead_cost=overhead_cost, extra_stack_items=extra_stack_items
@@ -279,7 +280,7 @@ class LoopRunUntilOutOfGasCases(PytestParameterEnum):
     }
 
 
-def max_tx_gas_limit(fork):
+def max_tx_gas_limit(fork: Fork) -> list[int]:
     """Return the maximum transaction gas limit for the given fork."""
     tx_limit = fork.transaction_gas_limit_cap()
     return [tx_limit if tx_limit is not None else Environment().gas_limit]
@@ -294,7 +295,7 @@ def test_run_until_out_of_gas(
     tx_gas_limit: int,
     repeat_bytecode: Bytecode,
     bytecode_repeat_times: int,
-):
+) -> None:
     """Use TSTORE over and over to different keys until we run out of gas."""
     bytecode = Op.JUMPDEST + repeat_bytecode * bytecode_repeat_times + Op.JUMP(Op.PUSH0)
     code_address = pre.deploy_contract(code=bytecode)

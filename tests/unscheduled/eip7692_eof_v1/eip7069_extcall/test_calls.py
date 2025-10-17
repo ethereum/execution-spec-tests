@@ -5,10 +5,10 @@ from enum import Enum, auto, unique
 
 import pytest
 
+from ethereum_test_base_types import Address, HashInt
 from ethereum_test_tools import (
     EOA,
     Account,
-    Address,
     Alloc,
     Environment,
     StateTestFiller,
@@ -127,7 +127,7 @@ def test_legacy_calls_eof_sstore(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """Test legacy contracts calling EOF contracts that use SSTORE."""
     env = Environment()
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
@@ -188,7 +188,7 @@ def test_legacy_calls_eof_mstore(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """Test legacy contracts calling EOF contracts that only return data."""
     env = Environment()
     destination_contract_code = Container(
@@ -217,10 +217,10 @@ def test_legacy_calls_eof_mstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: LEGACY_CALL_SUCCESS,  # type: ignore
-        slot_returndatasize: len(value_returndata_magic),  # type: ignore
-        slot_returndata: value_returndata_magic,  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: LEGACY_CALL_SUCCESS,
+        slot_returndatasize: len(value_returndata_magic),
+        slot_returndata: value_returndata_magic,
     }
 
     post = {
@@ -249,7 +249,7 @@ def test_eof_calls_eof_sstore(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """Test EOF contracts calling EOF contracts that use SSTORE."""
     env = Environment()
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
@@ -273,8 +273,8 @@ def test_eof_calls_eof_sstore(
 
     calling_storage = Storage(
         {
-            slot_code_worked: value_code_worked,  # type: ignore
-            slot_call_result: EXTCALL_SUCCESS,  # type: ignore
+            HashInt(slot_code_worked): HashInt(value_code_worked),
+            HashInt(slot_call_result): HashInt(EXTCALL_SUCCESS),
         }
     )
     destination_storage = Storage()
@@ -312,7 +312,7 @@ def test_eof_calls_eof_mstore(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """Test EOF contracts calling EOF contracts that return data."""
     env = Environment()
     destination_contract_code = Container(
@@ -345,10 +345,10 @@ def test_eof_calls_eof_mstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: EXTCALL_SUCCESS,  # type: ignore
-        slot_returndatasize: 0x20,  # type: ignore
-        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS,
+        slot_returndatasize: 0x20,
+        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),
     }
 
     post = {
@@ -396,7 +396,7 @@ def test_eof_calls_precompile(
     opcode: Op,
     precompile: Address,
     expected_result: int,
-):
+) -> None:
     """Test EOF contracts calling precompiles."""
     env = Environment()
 
@@ -450,7 +450,7 @@ def test_eof_calls_legacy_sstore(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """Test EOF contracts calling Legacy contracts that use SSTORE."""
     env = Environment()
     destination_contract_code = Op.SSTORE(slot_caller, Op.CALLER()) + Op.STOP
@@ -474,8 +474,8 @@ def test_eof_calls_legacy_sstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: EXTCALL_SUCCESS,  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS,
     }
     destination_storage = {}
 
@@ -513,7 +513,7 @@ def test_eof_calls_legacy_mstore(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """Test EOF contracts calling Legacy contracts that return data."""
     env = Environment()
     destination_contract_code = Op.MSTORE8(
@@ -541,10 +541,10 @@ def test_eof_calls_legacy_mstore(
     )
 
     calling_storage = {
-        slot_code_worked: value_code_worked,  # type: ignore
-        slot_call_result: EXTCALL_SUCCESS,  # type: ignore
-        slot_returndatasize: 0x20,  # type: ignore
-        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS,
+        slot_returndatasize: 0x20,
+        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),
     }
 
     if opcode == Op.EXTDELEGATECALL:
@@ -593,7 +593,7 @@ def test_callee_fails(
     opcode: Op,
     destination_code: Bytecode | Container,
     expected_result: int,
-):
+) -> None:
     """Test EOF contracts calling contracts that fail for various reasons."""
     env = Environment()
 
@@ -660,7 +660,7 @@ def test_callee_context(
     destination_code: Bytecode,
     expected_result: str | int,
     evm_code_type: EVMCodeType,
-):
+) -> None:
     """Test EOF calls' callee context instructions."""
     env = Environment()
     tx_value = 0x1123
@@ -732,7 +732,7 @@ def test_eof_calls_eof_then_fails(
     sender: EOA,
     opcode: Op,
     fail_opcode: Op,
-):
+) -> None:
     """Test EOF contracts calling EOF contracts and failing after the call."""
     env = Environment()
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
@@ -783,7 +783,7 @@ def test_eof_calls_clear_return_buffer(
     opcode: Op,
     target_address: Address,
     value: int,
-):
+) -> None:
     """Test EOF contracts calling clears returndata buffer."""
     env = Environment()
     filling_contract_code = Container.Code(
@@ -842,7 +842,7 @@ def test_eof_calls_static_flag_with_value(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """
     Test EOF contracts calls handle static flag and sending value correctly.
     """
@@ -922,7 +922,7 @@ def test_eof_calls_min_callee_gas(
     value: int,
     extra_gas_limit: int,
     reverts: bool,
-):
+) -> None:
     """
     Test EOF contracts calls do light failure when retained/callee gas is not
     enough.
@@ -955,7 +955,7 @@ def test_eof_calls_min_callee_gas(
 
     # `no_oog_gas` is minimum amount of gas_limit which makes the transaction
     # not go oog.
-    push_operations = 3 + len(opcode.kwargs)  # type: ignore
+    push_operations = 3 + len(opcode.kwargs)
     no_oog_gas = (
         21_000
         + 20_000  # SSTORE
@@ -1000,7 +1000,7 @@ def test_eof_calls_with_value(
     sender: EOA,
     balance: int,
     value: int,
-):
+) -> None:
     """
     Test EOF contracts calls handle value calls with and without enough
     balance.
@@ -1054,7 +1054,7 @@ def test_eof_calls_msg_depth(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-):
+) -> None:
     """
     Test EOF contracts calls handle msg depth limit correctly (1024).
 
@@ -1155,7 +1155,7 @@ def test_extdelegate_call_targets(
     target_address: Address,
     delegate: bool,
     call_from_initcode: bool,
-):
+) -> None:
     """
     Test EOF contracts extdelegatecalling various targets, especially resolved
     via 7702 delegation.

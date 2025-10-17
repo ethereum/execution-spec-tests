@@ -47,7 +47,7 @@ rjumpv_vector = [
         (rjumpv_vector[0][2:], rjumpv_vector[1]),  # no "0x" prefix
     ],
 )
-def test_evm_bytes(evm_bytes: str, python_opcodes: str):
+def test_evm_bytes(evm_bytes: str, python_opcodes: str) -> None:
     """Test evm_bytes using the basic and complex vectors."""
     assert process_evm_bytes_string(evm_bytes) == python_opcodes
 
@@ -60,7 +60,7 @@ DUPLICATES = [Op.NOOP]
     [op for op in Op if op not in DUPLICATES],
     ids=lambda op: op._name_,
 )
-def test_individual_opcodes(opcode: Op):
+def test_individual_opcodes(opcode: Op) -> None:
     """Test each opcode individually."""
     data_portion = b""
     if opcode.data_portion_length > 0:
@@ -76,13 +76,13 @@ def test_individual_opcodes(opcode: Op):
     assert process_evm_bytes_string("0x" + bytecode.hex()) == expected_output
 
 
-def test_invalid_opcode():
+def test_invalid_opcode() -> None:
     """Invalid hex string."""
     with pytest.raises(ValueError):
         process_evm_bytes_string("0xZZ")
 
 
-def test_unknown_opcode():
+def test_unknown_opcode() -> None:
     """Opcode not defined in Op."""
     with pytest.raises(ValueError):
         process_evm_bytes_string("0x0F")

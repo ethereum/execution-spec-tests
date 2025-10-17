@@ -37,7 +37,7 @@ def test_create_one_byte(
     fork: Fork,
     pre: Alloc,
     create_opcode: Op,
-):
+) -> None:
     """Run create deploys with single bytes for each byte."""
     initcode: dict[int, Bytecode] = {}
     for byte in range(256):

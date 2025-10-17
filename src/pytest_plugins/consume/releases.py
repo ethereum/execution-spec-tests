@@ -66,7 +66,7 @@ class ReleaseTag:
         """Check if the release string is in the correct format."""
         return "@" in release_string
 
-    def __eq__(self, value) -> bool:
+    def __eq__(self, value: object) -> bool:
         """
         Check if the release descriptor matches the string value.
 
@@ -166,7 +166,7 @@ def is_release_url(input_str: str) -> bool:
 
 def parse_release_information(release_information: List) -> List[ReleaseInformation]:
     """Parse the release information from the Github API."""
-    return Releases.model_validate(release_information).root  # type: ignore
+    return Releases.model_validate(release_information).root
 
 
 def download_release_information(destination_file: Path | None) -> List[ReleaseInformation]:

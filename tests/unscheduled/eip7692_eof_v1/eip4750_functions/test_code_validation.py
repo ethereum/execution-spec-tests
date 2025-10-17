@@ -362,9 +362,9 @@ INVALID: List[Container] = [
 ]
 
 
-def container_name(c: Container):
+def container_name(c: Container) -> str:
     """Return the name of the container for use in pytest ids."""
-    if hasattr(c, "name"):
+    if hasattr(c, "name") and c.name is not None:
         return c.name
     else:
         return c.__class__.__name__
@@ -378,7 +378,7 @@ def container_name(c: Container):
 def test_eof_validity(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Test EOF container validation for features around EIP-4750 / Functions /
     Code Sections.
@@ -431,7 +431,7 @@ def test_eof_validity(
 def test_callf_truncated_immediate(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """Test cases for CALLF instructions with truncated immediate bytes."""
     eof_test(container=container, expect_exception=EOFException.TRUNCATED_INSTRUCTION)
 
@@ -477,7 +477,7 @@ def test_callf_truncated_immediate(
 def test_invalid_code_section_index(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Test cases for CALLF instructions with invalid target code section index.
     """
@@ -640,7 +640,7 @@ def test_invalid_code_section_index(
 def test_unreachable_code_sections(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Test cases for EOF unreachable code sections (i.e. code sections not
     reachable from the code section 0).
@@ -649,7 +649,7 @@ def test_unreachable_code_sections(
 
 
 @pytest.mark.parametrize("callee_outputs", [1, 2, MAX_CODE_OUTPUTS])
-def test_callf_stack_height_limit_exceeded(eof_test, callee_outputs):
+def test_callf_stack_height_limit_exceeded(eof_test: EOFTestFiller, callee_outputs: int) -> None:
     """
     Test for invalid EOF code containing CALLF instruction exceeding the stack
     height limit. The code reaches the maximum runtime stack height (1024)
@@ -674,7 +674,7 @@ def test_callf_stack_height_limit_exceeded(eof_test, callee_outputs):
 
 
 @pytest.mark.parametrize("stack_height", [512, 513, 1023])
-def test_callf_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
+def test_callf_stack_overflow(eof_test: EOFTestFiller, stack_height: int) -> None:
     """
     Test CALLF instruction recursively calling itself causing stack overflow.
     """
@@ -696,7 +696,7 @@ def test_callf_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
 
 
 @pytest.mark.parametrize("stack_height", [1, 2])
-def test_callf_stack_overflow_after_callf(eof_test: EOFTestFiller, stack_height: int):
+def test_callf_stack_overflow_after_callf(eof_test: EOFTestFiller, stack_height: int) -> None:
     """
     Test CALLF instruction calling next function causing stack overflow at
     validation time.
@@ -724,7 +724,7 @@ def test_callf_stack_overflow_after_callf(eof_test: EOFTestFiller, stack_height:
 
 
 @pytest.mark.parametrize("stack_height", [512, 514, 515])
-def test_callf_stack_overflow_variable_stack(eof_test: EOFTestFiller, stack_height: int):
+def test_callf_stack_overflow_variable_stack(eof_test: EOFTestFiller, stack_height: int) -> None:
     """Test CALLF instruction causing stack overflow."""
     container = Container(
         sections=[
@@ -750,7 +750,7 @@ def test_callf_stack_overflow_variable_stack(eof_test: EOFTestFiller, stack_heig
 
 
 @pytest.mark.parametrize("stack_height", [509, 510, 512])
-def test_callf_stack_overflow_variable_stack_2(eof_test: EOFTestFiller, stack_height: int):
+def test_callf_stack_overflow_variable_stack_2(eof_test: EOFTestFiller, stack_height: int) -> None:
     """Test CALLF instruction causing stack overflow."""
     container = Container(
         sections=[
@@ -778,7 +778,7 @@ def test_callf_stack_overflow_variable_stack_2(eof_test: EOFTestFiller, stack_he
 
 
 @pytest.mark.parametrize("stack_height", [1, 2, 5])
-def test_callf_stack_overflow_variable_stack_3(eof_test: EOFTestFiller, stack_height: int):
+def test_callf_stack_overflow_variable_stack_3(eof_test: EOFTestFiller, stack_height: int) -> None:
     """Test CALLF instruction causing stack overflow."""
     container = Container(
         sections=[
@@ -806,7 +806,7 @@ def test_callf_stack_overflow_variable_stack_3(eof_test: EOFTestFiller, stack_he
     )
 
 
-def test_callf_stack_overflow_variable_stack_4(eof_test: EOFTestFiller):
+def test_callf_stack_overflow_variable_stack_4(eof_test: EOFTestFiller) -> None:
     """Test reaching stack overflow before CALLF instruction."""
     container = Container(
         sections=[
@@ -833,7 +833,7 @@ def test_callf_stack_overflow_variable_stack_4(eof_test: EOFTestFiller):
 
 
 @pytest.mark.parametrize("stack_height", [2, 3])
-def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
+def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int) -> None:
     """
     Test CALLF instruction when calling a function returning more outputs than
     expected.
@@ -926,7 +926,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
 )
 def test_callf_with_inputs_stack_overflow(
     eof_test: EOFTestFiller, code_section: Section, push_stack: int, pop_stack: int
-):
+) -> None:
     """Test CALLF to code section with inputs."""
     container = Container(
         name="callf_with_inputs_stack_overflow_0",
@@ -1051,7 +1051,7 @@ def test_callf_with_inputs_stack_overflow(
 @pytest.mark.parametrize("push_stack", [1020, 1021])
 def test_callf_with_inputs_stack_overflow_variable_stack(
     eof_test: EOFTestFiller, code_section: Section, push_stack: int
-):
+) -> None:
     """Test CALLF to code section with inputs (variable stack)."""
     container = Container(
         sections=[
@@ -1086,7 +1086,9 @@ def test_callf_with_inputs_stack_overflow_variable_stack(
 @pytest.mark.parametrize(
     "max_stack_height", [0, 1, MAX_STACK_INCREASE_LIMIT - 1, MAX_STACK_INCREASE_LIMIT]
 )
-def test_callf_stack_overflow_by_outputs(eof_test, callee_outputs, max_stack_height):
+def test_callf_stack_overflow_by_outputs(
+    eof_test: EOFTestFiller, callee_outputs: int, max_stack_height: int
+) -> None:
     """
     Test for invalid EOF code containing CALLF instruction exceeding the
     runtime stack height limit by calling a function with at least one output.
@@ -1115,7 +1117,7 @@ def test_callf_stack_overflow_by_outputs(eof_test, callee_outputs, max_stack_hei
     "callee_stack_height",
     [2, 3, MAX_STACK_INCREASE_LIMIT - 1, MAX_STACK_INCREASE_LIMIT],
 )
-def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
+def test_callf_stack_overflow_by_height(eof_test: EOFTestFiller, callee_stack_height: int) -> None:
     """
     Test for invalid EOF code containing CALLF instruction exceeding the
     runtime stack height limit by calling a function with 2+ maximum stack
@@ -1240,14 +1242,14 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
     ],
     ids=lambda x: x.name,
 )
-def test_callf_stack_underflow_examples(eof_test, container):
+def test_callf_stack_underflow_examples(eof_test: EOFTestFiller, container: Container) -> None:
     """Test CALLF instruction causing validation time stack underflow."""
     eof_test(container=container, expect_exception=EOFException.STACK_UNDERFLOW)
 
 
 def test_returning_section_aborts(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     Test EOF container validation where in the same code section we have
     returning and nonreturning terminating instructions.

@@ -72,6 +72,16 @@ REFERENCE_SPEC_VERSION = "5c8f066acb210c704ef80c1033a941aa5374aac5"
             ModExpInput(base="", exponent="", modulus="0001"),
             ModExpOutput(returned_data="0x0000"),
         ),
+        (
+            ModExpInput(
+                base="",
+                exponent="",
+                modulus="",
+                declared_exponent_length=2**32,
+                declared_modulus_length=1,
+            ),
+            ModExpOutput(returned_data="0x00", call_success=False),
+        ),
         # Test cases from EIP 198.
         pytest.param(
             ModExpInput(
@@ -136,6 +146,144 @@ REFERENCE_SPEC_VERSION = "5c8f066acb210c704ef80c1033a941aa5374aac5"
             ),
             id="EIP-198-case5-raw-input",
         ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000008000000000000020"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-exponent-length-0x80000000-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000004000000000000020"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-exponent-length-0x40000000-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000002000000000000020"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-exponent-length-0x20000000-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000001000000000000020"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-exponent-length-0x10000000-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000000000000080000020"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-modulus-length-0x80000020-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000000000000040000020"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-modulus-length-0x40000020-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000000000000020000020"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-modulus-length-0x20000020-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000000000000000000040"
+                "00000000000000000000000000000000000000000000000000000000ffffffff"
+                "80"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="large-modulus-length-0xffffffff-out-of-gas",
+        ),
+        pytest.param(
+            Bytes(
+                "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+                "0000000000000000000000000000000000000000000000000000000000000001"
+            ),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            # FIXME
+            marks=pytest.mark.skip(
+                reason=(
+                    "EELS bug: U256 overflow in modexp pointer arithmetic "
+                    "before Osaka - see github.com/ethereum/execution-specs/issues/1465"
+                )
+            ),
+            id="max-base-length-overflow-out-of-gas",
+        ),
+        pytest.param(
+            Bytes("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa0"),
+            ModExpOutput(
+                call_success=False,
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            # FIXME
+            marks=pytest.mark.skip(
+                reason=(
+                    "EELS bug: U256 overflow in modexp pointer arithmetic "
+                    "before Osaka - see github.com/ethereum/execution-specs/issues/1465"
+                )
+            ),
+            id="immunefi-38958-by-omik-overflow",
+        ),
     ],
     ids=lambda param: param.__repr__(),  # only required to remove parameter
     # names (input/output)
@@ -145,7 +293,7 @@ def test_modexp(
     mod_exp_input: ModExpInput | Bytes,
     output: ModExpOutput,
     pre: Alloc,
-):
+) -> None:
     """Test the MODEXP precompile."""
     env = Environment()
     sender = pre.fund_eoa()

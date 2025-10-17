@@ -80,7 +80,7 @@ def test_beacon_root_contract_calls(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Test calling the beacon root contract in various call contexts.
 
@@ -155,7 +155,7 @@ def test_beacon_root_contract_timestamps(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Tests the beacon root contract call across for various valid and invalid
     timestamps.
@@ -191,7 +191,7 @@ def test_calldata_lengths(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Tests the beacon root contract call using multiple invalid input lengths.
     """
@@ -221,7 +221,7 @@ def test_beacon_root_equal_to_timestamp(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Tests the beacon root contract call where the beacon root is equal to the
     timestamp.
@@ -247,7 +247,7 @@ def test_tx_to_beacon_root_contract(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Tests the beacon root contract using a transaction with different types and
     data lengths.
@@ -275,7 +275,7 @@ def test_invalid_beacon_root_calldata_value(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Tests the beacon root contract call using invalid input values:
     - zero calldata.
@@ -298,7 +298,7 @@ def test_beacon_root_selfdestruct(
     pre: Alloc,
     tx: Transaction,
     post: Dict,
-):
+) -> None:
     """
     Tests that self destructing the beacon root address transfers actors
     balance correctly.
@@ -385,7 +385,7 @@ def test_multi_block_beacon_root_timestamp_calls(
     block_count: int,
     call_gas: int,
     call_value: int,
-):
+) -> None:
     """
     Tests multiple blocks where each block writes a timestamp to storage and
     contains one transaction that calls the beacon root contract multiple
@@ -519,7 +519,7 @@ def test_beacon_root_transition(
     call_gas: int,
     call_value: int,
     fork: Fork,
-):
+) -> None:
     """
     Tests the fork transition to cancun and verifies that blocks with timestamp
     lower than the transition timestamp do not contain beacon roots in the
@@ -544,7 +544,7 @@ def test_beacon_root_transition(
     ):
         timestamp_index = timestamp % Spec.HISTORY_BUFFER_LENGTH
 
-        transitioned = fork.header_beacon_root_required(i, timestamp)
+        transitioned = fork.header_beacon_root_required(block_number=i, timestamp=timestamp)
         if transitioned:
             # We've transitioned, the current timestamp must contain a value in
             # the contract
@@ -645,12 +645,12 @@ def test_no_beacon_root_contract_at_transition(
     timestamp: int,
     caller_address: Address,
     fork: Fork,
-):
+) -> None:
     """
     Tests the fork transition to cancun in the case where the beacon root
     pre-deploy was not deployed in time for the fork.
     """
-    assert fork.header_beacon_root_required(1, timestamp)
+    assert fork.header_beacon_root_required(block_number=1, timestamp=timestamp)
     blocks: List[Block] = [
         Block(
             txs=[tx],
@@ -725,12 +725,12 @@ def test_beacon_root_contract_deploy(
     timestamp: int,
     post: Dict,
     fork: Fork,
-):
+) -> None:
     """
     Tests the fork transition to cancun deploying the contract during Shanghai
     and verifying the code deployed and its functionality after Cancun.
     """
-    assert fork.header_beacon_root_required(1, timestamp)
+    assert fork.header_beacon_root_required(block_number=1, timestamp=timestamp)
     tx_gas_limit = 0x3D090
     tx_gas_price = 0xE8D4A51000
     deployer_required_balance = tx_gas_limit * tx_gas_price
@@ -764,7 +764,9 @@ def test_beacon_root_contract_deploy(
                     txs=[deploy_tx],
                     parent_beacon_block_root=(
                         beacon_root
-                        if fork.header_beacon_root_required(1, current_timestamp)
+                        if fork.header_beacon_root_required(
+                            block_number=1, timestamp=current_timestamp
+                        )
                         else None
                     ),
                     timestamp=timestamp // 2,

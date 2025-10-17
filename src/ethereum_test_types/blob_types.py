@@ -22,7 +22,7 @@ CACHED_BLOBS_DIRECTORY: Path = (
 logger = get_logger(__name__)
 
 
-def clear_blob_cache(cached_blobs_folder_path: Path):
+def clear_blob_cache(cached_blobs_folder_path: Path) -> None:
     """Delete all cached blobs."""
     if not cached_blobs_folder_path.is_dir():
         return
@@ -62,7 +62,7 @@ class Blob(CamelModel):
     _trusted_setup: ClassVar[Any | None] = None
 
     @classmethod
-    def trusted_setup(cls):
+    def trusted_setup(cls) -> Any:
         """Set trusted setup if it is not already set."""
         if cls._trusted_setup is None:
             trusted_setup_path = Path(realpath(__file__)).parent / "kzg_trusted_setup.txt"
@@ -80,7 +80,7 @@ class Blob(CamelModel):
         return "blob_" + str(seed) + "_cell_proofs_" + str(amount_cell_proofs) + ".json"
 
     @staticmethod
-    def get_filepath(fork: Fork, seed: int):
+    def get_filepath(fork: Fork, seed: int) -> Path:
         """
         Return the Path to the blob that would be created with these
         parameters.
@@ -276,7 +276,7 @@ class Blob(CamelModel):
         # reconstruct and return blob object
         return Blob.model_validate_json(json_str)
 
-    def write_to_file(self):
+    def write_to_file(self) -> None:
         """Take a blob object, serialize it and write it to disk as json."""
         json_str = self.model_dump_json()
         output_location = Blob.get_filepath(self.fork, self.seed)
@@ -319,7 +319,7 @@ class Blob(CamelModel):
 
         return is_valid
 
-    def delete_cells_then_recover_them(self, deletion_indices: list[int]):
+    def delete_cells_then_recover_them(self, deletion_indices: list[int]) -> None:
         """
         Simulate the cell recovery process in user-specified scenario.
 
@@ -401,7 +401,7 @@ class Blob(CamelModel):
         CORRUPT_TO_ALL_ZEROES = 3  # sets all proof bytes to 0
         CORRUPT_ALL_BYTES = 4  # corrupts all bytes
 
-    def corrupt_proof(self, mode: ProofCorruptionMode):
+    def corrupt_proof(self, mode: ProofCorruptionMode) -> None:
         """Corrupt the proof field, supports different corruption modes."""
 
         def corrupt_byte(b: bytes) -> Bytes:

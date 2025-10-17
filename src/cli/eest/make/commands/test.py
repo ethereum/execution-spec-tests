@@ -25,7 +25,7 @@ template_env = jinja2.Environment(
 )
 
 
-def exit_now():
+def exit_now() -> None:
     """Interrupt execution instantly via ctrl+C."""
     print("Ctrl+C detected, exiting..")
     exit(0)
@@ -35,7 +35,7 @@ def exit_now():
     short_help="Generate a new test file for an EIP.",
     epilog=f"Further help: {DocsConfig().DOCS_URL__WRITING_TESTS}",
 )
-def test():
+def test() -> None:
     """
     Generate a new test file for an EIP.
 

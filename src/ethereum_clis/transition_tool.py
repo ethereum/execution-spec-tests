@@ -19,12 +19,14 @@ from requests.exceptions import ReadTimeout
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_base_types import BlobSchedule
+from ethereum_test_base_types.composite_types import ForkBlobSchedule
 from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_forks import Fork
 from ethereum_test_forks.helpers import get_development_forks, get_forks
 from ethereum_test_types import Alloc, Environment, Transaction
 
 from .cli_types import (
+    OpcodeCount,
     Traces,
     TransactionReceipt,
     TransactionTraces,
@@ -71,8 +73,10 @@ class TransitionTool(EthereumCLI):
     t8n_use_server: bool = False
     server_url: str | None = None
     process: Optional[subprocess.Popen] = None
+    supports_opcode_count: ClassVar[bool] = False
 
     supports_xdist: ClassVar[bool] = True
+    supports_blob_params: ClassVar[bool] = False
 
     @abstractmethod
     def __init__(
@@ -91,7 +95,7 @@ class TransitionTool(EthereumCLI):
         self.trace = trace
         self._info_metadata: Optional[Dict[str, Any]] = {}
 
-    def __init_subclass__(cls):
+    def __init_subclass__(cls) -> None:
         """Register all subclasses of TransitionTool as possible tools."""
         TransitionTool.register_tool(cls)
 
@@ -100,24 +104,25 @@ class TransitionTool(EthereumCLI):
         """Return True if the fork is supported by the tool."""
         pass
 
-    def start_server(self):
+    def start_server(self) -> None:
         """
-        Start the t8n-server process, extract the port, and leave it running
-        for future reuse.
+        Start the t8n-server process, extract the port, and leave it
+        running for future reuse.
         """
         pass
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """Perform any cleanup tasks related to the tested tool."""
         pass
 
-    def reset_traces(self):
+    def reset_traces(self) -> None:
         """Reset the internal trace storage for a new test to begin."""
         self.traces = None
 
-    def append_traces(self, new_traces: Traces):
+    def append_traces(self, new_traces: Traces) -> None:
         """
-        Append a list of traces of a state transition to the current list.
+        Append a list of traces of a state transition to the current
+        list.
         """
         if self.traces is None:
             self.traces = []
@@ -172,7 +177,37 @@ class TransitionTool(EthereumCLI):
                 timestamp=self.env.timestamp,
             )
 
-        def __post_init__(self):
+        @property
+        def fork_name_if_supports_blob_params(self) -> str:
+            """Return the fork name."""
+            fork = self.fork.fork_at(
+                block_number=self.env.number,
+                timestamp=self.env.timestamp,
+            )
+
+            # For tools that support blob_params, return base fork for BPO
+            # forks.
+            if fork.bpo_fork():
+                return fork.non_bpo_ancestor().transition_tool_name()
+            else:
+                return self.fork.transition_tool_name(
+                    block_number=self.env.number,
+                    timestamp=self.env.timestamp,
+                )
+
+        @property
+        def blob_params(self) -> ForkBlobSchedule | None:
+            """Return the blob parameters for the current fork."""
+            if self.blob_schedule:
+                fork_name = self.fork.fork_at(
+                    block_number=self.env.number, timestamp=self.env.timestamp
+                ).name()
+                # Only return blob params if this fork has them
+                if fork_name in self.blob_schedule.root:
+                    return self.blob_schedule[fork_name]
+            return None
+
+        def __post_init__(self) -> None:
             """Modify the reward if the environment number is 0."""
             if self.env.number == 0:
                 self.reward = -1
@@ -183,6 +218,7 @@ class TransitionTool(EthereumCLI):
                 alloc=self.alloc,
                 txs=self.txs,
                 env=self.env,
+                blob_params=self.blob_params,
             )
 
         def get_request_data(self) -> TransitionToolRequest:
@@ -192,7 +228,6 @@ class TransitionTool(EthereumCLI):
                     fork=self.fork_name,
                     chain_id=self.chain_id,
                     reward=self.reward,
-                    blob_schedule=self.blob_schedule,
                 ),
                 input=self.to_input(),
             )
@@ -228,7 +263,9 @@ class TransitionTool(EthereumCLI):
         args = [
             str(self.binary),
             "--state.fork",
-            t8n_data.fork_name,
+            t8n_data.fork_name_if_supports_blob_params
+            if self.supports_blob_params
+            else t8n_data.fork_name,
             "--input.alloc",
             input_paths["alloc"],
             "--input.env",
@@ -248,6 +285,20 @@ class TransitionTool(EthereumCLI):
             "--state.chainid",
             str(t8n_data.chain_id),
         ]
+        if self.supports_opcode_count:
+            args.extend(
+                [
+                    "--opcode.count",
+                    "opcodes.json",
+                ]
+            )
+        if self.supports_blob_params and input_paths.get("blobParams"):
+            args.extend(
+                [
+                    "--input.blobParams",
+                    input_paths["blobParams"],
+                ]
+            )
 
         if self.trace:
             args.append("--trace")
@@ -308,6 +359,20 @@ class TransitionTool(EthereumCLI):
         output = TransitionToolOutput.model_validate(
             output_contents, context={"exception_mapper": self.exception_mapper}
         )
+        if self.supports_opcode_count:
+            opcode_count_file_path = Path(temp_dir.name) / "opcodes.json"
+            if opcode_count_file_path.exists():
+                opcode_count = OpcodeCount.model_validate_json(opcode_count_file_path.read_text())
+                output.result.opcode_count = opcode_count
+
+                if debug_output_path:
+                    dump_files_to_directory(
+                        debug_output_path,
+                        {
+                            "opcodes.json": opcode_count.model_dump(),
+                        },
+                    )
+
         if self.trace:
             output.result.traces = self.collect_traces(
                 output.result.receipts, temp_dir, debug_output_path
@@ -317,8 +382,8 @@ class TransitionTool(EthereumCLI):
 
         return output
 
-    def _restart_server(self):
-        """Check if the server is still responsive and restart if needed."""
+    def _restart_server(self) -> None:
+        """Check if server is still responsive and restart if needed."""
         self.shutdown()
         time.sleep(0.1)
         self.start_server()
@@ -360,6 +425,7 @@ class TransitionTool(EthereumCLI):
 
     def _generate_post_args(self, t8n_data: TransitionToolData) -> Dict[str, List[str] | str]:
         """Generate the arguments for the POST request to the t8n-server."""
+        del t8n_data
         return {}
 
     def _evaluate_server(
@@ -394,6 +460,7 @@ class TransitionTool(EthereumCLI):
                         tx.model_dump(mode="json", **model_dump_config)
                         for tx in request_data.input.txs
                     ],
+                    "input/blob_params.json": request_data.input.blob_params,
                     "request_info.txt": request_info,
                 },
             )
@@ -479,12 +546,16 @@ class TransitionTool(EthereumCLI):
             output.result.traces = self.collect_traces(
                 output.result.receipts, temp_dir, debug_output_path
             )
-            temp_dir.cleanup()
 
+        temp_dir.cleanup()
         return output
 
     def safe_t8n_args(
-        self, fork_name: str, chain_id: int, reward: int, temp_dir=None
+        self,
+        fork_name: str,
+        chain_id: int,
+        reward: int,
+        temp_dir: tempfile.TemporaryDirectory | None = None,
     ) -> List[str]:
         """Safely construct t8n arguments with validated inputs."""
         # Validate fork name against actual transition tool names from all
@@ -547,7 +618,7 @@ class TransitionTool(EthereumCLI):
         stdin: TransitionToolInput,
         args: List[str],
         result: subprocess.CompletedProcess,
-    ):
+    ) -> None:
         """
         Export debug files if requested when interacting with t8n via streams.
         """

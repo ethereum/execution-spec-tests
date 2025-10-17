@@ -24,7 +24,7 @@ def test_chainid(
     pre: Alloc,
     chain_config: ChainConfig,
     typed_transaction: Transaction,
-):
+) -> None:
     """Test CHAINID opcode."""
     chain_id = chain_config.chain_id
     contract_address = pre.deploy_contract(Op.SSTORE(1, Op.CHAINID) + Op.STOP)

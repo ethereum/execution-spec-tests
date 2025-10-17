@@ -24,8 +24,10 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 @pytest.mark.parametrize("code_inputs", [0, 1, 16, 127, 128])
 @pytest.mark.parametrize("call_op", [Op.CALLF, Op.JUMPF])
 def test_execution_at_max_stack_height(
-    eof_state_test: EOFStateTestFiller, code_inputs: int, call_op: Op
-):
+    eof_state_test: EOFStateTestFiller,
+    code_inputs: int,
+    call_op: Op,
+) -> None:
     """
     Test execution at the maximum runtime operand stack height (1024). EOF
     doesn't allow to increase the stack height of a single code section more

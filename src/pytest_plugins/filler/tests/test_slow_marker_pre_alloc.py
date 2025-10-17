@@ -1,11 +1,12 @@
 """Test automatic pre_alloc_group marker application to slow tests."""
 
 import textwrap
+from typing import Any
 
 from ethereum_clis import TransitionTool
 
 
-def test_slow_marker_gets_pre_alloc_group(pytester, default_t8n: TransitionTool):
+def test_slow_marker_gets_pre_alloc_group(pytester: Any, default_t8n: TransitionTool) -> None:
     """
     Test that slow tests without benchmark marker get pre_alloc_group
     automatically.
@@ -17,7 +18,7 @@ def test_slow_marker_gets_pre_alloc_group(pytester, default_t8n: TransitionTool)
 
         @pytest.mark.slow
         @pytest.mark.valid_from("Cancun")
-        def test_slow_without_benchmark(state_test: StateTestFiller, pre: Alloc):
+        def test_slow_without_benchmark(state_test: StateTestFiller, pre: Alloc) -> None:
             sender = pre.fund_eoa()
             contract = pre.deploy_contract(code=b"")
             tx = Transaction(sender=sender, to=contract, gas_limit=100000)
@@ -51,7 +52,7 @@ def test_slow_marker_gets_pre_alloc_group(pytester, default_t8n: TransitionTool)
     result.stdout.fnmatch_lines(["*test_slow_without_benchmark*"])
 
 
-def test_slow_with_benchmark_no_pre_alloc(pytester, default_t8n: TransitionTool):
+def test_slow_with_benchmark_no_pre_alloc(pytester: Any, default_t8n: TransitionTool) -> None:
     """
     Test that slow tests WITH benchmark marker do NOT get pre_alloc_group.
     """
@@ -63,7 +64,7 @@ def test_slow_with_benchmark_no_pre_alloc(pytester, default_t8n: TransitionTool)
         @pytest.mark.slow
         @pytest.mark.benchmark
         @pytest.mark.valid_from("Cancun")
-        def test_slow_with_benchmark(state_test: StateTestFiller, pre: Alloc):
+        def test_slow_with_benchmark(state_test: StateTestFiller, pre: Alloc) -> None:
             sender = pre.fund_eoa()
             contract = pre.deploy_contract(code=b"")
             tx = Transaction(sender=sender, to=contract, gas_limit=100000)
@@ -96,7 +97,9 @@ def test_slow_with_benchmark_no_pre_alloc(pytester, default_t8n: TransitionTool)
     result.stdout.fnmatch_lines(["*test_slow_with_benchmark*"])
 
 
-def test_slow_with_existing_pre_alloc_unchanged(pytester, default_t8n: TransitionTool):
+def test_slow_with_existing_pre_alloc_unchanged(
+    pytester: Any, default_t8n: TransitionTool
+) -> None:
     """
     Test that slow tests with existing pre_alloc_group marker are unchanged.
     """
@@ -108,7 +111,7 @@ def test_slow_with_existing_pre_alloc_unchanged(pytester, default_t8n: Transitio
         @pytest.mark.slow
         @pytest.mark.pre_alloc_group("custom_group", reason="Custom reason")
         @pytest.mark.valid_from("Cancun")
-        def test_slow_with_existing_pre_alloc(state_test: StateTestFiller, pre: Alloc):
+        def test_slow_with_existing_pre_alloc(state_test: StateTestFiller, pre: Alloc) -> None:
             sender = pre.fund_eoa()
             contract = pre.deploy_contract(code=b"")
             tx = Transaction(sender=sender, to=contract, gas_limit=100000)
@@ -141,7 +144,7 @@ def test_slow_with_existing_pre_alloc_unchanged(pytester, default_t8n: Transitio
     result.stdout.fnmatch_lines(["*test_slow_with_existing_pre_alloc*"])
 
 
-def test_non_slow_no_pre_alloc(pytester, default_t8n: TransitionTool):
+def test_non_slow_no_pre_alloc(pytester: Any, default_t8n: TransitionTool) -> None:
     """Test that tests without slow marker do not get pre_alloc_group."""
     test_module = textwrap.dedent(
         """\
@@ -149,7 +152,7 @@ def test_non_slow_no_pre_alloc(pytester, default_t8n: TransitionTool):
         from ethereum_test_tools import Alloc, StateTestFiller, Transaction
 
         @pytest.mark.valid_from("Cancun")
-        def test_normal_speed(state_test: StateTestFiller, pre: Alloc):
+        def test_normal_speed(state_test: StateTestFiller, pre: Alloc) -> None:
             sender = pre.fund_eoa()
             contract = pre.deploy_contract(code=b"")
             tx = Transaction(sender=sender, to=contract, gas_limit=100000)
@@ -182,7 +185,7 @@ def test_non_slow_no_pre_alloc(pytester, default_t8n: TransitionTool):
     result.stdout.fnmatch_lines(["*test_normal_speed*"])
 
 
-def test_integration_with_fill(pytester, default_t8n: TransitionTool):
+def test_integration_with_fill(pytester: Any, default_t8n: TransitionTool) -> None:
     """
     Integration test using actual fill command to verify marker application.
     """
@@ -198,7 +201,7 @@ def test_integration_with_fill(pytester, default_t8n: TransitionTool):
 
         @pytest.mark.slow
         @pytest.mark.valid_from("Cancun")
-        def test_slow_for_integration(state_test: StateTestFiller, pre: Alloc):
+        def test_slow_for_integration(state_test: StateTestFiller, pre: Alloc) -> None:
             '''Test that should get pre_alloc_group marker automatically.'''
             sender = pre.fund_eoa()
             contract = pre.deploy_contract(code=b"")

@@ -45,7 +45,7 @@ class FixtureAuthorizationTuple(
 ):
     """Authorization tuple for fixture transactions."""
 
-    v: ZeroPaddedHexNumber = Field(validation_alias=AliasChoices("v", "yParity"))  # type: ignore
+    v: ZeroPaddedHexNumber = Field(validation_alias=AliasChoices("v", "yParity"))
     r: ZeroPaddedHexNumber
     s: ZeroPaddedHexNumber
 
@@ -58,7 +58,7 @@ class FixtureAuthorizationTuple(
         """Return FixtureAuthorizationTuple from an AuthorizationTuple."""
         return cls(**auth_tuple.model_dump())
 
-    def sign(self):
+    def sign(self) -> None:
         """Sign the current object for further serialization."""
         # No-op, as the object is always already signed
         return

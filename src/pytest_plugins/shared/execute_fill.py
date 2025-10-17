@@ -30,7 +30,7 @@ plugins.
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config: pytest.Config):
+def pytest_configure(config: pytest.Config) -> None:
     """
     Pytest hook called after command line options have been parsed and before
     test collection begins.
@@ -102,6 +102,10 @@ def pytest_configure(config: pytest.Config):
     )
     config.addinivalue_line(
         "markers",
+        "stateful: Tests for stateful benchmarking scenarios.",
+    )
+    config.addinivalue_line(
+        "markers",
         "exception_test: Negative tests that include an invalid block or transaction.",
     )
     config.addinivalue_line(
@@ -153,6 +157,10 @@ def pytest_configure(config: pytest.Config):
         "markers",
         "valid_for_bpo_forks: Marks a test as valid for BPO forks",
     )
+    config.addinivalue_line(
+        "markers",
+        "mainnet: Specialty tests crafted for running on mainnet and sanity checking.",
+    )
 
 
 @pytest.fixture(scope="function")
@@ -176,7 +184,7 @@ def test_case_description(request: pytest.FixtureRequest) -> str:
     return combined_docstring
 
 
-def pytest_make_parametrize_id(config: pytest.Config, val: str, argname: str):
+def pytest_make_parametrize_id(config: pytest.Config, val: str, argname: str) -> str:
     """
     Pytest hook called when generating test ids. We use this to generate more
     readable test ids for the generated tests.
@@ -188,13 +196,13 @@ def pytest_make_parametrize_id(config: pytest.Config, val: str, argname: str):
 SPEC_TYPES_PARAMETERS: List[str] = list(BaseTest.spec_types.keys())
 
 
-def pytest_runtest_call(item: pytest.Item):
+def pytest_runtest_call(item: pytest.Item) -> None:
     """Pytest hook called in the context of test execution."""
     if isinstance(item, EIPSpecTestItem):
         return
 
     class InvalidFillerError(Exception):
-        def __init__(self, message):
+        def __init__(self, message: str):
             super().__init__(message)
 
     if not isinstance(item, pytest.Function):
@@ -227,7 +235,7 @@ def chain_config() -> ChainConfig:
     return ChainConfig()
 
 
-def pytest_addoption(parser: pytest.Parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     static_filler_group = parser.getgroup("static", "Arguments defining static filler behavior")
     static_filler_group.addoption(

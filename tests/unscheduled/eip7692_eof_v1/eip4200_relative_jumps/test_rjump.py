@@ -21,7 +21,7 @@ RJUMP_LEN = len(Op.RJUMP[0])
 
 def test_rjump_negative(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """Test for a forward RJUMPI and backward RJUMP."""
     eof_state_test(
         container=Container.Code(
@@ -38,7 +38,7 @@ def test_rjump_negative(
 
 def test_rjump_positive_negative(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """
     EOF1V4200_0001 (Valid) EOF code containing RJUMP (Positive, Negative).
     """
@@ -57,7 +57,7 @@ def test_rjump_positive_negative(
 
 def test_rjump_zero(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """EOF1V4200_0002 (Valid) EOF code containing RJUMP (Zero)."""
     eof_state_test(
         container=Container.Code(
@@ -69,7 +69,7 @@ def test_rjump_zero(
 
 def test_rjump_maxes(
     eof_state_test: EOFStateTestFiller,
-):
+) -> None:
     """
     EOF1V4200_0003 EOF with RJUMP containing the max positive and negative
     offset (32767).
@@ -90,7 +90,7 @@ def test_rjump_maxes(
 
 def test_rjump_max_bytecode_size(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1V4200_0003 EOF with RJUMP containing the maximum offset that does not
     exceed the maximum bytecode size.
@@ -109,7 +109,7 @@ def test_rjump_max_bytecode_size(
 
 def test_rjump_truncated_rjump(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF1I4200_0001 (Invalid) EOF code containing truncated RJUMP."""
     eof_test(
         container=Container.Code(Op.RJUMP),
@@ -119,7 +119,7 @@ def test_rjump_truncated_rjump(
 
 def test_rjump_truncated_rjump_2(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF1I4200_0002 (Invalid) EOF code containing truncated RJUMP."""
     eof_test(
         container=Container.Code(Op.RJUMP + b"\x00"),
@@ -131,7 +131,7 @@ def test_rjump_truncated_rjump_2(
 def test_rjump_into_header(
     eof_test: EOFTestFiller,
     offset: int,
-):
+) -> None:
     """
     EOF1I4200_0003 (Invalid) EOF code containing RJUMP with target outside code
     bounds (Jumping into header).
@@ -144,7 +144,7 @@ def test_rjump_into_header(
 
 def test_rjump_before_header(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0004 (Invalid) EOF code containing RJUMP with target outside code
     bounds (Jumping before code begin).
@@ -157,7 +157,7 @@ def test_rjump_before_header(
 
 def test_rjump_into_data(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0005 (Invalid) EOF code containing RJUMP with target outside code
     bounds (Jumping into data section).
@@ -175,7 +175,7 @@ def test_rjump_into_data(
 
 def test_rjump_outside_other_section_before(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF code containing RJUMP with target outside code bounds (prior code
     section).
@@ -193,7 +193,7 @@ def test_rjump_outside_other_section_before(
 
 def test_rjump_outside_other_section_after(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF code containing RJUMP with target outside code bounds (Subsequent code
     section).
@@ -212,7 +212,7 @@ def test_rjump_outside_other_section_after(
 
 def test_rjump_after_container(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0006 (Invalid) EOF code containing RJUMP with target outside code
     bounds (Jumping after code end).
@@ -225,7 +225,7 @@ def test_rjump_after_container(
 
 def test_rjump_to_code_end(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0007 (Invalid) EOF code containing RJUMP with target outside code
     bounds (Jumping to code end).
@@ -240,7 +240,7 @@ def test_rjump_to_code_end(
 def test_rjump_into_self_data_portion(
     eof_test: EOFTestFiller,
     offset: int,
-):
+) -> None:
     """
     EOF1I4200_0008 (Invalid) EOF code containing RJUMP with target self RJUMP
     immediate.
@@ -253,7 +253,7 @@ def test_rjump_into_self_data_portion(
 
 def test_rjump_into_self_remaining_code(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0008 (Invalid) EOF code containing RJUMP with target self RJUMP
     but remaining unreachable code.
@@ -268,7 +268,7 @@ def test_rjump_into_self_remaining_code(
 def test_rjump_into_self(
     eof_test: EOFTestFiller,
     stack_height_spread: int,
-):
+) -> None:
     """EOF code containing RJUMP with target self RJUMP."""
     # Create variadic stack height by the parametrized spread.
     stack_spread_code = Bytecode()
@@ -282,7 +282,7 @@ def test_rjump_into_self(
 
 def test_rjump_into_self_pre_code(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF code containing RJUMP with target self RJUMP with non-zero stack before
     RJUMP.
@@ -470,7 +470,7 @@ def test_rjump_into_self_pre_code(
 def test_rjump_valid_forward(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Validate a valid code section containing at least one forward RJUMP. These
     tests exercise the stack height validation.
@@ -566,7 +566,7 @@ def test_rjump_valid_forward(
 def test_rjump_valid_backward(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Validate a valid code section containing at least one backward RJUMP. These
     tests exercise the stack height validation.
@@ -576,7 +576,7 @@ def test_rjump_valid_backward(
 
 def test_rjump_into_stack_height_diff(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF code containing RJUMP with target instruction that causes stack height
     difference.
@@ -589,7 +589,7 @@ def test_rjump_into_stack_height_diff(
 
 def test_rjump_into_stack_height_diff_2(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF code containing RJUMP with target instruction that cause stack height
     difference.
@@ -778,7 +778,7 @@ def test_rjump_into_stack_height_diff_2(
 def test_rjump_backward_invalid_max_stack_height(
     eof_test: EOFTestFiller,
     container: Container,
-):
+) -> None:
     """
     Validate a code section containing at least one backward RJUMP invalid
     because of the incorrect max stack height.
@@ -788,7 +788,7 @@ def test_rjump_backward_invalid_max_stack_height(
 
 def test_rjump_into_stack_underflow(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF code containing RJUMP with target instruction that cause stack
     underflow.
@@ -808,7 +808,7 @@ def test_rjump_into_stack_underflow(
 
 def test_rjump_into_rjump(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0009 (Invalid) EOF code containing RJUMP with target other RJUMP
     immediate.
@@ -821,7 +821,7 @@ def test_rjump_into_rjump(
 
 def test_rjump_into_rjumpi(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """
     EOF1I4200_0010 (Invalid) EOF code containing RJUMP with target RJUMPI
     immediate.
@@ -833,7 +833,7 @@ def test_rjump_into_rjumpi(
 
 
 @pytest.mark.parametrize("jump", [JumpDirection.FORWARD, JumpDirection.BACKWARD])
-def test_rjump_into_push_1(eof_test: EOFTestFiller, jump: JumpDirection):
+def test_rjump_into_push_1(eof_test: EOFTestFiller, jump: JumpDirection) -> None:
     """
     EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1
     immediate.
@@ -894,7 +894,7 @@ def test_rjump_into_push_n(
     opcode: Op,
     jump: JumpDirection,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH2+
     immediate.
@@ -922,7 +922,7 @@ def test_rjump_into_rjumpv(
     eof_test: EOFTestFiller,
     target_rjumpv_table_size: int,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0012 (Invalid) EOF code containing RJUMP with target RJUMPV
     immediate.
@@ -949,7 +949,7 @@ def test_rjump_into_rjumpv(
 def test_rjump_into_callf(
     eof_test: EOFTestFiller,
     data_portion_end: bool,
-):
+) -> None:
     """
     EOF1I4200_0013 (Invalid) EOF code containing RJUMP with target CALLF
     immediate.
@@ -973,7 +973,7 @@ def test_rjump_into_callf(
 
 def test_rjump_into_dupn(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF code containing RJUMP with target DUPN immediate."""
     eof_test(
         container=Container.Code(
@@ -985,7 +985,7 @@ def test_rjump_into_dupn(
 
 def test_rjump_into_swapn(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF code containing RJUMP with target SWAPN immediate."""
     eof_test(
         container=Container.Code(
@@ -997,7 +997,7 @@ def test_rjump_into_swapn(
 
 def test_rjump_into_exchange(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF code containing RJUMP with target EXCHANGE immediate."""
     eof_test(
         container=Container.Code(
@@ -1015,7 +1015,7 @@ def test_rjump_into_exchange(
 
 def test_rjump_into_eofcreate(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF code containing RJUMP with target EOFCREATE immediate."""
     eof_test(
         container=Container(
@@ -1043,7 +1043,7 @@ def test_rjump_into_eofcreate(
 
 def test_rjump_into_returncode(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF code containing RJUMP with target RETURNCODE immediate."""
     eof_test(
         container=Container(
@@ -1081,7 +1081,7 @@ def test_rjump_unreachable_code(
     eof_test: EOFTestFiller,
     unreachable_op: Op,
     terminating_op: Op,
-):
+) -> None:
     """EOF code containing instructions skipped by RJUMP."""
     container = Container.Code(
         code=(Op.RJUMP[len(unreachable_op)] + unreachable_op + terminating_op)
@@ -1094,7 +1094,7 @@ def test_rjump_unreachable_code(
 
 def test_rjump_backwards_reference_only(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """EOF code containing instructions only reachable by backwards RJUMP."""
     container = Container.Code(
         code=(Op.RJUMP[RJUMP_LEN] + Op.RJUMP[RJUMP_LEN] + Op.RJUMP[-(2 * RJUMP_LEN)] + Op.STOP)
@@ -1107,7 +1107,7 @@ def test_rjump_backwards_reference_only(
 
 def test_rjump_backwards_illegal_stack_height(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Invalid backward jump, found via fuzzing coverage."""
     eof_test(
         container=Container.Code(
@@ -1127,7 +1127,7 @@ def test_rjump_backwards_illegal_stack_height(
 
 def test_rjump_backwards_infinite_loop(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Validate that a backwards RJUMP as terminal operation is valid."""
     eof_test(
         container=Container(

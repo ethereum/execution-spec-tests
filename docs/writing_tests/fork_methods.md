@@ -188,7 +188,7 @@ Example of adding a new method:
 ```python
 @classmethod
 @abstractmethod
-def supports_new_feature(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+def supports_new_feature(cls, *, block_number: int = 0, timestamp: int = 0) -> bool:
     """Return whether the given fork supports the new feature."""
     pass
 ```
@@ -197,7 +197,7 @@ Implementation in a fork class:
 
 ```python
 @classmethod
-def supports_new_feature(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+def supports_new_feature(cls, *, block_number: int = 0, timestamp: int = 0) -> bool:
     """Return whether the given fork supports the new feature."""
     return False  # Frontier doesn't support this feature
 ```
@@ -206,7 +206,7 @@ Implementation in a newer fork class:
 
 ```python
 @classmethod
-def supports_new_feature(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+def supports_new_feature(cls, *, block_number: int = 0, timestamp: int = 0) -> bool:
     """Return whether the given fork supports the new feature."""
     return True  # This fork does support the feature
 ```

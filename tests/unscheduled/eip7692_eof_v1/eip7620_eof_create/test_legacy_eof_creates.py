@@ -55,7 +55,7 @@ def test_cross_version_creates_fail_light(
     pre: Alloc,
     legacy_create_opcode: Opcodes,
     initcode: Bytes | Container,
-):
+) -> None:
     """
     Verifies that CREATE and CREATE2 cannot run EOF initcodes and fail early on
     attempt.
@@ -128,7 +128,7 @@ def test_cross_version_creates_fail_hard(
     pre: Alloc,
     legacy_create_opcode: Opcodes,
     initcode: Bytes,
-):
+) -> None:
     """
     Verifies that CREATE and CREATE2 fail hard on attempt to run initcode
     starting with `EF` but not `EF00`.
@@ -202,7 +202,7 @@ def test_legacy_initcode_eof_contract_fails(
     pre: Alloc,
     legacy_create_opcode: Opcodes,
     deploy_code: Bytes | Container,
-):
+) -> None:
     """
     Verifies that legacy initcode cannot create EOF.
 

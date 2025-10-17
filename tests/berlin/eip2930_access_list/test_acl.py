@@ -40,7 +40,7 @@ def test_account_storage_warm_cold_state(
     fork: Fork,
     account_warm: bool,
     storage_key_warm: bool,
-):
+) -> None:
     """Test type 1 transaction."""
     env = Environment()
     gas_costs = fork.gas_costs()
@@ -204,7 +204,7 @@ def test_transaction_intrinsic_gas_cost(
     fork: Fork,
     access_lists: List[AccessList],
     enough_gas: bool,
-):
+) -> None:
     """Test type 1 transaction."""
     env = Environment()
 
@@ -253,3 +253,67 @@ def test_transaction_intrinsic_gas_cost(
         ),
     }
     state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+def test_repeated_address_acl(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+) -> None:
+    """
+    Tests that slots are warmed correctly in an access list that has the same
+    address repeated more than once, each time with different slots.
+
+    Difference with other ACL tests is that we actually try to
+    access both slots at runtime. We also measure the gas cost
+    of each access in order to make debugging easier.
+    """
+    sender = pre.fund_eoa()
+    gsc = fork.gas_costs()
+
+    sload0_measure = CodeGasMeasure(
+        code=Op.SLOAD(0),
+        overhead_cost=gsc.G_VERY_LOW * len(Op.SLOAD.kwargs),  # Cost of pushing SLOAD args
+        extra_stack_items=1,  # SLOAD pushes 1 item to the stack
+        sstore_key=0,
+        stop=False,  # Because it's the first CodeGasMeasure
+    )
+
+    sload1_measure = CodeGasMeasure(
+        code=Op.SLOAD(1),
+        overhead_cost=gsc.G_VERY_LOW * len(Op.SLOAD.kwargs),  # Cost of pushing SLOAD args
+        extra_stack_items=1,  # SLOAD pushes 1 item to the stack
+        sstore_key=1,
+    )
+
+    contract = pre.deploy_contract(sload0_measure + sload1_measure)
+
+    tx = Transaction(
+        gas_limit=500_000,
+        to=contract,
+        value=0,
+        sender=sender,
+        access_list=[
+            AccessList(
+                address=contract,
+                storage_keys=[0],
+            ),
+            AccessList(
+                address=contract,
+                storage_keys=[1],
+            ),
+        ],
+    )
+
+    sload_cost = gsc.G_WARM_ACCOUNT_ACCESS
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            contract: Account(
+                storage={0: sload_cost, 1: sload_cost},
+            )
+        },
+    )

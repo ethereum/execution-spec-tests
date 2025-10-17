@@ -25,7 +25,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 def test_returncode_valid_index_0(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Deploy container index 0."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -42,7 +42,7 @@ def test_returncode_valid_index_0(
 
 def test_returncode_valid_index_1(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Deploy container index 1."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -61,7 +61,7 @@ def test_returncode_valid_index_1(
 
 def test_returncode_valid_index_255(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Deploy container index 255."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -81,7 +81,7 @@ def test_returncode_valid_index_255(
 
 def test_returncode_invalid_truncated_immediate(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Truncated immediate."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -98,7 +98,7 @@ def test_returncode_invalid_truncated_immediate(
 
 def test_returncode_invalid_index_0(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Referring to non-existent container section index 0."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -115,7 +115,7 @@ def test_returncode_invalid_index_0(
 
 def test_returncode_invalid_index_1(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Referring to non-existent container section index 1."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -133,7 +133,7 @@ def test_returncode_invalid_index_1(
 
 def test_returncode_invalid_index_255(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Referring to non-existent container section index 255."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -151,7 +151,7 @@ def test_returncode_invalid_index_255(
 
 def test_returncode_terminating(
     eof_test: EOFTestFiller,
-):
+) -> None:
     """Unreachable code after RETURNCODE."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
@@ -201,7 +201,7 @@ def test_returncode_memory_expansion(
     offset_field: str,
     test_arg: int,
     success: bool,
-):
+) -> None:
     """
     Attempts an EOFCREATE with a possibly too-large auxdata.  Create either
     fails due to gas or contract too large, resulting in address or zero on

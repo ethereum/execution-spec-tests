@@ -1,7 +1,7 @@
 """Helper functions for the EIP-7951 P256VERIFY precompiles tests."""
 
 import os
-from typing import Annotated, List
+from typing import Annotated, Any, List
 
 import pytest
 from pydantic import BaseModel, BeforeValidator, ConfigDict, RootModel, TypeAdapter
@@ -26,7 +26,7 @@ class Vector(BaseModel):
 
     model_config = ConfigDict(alias_generator=to_pascal)
 
-    def to_pytest_param(self):
+    def to_pytest_param(self) -> Any:
         """
         Convert the test vector to a tuple that can be used as a parameter in a
         pytest test.
@@ -43,7 +43,7 @@ class FailVector(BaseModel):
 
     model_config = ConfigDict(alias_generator=to_pascal)
 
-    def to_pytest_param(self):
+    def to_pytest_param(self) -> Any:
         """
         Convert the test vector to a tuple that can be used as a parameter in a
         pytest test.

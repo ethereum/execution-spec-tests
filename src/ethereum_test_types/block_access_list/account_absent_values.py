@@ -8,7 +8,7 @@ For checking complete absence, use BalAccountExpectation with empty lists
 instead.
 """
 
-from typing import List
+from typing import Any, List
 
 from pydantic import Field, model_validator
 
@@ -150,8 +150,8 @@ class BalAccountAbsentValues(CamelModel):
     def _validate_forbidden_changes(
         actual_changes: List,
         forbidden_changes: List,
-        match_fn,
-        error_msg_fn,
+        match_fn: Any,
+        error_msg_fn: Any,
     ) -> None:
         for actual in actual_changes:
             for forbidden in forbidden_changes:

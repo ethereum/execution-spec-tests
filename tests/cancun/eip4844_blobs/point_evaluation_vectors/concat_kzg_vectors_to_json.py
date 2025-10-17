@@ -7,10 +7,10 @@ import argparse
 import json
 from pathlib import Path
 
-import yaml  # type: ignore
+import yaml
 
 
-def gather_yaml_data(directory: Path):  # noqa: D103
+def gather_yaml_data(directory: Path) -> list[dict[str, str]]:  # noqa: D103
     all_data = []
 
     # Loop through each directory in the main directory
@@ -33,7 +33,7 @@ def gather_yaml_data(directory: Path):  # noqa: D103
     return all_data
 
 
-def main():  # noqa: D103
+def main() -> None:  # noqa: D103
     parser = argparse.ArgumentParser(
         description="Concatenate the data from multiple data.yaml files into one JSON file."
     )

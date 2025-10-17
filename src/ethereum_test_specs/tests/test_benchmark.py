@@ -22,7 +22,7 @@ from ethereum_test_types import Alloc, Environment, Transaction
         (150, 10),  # 150M / 16M = 10 transactions (9x16M + 6M)
     ],
 )
-def test_split_transaction(gas_benchmark_value_millions: int, expected_splits: int):
+def test_split_transaction(gas_benchmark_value_millions: int, expected_splits: int) -> None:
     """
     Test that transaction splitting works
     correctly for Osaka fork gas cap.
@@ -86,7 +86,7 @@ def test_split_transaction(gas_benchmark_value_millions: int, expected_splits: i
         (50_000_000, 100_000_000),  # Cap higher than benchmark value
     ],
 )
-def test_split_transaction_edge_cases(gas_benchmark_value: int, gas_limit_cap: int | None):
+def test_split_transaction_edge_cases(gas_benchmark_value: int, gas_limit_cap: int | None) -> None:
     """Test edge cases for transaction splitting."""
     benchmark_test = BenchmarkTest(
         pre=Alloc(),

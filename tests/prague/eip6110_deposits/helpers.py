@@ -38,12 +38,12 @@ def create_deposit_log_bytes(
     result = bytearray(576)
     offset = 0
 
-    def write_uint256(value: int):
+    def write_uint256(value: int) -> None:
         nonlocal offset
         result[offset : offset + 32] = value.to_bytes(32, byteorder="big")
         offset += 32
 
-    def write_bytes(data: bytes, size: int):
+    def write_bytes(data: bytes, size: int) -> None:
         nonlocal offset
         padded = data.ljust(size, b"\x00")
         result[offset : offset + size] = padded
@@ -186,6 +186,7 @@ class DepositRequest(DepositRequestBase):
 
     def with_source_address(self, source_address: Address) -> "DepositRequest":
         """Return a copy."""
+        del source_address
         return self.copy()
 
 
@@ -204,7 +205,7 @@ class DepositInteractionBase:
         """Return a transaction for the deposit request."""
         raise NotImplementedError
 
-    def update_pre(self, pre: Alloc):
+    def update_pre(self, pre: Alloc) -> None:
         """Return the pre-state of the account."""
         raise NotImplementedError
 
@@ -238,7 +239,7 @@ class DepositTransaction(DepositInteractionBase):
             for request in self.requests
         ]
 
-    def update_pre(self, pre: Alloc):
+    def update_pre(self, pre: Alloc) -> None:
         """Return the pre-state of the account."""
         self.sender_account = pre.fund_eoa(self.sender_balance)
 
@@ -316,7 +317,7 @@ class DepositContract(DepositInteractionBase):
             )
         ]
 
-    def update_pre(self, pre: Alloc):
+    def update_pre(self, pre: Alloc) -> None:
         """Return the pre-state of the account."""
         required_balance = self.sender_balance
         if self.tx_value > 0:

@@ -48,7 +48,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Set, Tuple, cast
 
-import mkdocs_gen_files  # type: ignore
+import mkdocs_gen_files  # type: ignore[unused-ignore, import-not-found]
 import pytest
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from pytest import Item
@@ -79,7 +79,7 @@ logger = logging.getLogger("mkdocs")
 docstring_test_function_history: Dict[str, str] = {}
 
 
-def pytest_addoption(parser):  # noqa: D103
+def pytest_addoption(parser: pytest.Parser) -> None:  # noqa: D103
     gen_docs = parser.getgroup(
         "gen_docs", "Arguments related to generating test case documentation"
     )
@@ -103,7 +103,7 @@ def pytest_addoption(parser):  # noqa: D103
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_configure(config):  # noqa: D103
+def pytest_configure(config: pytest.Config) -> None:  # noqa: D103
     if config.getoption("gen_docs"):
         config.option.disable_html = True
         config.pluginmanager.register(TestDocsGenerator(config), "test-case-doc-generator")
@@ -234,7 +234,7 @@ def get_test_function_test_type(item: pytest.Item) -> str:
 class TestDocsGenerator:
     """Pytest plugin class for generating test case documentation."""
 
-    def __init__(self, config) -> None:
+    def __init__(self, config: pytest.Config) -> None:
         """Initialize the plugin with the given pytest config."""
         self.config = config
         self.target_fork: str = config.getoption("gen_docs_target_fork")
@@ -255,7 +255,9 @@ class TestDocsGenerator:
         self.page_props: PagePropsLookup = {}
 
     @pytest.hookimpl(hookwrapper=True, trylast=True)
-    def pytest_collection_modifyitems(self, config: pytest.Config, items: List[pytest.Item]):
+    def pytest_collection_modifyitems(
+        self, config: pytest.Config, items: List[pytest.Item]
+    ) -> object:
         """Generate html doc for each test item that pytest has collected."""
         yield
 
@@ -285,16 +287,22 @@ class TestDocsGenerator:
         self.update_mkdocs_nav()
 
     @pytest.hookimpl(tryfirst=True)
-    def pytest_runtestloop(self, session):
+    def pytest_runtestloop(self, session: pytest.Session) -> bool:
         """Skip test execution, only generate docs."""
         session.testscollected = 0
         return True
 
-    def pytest_terminal_summary(self, terminalreporter, exitstatus, config):
+    def pytest_terminal_summary(
+        self,
+        terminalreporter: Any,
+        exitstatus: int,
+        config: pytest.Config,
+    ) -> None:
         """Add a summary line for the docs."""
+        del exitstatus, config
         terminalreporter.write_sep("=", f"{len(self.page_props)} doc pages generated", bold=True)
 
-    def _setup_logger(self):
+    def _setup_logger(self) -> None:
         """
         Configure the mkdocs logger and adds a StreamHandler if outside mkdocs.
 
@@ -342,7 +350,7 @@ class TestDocsGenerator:
         # local test build, e.g. via `uv run mkdocs serve`
         return "/execution-spec-tests/"
 
-    def add_global_page_props_to_env(self):
+    def add_global_page_props_to_env(self) -> None:
         """Populate global page properties used in j2 templates."""
         global_page_props = {
             "target_fork": self.target_fork,
@@ -405,7 +413,7 @@ class TestDocsGenerator:
 
             module_relative_path = Path(items[0].module.__file__).relative_to(Path.cwd())
             source_url = generate_github_url(
-                module_relative_path,
+                str(module_relative_path),
                 branch_or_commit_or_tag=self.ref,
                 line_number=items[0].function.__code__.co_firstlineno,
             )
@@ -431,6 +439,7 @@ class TestDocsGenerator:
             )
 
             is_benchmark = items[0].get_closest_marker("benchmark") is not None
+            is_stateful = items[0].get_closest_marker("stateful") is not None
 
             self.function_page_props[function_id] = FunctionPageProps(
                 title=get_test_function_name(items[0]),
@@ -447,6 +456,7 @@ class TestDocsGenerator:
                 html_static_page_target=f"./{get_test_function_name(items[0])}.html",
                 mkdocs_function_page_target=f"./{get_test_function_name(items[0])}/",
                 is_benchmark=is_benchmark,
+                is_stateful=is_stateful,
             )
 
     def create_module_page_props(self) -> None:
@@ -462,6 +472,7 @@ class TestDocsGenerator:
                     pytest_node_id=str(module_path),
                     package_name=get_import_path(module_path),
                     is_benchmark=function_page.is_benchmark,
+                    is_stateful=function_page.is_stateful,
                     test_functions=[
                         TestFunction(
                             name=function_page.title,
@@ -475,6 +486,8 @@ class TestDocsGenerator:
                 existing_module_page = self.module_page_props[str(function_page.path)]
                 if function_page.is_benchmark:
                     existing_module_page.is_benchmark = True
+                if function_page.is_stateful:
+                    existing_module_page.is_stateful = True
                 existing_module_page.test_functions.append(
                     TestFunction(
                         name=function_page.title,
@@ -511,14 +524,21 @@ class TestDocsGenerator:
             is_benchmark = any(
                 module_page.is_benchmark
                 for module_page in self.module_page_props.values()
-                if module_page.path.parent == directory
+                if directory in module_page.path.parents or module_page.path.parent == directory
+            )
+            is_stateful = any(
+                module_page.is_stateful
+                for module_page in self.module_page_props.values()
+                if directory in module_page.path.parents or module_page.path.parent == directory
             )
 
             self.page_props[str(directory)] = DirectoryPageProps(
                 title=sanitize_string_title(str(directory.name)),
                 path=directory,
                 pytest_node_id=str(directory),
-                source_code_url=generate_github_url(directory, branch_or_commit_or_tag=self.ref),
+                source_code_url=generate_github_url(
+                    str(directory), branch_or_commit_or_tag=self.ref
+                ),
                 # TODO: This won't work in all cases; should be from the
                 # development fork Currently breaks for
                 # `tests/unscheduled/eip7692_eof_v1/index.md`
@@ -526,6 +546,7 @@ class TestDocsGenerator:
                 # init.py will be used for docstrings
                 package_name=get_import_path(directory),
                 is_benchmark=is_benchmark,
+                is_stateful=is_stateful,
             )
 
     def find_files_within_collection_scope(self, file_pattern: str) -> List[Path]:
@@ -556,7 +577,9 @@ class TestDocsGenerator:
             self.page_props[str(spec_path)] = ModulePageProps(
                 title="Spec",
                 path=spec_path,
-                source_code_url=generate_github_url(spec_path, branch_or_commit_or_tag=self.ref),
+                source_code_url=generate_github_url(
+                    str(spec_path), branch_or_commit_or_tag=self.ref
+                ),
                 pytest_node_id=str(spec_path),
                 package_name=get_import_path(spec_path),
                 target_or_valid_fork="",
@@ -572,7 +595,9 @@ class TestDocsGenerator:
             self.page_props[str(md_path)] = MarkdownPageProps(
                 title=md_path.stem,
                 path=md_path,
-                source_code_url=generate_github_url(md_path, branch_or_commit_or_tag=self.ref),
+                source_code_url=generate_github_url(
+                    str(md_path), branch_or_commit_or_tag=self.ref
+                ),
                 # abuse: not a test, but used in source code link
                 pytest_node_id=str(md_path),
                 target_or_valid_fork="",
@@ -637,4 +662,4 @@ class TestDocsGenerator:
     def write_pages(self) -> None:
         """Write all pages to the target directory."""
         for page in self.page_props.values():
-            page.write_page(mkdocs_gen_files, self.jinja2_env)  # type: ignore[arg-type]
+            page.write_page(mkdocs_gen_files, self.jinja2_env)  # type: ignore[arg-type, unused-ignore]

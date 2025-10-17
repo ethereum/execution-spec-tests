@@ -8,7 +8,7 @@ from typing import List
 import pytest
 
 
-def pytest_collection_modifyitems(items: List[pytest.Item]):
+def pytest_collection_modifyitems(items: List[pytest.Item]) -> None:
     """
     Modify collected item names to remove the test runner function from the
     name.

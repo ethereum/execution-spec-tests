@@ -31,7 +31,7 @@ from ...consume.simulators.helpers.ruleset import ruleset
 from .chain_builder_eth_rpc import ChainBuilderEthRPC
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     """Add command-line options to pytest."""
     hive_rpc_group = parser.getgroup(
         "hive_rpc", "Arguments defining the hive RPC client properties for the test."
@@ -58,9 +58,9 @@ def pytest_addoption(parser):
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_configure(config):  # noqa: D103
-    config.test_suite_scope = "session"
-    config.engine_rpc_supported = True
+def pytest_configure(config: pytest.Config) -> None:  # noqa: D103
+    config.test_suite_scope = "session"  # type: ignore
+    config.engine_rpc_supported = True  # type: ignore
 
 
 @pytest.fixture(scope="session")
@@ -83,7 +83,11 @@ def seed_sender(session_temp_folder: Path) -> EOA:
 
 
 @pytest.fixture(scope="session")
-def base_pre(request, seed_sender: EOA, worker_count: int) -> Alloc:
+def base_pre(
+    request: pytest.FixtureRequest,
+    seed_sender: EOA,
+    worker_count: int,
+) -> Alloc:
     """Pre-allocation for the client's genesis."""
     sender_key_initial_balance = request.config.getoption("sender_key_initial_balance")
     return Alloc(

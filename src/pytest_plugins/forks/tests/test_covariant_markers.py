@@ -471,8 +471,8 @@ import pytest
     ],
 )
 def test_fork_covariant_markers(
-    pytester, test_function: str, outcomes: dict, error_string: str | None
-):
+    pytester: pytest.Pytester, test_function: str, outcomes: dict, error_string: str | None
+) -> None:
     """
     Test fork covariant markers in an isolated test session, i.e., in
     a `fill` execution.

@@ -9,8 +9,13 @@ from .commands import clean, info
 from .make.cli import make
 
 
-@click.group(context_settings={"help_option_names": ["-h", "--help"], "max_content_width": 120})
-def eest():
+@click.group(
+    context_settings={
+        "help_option_names": ["-h", "--help"],
+        "max_content_width": 120,
+    }
+)
+def eest() -> None:
     """`eest` is a CLI tool that helps with routine tasks."""
     pass
 

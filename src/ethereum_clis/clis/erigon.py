@@ -45,7 +45,7 @@ class ErigonExceptionMapper(ExceptionMapper):
     }
     mapping_regex = {
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
-            r"invalid block, txnIdx=\d+, gas limit too high"
+            r"invalid block, txnIdx=\d+,.*gas limit too high"
         ),
         BlockException.INCORRECT_BLOB_GAS_USED: r"blobGasUsed by execution: \d+, in header: \d+",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: r"invalid excessBlobGas: have \d+, want \d+",
