@@ -3,8 +3,8 @@
 | Function Name | Goal | Setup | Expectation | Status |
 |---------------|------|-------|-------------|--------|
 | **Inclusion list Building** |
-| `test_focil_inclusion_list_builder_respects_size_limit` | Ensure the inclusion list builder does not create a list that exceeds the `MAX_BYTES_PER_INCLUSION_LIST` limit. | Provide the builder with more transactions than can fit within the size limit. | The builder MUST create an inclusion list that is less than or equal to the size limit. It MUST NOT produce an oversized list. | 🟡 Planned |
-| **Block Validation** |
+| `test_focil_inclusion_list_committee_member_respects_size_limit` | Ensure the inclusion list builder does not create a list that exceeds the `MAX_BYTES_PER_INCLUSION_LIST` limit. | Provide the builder with more transactions than can fit within the size limit. | The builder MUST create an inclusion list that is less than or equal to the size limit. It MUST NOT produce an oversized list. | 🟡 Planned |
+| **Block Inclusion List Validation** |
 | `test_focil_block_validation_accepts_empty_inclusion_list` | Verify the EL correctly validates a payload with an empty inclusion list. | The EL receives a payload and an empty inclusion list. | The payload MUST be considered valid. | 🟡 Planned |
 | `test_focil_block_validation_accepts_full_inclusion_list` | Verify the EL validates a payload correctly including transactions from a maximally sized inclusion list. | The EL receives a payload and an inclusion list filled to the `MAX_BYTES_PER_INCLUSION_LIST` * inclusion list Committee Size limit. All valid inclusion list txs are included. | The payload MUST include all txs. | 🟡 Planned |
 | `test_focil_block_validation_ignores_invalid_txs_in_inclusion_list` | Ensure the EL validates a block that correctly omits invalid transactions found in the inclusion list. | The EL receives a payload and an inclusion list which contains entries with invalid transactions (intrinsically invalid, bad nonce, sender cannot afford the gas, bad encoding, eip-4844 txs, etc.). |  These invalid txs MUST *not* be included in the block body. | 🟡 Planned |
