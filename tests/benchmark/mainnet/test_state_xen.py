@@ -37,7 +37,7 @@ from ethereum_test_vm import Opcodes as Op
 
 
 @pytest.mark.valid_from("Frontier")
-def test_xen_read_balance_nonexisting(blockchain_test: BlockchainTestFiller, pre: Alloc): None
+def test_xen_read_balance_nonexisting(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
     Reads balanceOf(address) starting from the index specified in the first 32 bytes of the
     tx calldata (0 if no calldata provided) and keeps reading balanceOf(address) where this
@@ -59,6 +59,7 @@ def test_xen_read_balance_nonexisting(blockchain_test: BlockchainTestFiller, pre
     balance_of_loop = (
         Om.MSTORE(fn_signature_balance_of)
         + Op.MSTORE(4, Op.CALLDATALOAD(0))
+        + Op.CALLDATALOAD(0)
         + While(
             body=Op.MSTORE(
                 4, Op.DUP1
