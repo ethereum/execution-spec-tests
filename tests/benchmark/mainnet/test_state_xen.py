@@ -37,7 +37,7 @@ from ethereum_test_vm import Opcodes as Op
 
 
 @pytest.mark.valid_from("Frontier")
-def test_xen_read_balance_nonexisting(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_xen_read_balance_nonexisting(blockchain_test: BlockchainTestFiller, pre: Alloc) -> None:
     """
     Reads balanceOf(address) starting from the index specified in the first 32 bytes of the
     tx calldata (0 if no calldata provided) and keeps reading balanceOf(address) where this
@@ -95,7 +95,7 @@ def test_xen_read_balance_nonexisting(blockchain_test: BlockchainTestFiller, pre
 def test_xen_approve_set_only(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Uses the `approve(address,uint256)` method of XEN (ERC20) close to the maximum amount
     of new slots which could be created within a single block/transaction.
@@ -164,7 +164,7 @@ def test_xen_approve_set_only(
 def test_xen_approve_change_existing_slots(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-):
+) -> None:
     """
     Uses the `approve(address,uint256)` method of XEN (ERC20) close to the maximum amount
     of slots which could be edited (as opposed to be created) within a single block/transaction.
@@ -303,7 +303,9 @@ def test_xen_approve_change_existing_slots(
 
 # TODO split this code in all situations: 0->1, 1->2, 1->0
 @pytest.mark.valid_from("Frontier")
-def test_xen_approve_delete_existing_slots(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_xen_approve_delete_existing_slots(
+    blockchain_test: BlockchainTestFiller, pre: Alloc
+) -> None:
     """
     Uses the `approve(address,uint256)` method of XEN (ERC20) close to the maximum amount
     of slots which could be edited (as opposed to be created) within a single block/transaction.
@@ -508,7 +510,7 @@ def test_xen_claimrank_and_mint(
     pre: Alloc,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """Simple XEN scenario to claimRank(1) and claimMintReward()."""
     # NOTE: the XEN tests are currently hardcoded against a gas limit.
     # To expand this to read from `gas_benchmark_value`, we need to calculate the necessary
@@ -718,7 +720,7 @@ def test_xen_claimrank_and_share_mint(
     pre: Alloc,
     env: Environment,
     gas_benchmark_value: int,
-):
+) -> None:
     """XEN scenario mimicking mainnet slow blocks, e.g. tx 0xc155aff9732f6ad9409339d28ba841b14dd181884450b3c0274672b17f2fa59a"""
     # NOTE: the XEN tests are currently hardcoded against a gas limit.
     # To expand this to read from `gas_benchmark_value`, we need to calculate the necessary
