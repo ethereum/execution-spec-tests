@@ -138,6 +138,7 @@ def test_eofcreate_gas(
     )
     cost_memory_bytes = fork.memory_expansion_gas_calculator()
     gas_test(
+        fork,
         state_test,
         Environment(),
         pre,

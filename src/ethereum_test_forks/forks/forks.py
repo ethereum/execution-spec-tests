@@ -116,7 +116,7 @@ class Frontier(BaseFork, solc_name="homestead"):
             G_CALL_STIPEND=2_300,
             G_NEW_ACCOUNT=25_000,
             G_EXP=10,
-            G_EXP_BYTE=50,
+            G_EXP_BYTE=10,
             G_MEMORY=3,
             G_TX_DATA_ZERO=4,
             G_TX_DATA_NON_ZERO=68,
@@ -814,12 +814,22 @@ class Tangerine(DAOFork, ignore=True):
 
 
 class SpuriousDragon(Tangerine, ignore=True):
-    """SpuriousDragon fork (EIP-155, EIP-158)."""
+    """SpuriousDragon fork (EIP-155, EIP-158, EIP-160)."""
+
+    @classmethod
+    def gas_costs(cls, *, block_number: int = 0, timestamp: int = 0) -> GasCosts:
+        """
+        On SpuriousDragon, EXP byte gas cost is increased to 50.
+        """
+        return replace(
+            super(SpuriousDragon, cls).gas_costs(block_number=block_number, timestamp=timestamp),
+            G_EXP_BYTE=50,  # https://eips.ethereum.org/EIPS/eip-160
+        )
 
     pass
 
 
-class Byzantium(Homestead):
+class Byzantium(SpuriousDragon):
     """Byzantium fork."""
 
     @classmethod
