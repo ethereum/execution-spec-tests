@@ -40,91 +40,91 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     - Must have exactly one transaction per payload (no multi-tx blocks)
     - Payload must be valid (we're testing production, not validation)
     """
-    for item in items:
-        if not hasattr(item, "callspec"):
-            continue
+    # Write to a debug file
+    with open("/tmp/production_filter_debug.log", "a") as f:
+        f.write("=" * 80 + "\n")
+        f.write("COLLECTION PHASE STARTING\n")
+        f.write("=" * 80 + "\n")
 
-        # Only process if this is a production test
-        if "test_blockchain_via_production" not in item.nodeid:
-            continue
+        for item in items:
+            if not hasattr(item, "callspec"):
+                continue
 
-        # Get the fixture from parameters
-        fixture = item.callspec.params.get("fixture")
-        if not isinstance(fixture, BlockchainEngineFixture):
-            continue
+            # Only process if this is a production test
+            if "test_blockchain_via_production" not in item.nodeid:
+                continue
 
-        # Filter: only single-transaction payloads
-        has_multi_tx_payload = False
-        has_invalid_payload = False
-        has_zero_tx_payload = False
+            # Get the fixture from parameters
+            fixture = item.callspec.params.get("fixture")
+            if not isinstance(fixture, BlockchainEngineFixture):
+                continue
 
-        logger.warning("=" * 80)
-        logger.warning(f"Checking test: {item.nodeid}")
+            f.write(f"\nChecking test: {item.nodeid}\n")
 
-        for i, payload in enumerate(fixture.payloads):
-            logger.warning(f"  Payload {i}:")
-            logger.warning(f"    Type: {type(payload).__name__}")
+            # Filter: only single-transaction payloads
+            has_multi_tx_payload = False
+            has_invalid_payload = False
+            has_zero_tx_payload = False
 
-            if hasattr(payload, "valid"):
-                logger.warning(f"    payload.valid() = {payload.valid()}")
-            else:
-                logger.warning("    payload.valid() = NOT FOUND")
+            for i, payload in enumerate(fixture.payloads):
+                f.write(f"  Payload {i}:\n")
+                f.write(f"    Type: {type(payload).__name__}\n")
+                f.write(f"    Has valid(): {hasattr(payload, 'valid')}\n")
 
-            if hasattr(payload, "validation_error"):
-                logger.warning(f"    payload.validation_error = {payload.validation_error}")
-            else:
-                logger.warning("    payload.validation_error = NOT FOUND")
+                if hasattr(payload, "valid"):
+                    f.write(f"    payload.valid() = {payload.valid()}\n")
 
-            if hasattr(payload, "error_code"):
-                logger.warning(f"    payload.error_code = {payload.error_code}")
-            else:
-                logger.warning("    payload.error_code = NOT FOUND")
+                if hasattr(payload, "validation_error"):
+                    f.write(f"    payload.validation_error = {payload.validation_error}\n")
 
-            # Count transactions in this payload
-            tx_count = len(payload.params[0].transactions)
-            logger.warning(f"    Transaction count: {tx_count}")
+                if hasattr(payload, "error_code"):
+                    f.write(f"    payload.error_code = {payload.error_code}\n")
 
-            if tx_count == 0:
-                has_zero_tx_payload = True
-                break
+                # Count transactions in this payload
+                tx_count = len(payload.params[0].transactions)
+                f.write(f"    Transaction count: {tx_count}\n")
 
-            if tx_count > 1:
-                has_multi_tx_payload = True
-                break
+                if tx_count == 0:
+                    has_zero_tx_payload = True
+                    break
 
-            # Skip invalid payloads (we test production, not validation)
-            if (
-                not payload.valid()
-                or payload.validation_error is not None
-                or payload.error_code is not None
-            ):
-                logger.warning("    >>> MARKING AS INVALID <<<")
-                has_invalid_payload = True
-                break
+                if tx_count > 1:
+                    has_multi_tx_payload = True
+                    break
 
-        if has_zero_tx_payload:
-            logger.warning("  >>> SKIPPING: zero transactions")
-            item.add_marker(
-                pytest.mark.skip(
-                    reason="Production simulator: zero-transaction payloads not supported"
+                # Skip invalid payloads (we test production, not validation)
+                if (
+                    not payload.valid()
+                    or payload.validation_error is not None
+                    or payload.error_code is not None
+                ):
+                    f.write("    >>> MARKING AS INVALID <<<\n")
+                    has_invalid_payload = True
+                    break
+
+            if has_zero_tx_payload:
+                f.write("  >>> WILL SKIP: zero transactions <<<\n")
+                item.add_marker(
+                    pytest.mark.skip(
+                        reason="Production simulator: zero-transaction payloads not supported"
+                    )
                 )
-            )
-        elif has_multi_tx_payload:
-            logger.warning("  >>> SKIPPING: multiple transactions")
-            item.add_marker(
-                pytest.mark.skip(
-                    reason="Production simulator: multi-transaction payloads not supported"
+            elif has_multi_tx_payload:
+                f.write("  >>> WILL SKIP: multiple transactions <<<\n")
+                item.add_marker(
+                    pytest.mark.skip(
+                        reason="Production simulator: multi-transaction payloads not supported"
+                    )
                 )
-            )
-        elif has_invalid_payload:
-            logger.warning("  >>> SKIPPING: invalid payload")
-            item.add_marker(
-                pytest.mark.skip(reason="Production simulator: only tests valid block production")
-            )
-        else:
-            logger.warning("  >>> TEST WILL RUN")
-
-        logger.warning("=" * 80)
+            elif has_invalid_payload:
+                f.write("  >>> WILL SKIP: invalid payload <<<\n")
+                item.add_marker(
+                    pytest.mark.skip(
+                        reason="Production simulator: only tests valid block production"
+                    )
+                )
+            else:
+                f.write("  >>> TEST WILL RUN <<<\n")
 
 
 @pytest.fixture(scope="function")
