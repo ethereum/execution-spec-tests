@@ -53,23 +53,63 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 continue
 
             f.write(f"\nTest: {item.nodeid}\n")
-            f.write(f"  Function name: {test_function_name}\n")
 
-            # Get the fixture from parameters
-            f.write(f"  Callspec params: {item.callspec.params.keys()}\n")
-            fixture = item.callspec.params.get("fixture")
-
-            f.write(f"  Fixture type: {type(fixture)}\n")
-            f.write(f"  Fixture class name: {type(fixture).__name__}\n")
-            f.write(
-                f"  Is BlockchainEngineFixture: {isinstance(fixture, BlockchainEngineFixture)}\n"
-            )
-
-            if not isinstance(fixture, BlockchainEngineFixture):
-                f.write("  >>> Not BlockchainEngineFixture, skipping <<<\n")
+            # Get test_case from parameters
+            test_case = item.callspec.params.get("test_case")
+            if test_case is None:
+                f.write("  >>> No test_case in params, skipping <<<\n")
                 continue
 
-            f.write("  >>> Has BlockchainEngineFixture <<<\n")
+            f.write(f"  test_case type: {type(test_case).__name__}\n")
+            f.write(f"  test_case.format: {test_case.format}\n")
+
+            # Check if this is a BlockchainEngineFixture format
+            if test_case.format != BlockchainEngineFixture:
+                f.write("  >>> Not BlockchainEngineFixture format, skipping <<<\n")
+                continue
+
+            f.write("  >>> Is BlockchainEngineFixture format <<<\n")
+
+            # Now we need to actually load the fixture to check payloads
+            # Get the fixtures_source from config
+            fixtures_source = item.config.fixtures_source  # type: ignore[attr-defined]
+
+            # Load the fixture the same way the test does
+            from ethereum_test_fixtures.file import Fixtures
+
+            if fixtures_source.is_stdin:
+                # For stdin, fixture is already in test_case
+                from ethereum_test_fixtures.consume import TestCaseStream
+
+                if isinstance(test_case, TestCaseStream):
+                    fixture = test_case.fixture
+                else:
+                    f.write("  >>> Can't load fixture from stdin test_case <<<\n")
+                    continue
+            else:
+                # For file-based, load from disk
+                from ethereum_test_fixtures.consume import TestCaseIndexFile
+
+                if not isinstance(test_case, TestCaseIndexFile):
+                    f.write("  >>> Not TestCaseIndexFile <<<\n")
+                    continue
+
+                fixtures_file_path = fixtures_source.path / test_case.json_path
+                f.write(f"  Loading from: {fixtures_file_path}\n")
+
+                if not fixtures_file_path.exists():
+                    f.write("  >>> File doesn't exist <<<\n")
+                    continue
+
+                fixtures = Fixtures.model_validate_json(fixtures_file_path.read_text())
+                fixture = fixtures[test_case.id]
+
+            f.write(f"  Fixture loaded! Type: {type(fixture).__name__}\n")
+
+            if not isinstance(fixture, BlockchainEngineFixture):
+                f.write("  >>> Loaded fixture is not BlockchainEngineFixture <<<\n")
+                continue
+
             f.write(f"  Number of payloads: {len(fixture.payloads)}\n")
 
             # Filter: only single-transaction payloads
@@ -79,7 +119,6 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
 
             for i, payload in enumerate(fixture.payloads):
                 f.write(f"\n  Payload {i}:\n")
-                f.write(f"    Type: {type(payload).__name__}\n")
 
                 if hasattr(payload, "valid"):
                     try:
@@ -94,7 +133,7 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 if hasattr(payload, "error_code"):
                     f.write(f"    payload.error_code = {payload.error_code}\n")
 
-                # Count transactions in this payload
+                # Count transactions
                 tx_count = len(payload.params[0].transactions)
                 f.write(f"    Transaction count: {tx_count}\n")
 
@@ -107,11 +146,23 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                     break
 
                 # Skip invalid payloads
-                if (
-                    not payload.valid()
-                    or payload.validation_error is not None
-                    or payload.error_code is not None
-                ):
+                should_skip = False
+                try:
+                    if not payload.valid():
+                        should_skip = True
+                        f.write("    payload.valid() returned False\n")
+                except:
+                    pass
+
+                if payload.validation_error is not None:
+                    should_skip = True
+                    f.write("    Has validation_error\n")
+
+                if payload.error_code is not None:
+                    should_skip = True
+                    f.write("    Has error_code\n")
+
+                if should_skip:
                     f.write("    >>> MARKING AS INVALID <<<\n")
                     has_invalid_payload = True
                     break
