@@ -33,7 +33,13 @@ def pytest_configure(config: pytest.Config) -> None:
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """
     Filter out tests that don't meet production simulator requirements.
+
+    Requirements:
+    - Must have exactly one transaction per payload (no multi-tx blocks)
+    - Payload must be valid (we're testing production, not validation)
     """
+    import sys  # Add this import at the top
+
     for item in items:
         if not hasattr(item, "callspec"):
             continue
@@ -52,18 +58,37 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         has_invalid_payload = False
         has_zero_tx_payload = False
 
-        for payload in fixture.payloads:
-            # DEBUG: Print payload attributes
-            print("\n=== DEBUG PAYLOAD ===")
-            print(f"Test: {item.nodeid}")
-            print(f"Payload type: {type(payload)}")
-            print(f"Has valid() method: {hasattr(payload, 'valid')}")
-            print(f"payload.valid() = {payload.valid() if hasattr(payload, 'valid') else 'N/A'}")
-            print(f"Has validation_error: {hasattr(payload, 'validation_error')}")
-            print(f"validation_error = {getattr(payload, 'validation_error', 'N/A')}")
-            print(f"Has error_code: {hasattr(payload, 'error_code')}")
-            print(f"error_code = {getattr(payload, 'error_code', 'N/A')}")
-            print("======================\n")
+        for i, payload in enumerate(fixture.payloads):
+            # DEBUG OUTPUT
+            print(f"\n{'=' * 80}", file=sys.stderr)
+            print(f"DEBUG: Checking payload {i} for test:", file=sys.stderr)
+            print(f"  Test ID: {item.nodeid}", file=sys.stderr)
+            print(f"  Payload type: {type(payload).__name__}", file=sys.stderr)
+            print(f"  Payload attributes: {dir(payload)}", file=sys.stderr)
+
+            if hasattr(payload, "valid"):
+                print(f"  payload.valid() = {payload.valid()}", file=sys.stderr)
+            else:
+                print("  payload.valid() = NOT FOUND", file=sys.stderr)
+
+            if hasattr(payload, "validation_error"):
+                print(f"  payload.validation_error = {payload.validation_error}", file=sys.stderr)
+            else:
+                print("  payload.validation_error = NOT FOUND", file=sys.stderr)
+
+            if hasattr(payload, "error_code"):
+                print(f"  payload.error_code = {payload.error_code}", file=sys.stderr)
+            else:
+                print("  payload.error_code = NOT FOUND", file=sys.stderr)
+
+            # Show params structure
+            if hasattr(payload, "params") and len(payload.params) > 0:
+                print(
+                    f"  Transaction count: {len(payload.params[0].transactions)}", file=sys.stderr
+                )
+
+            print(f"{'=' * 80}\n", file=sys.stderr)
+            # END DEBUG
 
             # Count transactions in this payload
             tx_count = len(payload.params[0].transactions)
@@ -82,6 +107,7 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 or payload.validation_error is not None
                 or payload.error_code is not None
             ):
+                print("  >>> MARKING AS INVALID <<<", file=sys.stderr)
                 has_invalid_payload = True
                 break
 
@@ -98,6 +124,7 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 )
             )
         elif has_invalid_payload:
+            print(f"  >>> SKIPPING TEST: {item.nodeid} <<<", file=sys.stderr)
             item.add_marker(
                 pytest.mark.skip(reason="Production simulator: only tests valid block production")
             )
