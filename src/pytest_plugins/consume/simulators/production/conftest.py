@@ -33,10 +33,6 @@ def pytest_configure(config: pytest.Config) -> None:
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """
     Filter out tests that don't meet production simulator requirements.
-
-    Requirements:
-    - Must have exactly one transaction per payload (no multi-tx blocks)
-    - Payload must be valid (we're testing production, not validation)
     """
     for item in items:
         if not hasattr(item, "callspec"):
@@ -57,6 +53,18 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         has_zero_tx_payload = False
 
         for payload in fixture.payloads:
+            # DEBUG: Print payload attributes
+            print("\n=== DEBUG PAYLOAD ===")
+            print(f"Test: {item.nodeid}")
+            print(f"Payload type: {type(payload)}")
+            print(f"Has valid() method: {hasattr(payload, 'valid')}")
+            print(f"payload.valid() = {payload.valid() if hasattr(payload, 'valid') else 'N/A'}")
+            print(f"Has validation_error: {hasattr(payload, 'validation_error')}")
+            print(f"validation_error = {getattr(payload, 'validation_error', 'N/A')}")
+            print(f"Has error_code: {hasattr(payload, 'error_code')}")
+            print(f"error_code = {getattr(payload, 'error_code', 'N/A')}")
+            print("======================\n")
+
             # Count transactions in this payload
             tx_count = len(payload.params[0].transactions)
 
@@ -69,7 +77,6 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 break
 
             # Skip invalid payloads (we test production, not validation)
-            # Check validation_error or error_code to detect invalid payloads
             if (
                 not payload.valid()
                 or payload.validation_error is not None
