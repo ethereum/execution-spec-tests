@@ -69,7 +69,12 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 break
 
             # Skip invalid payloads (we test production, not validation)
-            if not payload.valid():
+            # Check validation_error or error_code to detect invalid payloads
+            if (
+                not payload.valid()
+                or payload.validation_error is not None
+                or payload.error_code is not None
+            ):
                 has_invalid_payload = True
                 break
 
