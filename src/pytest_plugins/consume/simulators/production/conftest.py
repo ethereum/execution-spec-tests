@@ -35,27 +35,27 @@ def pytest_configure(config: pytest.Config) -> None:
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """
     Filter out tests that don't meet production simulator requirements.
-
-    Requirements:
-    - Must have exactly one transaction per payload (no multi-tx blocks)
-    - Payload must be valid (we're testing production, not validation)
     """
-    # Write to a debug file
-    with open("/tmp/production_filter_debug.log", "a") as f:
+    with open("/tmp/production_filter_debug.log", "w") as f:
         f.write("=" * 80 + "\n")
         f.write("COLLECTION PHASE STARTING\n")
-        f.write("=" * 80 + "\n")
-
-        f.write("ALL NODEIDS:\n")
-        for item in items:
-            f.write(f"  {item.nodeid}\n")
-            f.write(f"    has callspec: {hasattr(item, 'callspec')}\n")
-            if "production" in item.nodeid.lower():
-                f.write("    >>> HAS 'production' in nodeid <<<\n")
-
-        f.write("\n" + "=" * 80 + "\n")
-        f.write("NOW CHECKING FOR PRODUCTION TESTS:\n")
+        f.write(f"Total items: {len(items)}\n")
         f.write("=" * 80 + "\n\n")
+
+        for item in items:
+            if not hasattr(item, "callspec"):
+                continue
+
+            # Check the actual function being called, not the nodeid
+            test_function_name = item.function.__name__ if hasattr(item, "function") else None
+            f.write(f"Test: {item.nodeid}\n")
+            f.write(f"  Function name: {test_function_name}\n")
+
+            # Only process if this is a production test
+            if test_function_name != "test_blockchain_via_production":
+                continue
+
+            f.write("  >>> IS PRODUCTION TEST <<<\n")
 
         for item in items:
             if not hasattr(item, "callspec"):
