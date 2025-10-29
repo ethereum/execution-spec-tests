@@ -39,38 +39,38 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     with open("/tmp/production_filter_debug.log", "w") as f:
         f.write("=" * 80 + "\n")
         f.write("COLLECTION PHASE STARTING\n")
-        f.write(f"Total items: {len(items)}\n")
         f.write("=" * 80 + "\n\n")
 
         for item in items:
             if not hasattr(item, "callspec"):
                 continue
 
-            # Check the actual function being called, not the nodeid
+            # Check the actual function being called
             test_function_name = item.function.__name__ if hasattr(item, "function") else None
-            f.write(f"Test: {item.nodeid}\n")
-            f.write(f"  Function name: {test_function_name}\n")
 
             # Only process if this is a production test
             if test_function_name != "test_blockchain_via_production":
                 continue
 
-            f.write("  >>> IS PRODUCTION TEST <<<\n")
-
-        for item in items:
-            if not hasattr(item, "callspec"):
-                continue
-
-            # Only process if this is a production test
-            if "test_blockchain_via_production" not in item.nodeid:
-                continue
+            f.write(f"\nTest: {item.nodeid}\n")
+            f.write(f"  Function name: {test_function_name}\n")
 
             # Get the fixture from parameters
+            f.write(f"  Callspec params: {item.callspec.params.keys()}\n")
             fixture = item.callspec.params.get("fixture")
+
+            f.write(f"  Fixture type: {type(fixture)}\n")
+            f.write(f"  Fixture class name: {type(fixture).__name__}\n")
+            f.write(
+                f"  Is BlockchainEngineFixture: {isinstance(fixture, BlockchainEngineFixture)}\n"
+            )
+
             if not isinstance(fixture, BlockchainEngineFixture):
+                f.write("  >>> Not BlockchainEngineFixture, skipping <<<\n")
                 continue
 
-            f.write(f"\nChecking test: {item.nodeid}\n")
+            f.write("  >>> Has BlockchainEngineFixture <<<\n")
+            f.write(f"  Number of payloads: {len(fixture.payloads)}\n")
 
             # Filter: only single-transaction payloads
             has_multi_tx_payload = False
@@ -78,12 +78,15 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
             has_zero_tx_payload = False
 
             for i, payload in enumerate(fixture.payloads):
-                f.write(f"  Payload {i}:\n")
+                f.write(f"\n  Payload {i}:\n")
                 f.write(f"    Type: {type(payload).__name__}\n")
-                f.write(f"    Has valid(): {hasattr(payload, 'valid')}\n")
 
                 if hasattr(payload, "valid"):
-                    f.write(f"    payload.valid() = {payload.valid()}\n")
+                    try:
+                        valid_result = payload.valid()
+                        f.write(f"    payload.valid() = {valid_result}\n")
+                    except Exception as e:
+                        f.write(f"    payload.valid() ERROR: {e}\n")
 
                 if hasattr(payload, "validation_error"):
                     f.write(f"    payload.validation_error = {payload.validation_error}\n")
@@ -103,7 +106,7 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                     has_multi_tx_payload = True
                     break
 
-                # Skip invalid payloads (we test production, not validation)
+                # Skip invalid payloads
                 if (
                     not payload.valid()
                     or payload.validation_error is not None
@@ -114,28 +117,28 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                     break
 
             if has_zero_tx_payload:
-                f.write("  >>> WILL SKIP: zero transactions <<<\n")
+                f.write("\n  >>> WILL SKIP: zero transactions <<<\n")
                 item.add_marker(
                     pytest.mark.skip(
                         reason="Production simulator: zero-transaction payloads not supported"
                     )
                 )
             elif has_multi_tx_payload:
-                f.write("  >>> WILL SKIP: multiple transactions <<<\n")
+                f.write("\n  >>> WILL SKIP: multiple transactions <<<\n")
                 item.add_marker(
                     pytest.mark.skip(
                         reason="Production simulator: multi-transaction payloads not supported"
                     )
                 )
             elif has_invalid_payload:
-                f.write("  >>> WILL SKIP: invalid payload <<<\n")
+                f.write("\n  >>> WILL SKIP: invalid payload <<<\n")
                 item.add_marker(
                     pytest.mark.skip(
                         reason="Production simulator: only tests valid block production"
                     )
                 )
             else:
-                f.write("  >>> TEST WILL RUN <<<\n")
+                f.write("\n  >>> TEST WILL RUN <<<\n")
 
 
 @pytest.fixture(scope="function")
