@@ -6,6 +6,7 @@ from mempool transactions using forkchoiceUpdated + getPayload.
 """
 
 import io
+import logging
 from typing import Mapping
 
 import pytest
@@ -23,6 +24,7 @@ pytest_plugins = (
     "pytest_plugins.consume.simulators.timing_data",
     "pytest_plugins.consume.simulators.exceptions",
 )
+logger = logging.getLogger(__name__)
 
 
 def pytest_configure(config: pytest.Config) -> None:
@@ -38,8 +40,6 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     - Must have exactly one transaction per payload (no multi-tx blocks)
     - Payload must be valid (we're testing production, not validation)
     """
-    import sys  # Add this import at the top
-
     for item in items:
         if not hasattr(item, "callspec"):
             continue
@@ -58,40 +58,31 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         has_invalid_payload = False
         has_zero_tx_payload = False
 
+        logger.warning("=" * 80)
+        logger.warning(f"Checking test: {item.nodeid}")
+
         for i, payload in enumerate(fixture.payloads):
-            # DEBUG OUTPUT
-            print(f"\n{'=' * 80}", file=sys.stderr)
-            print(f"DEBUG: Checking payload {i} for test:", file=sys.stderr)
-            print(f"  Test ID: {item.nodeid}", file=sys.stderr)
-            print(f"  Payload type: {type(payload).__name__}", file=sys.stderr)
-            print(f"  Payload attributes: {dir(payload)}", file=sys.stderr)
+            logger.warning(f"  Payload {i}:")
+            logger.warning(f"    Type: {type(payload).__name__}")
 
             if hasattr(payload, "valid"):
-                print(f"  payload.valid() = {payload.valid()}", file=sys.stderr)
+                logger.warning(f"    payload.valid() = {payload.valid()}")
             else:
-                print("  payload.valid() = NOT FOUND", file=sys.stderr)
+                logger.warning("    payload.valid() = NOT FOUND")
 
             if hasattr(payload, "validation_error"):
-                print(f"  payload.validation_error = {payload.validation_error}", file=sys.stderr)
+                logger.warning(f"    payload.validation_error = {payload.validation_error}")
             else:
-                print("  payload.validation_error = NOT FOUND", file=sys.stderr)
+                logger.warning("    payload.validation_error = NOT FOUND")
 
             if hasattr(payload, "error_code"):
-                print(f"  payload.error_code = {payload.error_code}", file=sys.stderr)
+                logger.warning(f"    payload.error_code = {payload.error_code}")
             else:
-                print("  payload.error_code = NOT FOUND", file=sys.stderr)
-
-            # Show params structure
-            if hasattr(payload, "params") and len(payload.params) > 0:
-                print(
-                    f"  Transaction count: {len(payload.params[0].transactions)}", file=sys.stderr
-                )
-
-            print(f"{'=' * 80}\n", file=sys.stderr)
-            # END DEBUG
+                logger.warning("    payload.error_code = NOT FOUND")
 
             # Count transactions in this payload
             tx_count = len(payload.params[0].transactions)
+            logger.warning(f"    Transaction count: {tx_count}")
 
             if tx_count == 0:
                 has_zero_tx_payload = True
@@ -107,27 +98,33 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
                 or payload.validation_error is not None
                 or payload.error_code is not None
             ):
-                print("  >>> MARKING AS INVALID <<<", file=sys.stderr)
+                logger.warning("    >>> MARKING AS INVALID <<<")
                 has_invalid_payload = True
                 break
 
         if has_zero_tx_payload:
+            logger.warning("  >>> SKIPPING: zero transactions")
             item.add_marker(
                 pytest.mark.skip(
                     reason="Production simulator: zero-transaction payloads not supported"
                 )
             )
         elif has_multi_tx_payload:
+            logger.warning("  >>> SKIPPING: multiple transactions")
             item.add_marker(
                 pytest.mark.skip(
                     reason="Production simulator: multi-transaction payloads not supported"
                 )
             )
         elif has_invalid_payload:
-            print(f"  >>> SKIPPING TEST: {item.nodeid} <<<", file=sys.stderr)
+            logger.warning("  >>> SKIPPING: invalid payload")
             item.add_marker(
                 pytest.mark.skip(reason="Production simulator: only tests valid block production")
             )
+        else:
+            logger.warning("  >>> TEST WILL RUN")
+
+        logger.warning("=" * 80)
 
 
 @pytest.fixture(scope="function")
