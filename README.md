@@ -11,9 +11,7 @@ As such, this repository is no longer accepting pull requests as of 2025-11-01. 
 
 ### Questions or Feedback About the Migration?
 
-Please reach out to the STEEL team by writing to:
-
-- The `#el-testing` channel in the [Ethereum R&D Discord Server](https://discord.com/invite/qGpsxSA) or contacting any STEEL team member directly.
+Please reach out to the STEEL team by writing to the `#el-testing` channel in the [Ethereum R&D Discord Server](https://discord.com/invite/qGpsxSA) or contacting any STEEL team member directly.
 
 ---
 
