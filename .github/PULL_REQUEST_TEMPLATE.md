@@ -1,5 +1,8 @@
-<!-- 
-⚠️ NOTICE: This repository is migrating to ethereum/execution-specs on October 24, 2025.
-New PRs will not be accepted after October 20, 2025.
-Please see: https://github.com/ethereum/execution-spec-tests/issues/2303
--->
+⚠️ NOTICE: All code from this repository has been migrated to https://github.com/ethereum/execution-specs.
+
+As such, this repository is no longer accepting pull requests as of 2025-11-01. Please direct any changes to https://github.com/ethereum/execution-specs instead.
+
+More information is available in the [README.md] or our blogs posts:
+
+- https://steel.ethereum.foundation/blog/blog_posts/2025-11-04_weld_final/
+- https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/
