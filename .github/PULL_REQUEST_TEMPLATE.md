@@ -4,5 +4,5 @@ As such, this repository is no longer accepting pull requests as of 2025-11-01. 
 
 More information is available in the [README.md] or our blogs posts:
 
-- https://steel.ethereum.foundation/blog/blog_posts/2025-11-04_weld_final/
-- https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/
+- https://steel.ethereum.foundation/blog/2025-11-04_weld_final/
+- https://steel.ethereum.foundation/blog/2025-09-11_weld-announcement/
