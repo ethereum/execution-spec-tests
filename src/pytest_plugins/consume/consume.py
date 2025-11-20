@@ -50,7 +50,7 @@ def print_migration_warning(terminalreporter: Any = None) -> None:
         "  • All future test development happens in EELS after completion",
         "  • Fixture releases continue as usual during transition",
         "",
-        "For details: https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/",
+        "For details: https://steel.ethereum.foundation/blog/2025-09-11_weld-announcement/",
         "=" * 80,
         "",
     ]

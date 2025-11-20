@@ -7,7 +7,7 @@ As such, this repository is no longer accepting pull requests as of 2025-11-01. 
 - **Client Teams:** No changes. Test fixture releases will continue to be published in this repository, [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests).
 - **Test Contributors:**
     - Please direct PRs to [ethereum/execution-specs](https://github.com/ethereum/execution-specs).
-    - Read more about the changes effecting test development in our [blog announcement](https://steel.ethereum.foundation/blog/blog_posts/2025-11-04_weld_final/).
+    - Read more about the changes effecting test development in our [blog announcement](https://steel.ethereum.foundation/blog/2025-11-04_weld_final/).
 
 ### Questions or Feedback About the Migration?
 
@@ -27,7 +27,7 @@ Please reach out to the STEEL team by writing to the `#el-testing` channel in th
 
 The full execution-spec-tests documentation can be found [here](https://eest.ethereum.org/main/).
 
-**Note:** All of [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) functionality (i.e., the spec tests, test frameworks and tooling) will move to [ethereum/execution-specs](https://github.com/ethereum/execution-specs) in Q4 2025 to streamline spec and test development. For more information please see our [blog post](https://steel.ethereum.foundation/blog/blog_posts/2025-09-11_weld-announcement/). For now, please continue contributing to both [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and [ethereum/execution-specs](https://github.com/ethereum/execution-specs) as you previously have - we will reach out to you if and when need be!
+**Note:** All of [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) functionality (i.e., the spec tests, test frameworks and tooling) will move to [ethereum/execution-specs](https://github.com/ethereum/execution-specs) in Q4 2025 to streamline spec and test development. For more information please see our [blog post](https://steel.ethereum.foundation/blog/2025-09-11_weld-announcement/). For now, please continue contributing to both [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and [ethereum/execution-specs](https://github.com/ethereum/execution-specs) as you previously have - we will reach out to you if and when need be!
 
 [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) is both a collection of test cases and a framework implemented in Python to generate tests for Ethereum execution clients.
 
