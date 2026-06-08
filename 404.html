@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redirecting to the new documentation</title>
+  <meta name="robots" content="noindex, follow">
+  <!-- href is rewritten by the script below to the computed target. -->
+  <link id="canonical" rel="canonical" href="https://steel.ethereum.foundation/docs/execution-specs/">
+  <script>
+    (function () {
+      var NEW_BASE = "https://steel.ethereum.foundation/docs/execution-specs/";
+      // Drop the leading slash, then strip a leading mike version/alias
+      // segment (main, development, latest, vX.Y.Z, verkle@v0.0.6, ...).
+      var path = window.location.pathname.replace(/^\/+/, "");
+      var VERSION = /^(?:main|development|latest|stable|v\d+\.\d+\.\d+(?:[._-][0-9A-Za-z.]+)?|[0-9A-Za-z._-]+@[0-9A-Za-z._-]+)(?:\/|$)/;
+      path = path.replace(VERSION, "");
+      var target = NEW_BASE + path + window.location.search + window.location.hash;
+      var link = document.getElementById("canonical");
+      if (link) { link.setAttribute("href", target); }
+      var manual = document.getElementById("manual");
+      if (manual) { manual.setAttribute("href", target); manual.textContent = target; }
+      window.location.replace(target);
+    })();
+  </script>
+  <style>
+    body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: #0f1117; color: #e6e8ee; padding: 2rem;
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    @media (prefers-color-scheme: light) { body { background: #f6f7f9; color: #1b1f27; } }
+    a { color: #7c9cff; }
+    main { max-width: 560px; text-align: center; }
+  </style>
+</head>
+<body>
+  <main>
+    <p>This page has moved to the new <a href="https://steel.ethereum.foundation/docs/execution-specs/">execution-specs documentation</a>.</p>
+    <p>Redirecting you now. If nothing happens, <a id="manual" href="https://steel.ethereum.foundation/docs/execution-specs/">continue here</a>.</p>
+    <noscript>
+      <p>JavaScript is disabled. Please continue to the
+      <a href="https://steel.ethereum.foundation/docs/execution-specs/">new documentation</a>.</p>
+    </noscript>
+  </main>
+</body>
+</html>
