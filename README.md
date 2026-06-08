@@ -8,6 +8,7 @@ As such, this repository is no longer accepting pull requests as of 2025-11-01. 
 - **Test Contributors:**
     - Please direct PRs to [ethereum/execution-specs](https://github.com/ethereum/execution-specs).
     - Read more about the changes effecting test development in our [blog announcement](https://steel.ethereum.foundation/blog/2025-11-04_weld_final/).
+- **Documentation:** [eest.ethereum.org](https://eest.ethereum.org) is archived and now redirects to its new home at [steel.ethereum.foundation/docs/execution-specs](https://steel.ethereum.foundation/docs/execution-specs/).
 
 ### Questions or Feedback About the Migration?
 
