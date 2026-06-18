@@ -15,7 +15,12 @@
       var path = window.location.pathname.replace(/^\/+/, "");
       var VERSION = /^(?:main|development|latest|stable|v\d+\.\d+\.\d+(?:[._-][0-9A-Za-z.]+)?|[0-9A-Za-z._-]+@[0-9A-Za-z._-]+)(?:\/|$)/;
       path = path.replace(VERSION, "");
-      var target = NEW_BASE + path + window.location.search + window.location.hash;
+      // Mark the origin so the new site's 404 page can show an EEST-specific
+      // message when the forwarded page no longer exists. Inserted before any
+      // #hash so in-page anchors still work.
+      var search = window.location.search;
+      search += (search ? "&" : "?") + "ref=eest.ethereum.org";
+      var target = NEW_BASE + path + search + window.location.hash;
       var link = document.getElementById("canonical");
       if (link) { link.setAttribute("href", target); }
       var manual = document.getElementById("manual");

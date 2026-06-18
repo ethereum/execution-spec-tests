@@ -47,11 +47,6 @@
       background: var(--accent); color: #fff; border-radius: 9px; font-weight: 600;
     }
     .cta:hover { text-decoration: none; opacity: 0.92; }
-    h2 { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 1.75rem 0 0.6rem; }
-    ul.sections { list-style: none; margin: 0 0 0.5rem; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1.25rem; }
-    @media (max-width: 460px) { ul.sections { grid-template-columns: 1fr; } }
-    ul.sections li { padding: 0.15rem 0; }
-    footer { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.875rem; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -61,26 +56,13 @@
     <p>
       EEST has merged into <a href="https://github.com/ethereum/execution-specs">ethereum/execution-specs</a>
       as part of <a href="https://steel.ethereum.foundation/blog/2025-11-04_weld_final/">The Weld</a>.
-      Specs and tests now live and are maintained in one repository, and the documentation has a new home.
+      Specs and tests now live and are maintained in one repository, and the
+      documentation has a new home:
+      <a href="https://steel.ethereum.foundation/docs/execution-specs/">steel.ethereum.foundation/docs/execution-specs/</a>.
     </p>
     <p class="muted">This site is no longer maintained. Older content is preserved in the repository's git history.</p>
 
     <a class="cta" href="https://steel.ethereum.foundation/docs/execution-specs/">Go to the new documentation</a>
-
-    <h2>Jump to a section</h2>
-    <ul class="sections">
-      <li><a href="https://steel.ethereum.foundation/docs/execution-specs/getting_started/installation/">Getting Started</a></li>
-      <li><a href="https://steel.ethereum.foundation/docs/execution-specs/writing_tests/">Writing Tests</a></li>
-      <li><a href="https://steel.ethereum.foundation/docs/execution-specs/filling_tests/">Filling Tests</a></li>
-      <li><a href="https://steel.ethereum.foundation/docs/execution-specs/running_tests/">Running Tests</a></li>
-      <li><a href="https://steel.ethereum.foundation/docs/execution-specs/library/">Library Reference</a></li>
-      <li><a href="https://steel.ethereum.foundation/docs/execution-specs/">All docs</a></li>
-    </ul>
-
-    <footer>
-      Looking for test fixture releases? They remain at
-      <a href="https://github.com/ethereum/execution-spec-tests/releases">github.com/ethereum/execution-spec-tests/releases</a>.
-    </footer>
   </main>
 </body>
 </html>
