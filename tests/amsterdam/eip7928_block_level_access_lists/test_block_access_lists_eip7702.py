@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -230,6 +231,128 @@ def test_bal_7702_delegation_update(
         pre=pre,
         blocks=[block],
         post=post,
+    )
+
+
+def test_bal_7702_existing_authority_state_gas_refund_boundary(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    fork: Fork,
+) -> None:
+    """
+    Ensure an existing EIP-7702 authority state-gas refund binds block gas.
+
+    The first transaction authorizes an already-existing authority with no
+    delegation code. The second transaction updates that same authority after its
+    first delegation is installed. Amsterdam refunds the new-account state bytes in both
+    transactions and the auth-base state bytes in the second one, so the block
+    is regular-gas dominated. A static model that charges every auth as a new
+    empty authority would overstate the block state gas.
+    """
+    gas_costs = fork.gas_costs()
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+
+    authority = pre.fund_eoa(amount=1)
+    relayer = pre.fund_eoa()
+    bob = pre.fund_eoa(amount=0)
+    oracle1 = pre.deploy_contract(code=Op.STOP)
+    oracle2 = pre.deploy_contract(code=Op.STOP)
+
+    tx1 = Transaction(
+        sender=relayer,
+        to=bob,
+        value=10,
+        gas_limit=(
+            intrinsic_gas_calculator(authorization_list_or_count=1)
+            + (120 + 23) * 1530
+        ),
+        gas_price=0,
+        authorization_list=[
+            AuthorizationTuple(address=oracle1, nonce=0, signer=authority)
+        ],
+    )
+
+    tx2 = Transaction(
+        nonce=1,
+        sender=relayer,
+        to=bob,
+        value=10,
+        gas_limit=(
+            intrinsic_gas_calculator(authorization_list_or_count=1)
+            + (120 + 23) * 1530
+        ),
+        gas_price=0,
+        authorization_list=[
+            AuthorizationTuple(address=oracle2, nonce=1, signer=authority)
+        ],
+    )
+
+    auth_state_gas = (120 + 23) * 1530
+    existing_authority_refund = 120 * 1530
+    existing_delegation_refund = 23 * 1530
+    actual_state_gas = (
+        auth_state_gas
+        - existing_authority_refund
+        + auth_state_gas
+        - existing_authority_refund
+        - existing_delegation_refund
+    )
+    static_no_refund_state_gas = 2 * auth_state_gas
+    regular_gas = 2 * (gas_costs.G_TRANSACTION + gas_costs.G_AUTHORIZATION)
+
+    assert actual_state_gas < regular_gas
+    assert static_no_refund_state_gas > regular_gas
+
+    block = Block(
+        txs=[tx1, tx2],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                authority: BalAccountExpectation(
+                    nonce_changes=[
+                        BalNonceChange(tx_index=1, post_nonce=1),
+                        BalNonceChange(tx_index=2, post_nonce=2),
+                    ],
+                    code_changes=[
+                        BalCodeChange(
+                            tx_index=1,
+                            new_code=Spec7702.delegation_designation(oracle1),
+                        ),
+                        BalCodeChange(
+                            tx_index=2,
+                            new_code=Spec7702.delegation_designation(oracle2),
+                        ),
+                    ],
+                ),
+                bob: BalAccountExpectation(
+                    balance_changes=[
+                        BalBalanceChange(tx_index=1, post_balance=10),
+                        BalBalanceChange(tx_index=2, post_balance=20),
+                    ]
+                ),
+                relayer: BalAccountExpectation(
+                    nonce_changes=[
+                        BalNonceChange(tx_index=1, post_nonce=1),
+                        BalNonceChange(tx_index=2, post_nonce=2),
+                    ],
+                ),
+                oracle1: None,
+                oracle2: None,
+            }
+        ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={
+            authority: Account(
+                nonce=2,
+                balance=1,
+                code=Spec7702.delegation_designation(oracle2),
+            ),
+            bob: Account(balance=20),
+            relayer: Account(nonce=2),
+        },
     )
 
 
