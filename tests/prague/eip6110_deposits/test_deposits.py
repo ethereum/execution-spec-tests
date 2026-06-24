@@ -15,7 +15,9 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     BlockException,
     Environment,
+    Header,
     Macros,
+    Requests,
 )
 from ethereum_test_tools import Opcodes as Op
 
@@ -935,6 +937,75 @@ def test_deposit(
         blocks=blocks,
     )
 
+
+@pytest.mark.parametrize(
+    "block_body_requests,exception",
+    [
+        pytest.param(
+            [
+                DepositRequest(
+                    pubkey=0x01,
+                    withdrawal_credentials=0x02,
+                    amount=32_000_000_000,
+                    signature=0x03,
+                    index=0x0,
+                ),
+            ],
+            None,
+            id="matching_engine_requests",
+        ),
+        pytest.param(
+            [
+                DepositRequest(
+                    pubkey=0x01,
+                    withdrawal_credentials=0x02,
+                    amount=31_000_000_000,
+                    signature=0x03,
+                    index=0x0,
+                ),
+            ],
+            BlockException.INVALID_REQUESTS,
+            marks=pytest.mark.exception_test,
+            id="forged_engine_deposit_request",
+        ),
+    ],
+)
+@pytest.mark.pre_alloc_group(
+    "deposit_requests",
+    reason="Checks requests_hash validation against deposits derived from execution logs",
+)
+def test_deposit_requests_hash_uses_execution_logs(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    block_body_requests: List[DepositRequest],
+    exception: BlockException | None,
+) -> None:
+    """
+    Pair a valid Engine API requests body with a forged deposit body that keeps
+    the block header requests_hash internally consistent.
+    """
+    actual_request = DepositRequest(
+        pubkey=0x01,
+        withdrawal_credentials=0x02,
+        amount=32_000_000_000,
+        signature=0x03,
+        index=0x0,
+    )
+    deposit = DepositTransaction(requests=[actual_request])
+    deposit.update_pre(pre)
+
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=[
+            Block(
+                txs=deposit.transactions(),
+                header_verify=Header(requests_hash=Requests(actual_request)),
+                requests=Requests(*block_body_requests).requests_list,
+                exception=exception,
+            ),
+        ],
+    )
 
 @pytest.mark.parametrize(
     "requests,block_body_override_requests,exception",
