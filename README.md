@@ -13,4 +13,4 @@
 
 ### Questions or Feedback
 
-Please reach out to the [ethereum/execution-specs](https://github.com/ethereum/execution-specs) maintainers in the `#el-testing` channel in the [Ethereum R&D Discord Server](https://discord.com/invite/qGpsxSA).
+Please reach out to the [ethereum/execution-specs](https://github.com/ethereum/execution-specs) maintainers in the [Ethereum R&D Discord Server](https://discord.com/invite/qGpsxSA).
